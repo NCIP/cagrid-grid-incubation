@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"
+	xmlns:helper="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" xmlns:tns="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"
+	xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	<xs:import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="../helper/WS-Addressing.xsd"></xs:import>
+	<xs:import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="../helper/WorkflowHelper.xsd"></xs:import>
+	<xs:element name="WorkflowManagerInstanceDescriptor" type="tns:WorkflowManagerInstanceDescriptor" />
+	
+	<!-- Workflow metadata -->
+	<xs:complexType name="WorkflowManagerInstanceDescriptor">
+		<xs:sequence>
+			<xs:element name="bpelFilename" type="string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- Inputs of a workflow -->
+	<xs:element name="WorkflowInputParameters" type="tns:WorkflowInputParameters"></xs:element>
+	<xs:complexType name="WorkflowInputParameters">
+		<xs:sequence>
+			<xs:element name="parameters" type="tns:WorkflowInputParameter" minOccurs="0" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	
+	<xs:element name="WorkflowInputParameter" type="tns:WorkflowInputParameter"></xs:element>
+	<xs:complexType name="WorkflowInputParameter">
+		<xs:sequence>
+			<xs:element name="paramDescription" type="helper:InputParameter"></xs:element>
+			<xs:element name="paramDestination" type="wsa:EndpointReferenceType"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- Outputs of a workflow -->
+	<xs:element name="WorkflowOutputTransportDescriptor" type="tns:WorkflowOutputTransportDescriptor" />
+	<xs:complexType name="WorkflowOutputTransportDescriptor">
+		<xs:sequence>
+			<xs:element name="paramDescriptor" type="tns:WorkflowOutputParameterTransportDescriptor" minOccurs="0"
+				maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="WorkflowOutputParameterTransportDescriptor" type="tns:WorkflowOutputParameterTransportDescriptor" />
+	<xs:complexType name="WorkflowOutputParameterTransportDescriptor">
+		<xs:sequence>
+			<xs:element name="paramDescription" type="helper:OperationOutputParameterTransportDescriptor"></xs:element>
+			<xs:element name="sourceEPR" type="wsa:EndpointReferenceType"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	
+</xs:schema>
