@@ -17,6 +17,7 @@
 			<xs:enumeration value="UNCONFIGURED" />
 			<xs:enumeration value="READY" />
 			<xs:enumeration value="RUNNING" />
+			<xs:enumeration value="PAUSED" />
 			<xs:enumeration value="WAITING" />
 			<xs:enumeration value="FINISHED" />
 			<xs:enumeration value="ERROR" />
@@ -33,6 +34,9 @@
 		</xs:sequence>
 	</xs:complexType>
 	
+	
+	
+	
 	<xs:element name="WorkflowInvocationHelperDescriptor" type="tns:WorkflowInvocationHelperDescriptor" />
 	<xs:complexType name="WorkflowInvocationHelperDescriptor">
 		<xs:sequence>
@@ -41,16 +45,79 @@
 			<xs:element name="ServiceURL" type="string"></xs:element>
 			<xs:element name="operationQName" type="QName"></xs:element>
 			<xs:element name="outputType" type="QName" minOccurs="0" maxOccurs="1"></xs:element><!-- Knowing the output type (if any) allows us to do streaming bewteen stages -->
-			<xs:element ref="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1"></xs:element>
+			<xs:element name="WorkflowInvocationSecurityDescriptor" type="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	
-	<xs:element name="WorkflowInvocationSecurityDescriptor" type="tns:WorkflowInvocationSecurityDescriptor" />
-	<xs:complexType name="WorkflowInvocationSecurityDescriptor">
-			<xs:sequence>
+	<xs:element name="TLSInvocationSecurityDescriptor" type="tns:TLSInvocationSecurityDescriptor" />
+	
+	<xs:complexType name="TLSInvocationSecurityDescriptor">
+		<xs:complexContent>
+			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor">
+				<xs:sequence>
+					<xs:element name="ChannelProtection" type="tns:ChannelProtection" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<xs:element name="AnonymousAuthenticationMethod" type="tns:AnonymousAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+					</xs:choice>		
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="SecureConversationInvocationSecurityDescriptor" type="tns:SecureConversationInvocationSecurityDescriptor" />
+	
+	<xs:complexType name="SecureConversationInvocationSecurityDescriptor">
+		<xs:complexContent>
+			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor">
+				<xs:sequence>
+					<xs:element name="ChannelProtection" type="tns:ChannelProtection" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<xs:element name="NativeDelegationAuthenticationMethod" type="tns:NativeDelegationAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+						<xs:element name="AnonymousAuthenticationMethod" type="tns:AnonymousAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+					</xs:choice>		
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="SecureMessageInvocationSecurityDescriptor" type="tns:SecureMessageInvocationSecurityDescriptor" />
+	
+	<xs:complexType name="SecureMessageInvocationSecurityDescriptor">
+		<xs:complexContent>
+			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor">
+				<xs:sequence>
+					<xs:element name="ChannelProtection" type="tns:ChannelProtection" minOccurs="1" maxOccurs="1"></xs:element>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
+					</xs:choice>		
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="NativeDelegationAuthenticationMethod"/>
+	<xs:complexType name="AnonymousAuthenticationMethod"/>
+	<xs:complexType name="ServiceAuthenticationMethod"/>
+	<xs:complexType name="CDSAuthenticationMethod">
+		<xs:sequence>
 			<xs:element name="ProxyEPR" type="wsa:EndpointReferenceType" minOccurs="0" maxOccurs="1"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	<xs:complexType name="WorkflowInvocationSecurityDescriptor" abstract="true" />
+	
+	
+	<xs:simpleType name="ChannelProtection">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Privacy" />
+			<xs:enumeration value="Integrity" />
+		</xs:restriction>
+	</xs:simpleType>
 	
 	<xs:element name="InputParameter" type="tns:InputParameter" />
 	<xs:complexType name="InputParameter">
@@ -88,7 +155,7 @@
 	<xs:complexType name="OperationOutputParameterTransportDescriptor">
 		<xs:sequence>
 			<xs:element name="destinationEPR" type="wsa:EndpointReferenceType" minOccurs="1" maxOccurs="unbounded"></xs:element>
-			<xs:element name="deliveyPolicy" type="tns:DeliveryPolicy" ></xs:element>
+			<xs:element name="deliveryPolicy" type="tns:DeliveryPolicy" ></xs:element>
 			<xs:element name="paramIndex" type="int"></xs:element>
 			<xs:element name="type" type="QName"></xs:element>
 			<xs:element name="locationQuery" type="string"></xs:element>

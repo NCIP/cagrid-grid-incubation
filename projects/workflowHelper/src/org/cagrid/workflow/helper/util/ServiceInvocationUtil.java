@@ -2,6 +2,8 @@ package org.cagrid.workflow.helper.util;
 
 
 
+import gov.nih.nci.cagrid.common.security.ProxyUtil;
+
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
@@ -27,11 +29,20 @@ import org.apache.axis.client.Service;
 import org.apache.axis.message.PrefixedQName;
 import org.apache.axis.message.SOAPEnvelope;
 import org.apache.axis.message.SOAPHeaderElement;
+import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
+import org.cagrid.gaards.cds.client.DelegatedCredentialUserClient;
+import org.cagrid.gaards.cds.delegated.stubs.types.DelegatedCredentialReference;
+import org.cagrid.workflow.helper.descriptor.CDSAuthenticationMethod;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.SecureConversationInvocationSecurityDescriptor;
+import org.cagrid.workflow.helper.descriptor.SecureMessageInvocationSecurityDescriptor;
+import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
+import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
+import org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResource;
 import org.globus.gsi.GlobusCredential;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
@@ -487,6 +498,83 @@ public class ServiceInvocationUtil {
 	}
 
 
+	// Implement the security configuration
+	public static GlobusCredential configureSecurity(
+			WorkflowInvocationHelperResource invocation_helper,
+			final WorkflowInvocationSecurityDescriptor security_desc) {
+
+		
+		GlobusCredential credential = null;
+		
+		
+		if( security_desc instanceof TLSInvocationSecurityDescriptor ){
+			TLSInvocationSecurityDescriptor sec_desc = (TLSInvocationSecurityDescriptor) security_desc; 
+			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
+			
+			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
+			credential = ServiceInvocationUtil.getCredential(proxyEPR); 
+			invocation_helper.setProxy(credential);
+		}
+		else if( security_desc instanceof SecureConversationInvocationSecurityDescriptor ){ 
+			SecureConversationInvocationSecurityDescriptor sec_desc = (SecureConversationInvocationSecurityDescriptor) security_desc;
+			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
+			
+			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
+			credential = ServiceInvocationUtil.getCredential(proxyEPR); 
+			invocation_helper.setProxy(credential);
+		} 
+		else if( security_desc instanceof SecureMessageInvocationSecurityDescriptor ){  
+			SecureMessageInvocationSecurityDescriptor sec_desc = (SecureMessageInvocationSecurityDescriptor) security_desc;
+			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
+			
+			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
+			credential = ServiceInvocationUtil.getCredential(proxyEPR); 
+			invocation_helper.setProxy(credential);
+		}
+		
+		
+		return credential;
+	}
+
+
+
+
+	public static GlobusCredential getCredential(EndpointReference proxyEPR) {
+		
+		//The default credential or the user that is currently logged in.
+		
+		
+		GlobusCredential delegatedCredential = null;
+		try {
+			GlobusCredential credential = ProxyUtil.getDefaultProxy();
+
+
+			//A DelegateCredentialReference is provided by the delegator to delegatee, it 
+			//represents the delegated credential that the delegatee should obtain.
+			DelegatedCredentialReference reference = new DelegatedCredentialReference(proxyEPR); 
+
+			//Create and Instance of the delegate credential client, specifying the 
+			//DelegatedCredentialReference and the credential of the delegatee.  The 
+			//DelegatedCredentialReference specifies which credential to obtain.  The 
+			//delegatee's credential is required to authenticate with the CDS such 
+			//that the CDS may determine if the the delegatee has been granted access 
+			//to the credential in which they wish to obtain.
+			DelegatedCredentialUserClient client = new DelegatedCredentialUserClient(reference,credential);
+
+			//The get credential method obtains a signed delegated credential from the CDS.
+			delegatedCredential = client.getDelegatedCredential();
+
+
+			// TODO The step below must be done at the invocation service
+			//Set the delegated credential as the default, the delegatee is now logged in as the delegator.
+			//ProxyUtil.saveProxyAsDefault(delegatedCredential);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return delegatedCredential;
+	}
 
 
 
@@ -591,82 +679,17 @@ public class ServiceInvocationUtil {
 
 
 
-
-
-
 		System.out.println("End test"); 
 
 		/*****************************************************************************************/
 
 
-
-
-
-
-
-		//ServiceInfo info = new ServiceInfo();
-		try {
-			// Please! Do not remove the code below, we should leave them here to work as
-			// examples. If you want call othe types of services comment these codes
-
-//			1) Calling an array of strings			
-			/*			info.setService_access_url("http://150.164.3.246:8081/wsrf/services/cagrid/ArrayStringSample1");
-			info.setMethod_name("PrintArray1Request");
-			info.setNamespace_URI(FileUtil.getNamespaceForService(info.getService_access_url()));
-			info.setMethod_request_class("PrintArray1Request");
-			info.setIntroduce_generated(false);
-
-
-
-			ParameterSpec params[] = new ParameterSpec[]{
-			  new ParameterSpec("0", "inputArray", "", " *Valor de a1* "),
-			  new ParameterSpec("1", "inputArray", "", " *Valor de a2* ")
-			};*/
-
-			/*
-// 2) Calling an AXIS
-			info.setService_access_url("http://150.164.3.161:8080/ds/services/DataServer");
-			info.setMethod_name("getLoura");
-			info.setNamespace_URI(FileUtil.getNamespaceForService(info.getService_access_url()));
-			info.setMethod_request_class("getLouraRequest");
-			info.setIntroduce_generated(false);
-
-
-
-			ParameterSpec params[] = new ParameterSpec[]{
-			  new ParameterSpec("0", "pinto", "xsd:string", "lau")
-
-			};*/
-//			3) Calling a service with two arrays as parameters and a simple int
-			/*	info.setService_access_url("http://150.164.3.246:8081/wsrf/services/introduce/TesteMultipleParameters");
-			info.setMethod_name("ReceiveParameterRequest");
-			info.setNamespace_URI(FileUtil.getNamespaceForService(info.getService_access_url()));
-			info.setMethod_request_class("ReceiveParameterRequest");
-			info.setIntroduce_generated(false);
-
-
-
-			ParameterSpec params[] = new ParameterSpec[]{
-					new ParameterSpec("0", "inputArray", "", " *Valor de a1* "),
-					new ParameterSpec("1", "inputArray", "", " *Valor de a1* "),
-					new ParameterSpec("2", "inputIntValue", "", "5"),
-					new ParameterSpec("3", "inputIntArray", "", "4"),
-					new ParameterSpec("4", "inputIntArray", "", "3")
-			};
-			InputInfo in_desc = new InputInfo(params);
-
-
-			String retval = ServiceInvocationUtil.generateRequest(info, in_desc);
-
-			System.out.println("Received: "+retval);*/
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		System.out.println("Leaving main...");
 
 	}
+
+
+	
 
 
 }

@@ -37,10 +37,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	private QName outputType = null;
+	private WorkflowInvocationHelperDescriptor operationDesc = null;
 	private OperationInputMessageDescriptor input_desc = null;
 	private OperationOutputTransportDescriptor output_desc = null;
 	private InputParameter[] paramData = null;
-	private WorkflowInvocationHelperDescriptor operationDesc = null;
+	
 
 	private GlobusCredential proxy = null;
 
@@ -227,7 +228,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										// Get array elements
 										List<String> array_elements = getArrayElementsFromData(data);
 										// Prepare for enumerate the destination of each array element
-										DeliveryEnumerator destinations_iter = new DeliveryEnumerator(pdesc.getDeliveyPolicy(), pdesc.getDestinationEPR());
+										DeliveryEnumerator destinations_iter = new DeliveryEnumerator(pdesc.getDeliveryPolicy(), pdesc.getDestinationEPR());
 										
 										
 										// Iterate over the array elements' list, forwarding each one to a (possibly) different location 
@@ -529,11 +530,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public WorkflowInvocationHelperDescriptor getOperationDesc() {
 		return operationDesc;
-	}
+	} 
 
 
 	public void setOperationDesc(WorkflowInvocationHelperDescriptor operationDesc) {
 		this.operationDesc = operationDesc;
-	}
+	} 
 
 }

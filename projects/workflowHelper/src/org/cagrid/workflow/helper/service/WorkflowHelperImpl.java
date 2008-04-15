@@ -37,6 +37,7 @@ public class WorkflowHelperImpl extends WorkflowHelperImplBase {
 			//  give it the query string.
 			
 			
+			
 			// sample of setting creator only security.  This will only allow the caller that created
 			// this resource to be able to use it.
 			//thisResource.setSecurityDescriptor(gov.nih.nci.cagrid.introduce.servicetools.security.SecurityUtils.createCreatorOnlyResourceSecurityDescriptor());

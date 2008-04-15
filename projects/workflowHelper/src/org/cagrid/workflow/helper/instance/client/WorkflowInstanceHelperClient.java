@@ -103,4 +103,43 @@ public class WorkflowInstanceHelperClient extends WorkflowInstanceHelperClientBa
     }
   }
 
+  public void addCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"addCredential");
+    org.cagrid.workflow.helper.instance.stubs.AddCredentialRequest params = new org.cagrid.workflow.helper.instance.stubs.AddCredentialRequest();
+    org.cagrid.workflow.helper.instance.stubs.AddCredentialRequestServiceOperationEPR serviceOperationEPRContainer = new org.cagrid.workflow.helper.instance.stubs.AddCredentialRequestServiceOperationEPR();
+    serviceOperationEPRContainer.setEndpointReference(serviceOperationEPR);
+    params.setServiceOperationEPR(serviceOperationEPRContainer);
+    org.cagrid.workflow.helper.instance.stubs.AddCredentialRequestProxyEPR proxyEPRContainer = new org.cagrid.workflow.helper.instance.stubs.AddCredentialRequestProxyEPR();
+    proxyEPRContainer.setEndpointReference(proxyEPR);
+    params.setProxyEPR(proxyEPRContainer);
+    org.cagrid.workflow.helper.instance.stubs.AddCredentialResponse boxedResult = portType.addCredential(params);
+    }
+  }
+
+  public void removeCredential(org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"removeCredential");
+    org.cagrid.workflow.helper.instance.stubs.RemoveCredentialRequest params = new org.cagrid.workflow.helper.instance.stubs.RemoveCredentialRequest();
+    org.cagrid.workflow.helper.instance.stubs.RemoveCredentialRequestProxyEPR proxyEPRContainer = new org.cagrid.workflow.helper.instance.stubs.RemoveCredentialRequestProxyEPR();
+    proxyEPRContainer.setEndpointReference(proxyEPR);
+    params.setProxyEPR(proxyEPRContainer);
+    org.cagrid.workflow.helper.instance.stubs.RemoveCredentialResponse boxedResult = portType.removeCredential(params);
+    }
+  }
+
+  public void replaceCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"replaceCredential");
+    org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialRequest params = new org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialRequest();
+    org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialRequestServiceOperationEPR serviceOperationEPRContainer = new org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialRequestServiceOperationEPR();
+    serviceOperationEPRContainer.setEndpointReference(serviceOperationEPR);
+    params.setServiceOperationEPR(serviceOperationEPRContainer);
+    org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialRequestProxyEPR proxyEPRContainer = new org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialRequestProxyEPR();
+    proxyEPRContainer.setEndpointReference(proxyEPR);
+    params.setProxyEPR(proxyEPRContainer);
+    org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialResponse boxedResult = portType.replaceCredential(params);
+    }
+  }
+
 }
