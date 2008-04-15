@@ -1,4 +1,4 @@
-<project name="caGrid-1.0-system" default="all" basedir="checkout/caGrid-1.0-system">
+<project name="caGrid-Incubation-system" default="all" basedir="checkout/caGrid-Incubation-system">
 
 	<target name="prepare">
 		<mkdir dir="cagrid-1-0" />
