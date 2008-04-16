@@ -4,7 +4,7 @@
 <!-- Generic build file                                                    -->
 <!-- ================================================================= -->
 
-<project name="Generic" default="compile" basedir=".">
+<project name="WorkflowHelperTests" default="compile" basedir=".">
     <property file="build.properties" />
 
     <property name="src.dir" value="${basedir}/src" />
@@ -71,5 +71,27 @@
     <!-- Builds from scratch                                                -->
     <!-- ============================================================== -->
     <target name="all" description="Builds the entire application" depends="clean,compile,jar" />
+	
+	<!-- ============================================================== -->
+	<!-- Call any tests.                                                -->
+	<!-- ============================================================== -->
+	<target name="test" depends="" description="Runs the service's tests.">
+		<echo message="Test results dir: ${junit.results.dir}" />
+		<mkdir dir="${junit.results.dir}" />
+		<junit dir="${basedir}" printsummary="yes" showoutput="true">
+			<classpath refid="build.classpath" />
+			<classpath>
+				<pathelement path="build/classes/" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/Test*.java" />
+					<include name="**/*TestCase.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
 </project>
 
