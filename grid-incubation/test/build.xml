@@ -9,20 +9,15 @@
 	<!-- Give user the chance to override properties -->
 	<property environment="env" />
 	<property file="build.properties" />
+	<property file="project.properties" />
 
 	<!-- Layout info -->
 	<property name="incubator.dir" location="../incubator" />
 	<property name="tests.projects.dir" location="${caGrid-Incubator.basedir}/projects" />
 	<property name="tests.test.dir" location="${caGrid-Incubator.basedir}/test" />
 
-	<!-- configuring (repurposing) the caGrid build -->
-	<property name="system.testable.projects.list" value="" />
-	<property name="unit.testable.projects.list" value="cqlprocessors,coretests,sdkInstaller" />
-
 	<!-- IMPORT THE UTILITIES TARGETS -->
 	<import file="${incubator.dir}/build.xml" />
-
-
 
 	<target name="prepare" depends="caGrid-Incubation-Master.prepare, build-tests-projects-list" />
 
