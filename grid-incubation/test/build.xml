@@ -2,22 +2,22 @@
 <!-- ================================================================= -->
 <!-- caGrid Master build file                                          -->
 <!-- ================================================================= -->
-<project name="caGrid-Incubation-Master" basedir="." default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
-	<dirname property="caGrid-Incubation-Master.basedir" file="${ant.file.caGrid-Incubation-Master}" />
+<project name="caGrid-Incubation-System-Testing-Master" basedir="." default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<dirname property="caGrid-Incubation-System-Testing-Master.basedir" file="${ant.file.caGrid-Incubation-System-Testing-Master}" />
 
 	<!-- Give user the chance to override properties -->
 	<property environment="env" />
 	<property file="build.properties" />
 	<!-- Load in project listings -->
-	<property file="${caGrid-Incubation-Master.basedir}/project.properties" />
+	<property file="${caGrid-Incubation-System-Testing-Master.basedir}/project.properties" />
 
 	<import file="antfiles/ivy/ivy-def.xml" />
 
 	<!-- Layout info -->
-	<property name="projects.dir" location="${caGrid-Incubation-Master.basedir}/projects" />
-	<property name="test.dir" location="${caGrid-Incubation-Master.basedir}/test" />
-	<property name="build.dir" location="${caGrid-Incubation-Master.basedir}/build" />
-	<property name="antfiles.dir" location="${caGrid-Incubation-Master.basedir}/antfiles" />
+	<property name="projects.dir" location="${caGrid-Incubation-System-Testing-Master.basedir}/projects" />
+	<property name="test.dir" location="${caGrid-Incubation-System-Testing-Master.basedir}/test" />
+	<property name="build.dir" location="${caGrid-Incubation-System-Testing-Master.basedir}/build" />
+	<property name="antfiles.dir" location="${caGrid-Incubation-System-Testing-Master.basedir}/antfiles" />
 
 	<property name="antfiles.lib.dir" location="${antfiles.dir}/lib" />
 	<property name="test.lib.dir" location="${test.dir}/lib" />
