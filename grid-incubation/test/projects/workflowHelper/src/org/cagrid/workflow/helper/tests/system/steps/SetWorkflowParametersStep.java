@@ -2,12 +2,9 @@ package org.cagrid.workflow.helper.tests.system.steps;
 
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
+import org.exolab.castor.util.Iterator;
 
 public class SetWorkflowParametersStep extends Step {
 
@@ -22,7 +19,7 @@ public class SetWorkflowParametersStep extends Step {
 
 
 
-	@Override
+
 	public void runStep() throws Throwable {
 
 		System.out.println("BEGIN SetWorkflowParametersStep");
