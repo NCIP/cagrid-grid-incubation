@@ -24,13 +24,13 @@
 
     <target name="build" depends="update">
         <!-- Call the target that does everything -->
-        <ant dir="${env.CRUISE_WORK}/checkout/caGrid-Incubation-continuous" antfile="build.xml" target="clean" inheritAll="false" inheritRefs="true"/>
-        <ant dir="${env.CRUISE_WORK}/checkout/caGrid-Incubation-continuous" antfile="build.xml" target="all" inheritAll="false" inheritRefs="true"/>
+        <ant dir="${env.CRUISE_WORK}/checkout/caGrid-Incubation-continuous/incubator" antfile="build.xml" target="clean" inheritAll="false" inheritRefs="true"/>
+        <ant dir="${env.CRUISE_WORK}/checkout/caGrid-Incubation-continuous/incubator" antfile="build.xml" target="all" inheritAll="false" inheritRefs="true"/>
     </target>
 
     <target name="test" depends="build">
         <!-- Call the target that tests  -->
-        <ant dir="${env.CRUISE_WORK}/checkout/caGrid-Incubation-continuous" antfile="build.xml" target="test" inheritAll="false" inheritRefs="true">
+        <ant dir="${env.CRUISE_WORK}/checkout/caGrid-Incubation-continuous/incubator" antfile="build.xml" target="test" inheritAll="false" inheritRefs="true">
             <property name="run.system.tests" value="false"/>
             <property name="create.test.report" value="false"/>
             <property name="dart.buildname" value="${ant.project.name}-${os.name}-${os.arch}-${os.version}-JDK-${java.version}"/>
