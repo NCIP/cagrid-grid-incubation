@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!-- ================================================================= -->
+<!-- caGrid Tests build file                                           -->
+<!-- ================================================================= -->
+
+<project name="caGrid-Incubator-tests" default="all" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	<dirname property="caGrid-Incubator.basedir" file="${ant.file.caGrid-Incubator}" />
+
+	<!-- Give user the chance to override properties -->
+	<property environment="env" />
+	<property file="build.properties" />
+
+	<!-- Layout info -->
+	<property name="incubator.dir" location="../incubator" />
+	<property name="tests.projects.dir" location="${caGrid-Incubator.basedir}/projects" />
+	<property name="tests.test.dir" location="${caGrid-Incubator.basedir}/test" />
+
+	<!-- configuring (repurposing) the caGrid build -->
+	<property name="system.testable.projects.list" value="" />
+	<property name="unit.testable.projects.list" value="cqlprocessors,coretests,sdkInstaller" />
+
+	<!-- IMPORT THE UTILITIES TARGETS -->
+	<import file="${incubator.dir}/build.xml" />
+
+
+
+	<target name="prepare" depends="caGrid-Incubation-Master.prepare, build-tests-projects-list" />
+
+
+	<target name="build-tests-projects-list">
+		<ivy:buildlist reference="ivy.tests.projects.list">
+			<fileset dir="${tests.projects.dir}">
+				<include name="*/dependencies-build.xml" />
+			</fileset>
+		</ivy:buildlist>
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- Cleans up generated stuff                                      -->
+	<!-- ============================================================== -->
+	<target name="clean" depends="prepare, caGrid-Incubation-Master.clean" description="Cleans all projects and test suites.">
+		<for parallel="true" param="project.buildfile" trim="true" threadcount="10">
+			<path refid="ivy.tests.projects.list" />
+			<sequential>
+				<dirname file="@{project.buildfile}" property="@{project.buildfile}.dir" />
+				<ant inheritAll="false" dir="${@{project.buildfile}.dir}" antfile="@{project.buildfile}" target="clean-dependencies" />
+			</sequential>
+		</for>
+	</target>
+
+
+	<!-- ============================================================== -->
+	<!-- Builds from scratch                                            -->
+	<!-- ============================================================== -->
+	<target name="all" depends="clean, caGrid-Incubation-Master.all" description="Builds the entire application and test suite">
+		<for parallel="false" param="project.buildfile" trim="true">
+			<path refid="ivy.tests.projects.list" />
+			<sequential>
+				<dirname file="@{project.buildfile}" property="@{project.buildfile}.dir" />
+				<ant inheritAll="false" inheritrefs="false" dir="${@{project.buildfile}.dir}" antfile="@{project.buildfile}" target="publish">
+					<property name="target.grid" value="${target.grid}" />
+				</ant>
+			</sequential>
+		</for>
+	</target>
+</project>
