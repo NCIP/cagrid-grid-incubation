@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-core-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-metadata-common-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-metadata-security-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-ServiceSecurityProvider-client-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-ServiceSecurityProvider-common-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-ServiceSecurityProvider-service-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-ServiceSecurityProvider-stubs-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-workflowHelper-client-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-workflowHelper-common-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-workflowHelper-stubs-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/castor-0.9.9.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-testing-core-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-testing-system-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
