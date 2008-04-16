@@ -1,0 +1,10 @@
+#Introduce Properties
+#Mon Apr 14 14:52:12 EDT 2008
+introduce.skeleton.services.list=WorkflowManagerService
+introduce.skeleton.extensions=
+introduce.skeleton.destination.dir=P\:\\grid-incubation\\trunk\\grid-incubation\\projects\\workflowManager
+introduce.skeleton.namespace.domain=http\://manager.workflow.cagrid.org/WorkflowManagerService
+introduce.skeleton.service.name=WorkflowManagerService
+introduce.skeleton.timestamp=1208192786056
+introduce.soap.binding.excludes=\ 
+introduce.ns.excludes=\ -x gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security
