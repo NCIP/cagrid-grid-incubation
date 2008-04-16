@@ -22,7 +22,7 @@
     <plugin name="currentbuildstatuslistener" file="${log.dir}/buildstatus.txt"/>
     <plugin name="ant" anthome="${ant.home}" buildfile="${cc.work}/build-${project.name}.xml" target="test"
         uselogger="true" usedebug="false" timeout="2000"/>
-    <plugin name="svn" localworkingcopy="${project.dir}" username="anonymous" password="anonymous" />
+    <plugin name="svn" username="anonymous" password="anonymous" />
     <plugin name="antpublisher" buildfile="${project.dir}/build.xml" target="ccpublish"/>
     <plugin name="htmlemail" skipusers="true" reportsuccess="fixes"
         buildresultsurl="http://${env.HOSTNAME}:8080/cruisecontrol/buildresults/${project.name}"
@@ -38,7 +38,7 @@
         </listeners>
         <bootstrappers/>
         <modificationset quietperiod="30">
-            <svn/>
+            <svn localworkingcopy="${project.dir}/incubator" />
         </modificationset>
         <schedule interval="60">
             <ant>
@@ -90,7 +90,7 @@
         </listeners>
         <bootstrappers/>
         <modificationset quietperiod="30">
-            <svn/>
+            <svn localworkingcopy="${project.dir}/incubator" />
         </modificationset>
         <schedule interval="7200">
             <ant time="0400" timeout="2000">
