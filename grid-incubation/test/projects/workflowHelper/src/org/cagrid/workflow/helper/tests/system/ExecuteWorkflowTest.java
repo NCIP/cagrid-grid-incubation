@@ -9,7 +9,7 @@ import java.util.Vector;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.types.URI;
 import org.apache.axis.types.URI.MalformedURIException;
-import org.cagrid.workflow.helper.tests.system.test.steps.CreateTestWorkflowsStep;
+import org.cagrid.workflow.helper.tests.system.steps.CreateTestWorkflowsStep;
 
 
 public class ExecuteWorkflowTest extends ServiceStoryBase {
