@@ -6,6 +6,7 @@
 
 <project name="WorkflowHelperTests" default="compile" basedir=".">
 	<property file="build.properties" />
+	<property file="project.properties" />
 	<property environment="env" />
 
 	<property name="src.dir" value="${basedir}/src" />
@@ -51,18 +52,20 @@
 	<!-- Prepares the classpaths                                     -->
 	<!-- =============================================================== -->
 	<target name="defineClasspaths" depends="checkGlobus">
-		<fileset dir="${lib.dir}">
-			<include name="**/*.jar" />
-		</fileset>
-		<fileset dir="${ext.lib.dir}">
-			<include name="**/*.jar" />
-		</fileset>
-		<fileset dir="${ext.globus.dir}/lib">
-			<include name="**/*.jar" />
-		</fileset>
+		<path id="build.classpath">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${ext.lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${ext.globus.dir}/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
 	</target>
 
-	
+
 	<!-- =============================================================== -->
 	<!-- Prepares the build directory                                    -->
 	<!-- =============================================================== -->
