@@ -16,7 +16,7 @@
 
 
   <publications>
-    <artifact name="caGrid-${ivy.module}" conf="default" type="jar"/>
+    
   </publications>
 
   <dependencies>
@@ -24,5 +24,6 @@
     <dependency rev="latest.integration" org="caGrid" name="workflowHelper"
       conf="default->client"/>
     <dependency rev="latest.integration" org="caGrid" name="testing" conf="default->system"/>
+    <dependency rev="latest.integration" org="caGrid" name="testUtils" conf="default->containers"/>
   </dependencies>
 </ivy-module>
