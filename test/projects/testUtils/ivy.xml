@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+  <info organisation="caGrid" module="testUtils" revision="${project.version}">
+    <license name="caGrid" url="http://www.cagrid.org/wiki/CaGrid:LICENSE-1.2"/>
+    <description>System Testing Tools</description>
+  </info>
+
+  <configurations>
+    <!-- Public Configurations-->
+
+    <!-- Containers-->
+    <conf name="containers" visibility="public" description="All containers"
+      extends="globus.container,tomcat.container,secure.tomcat.container"/>
+    <conf name="globus.container" visibility="public"
+      description="The globus container"/>
+      <conf name="tomcat.container" visibility="public"
+      description="The tomcat container"/>
+      <conf name="secure.tomcat.container" visibility="public"
+      description="The secure tomcat container"/>
+  </configurations>
+
+
+  <publications>
+    <artifact name="containers/minimal-ws-core-enum-4.0.3" conf="globus.container" type="zip"/>
+    <artifact name="containers/minimal-tomcat-5.0.28-with-globus-4.0.3" conf="tomcat.container" type="zip"/>
+    <artifact name="containers/minimal-secure-tomcat-5.0.28-with-globus-4.0.3" conf="secure.tomcat.container" type="zip"/>
+  </publications>
+
+  <dependencies/>
+</ivy-module>
