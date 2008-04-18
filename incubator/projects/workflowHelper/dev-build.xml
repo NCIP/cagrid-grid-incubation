@@ -203,16 +203,13 @@
 				<pathelement location="../tests/lib/junit.jar" />
 			</classpath>
 			<formatter type="xml" />
-			<test name="unitTests.AllTests" fork="yes" todir="${junit.results.dir}" />
-
-			<!--
 			<batchtest fork="yes" todir="${junit.results.dir}">
 				<fileset dir="${test.src.dir}">
 					<include name="**/Test*.java" />
 					<include name="**/*TestCase.java" />
+					<include name="**/*Test.java" />
 				</fileset>
 			</batchtest>
-			-->
 		</junit>
 	</target>
 
