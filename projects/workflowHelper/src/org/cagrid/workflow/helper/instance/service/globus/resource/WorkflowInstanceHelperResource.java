@@ -21,8 +21,12 @@ import org.globus.gsi.GlobusCredential;
  */
 public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResourceBase {
 
-
-	HashMap<EndpointReference, GlobusCredential> servicesCredentials = new HashMap<EndpointReference, GlobusCredential>();
+	// Associations between services' EPRs and the credential to be used when invoking service-operation
+	private HashMap<EndpointReference, GlobusCredential> servicesCredentials = new HashMap<EndpointReference, GlobusCredential>();
+	
+	
+	// Associations between Globus credentials and the EPR they came from
+	private HashMap<EndpointReference, GlobusCredential> eprCredential = new HashMap<EndpointReference, GlobusCredential>();
 
 
 	/**
@@ -34,8 +38,14 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	 * */
 	public void addCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
 
-		GlobusCredential credential = ServiceInvocationUtil.getCredential(new EndpointReference(proxyEPR));
-		this.replaceCredential(serviceOperationEPR, credential);
+		
+		// Check whether this credential hasn't already been retrieved
+		boolean credentialAlreadyRetrieved = this.eprCredential.containsKey(proxyEPR);
+		
+		if( !credentialAlreadyRetrieved ){
+			this.replaceCredential(serviceOperationEPR, proxyEPR);
+		}
+
 		return;
 	}
 
@@ -57,17 +67,27 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	 * Associate an InvocationHelper with a GlobusCredential, removing previous associations if any
 	 * 
 	 * @param serviceOperationEPR EPR of the InvocationHelper
-	 * @param credential the credential to be used by the InvocationHelper
+	 * @param proxyEPR the credential to be used by the InvocationHelper
 	 * 
 	 * */
-	public void replaceCredential(EndpointReference serviceOperationEPR , GlobusCredential credential){
+	public void replaceCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
 
-		// Delete old credential (if any) and add the new one
+		// Retrieve the delegated credential
+		final GlobusCredential credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR);
+		
+		
+		// Delete old credential (if any) from the associations 
 		boolean serviceExists = this.servicesCredentials.containsKey(serviceOperationEPR );
 		if( serviceExists ){
+			
 			this.servicesCredentials.remove(serviceOperationEPR);
+			this.eprCredential.remove(proxyEPR);
 		}
+		
+		
+		// And add the new credential
 		this.servicesCredentials.put(serviceOperationEPR, credential);
+		this.eprCredential.put(proxyEPR, credential);
 		
 		// Sent the new credential to the corresponding InvocationHelper
 		this.updateCredentialOnInvocationHelper(serviceOperationEPR, credential);
@@ -78,10 +98,16 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	/**
 	 * Remove all associations between InvocationHelpers and the given GlobusCredential
 	 * 
-	 * @param credential GlobusCredential that is supposed not to be associated with any service anymore
+	 * @param proxyEPR EPR of GlobusCredential that we want to be associated with no service anymore
 	 * */
-	public void removeCredential(GlobusCredential credential){
+	public void removeCredential(EndpointReference proxyEPR){
 
+		
+		GlobusCredential credential = this.eprCredential.get(proxyEPR);
+		
+		// First, remove Credential from the [credential, EPR] association
+		this.eprCredential.remove(credential);
+		
 		// Verify if the received credential is associated with any service
 		boolean credentialIsKnown = this.servicesCredentials.containsValue(credential);
 

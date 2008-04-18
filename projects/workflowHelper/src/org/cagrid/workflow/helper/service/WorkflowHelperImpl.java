@@ -36,6 +36,7 @@ public class WorkflowHelperImpl extends WorkflowHelperImplBase {
 			//  if you want the resouce to only have the query string then there is where you would
 			//  give it the query string.
 			
+
 			
 			
 			// sample of setting creator only security.  This will only allow the caller that created

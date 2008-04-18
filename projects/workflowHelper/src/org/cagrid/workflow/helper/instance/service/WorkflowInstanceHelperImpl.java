@@ -20,7 +20,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		super();
 	}
 
-  public org.cagrid.workflow.helper.invocation.stubs.types.WorkflowInvocationHelperReference createWorkflowInvocationHelper(org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor workflowInvocationHelperDescriptor) throws RemoteException {
+	public org.cagrid.workflow.helper.invocation.stubs.types.WorkflowInvocationHelperReference createWorkflowInvocationHelper(org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor workflowInvocationHelperDescriptor) throws RemoteException {
 		org.apache.axis.message.addressing.EndpointReferenceType epr = new org.apache.axis.message.addressing.EndpointReferenceType();
 		org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResourceHome home = null;
 		org.globus.wsrf.ResourceKey resourceKey = null;
@@ -46,6 +46,8 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 			WorkflowInvocationSecurityDescriptor security_desc = workflowInvocationHelperDescriptor.getWorkflowInvocationSecurityDescriptor();
 
 			GlobusCredential credential = ServiceInvocationUtil.configureSecurity( thisResource, security_desc );
+			thisResource.setProxy(credential);
+			
 
 			// sample of setting creator only security.  This will only allow the caller that created
 			// this resource to be able to use it.
@@ -66,8 +68,11 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		return ref;
 	}
 
+
+	/** Below: credential handling  */
 	
-  public void addCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+	
+	public void addCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
 
 		try {
 
@@ -79,25 +84,23 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 
 	}
 
-  public void removeCredential(org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+	public void removeCredential(org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
 		try {
 
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
-			GlobusCredential credential = resource.getCredential(new EndpointReference(proxyEPR));
-			resource.removeCredential(credential);
+			resource.removeCredential(new EndpointReference(proxyEPR));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	
-	
-  public void replaceCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+
+
+	public void replaceCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
 		try {
 
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
-			GlobusCredential credential = resource.getCredential(new EndpointReference(proxyEPR));
-			resource.replaceCredential(new EndpointReference(serviceOperationEPR), credential);
+			resource.replaceCredential(new EndpointReference(serviceOperationEPR), new EndpointReference(proxyEPR));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

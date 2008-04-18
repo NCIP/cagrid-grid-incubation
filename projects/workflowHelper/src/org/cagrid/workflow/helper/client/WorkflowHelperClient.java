@@ -1,6 +1,8 @@
 package org.cagrid.workflow.helper.client;
 
 
+import gov.nih.nci.cagrid.common.security.ProxyUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -91,13 +93,19 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// TODO Fill the variables below
 					// Delegate user credential to the InstanceHelper 
 					String credentialFile = "C:\\Documents and Settings\\hawks\\Desktop\\credential.bin" ;
-					String delegatorIdentity = "/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=caOS";
 					String cds_URL = "https://localhost:8443/wsrf/services/cagrid/CredentialDelegationService";
 					InputStream is = new FileInputStream(new File(credentialFile));
 					GlobusCredential myCredential = new GlobusCredential(is);
-					ProxyLifetime delegationLifetime = new ProxyLifetime(5,0,0);
-					EndpointReferenceType delegationEPR = delegateCredential(delegatorIdentity, cds_URL, delegationLifetime, myCredential);
+					int containerPort = 8443;  // Unsecure container=8080 ; Secure container=8443
+					//ProxyUtil.saveProxyAsDefault(myCredential);
+					wf_helper.setProxy(myCredential);
 					
+					
+					ProxyLifetime delegationLifetime = new ProxyLifetime(5,0,0);
+					ProxyLifetime issuedCredentialLifetime = new ProxyLifetime(6,0,0);
+					int delegationPath = 2;
+					int issuedCredentialPath = 1;
+
 					EndpointReference manager_epr = null; 
 					
 
@@ -106,18 +114,19 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					/*** Testing arrays as services' input ***/
 
 					/** complex type arrays **/
-					org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor1 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
+					/*org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor1 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 					workflowDescriptor1.setWorkflowID("WorkFlow1");
 					workflowDescriptor1.setWorkflowManagerEPR(manager_epr);
 
 					// Get helper client so we can create the invocation helpers
 					WorkflowInstanceHelperClient wf_instance1 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor1);
+					
 
 					// BEGIN ReceiveArrayService::ReceiveComplexArray	
 
 
-					String access_url = "http://localhost:8080/wsrf/services/cagrid/ReceiveArrayService";
+					String access_url = "http://localhost:"+containerPort+"/wsrf/services/cagrid/ReceiveArrayService";
 					WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
 					operation2.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "ReceiveComplexArrayRequest"));
 					operation2.setServiceURL(access_url);
@@ -151,8 +160,13 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					client2.configureOutput(outputDescriptor_ras);
 
 					
+
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance1.addCredential(client2.getEndpointReference(), delegationEPR);
+					GlobusCredential credential_instance1 = wf_instance1.getProxy();
+					String instance1_id = credential_instance1.getIdentity();
+					EndpointReferenceType delegationEPR1 = delegateCredential(instance1_id, cds_URL, delegationLifetime, myCredential, issuedCredentialLifetime, 
+							delegationPath, issuedCredentialPath);
+					wf_instance1.addCredential(client2.getEndpointReference(), delegationEPR1);
 					
 					
 					// Set the values of its simple-type arguments
@@ -164,7 +178,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// BEGIN CreateArrayService::getComplexArray				
 					org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-					access_url = "http://localhost:8080/wsrf/services/cagrid/CreateArrayService";
+					access_url = "http://localhost:"+containerPort+"/wsrf/services/cagrid/CreateArrayService";
 					operation_ca.setWorkflowID("GeorgeliusWorkFlow");
 					operation_ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
 					operation_ca.setServiceURL(access_url);
@@ -205,7 +219,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					client_ca.configureOutput(outputDescriptor_ca);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance1.addCredential(client_ca.getEndpointReference(), delegationEPR);
+					wf_instance1.addCredential(client_ca.getEndpointReference(), delegationEPR1);
 
 					
 					// END CreateArrayService::getComplexArray // */
@@ -214,7 +228,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 
 					/** simple type arrays **/
-					org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
+					/*org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 					workflowDescriptor2.setWorkflowID("WorkFlow2");
 					workflowDescriptor2.setWorkflowManagerEPR(manager_epr);
@@ -256,7 +270,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient_ram.configureOutput(outputDescriptor_ram);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance2.addCredential(serviceClient_ram.getEndpointReference(), delegationEPR);
+					GlobusCredential credential_instance2 = wf_instance2.getProxy();
+					String instance2_id = credential_instance2.getIdentity();
+					EndpointReferenceType delegationEPR2 = delegateCredential(instance2_id, cds_URL, delegationLifetime, myCredential, issuedCredentialLifetime, 
+							delegationPath, issuedCredentialPath);
+					wf_instance2.addCredential(serviceClient_ram.getEndpointReference(), delegationEPR2);
 
 					
 
@@ -308,7 +326,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient_cas.configureOutput(outputDescriptor_cas);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance2.addCredential(serviceClient_cas.getEndpointReference(), delegationEPR);
+					wf_instance2.addCredential(serviceClient_cas.getEndpointReference(), delegationEPR2);
 
 					// END CreateArrayService // */
 					/** END test arrays **/
@@ -318,7 +336,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 
 					/** FAN IN AND FAN OUT TEST **/
-					org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
+					/*org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 					workflowDescriptor3.setWorkflowID("WorkFlow2");
 					workflowDescriptor3.setWorkflowManagerEPR(manager_epr);
@@ -361,7 +379,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient4.configureOutput(outputDescriptor4);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance3.addCredential(serviceClient4.getEndpointReference(), delegationEPR);
+					GlobusCredential credential_instance3 = wf_instance3.getProxy();
+					String instance3_id = credential_instance3.getIdentity();
+					EndpointReferenceType delegationEPR3 = delegateCredential(instance3_id, cds_URL, delegationLifetime, myCredential, issuedCredentialLifetime, 
+							delegationPath, issuedCredentialPath);
+					wf_instance3.addCredential(serviceClient4.getEndpointReference(), delegationEPR3);
 
 					
 					// TODO Get the output of this service
@@ -410,7 +432,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient2.configureOutput(outputDescriptor2);
 					
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance3.addCredential(serviceClient2.getEndpointReference(), delegationEPR);
+					wf_instance3.addCredential(serviceClient2.getEndpointReference(), delegationEPR3);
 					
 					// END service 2
 
@@ -459,7 +481,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient3.configureOutput(outputDescriptor3);
 					
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance3.addCredential(serviceClient3.getEndpointReference(), delegationEPR);
+					wf_instance3.addCredential(serviceClient3.getEndpointReference(), delegationEPR3);
 					// END service 3				
 
 
@@ -505,7 +527,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient5.configureOutput(outputDescriptor5);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance3.addCredential(serviceClient5.getEndpointReference(), delegationEPR);
+					wf_instance3.addCredential(serviceClient5.getEndpointReference(), delegationEPR3);
 					
 					// TODO Get the output of this service
 					// END service 5
@@ -570,7 +592,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient1.configureOutput(outputDescriptor1);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance3.addCredential(serviceClient1.getEndpointReference(), delegationEPR);
+					wf_instance3.addCredential(serviceClient1.getEndpointReference(), delegationEPR3);
 
 					// set the only one parameter of this service.
 					// now it have to run and set one Parameter of the service4
@@ -588,7 +610,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					/** BEGIN streaming test **/
 
 					/* Streaming simple types */
-					org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
+					/*org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 					workflowDescriptor5.setWorkflowID("WorkFlow5");
 					workflowDescriptor5.setWorkflowManagerEPR(manager_epr);
@@ -627,7 +649,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient_4.configureOutput(outputDescriptor_4);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance5.addCredential(serviceClient_4.getEndpointReference(), delegationEPR);
+					GlobusCredential credential_instance5 = wf_instance5.getProxy();
+					String instance5_id = credential_instance5.getIdentity();
+					EndpointReferenceType delegationEPR5 = delegateCredential(instance5_id, cds_URL, delegationLifetime, myCredential, issuedCredentialLifetime, 
+							delegationPath, issuedCredentialPath);
+					wf_instance5.addCredential(serviceClient_4.getEndpointReference(), delegationEPR5);
 
 					// Setting second parameter
 					serviceClient_4.setParameter(new InputParameter("simple type's streaming", 1));
@@ -673,7 +699,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient_2.configureOutput(outputDescriptor__2);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance5.addCredential(serviceClient_2.getEndpointReference(), delegationEPR);
+					wf_instance5.addCredential(serviceClient_2.getEndpointReference(), delegationEPR5);
 
 					// END service 2
 
@@ -714,7 +740,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient_cs.configureOutput(outputDescriptor_cs);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance5.addCredential(serviceClient_cs.getEndpointReference(), delegationEPR);
+					wf_instance5.addCredential(serviceClient_cs.getEndpointReference(), delegationEPR5);
 
 					// END CreateArrayService // */
 
@@ -724,7 +750,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// BEGIN service 4				
 					// Creating client of service 4
-					WorkflowInvocationHelperClient serviceClient__4 = wf_instance5.createWorkflowInvocationHelper(operation4);
+					/*WorkflowInvocationHelperClient serviceClient__4 = wf_instance5.createWorkflowInvocationHelper(operation4);
 
 
 					// Creating Descriptor of the InputMessage
@@ -736,7 +762,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient__4.configureOutput(outputDescriptor4);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance5.addCredential(serviceClient__4.getEndpointReference(), delegationEPR);
+					wf_instance5.addCredential(serviceClient__4.getEndpointReference(), delegationEPR5);
 
 					// Setting second parameter
 					serviceClient__4.setParameter(new InputParameter("complex type's streaming", 1));
@@ -784,7 +810,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient__ca.configureOutput(outputDescriptor__ca);
 
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance5.addCredential(serviceClient__ca.getEndpointReference(), delegationEPR);
+					wf_instance5.addCredential(serviceClient__ca.getEndpointReference(), delegationEPR5);
 					
 					// END CreateArrayService::getComplexArray // */
 
@@ -808,7 +834,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// DEBUG
 					printDescriptor(operation99);
 					
-										// Get helper client so we can create the invocation helpers
+					// Get helper client so we can create the invocation helpers
 					WorkflowInstanceHelperClient wf_instance99 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor99);
 
 
@@ -838,7 +864,12 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					System.out.flush();
 					
 					// Set the GlobusCredential to use on InstanceHelper
-					wf_instance99.addCredential(client99.getEndpointReference(), delegationEPR);
+					GlobusCredential credential_instance99 = wf_instance99.getProxy();
+					System.out.println("InstanceHelper credential is: "+credential_instance99);// DEBUG
+					String instance99_id = credential_instance99.getIdentity();
+					EndpointReferenceType delegationEPR99 = delegateCredential(instance99_id, cds_URL, delegationLifetime, myCredential, issuedCredentialLifetime, 
+							delegationPath, issuedCredentialPath);
+					wf_instance99.addCredential(client99.getEndpointReference(), delegationEPR99);
 					
 					//DEBUG
 					System.out.println("Credential added");
@@ -876,39 +907,19 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 	 * @param invocationHelperIdentity Grid identity of the service the credential will be delegated to
 	 * @param cdsURL The Service URL of the Credential Delegation Service (CDS)
 	 * @param credential GlobusCredential to delegate
+	 * @param issuedCredentialLifetime Specifies the how long credentials issued to allowed parties will be valid for. 
+	 * @param delegationPathLength Path length of the credential being delegated. The minimum is 1.
+	 * @param issuedCredentialPathLength Path length of the credentials issued to allowed parties. A path length of 0 means that the requesting party cannot further delegate the credential.
 	 * @return 
 	 * */
-	private static EndpointReferenceType delegateCredential(String invocationHelperIdentity, String cdsURL, ProxyLifetime delegationLifetime, GlobusCredential credential){
+	private static EndpointReferenceType delegateCredential(String invocationHelperIdentity, String cdsURL, ProxyLifetime delegationLifetime, GlobusCredential credential, ProxyLifetime issuedCredentialLifetime, int delegationPathLength, int issuedCredentialPathLength){
 		
 		//DEBUG
 		System.out.println("BEGIN delegateCredential");
 		System.out.println("delegatee: "+ invocationHelperIdentity);
 		
 	
-		//Specifies how long the delegation service can delegated this credential to other parties.
-		//ProxyLifetime delegationLifetime = new ProxyLifetime();
-		delegationLifetime.setHours(4);
-		delegationLifetime.setMinutes(0);
-		delegationLifetime.setSeconds(0);
-
-		//Specifies the path length of the credential being delegated. The minimum is 1.
-
-		int delegationPathLength = 1;
-
-		//Specifies the how long credentials issued to allowed parties will be valid for.
-
-		ProxyLifetime issuedCredentialLifetime = new ProxyLifetime();
-		issuedCredentialLifetime.setHours(4);
-		issuedCredentialLifetime.setMinutes(0);
-		issuedCredentialLifetime.setSeconds(0);
-
-		//Specifies the path length of the credentials issued to allowed parties. A path length of 0 means that 
-		//the requesting party cannot further delegate the credential.
-
-		int issuedCredentialPathLength = 0;
-
 		//Specifies the key length of the delegated credential
-
 		int keySize = ClientConstants.DEFAULT_KEY_SIZE;
 
 		//The policy stating which parties will be allowed to obtain a delegated credential. The CDS will only 

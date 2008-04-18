@@ -545,7 +545,7 @@ public class ServiceInvocationUtil {
 			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
 			
 			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
-			credential = ServiceInvocationUtil.getCredential(proxyEPR); 
+			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
 			invocation_helper.setProxy(credential);
 		}
 		else if( security_desc instanceof SecureConversationInvocationSecurityDescriptor ){ 
@@ -553,7 +553,7 @@ public class ServiceInvocationUtil {
 			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
 			
 			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
-			credential = ServiceInvocationUtil.getCredential(proxyEPR); 
+			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
 			invocation_helper.setProxy(credential);
 		} 
 		else if( security_desc instanceof SecureMessageInvocationSecurityDescriptor ){  
@@ -561,7 +561,7 @@ public class ServiceInvocationUtil {
 			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
 			
 			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
-			credential = ServiceInvocationUtil.getCredential(proxyEPR); 
+			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
 			invocation_helper.setProxy(credential);
 		}
 		
@@ -570,8 +570,11 @@ public class ServiceInvocationUtil {
 
 
 
-
-	public static GlobusCredential getCredential(EndpointReference proxyEPR) {
+	/** Get a delegated credential through a proxy EPR
+	 * @param proxyEPR The location to retrieve credential from
+	 * @return Retrieved delegated credential
+	 *  */
+	public static GlobusCredential getDelegatedCredential(EndpointReference proxyEPR) {
 		
 		//The default credential or the user that is currently logged in.
 		
