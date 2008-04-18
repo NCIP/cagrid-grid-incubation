@@ -42,9 +42,10 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private OperationOutputTransportDescriptor output_desc = null;
 	private InputParameter[] paramData = null;
 	
-
 	private GlobusCredential proxy = null;
-
+	private boolean proxyWasSet = false;
+	
+	
 
 	public synchronized boolean executeIfReady() {
 
@@ -108,10 +109,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								InputParameter[] new_input_params = input_value.clone();
 								new_input_params[input].setData(curr_array_str);
 
-								//DEBUG
-								//System.out.println("Invoking "+ getWorkflowInvocationHelperDescriptor().getOperationQName().getLocalPart() +" for element: "+curr_array_str);
-
-
+								
 								// Invoke service according to its security configuration 
 								Node response_node = null;
 								if( invocationIsSecure ){
@@ -205,10 +203,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 								// send the data to the next workflow helper instance
 								if( pdesc.getDestinationEPR() != null ){
-									//DEBUG
-									/*System.out.println("Setting data '"+ iparam.getData() +"'");
-									System.out.flush(); // */
-
+									
 									
 									EndpointReferenceType next_destination = null;  // next destination to forward data
 									
@@ -509,12 +504,21 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	public GlobusCredential getProxy() {
+		
+		if( !this.proxyWasSet ){
+			
+			// TODO Retrieve the proxy from the InstanceHelper
+			
+			
+		}
+		
 		return proxy;
 	}
 
 
 	public synchronized void setProxy(GlobusCredential proxy) {
 		this.proxy = proxy;
+		this.proxyWasSet = true;
 	}
 
 
@@ -536,5 +540,5 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	public void setOperationDesc(WorkflowInvocationHelperDescriptor operationDesc) {
 		this.operationDesc = operationDesc;
 	} 
-
+	
 }

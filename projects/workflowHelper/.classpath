@@ -86,5 +86,6 @@
 	<classpathentry kind="lib" path="ext/dependencies/test/jars/caGrid-testing-system-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-cds-stubs-1.3-dev.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-cds-client-1.3-dev.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-cds-common-1.3-dev.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

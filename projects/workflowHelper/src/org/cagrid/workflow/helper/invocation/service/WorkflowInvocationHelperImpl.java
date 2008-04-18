@@ -6,7 +6,7 @@ import org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInv
 import org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResourceHome;
 
 /** 
- * TODO:I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
+ * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
  * 
  * @created by Introduce Toolkit version 1.2
  * 

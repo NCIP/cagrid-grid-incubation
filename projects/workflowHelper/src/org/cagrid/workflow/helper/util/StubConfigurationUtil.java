@@ -27,7 +27,7 @@ public class StubConfigurationUtil {
 	
 	private ServiceSecurityMetadata securityMetadata;
 	
-	private Map operations;
+	private Map<String, Operation> operations;
 	private Authorization authorization;
 	private String delegationMode;
 
@@ -64,8 +64,8 @@ public class StubConfigurationUtil {
 		}
 
 		if (securityMetadata == null) {
-			operations = new HashMap();
-			securityMetadata = getServiceSecurityMetadata();
+			operations = new HashMap<String, Operation>();
+			securityMetadata = getServiceSecurityMetadata();  // TODO Actually, the service's security metadata must be given by the WorkflowManager
 			ServiceSecurityMetadataOperations ssmo = securityMetadata.getOperations();
 			if (ssmo != null) {
 				Operation[] ops = ssmo.getOperation();
@@ -85,7 +85,7 @@ public class StubConfigurationUtil {
 
 		CommunicationMechanism mechanism = null;
 		if (operations.containsKey(method)) {
-			Operation o = (Operation) operations.get(method);
+			Operation o = operations.get(method);
 			mechanism = o.getCommunicationMechanism();
 		} else {
 			mechanism = serviceDefault;
@@ -184,7 +184,7 @@ public class StubConfigurationUtil {
 	}
 
 
-	
+	// TODO This method shouldn't be necessary. This operation is up to the WorkflowManager
 	public ServiceSecurityMetadata getServiceSecurityMetadata() {
 		
 		
@@ -199,7 +199,7 @@ public class StubConfigurationUtil {
 		}
 		
 		return metadata;
-	}
+	} // */
 
 
 

@@ -3,14 +3,13 @@ package org.cagrid.workflow.helper.instance.service;
 import java.rmi.RemoteException;
 
 import org.apache.axis.message.addressing.EndpointReference;
-import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
 import org.cagrid.workflow.helper.util.ServiceInvocationUtil;
 import org.globus.gsi.GlobusCredential;
 
 /** 
- * TODO:I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
+ * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
  * 
  * @created by Introduce Toolkit version 1.2
  * 
@@ -21,7 +20,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		super();
 	}
 
-	public org.cagrid.workflow.helper.invocation.stubs.types.WorkflowInvocationHelperReference createWorkflowInvocationHelper(org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor workflowInvocationHelperDescriptor) throws RemoteException {
+  public org.cagrid.workflow.helper.invocation.stubs.types.WorkflowInvocationHelperReference createWorkflowInvocationHelper(org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor workflowInvocationHelperDescriptor) throws RemoteException {
 		org.apache.axis.message.addressing.EndpointReferenceType epr = new org.apache.axis.message.addressing.EndpointReferenceType();
 		org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResourceHome home = null;
 		org.globus.wsrf.ResourceKey resourceKey = null;
@@ -68,7 +67,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 	}
 
 	
-	public void addCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+  public void addCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
 
 		try {
 
@@ -80,8 +79,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 
 	}
 
-
-	public void removeCredential(org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+  public void removeCredential(org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
 		try {
 
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
@@ -94,7 +92,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 
 	
 	
-	public void replaceCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
+  public void replaceCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
 		try {
 
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
