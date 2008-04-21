@@ -1,0 +1,25 @@
+package org.cagrid.introduce.service1.service;
+
+import java.rmi.RemoteException;
+
+import org.cagrid.worklfow.service1.types.StringAndItsLenght;
+
+/** 
+ * TODO:I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
+ * 
+ * @created by Introduce Toolkit version 1.1
+ * 
+ */
+public class Service1Impl extends Service1ImplBase {
+
+	public Service1Impl() throws RemoteException {
+		super();
+	}
+
+  public org.cagrid.worklfow.service1.types.StringAndItsLenght generateData(java.lang.String info) throws RemoteException {
+
+		return new StringAndItsLenght(info.length(), info);
+	}
+
+}
+
