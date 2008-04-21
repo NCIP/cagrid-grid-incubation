@@ -129,4 +129,16 @@ public class WorkflowInstanceHelperClient extends WorkflowInstanceHelperClientBa
     }
   }
 
+  public void setIsInvocationHelperSecure(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,boolean isSecure) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"setIsInvocationHelperSecure");
+    org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureRequest params = new org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureRequest();
+    org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureRequestServiceOperationEPR serviceOperationEPRContainer = new org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureRequestServiceOperationEPR();
+    serviceOperationEPRContainer.setEndpointReference(serviceOperationEPR);
+    params.setServiceOperationEPR(serviceOperationEPRContainer);
+    params.setIsSecure(isSecure);
+    org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse boxedResult = portType.setIsInvocationHelperSecure(params);
+    }
+  }
+
 }

@@ -108,6 +108,25 @@
           <sequence />
         </complexType>
       </element>
+      <element name="SetIsInvocationHelperSecureRequest">
+        <complexType>
+          <sequence>
+            <element name="serviceOperationEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="isSecure" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SetIsInvocationHelperSecureResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
       <element name="WorkflowInstanceHelperResourceProperties">
         <complexType>
           <sequence>
@@ -145,6 +164,12 @@
   <message name="ReplaceCredentialResponse">
     <part name="parameters" element="tns:ReplaceCredentialResponse" />
   </message>
+  <message name="SetIsInvocationHelperSecureRequest">
+    <part name="parameters" element="tns:SetIsInvocationHelperSecureRequest" />
+  </message>
+  <message name="SetIsInvocationHelperSecureResponse">
+    <part name="parameters" element="tns:SetIsInvocationHelperSecureResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -166,6 +191,10 @@
     <operation name="replaceCredential">
       <input message="tns:ReplaceCredentialRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/ReplaceCredentialRequest" />
       <output message="tns:ReplaceCredentialResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/ReplaceCredentialResponse" />
+    </operation>
+    <operation name="setIsInvocationHelperSecure">
+      <input message="tns:SetIsInvocationHelperSecureRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/SetIsInvocationHelperSecureRequest" />
+      <output message="tns:SetIsInvocationHelperSecureResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/SetIsInvocationHelperSecureResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

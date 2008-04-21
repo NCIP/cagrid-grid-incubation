@@ -33,7 +33,6 @@ import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.cagrid.gaards.cds.client.DelegatedCredentialUserClient;
 import org.cagrid.gaards.cds.delegated.stubs.types.DelegatedCredentialReference;
-import org.cagrid.workflow.helper.descriptor.CDSAuthenticationMethod;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
@@ -42,7 +41,6 @@ import org.cagrid.workflow.helper.descriptor.SecureMessageInvocationSecurityDesc
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
-import org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResource;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
 import org.globus.wsrf.impl.security.authorization.IdentityAuthorization;
@@ -54,8 +52,8 @@ import org.xml.sax.InputSource;
 
 public class ServiceInvocationUtil {
 
-	
-	
+
+
 	public class SecureServiceInvocationUtil {
 
 	}
@@ -63,19 +61,19 @@ public class ServiceInvocationUtil {
 
 	public static Node generateUnsecureRequest(WorkflowInvocationHelperDescriptor workflowDescriptor, OperationInputMessageDescriptor input_desc,
 			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData) throws Exception{
-	
+
 		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, null);
 	}
-	
-	
+
+
 	public static Node generateSecureRequest(WorkflowInvocationHelperDescriptor workflowDescriptor, OperationInputMessageDescriptor input_desc,
 			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData, GlobusCredential proxy) throws Exception{
-		
+
 		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, proxy);
 	}
-	
-	
-	
+
+
+
 
 	/** Generate a request to a service, invoke it and grab its output
 	 * 
@@ -91,10 +89,10 @@ public class ServiceInvocationUtil {
 			final OperationOutputTransportDescriptor output_desc, final InputParameter[] paramData, final GlobusCredential proxy) throws Exception{
 
 
-		
+
 		SOAPEnvelope ret = null;
 		Node response = null;
-		boolean hasCredential = (proxy != null);
+		boolean hasCredential = (workflowDescriptor.getWorkflowInvocationSecurityDescriptor() != null);
 
 		try {
 
@@ -124,7 +122,7 @@ public class ServiceInvocationUtil {
 			// 'Action' element 
 			String serviceNamespace = workflowDescriptor.getOperationQName().getNamespaceURI();
 			String action_name = serviceNamespace+'/'+workflowDescriptor.getOperationQName().getLocalPart();
-			
+
 			SOAPHeaderElement action = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:Action")));
 			action.setValue(action_name);
 			action.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), "http://schemas.xmlsoap.org/ws/2004/03/addressing");
@@ -202,11 +200,11 @@ public class ServiceInvocationUtil {
 
 								SOAPElement next_to_add_soap = (SOAPElement) next_to_add;
 								String next_to_add_name = next_to_add_soap.getNodeName();
-								
+
 								// Verify whether the response is an array
 								isSimpleArray = next_to_add_name.contains("response"); // clause for simple types
 								isComplexArray = elem.getNodeName().contains("Response"); // clause for complex types
-								
+
 
 								if( !isSimpleArray && !isComplexArray ){
 
@@ -216,14 +214,14 @@ public class ServiceInvocationUtil {
 									//DEBUG
 									//System.out.println("****************************************** Adding struct: "+elem);
 									break;
-									
+
 								}
 								else if( isSimpleArray ){
 
 									addSimpleArrayToRequest(next_to_add_soap, curr_param, cur_param_qname.getLocalPart(), operation);
 								}
 								else if( isComplexArray ){
-									
+
 									addComplexArrayToRequest(elem.getChildElements(), curr_param);
 									break;
 								}
@@ -248,59 +246,59 @@ public class ServiceInvocationUtil {
 
 			/// Invoke service 
 			//System.out.println("Invoking service "+workflowDescriptor.getOperationQName().toString()); // DEBUG
-			
+
 			javax.xml.rpc.Service service = null;
-			//TODO Secure invocation when a credential is provided
+			// Secure invocation when a credential is provided
 			if( hasCredential ){   
 
 				EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
 				StubConfigurationUtil config_service  = new StubConfigurationUtil(serviceOperationEPR, proxy);
-				
-				
+
+
 				// Set authorization and delegation mode
 				WorkflowInvocationSecurityDescriptor security_desc = workflowDescriptor.getWorkflowInvocationSecurityDescriptor();
 				Authorization authorization = null;
 				String delegationMode = null;
-				
-				
+
+
 				if (security_desc instanceof TLSInvocationSecurityDescriptor) {
-					
+
 					TLSInvocationSecurityDescriptor sec_desc = (TLSInvocationSecurityDescriptor) security_desc;
 					authorization = new IdentityAuthorization(); //sec_desc.getAuthorization();
 					delegationMode = sec_desc.getDelegationMode();
 				} 				
 				else if (security_desc instanceof SecureConversationInvocationSecurityDescriptor) {
-					
+
 					SecureConversationInvocationSecurityDescriptor sec_desc = (SecureConversationInvocationSecurityDescriptor) security_desc;
 					authorization = new IdentityAuthorization(); //sec_desc.getAuthorization();
 					delegationMode = sec_desc.getDelegationMode();
 				}
 				else if (security_desc instanceof SecureMessageInvocationSecurityDescriptor) {
-					
+
 					SecureMessageInvocationSecurityDescriptor sec_desc = (SecureMessageInvocationSecurityDescriptor) security_desc;
 					authorization = new IdentityAuthorization(); //sec_desc.getAuthorization();
 					delegationMode = sec_desc.getDelegationMode();
 				}
-				
+
 
 				config_service.setAuthorization(authorization);
 				config_service.setDelegationMode(delegationMode); 
 				config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart());
-				
+
 				org.apache.axis.client.Stub stub = config_service.getStub();
 				service = stub._getService();
 			}
-			else {  // no credential provided, proceed to unsecure invocation 
+			else {  // No credential provided, proceed to unsecure invocation 
 
 				service = new Service();
 			}
-			  
+
 			Call call = (Call) service.createCall();
 			call.setTargetEndpointAddress( new java.net.URL(workflowDescriptor.getServiceURL()));
 			String tns = serviceNamespace; 
 			call.setOperationName(new QName(tns, workflowDescriptor.getOperationQName().toString()));
 			ret = call.invoke(message);			
-		
+
 
 			//DEBUG Print received SOAP message
 			/*System.out.println("Returned SOAP: \n________________________________________________________>\n"+ret.toString()
@@ -330,8 +328,8 @@ public class ServiceInvocationUtil {
 		return response;
 	}
 
-	
-	
+
+
 	/**
 	 * Fulfill a request's portion with an array of complex type
 	 * 
@@ -341,14 +339,14 @@ public class ServiceInvocationUtil {
 	 * */
 	private static void addComplexArrayToRequest(Iterator complex_array_elems, SOAPBodyElement curr_param) {
 
-		
+
 		while( complex_array_elems.hasNext() ){
-			
+
 			Object next_array_elem = complex_array_elems.next();
-			
+
 			// Add current array element
 			if( next_array_elem instanceof org.apache.axis.message.Text){
-				
+
 				Text inner_txt = (Text) next_array_elem;
 				try {
 					curr_param.addTextNode(inner_txt.getNodeValue());
@@ -360,7 +358,7 @@ public class ServiceInvocationUtil {
 			}
 			else if( next_array_elem instanceof javax.xml.soap.SOAPElement ){
 
-				
+
 				SOAPElement next_elem_to_add_soap = (SOAPElement) next_array_elem;
 				try {
 					curr_param.addChildElement(next_elem_to_add_soap);
@@ -369,7 +367,7 @@ public class ServiceInvocationUtil {
 				}
 			}  
 		}
-		
+
 		return;
 	}
 
@@ -386,7 +384,7 @@ public class ServiceInvocationUtil {
 	 * 
 	 * */
 	private static void addSimpleArrayToRequest(SOAPElement first_element, SOAPBodyElement curr_param, final String curr_param_name, SOAPBodyElement operation ){
-		
+
 		if( first_element.hasChildNodes() ){
 			Iterator array_elements = first_element.getChildElements();
 
@@ -408,7 +406,7 @@ public class ServiceInvocationUtil {
 					} 
 					//DEBUG
 					//System.out.println("Adding array element: "+ inner_txt.getNodeValue());
-					
+
 				}
 				else if( next_array_elem instanceof javax.xml.soap.SOAPElement ){
 
@@ -428,8 +426,8 @@ public class ServiceInvocationUtil {
 
 		return;
 	}
-	
-	
+
+
 
 	/** Apply an XPath query to an XML document
 	 * 
@@ -447,8 +445,8 @@ public class ServiceInvocationUtil {
 
 		//DEBUG
 		//System.out.println("=== Applying query "+xpath_query+" on '"+xml_doc+"'\n");
-		
-		
+
+
 		// Get return from invoked method using XPath
 		XPathFactory factory = XPathFactory.newInstance();
 		XPath query = factory.newXPath();
@@ -466,7 +464,7 @@ public class ServiceInvocationUtil {
 
 			/* Execute the query and post process the result so we return exactly what was requested */
 			NodeList xpath_result = (NodeList)query.evaluate(xpath_query, source, XPathConstants.NODESET);
-		
+
 
 			// Result is a single node
 			if( xpath_result.getLength() <= 1 ){
@@ -496,10 +494,10 @@ public class ServiceInvocationUtil {
 
 				result = ConversionUtil.Node2String(query_result);
 			}
-			
+
 			else {
 				//DEBUG //System.out.println("\n\nThe very result of the xpath query is ");
-				
+
 				// Arrays are supposed to be into an enclosing tag. So, add an artificial enclosing tag to the array
 				result = "<FakeResponse>";
 				for(int i=0; i < xpath_result.getLength(); i++){
@@ -532,41 +530,38 @@ public class ServiceInvocationUtil {
 
 
 	// Implement the security configuration
-	public static GlobusCredential configureSecurity(
+	/*public static GlobusCredential configureSecurity(
 			WorkflowInvocationHelperResource invocation_helper,
 			final WorkflowInvocationSecurityDescriptor security_desc) {
 
-		
+
 		GlobusCredential credential = null;
-		
-		
+
+
 		if( security_desc instanceof TLSInvocationSecurityDescriptor ){
 			TLSInvocationSecurityDescriptor sec_desc = (TLSInvocationSecurityDescriptor) security_desc; 
 			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
-			
+
 			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
 			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
-			invocation_helper.setProxy(credential);
 		}
 		else if( security_desc instanceof SecureConversationInvocationSecurityDescriptor ){ 
 			SecureConversationInvocationSecurityDescriptor sec_desc = (SecureConversationInvocationSecurityDescriptor) security_desc;
 			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
-			
+
 			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
 			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
-			invocation_helper.setProxy(credential);
 		} 
 		else if( security_desc instanceof SecureMessageInvocationSecurityDescriptor ){  
 			SecureMessageInvocationSecurityDescriptor sec_desc = (SecureMessageInvocationSecurityDescriptor) security_desc;
 			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
-			
+
 			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
 			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
-			invocation_helper.setProxy(credential);
 		}
-		
+
 		return credential;
-	}
+	} // */
 
 
 
@@ -574,49 +569,38 @@ public class ServiceInvocationUtil {
 	 * @param proxyEPR The location to retrieve credential from
 	 * @return Retrieved delegated credential
 	 *  */
-	public static GlobusCredential getDelegatedCredential(EndpointReference proxyEPR) {
-		
-		//The default credential or the user that is currently logged in.
-		
-		
-		GlobusCredential delegatedCredential = null;
-		try {
-			GlobusCredential credential = ProxyUtil.getDefaultProxy();
-
-			//DEBUG
-			System.out.println("Identity: "+ credential.getIdentity());
-			
-			//A DelegateCredentialReference is provided by the delegator to delegatee, it 
-			//represents the delegated credential that the delegatee should obtain.
-			DelegatedCredentialReference reference = new DelegatedCredentialReference(proxyEPR); 
-
-			//Create and Instance of the delegate credential client, specifying the 
-			//DelegatedCredentialReference and the credential of the delegatee.  The 
-			//DelegatedCredentialReference specifies which credential to obtain.  The 
-			//delegatee's credential is required to authenticate with the CDS such 
-			//that the CDS may determine if the the delegatee has been granted access 
-			//to the credential in which they wish to obtain.
-			DelegatedCredentialUserClient client = new DelegatedCredentialUserClient(reference, credential);
-
-			//The get credential method obtains a signed delegated credential from the CDS.
-			delegatedCredential = client.getDelegatedCredential();
+	public static GlobusCredential getDelegatedCredential(EndpointReference proxyEPR) throws Exception {
 
 
-			// TODO The step below must be done at the invocation service
-			//Set the delegated credential as the default, the delegatee is now logged in as the delegator.
-			//ProxyUtil.saveProxyAsDefault(delegatedCredential);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+ 		GlobusCredential credential = ProxyUtil.getDefaultProxy();
+
+		//DEBUG
+		System.out.println("Identity: "+ credential.getIdentity());
+
+		//A DelegateCredentialReference is provided by the delegator to delegatee, it 
+		//represents the delegated credential that the delegatee should obtain.
+		DelegatedCredentialReference reference = new DelegatedCredentialReference(proxyEPR); 
+
+		//Create and Instance of the delegate credential client, specifying the 
+		//DelegatedCredentialReference and the credential of the delegatee.  The 
+		//DelegatedCredentialReference specifies which credential to obtain.  The 
+		//delegatee's credential is required to authenticate with the CDS such 
+		//that the CDS may determine if the the delegatee has been granted access 
+		//to the credential in which they wish to obtain.
+		DelegatedCredentialUserClient client = new DelegatedCredentialUserClient(reference, credential);
+
+		//The get credential method obtains a signed delegated credential from the CDS.
+		GlobusCredential delegatedCredential = client.getDelegatedCredential();
+
+		System.out.println("Delegated credential obtained"); //DEBUG
 		
 		return delegatedCredential;
 	}
 
-	
-	
-	
-	
+
+
+
+
 
 
 	/** This class represents a set of [prefix, namespace] associations */
@@ -731,7 +715,7 @@ public class ServiceInvocationUtil {
 	}
 
 
-	
+
 
 
 }

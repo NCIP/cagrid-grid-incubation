@@ -82,6 +82,11 @@ public class WorkflowInstanceHelperAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeSetIsInvocationHelperSecure() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -141,6 +146,14 @@ public class WorkflowInstanceHelperAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("replaceCredential")){
 			try{
 				authorizeReplaceCredential();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("setIsInvocationHelperSecure")){
+			try{
+				authorizeSetIsInvocationHelperSecure();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

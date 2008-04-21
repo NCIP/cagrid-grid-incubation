@@ -1,6 +1,5 @@
 package org.cagrid.workflow.helper.client;
 
-
 import gov.nih.nci.cagrid.common.security.ProxyUtil;
 
 import java.io.File;
@@ -31,10 +30,13 @@ import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.SecureMessageInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
+import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
+import org.cagrid.workflow.helper.util.ServiceInvocationUtil;
 import org.globus.gsi.GlobusCredential;
 
 /**
@@ -90,26 +92,34 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					final String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
 
 					
-					// TODO Fill the variables below
-					// Delegate user credential to the InstanceHelper 
-					String credentialFile = "C:\\Documents and Settings\\hawks\\Desktop\\credential.bin" ;
+					// Retrieve Helper credential
+					String serviceCredentialFile = "C:\\Documents and Settings\\hawks\\Desktop\\caOSSecurityTests\\HelperCredential.txt";
+					FileInputStream fis = new FileInputStream(new File(serviceCredentialFile));
+					GlobusCredential serviceCredential = new GlobusCredential(fis);
+					ProxyUtil.saveProxyAsDefault(serviceCredential);
+
+					// Manager role: Delegate user credential to the Helper 
 					String cds_URL = "https://localhost:8443/wsrf/services/cagrid/CredentialDelegationService";
-					InputStream is = new FileInputStream(new File(credentialFile));
-					GlobusCredential myCredential = new GlobusCredential(is);
+					String userCredentialFile = "C:\\Documents and Settings\\hawks\\Desktop\\caOSSecurityTests\\credential.bin" ;
+					InputStream is = new FileInputStream(new File(userCredentialFile));
+					GlobusCredential userCredential = new GlobusCredential(is);
+					System.out.println("Delegating user credential to the Helper"); //DEBUG
+					EndpointReferenceType proxyEPR = delegateCredential(userCredential, wf_helper.getIdentity(), cds_URL, new ProxyLifetime(5,0,0), 
+							new ProxyLifetime(6,0,0), 3, 2);
+
+					
+					// Get delegated credential from the user
+					System.out.println("Helper retrieving delegated user credential"); //DEBUG
+					GlobusCredential myCredential = ServiceInvocationUtil.getDelegatedCredential(new EndpointReference(proxyEPR));
 					int containerPort = 8443;  // Unsecure container=8080 ; Secure container=8443
-					//ProxyUtil.saveProxyAsDefault(myCredential);
 					wf_helper.setProxy(myCredential);
-					
-					
-					ProxyLifetime delegationLifetime = new ProxyLifetime(5,0,0);
-					ProxyLifetime issuedCredentialLifetime = new ProxyLifetime(6,0,0);
-					int delegationPath = 2;
-					int issuedCredentialPath = 1;
+
+					ProxyLifetime delegationLifetime = new ProxyLifetime(4,0,0);
+					ProxyLifetime issuedCredentialLifetime = new ProxyLifetime(5,0,0);
+					int delegationPath = 1;
+					int issuedCredentialPath = 0; 
 
 					EndpointReference manager_epr = null; 
-					
-
-					
 
 					/*** Testing arrays as services' input ***/
 
@@ -121,10 +131,8 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// Get helper client so we can create the invocation helpers
 					WorkflowInstanceHelperClient wf_instance1 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor1);
-					
 
 					// BEGIN ReceiveArrayService::ReceiveComplexArray	
-
 
 					String access_url = "http://localhost:"+containerPort+"/wsrf/services/cagrid/ReceiveArrayService";
 					WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
@@ -132,11 +140,8 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					operation2.setServiceURL(access_url);
 					//operation2.setOutput(); // This service has no output
 
-					
 					// DEBUG
 					printDescriptor(operation2);
-
-
 
 					// create ReceiveArrayService
 					WorkflowInvocationHelperClient client2 = wf_instance1.createWorkflowInvocationHelper(operation2);
@@ -159,22 +164,17 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outputDescriptor_ras.setParamDescriptor(outParameterDescriptor_ras);
 					client2.configureOutput(outputDescriptor_ras);
 
-					
-
 					// Set the GlobusCredential to use on InstanceHelper
 					GlobusCredential credential_instance1 = wf_instance1.getProxy();
 					String instance1_id = credential_instance1.getIdentity();
 					EndpointReferenceType delegationEPR1 = delegateCredential(instance1_id, cds_URL, delegationLifetime, myCredential, issuedCredentialLifetime, 
 							delegationPath, issuedCredentialPath);
 					wf_instance1.addCredential(client2.getEndpointReference(), delegationEPR1);
-					
-					
+
 					// Set the values of its simple-type arguments
 					client2.setParameter(new InputParameter("999", 0)); // number
 					client2.setParameter(new InputParameter("true",2));  // booleanValue
 					// END ReceiveArrayService::ReceiveComplexArray
-
-
 
 					// BEGIN CreateArrayService::getComplexArray				
 					org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -184,14 +184,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					operation_ca.setServiceURL(access_url);
 					operation_ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
 
-
 					// DEBUG
 					printDescriptor(operation_ca);
 
 					// create ReceiveArrayService		
 					WorkflowInvocationHelperClient client_ca = wf_instance1.createWorkflowInvocationHelper(operation_ca);
-
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ca = new OperationInputMessageDescriptor();
@@ -213,7 +210,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor_ca[0].setLocationQuery("/ns0:GetComplexArrayResponse");
 					outParameterDescriptor_ca[0].setDestinationEPR(new EndpointReferenceType[]{ client2.getEndpointReference() });
 
-					
 					// takes the reference to ReceiveComplexArrayService
 					outputDescriptor_ca.setParamDescriptor(outParameterDescriptor_ca);
 					client_ca.configureOutput(outputDescriptor_ca);
@@ -221,11 +217,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// Set the GlobusCredential to use on InstanceHelper
 					wf_instance1.addCredential(client_ca.getEndpointReference(), delegationEPR1);
 
-					
 					// END CreateArrayService::getComplexArray // */
-
-
-
 
 					/** simple type arrays **/
 					/*org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
@@ -235,7 +227,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// Get helper client so we can create the invocation helpers
 					WorkflowInstanceHelperClient wf_instance2 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor2);
-
 
 					// BEGIN ReceiveArrayService::ReceiveArrayAndMore
 					org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ram = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -249,7 +240,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// create ReceiveArrayService				
 					WorkflowInvocationHelperClient serviceClient_ram = wf_instance2.createWorkflowInvocationHelper(operation_ram);
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
@@ -276,14 +266,10 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 							delegationPath, issuedCredentialPath);
 					wf_instance2.addCredential(serviceClient_ram.getEndpointReference(), delegationEPR2);
 
-					
-
 					// Set the values of the two arguments of simple type
 					serviceClient_ram.setParameter(new InputParameter("999", 0));
 					serviceClient_ram.setParameter(new InputParameter("true",2));
 					// END ReceiveArrayService::ReceiveArrayAndMore
-
-
 
 					// BEGIN CreateArrayService				
 					org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -298,7 +284,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// create ReceiveArrayService				
 					WorkflowInvocationHelperClient serviceClient_cas = wf_instance2.createWorkflowInvocationHelper( operation_cas);
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_cas = new OperationInputMessageDescriptor();
@@ -320,7 +305,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor_cas[0].setLocationQuery("/ns0:GetArrayResponse");
 					outParameterDescriptor_cas[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient_ram.getEndpointReference()});
 
-
 					// takes the reference to ReceiveArrayService
 					outputDescriptor_cas.setParamDescriptor(outParameterDescriptor_cas);
 					serviceClient_cas.configureOutput(outputDescriptor_cas);
@@ -330,10 +314,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// END CreateArrayService // */
 					/** END test arrays **/
-
-
-
-
 
 					/** FAN IN AND FAN OUT TEST **/
 					/*org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
@@ -358,7 +338,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// Creating client of service 4
 					WorkflowInvocationHelperClient serviceClient4 = wf_instance3.createWorkflowInvocationHelper(operation4);
 
-
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 					InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
@@ -373,7 +352,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					OperationOutputParameterTransportDescriptor outParameterDescriptor4 [] = new OperationOutputParameterTransportDescriptor[0];
 					QName namespaces[] = null;
 
-
 					// takes the reference to no service
 					outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 					serviceClient4.configureOutput(outputDescriptor4);
@@ -385,11 +363,8 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 							delegationPath, issuedCredentialPath);
 					wf_instance3.addCredential(serviceClient4.getEndpointReference(), delegationEPR3);
 
-					
 					// TODO Get the output of this service
 					// END service 4
-
-
 
 					// BEGIN service 2				
 					org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_2 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -404,7 +379,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// create service 2				
 					WorkflowInvocationHelperClient serviceClient2 = wf_instance3.createWorkflowInvocationHelper(operation_2);
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
@@ -425,18 +399,15 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor2[0].setQueryNamespaces(namespaces);
 					outParameterDescriptor2[0].setLocationQuery("/ns0:CapitalizeResponse");
 
-
 					// takes the reference to the service 4
 					outParameterDescriptor2[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient4.getEndpointReference()});
 					outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
 					serviceClient2.configureOutput(outputDescriptor2);
-					
+
 					// Set the GlobusCredential to use on InstanceHelper
 					wf_instance3.addCredential(serviceClient2.getEndpointReference(), delegationEPR3);
-					
+
 					// END service 2
-
-
 
 					// BEGIN service 3
 					org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation3 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -448,12 +419,10 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					operation3.setServiceURL(acess_url);
 					operation3.setOutputType(new QName(XSD_NAMESPACE, "string"));
 
-
 					printDescriptor(operation3);
 
 					// create service 3				
 					WorkflowInvocationHelperClient serviceClient3 = wf_instance3.createWorkflowInvocationHelper(operation3	);
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage3 = new OperationInputMessageDescriptor();
@@ -474,16 +443,14 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor3[0].setQueryNamespaces(namespaces);
 					outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse"); 
 
-
 					// takes the reference to the service 4
 					outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
 					outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 					serviceClient3.configureOutput(outputDescriptor3);
-					
+
 					// Set the GlobusCredential to use on InstanceHelper
 					wf_instance3.addCredential(serviceClient3.getEndpointReference(), delegationEPR3);
 					// END service 3				
-
 
 					// BEGIN service 5				
 					org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation5 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -499,7 +466,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// Creating client of service 5
 					WorkflowInvocationHelperClient serviceClient5 = wf_instance3.createWorkflowInvocationHelper(operation5);
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
@@ -520,7 +486,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor5[0].setQueryNamespaces(namespaces);
 					outParameterDescriptor5[0].setLocationQuery("/ns0:CheckStringAndItsLengthResponse");
 
-
 					// takes the reference to no service
 					outParameterDescriptor5[0].setDestinationEPR(null);
 					outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
@@ -528,10 +493,9 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// Set the GlobusCredential to use on InstanceHelper
 					wf_instance3.addCredential(serviceClient5.getEndpointReference(), delegationEPR3);
-					
+
 					// TODO Get the output of this service
 					// END service 5
-
 
 					// BEGIN service 1				
 					org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation1 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -546,7 +510,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// create service 1				
 					WorkflowInvocationHelperClient serviceClient1 = wf_instance3.createWorkflowInvocationHelper(operation1);
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
@@ -603,10 +566,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// END service 1 // */
 					/** END FAN IN AND FAN OUT TEST **/
 
-
-
-
-
 					/** BEGIN streaming test **/
 
 					/* Streaming simple types */
@@ -618,19 +577,14 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// Get helper client so we can create the invocation helpers
 					WorkflowInstanceHelperClient wf_instance5 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor5);
 
-
 					// BEGIN service 4
 					WorkflowInvocationHelperDescriptor operation_4 = new WorkflowInvocationHelperDescriptor();
 					operation_4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
 					operation_4.setServiceURL("http://localhost:8080/wsrf/services/cagrid/Service4");
 					// operation_4.setOutputType(); // Void output expected
 
-
-
 					// Creating client of service 4
 					WorkflowInvocationHelperClient serviceClient_4 = wf_instance5.createWorkflowInvocationHelper(operation_4);
-
-
 
 					// Creating Descriptor of the InputMessage
 					OperationInputMessageDescriptor inputMessage_4 = new OperationInputMessageDescriptor();
@@ -659,9 +613,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient_4.setParameter(new InputParameter("simple type's streaming", 1));
 					// END service 4
 
-
-
-
 					// BEGIN service 2				
 					// create service 2
 					WorkflowInvocationHelperDescriptor operation__2 = new WorkflowInvocationHelperDescriptor();
@@ -670,8 +621,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					operation__2.setOutputType(new QName(XSD_NAMESPACE, "string"));
 					WorkflowInvocationHelperClient serviceClient_2 = wf_instance5.createWorkflowInvocationHelper(operation__2);
 
-
-
 					// Creating Descriptor of the InputMessage
 					OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
 					InputParameterDescriptor[] inputParam__2 = new InputParameterDescriptor[1];
@@ -679,8 +628,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					inputMessage__2.setInputParam(inputParam__2 );
 					serviceClient_2.configureInput(inputMessage__2);
 					// End InputMessage Descriptor
-
-
 
 					// takes the reference to Service4
 					OperationOutputTransportDescriptor outputDescriptor__2 = new OperationOutputTransportDescriptor();
@@ -694,7 +641,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor__2[0].setLocationQuery("/ns0:CapitalizeResponse");
 					outParameterDescriptor__2[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient_4.getEndpointReference()});
 
-
 					outputDescriptor__2.setParamDescriptor(outParameterDescriptor__2);
 					serviceClient_2.configureOutput(outputDescriptor__2);
 
@@ -702,8 +648,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					wf_instance5.addCredential(serviceClient_2.getEndpointReference(), delegationEPR5);
 
 					// END service 2
-
-
 
 					// BEGIN CreateArrayService				
 					// create CreateArrayService	
@@ -713,7 +657,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					operation__cas.setServiceURL("http://localhost:8080/wsrf/services/cagrid/CreateArrayService");
 					operation__cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
 					WorkflowInvocationHelperClient serviceClient_cs = wf_instance5.createWorkflowInvocationHelper(operation__cas);
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__cas = new OperationInputMessageDescriptor();
@@ -735,7 +678,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor_cs[0].setLocationQuery("/ns0:GetArrayResponse");
 					outParameterDescriptor_cs[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient_2.getEndpointReference()});  // takes the reference to Service2::capitalize
 
-
 					outputDescriptor_cs.setParamDescriptor(outParameterDescriptor_cs);
 					serviceClient_cs.configureOutput(outputDescriptor_cs);
 
@@ -744,14 +686,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// END CreateArrayService // */
 
-
-
 					/* Streaming complex types */
 
 					// BEGIN service 4				
 					// Creating client of service 4
 					/*WorkflowInvocationHelperClient serviceClient__4 = wf_instance5.createWorkflowInvocationHelper(operation4);
-
 
 					// Creating Descriptor of the InputMessage
 					serviceClient__4.configureInput(inputMessage4);
@@ -782,7 +721,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// create ReceiveArrayService				
 					WorkflowInvocationHelperClient serviceClient__ca = wf_instance5.createWorkflowInvocationHelper(operation__ca);
 
-
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__ca = new OperationInputMessageDescriptor();
 					InputParameterDescriptor[] inputParams__ca = new InputParameterDescriptor[0];
@@ -803,88 +741,86 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor__ca[0].setLocationQuery("/ns0:GetComplexArrayResponse/abc:ComplexType/abc:message");
 					outParameterDescriptor__ca[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient__4.getEndpointReference()});
 
-
-
 					// takes the reference to ReceiveComplexArrayService
 					outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
 					serviceClient__ca.configureOutput(outputDescriptor__ca);
 
 					// Set the GlobusCredential to use on InstanceHelper
 					wf_instance5.addCredential(serviceClient__ca.getEndpointReference(), delegationEPR5);
-					
+
 					// END CreateArrayService::getComplexArray // */
 
 					/** END streaming test **/
 
-					
-					
 					/** SecureHelloWorld invocation **/
-					WorkflowInstanceHelperDescriptor workflowDescriptor99 = new WorkflowInstanceHelperDescriptor();
-					workflowDescriptor99.setWorkflowID("WorkFlow1");
-					workflowDescriptor99.setWorkflowManagerEPR(manager_epr);
+					WorkflowInstanceHelperDescriptor workflowDescriptor6 = new WorkflowInstanceHelperDescriptor();
+					workflowDescriptor6.setWorkflowID("WorkFlow1");
+					workflowDescriptor6.setWorkflowManagerEPR(manager_epr);
 
+					String access_url6 = "http://localhost:8443/wsrf/services/cagrid/HelloWorldSecure";
+					WorkflowInvocationHelperDescriptor operation6 = new WorkflowInvocationHelperDescriptor();
+					operation6.setOperationQName(new QName("http://helloworld.cagrid.org/HelloWorldSecure", "NewMethodSecureRequest"));
+					operation6.setServiceURL(access_url6);
+					operation6.setOutputType(new QName(XSD_NAMESPACE, "byte")); // This service has no output
 					
-					String access_url99 = "http://localhost:8443/wsrf/services/cagrid/HelloWorldSecure";
-					WorkflowInvocationHelperDescriptor operation99 = new WorkflowInvocationHelperDescriptor();
-					operation99.setOperationQName(new QName("http://helloworld.cagrid.org/HelloWorldSecure", "NewMethodSecureRequest"));
-					operation99.setServiceURL(access_url99);
-					operation99.setOutputType(new QName(XSD_NAMESPACE, "byte")); // This service has no output
+					// TODO Configure security for service-operation invocation
+					WorkflowInvocationSecurityDescriptor sec_desc = new SecureMessageInvocationSecurityDescriptor();
+					/*sec_desc.setAuthorization(Authorization.AUTHZ_IDENTITY);
+					sec_desc.setCDSAuthenticationMethod(new CDSAuthenticationMethod()); // */
+					
+					operation6.setWorkflowInvocationSecurityDescriptor(sec_desc);
 
-					
+
 					// DEBUG
-					printDescriptor(operation99);
-					
-					// Get helper client so we can create the invocation helpers
-					WorkflowInstanceHelperClient wf_instance99 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor99);
+					printDescriptor(operation6);
 
+					// Get helper client so we can create the invocation helpers
+					WorkflowInstanceHelperClient wf_instance6 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor6);
 
 					// create ReceiveArrayService
-					WorkflowInvocationHelperClient client99 = wf_instance99.createWorkflowInvocationHelper(operation99);
-					
+					WorkflowInvocationHelperClient client6 = wf_instance6.createWorkflowInvocationHelper(operation6);
 
 					// Creating Descriptor of the InputMessage
-					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage99 = new OperationInputMessageDescriptor();
-					InputParameterDescriptor[] inputParams99 = new InputParameterDescriptor[1];
-					inputParams99[0] = new InputParameterDescriptor(new QName("_byte"), new QName(XSD_NAMESPACE, "byte"));
-					inputMessage99.setInputParam(inputParams99);
-					client99.configureInput(inputMessage99);
+					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage6 = new OperationInputMessageDescriptor();
+					InputParameterDescriptor[] inputParams6 = new InputParameterDescriptor[1];
+					inputParams6[0] = new InputParameterDescriptor(new QName("_byte"), new QName(XSD_NAMESPACE, "byte"));
+					inputMessage6.setInputParam(inputParams6);
+					client6.configureInput(inputMessage6);
 					// End InputMessage Descriptor
 
 					// Creating an empty outputDescriptor
-					OperationOutputTransportDescriptor outputDescriptor99 = new OperationOutputTransportDescriptor();
-					OperationOutputParameterTransportDescriptor outParameterDescriptor99 [] = new OperationOutputParameterTransportDescriptor[0];
+					OperationOutputTransportDescriptor outputDescriptor6 = new OperationOutputTransportDescriptor();
+					OperationOutputParameterTransportDescriptor outParameterDescriptor6 [] = new OperationOutputParameterTransportDescriptor[0];
 
 					// takes the reference to no service
-					outputDescriptor99.setParamDescriptor(outParameterDescriptor99);
-					client99.configureOutput(outputDescriptor99);
+					outputDescriptor6.setParamDescriptor(outParameterDescriptor6);
+					client6.configureOutput(outputDescriptor6);
 
+					
 					
 					//DEBUG
 					System.out.println("Configuration done, proceeding to add the credential");
 					System.out.flush();
-					
+
 					// Set the GlobusCredential to use on InstanceHelper
-					GlobusCredential credential_instance99 = wf_instance99.getProxy();
-					System.out.println("InstanceHelper credential is: "+credential_instance99);// DEBUG
-					String instance99_id = credential_instance99.getIdentity();
-					EndpointReferenceType delegationEPR99 = delegateCredential(instance99_id, cds_URL, delegationLifetime, myCredential, issuedCredentialLifetime, 
+					String instance6_id = wf_helper.getIdentity();
+					System.out.println("Delegating helper's credential to the InstanceHelper"); //DEBUG
+					EndpointReferenceType delegationEPR6 = delegateCredential(myCredential, instance6_id, cds_URL, delegationLifetime, issuedCredentialLifetime, 
 							delegationPath, issuedCredentialPath);
-					wf_instance99.addCredential(client99.getEndpointReference(), delegationEPR99);
-					
+					wf_instance6.addCredential(client6.getEndpointReference(), delegationEPR6);
+
 					//DEBUG
 					System.out.println("Credential added");
 					System.out.flush();
-					
+
 					// Set the single parameter of this service
-					client99.setParameter(new InputParameter("121", 0));
-					
+					client6.setParameter(new InputParameter("121", 0));
+
 					//DEBUG
 					System.out.println("Parameter set");
 					System.out.flush();
 					/** END SecureHelloWorld invocation **/
 
-					
-					
 					return;
 
 				} else {
@@ -900,25 +836,28 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 			System.exit(1);
 		}
 	}
-	
-	
+
 	/** Delegate a credential to a specific grid identity
 	 * 
-	 * @param invocationHelperIdentity Grid identity of the service the credential will be delegated to
+	 * @param delegatee Grid identity of the service the credential will be delegated to
 	 * @param cdsURL The Service URL of the Credential Delegation Service (CDS)
-	 * @param credential GlobusCredential to delegate
+	 * @param toDelegate GlobusCredential to delegate
 	 * @param issuedCredentialLifetime Specifies the how long credentials issued to allowed parties will be valid for. 
 	 * @param delegationPathLength Path length of the credential being delegated. The minimum is 1.
 	 * @param issuedCredentialPathLength Path length of the credentials issued to allowed parties. A path length of 0 means that the requesting party cannot further delegate the credential.
 	 * @return 
 	 * */
-	private static EndpointReferenceType delegateCredential(String invocationHelperIdentity, String cdsURL, ProxyLifetime delegationLifetime, GlobusCredential credential, ProxyLifetime issuedCredentialLifetime, int delegationPathLength, int issuedCredentialPathLength){
-		
+	private static EndpointReferenceType delegateCredential(GlobusCredential toDelegate, String delegatee, String cdsURL, ProxyLifetime delegationLifetime, 
+			ProxyLifetime issuedCredentialLifetime, int delegationPathLength, int issuedCredentialPathLength){
+
 		//DEBUG
 		System.out.println("BEGIN delegateCredential");
-		System.out.println("delegatee: "+ invocationHelperIdentity);
+		System.out.println("delegatee: "+ delegatee);
+		System.out.println("delegator: "+ toDelegate.getIdentity());
+		System.out.println("Delegation lenght: "+ delegationPathLength);
+		System.out.println("Issued Credential lenght: "+ issuedCredentialPathLength);
 		
-	
+
 		//Specifies the key length of the delegated credential
 		int keySize = ClientConstants.DEFAULT_KEY_SIZE;
 
@@ -926,18 +865,16 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 		//issue credentials to parties listed in this policy.
 
 		List<String> parties = new ArrayList<String>();
-		parties.add(invocationHelperIdentity);  
+		parties.add(delegatee);  
 		AllowedParties allowed_parties = new AllowedParties(parties.toArray(new String[parties.size()]));
 		IdentityDelegationPolicy policy = new IdentityDelegationPolicy(allowed_parties );  
 
-
-		
 		//Create an instance of the delegation client, specifies the CDS Service URL and the credential 
 		//to be delegated.
 
 		DelegationUserClient client = null;
 		try {
-			client = new DelegationUserClient(cdsURL, credential);
+			client = new DelegationUserClient(cdsURL, toDelegate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -947,7 +884,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 		DelegatedCredentialReference ref = null;
 		try {
 			ref = client.delegateCredential(delegationLifetime, delegationPathLength, policy,
-								issuedCredentialLifetime, issuedCredentialPathLength, keySize);
+					issuedCredentialLifetime, issuedCredentialPathLength, keySize);
 		} catch (CDSInternalFault e) {
 			e.printStackTrace();
 		} catch (DelegationFault e) {
@@ -959,13 +896,12 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		//DEBUG
 		System.out.println("END delegateCredential");
-		
+
 		return ref.getEndpointReference();
 	}
-	
 
 	public static void printDescriptor(org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor workflowDescriptor){
 		System.out.println("Printing Descriptor content");
@@ -978,41 +914,47 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 		}
 	}
 
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
+    return portType.getMultipleResourceProperties(params);
+    }
+  }
 
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getResourceProperty");
+    return portType.getResourceProperty(params);
+    }
+  }
 
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"queryResourceProperties");
+    return portType.queryResourceProperties(params);
+    }
+  }
 
-	public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
-			return portType.getMultipleResourceProperties(params);
-		}
-	}
+  public org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient createWorkflowInstanceHelper(org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptor) throws RemoteException, org.apache.axis.types.URI.MalformedURIException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"createWorkflowInstanceHelper");
+    org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequest params = new org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequest();
+    org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequestWorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptorContainer = new org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequestWorkflowInstanceHelperDescriptor();
+    workflowInstanceHelperDescriptorContainer.setWorkflowInstanceHelperDescriptor(workflowInstanceHelperDescriptor);
+    params.setWorkflowInstanceHelperDescriptor(workflowInstanceHelperDescriptorContainer);
+    org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperResponse boxedResult = portType.createWorkflowInstanceHelper(params);
+    EndpointReferenceType ref = boxedResult.getWorkflowInstanceHelperReference().getEndpointReference();
+    return new org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient(ref);
+    }
+  }
 
-	public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getResourceProperty");
-			return portType.getResourceProperty(params);
-		}
-	}
-
-	public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"queryResourceProperties");
-			return portType.queryResourceProperties(params);
-		}
-	}
-
-	public org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient createWorkflowInstanceHelper(org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptor) throws RemoteException, org.apache.axis.types.URI.MalformedURIException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"createWorkflowInstanceHelper");
-			org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequest params = new org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequest();
-			org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequestWorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptorContainer = new org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequestWorkflowInstanceHelperDescriptor();
-			workflowInstanceHelperDescriptorContainer.setWorkflowInstanceHelperDescriptor(workflowInstanceHelperDescriptor);
-			params.setWorkflowInstanceHelperDescriptor(workflowInstanceHelperDescriptorContainer);
-			org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperResponse boxedResult = portType.createWorkflowInstanceHelper(params);
-			EndpointReferenceType ref = boxedResult.getWorkflowInstanceHelperReference().getEndpointReference();
-			return new org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient(ref);
-		}
-	}
+  public java.lang.String getIdentity() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getIdentity");
+    org.cagrid.workflow.helper.stubs.GetIdentityRequest params = new org.cagrid.workflow.helper.stubs.GetIdentityRequest();
+    org.cagrid.workflow.helper.stubs.GetIdentityResponse boxedResult = portType.getIdentity(params);
+    return boxedResult.getResponse();
+    }
+  }
 
 }

@@ -10,6 +10,7 @@ import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.Text;
 
+import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
@@ -18,6 +19,7 @@ import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
+import org.cagrid.workflow.helper.instance.service.globus.resource.CredentialAccess;
 import org.cagrid.workflow.helper.invocation.DeliveryEnumerator;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
 import org.cagrid.workflow.helper.util.ConversionUtil;
@@ -41,14 +43,14 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private OperationInputMessageDescriptor input_desc = null;
 	private OperationOutputTransportDescriptor output_desc = null;
 	private InputParameter[] paramData = null;
+	private CredentialAccess credentialAccess;      // Interface to retrieve GlobusCredential from the InstanceHelper (necessary to invoke secure operations)
+	private EndpointReference serviceOperationEPR;  // EPR of this instance. Used as key to retrieve GlobusCredential from the InstanceHelper 
+	private boolean isSecure = false;
 	
-	private GlobusCredential proxy = null;
-	private boolean proxyWasSet = false;
 	
-	
-
 	public synchronized boolean executeIfReady() {
-
+        
+		
 		for (int i = 0; i < paramData.length; i++) {
 			if (paramData[i] == null) {
 				return false;
@@ -69,7 +71,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				List<Node> service_response = new ArrayList<Node>();
 				try {
 
-					final boolean invocationIsSecure = (getProxy() != null);
+					final boolean invocationIsSecure = (getCredential() != null);
+
+					System.out.println("[RUNNABLE] Retrieved credential: "+ getCredential()); // DEBUG
 
 					InputParameterDescriptor[] input_desc = getInput_desc().getInputParam();
 					InputParameter[] input_value = getParamData();
@@ -109,16 +113,16 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								InputParameter[] new_input_params = input_value.clone();
 								new_input_params[input].setData(curr_array_str);
 
-								
+
 								// Invoke service according to its security configuration 
 								Node response_node = null;
 								if( invocationIsSecure ){
-									
+
 									response_node = ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-											new_input_params, getProxy()); 									
+											new_input_params, getCredential()); 									
 								}
 								else {
-									
+
 									response_node = ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
 											new_input_params);									
 								}
@@ -136,7 +140,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 						if( invocationIsSecure ){
 
 							service_response.add(ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-									input_value, getProxy()));
+									input_value, getCredential()));
 						}
 						else {
 
@@ -203,38 +207,38 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 								// send the data to the next workflow helper instance
 								if( pdesc.getDestinationEPR() != null ){
-									
-									
+
+
 									EndpointReferenceType next_destination = null;  // next destination to forward data
-									
+
 									/* If we can't do streaming, do usual forwarding. Otherwise, forward each output element to 
 									 * a destination following a delivery policy */
 									if( !outputIsArray || nextStageInputIsArray ){    
-										
+
 										// Do usual forwarding
 										next_destination = pdesc.getDestinationEPR()[0];
 										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
 										client.setParameter(iparam);
-										
+
 									}
 									else {  // Do streaming between stages 
-										
+
 
 										// Get array elements
 										List<String> array_elements = getArrayElementsFromData(data);
 										// Prepare for enumerate the destination of each array element
 										DeliveryEnumerator destinations_iter = new DeliveryEnumerator(pdesc.getDeliveryPolicy(), pdesc.getDestinationEPR());
-										
-										
+
+
 										// Iterate over the array elements' list, forwarding each one to a (possibly) different location 
 										ListIterator<String> array_iter = array_elements.listIterator();
 										while( array_iter.hasNext() ){
-											
-											
+
+
 											String curr_array_element = array_iter.next();
 											iparam.setData(curr_array_element);
-											
-											
+
+
 											// Get one of the possible destinations according to the delivery policy
 											if( destinations_iter.hasNext() ){
 												next_destination = destinations_iter.next();
@@ -243,14 +247,14 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 												System.err.println();
 												break;
 											}
-											
+
 											// Send the data to the appropriate InvocationHelper 
 											WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
 											client.setParameter(iparam);
-											
+
 										} // End of array elements
 									}
-									
+
 								}
 								else {
 									System.err.print("No destination assigned to current parameter.");
@@ -274,7 +278,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				return;
 			}
 
-			
+
 
 		});
 
@@ -295,8 +299,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		return true;
 	}
 
-	
-	
+
+
 
 	/** Get an array represented as a SOAP element and extracts the array elements
 	 * 
@@ -343,8 +347,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		return output_elements;
 	}
 
-	
-	
+
+
 	private boolean DataIsArray(String paramData) {
 
 		boolean dataIsArray = false;
@@ -395,7 +399,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	/** The method below is used for debugging purposes */
-	private static void printParameters(InputParameter[] paramData){
+	/*private static void printParameters(InputParameter[] paramData){
 
 
 		String output = "";
@@ -407,7 +411,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		System.out.println(output);
 		System.out.flush();
 		return;
-	}
+	} // */
 
 
 	public synchronized void setParameters(InputParameter[] params) {
@@ -419,12 +423,23 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public synchronized void setParameter(InputParameter param) {
 
-		if (param != null) {
-			paramData[param.getParamIndex()] = param;
-		}
 
-		// poll to see if we can execute
-		executeIfReady();
+		Status curr_status = this.getStatus();
+		//System.out.println("[setParameter] status is "+curr_status); //DEBUG
+		
+		if(curr_status.equals(Status.WAITING)){
+		
+			if (param != null) {
+				paramData[param.getParamIndex()] = param;
+			}
+
+
+			// poll to see if we can execute
+			executeIfReady();
+		}
+		else {
+			System.err.println("setParameter is allowed only when state is WAITING. Current state: "+getStatus().toString());
+		}
 	}
 
 
@@ -444,28 +459,28 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	public synchronized void setInput_desc(OperationInputMessageDescriptor input_desc) {
-		this.input_desc = input_desc;
 
-		// Prepare for receiving the arguments (if there's any)
-		final int num_params = (this.input_desc.getInputParam() != null)? this.input_desc.getInputParam().length : 0 ; 
-		paramData = new InputParameter[num_params];
+		Status curr_status = this.getStatus();
+		//System.out.println("[Input] status is "+curr_status); //DEBUG
+		
+		if(curr_status.equals(Status.UNCONFIGURED)){
 
-		try {
-			if( getOutput_desc() == null ){
-				// status is still UNCONFIGURED
 
-				this.setStatus(Status.UNCONFIGURED);
+			this.input_desc = input_desc;
 
+			// Prepare for receiving the arguments (if there's any)
+			final int num_params = (this.input_desc.getInputParam() != null)? this.input_desc.getInputParam().length : 0 ; 
+			paramData = new InputParameter[num_params];
+
+			try {
+				this.setStatus(Status.INPUTCONFIGURED);
+			} catch (ResourceException e) {
+				e.printStackTrace();
 			}
-			else { // both inputs and outputs ARE configured
-
-				this.setStatus(Status.WAITING);
-				executeIfReady(); // will run when no parameters are required
-			}
-		} catch (ResourceException e) {
-			e.printStackTrace();
 		}
-
+		else {
+			System.err.println("Input setting is allowed only when state is UNCONFIGURED. Current state: "+getStatus().toString());
+		}
 	}
 
 
@@ -475,20 +490,24 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	public synchronized void setOutput_desc(OperationOutputTransportDescriptor output_desc) {
-		this.output_desc = output_desc;
+		
+		Status curr_status = this.getStatus();
+		//System.out.println("[Output] status is "+curr_status); //DEBUG
 
-		try {
-			if( getOutput_desc() == null ){
-				// status is still UNCONFIGURED
-				this.setStatus(Status.UNCONFIGURED);
-			}
-			else { // both inputs and outputs ARE configured
+		
+		if(curr_status.equals(Status.INPUTCONFIGURED)){
 
+
+			this.output_desc = output_desc;
+			try {
 				this.setStatus(Status.WAITING);
-				executeIfReady(); // will run when no parameters are required
+			} catch (ResourceException e) {
+				e.printStackTrace();
 			}
-		} catch (ResourceException e) {
-			e.printStackTrace();
+			
+		}
+		else {
+			System.err.println("Output setting is allowed only when state is INPUTCONFIGURED. Current state: "+getStatus().toString());
 		}
 
 	}
@@ -503,22 +522,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	}
 
 
-	public GlobusCredential getProxy() {
+	public GlobusCredential getCredential() {
 		
-		if( !this.proxyWasSet ){
-			
-			// TODO Retrieve the proxy from the InstanceHelper
-			
-			
-		}
+		System.out.println("Will retrieve credential from InstanceHelper");
 		
-		return proxy;
-	}
-
-
-	public synchronized void setProxy(GlobusCredential proxy) {
-		this.proxy = proxy;
-		this.proxyWasSet = true;
+		return this.getCredentialAccess().getCredential(this.getServiceOperationEPR());
 	}
 
 
@@ -539,6 +547,49 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public void setOperationDesc(WorkflowInvocationHelperDescriptor operationDesc) {
 		this.operationDesc = operationDesc;
-	} 
-	
+		this.isSecure = (this.operationDesc.getWorkflowInvocationSecurityDescriptor() != null);
+	}
+
+
+
+
+	public CredentialAccess getCredentialAccess() {
+		return credentialAccess;
+	}
+
+
+
+
+	public void setCredentialAccess(CredentialAccess credentialAccess) {
+		this.credentialAccess = credentialAccess;
+	}
+
+
+
+
+	public EndpointReference getServiceOperationEPR() {
+		return serviceOperationEPR;
+	}
+
+
+
+
+	public void setServiceOperationEPR(EndpointReference serviceOperationEPR) {
+		this.serviceOperationEPR = serviceOperationEPR;
+	}
+
+
+
+
+	public boolean isSecure() {
+		return isSecure;
+	}
+
+
+
+
+	public void setSecure(boolean isSecure) {
+		this.isSecure = isSecure;
+	}
+
 }

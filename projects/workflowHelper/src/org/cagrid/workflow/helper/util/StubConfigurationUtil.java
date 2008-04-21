@@ -64,20 +64,7 @@ public class StubConfigurationUtil {
 		}
 
 		if (securityMetadata == null) {
-			operations = new HashMap<String, Operation>();
-			securityMetadata = getServiceSecurityMetadata();  // TODO Actually, the service's security metadata must be given by the WorkflowManager
-			ServiceSecurityMetadataOperations ssmo = securityMetadata.getOperations();
-			if (ssmo != null) {
-				Operation[] ops = ssmo.getOperation();
-				if (ops != null) {
-					for (int i = 0; i < ops.length; i++) {
-						String lowerMethodName = ops[i].getName().substring(0, 1).toLowerCase()
-							+ ops[i].getName().substring(1);
-						operations.put(lowerMethodName, ops[i]);
-					}
-				}
-			}
-
+			throw new  RemoteException("Couldn't configure stub security because security metadata was not initialized");
 		}
 		resetStub(stub);
 

@@ -50,4 +50,10 @@ public class WorkflowInstanceHelperProviderImpl{
     return boxedResult;
   }
 
+    public org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse setIsInvocationHelperSecure(org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse();
+    impl.setIsInvocationHelperSecure(params.getServiceOperationEPR().getEndpointReference(),params.isIsSecure());
+    return boxedResult;
+  }
+
 }

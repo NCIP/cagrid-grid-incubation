@@ -24,5 +24,7 @@ public interface WorkflowInstanceHelperI {
 
   public void replaceCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException ;
 
+  public void setIsInvocationHelperSecure(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,boolean isSecure) throws RemoteException ;
+
 }
 

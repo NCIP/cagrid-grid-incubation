@@ -3,6 +3,7 @@ package org.cagrid.workflow.helper.instance.service;
 import java.rmi.RemoteException;
 
 import org.apache.axis.message.addressing.EndpointReference;
+import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
 import org.cagrid.workflow.helper.util.ServiceInvocationUtil;
@@ -42,12 +43,9 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 			//  give it the query string.
 			thisResource.setOperationDesc(workflowInvocationHelperDescriptor);
 			thisResource.setOutputType(workflowInvocationHelperDescriptor.getOutputType());
-
-			WorkflowInvocationSecurityDescriptor security_desc = workflowInvocationHelperDescriptor.getWorkflowInvocationSecurityDescriptor();
-
-			GlobusCredential credential = ServiceInvocationUtil.configureSecurity( thisResource, security_desc );
-			thisResource.setProxy(credential);
-			
+			thisResource.setStatus(Status.UNCONFIGURED);
+			thisResource.setCredentialAccess(getResourceHome().getAddressedResource());
+			thisResource.setWorkflowInvocationHelperDescriptor(workflowInvocationHelperDescriptor);
 
 			// sample of setting creator only security.  This will only allow the caller that created
 			// this resource to be able to use it.
@@ -57,6 +55,12 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 			transportURL = transportURL.substring(0,transportURL.lastIndexOf('/') +1 );
 			transportURL += "WorkflowInvocationHelper";
 			epr = org.globus.wsrf.utils.AddressingUtils.createEndpointReference(transportURL,resourceKey);
+
+			thisResource.setServiceOperationEPR(new EndpointReference(epr)); // Inform the InvocationHelper the key it will use to retrieve its credential
+			final boolean isSecure = (workflowInvocationHelperDescriptor.getWorkflowInvocationSecurityDescriptor() != null); 
+			this.setIsInvocationHelperSecure(new EndpointReference(epr), isSecure);
+
+
 		} catch (Exception e) {
 			throw new RemoteException("Error looking up WorkflowInvocationHelper home:" + e.getMessage(), e);
 		}
@@ -68,10 +72,8 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		return ref;
 	}
 
+	/***  Below: credential handling  ***/
 
-	/** Below: credential handling  */
-	
-	
 	public void addCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
 
 		try {
@@ -94,13 +96,23 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		}
 	}
 
-
-
 	public void replaceCredential(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,org.apache.axis.message.addressing.EndpointReferenceType proxyEPR) throws RemoteException {
 		try {
 
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
 			resource.replaceCredential(new EndpointReference(serviceOperationEPR), new EndpointReference(proxyEPR));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setIsInvocationHelperSecure(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR, boolean isSecure) throws RemoteException {
+		try {
+
+			System.out.println("Invocation is secure? "+isSecure); //DEBUG
+			
+			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
+			resource.setIsInvocationHelperSecure(new EndpointReference(serviceOperationEPR), isSecure);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
