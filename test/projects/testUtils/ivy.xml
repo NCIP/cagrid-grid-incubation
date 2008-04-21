@@ -24,9 +24,9 @@
 
 
   <publications>
-    <artifact name="containers/minimal-ws-core-enum-4.0.3" conf="globus.container" type="zip"/>
-    <artifact name="containers/minimal-tomcat-5.0.28-with-globus-4.0.3" conf="tomcat.container" type="zip"/>
-    <artifact name="containers/minimal-secure-tomcat-5.0.28-with-globus-4.0.3" conf="secure.tomcat.container" type="zip"/>
+    <artifact name="minimal-ws-core-enum-4.0.3" conf="globus.container" type="zip"/>
+    <artifact name="minimal-tomcat-5.0.28-with-globus-4.0.3" conf="tomcat.container" type="zip"/>
+    <artifact name="minimal-secure-tomcat-5.0.28-with-globus-4.0.3" conf="secure.tomcat.container" type="zip"/>
   </publications>
 
   <dependencies/>
