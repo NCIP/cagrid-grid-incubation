@@ -1,0 +1,8 @@
+http\://createarrayservice.introduce.cagrid.org/CreateArrayService=org.cagrid.introduce.createarrayservice.stubs
+http\://createarrayservice.introduce.cagrid.org/CreateArrayService/bindings=org.cagrid.introduce.createarrayservice.stubs.bindings
+http\://createarrayservice.introduce.cagrid.org/CreateArrayService/service=org.cagrid.introduce.createarrayservice.stubs.service
+http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
+
+http\://systemtests.workflow.cagrid.org/SystemTests=org.cagrid.workflow.systemtests.types
+http\://createarrayservice.introduce.cagrid.org/CreateArrayService/types=org.cagrid.introduce.createarrayservice.stubs.types
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security
