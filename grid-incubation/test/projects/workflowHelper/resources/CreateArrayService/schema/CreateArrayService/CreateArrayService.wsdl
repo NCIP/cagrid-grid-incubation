@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://createarrayservice.introduce.cagrid.org/CreateArrayService" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns0="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns0="http://systemtests.workflow.cagrid.org/SystemTests" xmlns:ns1="http://createarrayservice.introduce.cagrid.org/CreateArrayService/types" xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" name="CreateArrayService" targetNamespace="http://createarrayservice.introduce.cagrid.org/CreateArrayService">
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
+  <import namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" location="./ServiceSecurity.wsdl" />
+  <!--============================================================
+
+                      T Y P E S
+                      
+  ============================================================-->
+  <types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" targetNamespace="http://createarrayservice.introduce.cagrid.org/CreateArrayService" elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" />
+      <import namespace="http://systemtests.workflow.cagrid.org/SystemTests" schemaLocation="./SystemTests.xsd" />
+      <import namespace="http://createarrayservice.introduce.cagrid.org/CreateArrayService/types" schemaLocation="./CreateArrayServiceTypes.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/security.xsd" />
+      <element name="GetArrayRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetArrayResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetComplexArrayRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetComplexArrayResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:ComplexType" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateArrayServiceResourceProperties">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <!--  place service messages here -->
+  <message name="GetArrayRequest">
+    <part name="parameters" element="tns:GetArrayRequest" />
+  </message>
+  <message name="GetArrayResponse">
+    <part name="parameters" element="tns:GetArrayResponse" />
+  </message>
+  <message name="GetComplexArrayRequest">
+    <part name="parameters" element="tns:GetComplexArrayRequest" />
+  </message>
+  <message name="GetComplexArrayResponse">
+    <part name="parameters" element="tns:GetComplexArrayResponse" />
+  </message>
+  <!--============================================================
+
+                       P O R T T Y P E
+                      
+  ============================================================-->
+  <portType name="CreateArrayServicePortType" wsrp:ResourceProperties="tns:CreateArrayServiceResourceProperties">
+    <operation name="getArray">
+      <input message="tns:GetArrayRequest" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/GetArrayRequest" />
+      <output message="tns:GetArrayResponse" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/GetArrayResponse" />
+    </operation>
+    <operation name="getComplexArray">
+      <input message="tns:GetComplexArrayRequest" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/GetComplexArrayRequest" />
+      <output message="tns:GetComplexArrayResponse" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/GetComplexArrayResponse" />
+    </operation>
+    <operation name="getServiceSecurityMetadata">
+      <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />
+      <output message="wns0:GetServiceSecurityMetadataResponse" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataResponse" />
+    </operation>
+  </portType>
+</definitions>
+
