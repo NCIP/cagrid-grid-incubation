@@ -1,0 +1,8 @@
+http\://receivearrayservice.introduce.cagrid.org/ReceiveArrayService=org.cagrid.introduce.receivearrayservice.stubs
+http\://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/bindings=org.cagrid.introduce.receivearrayservice.stubs.bindings
+http\://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/service=org.cagrid.introduce.receivearrayservice.stubs.service
+http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
+
+http\://systemtests.workflow.cagrid.org/SystemTests=org.cagrid.workflow.systemtests.types
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security
+http\://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/types=org.cagrid.introduce.receivearrayservice.stubs.types

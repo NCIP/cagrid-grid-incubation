@@ -1,0 +1,10 @@
+#Introduce Properties
+#Mon Apr 21 11:15:55 EDT 2008
+introduce.skeleton.services.list=ReceiveArrayService
+introduce.skeleton.extensions=
+introduce.skeleton.destination.dir=P\:\\grid-incubation\\test\\projects\\workflowHelper\\resources\\ReceiveArrayService
+introduce.skeleton.namespace.domain=http\://receivearrayservice.introduce.cagrid.org/ReceiveArrayService
+introduce.skeleton.service.name=ReceiveArrayService
+introduce.skeleton.timestamp=1206544004078
+introduce.soap.binding.excludes=\ 
+introduce.ns.excludes=\ -x gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security

@@ -1,0 +1,7 @@
+http\://service4.introduce.cagrid.org/Service4=org.cagrid.introduce.service4.stubs
+http\://service4.introduce.cagrid.org/Service4/bindings=org.cagrid.introduce.service4.stubs.bindings
+http\://service4.introduce.cagrid.org/Service4/service=org.cagrid.introduce.service4.stubs.service
+http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
+
+http\://service4.introduce.cagrid.org/Service4/types=org.cagrid.introduce.service4.stubs.types
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security
