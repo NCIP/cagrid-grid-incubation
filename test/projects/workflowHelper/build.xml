@@ -116,19 +116,21 @@
 	<!-- ============================================================== -->
 	<!-- Call any tests.                                                -->
 	<!-- ============================================================== -->
-	<target name="test" depends="" description="Runs the service's tests.">
+	<target name="test" depends="setGlobus" description="Runs the service's tests.">
 		<echo message="Test results dir: ${junit.results.dir}" />
 		<mkdir dir="${junit.results.dir}" />
 		<junit dir="${basedir}" printsummary="yes" showoutput="true">
+			<sysproperty key="testing.containers.dir" value="${basedir}/ext/dependencies/resources/containers" />
+			<sysproperty key="resources.dir" value="${basedir}/resources" />
+			<sysproperty key="basedir" value="${basedir}" />
 			<classpath refid="build.classpath" />
 			<classpath>
 				<pathelement path="build/classes/" />
 			</classpath>
 			<formatter type="xml" />
 			<batchtest fork="yes" todir="${junit.results.dir}">
-				<fileset dir="${test.src.dir}">
-					<include name="**/Test*.java" />
-					<include name="**/*TestCase.java" />
+				<fileset dir="${src.dir}">
+					<include name="**/*StoryBook.java" />
 				</fileset>
 			</batchtest>
 		</junit>
