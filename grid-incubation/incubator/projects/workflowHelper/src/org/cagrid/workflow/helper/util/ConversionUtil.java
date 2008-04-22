@@ -15,59 +15,49 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Node;
 
+
 public class ConversionUtil {
 
-	/* Make the string representation of a (XML) Node object */
-	public static String Node2String(Node node){
+    /* Make the string representation of a (XML) Node object */
+    public static String Node2String(Node node) throws Exception {
 
-		String ret_val = null;
+        String ret_val = null;
 
-		// Use a Transformer for output
-		StringWriter writer = new StringWriter();
+        // Use a Transformer for output
+        StringWriter writer = new StringWriter();
 
-		try {
-			TransformerFactory tFactory =
-				TransformerFactory.newInstance();
-			Transformer transformer = tFactory.newTransformer();
-			DOMSource node_source = new DOMSource(node);
-			StreamResult str_result = new StreamResult(writer);
-			transformer.transform(node_source, str_result);
+        TransformerFactory tFactory = TransformerFactory.newInstance();
+        Transformer transformer = tFactory.newTransformer();
+        DOMSource node_source = new DOMSource(node);
+        StreamResult str_result = new StreamResult(writer);
+        transformer.transform(node_source, str_result);
 
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
+        ret_val = writer.getBuffer().toString();
 
-		ret_val = writer.getBuffer().toString();  
+        // Remove <? xml version=... ?> from the string
+        int location_to_remove = ret_val.indexOf("?>") + "?>".length();
+        ret_val = ret_val.substring(location_to_remove);
 
-		// Remove <? xml version=... ?> from the string
-		int location_to_remove = ret_val.indexOf("?>") + "?>".length();
-		ret_val = ret_val.substring(location_to_remove);
+        return ret_val;
+    }
 
 
+    /* Make the SOAPElement representation of an XML string */
+    public static Iterator String2SOAPElement(String str) {
 
-		return ret_val;
-	}
+        str = "<abcdefghijklmnzwxyz>" + str + "</abcdefghijklmnzwxyz>";
+        Iterator iter = null;
 
+        try {
+            SOAPElement converted = new org.apache.axis.message.SOAPBodyElement(new ByteArrayInputStream(str
+                .getBytes("UTF-8")));
+            iter = converted.getChildElements();
 
-	/* Make the SOAPElement representation of an XML string*/
-	public static Iterator String2SOAPElement(String str){
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		str = "<abcdefghijklmnzwxyz>" + str + "</abcdefghijklmnzwxyz>";
-		Iterator iter = null;
+        return iter;
+    }
 
-		try {
-			SOAPElement converted = new org.apache.axis.message.SOAPBodyElement(new ByteArrayInputStream(str.getBytes("UTF-8")));
-			iter = converted.getChildElements();
-
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-
-		return iter;
-	}
-
-	
 }
