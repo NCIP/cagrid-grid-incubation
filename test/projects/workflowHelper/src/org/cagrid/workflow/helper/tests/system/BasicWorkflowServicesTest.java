@@ -27,7 +27,7 @@ import org.cagrid.workflow.helper.tests.system.steps.CreateTestWorkflowsStep;
 public class BasicWorkflowServicesTest extends ServiceStoryBase {
     private EndpointReference helperEPR = null;
     private static final String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
-    private static final String HELPER_PATH_IN_CONTAINER = "/cagrid/WorkflowHelperService";
+    private static final String HELPER_PATH_IN_CONTAINER = "/cagrid/WorkflowHelper";
 
 
     public BasicWorkflowServicesTest(ServiceContainer container) {
