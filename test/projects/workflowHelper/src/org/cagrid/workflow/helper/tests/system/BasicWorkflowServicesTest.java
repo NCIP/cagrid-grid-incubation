@@ -115,7 +115,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
         } catch (MalformedURIException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            Assert.fail();
         }
 
         return steps;

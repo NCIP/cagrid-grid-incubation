@@ -4,6 +4,8 @@ import gov.nih.nci.cagrid.testing.system.haste.Step;
 
 import javax.xml.namespace.QName;
 
+import junit.framework.Assert;
+
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.cagrid.workflow.helper.client.WorkflowHelperClient;
@@ -102,7 +104,7 @@ public class CreateTestWorkflowsStep extends Step {
 		client2.setParameter(new InputParameter("true",2));  // booleanValue
 		// END ReceiveArrayService::ReceiveComplexArray
 
-		
+		Assert.fail("You need to check the output and be sure that workflow actually worked.  When i run this i see alot of error on the server side.");
 		
 		// BEGIN CreateArrayService::getComplexArray				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();

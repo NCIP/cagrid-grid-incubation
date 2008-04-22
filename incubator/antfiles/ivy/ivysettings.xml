@@ -17,12 +17,22 @@
       <artifact pattern="@{repo.dir}/[organisation]/[module]/[revision]/[artifact].[ext]"/>
     </filesystem>
   </macrodef>
+  <macrodef name="cagrid-fs-resolver">
+    <attribute name="repo.dir"/>
+    <filesystem name="fs" local="true">
+      <ivy pattern="@{repo.dir}/[organisation]/[module]/ivy-[revision].xml"/>
+      <artifact pattern="@{repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+      <artifact pattern="@{repo.dir}/[organisation]/[module]/[revision]/[artifact].[ext]"/>
+    </filesystem>
+  </macrodef>
   <resolvers>
     <chain name="caGrid-incubator-ivy-resolver" returnFirst="true">
       <!-- First, try developer's local integration repository-->
       <cagrid-incubator-fs-resolver repo.dir="${integration.repository.dir}" name="caGrid-incubator-local-fs"/>
       <!-- Then, use the integration repository -->
       <cagrid-incubator-fs-resolver repo.dir="${repository.dir}" name="caGrid-incubator-fs"/>
+      <cagrid-fs-resolver repo.dir="P:/cagrid-1-2/integration-repository" name="caGrid-local-fs"/>
+      <cagrid-fs-resolver repo.dir="P:/cagrid-1-2/repository" name="caGrid-fs"/>
 	  
 	  <!-- Last, use the caGrid release repository -->
 	  <url name="remote-caGrid-ivy-resolver">
