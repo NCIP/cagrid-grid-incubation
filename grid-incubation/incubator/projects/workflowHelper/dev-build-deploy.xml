@@ -11,7 +11,11 @@
 	<!-- Pre Deploy Tomcat                                              -->
 	<!-- ============================================================== -->
 	<target name="preDeployTomcat">
-
+        <copy todir="${build.lib.dir}">
+			<fileset dir="${ext.lib}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
 	</target>
 
 
@@ -19,14 +23,22 @@
 	<!-- Pre Deploy Globus                                              -->
 	<!-- ============================================================== -->
 	<target name="preDeployGlobus">
-
+        <copy todir="${build.lib.dir}">
+			<fileset dir="${ext.lib}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
 	</target>
 	
 	<!-- ============================================================== -->
 	<!-- Pre Deploy JBOSS                                               -->
 	<!-- ============================================================== -->
 	<target name="preDeployJBoss">
-
+       <copy todir="${build.lib.dir}">
+			<fileset dir="${ext.lib}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
 	</target>
 	
 	<!-- ============================================================== -->
