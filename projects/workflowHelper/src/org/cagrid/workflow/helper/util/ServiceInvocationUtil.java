@@ -256,7 +256,7 @@ public class ServiceInvocationUtil {
 
 
 				// Set authorization and delegation mode
-				WorkflowInvocationSecurityDescriptor security_desc = workflowDescriptor.getWorkflowInvocationSecurityDescriptor();
+				Object security_desc = workflowDescriptor.getWorkflowInvocationSecurityDescriptor();
 				Authorization authorization = null;
 				String delegationMode = null;
 

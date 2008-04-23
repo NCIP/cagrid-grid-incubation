@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://helper.workflow.cagrid.org/WorkflowHelper/Instance" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wns0="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns4="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types" xmlns:ns2="http://helper.workflow.cagrid.org/WorkflowHelper/types" xmlns:ns1="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:ns5="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns6="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" xmlns:ns0="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" name="WorkflowInstanceHelper" targetNamespace="http://helper.workflow.cagrid.org/WorkflowHelper/Instance">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://helper.workflow.cagrid.org/WorkflowHelper/Instance" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wns0="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns4="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types" xmlns:ns1="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" xmlns:ns2="http://helper.workflow.cagrid.org/WorkflowHelper/types" xmlns:ns6="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:ns5="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" name="WorkflowInstanceHelper" targetNamespace="http://helper.workflow.cagrid.org/WorkflowHelper/Instance">
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
@@ -14,19 +14,19 @@
     <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" targetNamespace="http://helper.workflow.cagrid.org/WorkflowHelper/Instance" elementFormDefault="qualified" attributeFormDefault="unqualified">
       <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" />
       <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types" schemaLocation="./WorkflowInstanceHelperTypes.xsd" />
+      <import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="./WorkflowHelper.xsd" />
       <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/types" schemaLocation="./WorkflowHelperTypes.xsd" />
+      <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" schemaLocation="./WorkflowInvocationHelperTypes.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
       <import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="./WS-Addressing.xsd" />
       <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" schemaLocation="../wsrf/lifetime/WS-ResourceLifetime.xsd" />
-      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
-      <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" schemaLocation="./WorkflowInvocationHelperTypes.xsd" />
-      <import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="./WorkflowHelper.xsd" />
       <element name="CreateWorkflowInvocationHelperRequest">
         <complexType>
           <sequence>
             <element name="workflowInvocationHelperDescriptor">
               <complexType>
                 <sequence>
-                  <element ref="ns0:WorkflowInvocationHelperDescriptor" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns1:WorkflowInvocationHelperDescriptor" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
@@ -46,14 +46,14 @@
             <element name="serviceOperationEPR">
               <complexType>
                 <sequence>
-                  <element ref="ns1:EndpointReference" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
             <element name="proxyEPR">
               <complexType>
                 <sequence>
-                  <element ref="ns1:EndpointReference" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
@@ -71,7 +71,7 @@
             <element name="proxyEPR">
               <complexType>
                 <sequence>
-                  <element ref="ns1:EndpointReference" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
@@ -89,14 +89,14 @@
             <element name="serviceOperationEPR">
               <complexType>
                 <sequence>
-                  <element ref="ns1:EndpointReference" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
             <element name="proxyEPR">
               <complexType>
                 <sequence>
-                  <element ref="ns1:EndpointReference" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
@@ -114,7 +114,7 @@
             <element name="serviceOperationEPR">
               <complexType>
                 <sequence>
-                  <element ref="ns1:EndpointReference" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
@@ -132,8 +132,8 @@
           <sequence>
             <element ref="ns5:CurrentTime" />
             <element ref="ns5:TerminationTime" />
-            <element ref="ns0:WorkflowInstanceHelperDescriptor" />
-            <element ref="ns0:Status" />
+            <element ref="ns1:WorkflowInstanceHelperDescriptor" />
+            <element ref="ns1:Status" />
           </sequence>
         </complexType>
       </element>

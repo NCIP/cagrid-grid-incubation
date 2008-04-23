@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns2="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wns1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wns0="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns4="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types" xmlns:ns2="http://helper.workflow.cagrid.org/WorkflowHelper/types" xmlns:ns1="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:ns5="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns6="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" xmlns:ns0="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" name="WorkflowInvocationHelper" targetNamespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wns0="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:wns2="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:ns4="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types" xmlns:ns1="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" xmlns:ns2="http://helper.workflow.cagrid.org/WorkflowHelper/types" xmlns:ns6="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:ns5="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" name="WorkflowInvocationHelper" targetNamespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation">
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
-  <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="./../wsrf/notification/WS-BaseN.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" location="./../wsrf/lifetime/WS-ResourceLifetime.wsdl" />
   <import namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" location="./ServiceSecurity.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="./../wsrf/notification/WS-BaseN.wsdl" />
   <!--============================================================
 
                       T Y P E S
@@ -15,19 +15,19 @@
     <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" targetNamespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation" elementFormDefault="qualified" attributeFormDefault="unqualified">
       <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" />
       <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types" schemaLocation="./WorkflowInstanceHelperTypes.xsd" />
+      <import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="./WorkflowHelper.xsd" />
       <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/types" schemaLocation="./WorkflowHelperTypes.xsd" />
+      <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" schemaLocation="./WorkflowInvocationHelperTypes.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
       <import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="./WS-Addressing.xsd" />
       <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" schemaLocation="../wsrf/lifetime/WS-ResourceLifetime.xsd" />
-      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
-      <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" schemaLocation="./WorkflowInvocationHelperTypes.xsd" />
-      <import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="./WorkflowHelper.xsd" />
       <element name="ConfigureInputRequest">
         <complexType>
           <sequence>
             <element name="operationInputMessageDescriptor">
               <complexType>
                 <sequence>
-                  <element ref="ns0:OperationInputMessageDescriptor" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns1:OperationInputMessageDescriptor" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
@@ -45,7 +45,7 @@
             <element name="operationOutputTransportDescriptor">
               <complexType>
                 <sequence>
-                  <element ref="ns0:OperationOutputTransportDescriptor" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns1:OperationOutputTransportDescriptor" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
@@ -63,7 +63,7 @@
             <element name="inputParameter">
               <complexType>
                 <sequence>
-                  <element ref="ns0:InputParameter" minOccurs="1" maxOccurs="1" />
+                  <element ref="ns1:InputParameter" minOccurs="1" maxOccurs="1" />
                 </sequence>
               </complexType>
             </element>
@@ -81,7 +81,7 @@
             <element name="inputParameters">
               <complexType>
                 <sequence>
-                  <element ref="ns0:InputParameter" minOccurs="1" maxOccurs="unbounded" />
+                  <element ref="ns1:InputParameter" minOccurs="1" maxOccurs="unbounded" />
                 </sequence>
               </complexType>
             </element>
@@ -93,15 +93,27 @@
           <sequence />
         </complexType>
       </element>
+      <element name="GetEPRRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetEPRResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="WorkflowInvocationHelperResourceProperties">
         <complexType>
           <sequence>
             <element ref="ns5:CurrentTime" />
             <element ref="ns5:TerminationTime" />
-            <element ref="ns0:Status" />
-            <element ref="ns0:WorkflowInvocationHelperDescriptor" />
-            <element ref="ns0:OperationInputMessageDescriptor" />
-            <element ref="ns0:OperationOutputTransportDescriptor" />
+            <element ref="ns1:Status" />
+            <element ref="ns1:WorkflowInvocationHelperDescriptor" />
+            <element ref="ns1:OperationInputMessageDescriptor" />
+            <element ref="ns1:OperationOutputTransportDescriptor" />
           </sequence>
         </complexType>
       </element>
@@ -132,6 +144,12 @@
   <message name="SetParametersResponse">
     <part name="parameters" element="tns:SetParametersResponse" />
   </message>
+  <message name="GetEPRRequest">
+    <part name="parameters" element="tns:GetEPRRequest" />
+  </message>
+  <message name="GetEPRResponse">
+    <part name="parameters" element="tns:GetEPRResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -153,6 +171,10 @@
     <operation name="setParameters">
       <input message="tns:SetParametersRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/SetParametersRequest" />
       <output message="tns:SetParametersResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/SetParametersResponse" />
+    </operation>
+    <operation name="getEPR">
+      <input message="tns:GetEPRRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRRequest" />
+      <output message="tns:GetEPRResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

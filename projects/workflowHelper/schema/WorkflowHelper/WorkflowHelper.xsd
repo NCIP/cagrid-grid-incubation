@@ -47,7 +47,7 @@
 			<xs:element name="ServiceURL" type="string"></xs:element>
 			<xs:element name="operationQName" type="QName"></xs:element>
 			<xs:element name="outputType" type="QName" minOccurs="0" maxOccurs="1"></xs:element><!-- Knowing the output type (if any) allows us to do streaming bewteen stages -->
-			<xs:element name="WorkflowInvocationSecurityDescriptor" type="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1"></xs:element>
+			<xs:element name="WorkflowInvocationSecurityDescriptor" type="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1"></xs:element>			
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -56,58 +56,58 @@
 	<xs:element name="TLSInvocationSecurityDescriptor" type="tns:TLSInvocationSecurityDescriptor" />
 	
 	<xs:complexType name="TLSInvocationSecurityDescriptor">
-		<xs:complexContent>
-			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor">
+		<!--xs:complexContent>
+			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor"-->
 				<xs:sequence>
 					<xs:element name="ChannelProtection" type="tns:ChannelProtection" minOccurs="1" maxOccurs="1"></xs:element>
 					<xs:choice minOccurs="1" maxOccurs="1">
 						<xs:element name="AnonymousAuthenticationMethod" type="tns:AnonymousAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
 						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
-						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
-						<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
-						<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
+						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>						
 					</xs:choice>		
+					<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
+					<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
 				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
+			<!--/xs:extension>
+		</xs:complexContent-->
 	</xs:complexType>
 	
 	<xs:element name="SecureConversationInvocationSecurityDescriptor" type="tns:SecureConversationInvocationSecurityDescriptor" />
 	
 	<xs:complexType name="SecureConversationInvocationSecurityDescriptor">
-		<xs:complexContent>
-			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor">
+		<!--xs:complexContent>
+			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor"-->
 				<xs:sequence>
 					<xs:element name="ChannelProtection" type="tns:ChannelProtection" minOccurs="1" maxOccurs="1"></xs:element>
 					<xs:choice minOccurs="1" maxOccurs="1">
 						<xs:element name="NativeDelegationAuthenticationMethod" type="tns:NativeDelegationAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
 						<xs:element name="AnonymousAuthenticationMethod" type="tns:AnonymousAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
 						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
-						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
-						<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
-						<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
+						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>						
 					</xs:choice>		
+					<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
+					<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
 				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
+			<!--/xs:extension>
+		</xs:complexContent-->
 	</xs:complexType>
 	
 	<xs:element name="SecureMessageInvocationSecurityDescriptor" type="tns:SecureMessageInvocationSecurityDescriptor" />
 	
 	<xs:complexType name="SecureMessageInvocationSecurityDescriptor">
-		<xs:complexContent>
-			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor">
+		<!--xs:complexContent>
+			<xs:extension base="tns:WorkflowInvocationSecurityDescriptor"-->
 				<xs:sequence>
 					<xs:element name="ChannelProtection" type="tns:ChannelProtection" minOccurs="1" maxOccurs="1"></xs:element>
 					<xs:choice minOccurs="1" maxOccurs="1">
 						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
-						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
-						<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
-						<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->						
+						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>						
 					</xs:choice>		
+					<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
+					<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->						
 				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
+			<!--/xs:extension>
+		</xs:complexContent-->
 	</xs:complexType>
 	
 	<xs:complexType name="NativeDelegationAuthenticationMethod"/>
@@ -119,7 +119,16 @@
 		</xs:sequence>
 	</xs:complexType>
 	
-	<xs:complexType name="WorkflowInvocationSecurityDescriptor" abstract="true" />
+	<xs:element name="WorkflowInvocationSecurityDescriptor" type="tns:WorkflowInvocationSecurityDescriptor" />
+	<xs:complexType name="WorkflowInvocationSecurityDescriptor" > <!-- abstract="true" /-->
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="TLSInvocationSecurityDescriptor" type="tns:TLSInvocationSecurityDescriptor"/>
+				<xs:element name="SecureConversationInvocationSecurityDescriptor" type="tns:SecureConversationInvocationSecurityDescriptor"/>
+				<xs:element name="SecureMessageInvocationSecurityDescriptor" type="tns:SecureMessageInvocationSecurityDescriptor"/>
+			</xs:choice>		
+		</xs:sequence>	
+	</xs:complexType>
 	
 	
 	<xs:simpleType name="ChannelProtection">

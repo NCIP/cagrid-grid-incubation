@@ -26,6 +26,12 @@ public class WorkflowInvocationHelperProviderImpl{
 	}
 	
 
+    public org.cagrid.workflow.helper.invocation.stubs.GetEPRResponse getEPR(org.cagrid.workflow.helper.invocation.stubs.GetEPRRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.invocation.stubs.GetEPRResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.GetEPRResponse();
+    boxedResult.setEndpointReference(impl.getEPR());
+    return boxedResult;
+  }
+
     public org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse configureInput(org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequest params) throws RemoteException {
     org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse();
     impl.configureInput(params.getOperationInputMessageDescriptor().getOperationInputMessageDescriptor());

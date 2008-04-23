@@ -63,6 +63,15 @@ public class WorkflowInvocationHelperClient extends WorkflowInvocationHelperClie
 		}
 	}
 
+  public org.apache.axis.message.addressing.EndpointReferenceType getEPR() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getEPR");
+    org.cagrid.workflow.helper.invocation.stubs.GetEPRRequest params = new org.cagrid.workflow.helper.invocation.stubs.GetEPRRequest();
+    org.cagrid.workflow.helper.invocation.stubs.GetEPRResponse boxedResult = portType.getEPR(params);
+    return boxedResult.getEndpointReference();
+    }
+  }
+
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"destroy");
