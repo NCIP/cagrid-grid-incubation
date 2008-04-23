@@ -14,12 +14,11 @@ import org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInv
  */
 public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBase {
 
-
 	public WorkflowInvocationHelperImpl() throws RemoteException {
 		super();
 	}
 
-	public void configureInput(org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor operationInputMessageDescriptor) throws RemoteException {
+  public void configureInput(org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor operationInputMessageDescriptor) throws RemoteException {
 		try {
 			WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
 			resource.setInput_desc(operationInputMessageDescriptor);
@@ -28,7 +27,7 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 		}
 	}
 
-	public void configureOutput(org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor operationOutputTransportDescriptor) throws RemoteException {
+  public void configureOutput(org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor operationOutputTransportDescriptor) throws RemoteException {
 		try {
 			WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
 			resource.setOutput_desc(operationOutputTransportDescriptor);
@@ -37,7 +36,7 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 		}
 	}
 
-	public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
+  public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
 		try {
 
 			WorkflowInvocationHelperResourceHome brh = getResourceHome();
@@ -48,7 +47,7 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 		}
 	}
 
-	public void setParameters(org.cagrid.workflow.helper.descriptor.InputParameter[] inputParameters) throws RemoteException {
+  public void setParameters(org.cagrid.workflow.helper.descriptor.InputParameter[] inputParameters) throws RemoteException {
 		try {
 			WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
 			resource.setParameters(inputParameters);
@@ -57,19 +56,14 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 		}
 	}
 
-	public org.apache.axis.message.addressing.EndpointReferenceType getEPR() throws RemoteException {
-		
-		EndpointReference epr = null;
-		
-		try {
+  public java.lang.String getEPRString() throws RemoteException {
+	  try {
 			WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
-			epr = resource.getServiceOperationEPR();
+			return resource.getServiceOperationEPRString();
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(),e);
 		}
-		
-		return epr;
-	}
+  }
 
 }
 

@@ -88,7 +88,7 @@ public class WorkflowInvocationHelperAuthorization implements PDP {
 		
 	}
 					
-	public static void authorizeGetEPR() throws RemoteException {
+	public static void authorizeGetEPRString() throws RemoteException {
 		
 		
 	}
@@ -164,9 +164,9 @@ public class WorkflowInvocationHelperAuthorization implements PDP {
 				e.printStackTrace();
 				return false;
 			}
-		} else if(operation.getLocalPart().equals("getEPR")){
+		} else if(operation.getLocalPart().equals("getEPRString")){
 			try{
-				authorizeGetEPR();
+				authorizeGetEPRString();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

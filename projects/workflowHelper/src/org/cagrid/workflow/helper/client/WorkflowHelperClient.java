@@ -100,7 +100,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					GlobusCredential serviceCredential = new GlobusCredential(fis);
 					ProxyUtil.saveProxyAsDefault(serviceCredential);
 
-					// Manager role: Delegate user credential to the Helper 
+					// Manager role: Delegate user credential to the Manager 
 					String cds_URL = "https://localhost:8443/wsrf/services/cagrid/CredentialDelegationService";
 					String userCredentialFile = "C:\\Documents and Settings\\hawks\\Desktop\\caOSSecurityTests\\credential.bin" ;
 					InputStream is = new FileInputStream(new File(userCredentialFile));
@@ -111,7 +111,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					
 					// Get delegated credential from the user
-					System.out.println("Helper retrieving delegated user credential"); //DEBUG
+					System.out.println("FakeManager retrieving delegated user credential"); //DEBUG
 					GlobusCredential myCredential = ServiceInvocationUtil.getDelegatedCredential(new EndpointReference(proxyEPR));
 					int containerPort = 8443;  // Unsecure container=8080 ; Secure container=8443
 					wf_helper.setProxy(myCredential);
@@ -754,6 +754,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					/** END streaming test **/
 
+					
+					
+					
+					
+					
 					/** SecureHelloWorld invocation **/
 					WorkflowInstanceHelperDescriptor workflowDescriptor6 = new WorkflowInstanceHelperDescriptor();
 					workflowDescriptor6.setWorkflowID("WorkFlow1");
@@ -841,6 +846,8 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 		}
 	}
 
+	
+	
 	/** Delegate a credential to a specific grid identity
 	 * 
 	 * @param delegatee Grid identity of the service the credential will be delegated to

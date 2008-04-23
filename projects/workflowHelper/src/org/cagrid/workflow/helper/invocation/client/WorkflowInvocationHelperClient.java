@@ -63,15 +63,6 @@ public class WorkflowInvocationHelperClient extends WorkflowInvocationHelperClie
 		}
 	}
 
-  public org.apache.axis.message.addressing.EndpointReferenceType getEPR() throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getEPR");
-    org.cagrid.workflow.helper.invocation.stubs.GetEPRRequest params = new org.cagrid.workflow.helper.invocation.stubs.GetEPRRequest();
-    org.cagrid.workflow.helper.invocation.stubs.GetEPRResponse boxedResult = portType.getEPR(params);
-    return boxedResult.getEndpointReference();
-    }
-  }
-
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"destroy");
@@ -134,6 +125,15 @@ public class WorkflowInvocationHelperClient extends WorkflowInvocationHelperClie
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"subscribe");
     return portType.subscribe(params);
+    }
+  }
+
+  public java.lang.String getEPRString() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getEPRString");
+    org.cagrid.workflow.helper.invocation.stubs.GetEPRStringRequest params = new org.cagrid.workflow.helper.invocation.stubs.GetEPRStringRequest();
+    org.cagrid.workflow.helper.invocation.stubs.GetEPRStringResponse boxedResult = portType.getEPRString(params);
+    return boxedResult.getResponse();
     }
   }
 

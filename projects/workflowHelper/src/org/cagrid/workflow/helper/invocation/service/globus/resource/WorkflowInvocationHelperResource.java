@@ -44,7 +44,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private OperationOutputTransportDescriptor output_desc = null;
 	private InputParameter[] paramData = null;
 	private CredentialAccess credentialAccess;      // Interface to retrieve GlobusCredential from the InstanceHelper (necessary to invoke secure operations)
-	private EndpointReference serviceOperationEPR;  // EPR of this instance. Used as key to retrieve GlobusCredential from the InstanceHelper 
+	private EndpointReference serviceOperationEPR;  // EPR of this instance. Used as key to retrieve GlobusCredential from the InstanceHelper
+	private String serviceOperationEPRString;
 	private boolean isSecure = false;
 	
 	
@@ -71,9 +72,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				List<Node> service_response = new ArrayList<Node>();
 				try {
 
-					final boolean invocationIsSecure = (getCredential() != null);
+					GlobusCredential credential = getCredential();
+					
+					final boolean invocationIsSecure = (credential != null);
 
-					System.out.println("[RUNNABLE] Retrieved credential: "+ getCredential()); // DEBUG
+					System.out.println("[RUNNABLE] Retrieved credential: "+ credential); // DEBUG
 
 					InputParameterDescriptor[] input_desc = getInput_desc().getInputParam();
 					InputParameter[] input_value = getParamData();
@@ -524,9 +527,15 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public GlobusCredential getCredential() {
 		
-		System.out.println("Will retrieve credential from InstanceHelper");
+		GlobusCredential retval;
 		
-		return this.getCredentialAccess().getCredential(this.getServiceOperationEPR());
+		System.out.println("Will retrieve credential"); //DEBUG
+		
+		retval = this.getCredentialAccess().getCredential(this.serviceOperationEPR);
+		
+		System.out.println("Retrieved credential: "+retval.getIdentity());
+		
+		return retval;
 	}
 
 
@@ -567,8 +576,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 
-	public EndpointReference getServiceOperationEPR() {
-		return serviceOperationEPR;
+	public String getServiceOperationEPRString(){
+		return serviceOperationEPRString;
 	}
 
 
@@ -576,6 +585,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public void setServiceOperationEPR(EndpointReference serviceOperationEPR) {
 		this.serviceOperationEPR = serviceOperationEPR;
+		this.serviceOperationEPRString = this.serviceOperationEPR.toString(); // This value is used as a GUID and should not be modified after this initialization
 	}
 
 
@@ -590,6 +600,13 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public void setSecure(boolean isSecure) {
 		this.isSecure = isSecure;
+	}
+
+
+
+
+	public EndpointReference getServiceOperationEPR() {
+		return serviceOperationEPR;
 	}
 
 }

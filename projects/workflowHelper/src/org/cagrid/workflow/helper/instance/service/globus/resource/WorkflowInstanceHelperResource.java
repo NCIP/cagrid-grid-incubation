@@ -28,7 +28,7 @@ import org.globus.gsi.GlobusCredential;
 public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResourceBase implements CredentialAccess {
 
 	// Associations between services' EPRs and the credential to be used when invoking service-operation
-	private HashMap<EndpointReferenceType, GlobusCredential> servicesCredentials = new HashMap<EndpointReferenceType, GlobusCredential>();
+	private HashMap<String, GlobusCredential> servicesCredentials = new HashMap<String, GlobusCredential>();
 
 
 	// Associations between Globus credentials and the EPR they came from
@@ -36,11 +36,11 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 	// Synchronization structure: list of GlobusCredentials with retrieval pending [serviceOperationEPR, Condition]
-	private HashMap<EndpointReferenceType, Condition> serviceConditionVariable = new HashMap<EndpointReferenceType, Condition>();
-	private HashMap<EndpointReferenceType, Lock> servicelLock = new HashMap<EndpointReferenceType, Lock>();
+	private HashMap<String, Condition> serviceConditionVariable = new HashMap<String, Condition>();
+	private HashMap<String, Lock> servicelLock = new HashMap<String, Lock>();
 
 
-	private List<EndpointReferenceType> unsecureInvocations = new ArrayList<EndpointReferenceType>();
+	private List<String> unsecureInvocations = new ArrayList<String>();
 
 
 
@@ -54,7 +54,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	public void addCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
 
 		// DEBUG
-		System.out.println("Adding credential");
+		//System.out.println("BEGIN addCredential");
 
 		// Check whether this credential hasn't already been retrieved
 		boolean credentialAlreadyRetrieved = this.eprCredential.containsKey(proxyEPR);
@@ -63,6 +63,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			this.replaceCredential(serviceOperationEPR, proxyEPR);
 		}
 
+		// DEBUG
+		//System.out.println("END addCredential");
+		
 		return;
 	}
 
@@ -79,12 +82,13 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 		System.out.println("[getCredential] BEGIN");
-		this.printCredentials(); //DEBUG
+		//this.printCredentials(); //DEBUG
 		
-		EndpointReferenceType epr = null;
+		String eprStr = null;
 		try {
 			WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(serviceOperationEPR);
-			epr = client.getEPR();
+			eprStr = client.getEPRString();
+			
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
 		} catch (RemoteException e1) {
@@ -94,7 +98,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		
 		
 		GlobusCredential credential = null;
-		boolean serviceIsUnsecure = this.unsecureInvocations.contains(epr);
+		boolean serviceIsUnsecure = this.unsecureInvocations.contains(eprStr);
 		
 
 		if( serviceIsUnsecure ){
@@ -107,41 +111,22 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			System.out.println("[getCredential] Service is secure"); // DEBUG
 			
 			// If credential is unavailable, block until it is available
-			boolean credentialIsNotSet = (!this.servicesCredentials.containsKey(epr));
+			boolean credentialIsNotSet = (!this.servicesCredentials.containsKey(eprStr));
 			if( credentialIsNotSet ){
 
-				Lock key = this.servicelLock.get(epr);
-				Condition credentialAvailability = this.serviceConditionVariable.get(epr);
+				Lock key = this.servicelLock.get(eprStr);
+				Condition credentialAvailability = this.serviceConditionVariable.get(eprStr);
 
-				/* DEBUG */
-				Set<Entry<EndpointReferenceType, Lock>> entries = this.servicelLock.entrySet();
-				Iterator<Entry<EndpointReferenceType, Lock>> entries_iter = entries.iterator();
-				while( entries_iter.hasNext() ){
 				
-					Entry<EndpointReferenceType, Lock> curr_key = entries_iter.next();
-					System.out.println("Curr pair: ["+ curr_key.getKey()+", "+ curr_key.getValue() +"]");
-										
-				}
-				// */
-				
-				
-				
-				
-				
-				//DEBUG
-				System.out.println("Lock retrieved for service "+epr);
-				System.out.println("Lock: "+ key);
-				System.out.println("Condition: "+credentialAvailability);
-				System.out.flush();
-				
-				
-				// Exclusive access session: we can only return the credential if it was already retrieved from the
+				// Mutual exclusive access session: we can only return the credential if it was already retrieved from the
 				// Credential Delegation Service
 				key.lock();
 				try{
 
 					credentialAvailability.await();
-					credential = this.servicesCredentials.get(epr);
+					credential = this.servicesCredentials.get(eprStr);
+					
+					System.out.println("[getCredential] Retrieved credential: "+ credential.getIdentity());
 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -168,11 +153,14 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	public void replaceCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
 
 		
-		WorkflowInvocationHelperClient client = null;
-		EndpointReferenceType epr = null;
+		//DEBUG
+		//System.out.println("BEGIN replaceCredential");
+		
+		String eprStr = null;
 		try {
-			client = new WorkflowInvocationHelperClient(serviceOperationEPR);
-			epr = client.getEPR();
+			WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(serviceOperationEPR);
+			eprStr = client.getEPRString();
+			
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
 		} catch (RemoteException e1) {
@@ -184,25 +172,28 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		// Initializes mutual exclusion key that denotes the availability of the delegated credential
 		Lock key;
 		Condition credentialAvailability;
-		if( this.serviceConditionVariable.containsKey(epr) ){
+		if( this.serviceConditionVariable.containsKey(eprStr) ){
 
-			key = this.servicelLock.get(epr);
-			credentialAvailability = this.serviceConditionVariable.get(epr);
+			key = this.servicelLock.get(eprStr);
+			credentialAvailability = this.serviceConditionVariable.get(eprStr);
 		}
 		else {
 
 			key = new ReentrantLock();
 			credentialAvailability = key.newCondition();
-			this.servicelLock.put(epr, key);
-			this.serviceConditionVariable.put(epr, credentialAvailability);
+			this.servicelLock.put(eprStr, key);
+			this.serviceConditionVariable.put(eprStr, credentialAvailability);
 		}
 
 
+		//printCredentials(); //DEBUG
+		
+		
 		// Delete old credential (if any) from the associations 
-		boolean serviceExists = this.servicesCredentials.containsKey(epr);
+		boolean serviceExists = this.servicesCredentials.containsKey(eprStr);
 		if( serviceExists ){
 
-			this.servicesCredentials.remove(epr);
+			this.servicesCredentials.remove(eprStr);
 			this.eprCredential.remove(proxyEPR);
 		}
 
@@ -221,11 +212,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 		// Add the new credential
-		this.servicesCredentials.put(epr, credential);
+		this.servicesCredentials.put(eprStr, credential);
 		this.eprCredential.put(proxyEPR, credential);
-		this.serviceConditionVariable.remove(epr);
-		this.servicelLock.remove(epr);
-
+		
 
 		// Signal any waiting threads that the credential is available
 		key.lock();
@@ -236,6 +225,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			key.unlock();
 		}
 
+		//DEBUG
+		//System.out.println("END replaceCredential");
 
 		return;
 	}
@@ -259,18 +250,18 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 		// If any service is associated with the received credential, remove each of these associations
 		if( credentialIsKnown ){
-			Set<Entry<EndpointReferenceType, GlobusCredential>> entries = this.servicesCredentials.entrySet();
-			Iterator<Entry<EndpointReferenceType, GlobusCredential>> entries_iter = entries.iterator();
+			Set<Entry<String, GlobusCredential>> entries = this.servicesCredentials.entrySet();
+			Iterator<Entry<String, GlobusCredential>> entries_iter = entries.iterator();
 
 			// Iterate over the associations, removing those in which the received credential is present 
 			while( entries_iter.hasNext() ){
 
-				Entry<EndpointReferenceType, GlobusCredential> curr_pair = entries_iter.next();
+				Entry<String, GlobusCredential> curr_pair = entries_iter.next();
 				GlobusCredential curr_value = curr_pair.getValue();
 
 				if( curr_value.equals(credential)){  
 
-					EndpointReferenceType curr_key = curr_pair.getKey();
+					String curr_key = curr_pair.getKey();
 					this.servicesCredentials.remove(curr_key);
 				}
 			}
@@ -278,14 +269,20 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	}
 
 
+	/** Register a service-operation either as secure or unsecure
+	 * 
+	 * @param serviceOperationEPR EndpointReference for the target service-operation
+	 * @param isSecure Must be true if the service-operation is secure and false otherwise 
+	 *  */
 	public void setIsInvocationHelperSecure(EndpointReference serviceOperationEPR, boolean isSecure) {
 
 		
 		WorkflowInvocationHelperClient client = null;
-		EndpointReferenceType EPR = null;
+		String EPRStr = null;
 		try {
 			client = new WorkflowInvocationHelperClient(serviceOperationEPR);
-			EPR = client.getEPR();
+			EPRStr = client.getEPRString();
+			
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		} catch (RemoteException e) {
@@ -296,26 +293,27 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		
 		if( isSecure ){
 
-			System.out.println("Creating locks"); //DEBUG
+			//System.out.println("Creating locks"); // DEBUG 
 			
 			// Initializes mutual exclusion key that denotes the availability of the delegated credential
 			Lock key = new ReentrantLock();
 			Condition credentialAvailability = key.newCondition();
-			this.serviceConditionVariable.put(EPR, credentialAvailability);
-			this.servicelLock.put(EPR, key);
+			this.serviceConditionVariable.put(EPRStr, credentialAvailability);
+			this.servicelLock.put(EPRStr, key);
 			
 			//this.printCredentials();//DEBUG
 			
 		}
 		else{
 			
-			System.out.println("Adding service to unsecure list"); //DEBUG
+			//System.out.println("Adding service to unsecure list"); //DEBUG
 			
-			this.unsecureInvocations.add(EPR); 
+			this.unsecureInvocations.add(EPRStr); 
 		}
 	}
 
 
+	/** Print the associations found in each map. Useful for debugging  */
 	private void printCredentials() {
 
 		System.out.println();
@@ -323,13 +321,13 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		
 		
 		/** Credentials' condition variables */
-		Set<Entry<EndpointReferenceType, Condition>> entries = this.serviceConditionVariable.entrySet();
-		Iterator<Entry<EndpointReferenceType, Condition>> entries_iter = entries.iterator();
+		Set<Entry<String, Condition>> entries = this.serviceConditionVariable.entrySet();
+		Iterator<Entry<String, Condition>> entries_iter = entries.iterator();
 		
 		System.out.println("BEGIN Condition variables");
 		while(entries_iter.hasNext()){
 			
-			Entry<EndpointReferenceType, Condition> curr_entry = entries_iter.next();
+			Entry<String, Condition> curr_entry = entries_iter.next();
 			System.out.println("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
 		}
 		System.out.println("END Condition variables");
@@ -337,14 +335,14 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		
 		
 		/** Credentials' condition variables **/
-		Set<Entry<EndpointReferenceType, Lock>> entries2 = this.servicelLock.entrySet();
-		Iterator<Entry<EndpointReferenceType, Lock>> entries_iter2 = entries2.iterator();
+		Set<Entry<String, Lock>> entries2 = this.servicelLock.entrySet();
+		Iterator<Entry<String, Lock>> entries_iter2 = entries2.iterator();
 		
 		System.out.println();
 		System.out.println("BEGIN locks");
 		while(entries_iter2.hasNext()){
 			
-			Entry<EndpointReferenceType, Lock> curr_entry = entries_iter2.next();
+			Entry<String, Lock> curr_entry = entries_iter2.next();
 			System.out.println("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
 		}
 		System.out.println("END locks");
@@ -368,14 +366,14 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		
 		
 		/** Services' credentials **/
-		Set<Entry<EndpointReferenceType, GlobusCredential>> entries4 = this.servicesCredentials.entrySet();
-		Iterator<Entry<EndpointReferenceType, GlobusCredential>> entries_iter4 = entries4.iterator();
+		Set<Entry<String, GlobusCredential>> entries4 = this.servicesCredentials.entrySet();
+		Iterator<Entry<String, GlobusCredential>> entries_iter4 = entries4.iterator();
 		
 		System.out.println();
 		System.out.println("BEGIN services' credentials");
 		while(entries_iter4.hasNext()){
 			
-			Entry<EndpointReferenceType, GlobusCredential> curr_entry = entries_iter4.next();
+			Entry<String, GlobusCredential> curr_entry = entries_iter4.next();
 			System.out.println("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
 		}
 		System.out.println("END services' credentials");

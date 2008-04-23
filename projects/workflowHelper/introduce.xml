@@ -280,20 +280,20 @@
      <ns30:ImportInformation fromIntroduce="false" inputMessage="ns39:SubscribeRequest" namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" outputMessage="ns39:SubscribeResponse" packageName="org.oasis.wsn" portTypeName="NotificationProducer" wsdlFile="../wsrf/notification/WS-BaseN.wsdl" xmlns:ns39="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl"/>
      <ns30:ProviderInformation providerClass="SubscribeProvider"/>
     </ns30:Method>
-    <ns30:Method description="" isImported="false" isProvided="false" name="getEPR" xsi:type="ns30:MethodType">
+    <ns30:Method description="" isImported="false" isProvided="false" name="getEPRString" xsi:type="ns30:MethodType">
      <ns30:Inputs/>
-     <ns30:Output qName="ns40:EndpointReference" description="" isArray="false" xmlns:ns40="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+     <ns30:Output qName="xsd:string" description="" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
      <ns30:Exceptions/>
     </ns30:Method>
    </ns30:Methods>
-   <ns41:ResourcePropertiesList xsi:type="ns41:ResourcePropertiesListType" xmlns:ns41="gme://gov.nih.nci.cagrid.introduce/1/Resources">
-    <ns41:ResourceProperty qName="ns42:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns41:ResourcePropertyType" xmlns:ns42="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns41:ResourceProperty qName="ns43:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns41:ResourcePropertyType" xmlns:ns43="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns41:ResourceProperty qName="ns44:Status" description="" fileLocation="WorkflowInvocationHelper_status.xml" populateFromFile="false" register="false" xsi:type="ns41:ResourcePropertyType" xmlns:ns44="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns41:ResourceProperty qName="ns45:WorkflowInvocationHelperDescriptor" description="" fileLocation="WorkflowInvocationHelper_workflowInvocationHelperDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns41:ResourcePropertyType" xmlns:ns45="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns41:ResourceProperty qName="ns46:OperationInputMessageDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationInputMessageDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns41:ResourcePropertyType" xmlns:ns46="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns41:ResourceProperty qName="ns47:OperationOutputTransportDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationOutputTransportDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns41:ResourcePropertyType" xmlns:ns47="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-   </ns41:ResourcePropertiesList>
+   <ns40:ResourcePropertiesList xsi:type="ns40:ResourcePropertiesListType" xmlns:ns40="gme://gov.nih.nci.cagrid.introduce/1/Resources">
+    <ns40:ResourceProperty qName="ns41:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns41="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns40:ResourceProperty qName="ns42:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns42="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns40:ResourceProperty qName="ns43:Status" description="" fileLocation="WorkflowInvocationHelper_status.xml" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns43="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns40:ResourceProperty qName="ns44:WorkflowInvocationHelperDescriptor" description="" fileLocation="WorkflowInvocationHelper_workflowInvocationHelperDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns44="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns40:ResourceProperty qName="ns45:OperationInputMessageDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationInputMessageDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns45="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns40:ResourceProperty qName="ns46:OperationOutputTransportDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationOutputTransportDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns46="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+   </ns40:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Lifetime xsi:type="ns3:Lifetime"/>
@@ -303,8 +303,8 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns48:Extensions xsi:type="ns48:ExtensionsType" xmlns:ns48="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
- <ns49:ServiceProperties xmlns:ns49="gme://gov.nih.nci.cagrid.introduce/1/Property">
-  <ns49:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=caOSHelper"/>
- </ns49:ServiceProperties>
+ <ns47:Extensions xsi:type="ns47:ExtensionsType" xmlns:ns47="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns48:ServiceProperties xmlns:ns48="gme://gov.nih.nci.cagrid.introduce/1/Property">
+  <ns48:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=caOSHelper"/>
+ </ns48:ServiceProperties>
 </ns1:ServiceDescription>

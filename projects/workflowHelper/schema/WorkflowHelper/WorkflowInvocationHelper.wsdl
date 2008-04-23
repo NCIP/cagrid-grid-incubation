@@ -93,15 +93,15 @@
           <sequence />
         </complexType>
       </element>
-      <element name="GetEPRRequest">
+      <element name="GetEPRStringRequest">
         <complexType>
           <sequence />
         </complexType>
       </element>
-      <element name="GetEPRResponse">
+      <element name="GetEPRStringResponse">
         <complexType>
           <sequence>
-            <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
           </sequence>
         </complexType>
       </element>
@@ -144,11 +144,11 @@
   <message name="SetParametersResponse">
     <part name="parameters" element="tns:SetParametersResponse" />
   </message>
-  <message name="GetEPRRequest">
-    <part name="parameters" element="tns:GetEPRRequest" />
+  <message name="GetEPRStringRequest">
+    <part name="parameters" element="tns:GetEPRStringRequest" />
   </message>
-  <message name="GetEPRResponse">
-    <part name="parameters" element="tns:GetEPRResponse" />
+  <message name="GetEPRStringResponse">
+    <part name="parameters" element="tns:GetEPRStringResponse" />
   </message>
   <!--============================================================
 
@@ -172,9 +172,9 @@
       <input message="tns:SetParametersRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/SetParametersRequest" />
       <output message="tns:SetParametersResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/SetParametersResponse" />
     </operation>
-    <operation name="getEPR">
-      <input message="tns:GetEPRRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRRequest" />
-      <output message="tns:GetEPRResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRResponse" />
+    <operation name="getEPRString">
+      <input message="tns:GetEPRStringRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRStringRequest" />
+      <output message="tns:GetEPRStringResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRStringResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

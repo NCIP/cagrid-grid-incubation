@@ -109,7 +109,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		try {
 
 			System.out.println("Invocation is secure? "+isSecure); //DEBUG
-			System.out.println("Setting for invocation of: "+ new EndpointReference(serviceOperationEPR));
+			
 			
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
 			resource.setIsInvocationHelperSecure(new EndpointReference(serviceOperationEPR), isSecure);

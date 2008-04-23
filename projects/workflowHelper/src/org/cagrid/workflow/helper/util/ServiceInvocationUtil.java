@@ -529,42 +529,7 @@ public class ServiceInvocationUtil {
 	}
 
 
-	// Implement the security configuration
-	/*public static GlobusCredential configureSecurity(
-			WorkflowInvocationHelperResource invocation_helper,
-			final WorkflowInvocationSecurityDescriptor security_desc) {
-
-
-		GlobusCredential credential = null;
-
-
-		if( security_desc instanceof TLSInvocationSecurityDescriptor ){
-			TLSInvocationSecurityDescriptor sec_desc = (TLSInvocationSecurityDescriptor) security_desc; 
-			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
-
-			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
-			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
-		}
-		else if( security_desc instanceof SecureConversationInvocationSecurityDescriptor ){ 
-			SecureConversationInvocationSecurityDescriptor sec_desc = (SecureConversationInvocationSecurityDescriptor) security_desc;
-			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
-
-			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
-			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
-		} 
-		else if( security_desc instanceof SecureMessageInvocationSecurityDescriptor ){  
-			SecureMessageInvocationSecurityDescriptor sec_desc = (SecureMessageInvocationSecurityDescriptor) security_desc;
-			CDSAuthenticationMethod cds = sec_desc.getCDSAuthenticationMethod();
-
-			EndpointReference proxyEPR = new EndpointReference(cds.getProxyEPR());
-			credential = ServiceInvocationUtil.getDelegatedCredential(proxyEPR); 
-		}
-
-		return credential;
-	} // */
-
-
-
+	
 	/** Get a delegated credential through a proxy EPR
 	 * @param proxyEPR The location to retrieve credential from
 	 * @return Retrieved delegated credential
