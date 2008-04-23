@@ -14,7 +14,7 @@
 
     <property name="project.dir" value="${cc.work}/checkout/${project.name}"/>
     <property name="log.dir" value="${cc.work}/logs/${project.name}"/>
-    <property name="test.lost.dir" value="${project.dir}/grid-incubation/test/logs/"/>
+    <property name="test.lost.dir" value="${project.dir}/incubator/test/logs/"/>
 
 
     <!-- Preconfigure the plugins -->
