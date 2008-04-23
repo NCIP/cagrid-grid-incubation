@@ -13,7 +13,7 @@
 	<property name="dart.project" value="caGrid-Incubation" />
 	<property name="dart.server" value="quality.cagrid.org" />
 	<property name="dart.client.jar" value="${test.lib.dir}/DartClient-1.0.7.jar" />
-	<property name="build.name.template" location="${test.dir}/BuildNameTemplate.xml"/>
+	<property name="build.name.template" location="${test.dir}/BuildNameTemplate.xml" />
 
 	<!-- =============================================================== -->
 	<!-- Configure dart                                                  -->
@@ -23,7 +23,7 @@
 		<filter token="Dart.BuildName" value="${dart.buildname}" />
 		<filter token="Dart.Site" value="${dart.site}" />
 		<filter token="Dart.Track" value="Continuous" />
-		
+
 		<copy file="${build.name.template}" tofile="${test.logs.dir}/BuildNameContinuous.xml" filtering="true" overwrite="true" />
 		<filter token="Dart.Track" value="Nightly" />
 		<copy file="${build.name.template}" tofile="${test.logs.dir}/BuildNameNightly.xml" filtering="true" overwrite="true" />
@@ -62,9 +62,15 @@
 	<!-- ONLY to be called from cruise control's antpublisher (it passes some properties) -->
 	<target name="ccpublish">
 		<property name="cc.logfile" location="${logdir}/${logfile}" />
-		<property name="cc2dart.xls.file" location="${test.dir}/CC2DART.xsl"/>
+		<property name="cc2dart.xls.file" location="${test.dir}/CC2DART.xsl" />
 		<echo message="${cc.logfile}" />
-		<xslt in="${cc.logfile}" out="${test.logs.dir}/DartSubmission.xml" style="${cc2dart.xls.file}" />
+		<xslt in="${cc.logfile}" out="${test.logs.dir}/DartSubmission.xml" style="${cc2dart.xls.file}">
+			<classpath>
+				<fileset dir="${env.ANT_HOME}/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</xslt>
 		<property name="dart.logfile" value="${test.logs.dir}/DartSubmission.xml" />
 		<ant target="publish" />
 	</target>
