@@ -1,6 +1,6 @@
-package org.cagrid.workflow.manager.service;
+package org.cagrid.workflow.manager.instance.service;
 
-import org.cagrid.workflow.manager.service.globus.resource.WorkflowManagerServiceResource;
+import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
 import  org.cagrid.workflow.manager.service.WorkflowManagerServiceConfiguration;
 
 import java.rmi.RemoteException;
@@ -26,9 +26,9 @@ import org.globus.wsrf.ResourcePropertySet;
  * @created by Introduce Toolkit version 1.2
  * 
  */
-public abstract class WorkflowManagerServiceImplBase {
+public abstract class WorkflowManagerInstanceImplBase {
 	
-	public WorkflowManagerServiceImplBase() throws RemoteException {
+	public WorkflowManagerInstanceImplBase() throws RemoteException {
 	
 	}
 	
@@ -37,17 +37,17 @@ public abstract class WorkflowManagerServiceImplBase {
 	}
 	
 	
-	public org.cagrid.workflow.manager.service.globus.resource.WorkflowManagerServiceResourceHome getResourceHome() throws Exception {
+	public org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceHome getResourceHome() throws Exception {
 		ResourceHome resource = getResourceHome("home");
-		return (org.cagrid.workflow.manager.service.globus.resource.WorkflowManagerServiceResourceHome)resource;
+		return (org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceHome)resource;
 	}
 
 	
 	
 	
-	public org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceHome getWorkflowManagerInstanceResourceHome() throws Exception {
-		ResourceHome resource = getResourceHome("workflowManagerInstanceHome");
-		return (org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceHome)resource;
+	public org.cagrid.workflow.manager.service.globus.resource.WorkflowManagerServiceResourceHome getWorkflowManagerServiceResourceHome() throws Exception {
+		ResourceHome resource = getResourceHome("workflowManagerServiceHome");
+		return (org.cagrid.workflow.manager.service.globus.resource.WorkflowManagerServiceResourceHome)resource;
 	}
 	
 	

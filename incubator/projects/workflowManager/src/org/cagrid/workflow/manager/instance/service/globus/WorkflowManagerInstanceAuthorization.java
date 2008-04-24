@@ -1,4 +1,4 @@
-package org.cagrid.workflow.manager.service.globus;
+package org.cagrid.workflow.manager.instance.service.globus;
 
 
 import java.rmi.RemoteException;
@@ -27,12 +27,12 @@ import org.w3c.dom.Node;
  * @created by Introduce Toolkit version 1.2
  * 
  */
-public class WorkflowManagerServiceAuthorization implements PDP {
+public class WorkflowManagerInstanceAuthorization implements PDP {
 
-	public static final String SERVICE_NAMESPACE = "http://manager.workflow.cagrid.org/WorkflowManagerService";
+	public static final String SERVICE_NAMESPACE = "http://manager.workflow.cagrid.org/WorkflowManagerService/Context";
 	
 	
-	public WorkflowManagerServiceAuthorization() {
+	public WorkflowManagerInstanceAuthorization() {
 	}
 	
 	protected String getServiceNamespace(){
@@ -53,22 +53,17 @@ public class WorkflowManagerServiceAuthorization implements PDP {
 		
 	}
 					
-	public static void authorizeGetMultipleResourceProperties() throws RemoteException {
+	public static void authorizeDestroy() throws RemoteException {
 		
 		
 	}
 					
-	public static void authorizeGetResourceProperty() throws RemoteException {
+	public static void authorizeSetTerminationTime() throws RemoteException {
 		
 		
 	}
 					
-	public static void authorizeQueryResourceProperties() throws RemoteException {
-		
-		
-	}
-					
-	public static void authorizeCreateWorkflowManagerInstance() throws RemoteException {
+	public static void authorizeGetStatus() throws RemoteException {
 		
 		
 	}
@@ -88,33 +83,25 @@ public class WorkflowManagerServiceAuthorization implements PDP {
 				e.printStackTrace();
 				return false;
 			}
-		} else if(operation.getLocalPart().equals("getMultipleResourceProperties")){
+		} else if(operation.getLocalPart().equals("destroy")){
 			try{
-				authorizeGetMultipleResourceProperties();
+				authorizeDestroy();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();
 				return false;
 			}
-		} else if(operation.getLocalPart().equals("getResourceProperty")){
+		} else if(operation.getLocalPart().equals("setTerminationTime")){
 			try{
-				authorizeGetResourceProperty();
+				authorizeSetTerminationTime();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();
 				return false;
 			}
-		} else if(operation.getLocalPart().equals("queryResourceProperties")){
+		} else if(operation.getLocalPart().equals("getStatus")){
 			try{
-				authorizeQueryResourceProperties();
-				return true;
-			} catch (Exception e){
-				e.printStackTrace();
-				return false;
-			}
-		} else if(operation.getLocalPart().equals("createWorkflowManagerInstance")){
-			try{
-				authorizeCreateWorkflowManagerInstance();
+				authorizeGetStatus();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();
