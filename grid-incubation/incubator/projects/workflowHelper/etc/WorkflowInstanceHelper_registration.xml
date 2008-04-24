@@ -14,12 +14,12 @@
     <agg:AggregatorConfig xsi:type="agg:AggregatorConfig">
       <agg:GetMultipleResourcePropertiesPollType
 			xmlns:ns4="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types"
-			xmlns:ns0="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"
+			xmlns:ns1="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"
 			xmlns:ns2="http://helper.workflow.cagrid.org/WorkflowHelper/types"
 			xmlns:ns6="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types"
 			xmlns:xs="http://www.w3.org/2001/XMLSchema"
 			xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"
-			xmlns:ns1="http://schemas.xmlsoap.org/ws/2004/03/addressing"
+			xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/03/addressing"
 			xmlns:ns5="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd">
         <!-- Specifies that the index should refresh information
             every 300000 milliseconds (once every 5 minutes) -->

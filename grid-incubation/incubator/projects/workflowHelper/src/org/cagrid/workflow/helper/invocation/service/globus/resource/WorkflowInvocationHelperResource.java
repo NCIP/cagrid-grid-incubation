@@ -227,7 +227,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										// Get array elements
 										List<String> array_elements = getArrayElementsFromData(data);
 										// Prepare for enumerate the destination of each array element
-										DeliveryEnumerator destinations_iter = new DeliveryEnumerator(pdesc.getDeliveyPolicy(), pdesc.getDestinationEPR());
+										DeliveryEnumerator destinations_iter = new DeliveryEnumerator(pdesc.getDeliveryPolicy(), pdesc.getDestinationEPR());
 										
 										
 										// Iterate over the array elements' list, forwarding each one to a (possibly) different location 
