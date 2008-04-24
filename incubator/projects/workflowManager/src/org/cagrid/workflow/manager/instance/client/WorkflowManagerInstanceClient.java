@@ -76,12 +76,14 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
 		}
 	}
 
-  public workflowhelperservice.Status getStatus() throws RemoteException {
+  public void setParameter(workflowhelperservice.InputParameter inputParameter) throws RemoteException {
     synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getStatus");
-    org.cagrid.workflow.manager.instance.stubs.GetStatusRequest params = new org.cagrid.workflow.manager.instance.stubs.GetStatusRequest();
-    org.cagrid.workflow.manager.instance.stubs.GetStatusResponse boxedResult = portType.getStatus(params);
-    return boxedResult.getStatus();
+      configureStubSecurity((Stub)portType,"setParameter");
+    org.cagrid.workflow.helper.invocation.SetParameterRequest params = new org.cagrid.workflow.helper.invocation.SetParameterRequest();
+    org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter inputParameterContainer = new org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter();
+    inputParameterContainer.setInputParameter(inputParameter);
+    params.setInputParameter(inputParameterContainer);
+    org.cagrid.workflow.helper.invocation.SetParameterResponse boxedResult = portType.setParameter(params);
     }
   }
 
@@ -96,6 +98,15 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"setTerminationTime");
     return portType.setTerminationTime(params);
+    }
+  }
+
+  public workflowhelperservice.Status getStatus() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getStatus");
+    org.cagrid.workflow.manager.instance.stubs.GetStatusRequest params = new org.cagrid.workflow.manager.instance.stubs.GetStatusRequest();
+    org.cagrid.workflow.manager.instance.stubs.GetStatusResponse boxedResult = portType.getStatus(params);
+    return boxedResult.getStatus();
     }
   }
 

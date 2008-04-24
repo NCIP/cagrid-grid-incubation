@@ -12,11 +12,13 @@ import java.rmi.RemoteException;
  */
 public interface WorkflowManagerInstanceI {
 
-  public workflowhelperservice.Status getStatus() throws RemoteException ;
+  public void setParameter(workflowhelperservice.InputParameter inputParameter) throws RemoteException ;
 
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException ;
 
   public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException ;
+
+  public workflowhelperservice.Status getStatus() throws RemoteException ;
 
 }
 
