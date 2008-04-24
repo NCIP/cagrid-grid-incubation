@@ -26,15 +26,15 @@ public class WorkflowManagerInstanceProviderImpl{
 	}
 	
 
-    public org.cagrid.workflow.helper.invocation.SetParameterResponse setParameter(org.cagrid.workflow.helper.invocation.SetParameterRequest params) throws RemoteException {
-    org.cagrid.workflow.helper.invocation.SetParameterResponse boxedResult = new org.cagrid.workflow.helper.invocation.SetParameterResponse();
-    impl.setParameter(params.getInputParameter().getInputParameter());
-    return boxedResult;
-  }
-
     public org.cagrid.workflow.manager.instance.stubs.GetStatusResponse getStatus(org.cagrid.workflow.manager.instance.stubs.GetStatusRequest params) throws RemoteException {
     org.cagrid.workflow.manager.instance.stubs.GetStatusResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.GetStatusResponse();
     boxedResult.setStatus(impl.getStatus());
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.helper.invocation.SetParameterResponse setParameter(org.cagrid.workflow.helper.invocation.SetParameterRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.invocation.SetParameterResponse boxedResult = new org.cagrid.workflow.helper.invocation.SetParameterResponse();
+    impl.setParameter(params.getInputParameter().getInputParameter());
     return boxedResult;
   }
 
