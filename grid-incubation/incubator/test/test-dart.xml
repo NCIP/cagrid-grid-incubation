@@ -25,10 +25,19 @@
 		<filter token="Dart.Track" value="Continuous" />
 
 		<copy file="${build.name.template}" tofile="${test.logs.dir}/BuildNameContinuous.xml" filtering="true" overwrite="true" />
+		
 		<filter token="Dart.Track" value="Nightly" />
 		<copy file="${build.name.template}" tofile="${test.logs.dir}/BuildNameNightly.xml" filtering="true" overwrite="true" />
+		
+		<filter token="Dart.Track" value="ContinuousSystem" />
+		<copy file="${build.name.template}" tofile="${test.logs.dir}/BuildNameContinuousSystem.xml" filtering="true" overwrite="true" />
+		
+		<filter token="Dart.Track" value="NightlySystem" />
+		<copy file="${build.name.template}" tofile="${test.logs.dir}/BuildNameNightlySystem.xml" filtering="true" overwrite="true" />
+		
 		<filter token="Dart.Track" value="Experimental" />
 		<copy file="${build.name.template}" tofile="${test.logs.dir}/BuildNameExperimental.xml" filtering="true" overwrite="true" />
+		
 		<filter token="Dart.Track" value="System" />
 		<copy file="${build.name.template}" tofile="${test.logs.dir}/BuildNameSystem.xml" filtering="true" overwrite="true" />
 	</target>

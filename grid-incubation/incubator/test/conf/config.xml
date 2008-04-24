@@ -55,7 +55,7 @@
         </publishers>
     </plugin>
 	
-	<plugin name="continuous.test.project" classname="net.sourceforge.cruisecontrol.ProjectConfig">
+	<plugin name="continuous.system.test.project" classname="net.sourceforge.cruisecontrol.ProjectConfig">
         <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
         <listeners>
             <currentbuildstatuslistener/>
@@ -71,7 +71,7 @@
         </schedule>
         <log>
             <merge dir="${project.dir}/incubator/test/logs/junit"/>
-            <merge file="${project.dir}/incubator/test/logs/BuildNameContinuous.xml"/>
+            <merge file="${project.dir}/incubator/test/logs/BuildNameContinuousSystem.xml"/>
         </log>
         <publishers>
             <htmlemail>
@@ -107,7 +107,7 @@
         </publishers>
     </plugin>
 	
-	    <plugin name="nightly.test.project" classname="net.sourceforge.cruisecontrol.ProjectConfig">
+	<plugin name="nightly.sysytem.test.project" classname="net.sourceforge.cruisecontrol.ProjectConfig">
         <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
         <listeners>
             <currentbuildstatuslistener/>
@@ -123,7 +123,7 @@
         </schedule>
         <log>
             <merge dir="${project.dir}/incubator/test/logs/junit"/>
-            <merge file="${project.dir}/incubator/test/logs/BuildNameNightly.xml"/>
+            <merge file="${project.dir}/incubator/test/logs/BuildNameNightlySystem.xml"/>
         </log>
         <publishers>
             <htmlemail>
@@ -189,9 +189,10 @@
 
     
     <continuous.project name="caGrid-Incubation-continuous" buildafterfailed="false"/>
-	<continuous.test.project name="caGrid-Incubation-SystemTest-continuous" buildafterfailed="false"/>
-	<system.test.project name="caGrid-Incubation-SystemTest-system" buildafterfailed="false"/>
-	<nightly.test.project name="caGrid-Incubation-SystemTest-nightly" buildafterfailed="false"/>
+	<nightly.project name="caGrid-Incubation-nightly" buildafterfailed="false"/>
+	
+	<continuous.system.test.project name="caGrid-Incubation-SystemTest-continuous" buildafterfailed="false"/>
+	<nightly.system.test.project name="caGrid-Incubation-SystemTest-nightly" buildafterfailed="false"/>
 	
     <!--
 	<nightly.project name="caGrid-1.0-nightly" buildafterfailed="false"/>
