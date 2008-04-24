@@ -65,8 +65,6 @@
 						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
 						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>						
 					</xs:choice>		
-					<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
-					<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
 				</xs:sequence>
 			<!--/xs:extension>
 		</xs:complexContent-->
@@ -85,8 +83,6 @@
 						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
 						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>						
 					</xs:choice>		
-					<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
-					<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
 				</xs:sequence>
 			<!--/xs:extension>
 		</xs:complexContent-->
@@ -103,8 +99,6 @@
 						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
 						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>						
 					</xs:choice>		
-					<xs:element name="Authorization" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->
-					<xs:element name="DelegationMode" type="string" minOccurs="1" maxOccurs="1"></xs:element><!-- Added by andrecs -->						
 				</xs:sequence>
 			<!--/xs:extension>
 		</xs:complexContent-->

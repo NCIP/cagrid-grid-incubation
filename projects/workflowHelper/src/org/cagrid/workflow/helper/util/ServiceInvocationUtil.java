@@ -3,6 +3,7 @@ package org.cagrid.workflow.helper.util;
 
 
 import gov.nih.nci.cagrid.common.security.ProxyUtil;
+import gov.nih.nci.cagrid.metadata.security.ServiceSecurityMetadata;
 
 import java.io.StringReader;
 import java.net.MalformedURLException;
@@ -252,37 +253,14 @@ public class ServiceInvocationUtil {
 			if( hasCredential ){   
 
 				EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
-				StubConfigurationUtil config_service  = new StubConfigurationUtil(serviceOperationEPR, proxy);
+				ServiceSecurityMetadata securityMetadata = ConversionUtil.createServiceSecurityMetadata(
+						workflowDescriptor.getWorkflowInvocationSecurityDescriptor(), workflowDescriptor.getOperationQName().getLocalPart());
+				StubConfigurationUtil config_service  = new StubConfigurationUtil(serviceOperationEPR, proxy, securityMetadata );
 
 
-				// Set authorization and delegation mode
-				Object security_desc = workflowDescriptor.getWorkflowInvocationSecurityDescriptor();
-				Authorization authorization = null;
-				String delegationMode = null;
-
-
-				if (security_desc instanceof TLSInvocationSecurityDescriptor) {
-
-					TLSInvocationSecurityDescriptor sec_desc = (TLSInvocationSecurityDescriptor) security_desc;
-					authorization = new IdentityAuthorization(); //sec_desc.getAuthorization();
-					delegationMode = sec_desc.getDelegationMode();
-				} 				
-				else if (security_desc instanceof SecureConversationInvocationSecurityDescriptor) {
-
-					SecureConversationInvocationSecurityDescriptor sec_desc = (SecureConversationInvocationSecurityDescriptor) security_desc;
-					authorization = new IdentityAuthorization(); //sec_desc.getAuthorization();
-					delegationMode = sec_desc.getDelegationMode();
-				}
-				else if (security_desc instanceof SecureMessageInvocationSecurityDescriptor) {
-
-					SecureMessageInvocationSecurityDescriptor sec_desc = (SecureMessageInvocationSecurityDescriptor) security_desc;
-					authorization = new IdentityAuthorization(); //sec_desc.getAuthorization();
-					delegationMode = sec_desc.getDelegationMode();
-				}
-
-
-				config_service.setAuthorization(authorization);
-				config_service.setDelegationMode(delegationMode); 
+				// TODO Get Authorization and DelegationMode
+				/*config_service.setAuthorization(authorization);
+				config_service.setDelegationMode(delegationMode); // */ 
 				config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart());
 
 				org.apache.axis.client.Stub stub = config_service.getStub();
@@ -537,6 +515,7 @@ public class ServiceInvocationUtil {
 	public static GlobusCredential getDelegatedCredential(EndpointReference proxyEPR) throws Exception {
 
 
+		
  		GlobusCredential credential = ProxyUtil.getDefaultProxy();
 
 		//DEBUG
@@ -554,6 +533,7 @@ public class ServiceInvocationUtil {
 		//to the credential in which they wish to obtain.
 		DelegatedCredentialUserClient client = new DelegatedCredentialUserClient(reference, credential);
 
+		
 		//The get credential method obtains a signed delegated credential from the CDS.
 		GlobusCredential delegatedCredential = client.getDelegatedCredential();
 

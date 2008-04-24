@@ -25,13 +25,16 @@ import org.cagrid.gaards.cds.stubs.types.CDSInternalFault;
 import org.cagrid.gaards.cds.stubs.types.DelegationFault;
 import org.cagrid.gaards.cds.stubs.types.PermissionDeniedFault;
 import org.cagrid.workflow.helper.common.WorkflowHelperI;
+import org.cagrid.workflow.helper.descriptor.AnonymousAuthenticationMethod;
 import org.cagrid.workflow.helper.descriptor.CDSAuthenticationMethod;
+import org.cagrid.workflow.helper.descriptor.ChannelProtection;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.SecureMessageInvocationSecurityDescriptor;
+import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
@@ -764,29 +767,31 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					workflowDescriptor6.setWorkflowID("WorkFlow1");
 					workflowDescriptor6.setWorkflowManagerEPR(manager_epr);
 
+					// Get helper client so we can create the invocation helpers
+					WorkflowInstanceHelperClient wf_instance6 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor6);
+
+
+					
 					String access_url6 = "http://localhost:8443/wsrf/services/cagrid/HelloWorldSecure";
 					WorkflowInvocationHelperDescriptor operation6 = new WorkflowInvocationHelperDescriptor();
 					operation6.setOperationQName(new QName("http://helloworld.cagrid.org/HelloWorldSecure", "NewMethodSecureRequest"));
 					operation6.setServiceURL(access_url6);
-					operation6.setOutputType(new QName(XSD_NAMESPACE, "byte")); // This service has no output
+					operation6.setOutputType(new QName(XSD_NAMESPACE, "byte"));
 					
-					// TODO Configure security for service-operation invocation
+					// Configure security for service-operation invocation
 					WorkflowInvocationSecurityDescriptor sec_desc = new WorkflowInvocationSecurityDescriptor(); 
-					SecureMessageInvocationSecurityDescriptor sec_message = new SecureMessageInvocationSecurityDescriptor();
-					sec_message.setAuthorization(Authorization.AUTHZ_IDENTITY);
-					sec_message.setCDSAuthenticationMethod(new CDSAuthenticationMethod());
-					sec_desc.setSecureMessageInvocationSecurityDescriptor(sec_message);
-					// */
-					
+					TLSInvocationSecurityDescriptor tls = new TLSInvocationSecurityDescriptor();
+					CDSAuthenticationMethod CDSAuthenticationMethod = new CDSAuthenticationMethod(new EndpointReference(cds_URL)); // TODO What this EPR actually stands for?
+					tls.setChannelProtection(ChannelProtection.Privacy);
+					tls.setCDSAuthenticationMethod(CDSAuthenticationMethod);
+
 					operation6.setWorkflowInvocationSecurityDescriptor(sec_desc);
 
+					
 					// DEBUG
 					printDescriptor(operation6);
 
-					// Get helper client so we can create the invocation helpers
-					WorkflowInstanceHelperClient wf_instance6 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor6);
-
-					// create ReceiveArrayService
+										// create ReceiveArrayService
 					WorkflowInvocationHelperClient client6 = wf_instance6.createWorkflowInvocationHelper(operation6);
 
 					// Creating Descriptor of the InputMessage
@@ -806,16 +811,17 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					client6.configureOutput(outputDescriptor6);
 
 					
-					
 					//DEBUG
-					System.out.println("Configuration done, proceeding to add the credential");
+					System.out.println("I/O configuration done, proceeding to add the credential");
 					System.out.flush();
 
+					
 					// Set the GlobusCredential to use on InstanceHelper
 					String instance6_id = wf_helper.getIdentity();
 					System.out.println("Delegating helper's credential to the InstanceHelper"); //DEBUG
 					EndpointReferenceType delegationEPR6 = delegateCredential(myCredential, instance6_id, cds_URL, delegationLifetime, issuedCredentialLifetime, 
 							delegationPath, issuedCredentialPath);
+					
 					wf_instance6.addCredential(client6.getEndpointReference(), delegationEPR6);
 
 					//DEBUG

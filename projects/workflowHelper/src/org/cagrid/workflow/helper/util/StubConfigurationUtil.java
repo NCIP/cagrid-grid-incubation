@@ -1,11 +1,9 @@
 package org.cagrid.workflow.helper.util;
 
-import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
 import gov.nih.nci.cagrid.metadata.security.CommunicationMechanism;
 import gov.nih.nci.cagrid.metadata.security.Operation;
 import gov.nih.nci.cagrid.metadata.security.ProtectionLevelType;
 import gov.nih.nci.cagrid.metadata.security.ServiceSecurityMetadata;
-import gov.nih.nci.cagrid.metadata.security.ServiceSecurityMetadataOperations;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -13,7 +11,6 @@ import java.util.Map;
 
 import org.apache.axis.client.Stub;
 import org.apache.axis.message.addressing.EndpointReferenceType;
-import org.apache.axis.types.URI.MalformedURIException;
 import org.cagrid.workflow.helper.instance.stubs.SecureServiceStub;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
@@ -33,11 +30,21 @@ public class StubConfigurationUtil {
 
 	
 	
-	public StubConfigurationUtil(EndpointReferenceType epr, GlobusCredential proxy ){
+	public StubConfigurationUtil(EndpointReferenceType epr, GlobusCredential proxy, ServiceSecurityMetadata securityMetadata){
 
 		this.epr = epr;
 		this.proxy = proxy;
 		this.stub = new SecureServiceStub();
+		this.securityMetadata = securityMetadata;
+		this.operations = new HashMap<String, Operation>();
+		
+		// initialize operations
+		Operation[] oper = this.securityMetadata.getOperations().getOperation(); 
+		for(int i=0; i < oper.length; i++){
+			
+			this.operations.put(oper[i].getName(), oper[i]);
+		}
+		
 	}
 
 	
@@ -63,7 +70,7 @@ public class StubConfigurationUtil {
 			return;
 		}
 
-		if (securityMetadata == null) {
+		if (this.securityMetadata == null) {
 			throw new  RemoteException("Couldn't configure stub security because security metadata was not initialized");
 		}
 		resetStub(stub);
@@ -171,8 +178,8 @@ public class StubConfigurationUtil {
 	}
 
 
-	// TODO This method shouldn't be necessary. This operation is up to the WorkflowManager
-	public ServiceSecurityMetadata getServiceSecurityMetadata() {
+	// This method shouldn't be necessary. This operation is up to the WorkflowManager
+	/*public ServiceSecurityMetadata getServiceSecurityMetadata() {
 		
 		
 		ServiceSecurityMetadata metadata = null;

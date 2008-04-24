@@ -112,7 +112,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			
 			// If credential is unavailable, block until it is available
 			boolean credentialIsNotSet = (!this.servicesCredentials.containsKey(eprStr));
-			if( credentialIsNotSet ){
+			//if( credentialIsNotSet ){
 
 				Lock key = this.servicelLock.get(eprStr);
 				Condition credentialAvailability = this.serviceConditionVariable.get(eprStr);
@@ -123,19 +123,24 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				key.lock();
 				try{
 
-					credentialAvailability.await();
+					if( credentialIsNotSet ){
+						credentialAvailability.await();
+					}
 					credential = this.servicesCredentials.get(eprStr);
 					
 					System.out.println("[getCredential] Retrieved credential: "+ credential.getIdentity());
 
 				} catch (InterruptedException e) {
+					System.err.println("[getCredential] Error retrieving credential");
 					e.printStackTrace();
 				}
 				finally {
 					key.unlock();
 				}
 
-			}
+			//}
+			
+			
 
 			System.out.println("[getCredential] END");
 			return credential;

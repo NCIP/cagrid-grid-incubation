@@ -526,15 +526,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	public GlobusCredential getCredential() {
-		
-		GlobusCredential retval;
-		
-		System.out.println("Will retrieve credential"); //DEBUG
-		
-		retval = this.getCredentialAccess().getCredential(this.serviceOperationEPR);
-		
-		System.out.println("Retrieved credential: "+retval.getIdentity());
-		
+
+		GlobusCredential retval = this.getCredentialAccess().getCredential(this.serviceOperationEPR);
 		return retval;
 	}
 
