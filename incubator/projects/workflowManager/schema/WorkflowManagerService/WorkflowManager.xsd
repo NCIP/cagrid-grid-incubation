@@ -4,8 +4,8 @@
 	xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
 	attributeFormDefault="unqualified">
-	<xs:import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="../helper/WS-Addressing.xsd"></xs:import>
-	<xs:import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="../helper/WorkflowHelper.xsd"></xs:import>
+	<xs:import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="./WS-Addressing.xsd"></xs:import>
+	<xs:import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="./WorkflowHelper.xsd"></xs:import>
 	<xs:element name="WorkflowManagerInstanceDescriptor" type="tns:WorkflowManagerInstanceDescriptor" />
 	
 	<!-- Workflow metadata -->

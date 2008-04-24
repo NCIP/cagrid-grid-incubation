@@ -7,16 +7,7 @@
    <ns2:SchemaElement type="WorkflowOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
   </ns2:Namespace>
-  <ns2:Namespace location="./../helper/WorkflowHelper.xsd" namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" packageName="workflowhelperservice" xsi:type="ns2:NamespaceType">
-   <ns2:SchemaElement type="InputParameter" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="OperationInputMessageDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="OperationOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="OperationOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="Status" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowHelperInstanceDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowHelperInstanceStatus" xsi:type="ns2:SchemaElementType"/>
-  </ns2:Namespace>
-  <ns2:Namespace location="./../helper/WS-Addressing.xsd" namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" packageName="addressing" xsi:type="ns2:NamespaceType">
+  <ns2:Namespace location="./WS-Addressing.xsd" namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" packageName="addressing" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="Action" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="EndpointReference" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="FaultTo" xsi:type="ns2:SchemaElementType"/>
@@ -26,6 +17,22 @@
    <ns2:SchemaElement type="ReplyAfter" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="ReplyTo" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="To" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="./WorkflowHelper.xsd" namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" packageName="workflowhelperservice" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="DeliveryPolicy" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="InputParameter" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="InputParameterDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="OperationInputMessageDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="OperationOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="OperationOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="SecureConversationInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="SecureMessageInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Status" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="TLSInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowHelperInstanceStatus" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowInstanceHelperDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowInvocationHelperDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
   </ns2:Namespace>
   <ns2:Namespace namespace="http://www.w3.org/2001/XMLSchema" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="anySimpleType" xsi:type="ns2:SchemaElementType"/>

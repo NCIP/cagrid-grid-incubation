@@ -76,17 +76,6 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
 		}
 	}
 
-  public void setParameter(workflowhelperservice.InputParameter inputParameter) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"setParameter");
-    org.cagrid.workflow.helper.invocation.SetParameterRequest params = new org.cagrid.workflow.helper.invocation.SetParameterRequest();
-    org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter inputParameterContainer = new org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter();
-    inputParameterContainer.setInputParameter(inputParameter);
-    params.setInputParameter(inputParameterContainer);
-    org.cagrid.workflow.helper.invocation.SetParameterResponse boxedResult = portType.setParameter(params);
-    }
-  }
-
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"destroy");
@@ -107,6 +96,17 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
     org.cagrid.workflow.manager.instance.stubs.GetStatusRequest params = new org.cagrid.workflow.manager.instance.stubs.GetStatusRequest();
     org.cagrid.workflow.manager.instance.stubs.GetStatusResponse boxedResult = portType.getStatus(params);
     return boxedResult.getStatus();
+    }
+  }
+
+  public void setParameter(workflowhelperservice.InputParameter inputParameter) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"setParameter");
+    org.cagrid.workflow.helper.invocation.SetParameterRequest params = new org.cagrid.workflow.helper.invocation.SetParameterRequest();
+    org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter inputParameterContainer = new org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter();
+    inputParameterContainer.setInputParameter(inputParameter);
+    params.setInputParameter(inputParameterContainer);
+    org.cagrid.workflow.helper.invocation.SetParameterResponse boxedResult = portType.setParameter(params);
     }
   }
 
