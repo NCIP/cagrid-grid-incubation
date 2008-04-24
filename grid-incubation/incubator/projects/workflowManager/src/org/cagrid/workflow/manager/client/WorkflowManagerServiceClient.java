@@ -128,4 +128,16 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
     }
   }
 
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptor) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestWorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptorContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestWorkflowManagerInstanceDescriptor();
+    workflowManagerInstanceDescriptorContainer.setWorkflowManagerInstanceDescriptor(workflowManagerInstanceDescriptor);
+    params.setWorkflowManagerInstanceDescriptor(workflowManagerInstanceDescriptorContainer);
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
+    return boxedResult.getWorkflowManagerInstanceReference();
+    }
+  }
+
 }
