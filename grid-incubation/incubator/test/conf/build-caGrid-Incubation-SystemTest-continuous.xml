@@ -1,6 +1,6 @@
 <!-- Delegating build script, used by cruisecontrol to build MY_PROJECT_1.
      Note that the basedir is set to the checked out project -->
-<project name="caGrid-Incubation-SystemTest-continuous"
+<project name="caGrid-IncubationTest-continuous"
         default="test"
         basedir="checkout/caGrid-Incubation-SystemTest-continuous">
 		
