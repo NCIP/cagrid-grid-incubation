@@ -93,82 +93,119 @@ public class ConversionUtil {
 	public static ServiceSecurityMetadata createServiceSecurityMetadata(
 			WorkflowInvocationSecurityDescriptor workflowInvocationSecurityDescriptor, String operationName) {
 		
+		System.out.println("[createServiceSecurityMetadata] BEGIN"); //DEBUG
+		
 		// Info for initializing default communication mechanism
-		GSISecureConversation gsiSecureConversation = null;
-		GSISecureMessage gsiSecureMessage = null;
-		GSITransport gsiTransport = null;
-		boolean anonymousPermitted = false;
-		None none = null;
+		CommunicationMechanism commMechanism = new CommunicationMechanism();
+		
 		
 		// Info for initializing ServiceSecurityMetadataOperations
 		Operation[] operationArray;
 		
 		
 		
-		/* (1) Get all the information from the WorkflowInvocationSecurityDescriptor. Only one of the three getter methods is supposed
-		 * to return a non-null value. So, we need to figure out which one it is. */
+		// (1) Get all the information from the WorkflowInvocationSecurityDescriptor. Only one of the three getter methods is supposed
+		// to return a non-null value. So, we need to figure out which one it is. 
 		if( workflowInvocationSecurityDescriptor.getSecureConversationInvocationSecurityDescriptor() != null ){ // Secure Conversation used
+			
+			System.out.println("[createServiceSecurityMetadata] Setting Secure Conversation"); //DEBUG
 			
 			SecureConversationInvocationSecurityDescriptor sec_desc = workflowInvocationSecurityDescriptor.getSecureConversationInvocationSecurityDescriptor();
 			ChannelProtection cp = sec_desc.getChannelProtection();
 			ProtectionLevelType protectionLevel = ProtectionLevelType.fromValue(cp.getValue());
-			gsiSecureConversation = new GSISecureConversation();
+			GSISecureConversation gsiSecureConversation = new GSISecureConversation();
 			gsiSecureConversation.setProtectionLevel(protectionLevel);
 			
-			anonymousPermitted = true;
+			//anonymousPermitted = true;
+			
+			commMechanism.setGSISecureConversation(gsiSecureConversation);
+			commMechanism.setAnonymousPermitted(true);
 		}
 		else if( workflowInvocationSecurityDescriptor.getSecureMessageInvocationSecurityDescriptor() != null ){ // Secure Message used
+			
+			System.out.println("[createServiceSecurityMetadata] Setting Secure Message"); //DEBUG
 			
 			SecureMessageInvocationSecurityDescriptor sec_desc = workflowInvocationSecurityDescriptor.getSecureMessageInvocationSecurityDescriptor();
 			ChannelProtection cp = sec_desc.getChannelProtection();
 			ProtectionLevelType protectionLevel = ProtectionLevelType.fromValue(cp.getValue());
-			gsiSecureMessage = new GSISecureMessage();
+			GSISecureMessage gsiSecureMessage = new GSISecureMessage();
 			gsiSecureMessage.setProtectionLevel(protectionLevel);
 			
-			anonymousPermitted = false;
+			//anonymousPermitted = false;
+			
+			commMechanism.setGSISecureMessage(gsiSecureMessage);
+			commMechanism.setAnonymousPermitted(false);
 		}
 		else if( workflowInvocationSecurityDescriptor.getTLSInvocationSecurityDescriptor() != null ){  // TLS used
 			
+			System.out.println("[createServiceSecurityMetadata] Setting TLS"); //DEBUG
+			
 			TLSInvocationSecurityDescriptor sec_desc = workflowInvocationSecurityDescriptor.getTLSInvocationSecurityDescriptor();
 			ChannelProtection cp = sec_desc.getChannelProtection();
-			ProtectionLevelType protectionLevel = ProtectionLevelType.fromValue(cp.getValue());
-			gsiTransport = new GSITransport();
+			ProtectionLevelType protectionLevel = null;
+			
+			// Figure out what kind of channel protection is required
+			if( cp.equals(ChannelProtection.Integrity) ){
+				protectionLevel = ProtectionLevelType.integrity;
+				System.out.println("[createServiceSecurityMetadata] Integrity set"); // DEBUG
+			}
+			else if( cp.equals(ChannelProtection.Privacy) ){
+				protectionLevel = ProtectionLevelType.privacy;
+				System.out.println("[createServiceSecurityMetadata] Privacy set"); // DEBUG
+			}
+			else {
+				System.err.println("[createServiceSecurityMetadata] Unrecognized channel protection mechanism");
+			}
+			
+			
+			GSITransport gsiTransport = new GSITransport();
 			gsiTransport.setProtectionLevel(protectionLevel);
 			
-			anonymousPermitted = true;
+			//anonymousPermitted = true;
+			
+			commMechanism.setGSITransport(gsiTransport);
+			commMechanism.setAnonymousPermitted( (sec_desc.getAnonymousAuthenticationMethod() != null) );
+			
 		}
 		else {  // No security mechanisms used
 			
-			none = new None();
-			anonymousPermitted = true;
+			System.out.println("[createServiceSecurityMetadata] Setting none"); //DEBUG
+			
+			None none = new None();
+			//anonymousPermitted = true;
+			
+			commMechanism.setNone(none);
+			commMechanism.setAnonymousPermitted(true);
 		}
 		
 		
 		
-		/* (1.1) Set the operations' metadata */
+		// (1.1) Set the operations' metadata 
 		operationArray = new Operation[1];
-		CommunicationMechanism commMechanism = new CommunicationMechanism(gsiSecureConversation, gsiSecureMessage,
-				gsiTransport, anonymousPermitted, none);
-		operationArray[0] = new Operation(commMechanism, operationName);
+		operationArray[0] = new Operation();
+		operationArray[0].setCommunicationMechanism(commMechanism);
+		operationArray[0].setName(operationName);
 		
 		
+		// (2) Use the retrieved information to initialize the ServiceSecurityMetadata 
+		// Initialize the communication mechanism 
+		CommunicationMechanism defaultCommunicationMechanism = commMechanism;
 		
-		
-		
-		/* (2) Use the retrieved information to initialize the ServiceSecurityMetadata */
-		/* Initialize the communication mechanism */
-		CommunicationMechanism defaultCommunicationMechanism = new CommunicationMechanism(gsiSecureConversation, gsiSecureMessage,
-				gsiTransport, anonymousPermitted, none); // */
-		
-		/* Initialize the sevice's operations */
-		ServiceSecurityMetadataOperations operations = new ServiceSecurityMetadataOperations(operationArray);
+		// Initialize the sevice's operations 
+		ServiceSecurityMetadataOperations operations = new ServiceSecurityMetadataOperations();
+		operations.setOperation(operationArray);
 		
 		
 		// Finally, create the service security metadata
-		ServiceSecurityMetadata secDesc = new ServiceSecurityMetadata(defaultCommunicationMechanism, operations);
+		ServiceSecurityMetadata secDesc = new ServiceSecurityMetadata();
+		secDesc.setDefaultCommunicationMechanism(defaultCommunicationMechanism);
+		secDesc.setOperations(operations);
+		
+		
+		System.out.println("[createServiceSecurityMetadata] END"); //DEBUG
 		
 		return secDesc;
-	}
+	} // */
 
 	
 }

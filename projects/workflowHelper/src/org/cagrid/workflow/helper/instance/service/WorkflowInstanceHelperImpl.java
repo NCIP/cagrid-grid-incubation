@@ -4,10 +4,7 @@ import java.rmi.RemoteException;
 
 import org.apache.axis.message.addressing.EndpointReference;
 import org.cagrid.workflow.helper.descriptor.Status;
-import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
-import org.cagrid.workflow.helper.util.ServiceInvocationUtil;
-import org.globus.gsi.GlobusCredential;
 
 /** 
  * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME

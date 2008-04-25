@@ -42,6 +42,7 @@ import org.cagrid.workflow.helper.descriptor.SecureMessageInvocationSecurityDesc
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
+import org.globus.axis.gsi.GSIConstants;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
 import org.globus.wsrf.impl.security.authorization.IdentityAuthorization;
@@ -86,7 +87,7 @@ public class ServiceInvocationUtil {
 	 * @return The operation's output value
 	 * 
 	 * */
-	private synchronized static Node generateRequest(final WorkflowInvocationHelperDescriptor workflowDescriptor, final OperationInputMessageDescriptor input_desc,
+	private static Node generateRequest(final WorkflowInvocationHelperDescriptor workflowDescriptor, final OperationInputMessageDescriptor input_desc,
 			final OperationOutputTransportDescriptor output_desc, final InputParameter[] paramData, final GlobusCredential proxy) throws Exception{
 
 
@@ -252,25 +253,37 @@ public class ServiceInvocationUtil {
 			// Secure invocation when a credential is provided
 			if( hasCredential ){   
 
+				System.out.println("[generateRequest] Services has credential"); // DEBUG
+				
+				
 				EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
 				ServiceSecurityMetadata securityMetadata = ConversionUtil.createServiceSecurityMetadata(
 						workflowDescriptor.getWorkflowInvocationSecurityDescriptor(), workflowDescriptor.getOperationQName().getLocalPart());
-				StubConfigurationUtil config_service  = new StubConfigurationUtil(serviceOperationEPR, proxy, securityMetadata );
+				StubConfigurationUtil config_service  = new StubConfigurationUtil(serviceOperationEPR, proxy);
 
 
-				// TODO Get Authorization and DelegationMode
-				/*config_service.setAuthorization(authorization);
-				config_service.setDelegationMode(delegationMode); // */ 
-				config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart());
+				
+				// Set Authorization and DelegationMode
+				Authorization authorization = new IdentityAuthorization(proxy.getIdentity()); // In secure invocation, authorization is always done through identity
+				String delegationMode = GSIConstants.GSI_MODE_LIMITED_DELEG; // TODO I don't really know what it's supposed to be
+				config_service.setAuthorization(authorization); 
+				config_service.setDelegationMode(delegationMode); 
+				config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart(), securityMetadata);
 
 				org.apache.axis.client.Stub stub = config_service.getStub();
 				service = stub._getService();
+				System.out.println("[generateRequest] Instance of Service obtained: "+ service);
+				
 			}
 			else {  // No credential provided, proceed to unsecure invocation 
 
+				System.out.println("[generateRequest] Services has NO credential"); // DEBUG
+				
 				service = new Service();
 			}
 
+			System.out.println("[generateRequest] Service instance: "+ service); // DEBUG
+			
 			Call call = (Call) service.createCall();
 			call.setTargetEndpointAddress( new java.net.URL(workflowDescriptor.getServiceURL()));
 			String tns = serviceNamespace; 
