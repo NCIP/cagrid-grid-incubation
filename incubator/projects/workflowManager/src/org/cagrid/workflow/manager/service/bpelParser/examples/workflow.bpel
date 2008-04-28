@@ -1,0 +1,209 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Jul 31 19:46:23 BRT 2007
+  Author:  george
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="fialhoFilho"
+         targetNamespace="http://xmlns.oracle.com/fialhoFilho"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:wfcommon="http://xmlns.oracle.com/bpel/workflow/common"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+        xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:client="http://xmlns.oracle.com/fialhoFilho"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:taskservice="http://xmlns.oracle.com/bpel/workflow/taskService"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ns1="http://www.example.org"
+         xmlns:ehdr="http://www.oracle.com/XSL/Transform/java/oracle.tip.esb.server.headers.ESBHeaderFunctions"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:task="http://xmlns.oracle.com/bpel/workflow/task"
+         xmlns:orcl="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc">
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="client" partnerLinkType="client:fialhoFilho"
+                     myRole="fialhoFilhoProvider"
+                     partnerRole="fialhoFilhoRequester"/>
+        <partnerLink myRole="TaskServiceCallbackListener" name="TaskService"
+                     partnerRole="TaskService"
+                     partnerLinkType="taskservice:TaskService"/>
+    </partnerLinks>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable"
+                  messageType="client:fialhoFilhoRequestMessage"/>
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable"
+                  messageType="client:fialhoFilhoResponseMessage"/>
+        <variable name="TaskDefinitionName_1_globalVariable"
+                  messageType="taskservice:taskMessage"/>
+    </variables>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in fialhoFilho.wsdl) -->
+        <receive name="receiveInput" partnerLink="client"
+                 portType="client:fialhoFilho" operation="initiate"
+                 variable="inputVariable" createInstance="yes"/>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <assign name="Transform_1">
+            <bpelx:annotation>
+                <bpelx:pattern>transformation</bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+                <from expression="ora:processXSLT('Transformation2.xsl',bpws:getVariableData('inputVariable','payload'))"/>
+                <to variable="outputVariable" part="payload"/>
+            </copy>
+        </assign>
+        <scope name="TaskDefinitionName_1"
+               xmlns:wf="http://schemas.oracle.com/bpel/extension/workflow"
+               wf:key="TaskDefinitionName_1_globalVariable">
+            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                <bpelx:pattern patternName="bpelx:workflow"></bpelx:pattern>
+            </bpelx:annotation>
+	    <variables>
+	        <variable name="initiateTaskInput"
+                   messageType="taskservice:initiateTaskMessage"/>
+        	<variable name="initiateTaskResponseMessage"
+                   messageType="taskservice:initiateTaskResponseMessage"/>
+            </variables>
+            <correlationSets>
+                <correlationSet name="WorkflowTaskIdCor"
+                                properties="taskservice:taskId"/>
+            </correlationSets>
+            <sequence>
+                <assign name="TaskDefinitionName_1_AssignTaskAttributes">
+                    <copy>
+	<from expression="concat(ora:getProcessURL(), string('/null'))"/>
+	<to variable="initiateTaskInput" part="payload"
+     query="/taskservice:initiateTask/task:task/task:taskDefinitionURI"/>
+</copy>
+<copy>
+	<from expression="string('llaa')"/>
+	<to variable="initiateTaskInput" part="payload"
+     query="/taskservice:initiateTask/task:task/task:title"/>
+</copy>
+<copy>
+	<from expression="number(3)"/>
+	<to variable="initiateTaskInput" part="payload"
+     query="/taskservice:initiateTask/task:task/task:priority"/>
+</copy>
+
+                    
+                </assign>
+                <assign name="TaskDefinitionName_1_AssignSystemTaskAttributes">
+                    <copy>
+                        <from expression="ora:getInstanceId()"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/taskservice:initiateTask/task:task/task:processInfo/task:instanceId"/>
+                    </copy>
+                    <copy>
+                        <from expression="ora:getProcessId()"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/taskservice:initiateTask/task:task/task:processInfo/task:processName"/>
+                    </copy>
+                    <copy>
+                        <from expression="ora:getProcessId()"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/taskservice:initiateTask/task:task/task:processInfo/task:processId"/>
+                    </copy>
+                    <copy>
+                        <from expression="ora:getProcessVersion()"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/taskservice:initiateTask/task:task/task:processInfo/task:processVersion"/>
+                    </copy>
+                    <copy>
+                        <from expression="ora:getDomainId()"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/taskservice:initiateTask/task:task/task:processInfo/task:domainId"/>
+                    </copy>
+                    <copy>
+                        <from expression="string('BPEL')"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/taskservice:initiateTask/task:task/task:processInfo/task:processType"/>
+                    </copy>
+                </assign>
+                <invoke name="initiateTask_TaskDefinitionName_1"
+                        partnerLink="TaskService"
+                        portType="taskservice:TaskService"
+                        operation="initiateTask"
+                        inputVariable="initiateTaskInput"
+                        outputVariable="initiateTaskResponseMessage">
+                    <correlations>
+                        <correlation initiate="yes" set="WorkflowTaskIdCor"
+                                     pattern="in"/>
+                    </correlations>
+                </invoke>                        
+                <receive name="receiveCompletedTask_TaskDefinitionName_1"
+                         partnerLink="TaskService"
+                         portType="taskservice:TaskServiceCallback"
+                         operation="onTaskCompleted"
+                         variable="TaskDefinitionName_1_globalVariable"
+                         createInstance="no">
+                    <correlations>
+                        <correlation initiate="no" set="WorkflowTaskIdCor"/>
+                    </correlations>
+                </receive>
+            </sequence>
+        </scope>
+        <switch name="taskSwitch">
+            <case condition="bpws:getVariableData('TaskDefinitionName_1_globalVariable', 'payload', '/task:task/task:systemAttributes/task:state') = 'COMPLETED' and bpws:getVariableData('TaskDefinitionName_1_globalVariable', 'payload', '/task:task/task:systemAttributes/task:outcome') = 'REJECT'">
+                <bpelx:annotation>
+                    <bpelx:pattern>Task outcome is REJECT</bpelx:pattern>
+                </bpelx:annotation>
+                <sequence>
+                    <assign name="CopyPayloadFromTask"/>
+                </sequence>
+            </case>
+            <case condition="bpws:getVariableData('TaskDefinitionName_1_globalVariable', 'payload', '/task:task/task:systemAttributes/task:state') = 'COMPLETED' and bpws:getVariableData('TaskDefinitionName_1_globalVariable', 'payload', '/task:task/task:systemAttributes/task:outcome') = 'APPROVE'">
+                <bpelx:annotation>
+                    <bpelx:pattern>Task outcome is APPROVE</bpelx:pattern>
+                </bpelx:annotation>
+                <sequence>
+                    <assign name="CopyPayloadFromTask"/>
+                </sequence>
+            </case>
+            <otherwise>
+                <bpelx:annotation>
+                    <bpelx:pattern>Task is outcome is EXPIRED, STALE, WITHDRAWN or ERRORED</bpelx:pattern>
+                </bpelx:annotation>
+                <sequence>
+                    <assign name="CopyPayloadFromTask"/>
+                </sequence>
+            </otherwise>
+        </switch>
+        <invoke name="callbackClient" partnerLink="client"
+                portType="client:fialhoFilhoCallback" operation="onResult"
+                inputVariable="outputVariable"/>
+    </sequence>
+</process>

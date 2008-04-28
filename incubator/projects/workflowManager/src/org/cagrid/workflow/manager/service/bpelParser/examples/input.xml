@@ -1,0 +1,12 @@
+<Library>
+	<Book>
+		<Title>Professional JINI</Title>
+		<Author>Sing Li</Author>
+		<Publisher>Wrox Publications</Publisher>
+	</Book>
+	<Book>
+		<Title>XML Programming</Title>
+		<Author>Sudhir Ancha</Author>
+		<Publisher>Mann Publications</Publisher>
+	</Book>
+</Library>
