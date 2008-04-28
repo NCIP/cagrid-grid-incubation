@@ -37,15 +37,11 @@ import org.cagrid.gaards.cds.delegated.stubs.types.DelegatedCredentialReference;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
-import org.cagrid.workflow.helper.descriptor.SecureConversationInvocationSecurityDescriptor;
-import org.cagrid.workflow.helper.descriptor.SecureMessageInvocationSecurityDescriptor;
-import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
-import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
 import org.globus.axis.gsi.GSIConstants;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
-import org.globus.wsrf.impl.security.authorization.IdentityAuthorization;
+import org.globus.wsrf.impl.security.authorization.NoAuthorization;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -250,10 +246,11 @@ public class ServiceInvocationUtil {
 			//System.out.println("Invoking service "+workflowDescriptor.getOperationQName().toString()); // DEBUG
 
 			javax.xml.rpc.Service service = null;
+			Call call;
 			// Secure invocation when a credential is provided
 			if( hasCredential ){   
 
-				System.out.println("[generateRequest] Services has credential"); // DEBUG
+				System.out.println("[generateRequest] Services has credential: "+proxy.getIdentity()); // DEBUG
 				
 				
 				EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
@@ -264,15 +261,13 @@ public class ServiceInvocationUtil {
 
 				
 				// Set Authorization and DelegationMode
-				Authorization authorization = new IdentityAuthorization(proxy.getIdentity()); // In secure invocation, authorization is always done through identity
-				String delegationMode = GSIConstants.GSI_MODE_LIMITED_DELEG; // TODO I don't really know what it's supposed to be
+				Authorization authorization = org.globus.wsrf.impl.security.authorization.NoAuthorization.getInstance();  // We don't care about service's identity     
 				config_service.setAuthorization(authorization); 
-				config_service.setDelegationMode(delegationMode); 
 				config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart(), securityMetadata);
 
-				org.apache.axis.client.Stub stub = config_service.getStub();
-				service = stub._getService();
-				System.out.println("[generateRequest] Instance of Service obtained: "+ service);
+				/*org.apache.axis.client.Stub stub = config_service.getStub();
+				service = stub._getService(); // */
+				call = (Call) config_service.getCall();
 				
 			}
 			else {  // No credential provided, proceed to unsecure invocation 
@@ -280,15 +275,18 @@ public class ServiceInvocationUtil {
 				System.out.println("[generateRequest] Services has NO credential"); // DEBUG
 				
 				service = new Service();
+				call = (Call) service.createCall();
 			}
 
-			System.out.println("[generateRequest] Service instance: "+ service); // DEBUG
+			System.out.println("[generateRequest] Call instance: "+ call); // DEBUG
 			
-			Call call = (Call) service.createCall();
+			
+			
 			call.setTargetEndpointAddress( new java.net.URL(workflowDescriptor.getServiceURL()));
 			String tns = serviceNamespace; 
 			call.setOperationName(new QName(tns, workflowDescriptor.getOperationQName().toString()));
-			ret = call.invoke(message);			
+			ret = call.invoke(message);
+
 
 
 			//DEBUG Print received SOAP message
