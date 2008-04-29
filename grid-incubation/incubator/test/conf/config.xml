@@ -98,7 +98,7 @@
         </schedule>
         <log>
             <merge dir="${project.dir}/incubator/test/logs/junit"/>
-            <merge file="${project.dir}/incubator/test/logs/BuildNameNightlySystem.xml"/>
+            <merge file="${project.dir}/incubator/test/logs/BuildNameNightly.xml"/>
         </log>
         <publishers>
             <htmlemail>
