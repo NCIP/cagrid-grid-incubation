@@ -81,32 +81,7 @@
         </publishers>
     </plugin>
 
-    <plugin name="nightly.project" classname="net.sourceforge.cruisecontrol.ProjectConfig">
-        <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
-        <listeners>
-            <currentbuildstatuslistener/>
-        </listeners>
-        <bootstrappers/>
-        <modificationset quietperiod="30">
-            <alwaysbuild/>
-        </modificationset>
-        <schedule interval="300">
-            <ant time="0400" timeout="2000">
-                <jvmarg arg="-Xmx512m"/>
-            </ant>
-        </schedule>
-        <log>
-            <merge dir="${project.dir}/incubator/test/logs/junit"/>
-            <merge file="${project.dir}/incubator/test/logs/BuildNameNightly.xml"/>
-        </log>
-        <publishers>
-            <htmlemail>
-                <failure address="${mail.list}" reportWhenFixed="true"/>
-            </htmlemail>
-            <antpublisher buildfile="${project.dir}/incubator/build.xml"/>
-        </publishers>
-    </plugin>
-	
+
 	<plugin name="nightly.system.test.project" classname="net.sourceforge.cruisecontrol.ProjectConfig">
         <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
         <listeners>
@@ -133,57 +108,7 @@
         </publishers>
     </plugin>
 
-    <plugin name="system.project" classname="net.sourceforge.cruisecontrol.ProjectConfig">
-        <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
-        <listeners>
-            <currentbuildstatuslistener/>
-        </listeners>
-        <bootstrappers/>
-        <modificationset quietperiod="30">
-            <svn localworkingcopy="${project.dir}/incubator" />
-        </modificationset>
-        <schedule interval="7200">
-            <ant time="0400" timeout="2000">
-                <jvmarg arg="-Xmx512m"/>
-            </ant>
-        </schedule>
-        <log>
-            <merge dir="${project.dir}/incubator/test/logs/junit"/>
-            <merge file="${project.dir}/incubator/test/logs/BuildNameSystem.xml"/>
-        </log>
-        <publishers>
-            <htmlemail>
-                <failure address="${mail.list}" reportWhenFixed="true"/>
-            </htmlemail>
-            <antpublisher buildfile="${project.dir}/incubator/build.xml"/>
-        </publishers>
-    </plugin>
-	
-	<plugin name="system.test.project" classname="net.sourceforge.cruisecontrol.ProjectConfig">
-        <dateformat format="yyyy-MM-dd'T'HH:mm:ss.SZ"/>
-        <listeners>
-            <currentbuildstatuslistener/>
-        </listeners>
-        <bootstrappers/>
-        <modificationset quietperiod="30">
-            <svn localworkingcopy="${project.dir}/incubator" />
-        </modificationset>
-        <schedule interval="7200">
-            <ant time="0400" timeout="2000">
-                <jvmarg arg="-Xmx512m"/>
-            </ant>
-        </schedule>
-        <log>
-            <merge dir="${project.dir}/incubator/test/logs/junit"/>
-            <merge file="${project.dir}/incubator/test/logs/BuildNameSystem.xml"/>
-        </log>
-        <publishers>
-            <htmlemail>
-                <failure address="${mail.list}" reportWhenFixed="true"/>
-            </htmlemail>
-            <antpublisher buildfile="${project.dir}/test/build.xml"/>
-        </publishers>
-    </plugin>
+
 
     <!-- Make as many of these as you like -->
 
@@ -192,7 +117,6 @@
 	<nightly.project name="caGrid-Incubation-nightly" buildafterfailed="false"/>
 	
 	<continuous.system.test.project name="caGrid-Incubation-SystemTest-continuous" buildafterfailed="false"/>
-	<nightly.system.test.project name="caGrid-Incubation-SystemTest-nightly" buildafterfailed="false"/>
 	
     <!--
 	<nightly.project name="caGrid-1.0-nightly" buildafterfailed="false"/>
