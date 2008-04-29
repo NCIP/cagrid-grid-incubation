@@ -1,5 +1,8 @@
 package org.cagrid.workflow.manager.client;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
 
@@ -19,6 +22,10 @@ import org.globus.gsi.GlobusCredential;
 import org.cagrid.workflow.manager.stubs.WorkflowManagerServicePortType;
 import org.cagrid.workflow.manager.stubs.service.WorkflowManagerServiceAddressingLocator;
 import org.cagrid.workflow.manager.common.WorkflowManagerServiceI;
+import org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor;
+import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
+import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
+
 import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
 
 /**
@@ -85,14 +92,57 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		System.out.println(WorkflowManagerServiceClient.class.getName() + " -url <service url>");
 	}
 	
+	public static String readTextFile(String fullPathFilename) throws IOException {
+		StringBuffer sb = new StringBuffer(1024);
+		BufferedReader reader = new BufferedReader(new FileReader(fullPathFilename));
+
+		char[] chars = new char[1024];
+		int numRead = 0;
+		while( (numRead = reader.read(chars)) > -1){
+			sb.append(String.valueOf(chars, 0, numRead));	
+		}
+		reader.close();
+
+		return sb.toString();
+	}	
+
 	public static void main(String [] args){
 	    System.out.println("Running the Grid Service Client");
 		try{
 		if(!(args.length < 2)){
 			if(args[0].equals("-url")){
-			  WorkflowManagerServiceClient client = new WorkflowManagerServiceClient(args[1]);
+			  //WorkflowManagerServiceClient client = new WorkflowManagerServiceClient(args[1]);
 			  // place client calls here if you want to use this main as a
 			  // test....
+			  
+			  
+			  
+				//String bpelFileName = "C:\\subversion_hawks\\branches\\workflowManagerServiceGeorge\\src\\org\\cagrid\\workflow\\manager\\service\\bpelParser\\gaus2.bpel";
+				String bpelFileName = "/scratch/george/workflow/grid-incubation/branches/caOS_ManagerGeorge/incubator/projects/workflowManager/src/org/cagrid/workflow/manager/service/bpelParser/examples/first.bpel";
+				//String bpelFileName = "C:\\BPEL_examples\\AmericanAirline.bpel";
+				//String bpelFileName = "C:\\BPEL_examples\\DeltaAirline.bpel";
+				//String bpelFileName = "C:\\BPEL_examples\\Employee.bpel";
+				//String bpelFileName = "C:\\BPEL_examples\\Travel.bpel";
+				String workflowBpelFileContent = null;
+				try{
+					workflowBpelFileContent = readTextFile(bpelFileName);
+				}catch(IOException ioe){
+					System.out.println("Erro: Could not find bpel file: "+bpelFileName+"\nPlease check the file location.");
+					System.exit(1);
+				}
+				WorkflowManagerServiceClient client = new WorkflowManagerServiceClient(args[1]);
+			  
+				WorkflowManagerInstanceDescriptor workflowDescriptor = new WorkflowManagerInstanceDescriptor();
+				workflowDescriptor.setBpelFilename(workflowBpelFileContent);
+				WorkflowManagerInstanceReference managerInstanceReference = client.createWorkflowManagerInstance(workflowDescriptor);
+				WorkflowManagerInstanceClient managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceReference.getEndpointReference());
+				//managerInstanceClient.setParameter(param);
+		
+				
+				//DEBUG
+				System.out.println("ManagerInstanceEPR: "+ managerInstanceReference.getEndpointReference());
+				
+
 			} else {
 				usage();
 				System.exit(1);

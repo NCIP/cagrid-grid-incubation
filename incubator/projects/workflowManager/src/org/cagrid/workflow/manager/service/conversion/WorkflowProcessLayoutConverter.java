@@ -1,4 +1,4 @@
-package org.cagrid.workflow.manager.conversion;
+package org.cagrid.workflow.manager.service.conversion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,9 +61,4 @@ public class WorkflowProcessLayoutConverter {
 		
 		return descs.toArray(new WorkflowInvocationHelperDescriptor[descs.size()]);
 	}
-
-	
-	
-	
-	
 }
