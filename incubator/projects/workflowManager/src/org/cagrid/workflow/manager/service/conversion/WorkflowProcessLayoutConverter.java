@@ -40,7 +40,9 @@ public class WorkflowProcessLayoutConverter {
 				Variable outputVariable = workflowLayout.getVariable(output_variable); 
 				outputType = outputVariable.getMessageType();
 			}
-			String serviceURL = null; // TODO Get the service's URL from another XML file (not the main BPEL) 
+			
+			//
+			String serviceURL =  "http://150.164.3.188:8080/wsrf/services/cagrid/First"; // TODO Get the service's URL from another XML file (not the main BPEL) 
 			
 			
 			WorkflowInvocationHelperDescriptor curr_desc = new WorkflowInvocationHelperDescriptor();
@@ -57,7 +59,6 @@ public class WorkflowProcessLayoutConverter {
 			curr_properties = curr_properties.getNextService();
 			hasMoreOperations = (curr_properties != null);
 		}
-		
 		
 		return descs.toArray(new WorkflowInvocationHelperDescriptor[descs.size()]);
 	}

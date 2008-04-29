@@ -130,18 +130,21 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					System.out.println("Erro: Could not find bpel file: "+bpelFileName+"\nPlease check the file location.");
 					System.exit(1);
 				}
+				System.out.println("File read!");
 				WorkflowManagerServiceClient client = new WorkflowManagerServiceClient(args[1]);
 			  
 				WorkflowManagerInstanceDescriptor workflowDescriptor = new WorkflowManagerInstanceDescriptor();
 				workflowDescriptor.setBpelFilename(workflowBpelFileContent);
+				System.out.println("Before create workflow");
 				WorkflowManagerInstanceReference managerInstanceReference = client.createWorkflowManagerInstance(workflowDescriptor);
+				System.out.println("Get reference");
 				WorkflowManagerInstanceClient managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceReference.getEndpointReference());
 				//managerInstanceClient.setParameter(param);
 		
 				
 				//DEBUG
-				System.out.println("ManagerInstanceEPR: "+ managerInstanceReference.getEndpointReference());
-				
+				//System.out.println("ManagerInstanceEPR: "+ managerInstanceReference.getEndpointReference());
+				System.out.println("End client");
 
 			} else {
 				usage();

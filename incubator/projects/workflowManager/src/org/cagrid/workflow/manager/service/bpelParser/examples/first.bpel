@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<process name="jungleFlow" targetNamespace="jrn:jungle:jungleService" xmlns:tns="jrn:jungle:jungleService" xmlns:service0="http://150.164.1.157:8080/wsrf/services/introduce/Service0" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+<process name="jungleFlow" targetNamespace="http://first.cagrid.org/First" xmlns:tns="jrn:jungle:jungleService" xmlns:firstService="http://first.cagrid.org/First" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
 	<!--The <variables> section defines the data variables used by the process, providing their definitions in terms of WSDL message types, XML Schema simple types, or XML Schema elements. Variables allow processes to maintain state data and process history based on messages exchanged.-->
 	<variables>
-		<variable name="service0Receive" messageType="service0:HelloRequest" />
-		<variable name="service0Response" messageType="service0:HelloResponse" />
+		<variable name="firstReceive" messageType="first:PrintRequest" />
+		<variable name="firstResponse" messageType="first:PrintResponse" />
 	</variables>
 	<partnerLinks>
 		<partnerLink name="User" partnerLinkType="tns:UserSLT" />
-		<partnerLink name="helloService" partnerLinkType="tns:helloSLT" />
+		<partnerLink name="firstService" partnerLinkType="tns:helloSLT" />
 	</partnerLinks>
 	<sequence name="sequence">
+		<receive name="receiveRequest" partnerLink="User" portType="" operation="" variable="" createInstance="yes" />
+		<assign>
+			<copy>
+				<from expression="'1'" />
+				<to variable="addReceive" part="op1" />
+			</copy>
+		</assign>
+
 		<!-- create input message required by news service -->
-		<invoke name="invokeService0" partnerLink="service0" portType="Service0:Service0Service" operation="Hello" inputVariable="service0Receive" outputVariable="service0Response" />
+		<invoke name="invokeFirst" partnerLink="firstService" portType="First:bla" operation="PrintRequest" inputVariable="firstReceive" outputVariable="firstResponse" />
 		<!-- respond to the user -->
-		<reply name="sendResult" partnerLink="User" portType="tns:UserPT" operation="gauss" variable="service0Response" />
+		<reply name="sendResult" partnerLink="User" portType="tns:UserPT" operation="gauss" variable="firstResponse" />
 	</sequence>
 </process>	

@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
+
 public class WorkflowProcessLayout{
 
 	private String name;
@@ -16,14 +17,14 @@ public class WorkflowProcessLayout{
 	// stores the list variables define in the workflow. The data
 	// stored is encapsulated by the Variable class, defined below
 	// The key is the variable name
-	HashMap<String, Variable> variables;
+	HashMap <String, Variable> variables;
 
 	// It does the same of the variables, but stores PartnerLink 
 	// objects. The key is also the name
-	HashMap<String, PartnerLink> partnerLinks;
+	HashMap <String, PartnerLink> partnerLinks;
 
 	// It stores the following data <key<serviceName> , namespace>
-	HashMap<String, String> servicesNamespaces;
+	HashMap <String, String> servicesNamespaces;
 
 
 	public InvokeProperties getFirstService() {
@@ -77,14 +78,14 @@ public class WorkflowProcessLayout{
 		}
 		System.out.println("END ENDPOINTS");
 
-
+		System.out.println("Begin Services");
 		InvokeProperties auxIt = firstService;
 		while(auxIt != null){
 			auxIt.printClass();
 			String auxName = auxIt.getName();
 
-
-			//System.out.println("ENDPOINT = "+servicesEndPoint.get(auxName));
+			System.out.println("ServiceName = "+auxName);
+			//System.out.println("ENDPOINT = "+ auxIt.servicesEndPoint.get(auxName));
 			//if(auxIt != finalService){
 			auxIt = auxIt.nextService;
 
@@ -92,6 +93,7 @@ public class WorkflowProcessLayout{
 			//	break;
 			//}
 		}
+		System.out.println("End Services");
 	}
 
 	WorkflowProcessLayout(){
