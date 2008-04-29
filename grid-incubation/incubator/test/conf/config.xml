@@ -114,8 +114,7 @@
 
     
     <continuous.project name="caGrid-Incubation-continuous" buildafterfailed="false"/>
-	<nightly.project name="caGrid-Incubation-nightly" buildafterfailed="false"/>
-	
+	<nightly.system.test.project name="caGrid-Incubation-SystemTest-nightly" buildafterfailed="false"/>
 	<continuous.system.test.project name="caGrid-Incubation-SystemTest-continuous" buildafterfailed="false"/>
 	
     <!--
