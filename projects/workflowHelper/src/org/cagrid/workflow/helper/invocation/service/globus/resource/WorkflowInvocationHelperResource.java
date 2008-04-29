@@ -76,7 +76,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					
 					final boolean invocationIsSecure = (credential != null);
 
-					System.out.println("[RUNNABLE] Retrieved credential: "+ ((credential != null)? credential.getIdentity() : credential)); // DEBUG
+					//System.out.println("[RUNNABLE] Retrieved credential: "+ ((credential != null)? credential.getIdentity() : credential)); // DEBUG
 
 					InputParameterDescriptor[] input_desc = getInput_desc().getInputParam();
 					InputParameter[] input_value = getParamData();

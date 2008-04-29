@@ -250,13 +250,11 @@ public class ServiceInvocationUtil {
 			// Secure invocation when a credential is provided
 			if( hasCredential ){   
 
-				System.out.println("[generateRequest] Services has credential: "+proxy.getIdentity()); // DEBUG
-				
-				
+
 				EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
 				ServiceSecurityMetadata securityMetadata = ConversionUtil.createServiceSecurityMetadata(
 						workflowDescriptor.getWorkflowInvocationSecurityDescriptor(), workflowDescriptor.getOperationQName().getLocalPart());
-				StubConfigurationUtil config_service  = new StubConfigurationUtil(serviceOperationEPR, proxy);
+				SecurityConfigurationUtil config_service  = new SecurityConfigurationUtil(serviceOperationEPR, proxy);
 
 
 				
@@ -265,22 +263,15 @@ public class ServiceInvocationUtil {
 				config_service.setAuthorization(authorization); 
 				config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart(), securityMetadata);
 
-				/*org.apache.axis.client.Stub stub = config_service.getStub();
-				service = stub._getService(); // */
 				call = (Call) config_service.getCall();
 				
 			}
 			else {  // No credential provided, proceed to unsecure invocation 
 
-				System.out.println("[generateRequest] Services has NO credential"); // DEBUG
-				
 				service = new Service();
 				call = (Call) service.createCall();
 			}
 
-			System.out.println("[generateRequest] Call instance: "+ call); // DEBUG
-			
-			
 			
 			call.setTargetEndpointAddress( new java.net.URL(workflowDescriptor.getServiceURL()));
 			String tns = serviceNamespace; 
@@ -529,8 +520,8 @@ public class ServiceInvocationUtil {
 		
  		GlobusCredential credential = ProxyUtil.getDefaultProxy();
 
-		//DEBUG
-		System.out.println("Identity: "+ credential.getIdentity());
+
+		//System.out.println("Identity: "+ credential.getIdentity()); 	//DEBUG
 
 		//A DelegateCredentialReference is provided by the delegator to delegatee, it 
 		//represents the delegated credential that the delegatee should obtain.
@@ -548,8 +539,6 @@ public class ServiceInvocationUtil {
 		//The get credential method obtains a signed delegated credential from the CDS.
 		GlobusCredential delegatedCredential = client.getDelegatedCredential();
 
-		System.out.println("Delegated credential obtained"); //DEBUG
-		
 		return delegatedCredential;
 	}
 

@@ -12,18 +12,15 @@ import java.util.Map;
 import javax.xml.rpc.Call;
 import javax.xml.rpc.ServiceException;
 
-import org.apache.axis.AxisFault;
 import org.apache.axis.client.Service;
-import org.apache.axis.client.Stub;
 import org.apache.axis.message.addressing.EndpointReferenceType;
-import org.cagrid.workflow.helper.instance.stubs.SecureServiceStub;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
 import org.globus.wsrf.impl.security.authorization.NoAuthorization;
 
-public class StubConfigurationUtil {
+public class SecurityConfigurationUtil {
 
-	//private Stub stub = null;;
+
 	private EndpointReferenceType epr;
 	private GlobusCredential proxy;
 
@@ -34,17 +31,14 @@ public class StubConfigurationUtil {
 	private String delegationMode;
 	private Call call;
 	
+	
+	private static boolean debug = false;
 
 
-	public StubConfigurationUtil(EndpointReferenceType epr, GlobusCredential proxy){
+	public SecurityConfigurationUtil(EndpointReferenceType epr, GlobusCredential proxy){
 
 		this.epr = epr;
 		this.proxy = proxy;
-		/*try {
-			this.stub = new SecureServiceStub(new Service());
-		} catch (AxisFault e) {
-			e.printStackTrace();
-		} // */ 
 		this.operations = new HashMap<String, Operation>();
 		try {
 			this.call = new Service().createCall();
@@ -73,10 +67,8 @@ public class StubConfigurationUtil {
 	
 	
 
-	protected void configureStubSecurity(/*Stub stub,*/ String method, ServiceSecurityMetadata secMetadata) throws RemoteException {
+	protected void configureStubSecurity(String method, ServiceSecurityMetadata secMetadata) throws RemoteException {
 
-		System.out.println("BEGIN configureStubSecurity"); //DEBUG
-		
 		
 		this.initializeServiceSecurityMetadata(secMetadata);
 		
@@ -84,7 +76,6 @@ public class StubConfigurationUtil {
 
 			boolean https = false;
 			if (epr.getAddress().getScheme().equals("https")) {
-				System.out.println("[configureStubSecurity] HTTPS set");  //DEBUG
 				https = true;
 			}
 
@@ -104,14 +95,12 @@ public class StubConfigurationUtil {
 
 				throw new RemoteException("Couldn't configure stub security because the service's security metadata wasn't set");
 			}
-			//resetStub(stub);
+
 
 			CommunicationMechanism serviceDefault = securityMetadata.getDefaultCommunicationMechanism();
 
 			CommunicationMechanism mechanism = null;
 			if (operations.containsKey(method)) {
-				
-				System.out.println("Operation contains "+method);//DEBUG
 				
 				Operation o = (Operation) operations.get(method);
 				mechanism = o.getCommunicationMechanism();
@@ -123,33 +112,33 @@ public class StubConfigurationUtil {
 			boolean delegationAllowed = true;
 			boolean credentialsAllowed = true;
 
-			System.out.println("[configureStubSecurity] GSITransport? "+ (mechanism.getGSITransport() != null));
+			if(debug) System.out.println("[configureStubSecurity] GSITransport? "+ (mechanism.getGSITransport() != null));
 			if ((https) && (mechanism.getGSITransport() != null)) {
 				
-				System.out.println("GSITransport"); //DEBUG
+				if(debug) System.out.println("GSITransport"); //DEBUG
 				
 				ProtectionLevelType level = mechanism.getGSITransport().getProtectionLevel();
 				if (level != null) {
 					
-					System.out.println("Protection level is: "+level);
+					if(debug) System.out.println("Protection level is: "+level);
 					
 					if ((level.equals(ProtectionLevelType.privacy)) || (level.equals(ProtectionLevelType.either))) {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_TRANSPORT,
 								org.globus.wsrf.security.Constants.ENCRYPTION);
 						
-						System.out.println("Setting prop GSI_TRANSPORT with value ENCRYPTION");//DEBUG
+						if(debug) System.out.println("Setting prop GSI_TRANSPORT with value ENCRYPTION");//DEBUG
 						
 					} else {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_TRANSPORT,
 								org.globus.wsrf.security.Constants.SIGNATURE);
-						System.out.println("Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
+						if(debug) System.out.println("Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
 					}
 
 				} else {
 					call.setProperty(org.globus.wsrf.security.Constants.GSI_TRANSPORT,
 							org.globus.wsrf.security.Constants.SIGNATURE);
 					
-					System.out.println("Level is null. Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
+					if(debug) System.out.println("Level is null. Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
 				}
 				delegationAllowed = false;
 
@@ -158,7 +147,7 @@ public class StubConfigurationUtil {
 						org.globus.wsrf.security.Constants.SIGNATURE);
 				delegationAllowed = false;
 				
-				System.out.println("https set. Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
+				if(debug) System.out.println("https set. Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
 				
 			} else if (mechanism.getGSISecureConversation() != null) {
 				ProtectionLevelType level = mechanism.getGSISecureConversation().getProtectionLevel();
@@ -167,20 +156,20 @@ public class StubConfigurationUtil {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_CONV,
 								org.globus.wsrf.security.Constants.ENCRYPTION);
 						
-						System.out.println("Setting prop GSI_SEC_CONV with value ENCRYPTION");//DEBUG
+						if(debug) System.out.println("Setting prop GSI_SEC_CONV with value ENCRYPTION");//DEBUG
 
 					} else {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_CONV,
 								org.globus.wsrf.security.Constants.SIGNATURE);
 						
-						System.out.println("Setting prop GSI_SEC_CONV with value SIGNATURE");//DEBUG
+						if(debug) System.out.println("Setting prop GSI_SEC_CONV with value SIGNATURE");//DEBUG
 					}
 
 				} else {
 					call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_CONV,
 							org.globus.wsrf.security.Constants.ENCRYPTION);
 					
-					System.out.println("Setting prop GSI_SEC_CONV with value ENCRYPTION");//DEBUG
+					if(debug) System.out.println("Setting prop GSI_SEC_CONV with value ENCRYPTION");//DEBUG
 				}
 
 			} else if (mechanism.getGSISecureMessage() != null) {
@@ -190,26 +179,26 @@ public class StubConfigurationUtil {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_MSG,
 								org.globus.wsrf.security.Constants.ENCRYPTION);
 						
-						System.out.println("Setting prop GSI_SEC_MSG with value ENCRYPTION");//DEBUG
+						if(debug) System.out.println("Setting prop GSI_SEC_MSG with value ENCRYPTION");//DEBUG
 						
 					} else {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_MSG,
 								org.globus.wsrf.security.Constants.SIGNATURE);
 						
-						System.out.println("Setting prop GSI_SEC_MSG with value SIGNATURE");//DEBUG
+						if(debug) System.out.println("Setting prop GSI_SEC_MSG with value SIGNATURE");//DEBUG
 					}
 
 				} else {
 					call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_MSG,
 							org.globus.wsrf.security.Constants.ENCRYPTION);
 					
-					System.out.println("Setting prop GSI_SEC_MSG with value ENCRYPTION");//DEBUG
+					if(debug) System.out.println("Setting prop GSI_SEC_MSG with value ENCRYPTION");//DEBUG
 				}
 				delegationAllowed = false;
 				anonymousAllowed = false;
 			} else {
 				
-				System.out.println("NOTHING really set.."); // DEBUG
+				if(debug) System.out.println("NOTHING really set.."); // DEBUG
 				
 				anonymousAllowed = false;
 				authorizationAllowed = false;
@@ -220,7 +209,7 @@ public class StubConfigurationUtil {
 			if ((anonymousAllowed) && (mechanism.isAnonymousPermitted())) {
 				call.setProperty(org.globus.wsrf.security.Constants.GSI_ANONYMOUS, Boolean.TRUE);
 				
-				System.out.println("Setting prop GSI_ANONYMOUS with value TRUE");//DEBUG
+				if(debug) System.out.println("Setting prop GSI_ANONYMOUS with value TRUE");//DEBUG
 				
 			} else if ((credentialsAllowed) && (proxy != null)) {
 				try {
@@ -228,7 +217,7 @@ public class StubConfigurationUtil {
 							org.ietf.jgss.GSSCredential.INITIATE_AND_ACCEPT);
 					call.setProperty(org.globus.axis.gsi.GSIConstants.GSI_CREDENTIALS, gss);
 					
-					System.out.println("Setting prop GSI_CREDENTIALS using identity "+ proxy.getIdentity());//DEBUG
+					if(debug) System.out.println("Setting prop GSI_CREDENTIALS using identity "+ proxy.getIdentity());//DEBUG
 					
 				} catch (org.ietf.jgss.GSSException ex) {
 					throw new RemoteException(ex.getMessage());
@@ -239,57 +228,24 @@ public class StubConfigurationUtil {
 				if (authorization == null) {
 					call.setProperty(org.globus.wsrf.security.Constants.AUTHORIZATION, NoAuthorization.getInstance());
 					
-					System.out.println("Setting prop AUTHORIZATION with value NO_AUTHORIZATION");//DEBUG
+					if(debug) System.out.println("Setting prop AUTHORIZATION with value NO_AUTHORIZATION");//DEBUG
 					
 				} else {
 					call.setProperty(org.globus.wsrf.security.Constants.AUTHORIZATION, getAuthorization());
 					
-					System.out.println("Setting prop AUTHORIZATION with value "+getAuthorization());//DEBUG
+					if(debug) System.out.println("Setting prop AUTHORIZATION with value "+getAuthorization());//DEBUG
 				}
 			}
 			if (delegationAllowed) {
 				if (getDelegationMode() != null) {
 					call.setProperty(org.globus.axis.gsi.GSIConstants.GSI_MODE, getDelegationMode());
 					
-					System.out.println("Setting prop GSI_MODE with value "+getDelegationMode());//DEBUG
+					if(debug) System.out.println("Setting prop GSI_MODE with value "+getDelegationMode());//DEBUG
 				}
 			}
 		}
 		
-		System.out.println("END configureStubSecurity"); //DEBUG
 	}
-
-
-	// This method shouldn't be necessary. This operation is up to the WorkflowManager
-	/*public ServiceSecurityMetadata getServiceSecurityMetadata() {
-
-
-		ServiceSecurityMetadata metadata = null;
-		try {
-			ServiceSecurityClient ssc = new ServiceSecurityClient(this.epr, this.proxy);
-			metadata = ssc.getServiceSecurityMetadata();
-		} catch (MalformedURIException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
-		return metadata;
-	} // */
-
-
-
-	private void resetStub(Stub stub) {
-		stub.removeProperty(org.globus.wsrf.security.Constants.GSI_TRANSPORT);
-		stub.removeProperty(org.globus.wsrf.security.Constants.GSI_ANONYMOUS);
-		stub.removeProperty(org.globus.wsrf.security.Constants.AUTHORIZATION);
-		stub.removeProperty(org.globus.axis.gsi.GSIConstants.GSI_CREDENTIALS);
-		stub.removeProperty(org.globus.wsrf.security.Constants.GSI_SEC_CONV);
-		stub.removeProperty(org.globus.wsrf.security.Constants.GSI_SEC_MSG);
-		stub.removeProperty(org.globus.axis.gsi.GSIConstants.GSI_MODE);
-
-	}
-
 
 
 	public Authorization getAuthorization() {
@@ -313,13 +269,6 @@ public class StubConfigurationUtil {
 	public void setDelegationMode(String delegationMode) {
 		this.delegationMode = delegationMode;
 	}
-
-
-
-	/*public Stub getStub() {
-
-		return stub;
-	} // */
 
 
 	public Call getCall() {

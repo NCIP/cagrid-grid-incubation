@@ -105,8 +105,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
   public void setIsInvocationHelperSecure(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,boolean isSecure) throws RemoteException {
 		try {
 
-			System.out.println("Invocation is secure? "+isSecure); //DEBUG
-			
+			//System.out.println("Invocation is secure? "+isSecure); //DEBUG
 			
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
 			resource.setIsInvocationHelperSecure(new EndpointReference(serviceOperationEPR), isSecure);
