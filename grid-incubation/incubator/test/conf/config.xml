@@ -114,26 +114,7 @@
 
     
     <continuous.project name="caGrid-Incubation-continuous" buildafterfailed="false"/>
-	<nightly.project name="caGrid-Incubation-SystemTest-nightly" buildafterfailed="false"/>
-	<system.project name="caGrid-Incubation-SystemTest-continuous" buildafterfailed="false"/>
+	<nightly.project name="caGrid-Incubation-nightly" buildafterfailed="false"/>
+	<system.project name="caGrid-Incubation-system" buildafterfailed="false"/>
 	
-    <!--
-	<nightly.project name="caGrid-1.0-nightly" buildafterfailed="false"/>
-    <nightly.project name="caGrid-1.0-release-nightly" buildafterfailed="false"/>
-    <nightly.project name="caGrid-1.1-release-nightly" buildafterfailed="false"/>
-    <nightly.project name="caGrid-1.2-release-nightly" buildafterfailed="false"/>
-    <system.project name="caGrid-1.0-system" buildafterfailed="false"/>
-    <system.project name="caGrid-1.1-release-system" buildafterfailed="false">
-        <modificationset>
-            <cvs tag="caGrid-1_1_release"/>
-        </modificationset>
-    </system.project>
-    <system.project name="caGrid-1.2-release-system" buildafterfailed="false">
-        <modificationset>
-            <cvs tag="caGrid-1_2_release"/>
-        </modificationset>
-    </system.project>
-	-->
-    
-
 </cruisecontrol>
