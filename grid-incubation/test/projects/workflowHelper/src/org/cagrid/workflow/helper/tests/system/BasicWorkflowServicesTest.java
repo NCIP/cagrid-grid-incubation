@@ -33,9 +33,9 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
 
     public BasicWorkflowServicesTest(ServiceContainer container) {
         super(container);
-         PropertyConfigurator.configure("." + File.separator + "conf" +
+         /*PropertyConfigurator.configure("." + File.separator + "conf" +
          File.separator
-         + "log4j.properties");
+         + "log4j.properties"); // */
     }
     
     public BasicWorkflowServicesTest() {
@@ -48,9 +48,9 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
             e.printStackTrace();
             Assert.fail();
         }
-         PropertyConfigurator.configure("." + File.separator + "conf" +
+         /*PropertyConfigurator.configure("." + File.separator + "conf" +
          File.separator
-         + "log4j.properties");
+         + "log4j.properties"); // */
     }
 
 
@@ -81,7 +81,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
                 new File(tests_basedir + "Service5"), // TODO REMOVE ME NOW!!*/ 
                 new File(tests_basedir + "ReceiveArrayService"),
                 new File(tests_basedir + "CreateArrayService"),
-                new File(tests_basedir + "ValidateOutputsService"),
+                //new File(tests_basedir + "ValidateOutputsService"),
                 new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
                     + File.separator + "projects" + File.separator + "workflowHelper")};
 
