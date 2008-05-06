@@ -26,6 +26,8 @@ import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.ResourceException;
 import org.w3c.dom.Node;
 
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
+
 
 /** 
  * The implementation of this WorkflowInvocationHelperResource type.
@@ -53,6 +55,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			}
 		}
 
+		try {
+			setStatus(Status.RUNNING);
+			System.out.println("Set status to RUNNING"); // DEBUG
+		} catch (ResourceException e2) {
+			e2.printStackTrace();
+		}
 
 		final Thread th = new Thread(new Runnable() {
 
@@ -149,6 +157,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
+					try {
+						setStatus(Status.ERROR);
+						System.out.println("Set status to ERROR"); // DEBUG
+					} catch (ResourceException e) {
+						e.printStackTrace();
+					}
 				}
 
 
@@ -263,15 +277,32 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								}
 
 							} catch (MalformedURIException e) {
+								try {
+									setStatus(Status.ERROR);
+									System.out.println("Set status to ERROR"); // DEBUG
+								} catch (ResourceException e1) {
+									e1.printStackTrace();
+								}
 								e.printStackTrace();
 							} catch (RemoteException e) {
+								try {
+									setStatus(Status.ERROR);
+									System.out.println("Set status to ERROR"); // DEBUG
+								} catch (ResourceException e1) {
+									e1.printStackTrace();
+								}
 								e.printStackTrace();
 							}
 						}
 					}
 
 				}
-				// getWorkflowHelperInstanceStatusValue().setStatus(Status.FINISHED);
+				try {
+					setStatus(Status.FINISHED);
+					System.out.println("Set status to FINISHED ("+ getOperationDesc().getServiceURL() +")"); // DEBUG
+				} catch (ResourceException e) {
+					e.printStackTrace();
+				}
 
 				//DEBUG
 				//System.out.println("-- Thread finished");

@@ -152,16 +152,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// create ReceiveArrayService
 		WorkflowInvocationHelperClient client2 = wf_instance1.createWorkflowInvocationHelper(operation2);
 		
-		/*System.out.println("------------------------------");
-		System.out.println(client2.getEndpointReference().toString());
-		System.out.println(client2.getEndpointReference().getAddress());
-		System.out.println(client2.getEndpointReference().getPortType());
-		System.out.println(client2.getEndpointReference().getServiceName());
-		System.out.println("------------------------------"); // */
-		
-		//this.stageIsFinished.put(client2.getEndpointReference().toString(), Boolean.FALSE); // Register to be monitored for status changes
-		//System.out.println("Put "+ operation2.getOperationQName().getLocalPart() +" in hash: "+ client2.getEndpointReference().toString()); //DEBUG
-		
 		
 		System.out.println("Configuring invocation helper"); //DEBUG
 
@@ -188,7 +178,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		
 		
 		// Subscribe for status notifications
-		try{
+		/*try{
 			this.stageIsFinished.put(client2.getEndpointReference().toString(), Boolean.FALSE); // Register to be monitored for status changes
 			System.out.println("Put "+ operation2.getOperationQName().getLocalPart() +" in hash: "+ client2.getEndpointReference().toString()); //DEBUG
 
@@ -201,6 +191,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			t.printStackTrace();
 			return;
 		} // */
+		System.out.println("Subscribing "+ operation2.getOperationQName().getLocalPart() +" to be monitored. Key = "
+				+ client2.getEndpointReference().toString()); //DEBUG
+		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), client2);
 		
 		
 		System.out.println("Setting params"); //DEBUG
@@ -225,7 +218,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		WorkflowInvocationHelperClient client_ca = wf_instance1.createWorkflowInvocationHelper(operation_ca);
 		
 		// Monitor status changes
-		try{
+		/*try{
 			this.stageIsFinished.put(client_ca.getEndpointReference().toString(), Boolean.FALSE); // Register to be monitored for status changes
 			System.out.println("Put "+ operation_ca.getOperationQName().getLocalPart() +" in hash: "+ client_ca.getEndpointReference().toString()); //DEBUG
 
@@ -238,6 +231,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			t.printStackTrace();
 			return;
 		} // */
+		System.out.println("Subscribing "+ operation_ca.getOperationQName().getLocalPart() +" to be monitored. Key = "
+				+ client_ca.getEndpointReference().toString()); //DEBUG
+		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), client_ca);
 
 
 		// Creating Descriptor of the InputMessage
@@ -942,6 +938,22 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			}
 			
 		}
+	}
+	
+	
+	private void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe){
+		
+		
+		try{
+
+			this.stageIsFinished.put(toSubscribe.getEndpointReference().toString(), Boolean.FALSE); // Register to be monitored for status changes
+			toSubscribe.subscribe(notificationType, this);
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+		} 
+		
+		return;
 	}
 	
 	private static void printMap( Map<String, Boolean> map ){
