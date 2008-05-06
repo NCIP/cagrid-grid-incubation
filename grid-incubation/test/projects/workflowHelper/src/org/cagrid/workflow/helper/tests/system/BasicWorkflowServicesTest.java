@@ -1,5 +1,6 @@
 package org.cagrid.workflow.helper.tests.system;
 
+import gov.nih.nci.cagrid.testing.system.deployment.ContainerException;
 import gov.nih.nci.cagrid.testing.system.deployment.ServiceContainer;
 import gov.nih.nci.cagrid.testing.system.deployment.ServiceContainerFactory;
 import gov.nih.nci.cagrid.testing.system.deployment.ServiceContainerType;
@@ -130,21 +131,16 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
 
 
     public void storyTearDown() {
-        /*if (getContainer() != null) {
+        if (getContainer() != null) {
             try {
             	
-            	Thread.sleep(30000); // Sleep for a while so the services have enough time to run. FIXME It shouldn't be necessary when the InvocationHelpers invoke the Manager.setParameter method 
-        
             	System.out.println("Stopping container after executing tests");
                 getContainer().stopContainer();
                 getContainer().deleteContainer();
             } catch (ContainerException e) {
                 e.printStackTrace();
                 Assert.fail();
-            } catch (InterruptedException e) {
-				e.printStackTrace();
-				Assert.fail();
-			}
+            } 
         } else
             System.err.println("getContainer returned null. Have the container been set?");
         // */
