@@ -16,12 +16,13 @@ public class ReceiveArrayServiceImpl extends ReceiveArrayServiceImplBase {
 	private static File logfile;
 	private static PrintStream logstream;
 	static {
-		logfile = new File("ReceiveArrayService.log");
+		logstream = System.out;
+		/*logfile = new File("ReceiveArrayService.log");
 		try {
 			logstream = new PrintStream(logfile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		} // */
 	}
 
 	public ReceiveArrayServiceImpl() throws RemoteException {

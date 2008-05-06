@@ -2,10 +2,22 @@ package org.cagrid.workflow.helper.tests.system.steps;
 
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.Assert;
 
+import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.cagrid.workflow.helper.client.WorkflowHelperClient;
@@ -14,20 +26,31 @@ import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
 import org.globus.gsi.GlobusCredential;
+import org.globus.wsrf.NotifyCallback;
 
-public class CreateTestWorkflowsStep extends Step {
-
+public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
+	
 	
 	private EndpointReferenceType helper_epr = null;
+	private String containerBaseURL = null;
+	
+	// Synchronizes the access to variable 'isFinished' 
+	private Lock isFinishedKey = new ReentrantLock();
+	private Condition isFinishedCondition = isFinishedKey.newCondition();
+	private Map<String, Boolean> stageIsFinished = new HashMap<String, Boolean>() ;
+	
+	private boolean isFinished = false;
 	
 	
-	public CreateTestWorkflowsStep(EndpointReferenceType helper_epr) {
+	public CreateTestWorkflowsStep(EndpointReferenceType helper_epr, String containerBaseURL) {
 		super();
 		this.helper_epr = helper_epr;
+		this.containerBaseURL  = containerBaseURL;
 	}
 
 
@@ -51,12 +74,63 @@ public class CreateTestWorkflowsStep extends Step {
 		final EndpointReference manager_epr = null; 
 
 		
+		
+		
+		
+		/*** BEGIN Service that will gather all the output and match against the expected ones ***/
+		/*WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
+		validatorInstanceDesc.setWorkflowID("Validator");
+		validatorInstanceDesc.setWorkflowManagerEPR(manager_epr);
+		
+		
+		WorkflowInstanceHelperClient validatorInstance = wf_helper.createWorkflowInstanceHelper(validatorInstanceDesc);
+		
+		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
+		validatorInvocationDesc.setOperationQName(new QName("http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService", "ValidateTestOutputRequest"));
+		validatorInvocationDesc.setServiceURL(containerBaseURL + "/wsrf/services/cagrid/ValidateOutputsService");
+
+		
+		WorkflowInvocationHelperClient validatorInvocation = validatorInstance.createWorkflowInvocationHelper(validatorInvocationDesc);
+		
+		
+		// Configure inputs
+		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
+		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[3];
+		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"));
+		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
+		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"));
+		
+		validatorInputDesc.setInputParam(inputParam);
+		validatorInvocation.configureInput(validatorInputDesc);
+		
+		
+		
+	
+		// Configure outputs: it has none
+		OperationOutputTransportDescriptor validatorOutput = new OperationOutputTransportDescriptor();
+		OperationOutputParameterTransportDescriptor[] paramDescriptor = new OperationOutputParameterTransportDescriptor[0];
+		validatorOutput.setParamDescriptor(paramDescriptor );
+		validatorInvocation.configureOutput(validatorOutput);
+		
+		
+		// Subscribe for status notifications
+		try{
+			validatorInvocation.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), this);
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+			Assert.fail(t.getMessage());
+		} // */
+		/* END Workflow outputs validator service  */
+		
+		
+		
 
 		/*** Testing arrays as services' input ***/
 		System.out.println("BEGIN Testing arrays");
 		
 		/** complex type arrays **/
-		System.out.print("Complex arrays as input...");
+		System.out.println("Complex arrays as input...");
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor1 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 		workflowDescriptor1.setWorkflowID("WorkFlow1");
@@ -68,7 +142,7 @@ public class CreateTestWorkflowsStep extends Step {
 		// BEGIN ReceiveArrayService::ReceiveComplexArray	
 
 		
-		String access_url = "http://localhost:8080/wsrf/services/cagrid/ReceiveArrayService";
+		String access_url = containerBaseURL+"/wsrf/services/cagrid/ReceiveArrayService";
 		WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
 		operation2.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "ReceiveComplexArrayRequest"));
 		operation2.setServiceURL(access_url);
@@ -77,6 +151,19 @@ public class CreateTestWorkflowsStep extends Step {
 		
 		// create ReceiveArrayService
 		WorkflowInvocationHelperClient client2 = wf_instance1.createWorkflowInvocationHelper(operation2);
+		
+		/*System.out.println("------------------------------");
+		System.out.println(client2.getEndpointReference().toString());
+		System.out.println(client2.getEndpointReference().getAddress());
+		System.out.println(client2.getEndpointReference().getPortType());
+		System.out.println(client2.getEndpointReference().getServiceName());
+		System.out.println("------------------------------"); // */
+		
+		//this.stageIsFinished.put(client2.getEndpointReference().toString(), Boolean.FALSE); // Register to be monitored for status changes
+		//System.out.println("Put "+ operation2.getOperationQName().getLocalPart() +" in hash: "+ client2.getEndpointReference().toString()); //DEBUG
+		
+		
+		System.out.println("Configuring invocation helper"); //DEBUG
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
@@ -98,17 +185,36 @@ public class CreateTestWorkflowsStep extends Step {
 
 		// Set user proxy
 		client2.setProxy(proxy);
+		
+		
+		// Subscribe for status notifications
+		try{
+			this.stageIsFinished.put(client2.getEndpointReference().toString(), Boolean.FALSE); // Register to be monitored for status changes
+			System.out.println("Put "+ operation2.getOperationQName().getLocalPart() +" in hash: "+ client2.getEndpointReference().toString()); //DEBUG
 
+			System.out.println("Subscribing to "+ Status.getTypeDesc().getXmlType() +" notifications"); //DEBUG			
+			client2.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), this);
+
+			System.out.println("Subscription OK"); //DEBUG
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+			return;
+		} // */
+		
+		
+		System.out.println("Setting params"); //DEBUG
+		
 		// Set the values of its simple-type arguments
 		client2.setParameter(new InputParameter("999", 0)); // number
 		client2.setParameter(new InputParameter("true",2));  // booleanValue
 		// END ReceiveArrayService::ReceiveComplexArray
 
-		Assert.fail("You need to check the output and be sure that workflow actually worked.  When i run this i see alot of error on the server side.");
+		
 		
 		// BEGIN CreateArrayService::getComplexArray				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-		access_url = "http://localhost:8080/wsrf/services/cagrid/CreateArrayService";
+		access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation_ca.setWorkflowID("GeorgeliusWorkFlow");
 		operation_ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
 		operation_ca.setServiceURL(access_url);
@@ -118,6 +224,20 @@ public class CreateTestWorkflowsStep extends Step {
 		// create ReceiveArrayService		
 		WorkflowInvocationHelperClient client_ca = wf_instance1.createWorkflowInvocationHelper(operation_ca);
 		
+		// Monitor status changes
+		try{
+			this.stageIsFinished.put(client_ca.getEndpointReference().toString(), Boolean.FALSE); // Register to be monitored for status changes
+			System.out.println("Put "+ operation_ca.getOperationQName().getLocalPart() +" in hash: "+ client_ca.getEndpointReference().toString()); //DEBUG
+
+			System.out.println("Subscribing to "+ Status.getTypeDesc().getXmlType() +" notifications"); //DEBUG			
+			client_ca.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), this);
+
+			System.out.println("Subscription OK"); //DEBUG
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+			return;
+		} // */
 
 
 		// Creating Descriptor of the InputMessage
@@ -129,17 +249,27 @@ public class CreateTestWorkflowsStep extends Step {
 
 		// Creating the outputDescriptor of the only service that will receive the output (ReceiveArrayService)
 		OperationOutputTransportDescriptor outputDescriptor_ca = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor outParameterDescriptor_ca [] = new OperationOutputParameterTransportDescriptor[1];
+		OperationOutputParameterTransportDescriptor outParameterDescriptor_ca [] = new OperationOutputParameterTransportDescriptor[1];// [2];
 
 		// First destination: ReceiveArrayService::ReceiveComplexArray
 		outParameterDescriptor_ca[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_ca[0].setParamIndex(1);
-		outParameterDescriptor_ca[0].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
+		outParameterDescriptor_ca[0].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
 		outParameterDescriptor_ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_ca[0].setLocationQuery("/ns0:GetComplexArrayResponse");
 		outParameterDescriptor_ca[0].setDestinationEPR(new EndpointReferenceType[]{ client2.getEndpointReference() });
 
+		
+		// Second destination: ValidateOutputsService::ValidateTestOutputs
+		/*outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor_ca[1].setParamIndex(1);
+		outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
+		outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
+				new QName(XSD_NAMESPACE,"xsd")});
+		outParameterDescriptor_ca[1].setLocationQuery("/ns0:GetComplexArrayResponse");
+		outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ validatorInvocation.getEndpointReference() });// */
+		
 		// Set user proxy
 		client_ca.setProxy(proxy);
 
@@ -147,14 +277,22 @@ public class CreateTestWorkflowsStep extends Step {
 		outputDescriptor_ca.setParamDescriptor(outParameterDescriptor_ca);
 		client_ca.configureOutput(outputDescriptor_ca);
 
-		// END CreateArrayService::getComplexArray // */
-		System.out.println("OK");
+		// Subscribe to receive status change notifications
+		//client_ca.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), this);
+		
+		
+		// END CreateArrayService::getComplexArray 
+		System.out.println("OK"); // */
+		
+		this.waitUntilCompletion();
+		
 
+		//Assert.fail("You need to check the output and be sure that workflow actually worked.  When i run this i see alot of error on the server side.");
 		
 		
 		
 		/** simple type arrays **/
-		System.out.print("Simple arrays as input...");
+		/*System.out.print("Simple arrays as input...");
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 		workflowDescriptor2.setWorkflowID("WorkFlow2");
@@ -168,7 +306,7 @@ public class CreateTestWorkflowsStep extends Step {
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ram = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		operation_ram.setWorkflowID("GeorgeliusWorkFlow");
 		operation_ram.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "ReceiveArrayAndMoreRequest"));
-		operation_ram.setServiceURL("http://localhost:8080/wsrf/services/cagrid/ReceiveArrayService");
+		operation_ram.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/ReceiveArrayService");
 		//operation_ram.setOutputType(); // Service has no output
 
 
@@ -206,7 +344,7 @@ public class CreateTestWorkflowsStep extends Step {
 		
 		// BEGIN CreateArrayService				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-		access_url = "http://localhost:8080/wsrf/services/cagrid/CreateArrayService";
+		access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation_cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation_cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetArrayRequest"));
 		operation_cas.setServiceURL(access_url);
@@ -244,17 +382,17 @@ public class CreateTestWorkflowsStep extends Step {
 		outputDescriptor_cas.setParamDescriptor(outParameterDescriptor_cas);
 		serviceClient_cas.configureOutput(outputDescriptor_cas);
 
-		// END CreateArrayService // */
+		// END CreateArrayService 
 		System.out.println("OK");
-		System.out.println("END Testing arrays");
-		/** END test arrays **/
+		System.out.println("END Testing arrays"); // */
+		/** END test arrays **/ 
 
 		
 		
 		
 		
 		/** FAN IN AND FAN OUT TEST **/
-		System.out.println("BEGIN Testing fan in and fan out");
+		/*System.out.println("BEGIN Testing fan in and fan out");
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 		workflowDescriptor3.setWorkflowID("WorkFlow2");
@@ -266,7 +404,7 @@ public class CreateTestWorkflowsStep extends Step {
 		// BEGIN service 4				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
-		java.lang.String acess_url = "http://localhost:8080/wsrf/services/cagrid/Service4";
+		java.lang.String acess_url = containerBaseURL+"/wsrf/services/cagrid/Service4";
 		operation4.setWorkflowID("GeorgeliusWorkFlow");
 		operation4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
 		operation4.setServiceURL(acess_url);
@@ -304,7 +442,7 @@ public class CreateTestWorkflowsStep extends Step {
 		
 		// BEGIN service 2				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_2 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-		acess_url = "http://localhost:8080/wsrf/services/cagrid/Service2";
+		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service2";
 		operation_2.setWorkflowID("GeorgeliusWorkFlow");
 		operation_2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "CapitalizeRequest"));
 		operation_2.setServiceURL(acess_url);
@@ -347,7 +485,7 @@ public class CreateTestWorkflowsStep extends Step {
 		
 		// BEGIN service 3
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation3 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-		acess_url = "http://localhost:8080/wsrf/services/cagrid/Service3";
+		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service3";
 
 		// This is the greek version of my name...
 		operation3.setWorkflowID("GeorgeliusWorkFlow");
@@ -392,7 +530,7 @@ public class CreateTestWorkflowsStep extends Step {
 		// BEGIN service 5				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation5 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
-		acess_url = "http://localhost:8080/wsrf/services/cagrid/Service5";
+		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service5";
 		operation5.setWorkflowID("GeorgeliusWorkFlow");
 		operation5.setOperationQName(new QName("http://service5.introduce.cagrid.org/Service5" , "CheckStringAndItsLengthRequest"));
 		operation5.setServiceURL(acess_url);
@@ -436,7 +574,7 @@ public class CreateTestWorkflowsStep extends Step {
 		
 		// BEGIN service 1				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation1 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-		acess_url = "http://localhost:8080/wsrf/services/cagrid/Service1";
+		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service1";
 		operation1.setWorkflowID("GeorgeliusWorkFlow");
 		operation1.setOperationQName(new QName("GenerateDataRequest"));
 		operation1.setServiceURL(acess_url);
@@ -499,8 +637,8 @@ public class CreateTestWorkflowsStep extends Step {
 		System.out.println("Setting input for service 1: '"+workflow_input+"'");
 		InputParameter inputService1 = new InputParameter(workflow_input, 0);
 		serviceClient1.setParameter(inputService1);
-		// END service 1 // */
-		System.out.println("END Testing fan in and fan out");
+		// END service 1 
+		System.out.println("END Testing fan in and fan out"); // */
 		/** END FAN IN AND FAN OUT TEST **/
 
 		
@@ -508,9 +646,9 @@ public class CreateTestWorkflowsStep extends Step {
 		
 		
 		/** BEGIN streaming test **/
-		System.out.println("BEGIN Testing streaming");
+		/* System.out.println("BEGIN Testing streaming");
 
-		/* Streaming simple types */
+		// Streaming simple types 
 		System.out.print("Streaming of simple-type arrays...");
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
@@ -524,7 +662,7 @@ public class CreateTestWorkflowsStep extends Step {
 		// BEGIN service 4
 		WorkflowInvocationHelperDescriptor operation_4 = new WorkflowInvocationHelperDescriptor();
 		operation_4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
-		operation_4.setServiceURL("http://localhost:8080/wsrf/services/cagrid/Service4");
+		operation_4.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/Service4");
 		// operation_4.setOutputType(); // Void output expected
 		
 		
@@ -564,7 +702,7 @@ public class CreateTestWorkflowsStep extends Step {
 		// create service 2
 		WorkflowInvocationHelperDescriptor operation__2 = new WorkflowInvocationHelperDescriptor();
 		operation__2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "CapitalizeRequest"));
-		operation__2.setServiceURL("http://localhost:8080/wsrf/services/cagrid/Service2");
+		operation__2.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/Service2");
 		operation__2.setOutputType(new QName(XSD_NAMESPACE, "string"));
 		WorkflowInvocationHelperClient serviceClient_2 = wf_instance5.createWorkflowInvocationHelper(operation__2);
 		 
@@ -608,7 +746,7 @@ public class CreateTestWorkflowsStep extends Step {
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		operation__cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation__cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetArrayRequest"));
-		operation__cas.setServiceURL("http://localhost:8080/wsrf/services/cagrid/CreateArrayService");
+		operation__cas.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/CreateArrayService");
 		operation__cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
 		WorkflowInvocationHelperClient serviceClient_cs = wf_instance5.createWorkflowInvocationHelper(operation__cas);
 		 
@@ -640,13 +778,13 @@ public class CreateTestWorkflowsStep extends Step {
 		serviceClient_cs.configureOutput(outputDescriptor_cs);
 		
 		
-		// END CreateArrayService // */
-		System.out.print("OK");
+		// END CreateArrayService
+		System.out.print("OK");  // */
 
 		
 
 		/* Streaming complex types */
-		System.out.print("Streaming of complex-type arrays...");
+		/*System.out.print("Streaming of complex-type arrays...");
 		// BEGIN service 4				
 		// Creating client of service 4
 		WorkflowInvocationHelperClient serviceClient__4 = wf_instance5.createWorkflowInvocationHelper(operation4);
@@ -669,7 +807,7 @@ public class CreateTestWorkflowsStep extends Step {
 
 		// BEGIN CreateArrayService::getComplexArray				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-		access_url = "http://localhost:8080/wsrf/services/cagrid/CreateArrayService";
+		access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
 		operation__ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
 		operation__ca.setServiceURL(access_url);
@@ -708,14 +846,119 @@ public class CreateTestWorkflowsStep extends Step {
 		outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
 		serviceClient__ca.configureOutput(outputDescriptor__ca);
 
-		// END CreateArrayService::getComplexArray // */
+		// END CreateArrayService::getComplexArray 
 		System.out.println("OK");
 
-		System.out.println("END Testing streaming");
+		System.out.println("END Testing streaming"); // */
 		/** END streaming test **/
 
-		
+		System.out.println("END ALL TESTS");
+		return;
+	}
 
+
+	private void waitUntilCompletion() {
+		
+		System.out.println("Waiting for workflow notification of FINISH status");//DEBUG
+		
+		this.isFinishedKey.lock();
+		try {
+			
+			
+			if( !this.isFinished ){
+				
+				try {
+					this.isFinishedCondition.await();
+				} catch(Throwable t){
+					System.err.println("Error while waiting");
+					t.printStackTrace();
+				}
+			}
+			
+		}
+		finally {
+			this.isFinishedKey.unlock();
+		}
+		
+	}
+
+
+	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
+		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)
+		.getResourcePropertyValueChangeNotification();
+
+		MessageElement actual_property = changeMessage.getNewValue().get_any()[0];
+		QName message_qname = actual_property.getQName();
+		boolean isStatusChange = message_qname.equals(Status.getTypeDesc().getXmlType());
+		String stageKey = arg1.toString();
+		
+		
+		//DEBUG
+		PrintStream log = null;
+		/*try {
+			log = new PrintStream(new File("C:\\createTest_Deliver.txt"));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} // */
+		log = System.out;
+		log.println("[CreateTestWorkflowsStep] Received message of type "+ message_qname +" from "+ stageKey);
+		
+		
+		// Handle status change notifications
+		if(isStatusChange){
+			Status status = null;;
+			try {
+				status = (Status) actual_property.getValueAsType(message_qname, Status.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			log.println("[deliver] Received new status value: "+ status.toString()); //DEBUG
+			
+			if(status.equals(Status.ERROR)){ // Dies when an error is reported
+				Assert.fail("Received ERROR notification from "+ stageKey);
+			}
+			else if(status.equals(Status.FINISHED)){
+				
+				this.isFinishedKey.lock();
+				try{
+				
+					if( this.stageIsFinished.containsKey(stageKey) ){
+						
+						this.stageIsFinished.remove(stageKey);
+						this.stageIsFinished.put(stageKey, Boolean.TRUE);
+						
+						printMap(this.stageIsFinished);//DEBUG
+						
+					}
+					else System.err.println("[CreateTestWorkflowsStep] Unrecognized stage notified status change: "+ stageKey);
+					this.isFinished  = (!this.stageIsFinished.containsValue(Boolean.FALSE));
+					if(this.isFinished) 
+						this.isFinishedCondition.signalAll();
+				}
+				finally {
+					this.isFinishedKey.unlock();
+				}
+			}
+			
+		}
+	}
+	
+	private static void printMap( Map<String, Boolean> map ){
+		
+		
+		System.out.println("BEGIN printMap");
+		Set<Entry<String, Boolean>> entries = map.entrySet();
+		Iterator<Entry<String, Boolean>> iter = entries.iterator();
+		while(iter.hasNext()){
+			
+			Entry<String, Boolean> curr = iter.next();
+			System.out.println("["+ curr.getKey() +", "+ curr.getValue() +"]");
+		}
+		System.out.println("END printMap");
+		
+		
+		return;
 	}
 
 }
