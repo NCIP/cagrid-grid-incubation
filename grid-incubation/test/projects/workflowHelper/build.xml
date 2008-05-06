@@ -62,6 +62,7 @@
 			<fileset dir="${ext.globus.dir}/lib">
 				<include name="**/*.jar" />
 			</fileset>
+			<pathelement location="${ext.globus.dir}" />
 		</path>
 	</target>
 
@@ -121,6 +122,7 @@
 		<mkdir dir="${junit.results.dir}" />
 		<junit dir="${basedir}" printsummary="yes" showoutput="true">
 			<sysproperty key="testing.containers.dir" value="${basedir}/ext/dependencies/resources/containers" />
+			<sysproperty key="GLOBUS_LOCATION" value="${ext.globus.dir}" />
 			<sysproperty key="resources.dir" value="${basedir}/resources" />
 			<sysproperty key="basedir" value="${basedir}" />
 			<classpath refid="build.classpath" />
