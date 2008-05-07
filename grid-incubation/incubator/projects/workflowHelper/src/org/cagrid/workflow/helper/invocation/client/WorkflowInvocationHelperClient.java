@@ -174,11 +174,11 @@ public class WorkflowInvocationHelperClient extends
 	
 	public org.oasis.wsn.SubscribeResponse subscribe(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
 		
-		System.out.print("[subscribe] Putting "+ qname +" on internal list");
+		//System.out.print("[subscribe] Putting "+ qname +" on internal list"); //DEBUG
 		
 		callbacks.put(qname, callback);
 		
-		System.out.println("...OK");
+		//System.out.println("...OK"); // DEBUG
 		
 		return subscribe(qname);
 	}
@@ -192,24 +192,26 @@ public class WorkflowInvocationHelperClient extends
 		QName notification_qname = messageToDeliver.getQName();
 		String stageKey = producer.toString();
 		
-		//DEBUG
+		
 		PrintStream log = null;
-		try {
+		//DEBUG
+		/*try {
 			log = new PrintStream(new File("C:\\invocationDeliver.txt"));
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
-		}
-		log.println("[WorkflowInvocationHelper.deliver] Received message of type "+ notification_qname + " from "+ stageKey);  //DEBUG
+		} // */
+		log = System.out;
+		//log.println("[WorkflowInvocationHelper.deliver] Received message of type "+ notification_qname + " from "+ stageKey);  //DEBUG
 		
 		
 		if(callbacks.containsKey(notification_qname)){
 			
 			//DEBUG
-			log.println("[WorkflowInvocationHelperClient.deliver] Delivering "+ notification_qname);
+			//log.println("[WorkflowInvocationHelperClient.deliver] Delivering "+ notification_qname);
 			
 			(callbacks.get(notification_qname)).deliver(topicPath, producer, message);
 			
-			log.println("Delivered");
+			//log.println("Delivered");
 			
 		}
 		else {

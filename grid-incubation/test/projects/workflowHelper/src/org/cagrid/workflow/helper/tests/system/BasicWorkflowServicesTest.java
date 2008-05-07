@@ -21,7 +21,6 @@ import junit.textui.TestRunner;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.types.URI;
 import org.apache.axis.types.URI.MalformedURIException;
-import org.apache.log4j.PropertyConfigurator;
 import org.cagrid.workflow.helper.tests.system.steps.CreateTestWorkflowsStep;
 
 
@@ -74,11 +73,11 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
             return null;
         }
         File services_dirs[] = new File[]{
-              /*  new File(tests_basedir + "Service1"),
+              	new File(tests_basedir + "Service1"),
                 new File(tests_basedir + "Service2"),
                 new File(tests_basedir + "Service3"),
                 new File(tests_basedir + "Service4"),
-                new File(tests_basedir + "Service5"), // TODO REMOVE ME NOW!!*/ 
+                new File(tests_basedir + "Service5"),
                 new File(tests_basedir + "ReceiveArrayService"),
                 new File(tests_basedir + "CreateArrayService"),
                 //new File(tests_basedir + "ValidateOutputsService"),

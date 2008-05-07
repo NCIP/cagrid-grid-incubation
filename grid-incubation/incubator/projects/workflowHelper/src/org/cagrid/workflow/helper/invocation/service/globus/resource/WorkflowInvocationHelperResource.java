@@ -57,7 +57,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		try {
 			setStatus(Status.RUNNING);
-			System.out.println("Set status to RUNNING"); // DEBUG
+			//System.out.println("Set status to RUNNING"); // DEBUG
 		} catch (ResourceException e2) {
 			e2.printStackTrace();
 		}
@@ -159,7 +159,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					e1.printStackTrace();
 					try {
 						setStatus(Status.ERROR);
-						System.out.println("Set status to ERROR"); // DEBUG
+						//System.out.println("Set status to ERROR"); // DEBUG
 					} catch (ResourceException e) {
 						e.printStackTrace();
 					}
@@ -279,7 +279,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 							} catch (MalformedURIException e) {
 								try {
 									setStatus(Status.ERROR);
-									System.out.println("Set status to ERROR"); // DEBUG
+									//System.out.println("Set status to ERROR"); // DEBUG
 								} catch (ResourceException e1) {
 									e1.printStackTrace();
 								}
@@ -287,7 +287,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 							} catch (RemoteException e) {
 								try {
 									setStatus(Status.ERROR);
-									System.out.println("Set status to ERROR"); // DEBUG
+								//	System.out.println("Set status to ERROR"); // DEBUG
 								} catch (ResourceException e1) {
 									e1.printStackTrace();
 								}
