@@ -1,0 +1,11 @@
+http\://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService=org.cagrid.workflow.test.validateoutputsservice.stubs
+http\://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService/bindings=org.cagrid.workflow.test.validateoutputsservice.stubs.bindings
+http\://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService/service=org.cagrid.workflow.test.validateoutputsservice.stubs.service
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
+
+http\://systemtests.workflow.cagrid.org/SystemTests=org.workflow.systemtests.types
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security
+http\://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService/types=org.cagrid.workflow.test.validateoutputsservice.stubs.types

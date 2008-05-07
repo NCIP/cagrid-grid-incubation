@@ -1,0 +1,11 @@
+#Introduce Properties
+#Wed May 07 14:58:35 EDT 2008
+introduce.skeleton.services.list=ValidateOutputsService
+introduce.skeleton.extensions=
+introduce.skeleton.timestamp=1210001199359
+introduce.skeleton.service.name=ValidateOutputsService
+introduce.skeleton.resource.options=main,singleton,identifiable,resourcePropertyManagement
+introduce.skeleton.destination.dir=C\:\\subversion_hawks\\subversion_hawks\\trunk\\grid-incubation\\test\\projects\\workflowHelper\\resources\\ValidateOutputsService
+introduce.skeleton.namespace.domain=http\://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService
+introduce.soap.binding.excludes=\ 
+introduce.ns.excludes=\ -x gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security
