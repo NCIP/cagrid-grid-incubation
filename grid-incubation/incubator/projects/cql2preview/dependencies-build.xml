@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<project name="dependencies" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property file="project.properties" />
+	
+	<!-- import the master build -->
+	<import file="build.xml" />
+	<!-- define the Ivy ant tasks -->
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+		<classpath>
+			<fileset dir="${lib.dir}" includes="ivy-*.jar" />
+		</classpath>
+	</taskdef>
+
+
+	<!-- OVERLOADED-->
+	<!--
+	<property name="ivy.resolve.configuations" value="impl, test" />
+	-->
+	<property name="ivy.resolve.configurations" value="impl"/>
+	<property name="ivy.generated.artifacts.pattern" value="${ivy.generated.artifacts.dir}/lib/[artifact]-[revision].[ext]" />
+
+	<property name="ivy-shared-targets.file" location="${basedir}/../../antfiles/ivy/ivy-shared-targets.xml" />
+	<import file="${ivy-shared-targets.file}" />
+
+	<target name="do.resolve-dependencies" depends="pre.resolve-dependencies">
+
+		<!--
+		<ivy:retrieve conf="impl" pattern="${ivy.resolved.artifacts.dir}/dependencies/service/[type]s/[originalname](.[ext])" sync="true" type="jar" />
+		-->
+		<!--
+		<ivy:retrieve conf="impl-test" pattern="${ivy.resolved.artifacts.dir}/dependencies/test/[type]s/[originalname](.[ext])" sync="true" type="jar" />
+		-->
+	
+		<!-- jars -->
+		<ivy:retrieve conf="default" pattern="${ivy.resolved.artifacts.dir}/libs/[type]s/[artifact](.[ext])" sync="true" type="jar" />
+	</target>
+</project>
+

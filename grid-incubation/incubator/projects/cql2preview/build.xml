@@ -1,0 +1,133 @@
+<!-- ======================================================================= -->
+<!-- caGrid CQL2.0 tech preview project build file                           -->
+<!-- ======================================================================= -->
+<project name="caGrid-CQL2Preview" default="all" basedir=".">
+	<!-- Environment -->
+	<property environment="env" />
+	<property file="${basedir}/build.properties" />
+	<property file="${basedir}/project.properties" />
+	
+	<!-- version properties -->
+	<property name="project.version" value="1.2"/>
+
+	<property name="globus.dir" location="${env.GLOBUS_LOCATION}" />
+
+	<!-- build with debugging information -->
+	<property name="java.debug" value="on" />
+	<!-- enforce java 1.5 compliance at build time -->
+	<property name="java.source" value="1.5" />
+
+	<!-- Information -->
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="project.jar.prefix" value="${project.name}-" />
+	<property name="project.jar.suffix" value="-${project.version}.jar" />
+
+	<!-- directory locations -->
+	<property name="lib.dir" location="${basedir}/lib"/>
+	<property name="ext.lib.dir" location="${basedir}/ext/libs/jars"/>
+	<property name="dev.lib.dir" location="${basedir}/devlib"/>
+	<property name="sdk.lib.dir" location="${basedir}/sdk"/>
+
+	<!-- source dirs -->
+	<property name="src.dir" location="${basedir}/src/java" />
+
+	<!-- build output dirs -->
+	<property name="build.dir" location="${basedir}/build"/>
+	<property name="build.dest" location="${build.dir}/classes"/>
+	<property name="build.jars.dir" location="${build.dir}/lib" />
+	<property name="remote-client.dir" location="${build.dir}/remote-client"/>
+	<property name="remote-client.lib.dir" location="${remote-client.dir}/lib"/>
+
+	<!-- jar names -->
+	<property name="preview.core.jar.name" value="${project.jar.prefix}core${project.jar.suffix}" />
+
+	<!-- jar files -->
+	<property name="preview.core.jar.file" value="${build.jars.dir}/${preview.core.jar.name}" />
+
+	<!-- build file for stub generation -->
+	<property name="ant.build.stubs" location="${globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
+
+	<!-- disabled until this project gets testing
+	<import file="test/test.xml" />
+	-->
+	
+	<!-- classpath -->
+	<path id="project.classpath">
+		<fileset dir="${globus.dir}/lib">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${remote-client.lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+			<include name="**/*.jar"/>
+			<!-- exclude metadatautils jar, replace with devlib -->
+			<exclude name="**/*metadatautils*.jar"/>
+		</fileset>
+		<fileset dir="${dev.lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<!-- creates output directories -->
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dest}" />
+		<mkdir dir="${build.jars.dir}" />
+	</target>
+	
+	
+	<!-- unpacks the caCORE SDK client zip files -->
+	<target name="unpackSdkClients">
+		<unzip src="${sdk.lib.dir}/RemoteClient.zip" dest="${remote-client.dir}" />
+		<delete file="${remote-client.dir}/conf/application-config-client.xml"/>
+		<copy file="${basedir}/resources/application-config-client.xml" tofile="${remote-client.dir}/conf/application-config-client.xml"/>
+	</target>
+	
+
+	<!-- compiles the classes -->
+	<target name="compile" depends="init, unpackSdkClients">
+		<javac srcdir="${src.dir}" destdir="${build.dest}" debug="${java.debug}" source="${java.source}">
+			<include name="**/*.java" />
+			<classpath refid="project.classpath"/>
+		</javac>
+	</target>
+
+
+	<!-- jars the common classes -->
+	<target name="jar" depends="compile" description="Builds and jars">
+		<jar destfile="${preview.core.jar.file}">
+			<fileset dir="${build.dest}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!-- runs the query processor configuration and packaging tool -->
+	<target name="configurePackage" depends="jar" description="Builds a CQL 2 Preview package against a caCORE SDK 4.0 data source">
+		<java classname="org.cagrid.cql2.preview.config.QueryProcessorConfigurator" fork="true">
+			<classpath>
+				<fileset dir="${build.jars.dir}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+			<classpath refid="project.classpath"/>
+		</java>
+	</target>
+
+	<!-- removes all build output -->
+	<target name="clean" description="Cleans up build artifacts">
+		<delete dir="${build.dir}" />
+	</target>
+
+
+	<!-- build and jar everything -->
+	<target name="all" depends="jar" description="Builds and jars all the classes in the project" />
+</project>
