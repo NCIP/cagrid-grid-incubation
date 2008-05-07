@@ -1,0 +1,3 @@
+<ns1:CQLQuery xmlns:ns1="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.Components">
+ <ns1:CQLTargetObject className="gov.nih.nci.cacoresdk.domain.inheritance.childwithassociation.Payment"/>
+</ns1:CQLQuery>

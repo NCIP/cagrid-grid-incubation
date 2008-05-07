@@ -1,0 +1,6 @@
+<ns1:CQLQuery xmlns:ns1="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.Components">
+ <ns1:CQLTargetObject className="gov.nih.nci.cacoresdk.domain.inheritance.onechild.Human"/>
+ <ns2:CQLQueryModifier xmlns:ns2="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.Modifiers">
+  <ns2:DistinctAttribute aggregation="MIN" attributeName="hairColor"/>
+ </ns2:CQLQueryModifier>
+</ns1:CQLQuery>

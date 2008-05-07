@@ -1,0 +1,29 @@
+<ns1:CQLQuery xmlns:ns1="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.Components">
+ <ns1:CQLTargetObject className="gov.nih.nci.cacoresdk.domain.other.levelassociation.Hand">
+  <ns1:CQLAssociatedObject className="gov.nih.nci.cacoresdk.domain.other.levelassociation.Card" sourceRoleName="cardCollection">
+   <ns1:CQLGroup logicalOperation="AND">
+    <ns1:CQLAssociatedObject className="gov.nih.nci.cacoresdk.domain.other.levelassociation.Suit" sourceRoleName="suit">
+     <ns2:BinaryCQLAttribute name="name" xmlns:ns2="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.Attribute">
+      <ns2:Predicate>EQUAL_TO</ns2:Predicate>
+      <ns2:AttributeValue>
+       <ns2:StringValue>Spade</ns2:StringValue>
+      </ns2:AttributeValue>
+     </ns2:BinaryCQLAttribute>
+    </ns1:CQLAssociatedObject>
+    <ns3:BinaryCQLAttribute name="Name" xmlns:ns3="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.Attribute">
+     <ns3:Predicate>EQUAL_TO</ns3:Predicate>
+     <ns3:AttributeValue>
+      <ns3:StringValue>Ace</ns3:StringValue>
+     </ns3:AttributeValue>
+    </ns3:BinaryCQLAttribute>
+   </ns1:CQLGroup>
+  </ns1:CQLAssociatedObject>
+ </ns1:CQLTargetObject>
+ <ns4:AssociationPopulationSpecification xmlns:ns4="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.AssociationPopulationSpec">
+  <ns4:NamedAssociationList>
+   <ns4:NamedAssociation roleName="cardCollection">
+    <ns4:NamedAssociation roleName="suit"/>
+   </ns4:NamedAssociation>
+  </ns4:NamedAssociationList>
+ </ns4:AssociationPopulationSpecification>
+</ns1:CQLQuery>

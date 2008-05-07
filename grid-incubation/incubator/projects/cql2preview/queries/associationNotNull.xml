@@ -1,0 +1,5 @@
+<ns1:CQLQuery xmlns:ns1="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.Components">
+ <ns1:CQLTargetObject className="gov.nih.nci.cacoresdk.domain.onetomany.bidirectional.Computer">
+  <ns1:CQLAssociatedObject className="gov.nih.nci.cacoresdk.domain.onetomany.bidirectional.HardDrive" sourceRoleName="hardDriveCollection"/>
+ </ns1:CQLTargetObject>
+</ns1:CQLQuery>

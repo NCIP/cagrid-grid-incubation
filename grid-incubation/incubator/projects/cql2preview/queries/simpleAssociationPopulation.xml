@@ -1,0 +1,8 @@
+<ns1:CQLQuery xmlns:ns1="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.Components">
+ <ns1:CQLTargetObject className="gov.nih.nci.cacoresdk.domain.onetoone.multipleassociation.Child"/>
+ <ns2:AssociationPopulationSpecification xmlns:ns2="http://CQL.caBIG/2/gov.nih.nci.cagrid.cql.AssociationPopulationSpec">
+  <ns2:NamedAssociationList>
+   <ns2:NamedAssociation roleName="father"/>
+  </ns2:NamedAssociationList>
+ </ns2:AssociationPopulationSpecification>
+</ns1:CQLQuery>
