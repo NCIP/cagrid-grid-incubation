@@ -102,6 +102,8 @@
       <ns4:Input qName="xsd:int" description="" isArray="false" name="test2Param1" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
       <ns4:Input qName="xsd:string" description="" isArray="true" name="test2Param2" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
       <ns4:Input qName="xsd:boolean" description="" isArray="false" name="test2Param3" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="test3Param1" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="test3Param2" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
      </ns4:Inputs>
      <ns4:Output qName="void" description="" isArray="false"/>
      <ns4:Exceptions/>

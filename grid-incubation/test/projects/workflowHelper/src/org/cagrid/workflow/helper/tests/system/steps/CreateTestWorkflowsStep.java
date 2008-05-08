@@ -2,7 +2,6 @@ package org.cagrid.workflow.helper.tests.system.steps;
 
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
-import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,6 +28,7 @@ import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.Status;
+import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
@@ -79,107 +79,61 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		final EndpointReference manager_epr = null; 
 
 
+		
+		try {
+	
+			/*** Service that will gather all the output and match against the expected ones ***/
+			EndpointReferenceType outputMatcherEPR = runOuputMatcher(manager_epr, wf_helper);
+
+			/** FAN IN AND FAN OUT TEST **/
+			System.out.println("BEGIN Testing fan in and fan out"); 
+			runFaninFanOutTest(manager_epr, wf_helper, proxy, outputMatcherEPR);
+			System.out.println("END Testing fan in and fan out"); // */
+
+			
+
+			/*** Testing arrays as services' input ***/
+
+			/** simple type arrays **/
+			System.out.println("Simple arrays as input");
+			runSimpleArrayTest(manager_epr, wf_helper, proxy, outputMatcherEPR);
+			System.out.println("OK");
+
+			System.out.println("Complex arrays as input");
+			runComplexArrayTest(manager_epr, wf_helper, proxy, outputMatcherEPR);
+			System.out.println("OK");
+
+			System.out.println("END Testing arrays"); // */
+
+			
+		
+
+			/** BEGIN streaming test **/
+			System.out.println("BEGIN Testing streaming");
+
+			// Streaming simple types 
+			System.out.println("Streaming of simple-type arrays");
+			runSimpleArrayStreaming(manager_epr, wf_helper, proxy);//, outputMatcherEPR);
+			System.out.println("OK");  // */
 
 
 
-		/*** BEGIN Service that will gather all the output and match against the expected ones ***/
-		/*WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
-		validatorInstanceDesc.setWorkflowID("Validator");
-		validatorInstanceDesc.setWorkflowManagerEPR(manager_epr);
+			/* Streaming complex types */
+			System.out.print("Streaming of complex-type arrays");
+			runComplexArrayStreaming(manager_epr, wf_helper, proxy);//, outputMatcherEPR);
+			System.out.println("OK");
 
-
-		WorkflowInstanceHelperClient validatorInstance = wf_helper.createWorkflowInstanceHelper(validatorInstanceDesc);
-
-		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
-		validatorInvocationDesc.setOperationQName(new QName("http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService", "ValidateTestOutputRequest"));
-		validatorInvocationDesc.setServiceURL(containerBaseURL + "/wsrf/services/cagrid/ValidateOutputsService");
-
-
-		WorkflowInvocationHelperClient validatorInvocation = validatorInstance.createWorkflowInvocationHelper(validatorInvocationDesc);
-
-
-		// Configure inputs
-		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
-		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[3];
-		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"));
-
-		validatorInputDesc.setInputParam(inputParam);
-		validatorInvocation.configureInput(validatorInputDesc);
-
-
-
-
-		// Configure outputs: it has none
-		OperationOutputTransportDescriptor validatorOutput = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor[] paramDescriptor = new OperationOutputParameterTransportDescriptor[0];
-		validatorOutput.setParamDescriptor(paramDescriptor );
-		validatorInvocation.configureOutput(validatorOutput);
-
-
-		// Subscribe for status notifications
-		try{
-			validatorInvocation.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), this);
-		}
-		catch(Throwable t){
+			System.out.println("END Testing streaming"); // */
+	
+			
+			// Block until every stage reports either a FINISHED or an ERROR status
+			this.waitUntilCompletion();
+			
+		} catch(Throwable t) {
 			t.printStackTrace();
-			Assert.fail(t.getMessage());
-		} // */
-		/* END Workflow outputs validator service  */
+			Assert.fail();
+		}
 
-
-
-
-		/*** Testing arrays as services' input ***/
-		System.out.println("BEGIN Testing arrays");
-		runComplexArrayTest(manager_epr, wf_helper, proxy);
-		System.out.println("OK"); // */
-
-
-
-
-		/** simple type arrays **/
-		System.out.println("Simple arrays as input");
-		runSimpleArrayTest(manager_epr, wf_helper, proxy);
-		System.out.println("OK");
-		
-		System.out.println("Complex arrays as input");
-		runComplexArrayTest(manager_epr, wf_helper, proxy);
-		System.out.println("OK");
-		
-		System.out.println("END Testing arrays"); // */
-		/** END test arrays **/ 
-
-
-
-		/** FAN IN AND FAN OUT TEST **/
-		System.out.println("BEGIN Testing fan in and fan out"); 
-		runFaninFanOutTest(manager_epr, wf_helper, proxy);
-		System.out.println("END Testing fan in and fan out"); // */
-		/** END FAN IN AND FAN OUT TEST **/
-
-
-
-		/** BEGIN streaming test **/
-		System.out.println("BEGIN Testing streaming");
-
-		// Streaming simple types 
-		System.out.println("Streaming of simple-type arrays");
-		runSimpleArrayStreaming(manager_epr, wf_helper, proxy);
-		System.out.println("OK");  // */
-
-
-
-		/* Streaming complex types */
-		System.out.print("Streaming of complex-type arrays");
-		runComplexArrayStreaming(manager_epr, wf_helper, proxy);
-		System.out.println("OK");
-
-		System.out.println("END Testing streaming"); // */
-		/** END streaming test **/
-
-		this.waitUntilCompletion();
 
 		System.out.println("-x-x-x- END ALL TESTS -x-x-x-");
 		return;
@@ -187,9 +141,81 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-	private void runComplexArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy)throws RemoteException {
-	
+	private EndpointReferenceType runOuputMatcher(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) 
+	throws RemoteException {
+
+
+		WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
+		validatorInstanceDesc.setWorkflowID("Validator");
+		validatorInstanceDesc.setWorkflowManagerEPR(manager_epr);
+
+		String outputMatcherURI =  "http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService";
+
+		WorkflowInstanceHelperClient validatorInstance = null;
+		try {
+			validatorInstance = wf_helper.createWorkflowInstanceHelper(validatorInstanceDesc);
+		} catch (MalformedURIException e) {
+			e.printStackTrace();
+		}
+
+		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
+		validatorInvocationDesc.setOperationQName(
+				new QName(outputMatcherURI, "ValidateTestOutputRequest"));
+		validatorInvocationDesc.setServiceURL(containerBaseURL + "/wsrf/services/cagrid/ValidateOutputsService");
+
+
+		WorkflowInvocationHelperClient validatorInvocation1 = null;
+		try {
+			validatorInvocation1 = validatorInstance.createWorkflowInvocationHelper(validatorInvocationDesc);
+		} catch (MalformedURIException e) {
+			e.printStackTrace();
+		}
+
+
+		// Subscribe for status notifications
+		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), validatorInvocation1);
+
+
+
+		// Configure inputs
+		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
+		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[8];
+		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"));
+		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
+		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParam[3] = new InputParameterDescriptor(new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"));
+		inputParam[4] = new InputParameterDescriptor(new QName("test2Param2"), new QName(XSD_NAMESPACE, "string[]"));
+		inputParam[5] = new InputParameterDescriptor(new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"));
+		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string")); // */
 		
+		
+		validatorInputDesc.setInputParam(inputParam);
+		validatorInvocation1.configureInput(validatorInputDesc);
+
+
+		// Configure outputs: it has none
+		OperationOutputTransportDescriptor validatorOutput = new OperationOutputTransportDescriptor();
+		OperationOutputParameterTransportDescriptor[] paramDescriptor = new OperationOutputParameterTransportDescriptor[0];
+		validatorOutput.setParamDescriptor(paramDescriptor );
+		validatorInvocation1.configureOutput(validatorOutput);
+
+
+		// Set static parameters
+		validatorInvocation1.setParameter(new InputParameter("999", 0));
+		validatorInvocation1.setParameter(new InputParameter("true", 2));
+		validatorInvocation1.setParameter(new InputParameter("999", 3));
+		validatorInvocation1.setParameter(new InputParameter("true", 5)); // */
+		
+
+
+		return validatorInvocation1.getEndpointReference();
+	}
+
+
+	private void runComplexArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy)throws RemoteException {
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		workflowDescriptor5.setWorkflowID("WorkFlow5");
 		workflowDescriptor5.setWorkflowManagerEPR(manager_epr);
@@ -202,10 +228,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		// BEGIN service 4				
-		
-		
+
+
 		// Creating client of service 4
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
@@ -219,7 +245,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient__4);
 
 		// Creating Descriptor of the InputMessage
@@ -299,7 +325,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 	private void runSimpleArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy) throws RemoteException {
-		
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 		workflowDescriptor5.setWorkflowID("WorkFlow5");
@@ -386,9 +412,12 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Set user proxy
 		serviceClient_2.setProxy(proxy);
 
-		// takes the reference to Service4
+		// configure destination of output
 		OperationOutputTransportDescriptor outputDescriptor__2 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor__2 [] = new OperationOutputParameterTransportDescriptor[1];
+		
+		
+		// 1st destination: Service4
 		outParameterDescriptor__2[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor__2[0].setParamIndex(0);
 		outParameterDescriptor__2[0].setType(new QName(XSD_NAMESPACE, "string"));
@@ -397,7 +426,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor__2[0].setQueryNamespaces(namespaces__2);
 		outParameterDescriptor__2[0].setLocationQuery("/ns0:CapitalizeResponse");
 		outParameterDescriptor__2[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient_4.getEndpointReference()});
-
+		
 
 		outputDescriptor__2.setParamDescriptor(outParameterDescriptor__2);
 		serviceClient_2.configureOutput(outputDescriptor__2);
@@ -454,7 +483,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	}
 
 
-	private void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy) throws RemoteException{
+	private void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy,
+			EndpointReferenceType outputMatcherEPR) throws RemoteException{
 
 
 		/** complex type arrays **/
@@ -568,7 +598,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		// Creating the outputDescriptor of the only service that will receive the output (ReceiveArrayService)
 		OperationOutputTransportDescriptor outputDescriptor_ca = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor outParameterDescriptor_ca [] = new OperationOutputParameterTransportDescriptor[1];// [2];
+		OperationOutputParameterTransportDescriptor outParameterDescriptor_ca [] = new OperationOutputParameterTransportDescriptor[2];
 
 		// First destination: ReceiveArrayService::ReceiveComplexArray
 		outParameterDescriptor_ca[0] = new OperationOutputParameterTransportDescriptor();
@@ -578,6 +608,18 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_ca[0].setLocationQuery("/ns0:GetComplexArrayResponse");
 		outParameterDescriptor_ca[0].setDestinationEPR(new EndpointReferenceType[]{ client2.getEndpointReference() });
+
+
+		// Second destination: Output matcher
+		outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor_ca[1].setParamIndex(1); // Setting 2nd argument in the output matcher 
+		outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
+		outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
+				new QName(XSD_NAMESPACE,"xsd")});
+		outParameterDescriptor_ca[1].setLocationQuery("/ns0:GetComplexArrayResponse");
+		outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR });
+
+
 
 
 		// Set user proxy
@@ -592,9 +634,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	}
 
 
-	
-	private void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy) throws RemoteException{
-		
+
+	private void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy
+			, EndpointReferenceType outputMatcherEPR) throws RemoteException{
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 		workflowDescriptor2.setWorkflowID("WorkFlow2");
@@ -626,7 +669,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient_ram);
 
 
@@ -674,7 +717,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient_cas);
 
 
@@ -687,7 +730,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		// Creating the outputDescriptor of the only service that will receive the output (ReceiveArrayService)
 		OperationOutputTransportDescriptor outputDescriptor_cas = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor outParameterDescriptor_cas [] = new OperationOutputParameterTransportDescriptor[1];
+		OperationOutputParameterTransportDescriptor outParameterDescriptor_cas [] = new OperationOutputParameterTransportDescriptor[2];
 
 		// First destination: ReceiveArrayService::ReceiveArrayAndMore
 		outParameterDescriptor_cas[0] = new OperationOutputParameterTransportDescriptor();
@@ -698,6 +741,18 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor_cas[0].setLocationQuery("/ns0:GetArrayResponse");
 		outParameterDescriptor_cas[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient_ram.getEndpointReference()});
 
+		
+		// Second destination: Output matcher
+		outParameterDescriptor_cas[1] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor_cas[1].setParamIndex(4);
+		outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
+		outParameterDescriptor_cas[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
+				new QName(XSD_NAMESPACE,"xsd")});
+		outParameterDescriptor_cas[1].setLocationQuery("/ns0:GetArrayResponse");
+		outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR});
+		
+		
+		
 		// Set user proxy
 		serviceClient_cas.setProxy(proxy);
 
@@ -706,12 +761,13 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		serviceClient_cas.configureOutput(outputDescriptor_cas);
 
 		// END CreateArrayService 
-		
+
 		return;
 	}
-	
-	private void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy) throws RemoteException{
-		
+
+	private void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential proxy,
+			EndpointReferenceType outputMatcherEPR) throws RemoteException{
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 		workflowDescriptor3.setWorkflowID("WorkFlow2");
@@ -741,7 +797,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient4);
 
 
@@ -787,7 +843,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient2);
 
 
@@ -801,7 +857,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		// Creating the outputDescriptor of the first Filter
 		OperationOutputTransportDescriptor outputDescriptor2 = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor outParameterDescriptor2 [] = new OperationOutputParameterTransportDescriptor[1];
+		OperationOutputParameterTransportDescriptor outParameterDescriptor2 [] = new OperationOutputParameterTransportDescriptor[2];
+		
+		// First destination
 		outParameterDescriptor2[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor2[0].setParamIndex(0);
 		outParameterDescriptor2[0].setType(new QName("string"));
@@ -809,12 +867,26 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor2[0].setQueryNamespaces(namespaces);
 		outParameterDescriptor2[0].setLocationQuery("/ns0:CapitalizeResponse");
-
+		outParameterDescriptor2[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient4.getEndpointReference()});
+		
+		
+		// Second destination: output matcher
+		outParameterDescriptor2[1] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor2[1].setParamIndex(6);
+		outParameterDescriptor2[1].setType(new QName("string"));
+		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
+				new QName(XSD_NAMESPACE, "xsd")};
+		outParameterDescriptor2[1].setQueryNamespaces(namespaces);
+		outParameterDescriptor2[1].setLocationQuery("/ns0:CapitalizeResponse");
+		outParameterDescriptor2[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR});
+		
+		
+		
 		// Set user proxy
 		serviceClient2.setProxy(proxy);
 
 		// takes the reference to the service 4
-		outParameterDescriptor2[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient4.getEndpointReference()});
+		
 		outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
 		serviceClient2.configureOutput(outputDescriptor2);
 		// END service 2
@@ -839,7 +911,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient3);
 
 
@@ -853,7 +925,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		// Creating the outputDescriptor of the first Filter
 		OperationOutputTransportDescriptor outputDescriptor3 = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor outParameterDescriptor3 [] = new OperationOutputParameterTransportDescriptor[1];
+		OperationOutputParameterTransportDescriptor outParameterDescriptor3 [] = new OperationOutputParameterTransportDescriptor[2];
+		
+		
+		// 1st destination
 		outParameterDescriptor3[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor3[0].setParamIndex(1);
 		outParameterDescriptor3[0].setType(new QName(XSD_NAMESPACE, "string"));
@@ -861,12 +936,26 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor3[0].setQueryNamespaces(namespaces);
 		outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse"); 
-
+		outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
+		
+		
+		// 2nd destination: output matcher
+		outParameterDescriptor3[1] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor3[1].setParamIndex(7);
+		outParameterDescriptor3[1].setType(new QName(XSD_NAMESPACE, "string"));
+		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
+				new QName(XSD_NAMESPACE, "xsd")};
+		outParameterDescriptor3[1].setQueryNamespaces(namespaces);
+		outParameterDescriptor3[1].setLocationQuery("/ns0:GenerateXResponse"); 
+		outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{outputMatcherEPR});
+		
+		
+		
 		// Set user proxy
 		serviceClient3.setProxy(proxy);
 
 		// takes the reference to the service 4
-		outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
+		
 		outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 		serviceClient3.configureOutput(outputDescriptor3);
 		// END service 3				
@@ -889,7 +978,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient5);
 
 
@@ -920,7 +1009,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
 		serviceClient5.configureOutput(outputDescriptor5);
 
-		// TODO Get the output of this service
 		// END service 5
 
 
@@ -940,7 +1028,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient1);
 
 
@@ -997,10 +1085,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		InputParameter inputService1 = new InputParameter(workflow_input, 0);
 		serviceClient1.setParameter(inputService1);
 		// END service 1 
-	
+
 	}
-	
-	
+
+
 
 	private void waitUntilCompletion() {
 
@@ -1038,7 +1126,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		String stageKey = arg1.toString();
 
 
-		
+
 		//PrintStream log = null;
 		//DEBUG
 		/*try {

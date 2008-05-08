@@ -80,7 +80,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
                 new File(tests_basedir + "Service5"),
                 new File(tests_basedir + "ReceiveArrayService"),
                 new File(tests_basedir + "CreateArrayService"),
-                //new File(tests_basedir + "ValidateOutputsService"),
+                new File(tests_basedir + "ValidateOutputsService"),
                 new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
                     + File.separator + "projects" + File.separator + "workflowHelper")};
 

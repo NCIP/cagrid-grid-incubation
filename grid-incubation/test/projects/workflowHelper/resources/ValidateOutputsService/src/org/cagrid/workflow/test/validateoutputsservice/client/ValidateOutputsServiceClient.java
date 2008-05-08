@@ -72,7 +72,7 @@ public class ValidateOutputsServiceClient extends ValidateOutputsServiceClientBa
 						test1Param2[i] = new ComplexType(i, "Element "+i);
 						test2Param2[i] = "number "+i;
 					}
-					client.validateTestOutput(999, test1Param2, true, 999, test2Param2, true);
+					//client.validateTestOutput(999, test1Param2, true, 999, test2Param2, true);
 
 				} else {
 					usage();
@@ -87,6 +87,24 @@ public class ValidateOutputsServiceClient extends ValidateOutputsServiceClientBa
 			System.exit(1);
 		}
 	}
+
+  public void validateTestOutput(int test1Param1,org.workflow.systemtests.types.ComplexType[] test1Param2,boolean test1Param3,int test2Param1,java.lang.String[] test2Param2,boolean test2Param3,java.lang.String test3Param1,java.lang.String test3Param2) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"validateTestOutput");
+    org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequest params = new org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequest();
+    params.setTest1Param1(test1Param1);
+    org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequestTest1Param2 test1Param2Container = new org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequestTest1Param2();
+    test1Param2Container.setComplexType(test1Param2);
+    params.setTest1Param2(test1Param2Container);
+    params.setTest1Param3(test1Param3);
+    params.setTest2Param1(test2Param1);
+    params.setTest2Param2(test2Param2);
+    params.setTest2Param3(test2Param3);
+    params.setTest3Param1(test3Param1);
+    params.setTest3Param2(test3Param2);
+    org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputResponse boxedResult = portType.validateTestOutput(params);
+    }
+  }
 
   public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
     synchronized(portTypeMutex){
@@ -106,22 +124,6 @@ public class ValidateOutputsServiceClient extends ValidateOutputsServiceClientBa
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"queryResourceProperties");
     return portType.queryResourceProperties(params);
-    }
-  }
-
-  public void validateTestOutput(int test1Param1,org.workflow.systemtests.types.ComplexType[] test1Param2,boolean test1Param3,int test2Param1,java.lang.String[] test2Param2,boolean test2Param3) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"validateTestOutput");
-    org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequest params = new org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequest();
-    params.setTest1Param1(test1Param1);
-    org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequestTest1Param2 test1Param2Container = new org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequestTest1Param2();
-    test1Param2Container.setComplexType(test1Param2);
-    params.setTest1Param2(test1Param2Container);
-    params.setTest1Param3(test1Param3);
-    params.setTest2Param1(test2Param1);
-    params.setTest2Param2(test2Param2);
-    params.setTest2Param3(test2Param3);
-    org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputResponse boxedResult = portType.validateTestOutput(params);
     }
   }
 

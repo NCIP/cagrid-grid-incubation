@@ -12,15 +12,16 @@ import org.workflow.systemtests.types.ComplexType;
  */
 public class ValidateOutputsServiceImpl extends ValidateOutputsServiceImplBase {
 
-
 	public ValidateOutputsServiceImpl() throws RemoteException {
 		super();
 	}
 
-	public void validateTestOutput(int test1Param1,org.workflow.systemtests.types.ComplexType[] test1Param2,boolean test1Param3,int test2Param1,java.lang.String[] test2Param2,boolean test2Param3) throws RemoteException {
+  public void validateTestOutput(int test1Param1,org.workflow.systemtests.types.ComplexType[] test1Param2,boolean test1Param3,
+		  int test2Param1,java.lang.String[] test2Param2,boolean test2Param3,
+		  java.lang.String test3Param1,java.lang.String test3Param2) 
+  			throws RemoteException {
 
 		/* Match the received values agains the expexted ones */
-
 
 		// Workflow 1: handling complex arrays
 		try{
@@ -31,28 +32,30 @@ public class ValidateOutputsServiceImpl extends ValidateOutputsServiceImplBase {
 			System.out.println("Workflow1's outputs don't match");
 		}
 
-
-
 		// Workflow 2: handling simple arrays
 		try{
 
 			this.matchWorkflow2(test2Param1, test2Param2, test2Param3);
 		} catch (Throwable t){
 			t.printStackTrace();
-			System.out.println("Workflow1's outputs don't match");
+			System.out.println("Workflow2's outputs don't match");
 		}
 
 		
 		
-		
-		
-		
-		
-		
-		
+		// Workflow 3: fan in and fan out 
+		try{
 
-
-
+			this.matchWorkflow3(test3Param1, test3Param2);
+		} catch (Throwable t){
+			t.printStackTrace();
+			System.out.println("Workflow3's outputs don't match");
+		}
+		
+		
+		
+		
+		
 
 		System.out.println("[validateTestOutput] All outputs match");
 		//throw new RemoteException("What happens if I intentionally throw an exception from within the service?"); //DEBUG
@@ -60,11 +63,33 @@ public class ValidateOutputsServiceImpl extends ValidateOutputsServiceImplBase {
 		return;
 	}
 
+  
+  
+	private void matchWorkflow3(String test3Param1, String test3Param2) throws RemoteException {
+	
 
+		// Match the fan-in/fan-out workflow output
+		String expected1 = "GEORGE TEADORO GORDAO QUE FALOU";
+		if(!test3Param1.equals(expected1)){
+			throw new RemoteException("[validateTestOutput] Value for test3Param1 ("+ test3Param1 
+					+") doesn't match the expected ("+ expected1 +")");
+		}
+		
+		String expected2 = new String();
+		for(int i=0; i < expected1.length(); i++){
+			expected2 += "x";
+		}
+		if(!test3Param2.equals(expected2)){
+			throw new RemoteException("[validateTestOutput] Value for test3Param2 ("+ test3Param2 
+					+") doesn't match the expected ("+ expected2 +")");
+		}
+		
+		
+		return;
+	}
 
 	private void matchWorkflow2(int test2Param1, String[] test2Param2,
 			boolean test2Param3) throws RemoteException {
-
 
 		if( test2Param1 != 999 ) throw new RemoteException("[validateTestOutput] Value for test2Param1 ("+ test2Param1 +") doesn't match the expected ("+ 999 +")");
 		int array2_len = 6;
@@ -81,10 +106,8 @@ public class ValidateOutputsServiceImpl extends ValidateOutputsServiceImplBase {
 
 	}
 
-
 	private void matchWorkflow1(int test1Param1, ComplexType[] test1Param2,
 			boolean test1Param3) throws RemoteException {
-
 
 		if( test1Param1 != 999 ) throw new RemoteException("[validateTestOutput] Value for test1Param1 ("+ test1Param1 +") doesn't match the expected ("+ 999 +")");
 		int array_len = 6;
