@@ -60,6 +60,7 @@ public class ServiceInvocationUtil {
 	public static Node generateUnsecureRequest(WorkflowInvocationHelperDescriptor workflowDescriptor, OperationInputMessageDescriptor input_desc,
 			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData) throws Exception{
 
+		System.out.println("Generating unsecure request"); //DEBUG
 		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, null);
 	}
 
@@ -67,6 +68,7 @@ public class ServiceInvocationUtil {
 	public static Node generateSecureRequest(WorkflowInvocationHelperDescriptor workflowDescriptor, OperationInputMessageDescriptor input_desc,
 			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData, GlobusCredential proxy) throws Exception{
 
+		System.out.println("Generating Secure request"); //DEBUG
 		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, proxy);
 	}
 
@@ -90,7 +92,7 @@ public class ServiceInvocationUtil {
 
 		SOAPEnvelope ret = null;
 		Node response = null;
-		boolean hasCredential = (workflowDescriptor.getWorkflowInvocationSecurityDescriptor() != null);
+		boolean hasCredential = (proxy != null); // (workflowDescriptor.getWorkflowInvocationSecurityDescriptor() != null)
 
 		try {
 
@@ -247,11 +249,13 @@ public class ServiceInvocationUtil {
 
 			javax.xml.rpc.Service service = null;
 			Call call;
+			EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
 			// Secure invocation when a credential is provided
 			if( hasCredential ){   
 
-
-				EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
+				System.out.println("DO have credential");//DEBUG
+				
+				
 				ServiceSecurityMetadata securityMetadata = ConversionUtil.createServiceSecurityMetadata(
 						workflowDescriptor.getWorkflowInvocationSecurityDescriptor(), workflowDescriptor.getOperationQName().getLocalPart());
 				SecurityConfigurationUtil config_service  = new SecurityConfigurationUtil(serviceOperationEPR, proxy);
@@ -268,14 +272,20 @@ public class ServiceInvocationUtil {
 			}
 			else {  // No credential provided, proceed to unsecure invocation 
 
+				System.out.println("Have NO credential");//DEBUG
+				
 				service = new Service();
 				call = (Call) service.createCall();
+				call.setProperty(org.globus.wsrf.security.Constants.AUTHORIZATION, NoAuthorization.getInstance());
 			}
 
 			
 			call.setTargetEndpointAddress( new java.net.URL(workflowDescriptor.getServiceURL()));
 			String tns = serviceNamespace; 
 			call.setOperationName(new QName(tns, workflowDescriptor.getOperationQName().toString()));
+			
+			System.out.println("[generateRequest] Service URL: "+ call.getTargetEndpointAddress());//DEBUG
+			
 			ret = call.invoke(message);
 
 
