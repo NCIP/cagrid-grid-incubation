@@ -1,6 +1,7 @@
 package org.cagrid.cql2.test;
 
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
+import gov.nih.nci.cagrid.metadata.common.UMLClass;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 import gov.nih.nci.cagrid.metadata.dataservice.UMLClassReference;
 
@@ -24,8 +25,11 @@ import junit.textui.TestRunner;
  * @version $Id: multiscaleEclipseCodeTemplates.xml,v 1.2 2007/03/01 Exp $ 
  */
 public class DomainModelUtilsTestCase extends TestCase {
-    public static final String RESOURCES_DIR = "resources";
     
+    public static final String CALCULATOR_DOMAIN_CLASS_ID = "EAID_47763202_9509_42ae_BA5D_7F05FBA1C014";
+    public static final String CALCULATOR_DOMAIN_CLASS = "gov.nih.nci.cacoresdk.domain.inheritance.twolevelinheritance.sametablerootlevel.Calculator";
+
+    public static final String RESOURCES_DIR = "resources";
     public static final String DOMAIN_MODEL_FILE = RESOURCES_DIR 
         + File.separator + "sdkExampleDomainModel.xml";
     
@@ -52,9 +56,19 @@ public class DomainModelUtilsTestCase extends TestCase {
     
     public void testGetClassReference() {
         UMLClassReference ref = DomainModelUtils.getClassReference(
-            model, "gov.nih.nci.cacoresdk.domain.inheritance.twolevelinheritance.sametablerootlevel.Calculator");
+            model, CALCULATOR_DOMAIN_CLASS);
         assertNotNull("Class reference was null", ref);
-        assertEquals("Unexpected class reference ID", "EAID_47763202_9509_42ae_BA5D_7F05FBA1C014", ref.getRefid());;
+        assertEquals("Unexpected class reference ID", CALCULATOR_DOMAIN_CLASS_ID, ref.getRefid());
+    }
+    
+    
+    public void testGetReferencedClass() {
+        UMLClassReference ref = new UMLClassReference();
+        ref.setRefid(CALCULATOR_DOMAIN_CLASS_ID);
+        UMLClass clazz = DomainModelUtils.getReferencedUMLClass(model, ref);
+        assertNotNull("Dereferenced class was null", clazz);
+        assertEquals("Unexpected class was resolved", 
+            CALCULATOR_DOMAIN_CLASS, DomainModelUtils.getQualifiedClassname(clazz));
     }
     
 
