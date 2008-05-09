@@ -27,6 +27,7 @@
 	<property name="ext.lib.dir" location="${basedir}/ext/libs/jars"/>
 	<property name="dev.lib.dir" location="${basedir}/devlib"/>
 	<property name="sdk.lib.dir" location="${basedir}/sdk"/>
+	<property name="test.logs.dir" location="${basedir}/test/logs"/>
 
 	<!-- source dirs -->
 	<property name="src.dir" location="${basedir}/src/java" />
@@ -51,9 +52,8 @@
 	<!-- build file for stub generation -->
 	<property name="ant.build.stubs" location="${globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
 
-	<!-- import the test build file 
+	<!-- import the test build file -->
 	<import file="test/test.xml" />
-	-->
 	
 	<!-- main build / run classpath -->
 	<path id="project.classpath">
@@ -90,6 +90,7 @@
 		<mkdir dir="${build.src.dest}" />
 		<mkdir dir="${build.test.dest}" />
 		<mkdir dir="${build.jars.dir}" />
+		<mkdir dir="${test.logs.dir}" />
 	</target>
 	
 	
