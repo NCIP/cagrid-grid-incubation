@@ -1,5 +1,6 @@
 package org.cagrid.workflow.manager.service.bpelParser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -25,7 +26,12 @@ public class WorkflowProcessLayout{
 
 	// It stores the following data <key<serviceName> , namespace>
 	HashMap <String, String> servicesNamespaces;
+	
+	// for each service we have on the system we store the command
+	// to redirect its output
+	//HashMap <String, ArrayList<CopyOutputDirective>> copyCommands;
 
+		
 
 	public InvokeProperties getFirstService() {
 		return firstService;
@@ -39,10 +45,8 @@ public class WorkflowProcessLayout{
 	}
 	
 	public void printClass(){
-		System.out.println("Printing object type: "+WorkflowProcessLayout.class.toString() );
 		System.out.println("   name = "+name);
 		System.out.println("   targetNamespace = "+targetNamespace);
-
 		// Beginning Printing the variables list
 		System.out.println("BEGIN VARIABLES");
 		Iterator variablesIt = variables.keySet().iterator();
@@ -58,7 +62,6 @@ public class WorkflowProcessLayout{
 		}
 		System.out.println("END VARIABLES");
 
-		// Beginning Printing the partnerLinks list
 		System.out.println("BEGIN PARTNER_LINKS");
 		Iterator partnerLinksIt = partnerLinks.keySet().iterator();
 		while(partnerLinksIt.hasNext()) {
@@ -83,15 +86,8 @@ public class WorkflowProcessLayout{
 		while(auxIt != null){
 			auxIt.printClass();
 			String auxName = auxIt.getName();
-
 			System.out.println("ServiceName = "+auxName);
-			//System.out.println("ENDPOINT = "+ auxIt.servicesEndPoint.get(auxName));
-			//if(auxIt != finalService){
 			auxIt = auxIt.nextService;
-
-			//	}else{
-			//	break;
-			//}
 		}
 		System.out.println("End Services");
 	}
@@ -100,6 +96,7 @@ public class WorkflowProcessLayout{
 		variables = new HashMap<String, Variable>();
 		partnerLinks = new HashMap<String, PartnerLink>();
 		servicesNamespaces = new HashMap<String, String>();
+//		copyCommands =  new HashMap <String, ArrayList<CopyOutputDirective>> ();
 	}
 
 	public void setName(String name){
@@ -150,7 +147,6 @@ public class WorkflowProcessLayout{
 			finalService = invokeProperty;
 			finalService.setNextService(null);	
 		}else{
-
 			finalService.setNextService(invokeProperty);
 			finalService = invokeProperty;
 			invokeProperty.setNextService(null);	
@@ -177,7 +173,6 @@ public class WorkflowProcessLayout{
 		}
 
 		void printClass(){
-			System.out.println("   Printing object type: "+PartnerLink.class.toString() );
 			System.out.println("      name = "+name);
 			System.out.println("      partnerLinkType = "+ partnerLinkType);
 		}
@@ -185,45 +180,6 @@ public class WorkflowProcessLayout{
 	}
 
 
-	// It stores the data related to the copy tags of the assign
-	class CopyOutputDirective{
-		private String fromVariable;
-		private String fromPart;
-		private String toVariable;
-		private String toPart;
-
-		public void setFromVariable(String fromVariable){
-			this.fromVariable = fromVariable;
-		}
-		public void setFromPart(String fromPart){
-			this.fromPart = fromPart;
-		}
-		public void setToVariable(String toVariable){
-			this.toVariable = toVariable;
-		}
-		public void setToPart(String toPart){
-			this.toPart = toPart;
-		}
-		public String getFromVariable(){
-			return fromVariable;	
-		}
-		public String getFromPart(){
-			return fromPart;	
-		}
-		public String getToVariable(){
-			return toVariable;	
-		}
-		public String getToPart(){
-			return toPart;	
-		}
-		void printClass(){
-			System.out.println("Printing object type: "+ CopyOutputDirective.class.toString() );
-			System.out.println("  fromVariable = "+ fromVariable);
-			System.out.println("  fromPart = "+ fromPart);
-			System.out.println("  toVariable = "+ toVariable);
-			System.out.println("  toPart = "+toPart);
-		}
-	}
 
 	// this class implements the support for creating if clauses
 	private class BpelSwitch{

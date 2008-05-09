@@ -15,13 +15,13 @@ public  class InvokeProperties{
 	private String outputVariable;
 	private boolean isReceive;
 	private boolean isReply;
-	ArrayList copyCommandsList;
+	ArrayList <CopyOutputDirective> copyCommandsList;
 
 	// TODO: this implementation supports just a direct 1-1 workflow
 	InvokeProperties nextService;
 
 	InvokeProperties(){
-		copyCommandsList = new ArrayList();	
+		copyCommandsList = new ArrayList<CopyOutputDirective>();	
 		isReceive = false;
 		isReply = false;
 	}
@@ -53,7 +53,6 @@ public  class InvokeProperties{
 	void setNextService(InvokeProperties nextService){
 		this.nextService = nextService;
 	}
-
 	public String getName(){
 		return name;	
 	}
@@ -83,7 +82,7 @@ public  class InvokeProperties{
 	}
 
 	void printClass(){
-		System.out.println("Printing object type: "+InvokeProperties.class.toString() );
+		System.out.println("Invoke desc");
 		System.out.println("  name = "+name);
 		System.out.println("  partnerLink = "+partnerLink);
 		System.out.println("  portType = "+portType);
@@ -92,8 +91,22 @@ public  class InvokeProperties{
 		System.out.println("  outputVariable = "+outputVariable);
 		System.out.println("  isReceive = "+isReceive);
 		System.out.println("  isReply = "+isReply);
+		System.out.println("  copyArraySize = "+copyCommandsList.size());
 		//TODO: print the copy command
 		//ArrayList copyCommandsList;
 	}
+	/**
+	 * @return the copyCommandsList
+	 */
+	public CopyOutputDirective getCopyCommand(int index) {
+		return copyCommandsList.get(index);
+	}
+	/**
+	 * @param copyCommandsList the copyCommandsList to set
+	 */
+	public void addCopyCommand(CopyOutputDirective copy) {
+		this.copyCommandsList.add(copy);
+	}
+	
 
 }

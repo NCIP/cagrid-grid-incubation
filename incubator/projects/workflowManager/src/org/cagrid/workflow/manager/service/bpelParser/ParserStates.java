@@ -43,6 +43,8 @@ public class ParserStates{
 	public static final int BEGIN_COPY		= 14;
 	public static final int BEGIN_FROM		= 15;
 	public static final int BEFORE_TO		= 16;
+	public static final int BEFORE_QUERY	= 1017;
+	public static final int AFTER_QUERY		= 1018;
 //	public static final int BEFORE_TO		= 1001;
 	public static final int BEGIN_TO		= 17;
 	public static final int END_TO			= 18;
@@ -74,6 +76,7 @@ public class ParserStates{
 	public static final String ASSIGN_TAG			= "assign";
 	public static final String COPY_TAG				= "copy";
 	public static final String FROM_TAG				= "from";
+	public static final String QUERY_TAG			= "query";
 	public static final String TO_TAG				= "to";
 	public static final String INVOKE_TAG			= "invoke";
 	public static final String REPLY_TAG			= "reply";
@@ -88,6 +91,9 @@ public class ParserStates{
 	public static final String ATTRIBUTE_VARIABLE_TAG			= "variable";
 	public static final String ATTRIBUTE_EXPRESSION_TAG			= "expression";
 	public static final String ATTRIBUTE_PART_TAG				= "part";
+	public static final String ATTRIBUTE_VARIABLE_TYPE			= "type";
+	public static final String ATTRIBUTE_VARIABLE_NAMESPACE		= "namespace";
+	
 	
 	// attributes from the invoke tag
 	public static final String ATTRIBUTE_TARGET_NAMESPACE_TAG	= "targetNamespace";
@@ -96,6 +102,10 @@ public class ParserStates{
 	public static final String ATTRIBUTE_INPUT_VARIABLE			= "inputVariable";
 	public static final String ATTRIBUTE_OUTPUT_VARIABLE		= "outputVariable";
 	public static final String ATTRIBUTE_XMLNS					= "xmlns:";
+	
+	// attributes related to the query tag
+	public static final String ATTRIBUTE_QUERY_LANGUAGE			= "queryLanguage";
+	public static final String ATTRIBUTE_QUERY_QUERY			= "query";
 	
 	// Used only to print the States in case of
 	// debugging or ERROR to make it readable

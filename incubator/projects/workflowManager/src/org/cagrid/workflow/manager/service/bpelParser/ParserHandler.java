@@ -1,7 +1,6 @@
 package org.cagrid.workflow.manager.service.bpelParser;
 
 import javax.xml.namespace.QName;
-
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
@@ -13,12 +12,10 @@ public class ParserHandler extends DefaultHandler{
 	int lastState;
 	WorkflowProcessLayout workflowLayout;
 	InvokeProperties auxInvokeCurrent = null; 
-//	/
-//	TODO: The variable bellow have to be replaced with the workflow manager structures
-//	/
 	String processName;
+	
+	CopyOutputDirective auxCurrentCopyOutputDirective = null;
 
-//	/ END: TODO
 	public ParserHandler() {
 		currentState = ParserStates.ERROR;
 		workflowLayout = new WorkflowProcessLayout();
@@ -76,26 +73,19 @@ public class ParserHandler extends DefaultHandler{
 	public void startElement (String uri, String localName,	String qName, Attributes attributes) throws SAXException{
 
 		switch(currentState){
-
 		case ParserStates.START:
 			if(qName == ParserStates.PROCESS_TAG){
-//				System.out.println("START");
 				if(attributes != null){
-//					System.out.println("attributes.Length : "+attributes.getLength());
 					for(int x = 0; x < attributes.getLength(); x++){
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_NAME_TAG){
 							workflowLayout.setName(attributes.getValue(x));
-//							System.out.println("setting process name");
 						}else{
 							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_TARGET_NAMESPACE_TAG){
 								workflowLayout.setTargetNamespace(attributes.getValue(x));
-//								System.out.println("setting process name");
 							}else{
 								boolean isNamespace = attributes.getQName(x).startsWith(ParserStates.ATTRIBUTE_XMLNS);
 
 								if(isNamespace == true){
-//									System.out.println("PROCESS_QNAME = "+attributes.getQName(x));
-//									System.out.println("substring = "+attributes.getQName(x).substring( ParserStates.ATTRIBUTE_XMLNS.length(), attributes.getQName(x).length()));
 									try{
 										workflowLayout.setEndpoint(attributes.getQName(x).substring( ParserStates.ATTRIBUTE_XMLNS.length(), attributes.getQName(x).length()),attributes.getValue(x));
 									}catch (Exception e) {
@@ -114,7 +104,6 @@ public class ParserHandler extends DefaultHandler{
 				currentState = ParserStates.BEGIN_PROCESS;
 			}	
 			break;
-
 		case ParserStates.BEGIN_PROCESS:
 			if(qName == ParserStates.VARIABLES_TAG){
 				lastState = currentState;
@@ -145,6 +134,7 @@ public class ParserHandler extends DefaultHandler{
 					for(int x = 0; x < attributes.getLength(); x++){
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_NAME_TAG ){
 							auxVariable.setName(attributes.getValue(x));
+							System.out.println("Variable name = "+auxVariable.getName());
 						}else{
 							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_MESSAGE_TYPE_TAG){
 
@@ -178,8 +168,8 @@ public class ParserHandler extends DefaultHandler{
 					for(int x = 0; x < attributes.getLength(); x++){
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_NAME_TAG ){
 							auxVariableInside.setName(attributes.getValue(x));
-
-							//							System.out.print("variable: "+  attributes.getValue(x));
+							System.out.println("Variable name = "+auxVariableInside.getName());
+							//System.out.print("variable: "+  attributes.getValue(x));
 						}else{
 							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_MESSAGE_TYPE_TAG){
 								// Resolve the namespace and obtain a fully qualified type before setting the message type
@@ -190,17 +180,18 @@ public class ParserHandler extends DefaultHandler{
 							}	
 						}
 					}
+					try {
+						workflowLayout.setVariable(auxVariableInside);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}	
 			}else{
 				/// error
 
 			}
-			try{
-				workflowLayout.setVariable(auxVariableInside);
-			}catch(Exception e){
-				e.printStackTrace();	
-			}
-
+	
 			lastState = currentState;
 			currentState = ParserStates.INSIDE_VARIABLE;
 
@@ -213,20 +204,16 @@ public class ParserHandler extends DefaultHandler{
 					for(int x = 0; x < attributes.getLength(); x++){
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_NAME_TAG ){
 							auxPartnerLink.setName(attributes.getValue(x));
-//							System.out.print("PartnerLink: "+  attributes.getValue(x));
 						}else{
-							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_PARTNER_LINK_TYPE_TAG){
-								
+							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_PARTNER_LINK_TYPE_TAG){								
 								QName plink_qname = ParserHandler.getQName(workflowLayout, attributes.getValue(x));
 								auxPartnerLink.setPartnerLinkType(plink_qname);
-//								System.out.println(" value: "+ attributes.getValue(x));
 							}	
 						}
 					}
 				}	
 			}else{
 				///// ERROR	
-
 			}
 			try{
 				workflowLayout.setPartnerLink(auxPartnerLink);
@@ -234,12 +221,10 @@ public class ParserHandler extends DefaultHandler{
 				e.printStackTrace();
 //				throw new Exception(e);
 			}	
-
 			lastState = currentState;
 			// current state still the same
 
 			break;
-
 		case ParserStates.BEGIN_SEQUENCE:
 			InvokeProperties auxInvoke = new InvokeProperties();
 			auxInvoke.setIsReceive();
@@ -252,7 +237,6 @@ public class ParserHandler extends DefaultHandler{
 						}
 						if(attributes.getQName(x) == ParserStates.PARTNER_LINK_TAG){
 							auxInvoke.setPartnerLink(attributes.getValue(x));
-
 						}	
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_PORT_TYPE_TAG){
 							// Resolve the namespace and obtain a fully qualified type before setting the port type
@@ -267,7 +251,6 @@ public class ParserHandler extends DefaultHandler{
 							QName operation_qname = ParserHandler.getQName(workflowLayout, attribute_value);
 							auxInvoke.setOperation(operation_qname);
 							System.out.println("Message type is: "+operation_qname);
-
 						}
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_VARIABLE_TAG){
 							auxInvoke.setInputVariable(attributes.getValue(x));
@@ -284,7 +267,6 @@ public class ParserHandler extends DefaultHandler{
 			// I will not insert it now, because I have to know if it
 			// has any Assign tag
 			auxInvokeCurrent = auxInvoke;
-
 			break;
 
 		case ParserStates.PRE_ASSIGN:
@@ -295,7 +277,6 @@ public class ParserHandler extends DefaultHandler{
 				System.out.println("qName = "+qName);
 				ParserStates.printError(lastState, ParserStates.PRE_ASSIGN);	
 				System.exit(0);
-
 			}
 			break;
 		case ParserStates.END_COPY:
@@ -305,12 +286,11 @@ public class ParserHandler extends DefaultHandler{
 				System.out.println("END COPY: BEGIN COPY_TAG");
 			}else{
 				// ERROR	
-
 			}
 
 		case ParserStates.BEGIN_ASSIGN:
 			if(qName == ParserStates.COPY_TAG){
-				System.out.println("lau");
+				System.out.println("BEGIN_ASSIGN");
 				lastState = currentState;
 				currentState = ParserStates.BEGIN_COPY;
 			}else{
@@ -321,46 +301,124 @@ public class ParserHandler extends DefaultHandler{
 			break;
 		case ParserStates.BEGIN_COPY:
 			if(qName == ParserStates.FROM_TAG){
+				String variableName = null;
+				String partName = null;
+				String partType = null;
+				QName partNaspace = null;
+				boolean isExpression = false;
+				auxCurrentCopyOutputDirective = new CopyOutputDirective();
+				
 				lastState = currentState;
 				currentState = ParserStates.BEGIN_FROM;  
 				if(attributes != null){
 					for(int x = 0; x < attributes.getLength(); x++){
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_VARIABLE_TAG ){
-//							System.out.print("variable : "+  attributes.getValue(x));
-						}else{
-							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_PART_TAG){
-//								System.out.println(" part: "+ attributes.getValue(x));
-							}	
+							variableName = attributes.getValue(x);
+						}
+						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_PART_TAG){
+							partName = attributes.getValue(x);
+						}
+						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_VARIABLE_TYPE){
+							partType = attributes.getValue(x);
+						}
+						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_VARIABLE_NAMESPACE){
+							partNaspace = new QName(attributes.getValue(x));							
 						}
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_EXPRESSION_TAG ){
-//							System.out.print("expression : "+  attributes.getValue(x));
-
-						}
-
-
+							isExpression = true;
+						}						
 					}
-				}	
+					if(!isExpression){
+						System.out.println("Variable : "+variableName+ " part : "+partName);
+						Variable auxVariable1 = workflowLayout.variables.get(variableName);
+						
+						if(auxVariable1 == null) ParserStates.printError(lastState, ParserStates.BEGIN_COPY);
+						
+						auxVariable1.setPart(partName, partType, partNaspace);
+						auxCurrentCopyOutputDirective.setFromVariable(variableName);
+						auxCurrentCopyOutputDirective.setFromPart(partName);
+						
+						currentState = ParserStates.BEFORE_QUERY; 
+					}	
 
+				}else{
+					ParserStates.printError(lastState, ParserStates.BEGIN_COPY);					
+				}	
 			}else{
 				ParserStates.printError(lastState, ParserStates.BEGIN_COPY);	
 			}
 			break;
+		case ParserStates.BEFORE_QUERY:
+			String queryLanguage = null;
+			String query = null;
 
+			lastState = currentState;
+			currentState = ParserStates.AFTER_QUERY; 
+			
+			if(qName == ParserStates.QUERY_TAG){
+				System.out.println("INSIDE QUERY");
+				if(attributes != null){
+					for(int x = 0; x < attributes.getLength(); x++){
+						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_QUERY_LANGUAGE ){
+							queryLanguage = attributes.getValue(x);
+						}
+						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_QUERY_QUERY ){
+							query = attributes.getValue(x);
+						}
+					}					
+				}
+				System.out.println("queryLanguage : "+queryLanguage+" query : "+query);
+				auxCurrentCopyOutputDirective.setQuery(query);
+				auxCurrentCopyOutputDirective.setQueryLanguage(queryLanguage);
+			}	
+			
+			break;
 		case ParserStates.BEFORE_TO:
 			if(qName == ParserStates.TO_TAG){
 				lastState =  currentState;
 				currentState = ParserStates.END_TO;
-
+				String variableName = null;
+				String partName = null;
+				String partType = null;
+				QName partNamespace = null;
+				
 				if(attributes != null){
 					for(int x = 0; x < attributes.getLength(); x++){
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_VARIABLE_TAG ){
+							variableName = attributes.getValue(x);
 							System.out.print("variable : "+  attributes.getValue(x));
 						}else{
 							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_PART_TAG){
+								partName = attributes.getValue(x);
 								System.out.println(" part: "+ attributes.getValue(x));
 							}	
 						}
+						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_VARIABLE_TYPE){
+							partType = attributes.getValue(x);
+							
+						}
+						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_VARIABLE_NAMESPACE){
+							partNamespace = new QName(attributes.getValue(x));							
+						}
 					}
+					System.out.println("numVariables = "+workflowLayout.variables.size());
+					Variable auxVariable1 = workflowLayout.variables.get(variableName);
+					
+					// TODO: case we do not find the variable we have an error.
+					// Stop the execution
+					if( workflowLayout.variables.get(variableName) == null){
+						System.out.println("Could not find variable : "+ variableName);
+						
+					}else{
+						auxVariable1.setPart(partName, partType, partNamespace);
+						
+					}
+					auxCurrentCopyOutputDirective.setToVariable(variableName);
+					auxCurrentCopyOutputDirective.setToPart(partType);
+					auxInvokeCurrent.addCopyCommand(auxCurrentCopyOutputDirective);
+					
+				}else{
+					ParserStates.printError(lastState, ParserStates.BEGIN_COPY);					
 				}	
 
 
@@ -372,7 +430,7 @@ public class ParserHandler extends DefaultHandler{
 
 			if(qName == ParserStates.INVOKE_TAG){
 				auxInvoke = new InvokeProperties();
-
+				String actualPortType = "";
 				lastState = currentState;
 				currentState = ParserStates.BEGIN_INVOKE;
 				System.out.println("BEGIN_INVOKE");
@@ -388,17 +446,19 @@ public class ParserHandler extends DefaultHandler{
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_PORT_TYPE_TAG){
 							// Resolve the namespace and obtain a fully qualified type before setting the port type
 							String attribute_value = attributes.getValue(x);
+							actualPortType = attributes.getValue(x);
 							QName operation_qname = ParserHandler.getQName(workflowLayout, attribute_value);
 							auxInvoke.setPortType(operation_qname);
-							System.out.println("Port type is: "+operation_qname);
+							//System.out.println("Port type is: "+operation_qname);
 						}
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_OPERATION){
-
 							// Resolve the namespace and obtain a fully qualified type before setting the operation name
 							String attribute_value = attributes.getValue(x);
-							QName operation_qname = ParserHandler.getQName(workflowLayout, attribute_value);
+							//QName operation_qname = ParserHandler.getQName(workflowLayout, attribute_value);
+							QName operation_qname = getOperationNamespace(workflowLayout, actualPortType, attribute_value);
+							
 							auxInvoke.setOperation(operation_qname);
-							System.out.println("Operation name: "+operation_qname);
+							//System.out.println("Operation name: "+operation_qname);
 						}
 						if(attributes.getQName(x) == ParserStates.ATTRIBUTE_INPUT_VARIABLE){
 							auxInvoke.setInputVariable(attributes.getValue(x));
@@ -431,13 +491,15 @@ public class ParserHandler extends DefaultHandler{
 
 					InvokeProperties auxInvokeEnd = new InvokeProperties();
 					auxInvokeEnd.setIsReply();
-//					System.out.println("BEGIN_REPLY");
+					String actualPortType = "";
+
 					if(attributes != null){
 						for(int x = 0; x < attributes.getLength(); x++){
 							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_NAME_TAG ){
 								auxInvokeEnd.setName(attributes.getValue(x));
 							}
 							if(attributes.getQName(x) == ParserStates.PARTNER_LINK_TAG){
+								
 								auxInvokeEnd.setPartnerLink(attributes.getValue(x));
 
 							}	
@@ -445,15 +507,20 @@ public class ParserHandler extends DefaultHandler{
 
 								// Resolve the namespace and obtain a fully qualified type before setting the port type
 								String attribute_value = attributes.getValue(x);
+								actualPortType = attributes.getValue(x);
 								QName operation_qname = ParserHandler.getQName(workflowLayout, attribute_value);
 								auxInvokeEnd.setPortType(operation_qname);
+								//portTypeNamespace =  ParserHandler.getPortTypeNamespace(workflowLayout, attribute_value);
 								System.out.println("Port type is: "+operation_qname);
 							}
 							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_OPERATION){
 
 								// Resolve the namespace and obtain a fully qualified type before setting the operation name
 								String attribute_value = attributes.getValue(x);
-								QName operation_qname = ParserHandler.getQName(workflowLayout, attribute_value);
+								//QName operation_qname = ParserHandler.getQName(workflowLayout, attribute_value);
+								
+								QName operation_qname = getOperationNamespace(workflowLayout, actualPortType, attribute_value);
+								System.out.println("actualPortType = "+actualPortType);
 								auxInvokeEnd.setOperation(operation_qname);
 								System.out.println("Operation name: "+operation_qname);
 							}
@@ -479,7 +546,27 @@ public class ParserHandler extends DefaultHandler{
 		}
 	}
 
+	private static QName getOperationNamespace(WorkflowProcessLayout workflowLayout2, String portType, String operationName) {
+		String namespace; 
+		// If qualified by a namespace prefix, retrieve the actual namespace. Otherwise, assume retrieve 'targetNamespace'.
+		if( portType.contains(":") ){
+			String namespace_key = portType.substring(0, portType.indexOf(':'));
+			if( namespace_key.equals("tns") ){
+				namespace = workflowLayout2.getTargetNamespace();
+			}
+			else{
+				namespace = workflowLayout2.getServiceNamespace(namespace_key);
+			}
+		}
+		else {
+			namespace = workflowLayout2.getTargetNamespace();
+		}
 
+		QName message_type = new QName(namespace, operationName);
+		//QName message_type = new QName(namespace);
+		return message_type;
+	}
+	
 	/** Resolve a type reference to a QName according to the mapping from a WorkflowProcessLayout instance */
 	private static QName getQName(WorkflowProcessLayout workflowLayout2,
 			String value) {
@@ -606,6 +693,18 @@ public class ParserHandler extends DefaultHandler{
 				// ERROR
 			}
 			break;
+		
+		case ParserStates.AFTER_QUERY:	
+			if(qName == ParserStates.QUERY_TAG){
+				lastState =  currentState;
+				currentState = ParserStates.BEGIN_FROM;
+				System.out.println("Ending QUERY_TAG");
+			}else{
+				// ERROR
+				
+			}	
+			break;
+			
 		case ParserStates.END_REPLY:
 			if(qName == ParserStates.SEQUENCE_TAG){
 				lastState =  currentState;
