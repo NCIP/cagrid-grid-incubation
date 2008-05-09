@@ -1,0 +1,10 @@
+http\://helloworld.cagrid.org/HelloWorldSecure=org.cagrid.helloworld.stubs
+http\://helloworld.cagrid.org/HelloWorldSecure/bindings=org.cagrid.helloworld.stubs.bindings
+http\://helloworld.cagrid.org/HelloWorldSecure/service=org.cagrid.helloworld.stubs.service
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
+
+http\://helloworld.cagrid.org/HelloWorldSecure/types=org.cagrid.helloworld.stubs.types
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security

@@ -17,6 +17,7 @@ public class Service3Impl extends Service3ImplBase {
 	/* Generate a string filled with 'x' and of size 'str_length' */
   public java.lang.String generateX(int str_length) throws RemoteException {
 
+	  System.out.println("[generateX] Invoked");
 		
 		String output = new String();
 		for(int i=0; i < str_length; i++){

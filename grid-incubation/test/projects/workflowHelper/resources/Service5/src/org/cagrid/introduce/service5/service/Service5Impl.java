@@ -17,6 +17,8 @@ public class Service5Impl extends Service5ImplBase {
 	/* Check whether the string received has as many characters as the corresponding attribute indicates */
   public boolean checkStringAndItsLength(org.cagrid.workflow.service1.types.StringAndItsLenght stringAndItsLenght) throws RemoteException {
 		
+	  System.out.println("[checkStringAndItsLength] Invoked");
+	  
 		return (stringAndItsLenght.getStr().length() == stringAndItsLenght.getLength());
 	}
 

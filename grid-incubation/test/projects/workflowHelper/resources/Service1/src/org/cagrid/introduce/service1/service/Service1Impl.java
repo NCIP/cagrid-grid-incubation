@@ -18,6 +18,7 @@ public class Service1Impl extends Service1ImplBase {
 
   public org.cagrid.worklfow.service1.types.StringAndItsLenght generateData(java.lang.String info) throws RemoteException {
 
+	  System.out.println("[generateData] Invoked");
 		return new StringAndItsLenght(info.length(), info);
 	}
 

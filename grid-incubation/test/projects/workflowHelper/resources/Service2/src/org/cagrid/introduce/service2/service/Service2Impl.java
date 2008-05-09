@@ -17,6 +17,7 @@ public class Service2Impl extends Service2ImplBase {
 	/* Change all characters in the string to upper case */
   public java.lang.String capitalize(java.lang.String uncapitalized) throws RemoteException {
 
+	  System.out.println("[capitalize] Invoked");
 		return uncapitalized.toUpperCase();
 	}
 

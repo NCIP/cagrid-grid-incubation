@@ -31,6 +31,8 @@ public class ReceiveArrayServiceImpl extends ReceiveArrayServiceImplBase {
 
   public void receiveArray(java.lang.String[] arrayStr) throws RemoteException {
 
+	  System.out.println("[receiveArray] Invoked");
+	  
 		for(int i=0 ; i < arrayStr.length; i++){
 
 			logstream.println("Element "+i+" is "+arrayStr[i]);
@@ -40,6 +42,8 @@ public class ReceiveArrayServiceImpl extends ReceiveArrayServiceImplBase {
 
   public void receiveArrayAndMore(int number,java.lang.String[] strArray,boolean booleanValue) throws RemoteException {
 
+	  System.out.println("[receiveArrayAndMore] Invoked");
+	  
 		logstream.println("Received integer value is: "+number);
 		logstream.println("Received array of strings:");
 		this.receiveArray(strArray);

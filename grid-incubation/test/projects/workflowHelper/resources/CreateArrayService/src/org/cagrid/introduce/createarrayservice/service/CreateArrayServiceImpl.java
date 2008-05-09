@@ -22,6 +22,7 @@ public class CreateArrayServiceImpl extends CreateArrayServiceImplBase {
 	
   public java.lang.String[] getArray() throws RemoteException {
     
+	  System.out.println("[getArray] Invoked");
 
 	  int array_len = 6;
 	  String[] output = new String[array_len];
@@ -34,6 +35,8 @@ public class CreateArrayServiceImpl extends CreateArrayServiceImplBase {
 
   public org.cagrid.workflow.systemtests.types.ComplexType[] getComplexArray() throws RemoteException {
     
+	  System.out.println("[getComplexArray] Invoked");
+	  
 	  final int array_len = 6;
 	  ComplexType[] output = new ComplexType[array_len];
 	  for(int i=0; i < output.length; i++){

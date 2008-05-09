@@ -21,6 +21,9 @@ public class ValidateOutputsServiceImpl extends ValidateOutputsServiceImplBase {
 		  java.lang.String test3Param1,java.lang.String test3Param2) 
   			throws RemoteException {
 
+	  
+	  System.out.println("[validateTestOutput] Invoked");
+	  
 		/* Match the received values agains the expexted ones */
 
 		// Workflow 1: handling complex arrays
