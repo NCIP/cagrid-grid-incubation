@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="resources/config"/>
+	<classpathentry kind="src" path="test/src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="build/remote-client/lib/asm.jar"/>
 	<classpathentry kind="lib" path="build/remote-client/lib/castor-1.0.2.jar"/>
