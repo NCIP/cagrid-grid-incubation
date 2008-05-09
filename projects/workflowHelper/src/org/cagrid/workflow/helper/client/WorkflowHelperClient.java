@@ -127,6 +127,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					String containerHost = InetAddress.getLocalHost().getHostAddress();
 					String service_prefix = transportProtocol + "://" + containerHost + ':' + containerPort; 
 					
+					System.out.println("Localhost is "+ containerHost);//DEBUG
 					
 					
 					ProxyLifetime delegationLifetime = new ProxyLifetime(4,0,0);
@@ -501,11 +502,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 						// BEGIN service 1				
 						org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation1 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-						String acess_url = "http://140.254.80.98:8080/wsrf/services/cagrid/Service1";
+						String acess_url = "http://"+ containerHost +":8080/wsrf/services/cagrid/Service1"; // TODO Check the port number
 						operation1.setWorkflowID("GeorgeliusWorkFlow");
-						operation1.setOperationQName(new QName("http://service1.workflow.cagrid.org/Service1", "GenerateDataRequest"));
+						operation1.setOperationQName(new QName("http://service1.introduce.cagrid.org/Service1", "GenerateDataRequest"));
 						operation1.setServiceURL(acess_url);
-						operation1.setOutputType(new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"));
+						operation1.setOutputType(new QName("http://service1.introduce.cagrid.org/Service1", "StringAndItsLength"));
 
 						//operation1.setWorkflowInvocationSecurityDescriptor(new WorkflowInvocationSecurityDescriptor());
 						
@@ -759,7 +760,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 
 
-						String access_url6 = "https://140.254.80.98:8443/wsrf/services/cagrid/HelloWorldSecure";
+						String access_url6 = "https://"+ containerHost +":8443/wsrf/services/cagrid/HelloWorldSecure";
 						WorkflowInvocationHelperDescriptor operation6 = new WorkflowInvocationHelperDescriptor();
 						operation6.setOperationQName(new QName("http://helloworld.cagrid.org/HelloWorldSecure", "NewMethodSecureRequest"));
 						operation6.setServiceURL(access_url6);

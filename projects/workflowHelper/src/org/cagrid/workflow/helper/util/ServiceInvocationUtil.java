@@ -94,6 +94,13 @@ public class ServiceInvocationUtil {
 		Node response = null;
 		boolean hasCredential = (proxy != null); // (workflowDescriptor.getWorkflowInvocationSecurityDescriptor() != null)
 
+		
+		String serviceNamespace = workflowDescriptor.getOperationQName().getNamespaceURI();
+		String action_name = serviceNamespace+'/'+workflowDescriptor.getOperationQName().getLocalPart();
+
+
+		
+		
 		try {
 
 			//DEBUG
@@ -102,9 +109,10 @@ public class ServiceInvocationUtil {
 
 			/** Create invocation message */
 			SOAPEnvelope message = new SOAPEnvelope();
+			message.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
 			message.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
 			"http://schemas.xmlsoap.org/ws/2004/03/addressing");
-
+			
 
 
 			/* Create SOAP Header */
@@ -114,27 +122,29 @@ public class ServiceInvocationUtil {
 			// 'To' element
 			SOAPHeaderElement to = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:To")));
 			to.setValue( workflowDescriptor.getServiceURL());
+			to.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
 			to.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
 			"http://schemas.xmlsoap.org/ws/2004/03/addressing");
 			header.addChildElement(to);
 
 
 			// 'Action' element 
-			String serviceNamespace = workflowDescriptor.getOperationQName().getNamespaceURI();
-			String action_name = serviceNamespace+'/'+workflowDescriptor.getOperationQName().getLocalPart();
-
 			SOAPHeaderElement action = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:Action")));
 			action.setValue(action_name);
+			action.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
 			action.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), "http://schemas.xmlsoap.org/ws/2004/03/addressing");
 			header.addChildElement(action);
 
 
 			// 'From' element 
 			SOAPHeaderElement from = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:From")));
+			from.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
 			from.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
 			"http://schemas.xmlsoap.org/ws/2004/03/addressing");
+			
 			SOAPHeaderElement address = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:Address"))); // 'Address' element
 			address.setValue("http://schemas.xmlsoap.org/ws/2004/03/addressing/role/anonymous");
+			address.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
 			address.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
 			"http://schemas.xmlsoap.org/ws/2004/03/addressing");
 			from.addChildElement(address);
