@@ -30,28 +30,32 @@
 
 	<!-- source dirs -->
 	<property name="src.dir" location="${basedir}/src/java" />
+	<property name="test.src.dir" location="${basedir}/test/src/java"/>
 
 	<!-- build output dirs -->
 	<property name="build.dir" location="${basedir}/build"/>
-	<property name="build.dest" location="${build.dir}/classes"/>
+	<property name="build.src.dest" location="${build.dir}/core/classes"/>
+	<property name="build.test.dest" location="${build.dir}/test/classes"/>
 	<property name="build.jars.dir" location="${build.dir}/lib" />
 	<property name="remote-client.dir" location="${build.dir}/remote-client"/>
 	<property name="remote-client.lib.dir" location="${remote-client.dir}/lib"/>
 
 	<!-- jar names -->
 	<property name="preview.core.jar.name" value="${project.jar.prefix}core${project.jar.suffix}" />
+	<property name="preview.tests.jar.name" value="${project.jar.prefix}test${project.jar.suffix}" />
 
 	<!-- jar files -->
 	<property name="preview.core.jar.file" value="${build.jars.dir}/${preview.core.jar.name}" />
+	<property name="preview.tests.jar.file" value="${build.jars.dir}/${preview.tests.jar.name}" />
 
 	<!-- build file for stub generation -->
 	<property name="ant.build.stubs" location="${globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
 
-	<!-- disabled until this project gets testing
+	<!-- import the test build file 
 	<import file="test/test.xml" />
 	-->
 	
-	<!-- classpath -->
+	<!-- main build / run classpath -->
 	<path id="project.classpath">
 		<fileset dir="${globus.dir}/lib">
 			<include name="**/*.jar" />
@@ -72,10 +76,19 @@
 		</fileset>
 	</path>
 	
+	
+	<!-- test classpath -->
+	<path id="test.classpath">
+		<path refid="project.classpath"/>
+		<pathelement location="${build.src.dest}"/>
+	</path>
+	
+	
 	<!-- creates output directories -->
 	<target name="init">
 		<mkdir dir="${build.dir}" />
-		<mkdir dir="${build.dest}" />
+		<mkdir dir="${build.src.dest}" />
+		<mkdir dir="${build.test.dest}" />
 		<mkdir dir="${build.jars.dir}" />
 	</target>
 	
@@ -90,21 +103,43 @@
 
 	<!-- compiles the classes -->
 	<target name="compile" depends="init, unpackSdkClients">
-		<javac srcdir="${src.dir}" destdir="${build.dest}" debug="${java.debug}" source="${java.source}">
+		<javac srcdir="${src.dir}" destdir="${build.src.dest}" debug="${java.debug}" source="${java.source}">
 			<include name="**/*.java" />
 			<classpath refid="project.classpath"/>
 		</javac>
 	</target>
+	
+	
+	<!-- compiles the tests -->
+	<target name="compileTests" depends="compile">
+		<javac srcdir="${test.src.dir}" destdir="${build.test.dest}" debug="${java.debug}" source="${java.source}">
+			<include name="**/*.java"/>
+			<classpath refid="test.classpath"/>
+		</javac>
+	</target>
 
 
-	<!-- jars the common classes -->
+	<!-- jars the common classes and source -->
 	<target name="jar" depends="compile" description="Builds and jars">
 		<jar destfile="${preview.core.jar.file}">
-			<fileset dir="${build.dest}">
+			<fileset dir="${build.src.dest}">
 				<include name="**/*.class" />
 			</fileset>
 			<fileset dir="${src.dir}">
 				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!-- jars the test classes and source -->
+	<target name="jarTests" depends="compileTests" description="Builds and jars tests">
+		<jar destfile="${preview.tests.jar.file}">
+			<fileset dir="${build.test.dest}">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${test.src.dir}">
+				<include name="**/*.java"/>
 			</fileset>
 		</jar>
 	</target>
@@ -121,6 +156,7 @@
 			<classpath refid="project.classpath"/>
 		</java>
 	</target>
+	
 
 	<!-- removes all build output -->
 	<target name="clean" description="Cleans up build artifacts">
@@ -129,5 +165,5 @@
 
 
 	<!-- build and jar everything -->
-	<target name="all" depends="jar" description="Builds and jars all the classes in the project" />
+	<target name="all" depends="jar, jarTests" description="Builds and jars all the classes in the project" />
 </project>
