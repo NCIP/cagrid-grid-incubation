@@ -7,16 +7,15 @@ import gov.nih.nci.cagrid.metadata.dataservice.UMLClassReference;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.cagrid.cql2.preview.processor.DomainModelUtils;
 
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
+
+import org.cagrid.cql2.preview.processor.DomainModelUtils;
 
 /** 
  *  DomainModelUtilsTestCase
