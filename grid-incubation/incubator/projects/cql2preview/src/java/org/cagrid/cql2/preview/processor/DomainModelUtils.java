@@ -67,7 +67,7 @@ public class DomainModelUtils {
 	 * 		All superclasses of the specified UMLClass
 	 */	
 	public static UMLClass[] getAllSuperclasses(DomainModel model, UMLClass umlClass) {
-		return getAllSuperclasses(model, umlClass.getPackageName() + "." + umlClass.getClassName());
+		return getAllSuperclasses(model, getQualifiedClassname(umlClass));
 	}
 	
 	
