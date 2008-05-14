@@ -69,5 +69,34 @@
 	<classpathentry kind="var" path="GT4_LOCATION/lib/xml-apis.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/xmlsec.jar"/>
 	<classpathentry kind="lib" path="lib/fast-md5.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-advertisement-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-Introduce-serviceTools-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-metadata-common-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-metadata-security-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-ServiceSecurityProvider-client-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-ServiceSecurityProvider-common-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-ServiceSecurityProvider-service-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-ServiceSecurityProvider-stubs-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-tideReplicaManager-client-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-tideReplicaManager-common-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-tideReplicaManager-service-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-tideReplicaManager-stubs-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-tideServer-client-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-tideServer-common-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-tideServer-service-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-tideServer-stubs-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-Transfer-client-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-Transfer-common-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-Transfer-service-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-Transfer-stubs-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/castor-0.9.9.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/commons-httpclient-3.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/globus_wsrf_mds_aggregator_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/globus_wsrf_mds_aggregator.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/globus_wsrf_servicegroup_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/globus_wsrf_servicegroup.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/service/jars/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-core-1.3-dev.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
