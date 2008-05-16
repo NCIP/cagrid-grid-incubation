@@ -28,6 +28,20 @@
           </sequence>
         </complexType>
       </element>
+      <element name="SecureGenerateXRequest">
+        <complexType>
+          <sequence>
+            <element name="str_length" type="xs:int" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureGenerateXResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="Service3ResourceProperties">
         <complexType>
           <sequence />
@@ -42,6 +56,12 @@
   <message name="GenerateXResponse">
     <part name="parameters" element="tns:GenerateXResponse" />
   </message>
+  <message name="SecureGenerateXRequest">
+    <part name="parameters" element="tns:SecureGenerateXRequest" />
+  </message>
+  <message name="SecureGenerateXResponse">
+    <part name="parameters" element="tns:SecureGenerateXResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -51,6 +71,10 @@
     <operation name="generateX">
       <input message="tns:GenerateXRequest" wsa:Action="http://service3.introduce.cagrid.org/Service3/GenerateXRequest" />
       <output message="tns:GenerateXResponse" wsa:Action="http://service3.introduce.cagrid.org/Service3/GenerateXResponse" />
+    </operation>
+    <operation name="secureGenerateX">
+      <input message="tns:SecureGenerateXRequest" wsa:Action="http://service3.introduce.cagrid.org/Service3/SecureGenerateXRequest" />
+      <output message="tns:SecureGenerateXResponse" wsa:Action="http://service3.introduce.cagrid.org/Service3/SecureGenerateXResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

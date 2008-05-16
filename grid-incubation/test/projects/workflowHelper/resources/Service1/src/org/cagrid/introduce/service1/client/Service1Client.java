@@ -132,4 +132,14 @@ public class Service1Client extends ServiceSecurityClient implements Service1I {
     }
   }
 
+  public org.cagrid.worklfow.service1.types.StringAndItsLenght secureGenerateData(java.lang.String info) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureGenerateData");
+    org.cagrid.introduce.service1.stubs.SecureGenerateDataRequest params = new org.cagrid.introduce.service1.stubs.SecureGenerateDataRequest();
+    params.setInfo(info);
+    org.cagrid.introduce.service1.stubs.SecureGenerateDataResponse boxedResult = portType.secureGenerateData(params);
+    return boxedResult.getStringAndItsLenght();
+    }
+  }
+
 }

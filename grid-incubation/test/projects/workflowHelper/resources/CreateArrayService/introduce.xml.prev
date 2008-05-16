@@ -83,8 +83,40 @@
      <ns4:Output qName="ns6:ComplexType" description="" isArray="true" xmlns:ns6="http://systemtests.workflow.cagrid.org/SystemTests"/>
      <ns4:Exceptions/>
     </ns4:Method>
+    <ns4:Method description="" isImported="false" isProvided="false" name="secureGetArray" xsi:type="ns4:MethodType">
+     <ns4:Inputs/>
+     <ns4:Output qName="xsd:string" description="" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns4:Exceptions/>
+     <ns7:MethodSecurity xsi:type="ns7:MethodSecurity" xmlns:ns7="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns7:SecuritySetting xsi:type="ns7:SecuritySetting">Custom</ns7:SecuritySetting>
+      <ns7:TransportLevelSecurity xsi:type="ns7:TransportLevelSecurity">
+       <ns7:CommunicationMethod xsi:type="ns7:CommunicationMethod">Privacy</ns7:CommunicationMethod>
+      </ns7:TransportLevelSecurity>
+      <ns7:RunAsMode xsi:type="ns7:RunAsMode">System</ns7:RunAsMode>
+      <ns7:AnonymousClients xsi:type="ns7:AnonymousCommunication">No</ns7:AnonymousClients>
+      <ns7:MethodAuthorization xsi:type="ns7:MethodAuthorization">
+       <ns7:InheritServiceAuthorization xsi:type="ns7:InheritServiceAuthorization"/>
+      </ns7:MethodAuthorization>
+     </ns7:MethodSecurity>
+    </ns4:Method>
+    <ns4:Method description="" isImported="false" isProvided="false" name="secureGetComplexArray" xsi:type="ns4:MethodType">
+     <ns4:Inputs/>
+     <ns4:Output qName="ns8:ComplexType" description="" isArray="true" xmlns:ns8="http://systemtests.workflow.cagrid.org/SystemTests"/>
+     <ns4:Exceptions/>
+     <ns9:MethodSecurity xsi:type="ns9:MethodSecurity" xmlns:ns9="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns9:SecuritySetting xsi:type="ns9:SecuritySetting">Custom</ns9:SecuritySetting>
+      <ns9:TransportLevelSecurity xsi:type="ns9:TransportLevelSecurity">
+       <ns9:CommunicationMethod xsi:type="ns9:CommunicationMethod">Privacy</ns9:CommunicationMethod>
+      </ns9:TransportLevelSecurity>
+      <ns9:RunAsMode xsi:type="ns9:RunAsMode">System</ns9:RunAsMode>
+      <ns9:AnonymousClients xsi:type="ns9:AnonymousCommunication">No</ns9:AnonymousClients>
+      <ns9:MethodAuthorization xsi:type="ns9:MethodAuthorization">
+       <ns9:InheritServiceAuthorization xsi:type="ns9:InheritServiceAuthorization"/>
+      </ns9:MethodAuthorization>
+     </ns9:MethodSecurity>
+    </ns4:Method>
    </ns4:Methods>
-   <ns7:ResourcePropertiesList xsi:type="ns7:ResourcePropertiesListType" xmlns:ns7="gme://gov.nih.nci.cagrid.introduce/1/Resources"/>
+   <ns10:ResourcePropertiesList xsi:type="ns10:ResourcePropertiesListType" xmlns:ns10="gme://gov.nih.nci.cagrid.introduce/1/Resources"/>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Main xsi:type="ns3:Main"/>
@@ -94,5 +126,5 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns8:Extensions xsi:type="ns8:ExtensionsType" xmlns:ns8="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns11:Extensions xsi:type="ns11:ExtensionsType" xmlns:ns11="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
 </ns1:ServiceDescription>

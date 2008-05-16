@@ -29,6 +29,21 @@
           </sequence>
         </complexType>
       </element>
+      <element name="SecurePrintResultsRequest">
+        <complexType>
+          <sequence>
+            <element name="result1" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="result2" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecurePrintResultsResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="Service4ResourceProperties">
         <complexType>
           <sequence />
@@ -43,6 +58,12 @@
   <message name="PrintResultsResponse">
     <part name="parameters" element="tns:PrintResultsResponse" />
   </message>
+  <message name="SecurePrintResultsRequest">
+    <part name="parameters" element="tns:SecurePrintResultsRequest" />
+  </message>
+  <message name="SecurePrintResultsResponse">
+    <part name="parameters" element="tns:SecurePrintResultsResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -52,6 +73,10 @@
     <operation name="printResults">
       <input message="tns:PrintResultsRequest" wsa:Action="http://service4.introduce.cagrid.org/Service4/PrintResultsRequest" />
       <output message="tns:PrintResultsResponse" wsa:Action="http://service4.introduce.cagrid.org/Service4/PrintResultsResponse" />
+    </operation>
+    <operation name="securePrintResults">
+      <input message="tns:SecurePrintResultsRequest" wsa:Action="http://service4.introduce.cagrid.org/Service4/SecurePrintResultsRequest" />
+      <output message="tns:SecurePrintResultsResponse" wsa:Action="http://service4.introduce.cagrid.org/Service4/SecurePrintResultsResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

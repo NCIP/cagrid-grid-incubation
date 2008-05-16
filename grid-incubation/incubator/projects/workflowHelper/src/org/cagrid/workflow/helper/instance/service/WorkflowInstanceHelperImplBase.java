@@ -1,21 +1,13 @@
 package org.cagrid.workflow.helper.instance.service;
 
-import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
-import  org.cagrid.workflow.helper.service.WorkflowHelperConfiguration;
-
 import java.rmi.RemoteException;
 
 import javax.naming.InitialContext;
-import javax.xml.namespace.QName;
 
 import org.apache.axis.MessageContext;
+import org.cagrid.workflow.helper.service.WorkflowHelperConfiguration;
 import org.globus.wsrf.Constants;
-import org.globus.wsrf.ResourceContext;
-import org.globus.wsrf.ResourceContextException;
-import org.globus.wsrf.ResourceException;
 import org.globus.wsrf.ResourceHome;
-import org.globus.wsrf.ResourceProperty;
-import org.globus.wsrf.ResourcePropertySet;
 
 
 /** 

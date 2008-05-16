@@ -127,4 +127,14 @@ public class Service3Client extends ServiceSecurityClient implements Service3I {
     }
   }
 
+  public java.lang.String secureGenerateX(int str_length) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureGenerateX");
+    org.cagrid.introduce.service3.stubs.SecureGenerateXRequest params = new org.cagrid.introduce.service3.stubs.SecureGenerateXRequest();
+    params.setStr_length(str_length);
+    org.cagrid.introduce.service3.stubs.SecureGenerateXResponse boxedResult = portType.secureGenerateX(params);
+    return boxedResult.getResponse();
+    }
+  }
+
 }

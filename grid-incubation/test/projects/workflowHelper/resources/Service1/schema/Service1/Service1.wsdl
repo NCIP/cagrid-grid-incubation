@@ -29,6 +29,20 @@
           </sequence>
         </complexType>
       </element>
+      <element name="SecureGenerateDataRequest">
+        <complexType>
+          <sequence>
+            <element name="info" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureGenerateDataResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:StringAndItsLenght" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="Service1ResourceProperties">
         <complexType>
           <sequence />
@@ -43,6 +57,12 @@
   <message name="GenerateDataResponse">
     <part name="parameters" element="tns:GenerateDataResponse" />
   </message>
+  <message name="SecureGenerateDataRequest">
+    <part name="parameters" element="tns:SecureGenerateDataRequest" />
+  </message>
+  <message name="SecureGenerateDataResponse">
+    <part name="parameters" element="tns:SecureGenerateDataResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -52,6 +72,10 @@
     <operation name="generateData">
       <input message="tns:GenerateDataRequest" wsa:Action="http://service1.introduce.cagrid.org/Service1/GenerateDataRequest" />
       <output message="tns:GenerateDataResponse" wsa:Action="http://service1.introduce.cagrid.org/Service1/GenerateDataResponse" />
+    </operation>
+    <operation name="secureGenerateData">
+      <input message="tns:SecureGenerateDataRequest" wsa:Action="http://service1.introduce.cagrid.org/Service1/SecureGenerateDataRequest" />
+      <output message="tns:SecureGenerateDataResponse" wsa:Action="http://service1.introduce.cagrid.org/Service1/SecureGenerateDataResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

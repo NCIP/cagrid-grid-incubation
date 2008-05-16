@@ -122,6 +122,17 @@ public class Service4Client extends ServiceSecurityClient implements Service4I {
 		}
 	}
 
+  public java.lang.String securePrintResults(java.lang.String result1,java.lang.String result2) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"securePrintResults");
+    org.cagrid.introduce.service4.stubs.SecurePrintResultsRequest params = new org.cagrid.introduce.service4.stubs.SecurePrintResultsRequest();
+    params.setResult1(result1);
+    params.setResult2(result2);
+    org.cagrid.introduce.service4.stubs.SecurePrintResultsResponse boxedResult = portType.securePrintResults(params);
+    return boxedResult.getResponse();
+    }
+  }
+
   public java.lang.String printResults(java.lang.String result1,java.lang.String result2) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"printResults");

@@ -57,6 +57,11 @@ public class Service3Authorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeSecureGenerateX() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -76,6 +81,14 @@ public class Service3Authorization implements PDP {
 		} else if(operation.getLocalPart().equals("generateX")){
 			try{
 				authorizeGenerateX();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("secureGenerateX")){
+			try{
+				authorizeSecureGenerateX();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

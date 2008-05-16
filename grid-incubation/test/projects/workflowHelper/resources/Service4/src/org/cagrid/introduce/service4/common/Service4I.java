@@ -12,6 +12,8 @@ import java.rmi.RemoteException;
  */
 public interface Service4I {
 
+  public java.lang.String securePrintResults(java.lang.String result1,java.lang.String result2) throws RemoteException ;
+
   public java.lang.String printResults(java.lang.String result1,java.lang.String result2) throws RemoteException ;
 
 }

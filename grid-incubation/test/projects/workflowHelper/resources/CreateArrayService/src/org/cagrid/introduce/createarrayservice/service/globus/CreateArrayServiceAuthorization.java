@@ -62,6 +62,16 @@ public class CreateArrayServiceAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeSecureGetArray() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeSecureGetComplexArray() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -89,6 +99,22 @@ public class CreateArrayServiceAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("getComplexArray")){
 			try{
 				authorizeGetComplexArray();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("secureGetArray")){
+			try{
+				authorizeSecureGetArray();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("secureGetComplexArray")){
+			try{
+				authorizeSecureGetComplexArray();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

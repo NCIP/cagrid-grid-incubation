@@ -122,6 +122,39 @@ public class ReceiveArrayServiceClient extends ServiceSecurityClient implements 
 		}
 	}
 
+  public void secureReceiveArray(java.lang.String[] arrayStr) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureReceiveArray");
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayRequest params = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayRequest();
+    params.setArrayStr(arrayStr);
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayResponse boxedResult = portType.secureReceiveArray(params);
+    }
+  }
+
+  public void secureReceiveArrayAndMore(int number,java.lang.String[] strArray,boolean booleanValue) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureReceiveArrayAndMore");
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreRequest params = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreRequest();
+    params.setNumber(number);
+    params.setStrArray(strArray);
+    params.setBooleanValue(booleanValue);
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreResponse boxedResult = portType.secureReceiveArrayAndMore(params);
+    }
+  }
+
+  public void secureReceiveComplexArray(int number,org.cagrid.workflow.systemtests.types.ComplexType complexArray,boolean booleanValue) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureReceiveComplexArray");
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayRequest params = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayRequest();
+    params.setNumber(number);
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayRequestComplexArray complexArrayContainer = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayRequestComplexArray();
+    complexArrayContainer.setComplexType(complexArray);
+    params.setComplexArray(complexArrayContainer);
+    params.setBooleanValue(booleanValue);
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayResponse boxedResult = portType.secureReceiveComplexArray(params);
+    }
+  }
+
   public void receiveArray(java.lang.String[] arrayStr) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"receiveArray");

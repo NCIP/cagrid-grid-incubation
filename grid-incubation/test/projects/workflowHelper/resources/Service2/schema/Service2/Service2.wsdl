@@ -28,6 +28,20 @@
           </sequence>
         </complexType>
       </element>
+      <element name="SecureCapitalizeRequest">
+        <complexType>
+          <sequence>
+            <element name="uncapitalized" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureCapitalizeResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="Service2ResourceProperties">
         <complexType>
           <sequence />
@@ -42,6 +56,12 @@
   <message name="CapitalizeResponse">
     <part name="parameters" element="tns:CapitalizeResponse" />
   </message>
+  <message name="SecureCapitalizeRequest">
+    <part name="parameters" element="tns:SecureCapitalizeRequest" />
+  </message>
+  <message name="SecureCapitalizeResponse">
+    <part name="parameters" element="tns:SecureCapitalizeResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -51,6 +71,10 @@
     <operation name="capitalize">
       <input message="tns:CapitalizeRequest" wsa:Action="http://service2.introduce.cagrid.org/Service2/CapitalizeRequest" />
       <output message="tns:CapitalizeResponse" wsa:Action="http://service2.introduce.cagrid.org/Service2/CapitalizeResponse" />
+    </operation>
+    <operation name="secureCapitalize">
+      <input message="tns:SecureCapitalizeRequest" wsa:Action="http://service2.introduce.cagrid.org/Service2/SecureCapitalizeRequest" />
+      <output message="tns:SecureCapitalizeResponse" wsa:Action="http://service2.introduce.cagrid.org/Service2/SecureCapitalizeResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

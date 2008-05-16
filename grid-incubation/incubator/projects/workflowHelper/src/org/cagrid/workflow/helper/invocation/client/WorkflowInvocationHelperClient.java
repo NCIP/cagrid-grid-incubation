@@ -1,7 +1,5 @@
 package org.cagrid.workflow.helper.invocation.client;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -14,6 +12,7 @@ import org.apache.axis.client.Stub;
 import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.invocation.common.WorkflowInvocationHelperI;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.NotifyCallback;
@@ -190,18 +189,24 @@ public class WorkflowInvocationHelperClient extends
 		
 		MessageElement messageToDeliver = changeMessage.getNewValue().get_any()[0];
 		QName notification_qname = messageToDeliver.getQName();
-		String stageKey = producer.toString();
-		
-		
-		PrintStream log = null;
-		//DEBUG
-		/*try {
-			log = new PrintStream(new File("C:\\invocationDeliver.txt"));
-		} catch (FileNotFoundException e1) {
+		String stageKey = null;
+		try {
+			stageKey = new WorkflowInvocationHelperClient(producer).getEPRString(); //toString();
+		} catch (RemoteException e1) {
 			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			e1.printStackTrace();
+		}  
+		
+		
+		PrintStream log = System.out;  //DEBUG
+		Status messageValue = null;
+		try {
+			messageValue = (Status) messageToDeliver.getValueAsType(notification_qname, Status.class);
+		} catch (Exception e) {
+			e.printStackTrace();
 		} // */
-		log = System.out;
-		//log.println("[WorkflowInvocationHelper.deliver] Received message of type "+ notification_qname + " from "+ stageKey);  //DEBUG
+		//log.println("[WorkflowInvocationHelper.deliver] Received message: "+ messageValue.toString() + " from "+ stageKey);  //DEBUG
 		
 		
 		if(callbacks.containsKey(notification_qname)){
@@ -220,5 +225,14 @@ public class WorkflowInvocationHelperClient extends
 			
 		}
 	}
+
+  public java.lang.String getEPRString() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getEPRString");
+    org.cagrid.workflow.helper.invocation.stubs.GetEPRStringRequest params = new org.cagrid.workflow.helper.invocation.stubs.GetEPRStringRequest();
+    org.cagrid.workflow.helper.invocation.stubs.GetEPRStringResponse boxedResult = portType.getEPRString(params);
+    return boxedResult.getResponse();
+    }
+  }
 
 }

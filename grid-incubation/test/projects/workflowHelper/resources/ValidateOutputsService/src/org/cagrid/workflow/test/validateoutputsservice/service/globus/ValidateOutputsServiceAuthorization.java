@@ -72,6 +72,11 @@ public class ValidateOutputsServiceAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeSecureValidateTestOutput() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -115,6 +120,14 @@ public class ValidateOutputsServiceAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("validateTestOutput")){
 			try{
 				authorizeValidateTestOutput();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("secureValidateTestOutput")){
+			try{
+				authorizeSecureValidateTestOutput();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

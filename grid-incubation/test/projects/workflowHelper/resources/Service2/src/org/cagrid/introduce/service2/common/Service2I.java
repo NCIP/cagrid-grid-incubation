@@ -14,5 +14,7 @@ public interface Service2I {
 
   public java.lang.String capitalize(java.lang.String uncapitalized) throws RemoteException ;
 
+  public java.lang.String secureCapitalize(java.lang.String uncapitalized) throws RemoteException ;
+
 }
 

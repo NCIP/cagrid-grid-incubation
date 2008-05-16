@@ -67,6 +67,26 @@ public class WorkflowInstanceHelperAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeAddCredential() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeRemoveCredential() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeReplaceCredential() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeSetIsInvocationHelperSecure() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -102,6 +122,38 @@ public class WorkflowInstanceHelperAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("createWorkflowInvocationHelper")){
 			try{
 				authorizeCreateWorkflowInvocationHelper();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("addCredential")){
+			try{
+				authorizeAddCredential();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("removeCredential")){
+			try{
+				authorizeRemoveCredential();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("replaceCredential")){
+			try{
+				authorizeReplaceCredential();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("setIsInvocationHelperSecure")){
+			try{
+				authorizeSetIsInvocationHelperSecure();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

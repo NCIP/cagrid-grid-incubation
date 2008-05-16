@@ -127,4 +127,14 @@ public class Service2Client extends ServiceSecurityClient implements Service2I {
     }
   }
 
+  public java.lang.String secureCapitalize(java.lang.String uncapitalized) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureCapitalize");
+    org.cagrid.introduce.service2.stubs.SecureCapitalizeRequest params = new org.cagrid.introduce.service2.stubs.SecureCapitalizeRequest();
+    params.setUncapitalized(uncapitalized);
+    org.cagrid.introduce.service2.stubs.SecureCapitalizeResponse boxedResult = portType.secureCapitalize(params);
+    return boxedResult.getResponse();
+    }
+  }
+
 }

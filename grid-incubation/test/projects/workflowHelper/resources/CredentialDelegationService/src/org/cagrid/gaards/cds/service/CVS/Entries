@@ -1,0 +1,15 @@
+/AbstractDBKeyManager.java/1.2/Fri Oct  5 19:57:39 2007//
+/ConfigurationConstants.java/1.6/Fri Jan 11 03:05:02 2008//
+/CredentialDelegationServiceImpl.java/1.24/Fri Feb 22 16:50:48 2008//
+/CredentialDelegationServiceImplBase.java/1.9/Fri Jan  4 19:17:30 2008//
+/DBKeyManager.java/1.3/Thu Oct  4 19:32:38 2007//
+/DelegatedCredentialManager.java/1.50/Fri Feb 22 16:50:48 2008//
+/DelegationManager.java/1.13/Fri Feb 22 16:50:48 2008//
+/KeyManager.java/1.4/Fri Oct  5 19:57:39 2007//
+/PropertyManager.java/1.7/Thu Feb  7 19:49:52 2008//
+/ProxyPolicy.java/1.3/Wed Oct 10 19:09:26 2007//
+/ServiceConfiguration.java/1.4/Thu Oct 25 00:34:38 2007//
+/WrappedKey.java/1.1/Fri Sep 21 20:30:50 2007//
+D/globus////
+D/policy////
+D/tools////

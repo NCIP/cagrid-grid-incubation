@@ -32,4 +32,10 @@ public class Service1ProviderImpl{
     return boxedResult;
   }
 
+    public org.cagrid.introduce.service1.stubs.SecureGenerateDataResponse secureGenerateData(org.cagrid.introduce.service1.stubs.SecureGenerateDataRequest params) throws RemoteException {
+    org.cagrid.introduce.service1.stubs.SecureGenerateDataResponse boxedResult = new org.cagrid.introduce.service1.stubs.SecureGenerateDataResponse();
+    boxedResult.setStringAndItsLenght(impl.secureGenerateData(params.getInfo()));
+    return boxedResult;
+  }
+
 }

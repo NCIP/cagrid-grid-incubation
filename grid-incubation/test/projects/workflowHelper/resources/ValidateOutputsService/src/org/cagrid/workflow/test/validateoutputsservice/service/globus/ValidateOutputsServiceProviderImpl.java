@@ -26,6 +26,12 @@ public class ValidateOutputsServiceProviderImpl{
 	}
 	
 
+    public org.cagrid.workflow.test.validateoutputsservice.stubs.SecureValidateTestOutputResponse secureValidateTestOutput(org.cagrid.workflow.test.validateoutputsservice.stubs.SecureValidateTestOutputRequest params) throws RemoteException {
+    org.cagrid.workflow.test.validateoutputsservice.stubs.SecureValidateTestOutputResponse boxedResult = new org.cagrid.workflow.test.validateoutputsservice.stubs.SecureValidateTestOutputResponse();
+    impl.secureValidateTestOutput(params.getTest1Param1(),params.getTest1Param2().getComplexType(),params.isTest1Param3(),params.getTest2Param1(),params.getTest2Param2(),params.isTest2Param3(),params.getTest3Param1(),params.getTest3Param2());
+    return boxedResult;
+  }
+
     public org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputResponse validateTestOutput(org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputRequest params) throws RemoteException {
     org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputResponse boxedResult = new org.cagrid.workflow.test.validateoutputsservice.stubs.ValidateTestOutputResponse();
     impl.validateTestOutput(params.getTest1Param1(),params.getTest1Param2().getComplexType(),params.isTest1Param3(),params.getTest2Param1(),params.getTest2Param2(),params.isTest2Param3(),params.getTest3Param1(),params.getTest3Param2());

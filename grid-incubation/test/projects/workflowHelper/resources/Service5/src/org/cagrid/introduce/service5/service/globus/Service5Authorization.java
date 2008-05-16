@@ -57,6 +57,11 @@ public class Service5Authorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeSecureCheckStringAndItsLength() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -76,6 +81,14 @@ public class Service5Authorization implements PDP {
 		} else if(operation.getLocalPart().equals("checkStringAndItsLength")){
 			try{
 				authorizeCheckStringAndItsLength();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("secureCheckStringAndItsLength")){
+			try{
+				authorizeSecureCheckStringAndItsLength();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

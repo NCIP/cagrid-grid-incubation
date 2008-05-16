@@ -41,6 +41,31 @@
           <sequence />
         </complexType>
       </element>
+      <element name="SecureValidateTestOutputRequest">
+        <complexType>
+          <sequence>
+            <element name="test1Param1" type="xs:int" minOccurs="1" maxOccurs="1" />
+            <element name="test1Param2">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:ComplexType" minOccurs="1" maxOccurs="unbounded" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="test1Param3" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+            <element name="test2Param1" type="xs:int" minOccurs="1" maxOccurs="1" />
+            <element name="test2Param2" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+            <element name="test2Param3" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+            <element name="test3Param1" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="test3Param2" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureValidateTestOutputResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
       <element name="ValidateOutputsServiceResourceProperties">
         <complexType>
           <sequence />
@@ -55,6 +80,12 @@
   <message name="ValidateTestOutputResponse">
     <part name="parameters" element="tns:ValidateTestOutputResponse" />
   </message>
+  <message name="SecureValidateTestOutputRequest">
+    <part name="parameters" element="tns:SecureValidateTestOutputRequest" />
+  </message>
+  <message name="SecureValidateTestOutputResponse">
+    <part name="parameters" element="tns:SecureValidateTestOutputResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -64,6 +95,10 @@
     <operation name="validateTestOutput">
       <input message="tns:ValidateTestOutputRequest" wsa:Action="http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService/ValidateTestOutputRequest" />
       <output message="tns:ValidateTestOutputResponse" wsa:Action="http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService/ValidateTestOutputResponse" />
+    </operation>
+    <operation name="secureValidateTestOutput">
+      <input message="tns:SecureValidateTestOutputRequest" wsa:Action="http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService/SecureValidateTestOutputRequest" />
+      <output message="tns:SecureValidateTestOutputResponse" wsa:Action="http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService/SecureValidateTestOutputResponse" />
     </operation>
     <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetMultipleResourceProperties">
       <wsdl:input name="GetMultipleResourcePropertiesRequest" message="wsrpw:GetMultipleResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" />

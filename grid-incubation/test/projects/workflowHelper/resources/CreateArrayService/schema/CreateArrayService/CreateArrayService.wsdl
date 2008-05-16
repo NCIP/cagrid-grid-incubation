@@ -39,6 +39,30 @@
           </sequence>
         </complexType>
       </element>
+      <element name="SecureGetArrayRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="SecureGetArrayResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureGetComplexArrayRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="SecureGetComplexArrayResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:ComplexType" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="CreateArrayServiceResourceProperties">
         <complexType>
           <sequence />
@@ -59,6 +83,18 @@
   <message name="GetComplexArrayResponse">
     <part name="parameters" element="tns:GetComplexArrayResponse" />
   </message>
+  <message name="SecureGetArrayRequest">
+    <part name="parameters" element="tns:SecureGetArrayRequest" />
+  </message>
+  <message name="SecureGetArrayResponse">
+    <part name="parameters" element="tns:SecureGetArrayResponse" />
+  </message>
+  <message name="SecureGetComplexArrayRequest">
+    <part name="parameters" element="tns:SecureGetComplexArrayRequest" />
+  </message>
+  <message name="SecureGetComplexArrayResponse">
+    <part name="parameters" element="tns:SecureGetComplexArrayResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -72,6 +108,14 @@
     <operation name="getComplexArray">
       <input message="tns:GetComplexArrayRequest" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/GetComplexArrayRequest" />
       <output message="tns:GetComplexArrayResponse" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/GetComplexArrayResponse" />
+    </operation>
+    <operation name="secureGetArray">
+      <input message="tns:SecureGetArrayRequest" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/SecureGetArrayRequest" />
+      <output message="tns:SecureGetArrayResponse" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/SecureGetArrayResponse" />
+    </operation>
+    <operation name="secureGetComplexArray">
+      <input message="tns:SecureGetComplexArrayRequest" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/SecureGetComplexArrayRequest" />
+      <output message="tns:SecureGetComplexArrayResponse" wsa:Action="http://createarrayservice.introduce.cagrid.org/CreateArrayService/SecureGetComplexArrayResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

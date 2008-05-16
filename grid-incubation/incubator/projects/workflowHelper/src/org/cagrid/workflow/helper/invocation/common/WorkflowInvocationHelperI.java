@@ -26,5 +26,7 @@ public interface WorkflowInvocationHelperI {
 
   public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException ;
 
+  public java.lang.String getEPRString() throws RemoteException ;
+
 }
 

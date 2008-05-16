@@ -26,6 +26,18 @@ public class CreateArrayServiceProviderImpl{
 	}
 	
 
+    public org.cagrid.introduce.createarrayservice.stubs.SecureGetArrayResponse secureGetArray(org.cagrid.introduce.createarrayservice.stubs.SecureGetArrayRequest params) throws RemoteException {
+    org.cagrid.introduce.createarrayservice.stubs.SecureGetArrayResponse boxedResult = new org.cagrid.introduce.createarrayservice.stubs.SecureGetArrayResponse();
+    boxedResult.setResponse(impl.secureGetArray());
+    return boxedResult;
+  }
+
+    public org.cagrid.introduce.createarrayservice.stubs.SecureGetComplexArrayResponse secureGetComplexArray(org.cagrid.introduce.createarrayservice.stubs.SecureGetComplexArrayRequest params) throws RemoteException {
+    org.cagrid.introduce.createarrayservice.stubs.SecureGetComplexArrayResponse boxedResult = new org.cagrid.introduce.createarrayservice.stubs.SecureGetComplexArrayResponse();
+    boxedResult.setComplexType(impl.secureGetComplexArray());
+    return boxedResult;
+  }
+
     public org.cagrid.introduce.createarrayservice.stubs.GetArrayResponse getArray(org.cagrid.introduce.createarrayservice.stubs.GetArrayRequest params) throws RemoteException {
     org.cagrid.introduce.createarrayservice.stubs.GetArrayResponse boxedResult = new org.cagrid.introduce.createarrayservice.stubs.GetArrayResponse();
     boxedResult.setResponse(impl.getArray());

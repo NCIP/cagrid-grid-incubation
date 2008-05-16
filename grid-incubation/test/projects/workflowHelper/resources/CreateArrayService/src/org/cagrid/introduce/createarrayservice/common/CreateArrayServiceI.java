@@ -12,6 +12,10 @@ import java.rmi.RemoteException;
  */
 public interface CreateArrayServiceI {
 
+  public java.lang.String[] secureGetArray() throws RemoteException ;
+
+  public org.cagrid.workflow.systemtests.types.ComplexType[] secureGetComplexArray() throws RemoteException ;
+
   public java.lang.String[] getArray() throws RemoteException ;
 
   public org.cagrid.workflow.systemtests.types.ComplexType[] getComplexArray() throws RemoteException ;

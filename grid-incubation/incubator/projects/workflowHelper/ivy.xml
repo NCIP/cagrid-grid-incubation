@@ -47,8 +47,15 @@
     <dependency rev="${target.grid}" org="caGrid" name="target_grid" conf="target_grid->urls"/>
     
     <dependency rev="latest.integration" org="caGrid" name="testing" conf="impl-test->system"/>
+    <dependency rev="latest.integration" org="caGrid" name="authentication-service" conf="impl->client"/>
+    <dependency rev="latest.integration" org="caGrid" name="authentication-service" conf="impl->common"/>
 
-    <!-- Extenernal Dependencies -->
+    <dependency rev="latest.integration" org="caGrid" name="opensaml" conf="impl->default"/>
+    <dependency rev="latest.integration" org="caGrid" name="dorian" conf="impl->client"/>
+    
+    
+
+    <!-- External Dependencies -->
     <dependency rev="1.0" org="jdom" name="jdom" conf="service->*"/>
   </dependencies>
 </ivy-module>

@@ -21,6 +21,7 @@ import junit.textui.TestRunner;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.types.URI;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.apache.log4j.PropertyConfigurator;
 import org.cagrid.workflow.helper.tests.system.steps.CreateTestWorkflowsStep;
 
 
@@ -32,7 +33,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
 
     public BasicWorkflowServicesTest(ServiceContainer container) {
         super(container);
-         /*PropertyConfigurator.configure("." + File.separator + "conf" +
+         PropertyConfigurator.configure("." + File.separator + "conf" +
          File.separator
          + "log4j.properties"); // */
     }
@@ -47,7 +48,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
             e.printStackTrace();
             Assert.fail();
         }
-         /*PropertyConfigurator.configure("." + File.separator + "conf" +
+         PropertyConfigurator.configure("." + File.separator + "conf" +
          File.separator
          + "log4j.properties"); // */
     }
@@ -55,7 +56,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
 
     @Override
     public String getDescription() {
-        return "Basic Wokflows Testing";
+        return "Basic (non-secure) Wokflows Testing";
     }
 
 
@@ -77,7 +78,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
                 new File(tests_basedir + "Service2"),
                 new File(tests_basedir + "Service3"),
                 new File(tests_basedir + "Service4"),
-                new File(tests_basedir + "Service5"),
+                new File(tests_basedir + "Service5"), // */
                 new File(tests_basedir + "ReceiveArrayService"),
                 new File(tests_basedir + "CreateArrayService"),
                 new File(tests_basedir + "ValidateOutputsService"),
@@ -154,7 +155,14 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
     	try{
     		TestRunner runner = new TestRunner();
     		TestResult result = runner.doRun(new TestSuite(BasicWorkflowServicesTest.class));
-    		System.exit(result.errorCount() + result.failureCount());
+    		//System.exit(result.errorCount() + result.failureCount());
+			int retval = result.errorCount() + result.failureCount();
+    		
+			/*TestResult result2 = runner.doRun(new TestSuite(SecureWorkflowServicesTest.class));
+			retval += result2.errorCount() + result2.failureCount(); // */
+			
+			System.exit(retval);
+			
     	}
     	catch(Throwable t){
     		t.printStackTrace();

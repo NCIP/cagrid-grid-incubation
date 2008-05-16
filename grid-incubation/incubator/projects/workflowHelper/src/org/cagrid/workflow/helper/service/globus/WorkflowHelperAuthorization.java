@@ -72,6 +72,11 @@ public class WorkflowHelperAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeGetIdentity() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -115,6 +120,14 @@ public class WorkflowHelperAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("createWorkflowInstanceHelper")){
 			try{
 				authorizeCreateWorkflowInstanceHelper();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("getIdentity")){
+			try{
+				authorizeGetIdentity();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

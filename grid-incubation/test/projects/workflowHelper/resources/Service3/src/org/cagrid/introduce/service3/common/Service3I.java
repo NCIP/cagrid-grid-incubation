@@ -14,5 +14,7 @@ public interface Service3I {
 
   public java.lang.String generateX(int str_length) throws RemoteException ;
 
+  public java.lang.String secureGenerateX(int str_length) throws RemoteException ;
+
 }
 

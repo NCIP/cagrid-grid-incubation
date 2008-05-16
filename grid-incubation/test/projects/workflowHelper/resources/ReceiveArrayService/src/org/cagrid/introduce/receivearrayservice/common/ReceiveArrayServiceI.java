@@ -12,6 +12,12 @@ import java.rmi.RemoteException;
  */
 public interface ReceiveArrayServiceI {
 
+  public void secureReceiveArray(java.lang.String[] arrayStr) throws RemoteException ;
+
+  public void secureReceiveArrayAndMore(int number,java.lang.String[] strArray,boolean booleanValue) throws RemoteException ;
+
+  public void secureReceiveComplexArray(int number,org.cagrid.workflow.systemtests.types.ComplexType complexArray,boolean booleanValue) throws RemoteException ;
+
   public void receiveArray(java.lang.String[] arrayStr) throws RemoteException ;
 
   public void receiveArrayAndMore(int number,java.lang.String[] strArray,boolean booleanValue) throws RemoteException ;

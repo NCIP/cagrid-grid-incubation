@@ -26,6 +26,12 @@ public class Service5ProviderImpl{
 	}
 	
 
+    public org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthResponse secureCheckStringAndItsLength(org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthRequest params) throws RemoteException {
+    org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthResponse boxedResult = new org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthResponse();
+    boxedResult.setResponse(impl.secureCheckStringAndItsLength(params.getStringAndItsLenght().getStringAndItsLenght()));
+    return boxedResult;
+  }
+
     public org.cagrid.introduce.service5.stubs.CheckStringAndItsLengthResponse checkStringAndItsLength(org.cagrid.introduce.service5.stubs.CheckStringAndItsLengthRequest params) throws RemoteException {
     org.cagrid.introduce.service5.stubs.CheckStringAndItsLengthResponse boxedResult = new org.cagrid.introduce.service5.stubs.CheckStringAndItsLengthResponse();
     boxedResult.setResponse(impl.checkStringAndItsLength(params.getStringAndItsLenght().getStringAndItsLenght()));

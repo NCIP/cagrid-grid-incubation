@@ -116,6 +116,10 @@
           <name>etcDirectoryPath</name>
           <value>ETC-PATH</value>
         </parameter>
+        <parameter>
+          <name>helperIdentity</name>
+          <value>@helperIdentity@</value>
+        </parameter>
       </resourceParams>
     </resource>
     <resource name="home" type="org.cagrid.workflow.helper.service.globus.resource.WorkflowHelperResourceHome">

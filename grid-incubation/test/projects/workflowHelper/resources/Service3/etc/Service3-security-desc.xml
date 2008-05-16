@@ -24,6 +24,18 @@
     <none />
   </auth-method>
   <authz value="none" />
+  <method name="secureGenerateX">
+    <auth-method>
+      <GSITransport>
+        <protection-level>
+          <privacy />
+        </protection-level>
+      </GSITransport>
+    </auth-method>
+    <run-as>
+      <system-identity />
+    </run-as>
+  </method>
 </securityConfig>
 
 

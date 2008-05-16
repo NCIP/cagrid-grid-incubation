@@ -80,8 +80,26 @@
      <ns4:Output qName="ns6:StringAndItsLenght" description="" isArray="false" xmlns:ns6="http://service1.workflow.cagrid.org/Service1"/>
      <ns4:Exceptions/>
     </ns4:Method>
+    <ns4:Method description="" isImported="false" isProvided="false" name="secureGenerateData" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="info" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns7:StringAndItsLenght" description="" isArray="false" xmlns:ns7="http://service1.workflow.cagrid.org/Service1"/>
+     <ns4:Exceptions/>
+     <ns8:MethodSecurity xsi:type="ns8:MethodSecurity" xmlns:ns8="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns8:SecuritySetting xsi:type="ns8:SecuritySetting">Custom</ns8:SecuritySetting>
+      <ns8:TransportLevelSecurity xsi:type="ns8:TransportLevelSecurity">
+       <ns8:CommunicationMethod xsi:type="ns8:CommunicationMethod">Privacy</ns8:CommunicationMethod>
+      </ns8:TransportLevelSecurity>
+      <ns8:RunAsMode xsi:type="ns8:RunAsMode">System</ns8:RunAsMode>
+      <ns8:AnonymousClients xsi:type="ns8:AnonymousCommunication">No</ns8:AnonymousClients>
+      <ns8:MethodAuthorization xsi:type="ns8:MethodAuthorization">
+       <ns8:InheritServiceAuthorization xsi:type="ns8:InheritServiceAuthorization"/>
+      </ns8:MethodAuthorization>
+     </ns8:MethodSecurity>
+    </ns4:Method>
    </ns4:Methods>
-   <ns7:ResourcePropertiesList xsi:type="ns7:ResourcePropertiesListType" xmlns:ns7="gme://gov.nih.nci.cagrid.introduce/1/Resources"/>
+   <ns9:ResourcePropertiesList xsi:type="ns9:ResourcePropertiesListType" xmlns:ns9="gme://gov.nih.nci.cagrid.introduce/1/Resources"/>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Main xsi:type="ns3:Main"/>
@@ -91,5 +109,5 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns8:Extensions xsi:type="ns8:ExtensionsType" xmlns:ns8="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns10:Extensions xsi:type="ns10:ExtensionsType" xmlns:ns10="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
 </ns1:ServiceDescription>

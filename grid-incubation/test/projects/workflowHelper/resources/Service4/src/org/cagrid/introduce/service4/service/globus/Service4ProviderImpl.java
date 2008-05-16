@@ -26,6 +26,12 @@ public class Service4ProviderImpl{
 	}
 	
 
+    public org.cagrid.introduce.service4.stubs.SecurePrintResultsResponse securePrintResults(org.cagrid.introduce.service4.stubs.SecurePrintResultsRequest params) throws RemoteException {
+    org.cagrid.introduce.service4.stubs.SecurePrintResultsResponse boxedResult = new org.cagrid.introduce.service4.stubs.SecurePrintResultsResponse();
+    boxedResult.setResponse(impl.securePrintResults(params.getResult1(),params.getResult2()));
+    return boxedResult;
+  }
+
     public org.cagrid.introduce.service4.stubs.PrintResultsResponse printResults(org.cagrid.introduce.service4.stubs.PrintResultsRequest params) throws RemoteException {
     org.cagrid.introduce.service4.stubs.PrintResultsResponse boxedResult = new org.cagrid.introduce.service4.stubs.PrintResultsResponse();
     boxedResult.setResponse(impl.printResults(params.getResult1(),params.getResult2()));

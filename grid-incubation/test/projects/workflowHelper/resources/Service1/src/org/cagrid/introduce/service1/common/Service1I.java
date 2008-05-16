@@ -14,5 +14,7 @@ public interface Service1I {
 
   public org.cagrid.worklfow.service1.types.StringAndItsLenght generateData(java.lang.String info) throws RemoteException ;
 
+  public org.cagrid.worklfow.service1.types.StringAndItsLenght secureGenerateData(java.lang.String info) throws RemoteException ;
+
 }
 

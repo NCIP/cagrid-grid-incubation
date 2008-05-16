@@ -32,4 +32,10 @@ public class Service2ProviderImpl{
     return boxedResult;
   }
 
+    public org.cagrid.introduce.service2.stubs.SecureCapitalizeResponse secureCapitalize(org.cagrid.introduce.service2.stubs.SecureCapitalizeRequest params) throws RemoteException {
+    org.cagrid.introduce.service2.stubs.SecureCapitalizeResponse boxedResult = new org.cagrid.introduce.service2.stubs.SecureCapitalizeResponse();
+    boxedResult.setResponse(impl.secureCapitalize(params.getUncapitalized()));
+    return boxedResult;
+  }
+
 }

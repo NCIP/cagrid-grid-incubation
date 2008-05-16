@@ -40,6 +40,93 @@
           </sequence>
         </complexType>
       </element>
+      <element name="AddCredentialRequest">
+        <complexType>
+          <sequence>
+            <element name="serviceOperationEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="proxyEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AddCredentialResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="RemoveCredentialRequest">
+        <complexType>
+          <sequence>
+            <element name="proxyEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveCredentialResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="ReplaceCredentialRequest">
+        <complexType>
+          <sequence>
+            <element name="serviceOperationEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="proxyEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ReplaceCredentialResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="SetIsInvocationHelperSecureRequest">
+        <complexType>
+          <sequence>
+            <element name="serviceOperationEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="isSecure" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SetIsInvocationHelperSecureResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
       <element name="WorkflowInstanceHelperResourceProperties">
         <complexType>
           <sequence>
@@ -59,6 +146,30 @@
   <message name="CreateWorkflowInvocationHelperResponse">
     <part name="parameters" element="tns:CreateWorkflowInvocationHelperResponse" />
   </message>
+  <message name="AddCredentialRequest">
+    <part name="parameters" element="tns:AddCredentialRequest" />
+  </message>
+  <message name="AddCredentialResponse">
+    <part name="parameters" element="tns:AddCredentialResponse" />
+  </message>
+  <message name="RemoveCredentialRequest">
+    <part name="parameters" element="tns:RemoveCredentialRequest" />
+  </message>
+  <message name="RemoveCredentialResponse">
+    <part name="parameters" element="tns:RemoveCredentialResponse" />
+  </message>
+  <message name="ReplaceCredentialRequest">
+    <part name="parameters" element="tns:ReplaceCredentialRequest" />
+  </message>
+  <message name="ReplaceCredentialResponse">
+    <part name="parameters" element="tns:ReplaceCredentialResponse" />
+  </message>
+  <message name="SetIsInvocationHelperSecureRequest">
+    <part name="parameters" element="tns:SetIsInvocationHelperSecureRequest" />
+  </message>
+  <message name="SetIsInvocationHelperSecureResponse">
+    <part name="parameters" element="tns:SetIsInvocationHelperSecureResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -68,6 +179,22 @@
     <operation name="createWorkflowInvocationHelper">
       <input message="tns:CreateWorkflowInvocationHelperRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/CreateWorkflowInvocationHelperRequest" />
       <output message="tns:CreateWorkflowInvocationHelperResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/CreateWorkflowInvocationHelperResponse" />
+    </operation>
+    <operation name="addCredential">
+      <input message="tns:AddCredentialRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/AddCredentialRequest" />
+      <output message="tns:AddCredentialResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/AddCredentialResponse" />
+    </operation>
+    <operation name="removeCredential">
+      <input message="tns:RemoveCredentialRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/RemoveCredentialRequest" />
+      <output message="tns:RemoveCredentialResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/RemoveCredentialResponse" />
+    </operation>
+    <operation name="replaceCredential">
+      <input message="tns:ReplaceCredentialRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/ReplaceCredentialRequest" />
+      <output message="tns:ReplaceCredentialResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/ReplaceCredentialResponse" />
+    </operation>
+    <operation name="setIsInvocationHelperSecure">
+      <input message="tns:SetIsInvocationHelperSecureRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/SetIsInvocationHelperSecureRequest" />
+      <output message="tns:SetIsInvocationHelperSecureResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/SetIsInvocationHelperSecureResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

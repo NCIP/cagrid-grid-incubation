@@ -32,4 +32,10 @@ public class Service3ProviderImpl{
     return boxedResult;
   }
 
+    public org.cagrid.introduce.service3.stubs.SecureGenerateXResponse secureGenerateX(org.cagrid.introduce.service3.stubs.SecureGenerateXRequest params) throws RemoteException {
+    org.cagrid.introduce.service3.stubs.SecureGenerateXResponse boxedResult = new org.cagrid.introduce.service3.stubs.SecureGenerateXResponse();
+    boxedResult.setResponse(impl.secureGenerateX(params.getStr_length()));
+    return boxedResult;
+  }
+
 }

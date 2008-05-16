@@ -24,6 +24,42 @@
     <none />
   </auth-method>
   <authz value="none" />
+  <method name="secureReceiveArray">
+    <auth-method>
+      <GSITransport>
+        <protection-level>
+          <privacy />
+        </protection-level>
+      </GSITransport>
+    </auth-method>
+    <run-as>
+      <system-identity />
+    </run-as>
+  </method>
+  <method name="secureReceiveArrayAndMore">
+    <auth-method>
+      <GSITransport>
+        <protection-level>
+          <privacy />
+        </protection-level>
+      </GSITransport>
+    </auth-method>
+    <run-as>
+      <system-identity />
+    </run-as>
+  </method>
+  <method name="secureReceiveComplexArray">
+    <auth-method>
+      <GSITransport>
+        <protection-level>
+          <privacy />
+        </protection-level>
+      </GSITransport>
+    </auth-method>
+    <run-as>
+      <system-identity />
+    </run-as>
+  </method>
 </securityConfig>
 
 

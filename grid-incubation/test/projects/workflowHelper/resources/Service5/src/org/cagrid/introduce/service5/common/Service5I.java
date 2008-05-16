@@ -12,6 +12,8 @@ import java.rmi.RemoteException;
  */
 public interface Service5I {
 
+  public boolean secureCheckStringAndItsLength(org.cagrid.workflow.service1.types.StringAndItsLenght stringAndItsLenght) throws RemoteException ;
+
   public boolean checkStringAndItsLength(org.cagrid.workflow.service1.types.StringAndItsLenght stringAndItsLenght) throws RemoteException ;
 
 }

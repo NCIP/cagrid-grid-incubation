@@ -124,6 +124,18 @@ public class Service5Client extends ServiceSecurityClient implements Service5I {
 		}
 	}
 
+  public boolean secureCheckStringAndItsLength(org.cagrid.workflow.service1.types.StringAndItsLenght stringAndItsLenght) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureCheckStringAndItsLength");
+    org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthRequest params = new org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthRequest();
+    org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthRequestStringAndItsLenght stringAndItsLenghtContainer = new org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthRequestStringAndItsLenght();
+    stringAndItsLenghtContainer.setStringAndItsLenght(stringAndItsLenght);
+    params.setStringAndItsLenght(stringAndItsLenghtContainer);
+    org.cagrid.introduce.service5.stubs.SecureCheckStringAndItsLengthResponse boxedResult = portType.secureCheckStringAndItsLength(params);
+    return boxedResult.isResponse();
+    }
+  }
+
   public boolean checkStringAndItsLength(org.cagrid.workflow.service1.types.StringAndItsLenght stringAndItsLenght) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"checkStringAndItsLength");

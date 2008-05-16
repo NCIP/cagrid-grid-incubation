@@ -50,4 +50,10 @@ public class WorkflowInvocationHelperProviderImpl{
     return boxedResult;
   }
 
+    public org.cagrid.workflow.helper.invocation.stubs.GetEPRStringResponse getEPRString(org.cagrid.workflow.helper.invocation.stubs.GetEPRStringRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.invocation.stubs.GetEPRStringResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.GetEPRStringResponse();
+    boxedResult.setResponse(impl.getEPRString());
+    return boxedResult;
+  }
+
 }

@@ -1,12 +1,10 @@
 package org.cagrid.workflow.helper.instance.client;
 
+import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
+
 import java.io.InputStream;
 import java.rmi.RemoteException;
-
-import javax.xml.namespace.QName;
-
 import java.util.Calendar;
-import java.util.List;
 
 import org.apache.axis.EngineConfiguration;
 import org.apache.axis.client.AxisClient;
@@ -14,20 +12,10 @@ import org.apache.axis.client.Stub;
 import org.apache.axis.configuration.FileProvider;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
-
-import org.globus.gsi.GlobusCredential;
-
-import org.globus.wsrf.NotifyCallback;
-import org.globus.wsrf.NotificationConsumerManager;
-import org.globus.wsrf.container.ContainerException;
-
-import org.oasis.wsrf.lifetime.ImmediateResourceTermination;
-import org.oasis.wsrf.lifetime.WSResourceLifetimeServiceAddressingLocator;
-
 import org.cagrid.workflow.helper.instance.stubs.WorkflowInstanceHelperPortType;
 import org.cagrid.workflow.helper.instance.stubs.service.WorkflowInstanceHelperServiceAddressingLocator;
-import org.cagrid.workflow.helper.instance.common.WorkflowInstanceHelperI;
-import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
+import org.globus.gsi.GlobusCredential;
+import org.globus.wsrf.NotificationConsumerManager;
 
 
 /**

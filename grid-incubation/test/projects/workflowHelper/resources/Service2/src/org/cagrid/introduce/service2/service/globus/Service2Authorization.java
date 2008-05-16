@@ -57,6 +57,11 @@ public class Service2Authorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeSecureCapitalize() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -76,6 +81,14 @@ public class Service2Authorization implements PDP {
 		} else if(operation.getLocalPart().equals("capitalize")){
 			try{
 				authorizeCapitalize();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("secureCapitalize")){
+			try{
+				authorizeSecureCapitalize();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

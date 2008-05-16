@@ -20,5 +20,7 @@ public interface WorkflowHelperI {
 
   public org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient createWorkflowInstanceHelper(org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptor) throws RemoteException, org.apache.axis.types.URI.MalformedURIException ;
 
+  public java.lang.String getIdentity() throws RemoteException ;
+
 }
 

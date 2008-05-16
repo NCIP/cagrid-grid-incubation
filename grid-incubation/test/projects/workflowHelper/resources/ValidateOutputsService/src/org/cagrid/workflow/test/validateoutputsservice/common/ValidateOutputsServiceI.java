@@ -12,13 +12,15 @@ import java.rmi.RemoteException;
  */
 public interface ValidateOutputsServiceI {
 
-  public void validateTestOutput(int test1Param1,org.workflow.systemtests.types.ComplexType[] test1Param2,boolean test1Param3,int test2Param1,java.lang.String[] test2Param2,boolean test2Param3,java.lang.String test3Param1,java.lang.String test3Param2) throws RemoteException ;
+  public void secureValidateTestOutput(int test1Param1,org.workflow.systemtests.types.ComplexType[] test1Param2,boolean test1Param3,int test2Param1,java.lang.String[] test2Param2,boolean test2Param3,java.lang.String test3Param1,java.lang.String test3Param2) throws RemoteException ;
 
   public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
 
   public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;
 
   public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException ;
+
+  public void validateTestOutput(int test1Param1,org.workflow.systemtests.types.ComplexType[] test1Param2,boolean test1Param3,int test2Param1,java.lang.String[] test2Param2,boolean test2Param3,java.lang.String test3Param1,java.lang.String test3Param2) throws RemoteException ;
 
 }
 

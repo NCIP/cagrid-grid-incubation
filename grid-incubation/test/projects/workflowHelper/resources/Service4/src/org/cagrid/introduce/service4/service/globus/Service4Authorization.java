@@ -57,6 +57,11 @@ public class Service4Authorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeSecurePrintResults() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -76,6 +81,14 @@ public class Service4Authorization implements PDP {
 		} else if(operation.getLocalPart().equals("printResults")){
 			try{
 				authorizePrintResults();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("securePrintResults")){
+			try{
+				authorizeSecurePrintResults();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

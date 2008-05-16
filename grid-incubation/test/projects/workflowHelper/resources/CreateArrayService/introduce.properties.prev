@@ -1,10 +1,10 @@
 #Introduce Properties
-#Mon Apr 21 11:15:31 EDT 2008
-introduce.skeleton.services.list=CreateArrayService
+#Mon May 12 09:50:05 EDT 2008
 introduce.skeleton.extensions=
-introduce.skeleton.destination.dir=P\:\\grid-incubation\\test\\projects\\workflowHelper\\resources\\CreateArrayService
+introduce.skeleton.services.list=CreateArrayService
+introduce.skeleton.destination.dir=C\:\\subversion_hawks\\subversion_hawks\\trunk\\grid-incubation\\test\\projects\\workflowHelper\\resources\\CreateArrayService
 introduce.skeleton.namespace.domain=http\://createarrayservice.introduce.cagrid.org/CreateArrayService
+introduce.skeleton.timestamp=1208790938678
 introduce.skeleton.service.name=CreateArrayService
-introduce.skeleton.timestamp=1206542899875
 introduce.soap.binding.excludes=\ 
 introduce.ns.excludes=\ -x gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security

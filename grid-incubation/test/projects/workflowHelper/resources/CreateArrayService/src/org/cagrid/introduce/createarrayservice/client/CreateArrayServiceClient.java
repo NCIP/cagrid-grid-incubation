@@ -126,6 +126,24 @@ public class CreateArrayServiceClient extends ServiceSecurityClient implements C
 		}
 	}
 
+  public java.lang.String[] secureGetArray() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureGetArray");
+    org.cagrid.introduce.createarrayservice.stubs.SecureGetArrayRequest params = new org.cagrid.introduce.createarrayservice.stubs.SecureGetArrayRequest();
+    org.cagrid.introduce.createarrayservice.stubs.SecureGetArrayResponse boxedResult = portType.secureGetArray(params);
+    return boxedResult.getResponse();
+    }
+  }
+
+  public org.cagrid.workflow.systemtests.types.ComplexType[] secureGetComplexArray() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"secureGetComplexArray");
+    org.cagrid.introduce.createarrayservice.stubs.SecureGetComplexArrayRequest params = new org.cagrid.introduce.createarrayservice.stubs.SecureGetComplexArrayRequest();
+    org.cagrid.introduce.createarrayservice.stubs.SecureGetComplexArrayResponse boxedResult = portType.secureGetComplexArray(params);
+    return boxedResult.getComplexType();
+    }
+  }
+
   public java.lang.String[] getArray() throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"getArray");

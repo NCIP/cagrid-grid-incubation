@@ -35,6 +35,26 @@
           </sequence>
         </complexType>
       </element>
+      <element name="SecureCheckStringAndItsLengthRequest">
+        <complexType>
+          <sequence>
+            <element name="stringAndItsLenght">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:StringAndItsLenght" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureCheckStringAndItsLengthResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="Service5ResourceProperties">
         <complexType>
           <sequence />
@@ -49,6 +69,12 @@
   <message name="CheckStringAndItsLengthResponse">
     <part name="parameters" element="tns:CheckStringAndItsLengthResponse" />
   </message>
+  <message name="SecureCheckStringAndItsLengthRequest">
+    <part name="parameters" element="tns:SecureCheckStringAndItsLengthRequest" />
+  </message>
+  <message name="SecureCheckStringAndItsLengthResponse">
+    <part name="parameters" element="tns:SecureCheckStringAndItsLengthResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -58,6 +84,10 @@
     <operation name="checkStringAndItsLength">
       <input message="tns:CheckStringAndItsLengthRequest" wsa:Action="http://service5.introduce.cagrid.org/Service5/CheckStringAndItsLengthRequest" />
       <output message="tns:CheckStringAndItsLengthResponse" wsa:Action="http://service5.introduce.cagrid.org/Service5/CheckStringAndItsLengthResponse" />
+    </operation>
+    <operation name="secureCheckStringAndItsLength">
+      <input message="tns:SecureCheckStringAndItsLengthRequest" wsa:Action="http://service5.introduce.cagrid.org/Service5/SecureCheckStringAndItsLengthRequest" />
+      <output message="tns:SecureCheckStringAndItsLengthResponse" wsa:Action="http://service5.introduce.cagrid.org/Service5/SecureCheckStringAndItsLengthResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

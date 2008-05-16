@@ -40,6 +40,18 @@
           </sequence>
         </complexType>
       </element>
+      <element name="GetIdentityRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetIdentityResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="WorkflowHelperResourceProperties">
         <complexType>
           <sequence />
@@ -54,6 +66,12 @@
   <message name="CreateWorkflowInstanceHelperResponse">
     <part name="parameters" element="tns:CreateWorkflowInstanceHelperResponse" />
   </message>
+  <message name="GetIdentityRequest">
+    <part name="parameters" element="tns:GetIdentityRequest" />
+  </message>
+  <message name="GetIdentityResponse">
+    <part name="parameters" element="tns:GetIdentityResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -63,6 +81,10 @@
     <operation name="createWorkflowInstanceHelper">
       <input message="tns:CreateWorkflowInstanceHelperRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/CreateWorkflowInstanceHelperRequest" />
       <output message="tns:CreateWorkflowInstanceHelperResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/CreateWorkflowInstanceHelperResponse" />
+    </operation>
+    <operation name="getIdentity">
+      <input message="tns:GetIdentityRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/GetIdentityRequest" />
+      <output message="tns:GetIdentityResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/GetIdentityResponse" />
     </operation>
     <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetMultipleResourceProperties">
       <wsdl:input name="GetMultipleResourcePropertiesRequest" message="wsrpw:GetMultipleResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" />

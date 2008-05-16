@@ -32,4 +32,28 @@ public class WorkflowInstanceHelperProviderImpl{
     return boxedResult;
   }
 
+    public org.cagrid.workflow.helper.instance.stubs.AddCredentialResponse addCredential(org.cagrid.workflow.helper.instance.stubs.AddCredentialRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.instance.stubs.AddCredentialResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.AddCredentialResponse();
+    impl.addCredential(params.getServiceOperationEPR().getEndpointReference(),params.getProxyEPR().getEndpointReference());
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.helper.instance.stubs.RemoveCredentialResponse removeCredential(org.cagrid.workflow.helper.instance.stubs.RemoveCredentialRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.instance.stubs.RemoveCredentialResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.RemoveCredentialResponse();
+    impl.removeCredential(params.getProxyEPR().getEndpointReference());
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialResponse replaceCredential(org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.ReplaceCredentialResponse();
+    impl.replaceCredential(params.getServiceOperationEPR().getEndpointReference(),params.getProxyEPR().getEndpointReference());
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse setIsInvocationHelperSecure(org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse();
+    impl.setIsInvocationHelperSecure(params.getServiceOperationEPR().getEndpointReference(),params.isIsSecure());
+    return boxedResult;
+  }
+
 }

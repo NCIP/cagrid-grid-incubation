@@ -61,6 +61,52 @@
           <sequence />
         </complexType>
       </element>
+      <element name="SecureReceiveArrayRequest">
+        <complexType>
+          <sequence>
+            <element name="arrayStr" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureReceiveArrayResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="SecureReceiveArrayAndMoreRequest">
+        <complexType>
+          <sequence>
+            <element name="number" type="xs:int" minOccurs="1" maxOccurs="1" />
+            <element name="strArray" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+            <element name="booleanValue" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureReceiveArrayAndMoreResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="SecureReceiveComplexArrayRequest">
+        <complexType>
+          <sequence>
+            <element name="number" type="xs:int" minOccurs="1" maxOccurs="1" />
+            <element name="complexArray">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:ComplexType" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="booleanValue" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SecureReceiveComplexArrayResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
       <element name="ReceiveArrayServiceResourceProperties">
         <complexType>
           <sequence />
@@ -87,6 +133,24 @@
   <message name="ReceiveComplexArrayResponse">
     <part name="parameters" element="tns:ReceiveComplexArrayResponse" />
   </message>
+  <message name="SecureReceiveArrayRequest">
+    <part name="parameters" element="tns:SecureReceiveArrayRequest" />
+  </message>
+  <message name="SecureReceiveArrayResponse">
+    <part name="parameters" element="tns:SecureReceiveArrayResponse" />
+  </message>
+  <message name="SecureReceiveArrayAndMoreRequest">
+    <part name="parameters" element="tns:SecureReceiveArrayAndMoreRequest" />
+  </message>
+  <message name="SecureReceiveArrayAndMoreResponse">
+    <part name="parameters" element="tns:SecureReceiveArrayAndMoreResponse" />
+  </message>
+  <message name="SecureReceiveComplexArrayRequest">
+    <part name="parameters" element="tns:SecureReceiveComplexArrayRequest" />
+  </message>
+  <message name="SecureReceiveComplexArrayResponse">
+    <part name="parameters" element="tns:SecureReceiveComplexArrayResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -104,6 +168,18 @@
     <operation name="receiveComplexArray">
       <input message="tns:ReceiveComplexArrayRequest" wsa:Action="http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/ReceiveComplexArrayRequest" />
       <output message="tns:ReceiveComplexArrayResponse" wsa:Action="http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/ReceiveComplexArrayResponse" />
+    </operation>
+    <operation name="secureReceiveArray">
+      <input message="tns:SecureReceiveArrayRequest" wsa:Action="http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/SecureReceiveArrayRequest" />
+      <output message="tns:SecureReceiveArrayResponse" wsa:Action="http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/SecureReceiveArrayResponse" />
+    </operation>
+    <operation name="secureReceiveArrayAndMore">
+      <input message="tns:SecureReceiveArrayAndMoreRequest" wsa:Action="http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/SecureReceiveArrayAndMoreRequest" />
+      <output message="tns:SecureReceiveArrayAndMoreResponse" wsa:Action="http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/SecureReceiveArrayAndMoreResponse" />
+    </operation>
+    <operation name="secureReceiveComplexArray">
+      <input message="tns:SecureReceiveComplexArrayRequest" wsa:Action="http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/SecureReceiveComplexArrayRequest" />
+      <output message="tns:SecureReceiveComplexArrayResponse" wsa:Action="http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService/SecureReceiveComplexArrayResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />
