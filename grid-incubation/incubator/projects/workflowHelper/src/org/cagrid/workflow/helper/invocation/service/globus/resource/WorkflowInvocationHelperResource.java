@@ -280,7 +280,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 								}
 								else {
-									System.err.print("No destination assigned to current parameter.");
+									System.err.print("No destination assigned to current parameter (in "+ getOperationDesc().getOperationQName() +").");
 									System.err.println("Value of parameter is: \n"+iparam.getData());
 									System.err.flush();
 								}
@@ -308,7 +308,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				}
 				try {
 					setStatus(Status.FINISHED);
-					//System.out.println("Set status to FINISHED ("+ getOperationDesc().getServiceURL() +")"); // DEBUG
+					 //System.out.println("Set status to FINISHED ("+ getOperationDesc().getOperationQName() +")"); // DEBUG
 				} catch (ResourceException e) {
 					e.printStackTrace();
 				}

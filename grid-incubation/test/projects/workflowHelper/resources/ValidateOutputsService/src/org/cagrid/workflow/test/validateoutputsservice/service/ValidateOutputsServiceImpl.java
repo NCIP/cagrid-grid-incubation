@@ -83,7 +83,7 @@ public class ValidateOutputsServiceImpl extends ValidateOutputsServiceImplBase {
 			throw new RemoteException("[validateTestOutput] Value for test3Param2 ("+ test3Param2 
 					+") doesn't match the expected ("+ expected2 +")");
 		}
-		
+		System.out.println("[validateTestOutput] Test workflow 3: outputs match");
 		
 		return;
 	}

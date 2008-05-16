@@ -33,7 +33,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
 
     public BasicWorkflowServicesTest(ServiceContainer container) {
         super(container);
-         PropertyConfigurator.configure("." + File.separator + "conf" +
+         /*PropertyConfigurator.configure("." + File.separator + "conf" +
          File.separator
          + "log4j.properties"); // */
     }
@@ -48,7 +48,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
             e.printStackTrace();
             Assert.fail();
         }
-         PropertyConfigurator.configure("." + File.separator + "conf" +
+         /*PropertyConfigurator.configure("." + File.separator + "conf" +
          File.separator
          + "log4j.properties"); // */
     }
