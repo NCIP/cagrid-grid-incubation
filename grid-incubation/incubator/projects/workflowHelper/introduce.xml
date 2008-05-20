@@ -21,6 +21,7 @@
    <ns2:SchemaElement type="SecureConversationInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="SecureMessageInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="Status" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="TimestampedStatus" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="TLSInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowHelperInstanceStatus" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowInstanceHelperDescriptor" xsi:type="ns2:SchemaElementType"/>
@@ -293,6 +294,7 @@
     <ns40:ResourceProperty qName="ns44:WorkflowInvocationHelperDescriptor" description="" fileLocation="WorkflowInvocationHelper_workflowInvocationHelperDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns44="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
     <ns40:ResourceProperty qName="ns45:OperationInputMessageDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationInputMessageDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns45="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
     <ns40:ResourceProperty qName="ns46:OperationOutputTransportDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationOutputTransportDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns46="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns40:ResourceProperty qName="ns47:TimestampedStatus" description="" fileLocation="WorkflowInvocationHelper_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns40:ResourcePropertyType" xmlns:ns47="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
    </ns40:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
@@ -303,8 +305,8 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns47:Extensions xsi:type="ns47:ExtensionsType" xmlns:ns47="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
- <ns48:ServiceProperties xmlns:ns48="gme://gov.nih.nci.cagrid.introduce/1/Property">
-  <ns48:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=caOSHelper"/>
- </ns48:ServiceProperties>
+ <ns48:Extensions xsi:type="ns48:ExtensionsType" xmlns:ns48="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns49:ServiceProperties xmlns:ns49="gme://gov.nih.nci.cagrid.introduce/1/Property">
+  <ns49:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=caOSHelper"/>
+ </ns49:ServiceProperties>
 </ns1:ServiceDescription>

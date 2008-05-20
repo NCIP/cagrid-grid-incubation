@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 import org.apache.axis.message.addressing.EndpointReference;
 import org.cagrid.workflow.helper.descriptor.Status;
+import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
 
 /** 
@@ -40,7 +41,8 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 			//  give it the query string.
 			thisResource.setOperationDesc(workflowInvocationHelperDescriptor);
 			thisResource.setOutputType(workflowInvocationHelperDescriptor.getOutputType());
-			thisResource.setStatus(Status.UNCONFIGURED);
+			thisResource.setStatus(Status.UNCONFIGURED); // TODO Remove this unnecessary resource property
+			thisResource.setTimestampedStatus(new TimestampedStatus(Status.UNCONFIGURED, 0));
 			thisResource.setCredentialAccess(getResourceHome().getAddressedResource());
 			thisResource.setWorkflowInvocationHelperDescriptor(workflowInvocationHelperDescriptor);
 

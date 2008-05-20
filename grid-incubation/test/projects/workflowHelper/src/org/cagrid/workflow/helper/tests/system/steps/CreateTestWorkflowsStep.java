@@ -2,8 +2,6 @@ package org.cagrid.workflow.helper.tests.system.steps;
 
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -32,6 +30,7 @@ import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.Status;
+import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
@@ -41,24 +40,25 @@ import org.globus.wsrf.NotifyCallback;
 public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
-	private EndpointReferenceType helper_epr = null;
-	private String containerBaseURL = null;
+	protected EndpointReferenceType helper_epr = null;
+	protected String containerBaseURL = null;
 
 	// Synchronizes the access to variable 'isFinished' 
-	private Lock isFinishedKey = new ReentrantLock();
-	private Condition isFinishedCondition = isFinishedKey.newCondition();
-	private Map<String, Status> stageStatus = new HashMap<String, Status>() ;
-	
-	
-	private Map<String, String> EPR2OperationName = new HashMap<String, String>();
+	protected Lock isFinishedKey = new ReentrantLock();
+	protected Condition isFinishedCondition = isFinishedKey.newCondition();
+	protected Map<String, TimestampedStatus> stageStatus = new HashMap<String, TimestampedStatus>() ;
 
-	private boolean isFinished = false;
+
+	// Store the operation name for each service subscribed for notification 
+	protected Map<String, String> EPR2OperationName = new HashMap<String, String>();
+
+	protected boolean isFinished = false;
 
 
 	final static String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
 	final static String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
 
-	private final boolean validatorEnabled = true;  // Enable/Disable the output matcher. Should be true when not debugging
+	protected final boolean validatorEnabled = true;  // Enable/Disable the output matcher. Should be true when not debugging
 
 
 
@@ -93,7 +93,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			/*** Service that will gather all the output and match against the expected ones ***/
 			EndpointReferenceType outputMatcherEPR = this.validatorEnabled ? runOuputMatcher(manager_epr, wf_helper) : null;
-			
+
 
 
 			/*** Testing arrays as services' input ***/
@@ -108,6 +108,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			System.out.println("OK"); 
 
 			System.out.println("END Testing arrays"); // */
+
+
 
 
 
@@ -129,12 +131,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			System.out.println("END Testing streaming"); // */
 
-
 			/** FAN IN AND FAN OUT TEST **/
 			System.out.println("BEGIN Testing fan in and fan out"); 
 			runFaninFanOutTest(manager_epr, wf_helper, outputMatcherEPR);
 			System.out.println("END Testing fan in and fan out"); // */
-
 
 			// Block until every stage reports either a FINISHED or an ERROR status
 			this.waitUntilCompletion();
@@ -151,7 +151,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-	private EndpointReferenceType runOuputMatcher(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) 
+	protected EndpointReferenceType runOuputMatcher(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) 
 	throws RemoteException {
 
 
@@ -183,7 +183,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 		// Subscribe for status notifications
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), validatorInvocation1
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), validatorInvocation1
 				, validatorInvocationDesc.getOperationQName().toString());
 
 
@@ -224,7 +224,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	}
 
 
-	private void runComplexArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper)throws RemoteException {
+	protected void runComplexArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper)throws RemoteException {
 
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
@@ -258,7 +258,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		}
 
 		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient__4);
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient__4);
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
@@ -301,7 +301,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		}
 
 		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient__ca);
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient__ca);
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__ca = new OperationInputMessageDescriptor();
@@ -333,7 +333,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	}
 
 
-	private void runSimpleArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) throws RemoteException {
+	protected void runSimpleArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) throws RemoteException {
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
@@ -364,9 +364,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient_4);
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_4);
 
 
 
@@ -406,9 +406,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient_2);
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_2);
 
 
 		// Creating Descriptor of the InputMessage
@@ -457,9 +457,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient_cs);
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_cs);
 
 
 		// Creating Descriptor of the InputMessage
@@ -491,7 +491,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	}
 
 
-	private void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper,
+	protected void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper,
 			EndpointReferenceType outputMatcherEPR) throws RemoteException{
 
 
@@ -529,7 +529,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), client2
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client2
 				, operation2.getOperationQName().toString());
 
 		//System.out.println("Configuring invocation helper"); //DEBUG
@@ -584,7 +584,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		}
 
 		// Monitor status changes
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), client_ca
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client_ca
 				, operation_ca.getOperationQName().toString());
 
 
@@ -614,7 +614,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		if( validatorEnabled ){
 
 			//System.out.println("Setting 2nd param in the output matcher: "+ outputMatcherEPR); //DEBUG
-			
+
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_ca[1].setParamIndex(1); // Setting 2nd argument in the output matcher 
 			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
@@ -636,7 +636,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-	private void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper
+	protected void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper
 			, EndpointReferenceType outputMatcherEPR) throws RemoteException{
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
@@ -671,7 +671,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient_ram
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_ram
 				, operation_ram.getOperationQName().toString());
 
 
@@ -718,7 +718,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient_cas
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_cas
 				, operation_cas.getOperationQName().toString());
 
 
@@ -746,9 +746,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		// Second destination: Output matcher
 		if(validatorEnabled){
-			
+
 			//System.out.println("Setting 5th param in the output matcher: "+ outputMatcherEPR); //DEBUG
-			
+
 			outParameterDescriptor_cas[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_cas[1].setParamIndex(4);
 			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
@@ -770,9 +770,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-
-
-	private void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, 
+	protected void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, 
 			EndpointReferenceType outputMatcherEPR) throws RemoteException{
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
@@ -805,7 +803,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient4
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient4
 				, operation4.getOperationQName().toString());
 
 
@@ -848,7 +846,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient2
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient2
 				, operation_2.getOperationQName().toString());
 
 
@@ -878,9 +876,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		// Second destination: output matcher
 		if(this.validatorEnabled){
-			
+
 			//System.out.println("Setting 7th param in the output matcher: "+ outputMatcherEPR); //DEBUG
-			
+
 			outParameterDescriptor2[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor2[1].setParamIndex(6);
 			outParameterDescriptor2[1].setType(new QName("string"));
@@ -920,7 +918,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient3
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient3
 				, operation3.getOperationQName().toString());
 
 
@@ -951,9 +949,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		// 2nd destination: output matcher
 		if(this.validatorEnabled){
-			
+
 			//System.out.println("Setting 8th param in the output matcher: "+ outputMatcherEPR); //DEBUG
-			
+
 			outParameterDescriptor3[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor3[1].setParamIndex(7);
 			outParameterDescriptor3[1].setType(new QName(XSD_NAMESPACE, "string"));
@@ -991,7 +989,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient5
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient5
 				, operation5.getOperationQName().toString());
 
 
@@ -1014,10 +1012,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor5[0].setQueryNamespaces(namespaces);
 		outParameterDescriptor5[0].setLocationQuery("/ns0:CheckStringAndItsLengthResponse");
 		outParameterDescriptor5[0].setDestinationEPR(null); // */
-		
+
 
 		// takes the reference to no service
-		
+
 		outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
 		serviceClient5.configureOutput(outputDescriptor5);
 
@@ -1041,7 +1039,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.Status.getTypeDesc().getXmlType(), serviceClient1
+		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient1
 				, operation1.getOperationQName().toString());
 
 
@@ -1101,7 +1099,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-	private void waitUntilCompletion() {
+	protected void waitUntilCompletion() {
 
 		System.out.println("Waiting for workflow notification of FINISH status");
 
@@ -1113,9 +1111,13 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			if( !this.isFinished ){
 
 				try {
-					this.isFinishedCondition.await();
-					/*this.isFinishedCondition.await(91, TimeUnit.SECONDS); //DEBUG
-					System.out.println("Timeout exceeded"); // DEBUG */
+					//this.isFinishedCondition.await();
+
+					// DEBUG
+					boolean wasSignaled = this.isFinishedCondition.await(120, TimeUnit.SECONDS); 					
+					if(wasSignaled) System.out.println("Explicitly awaken by another thread. Exiting"); 
+					else Assert.fail("Timeout exceeded. Exiting"); // */ 
+
 				} catch(Throwable t){
 					System.err.println("Error while waiting");
 					t.printStackTrace();
@@ -1124,6 +1126,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			//this.printMap(); //DEBUG
 
+			// All stages are finished. We don't need to wait for them anymore, even in a further call of this method
+			this.stageStatus.clear(); 
 		}
 		finally {
 			this.isFinishedKey.unlock();
@@ -1138,7 +1142,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		MessageElement actual_property = changeMessage.getNewValue().get_any()[0];
 		QName message_qname = actual_property.getQName();
-		boolean isStatusChange = message_qname.equals(Status.getTypeDesc().getXmlType());
+		boolean isTimestampedStatusChange = message_qname.equals(TimestampedStatus.getTypeDesc().getXmlType());
 		String stageKey = null;
 		try {
 			stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString();  //arg1.toString();
@@ -1157,76 +1161,90 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 		// Handle status change notifications
-		if(isStatusChange){
-			Status status = null;;
+		if(isTimestampedStatusChange){
+			TimestampedStatus status = null;;
 			try {
-				status = (Status) actual_property.getValueAsType(message_qname, Status.class);
+				status = (TimestampedStatus) actual_property.getValueAsType(message_qname, TimestampedStatus.class);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 
-			//log.println("[deliver] Received new status value: "+ status.toString()); //DEBUG
-			//if(status.equals(Status.FINISHED) || status.equals(Status.ERROR) ){
-
-			//log.println("[deliver] Received new status value: "+ status.toString() +" from "+ stageKey); //DEBUG
+			//log.println("[deliver] Received new status value: "+ status.getStatus().toString() + ':' + status.getTimestamp() +" from "+ this.EPR2OperationName.get(stageKey)); //DEBUG
 
 			this.isFinishedKey.lock();
 			try{
 
+				boolean statusActuallyChanged = false;
 				if( this.stageStatus.containsKey(stageKey) ){
-
-					this.stageStatus.remove(stageKey);
-					this.stageStatus.put(stageKey, status);
-
-
-					/*if(status.equals(Status.FINISHED) || status.equals(Status.ERROR)){
-						System.out.println("[CreateTestWorkflowStep.deliver] Received "+ status +" status");
-						//printMap(this.stageStatus);//DEBUG
-					} // */
+					
+					
+					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
+					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+					
+					if(statusActuallyChanged){
+						
+						this.stageStatus.remove(stageKey);
+						this.stageStatus.put(stageKey, status);
+					}
 
 				}
 				else System.err.println("[CreateTestWorkflowsStep] Unrecognized stage notified status change: "+ stageKey);
-				this.isFinished  = !(this.stageStatus.containsValue(Status.UNCONFIGURED) 
-						|| this.stageStatus.containsValue(Status.INPUTCONFIGURED)
-						|| this.stageStatus.containsValue(Status.INPUTOUTPUTCONFIGURED)
-						|| this.stageStatus.containsValue(Status.WAITING)
-						|| this.stageStatus.containsValue(Status.RUNNING)
-						|| this.stageStatus.containsValue(Status.PAUSED)
-						|| this.stageStatus.containsValue(Status.READY)
-				);
-				if(this.isFinished) 
-					this.isFinishedCondition.signalAll();
+
+								
+				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
+					
+					
+					this.isFinished  = this.hasFinished(); 
+
+					if(this.isFinished){
+						
+						this.isFinishedCondition.signalAll();
+						Assert.assertFalse(this.stageStatus.containsValue(Status.ERROR));
+					}
+				}
 			}
 			finally {
 				this.isFinishedKey.unlock();
 			}
-			//}
-
-
-			// Dies when an error is reported
-			if(status.equals(Status.ERROR)){ 
-
-				Assert.fail("Received ERROR notification from "+ stageKey);
-			}
-
-
 		}
 	}
 
 
-	private void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
+	/**
+	 * Verify whether all stages have already sent a termination notification  
+	 * */
+	private boolean hasFinished() {
+
+		Set<Entry<String, TimestampedStatus>> entries = this.stageStatus.entrySet();
+		Iterator<Entry<String, TimestampedStatus>> entries_iter = entries.iterator();
+		
+		while( entries_iter.hasNext() ){
+		
+			Entry<String, TimestampedStatus> curr_entry = entries_iter.next();
+			boolean stageEnded =   curr_entry.getValue().getStatus().equals(Status.FINISHED)
+								|| curr_entry.getValue().getStatus().equals(Status.ERROR);
+			
+			if( !stageEnded )  return false;
+			
+		}
+		
+		return true;
+	}
+
+
+	protected void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
 
 
 		try{
 
 			//System.out.println("[subscribe] Subscribing service: "+ toSubscribe.getEPRString());
 
-			this.stageStatus.put(toSubscribe.getEPRString(), Status.UNCONFIGURED); // Register to be monitored for status changes
+			this.stageStatus.put(toSubscribe.getEPRString(), new TimestampedStatus(Status.UNCONFIGURED, 0)); // Register to be monitored for status changes
 			toSubscribe.subscribe(notificationType, this);
-			
+
 			this.EPR2OperationName.put(toSubscribe.getEPRString(), stageOperationQName);
-			
+
 		}
 		catch(Throwable t){
 			t.printStackTrace();
@@ -1235,18 +1253,18 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		return;
 	}
 
-	private void printMap(){
+	protected void printMap(){
 
 
 		System.out.println("BEGIN printMap");
-		Set<Entry<String, Status>> entries = this.stageStatus.entrySet();
-		Iterator<Entry<String, Status>> iter = entries.iterator();
+		Set<Entry<String, TimestampedStatus>> entries = this.stageStatus.entrySet();
+		Iterator<Entry<String, TimestampedStatus>> iter = entries.iterator();
 		while(iter.hasNext()){
 
-			Entry<String, Status> curr = iter.next();
+			Entry<String, TimestampedStatus> curr = iter.next();
 			String operationName = this.EPR2OperationName.get(curr.getKey());
-			
-			System.out.println("["+ operationName +", "+ curr.getValue() +"]");
+
+			System.out.println("["+ operationName +", "+ curr.getValue().getStatus() +"]");
 		}
 		System.out.println("END printMap");
 

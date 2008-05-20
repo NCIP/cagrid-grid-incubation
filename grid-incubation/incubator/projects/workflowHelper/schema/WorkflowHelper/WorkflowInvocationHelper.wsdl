@@ -114,6 +114,7 @@
             <element ref="ns1:WorkflowInvocationHelperDescriptor" />
             <element ref="ns1:OperationInputMessageDescriptor" />
             <element ref="ns1:OperationOutputTransportDescriptor" />
+            <element ref="ns1:TimestampedStatus" />
           </sequence>
         </complexType>
       </element>

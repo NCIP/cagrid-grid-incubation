@@ -153,16 +153,10 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
     public static void main(String args[]) {
    
     	try{
+    		
     		TestRunner runner = new TestRunner();
     		TestResult result = runner.doRun(new TestSuite(BasicWorkflowServicesTest.class));
-    		//System.exit(result.errorCount() + result.failureCount());
-			int retval = result.errorCount() + result.failureCount();
-    		
-			/*TestResult result2 = runner.doRun(new TestSuite(SecureWorkflowServicesTest.class));
-			retval += result2.errorCount() + result2.failureCount(); // */
-			
-			System.exit(retval);
-			
+    		System.exit(result.errorCount() + result.failureCount());
     	}
     	catch(Throwable t){
     		t.printStackTrace();

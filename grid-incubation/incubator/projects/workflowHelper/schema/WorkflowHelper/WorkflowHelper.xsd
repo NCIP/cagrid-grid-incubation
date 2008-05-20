@@ -5,6 +5,7 @@
 	attributeFormDefault="unqualified">
 	<xs:import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="./WS-Addressing.xsd"></xs:import>
 	<xs:element name="WorkflowHelperInstanceStatus" type="tns:WorkflowHelperInstanceStatus" />
+	
 	<xs:complexType name="WorkflowHelperInstanceStatus">
 		<xs:sequence>
 			<xs:element name="Status" type="tns:Status"></xs:element>
@@ -25,6 +26,16 @@
 			<xs:enumeration value="ERROR" />
 		</xs:restriction>
 	</xs:simpleType>
+	
+	<xs:element name="TimestampedStatus" type="tns:TimestampedStatus"/>
+		
+	<xs:complexType name="TimestampedStatus">
+		<xs:sequence>
+			<xs:element name="status" type="tns:Status" />
+			<xs:element name="timestamp" type="int" />
+		</xs:sequence>
+	</xs:complexType>
+	
 	
 	
 	<xs:element name="WorkflowInstanceHelperDescriptor" type="tns:WorkflowInstanceHelperDescriptor" />

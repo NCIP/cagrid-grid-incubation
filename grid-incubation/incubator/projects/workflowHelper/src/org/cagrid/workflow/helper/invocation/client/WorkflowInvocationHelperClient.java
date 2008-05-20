@@ -12,7 +12,7 @@ import org.apache.axis.client.Stub;
 import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
-import org.cagrid.workflow.helper.descriptor.Status;
+import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.invocation.common.WorkflowInvocationHelperI;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.NotifyCallback;
@@ -35,7 +35,6 @@ public class WorkflowInvocationHelperClient extends
 		WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 
 	public Map<QName, NotifyCallback> callbacks = new HashMap<QName, NotifyCallback>();
-
 
 	public WorkflowInvocationHelperClient(String url)
 			throws MalformedURIException, RemoteException {
@@ -86,90 +85,6 @@ public class WorkflowInvocationHelperClient extends
 		}
 	}
 
-	public org.oasis.wsrf.lifetime.DestroyResponse destroy(
-			org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
-		synchronized (portTypeMutex) {
-			configureStubSecurity((Stub) portType, "destroy");
-			return portType.destroy(params);
-		}
-	}
-
-	public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(
-			org.oasis.wsrf.lifetime.SetTerminationTime params)
-			throws RemoteException {
-		synchronized (portTypeMutex) {
-			configureStubSecurity((Stub) portType, "setTerminationTime");
-			return portType.setTerminationTime(params);
-		}
-	}
-
-	public void configureInput(
-			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor operationInputMessageDescriptor)
-			throws RemoteException {
-		synchronized (portTypeMutex) {
-			configureStubSecurity((Stub) portType, "configureInput");
-			org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequest params = new org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequest();
-			org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequestOperationInputMessageDescriptor operationInputMessageDescriptorContainer = new org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequestOperationInputMessageDescriptor();
-			operationInputMessageDescriptorContainer
-					.setOperationInputMessageDescriptor(operationInputMessageDescriptor);
-			params
-					.setOperationInputMessageDescriptor(operationInputMessageDescriptorContainer);
-			org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse boxedResult = portType
-					.configureInput(params);
-		}
-	}
-
-	public void configureOutput(
-			org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor operationOutputTransportDescriptor)
-			throws RemoteException {
-		synchronized (portTypeMutex) {
-			configureStubSecurity((Stub) portType, "configureOutput");
-			org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputRequest params = new org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputRequest();
-			org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputRequestOperationOutputTransportDescriptor operationOutputTransportDescriptorContainer = new org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputRequestOperationOutputTransportDescriptor();
-			operationOutputTransportDescriptorContainer
-					.setOperationOutputTransportDescriptor(operationOutputTransportDescriptor);
-			params
-					.setOperationOutputTransportDescriptor(operationOutputTransportDescriptorContainer);
-			org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputResponse boxedResult = portType
-					.configureOutput(params);
-		}
-	}
-
-	public void setParameter(
-			org.cagrid.workflow.helper.descriptor.InputParameter inputParameter)
-			throws RemoteException {
-		synchronized (portTypeMutex) {
-			configureStubSecurity((Stub) portType, "setParameter");
-			org.cagrid.workflow.helper.invocation.stubs.SetParameterRequest params = new org.cagrid.workflow.helper.invocation.stubs.SetParameterRequest();
-			org.cagrid.workflow.helper.invocation.stubs.SetParameterRequestInputParameter inputParameterContainer = new org.cagrid.workflow.helper.invocation.stubs.SetParameterRequestInputParameter();
-			inputParameterContainer.setInputParameter(inputParameter);
-			params.setInputParameter(inputParameterContainer);
-			org.cagrid.workflow.helper.invocation.stubs.SetParameterResponse boxedResult = portType
-					.setParameter(params);
-		}
-	}
-
-	public void setParameters(
-			org.cagrid.workflow.helper.descriptor.InputParameter[] inputParameters)
-			throws RemoteException {
-		synchronized (portTypeMutex) {
-			configureStubSecurity((Stub) portType, "setParameters");
-			org.cagrid.workflow.helper.invocation.stubs.SetParametersRequest params = new org.cagrid.workflow.helper.invocation.stubs.SetParametersRequest();
-			org.cagrid.workflow.helper.invocation.stubs.SetParametersRequestInputParameters inputParametersContainer = new org.cagrid.workflow.helper.invocation.stubs.SetParametersRequestInputParameters();
-			inputParametersContainer.setInputParameter(inputParameters);
-			params.setInputParameters(inputParametersContainer);
-			org.cagrid.workflow.helper.invocation.stubs.SetParametersResponse boxedResult = portType
-					.setParameters(params);
-		}
-	}
-
-	public org.oasis.wsn.SubscribeResponse subscribe(
-			org.oasis.wsn.Subscribe params) throws RemoteException {
-		synchronized (portTypeMutex) {
-			configureStubSecurity((Stub) portType, "subscribe");
-			return portType.subscribe(params);
-		}
-	}
 	
 	public org.oasis.wsn.SubscribeResponse subscribe(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
 		
@@ -200,9 +115,9 @@ public class WorkflowInvocationHelperClient extends
 		
 		
 		PrintStream log = System.out;  //DEBUG
-		Status messageValue = null;
+		TimestampedStatus messageValue = null;
 		try {
-			messageValue = (Status) messageToDeliver.getValueAsType(notification_qname, Status.class);
+			messageValue = (TimestampedStatus) messageToDeliver.getValueAsType(notification_qname, TimestampedStatus.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} // */
@@ -225,6 +140,71 @@ public class WorkflowInvocationHelperClient extends
 			
 		}
 	}
+
+  public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"destroy");
+    return portType.destroy(params);
+    }
+  }
+
+  public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"setTerminationTime");
+    return portType.setTerminationTime(params);
+    }
+  }
+
+  public void configureInput(org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor operationInputMessageDescriptor) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"configureInput");
+    org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequest params = new org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequest();
+    org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequestOperationInputMessageDescriptor operationInputMessageDescriptorContainer = new org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequestOperationInputMessageDescriptor();
+    operationInputMessageDescriptorContainer.setOperationInputMessageDescriptor(operationInputMessageDescriptor);
+    params.setOperationInputMessageDescriptor(operationInputMessageDescriptorContainer);
+    org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse boxedResult = portType.configureInput(params);
+    }
+  }
+
+  public void configureOutput(org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor operationOutputTransportDescriptor) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"configureOutput");
+    org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputRequest params = new org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputRequest();
+    org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputRequestOperationOutputTransportDescriptor operationOutputTransportDescriptorContainer = new org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputRequestOperationOutputTransportDescriptor();
+    operationOutputTransportDescriptorContainer.setOperationOutputTransportDescriptor(operationOutputTransportDescriptor);
+    params.setOperationOutputTransportDescriptor(operationOutputTransportDescriptorContainer);
+    org.cagrid.workflow.helper.invocation.stubs.ConfigureOutputResponse boxedResult = portType.configureOutput(params);
+    }
+  }
+
+  public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"setParameter");
+    org.cagrid.workflow.helper.invocation.stubs.SetParameterRequest params = new org.cagrid.workflow.helper.invocation.stubs.SetParameterRequest();
+    org.cagrid.workflow.helper.invocation.stubs.SetParameterRequestInputParameter inputParameterContainer = new org.cagrid.workflow.helper.invocation.stubs.SetParameterRequestInputParameter();
+    inputParameterContainer.setInputParameter(inputParameter);
+    params.setInputParameter(inputParameterContainer);
+    org.cagrid.workflow.helper.invocation.stubs.SetParameterResponse boxedResult = portType.setParameter(params);
+    }
+  }
+
+  public void setParameters(org.cagrid.workflow.helper.descriptor.InputParameter[] inputParameters) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"setParameters");
+    org.cagrid.workflow.helper.invocation.stubs.SetParametersRequest params = new org.cagrid.workflow.helper.invocation.stubs.SetParametersRequest();
+    org.cagrid.workflow.helper.invocation.stubs.SetParametersRequestInputParameters inputParametersContainer = new org.cagrid.workflow.helper.invocation.stubs.SetParametersRequestInputParameters();
+    inputParametersContainer.setInputParameter(inputParameters);
+    params.setInputParameters(inputParametersContainer);
+    org.cagrid.workflow.helper.invocation.stubs.SetParametersResponse boxedResult = portType.setParameters(params);
+    }
+  }
+
+  public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"subscribe");
+    return portType.subscribe(params);
+    }
+  }
 
   public java.lang.String getEPRString() throws RemoteException {
     synchronized(portTypeMutex){
