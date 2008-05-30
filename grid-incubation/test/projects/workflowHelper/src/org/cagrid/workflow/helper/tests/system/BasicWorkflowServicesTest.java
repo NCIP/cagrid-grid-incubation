@@ -74,9 +74,6 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
 
         System.out.println("BEGIN DeployWorkflowServicesTest");
 
-        System.out.println("SKIPPING THIS TEST FOR DEBUG PURPOSES");//DEBUG
-        System.exit(0); // TODO REMOVE ME NOW!!!
-        
         Vector steps = new Vector();
 
         // Set workflow services' directories
