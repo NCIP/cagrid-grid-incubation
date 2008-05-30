@@ -5,12 +5,14 @@ http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01
 http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
 http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
 http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
+http\://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl=org.oasis.wsn
 http\://helper.workflow.cagrid.org/WorkflowHelper/Instance=org.cagrid.workflow.helper.instance.stubs
 http\://helper.workflow.cagrid.org/WorkflowHelper/Instance/bindings=org.cagrid.workflow.helper.instance.stubs.bindings
 http\://helper.workflow.cagrid.org/WorkflowHelper/Instance/service=org.cagrid.workflow.helper.instance.stubs.service
 http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
 http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl=org.oasis.wsrf.lifetime
 http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl=org.oasis.wsrf.lifetime
+http\://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl=org.oasis.wsn
 http\://helper.workflow.cagrid.org/WorkflowHelper/Invocation=org.cagrid.workflow.helper.invocation.stubs
 http\://helper.workflow.cagrid.org/WorkflowHelper/Invocation/bindings=org.cagrid.workflow.helper.invocation.stubs.bindings
 http\://helper.workflow.cagrid.org/WorkflowHelper/Invocation/service=org.cagrid.workflow.helper.invocation.stubs.service

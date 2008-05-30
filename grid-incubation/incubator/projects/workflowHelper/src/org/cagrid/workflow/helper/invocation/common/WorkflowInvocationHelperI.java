@@ -18,6 +18,11 @@ public interface WorkflowInvocationHelperI {
 
   public void configureInput(org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor operationInputMessageDescriptor) throws RemoteException ;
 
+  /**
+   * ---
+   *
+   * @param operationOutputTransportDescriptor
+   */
   public void configureOutput(org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor operationOutputTransportDescriptor) throws RemoteException ;
 
   public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException ;

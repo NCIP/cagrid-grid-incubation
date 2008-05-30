@@ -110,7 +110,6 @@
           <sequence>
             <element ref="ns5:CurrentTime" />
             <element ref="ns5:TerminationTime" />
-            <element ref="ns1:Status" />
             <element ref="ns1:WorkflowInvocationHelperDescriptor" />
             <element ref="ns1:OperationInputMessageDescriptor" />
             <element ref="ns1:OperationOutputTransportDescriptor" />

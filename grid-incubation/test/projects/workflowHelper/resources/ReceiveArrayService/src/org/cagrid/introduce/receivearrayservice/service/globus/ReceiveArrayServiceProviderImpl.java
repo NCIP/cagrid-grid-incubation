@@ -26,24 +26,6 @@ public class ReceiveArrayServiceProviderImpl{
 	}
 	
 
-    public org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayResponse secureReceiveArray(org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayRequest params) throws RemoteException {
-    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayResponse boxedResult = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayResponse();
-    impl.secureReceiveArray(params.getArrayStr());
-    return boxedResult;
-  }
-
-    public org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreResponse secureReceiveArrayAndMore(org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreRequest params) throws RemoteException {
-    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreResponse boxedResult = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreResponse();
-    impl.secureReceiveArrayAndMore(params.getNumber(),params.getStrArray(),params.isBooleanValue());
-    return boxedResult;
-  }
-
-    public org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayResponse secureReceiveComplexArray(org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayRequest params) throws RemoteException {
-    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayResponse boxedResult = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayResponse();
-    impl.secureReceiveComplexArray(params.getNumber(),params.getComplexArray().getComplexType(),params.isBooleanValue());
-    return boxedResult;
-  }
-
     public org.cagrid.introduce.receivearrayservice.stubs.ReceiveArrayResponse receiveArray(org.cagrid.introduce.receivearrayservice.stubs.ReceiveArrayRequest params) throws RemoteException {
     org.cagrid.introduce.receivearrayservice.stubs.ReceiveArrayResponse boxedResult = new org.cagrid.introduce.receivearrayservice.stubs.ReceiveArrayResponse();
     impl.receiveArray(params.getArrayStr());
@@ -59,6 +41,24 @@ public class ReceiveArrayServiceProviderImpl{
     public org.cagrid.introduce.receivearrayservice.stubs.ReceiveComplexArrayResponse receiveComplexArray(org.cagrid.introduce.receivearrayservice.stubs.ReceiveComplexArrayRequest params) throws RemoteException {
     org.cagrid.introduce.receivearrayservice.stubs.ReceiveComplexArrayResponse boxedResult = new org.cagrid.introduce.receivearrayservice.stubs.ReceiveComplexArrayResponse();
     impl.receiveComplexArray(params.getNumber(),params.getComplexArray().getComplexType(),params.isBooleanValue());
+    return boxedResult;
+  }
+
+    public org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayResponse secureReceiveArray(org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayRequest params) throws RemoteException {
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayResponse boxedResult = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayResponse();
+    impl.secureReceiveArray(params.getArrayStr());
+    return boxedResult;
+  }
+
+    public org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreResponse secureReceiveArrayAndMore(org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreRequest params) throws RemoteException {
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreResponse boxedResult = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveArrayAndMoreResponse();
+    impl.secureReceiveArrayAndMore(params.getNumber(),params.getStrArray(),params.isBooleanValue());
+    return boxedResult;
+  }
+
+    public org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayResponse secureReceiveComplexArray(org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayRequest params) throws RemoteException {
+    org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayResponse boxedResult = new org.cagrid.introduce.receivearrayservice.stubs.SecureReceiveComplexArrayResponse();
+    impl.secureReceiveComplexArray(params.getNumber(),params.getComplexArray().getComplexType(),params.isBooleanValue());
     return boxedResult;
   }
 

@@ -1111,12 +1111,15 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			if( !this.isFinished ){
 
 				try {
-					//this.isFinishedCondition.await();
 
-					// DEBUG
-					boolean wasSignaled = this.isFinishedCondition.await(120, TimeUnit.SECONDS); 					
-					if(wasSignaled) System.out.println("Explicitly awaken by another thread. Exiting"); 
-					else Assert.fail("Timeout exceeded. Exiting"); // */ 
+					boolean wasSignaled = this.isFinishedCondition.await(45, TimeUnit.SECONDS); 					
+					if(wasSignaled) System.out.println("OK. Received notification of FINISH status. Exiting"); 
+					else {
+						String errMsg = "Timeout exceeded without any notification of FINISH status. Exiting";
+						System.err.println(errMsg);
+						this.printMap();
+						Assert.fail(errMsg);
+					}
 
 				} catch(Throwable t){
 					System.err.println("Error while waiting");
@@ -1125,9 +1128,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			}
 
 			//this.printMap(); //DEBUG
-
-			// All stages are finished. We don't need to wait for them anymore, even in a further call of this method
-			this.stageStatus.clear(); 
+ 
 		}
 		finally {
 			this.isFinishedKey.unlock();
@@ -1241,7 +1242,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			//System.out.println("[subscribe] Subscribing service: "+ toSubscribe.getEPRString());
 
 			this.stageStatus.put(toSubscribe.getEPRString(), new TimestampedStatus(Status.UNCONFIGURED, 0)); // Register to be monitored for status changes
-			toSubscribe.subscribe(notificationType, this);
+			toSubscribe.subscribeWithCallback(notificationType, this);
 
 			this.EPR2OperationName.put(toSubscribe.getEPRString(), stageOperationQName);
 

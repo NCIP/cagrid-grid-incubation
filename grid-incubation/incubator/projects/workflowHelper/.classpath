@@ -30,6 +30,7 @@
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-dorian-client-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-dorian-stubs-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-dorian-common-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-gaards-pki-andrecs.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/addressing-1.0.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/axis.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/axis-url.jar"/>

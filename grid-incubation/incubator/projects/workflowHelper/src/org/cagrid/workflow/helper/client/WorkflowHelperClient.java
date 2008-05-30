@@ -94,15 +94,23 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					String userCredentialFile = "C:\\Documents and Settings\\hawks\\Desktop\\caOSSecurityTests\\credential.bin" ;
 					InputStream is = new FileInputStream(new File(userCredentialFile));
 					GlobusCredential userCredential = new GlobusCredential(is);
+					
+					
 					System.out.println("Delegating user credential to the Helper"); //DEBUG
-					EndpointReferenceType proxyEPR = CredentialHandlingUtil.delegateCredential(userCredential, wf_helper.getIdentity(), cds_URL, new ProxyLifetime(5,0,0), 
-							new ProxyLifetime(6,0,0), 3, 2);
+					GlobusCredential myCredential = null;
+					try{
+						EndpointReferenceType proxyEPR = CredentialHandlingUtil.delegateCredential(userCredential, wf_helper.getIdentity(), cds_URL, new ProxyLifetime(5,0,0), 
+								new ProxyLifetime(6,0,0), 3, 2);
 
-					// Get delegated credential from the user
-					System.out.println("FakeManager retrieving delegated user credential"); //DEBUG
-					GlobusCredential myCredential = CredentialHandlingUtil.getDelegatedCredential(new EndpointReference(proxyEPR));
-					wf_helper.setProxy(myCredential);
-
+						// Get delegated credential from the user
+						System.out.println("FakeManager retrieving delegated user credential"); //DEBUG
+						myCredential = CredentialHandlingUtil.getDelegatedCredential(new EndpointReference(proxyEPR));
+						wf_helper.setProxy(myCredential);
+					}
+					catch(Throwable t){
+						t.printStackTrace();
+					}
+					
 					int containerPort = containerIsSecure ? 8443 : 8080;
 					String transportProtocol = containerIsSecure? "https" : "http";
 					String containerHost = InetAddress.getLocalHost().getHostAddress();
@@ -756,11 +764,16 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 						// Set the GlobusCredential to use on InstanceHelper
 						System.out.println("Delegating helper's credential to the InstanceHelper"); //DEBUG
-						EndpointReferenceType delegationEPR6 = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), cds_URL, delegationLifetime, issuedCredentialLifetime, 
-								delegationPath, issuedCredentialPath);
+						try{
+							EndpointReferenceType delegationEPR6 = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), cds_URL, delegationLifetime, issuedCredentialLifetime, 
+									delegationPath, issuedCredentialPath);
 
-						wf_instance6.addCredential(client6.getEndpointReference(), delegationEPR6);
-
+							wf_instance6.addCredential(client6.getEndpointReference(), delegationEPR6);
+						}
+						catch(Throwable t){
+							t.printStackTrace();
+						}
+						
 						//DEBUG
 						System.out.println("Credential added");
 						System.out.flush();
@@ -841,6 +854,13 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
     org.cagrid.workflow.helper.stubs.GetIdentityRequest params = new org.cagrid.workflow.helper.stubs.GetIdentityRequest();
     org.cagrid.workflow.helper.stubs.GetIdentityResponse boxedResult = portType.getIdentity(params);
     return boxedResult.getResponse();
+    }
+  }
+
+  public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"subscribe");
+    return portType.subscribe(params);
     }
   }
 

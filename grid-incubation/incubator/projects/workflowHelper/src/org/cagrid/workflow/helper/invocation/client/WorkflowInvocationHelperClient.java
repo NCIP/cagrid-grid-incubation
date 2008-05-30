@@ -32,22 +32,22 @@ import org.globus.wsrf.container.ContainerException;
  * @created by Introduce Toolkit version 1.2
  */
 public class WorkflowInvocationHelperClient extends
-		WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
+WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 
 	public Map<QName, NotifyCallback> callbacks = new HashMap<QName, NotifyCallback>();
 
 	public WorkflowInvocationHelperClient(String url)
-			throws MalformedURIException, RemoteException {
+	throws MalformedURIException, RemoteException {
 		this(url, null);
 	}
 
 	public WorkflowInvocationHelperClient(String url, GlobusCredential proxy)
-			throws MalformedURIException, RemoteException {
+	throws MalformedURIException, RemoteException {
 		super(url, proxy);
 	}
 
 	public WorkflowInvocationHelperClient(EndpointReferenceType epr)
-			throws MalformedURIException, RemoteException {
+	throws MalformedURIException, RemoteException {
 		this(epr, null);
 	}
 
@@ -86,22 +86,37 @@ public class WorkflowInvocationHelperClient extends
 	}
 
 	
-	public org.oasis.wsn.SubscribeResponse subscribe(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
-		
+	
+	public org.oasis.wsn.SubscribeResponse subscribeWithCallback(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
+
 		//System.out.print("[subscribe] Putting "+ qname +" on internal list"); //DEBUG
-		
+
 		callbacks.put(qname, callback);
-		
+
 		//System.out.println("...OK"); // DEBUG
-		
+
 		return subscribe(qname);
-	}
+	} 
+	
+
+	
+	// DON'T REMOVE OR UNCOMMENT THE subscribe METHOD BELOW!!
+	/*public org.oasis.wsn.SubscribeResponse subscribe(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
+
+		//System.out.print("[subscribe] Putting "+ qname +" on internal list"); //DEBUG
+
+		callbacks.put(qname, callback);
+
+		//System.out.println("...OK"); // DEBUG
+
+		return subscribe(qname);
+	} // */
 
 	public void deliver(List topicPath, EndpointReferenceType producer,
 			Object message) {
 		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) message)
-				.getResourcePropertyValueChangeNotification();
-		
+		.getResourcePropertyValueChangeNotification();
+
 		MessageElement messageToDeliver = changeMessage.getNewValue().get_any()[0];
 		QName notification_qname = messageToDeliver.getQName();
 		String stageKey = null;
@@ -112,8 +127,7 @@ public class WorkflowInvocationHelperClient extends
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
 		}  
-		
-		
+
 		PrintStream log = System.out;  //DEBUG
 		TimestampedStatus messageValue = null;
 		try {
@@ -122,22 +136,21 @@ public class WorkflowInvocationHelperClient extends
 			e.printStackTrace();
 		} // */
 		//log.println("[WorkflowInvocationHelper.deliver] Received message: "+ messageValue.toString() + " from "+ stageKey);  //DEBUG
-		
-		
+
 		if(callbacks.containsKey(notification_qname)){
-			
+
 			//DEBUG
 			//log.println("[WorkflowInvocationHelperClient.deliver] Delivering "+ notification_qname);
-			
+
 			(callbacks.get(notification_qname)).deliver(topicPath, producer, message);
-			
+
 			//log.println("Delivered");
-			
+
 		}
 		else {
-			
+
 			System.out.println("[WorkflowInvocationHelperClient.deliver] Don't know how to deliver object of type "+ notification_qname); 
-			
+
 		}
 	}
 

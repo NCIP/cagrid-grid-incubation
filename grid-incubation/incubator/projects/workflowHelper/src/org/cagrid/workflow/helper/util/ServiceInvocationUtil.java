@@ -259,7 +259,7 @@ public class ServiceInvocationUtil {
 			// Secure invocation when a credential is provided
 			if( hasCredential ){   
 
-				System.out.println("DO have credential");//DEBUG
+				//System.out.println("DO have credential");//DEBUG
 				
 				
 				ServiceSecurityMetadata securityMetadata = ConversionUtil.createServiceSecurityMetadata(
@@ -440,8 +440,15 @@ public class ServiceInvocationUtil {
 
 
 		//DEBUG
-		//System.out.println("=== Applying query "+xpath_query+" on '"+xml_doc+"'\n");
+		/*System.out.println("=== Applying query "+xpath_query+" on '"+xml_doc+"'\n");
+		System.out.println("Namespaces are: ");
+		for(int i=0; i < namespaces.length; i++){
+			
+			System.out.println(namespaces[i].getLocalPart()+" = "+ namespaces[i].getNamespaceURI());
+		}
+		System.out.println("End namespaces"); // */
 
+		
 
 		// Get return from invoked method using XPath
 		XPathFactory factory = XPathFactory.newInstance();
@@ -461,6 +468,7 @@ public class ServiceInvocationUtil {
 			/* Execute the query and post process the result so we return exactly what was requested */
 			NodeList xpath_result = (NodeList)query.evaluate(xpath_query, source, XPathConstants.NODESET);
 
+			//System.out.println("[applyXPathQuery] xpath_result is: "+ xpath_result); // DEBUG
 
 			// Result is a single node
 			if( xpath_result.getLength() <= 1 ){
@@ -523,14 +531,6 @@ public class ServiceInvocationUtil {
 
 		return result;
 	}
-
-
-	
-	
-
-
-
-
 
 
 

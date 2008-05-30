@@ -18,11 +18,11 @@
 			<xs:enumeration value="UNCONFIGURED" />
 			<xs:enumeration value="INPUTCONFIGURED" />
 			<xs:enumeration value="INPUTOUTPUTCONFIGURED" />
-			<xs:enumeration value="READY" />
-			<xs:enumeration value="RUNNING" />
-			<xs:enumeration value="PAUSED" />
 			<xs:enumeration value="WAITING" />
+			<xs:enumeration value="RUNNING" />
 			<xs:enumeration value="FINISHED" />
+			<xs:enumeration value="PAUSED" />
+			<xs:enumeration value="READY" />
 			<xs:enumeration value="ERROR" />
 		</xs:restriction>
 	</xs:simpleType>

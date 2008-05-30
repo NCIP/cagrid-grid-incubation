@@ -120,6 +120,10 @@
           <name>helperIdentity</name>
           <value>@helperIdentity@</value>
         </parameter>
+        <parameter>
+          <name>helperCredential</name>
+          <value>@helperCredential@</value>
+        </parameter>
       </resourceParams>
     </resource>
     <resource name="home" type="org.cagrid.workflow.helper.service.globus.resource.WorkflowHelperResourceHome">

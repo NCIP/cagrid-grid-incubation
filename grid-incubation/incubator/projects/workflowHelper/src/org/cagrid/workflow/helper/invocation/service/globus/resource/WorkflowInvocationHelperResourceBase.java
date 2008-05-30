@@ -90,14 +90,12 @@ import org.oasis.wsrf.lifetime.TerminationNotification;
  */
 public abstract class WorkflowInvocationHelperResourceBase extends ReflectionResource implements Resource
                                                   ,TopicListAccessor
-                                                  ,SecureResource
                                                   ,RemoveCallback
                                                   {
 
 	static final Log logger = LogFactory.getLog(WorkflowInvocationHelperResourceBase.class);
 
 	private WorkflowInvocationHelperResourceConfiguration configuration;
-	private ResourceSecurityDescriptor desc;
 	private ResourceKey key;
 
 	// this can be used to cancel the registration renewal
@@ -120,7 +118,6 @@ public abstract class WorkflowInvocationHelperResourceBase extends ReflectionRes
                            
         // Call the super initialize on the ReflectionResource                  
 	    super.initialize(resourceBean,resourceElementQName,id);
-		this.desc = null;
 		this.topicList = new SimpleTopicList(this);
 
         // create the topics for each resource property
@@ -175,17 +172,6 @@ public abstract class WorkflowInvocationHelperResourceBase extends ReflectionRes
 	    //Getters/Setters for ResourceProperties
 	
 	
-	public org.cagrid.workflow.helper.descriptor.Status getStatus(){
-		return ((WorkflowInvocationHelperResourceProperties) getResourceBean()).getStatus();
-	}
-	
-	public void setStatus(org.cagrid.workflow.helper.descriptor.Status status ) throws ResourceException {
-        ResourceProperty prop = getResourcePropertySet().get(WorkflowInvocationHelperConstants.STATUS);
-		prop.set(0, status);
-	}
-	
-	
-	
 	public org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor getWorkflowInvocationHelperDescriptor(){
 		return ((WorkflowInvocationHelperResourceProperties) getResourceBean()).getWorkflowInvocationHelperDescriptor();
 	}
@@ -230,22 +216,7 @@ public abstract class WorkflowInvocationHelperResourceBase extends ReflectionRes
 	
 
 
-	
-    /**
-     * Sets the security descriptor for this resource.  The default resource
-     * security will be null so it will fall back to method level then service
-     * level security.  If you want to protect this particular instance of this
-     * resource then provide a resource security descriptor to this resource
-     * through this method.
-     */
-	public void setSecurityDescriptor(ResourceSecurityDescriptor desc) {
-		this.desc = desc;
-	}
-	
-	
-	public ResourceSecurityDescriptor getSecurityDescriptor() {
-		return this.desc;
-	}  
+	  
 
 	
 	public WorkflowInvocationHelperResourceConfiguration getConfiguration() {

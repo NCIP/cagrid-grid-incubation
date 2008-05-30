@@ -293,23 +293,25 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 		if( isSecure ){
 
-			System.out.println("Creating locks"); // DEBUG 
+			//System.out.println("Creating locks"); // DEBUG 
 
 			// Initializes mutual exclusion key that denotes the availability of the delegated credential
 			Lock key = new ReentrantLock();
 			Condition credentialAvailability = key.newCondition();
 			this.serviceConditionVariable.put(EPRStr, credentialAvailability);
 			this.servicelLock.put(EPRStr, key);
-
+			
+			
 			//this.printCredentials();//DEBUG
 
 		}
 		else{
 
-			System.out.println("Adding service to unsecure list"); //DEBUG
+			//System.out.println("Adding service to unsecure list"); //DEBUG
 
 			this.unsecureInvocations.add(EPRStr); 
 		}
+		//System.out.println("Done"); //DEBUG
 	}
 
 

@@ -28,8 +28,10 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 
   public void configureOutput(org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor operationOutputTransportDescriptor) throws RemoteException {
 		try {
+		
 			WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
 			resource.setOutput_desc(operationOutputTransportDescriptor);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

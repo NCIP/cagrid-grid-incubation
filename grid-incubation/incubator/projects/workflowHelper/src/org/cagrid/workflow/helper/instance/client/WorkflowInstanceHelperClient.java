@@ -141,4 +141,11 @@ public class WorkflowInstanceHelperClient extends WorkflowInstanceHelperClientBa
     }
   }
 
+  public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"subscribe");
+    return portType.subscribe(params);
+    }
+  }
+
 }

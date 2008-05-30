@@ -47,6 +47,8 @@ public class WorkflowHelperConfiguration implements ServiceConfiguration {
 	
 	private String helperIdentity;
 	
+	private String helperCredential;
+	
 	
 	public String getEtcDirectoryPath() {
 		return ContainerConfig.getBaseDirectory() + File.separator + etcDirectoryPath;
@@ -64,6 +66,16 @@ public class WorkflowHelperConfiguration implements ServiceConfiguration {
 	
 	public void setHelperIdentity(String helperIdentity) {
 		this.helperIdentity = helperIdentity;
+	}
+
+	
+	public String getHelperCredential() {
+		return helperCredential;
+	}
+	
+	
+	public void setHelperCredential(String helperCredential) {
+		this.helperCredential = helperCredential;
 	}
 
 	

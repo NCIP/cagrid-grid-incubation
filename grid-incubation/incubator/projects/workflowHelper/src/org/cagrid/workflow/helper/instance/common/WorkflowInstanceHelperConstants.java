@@ -12,6 +12,6 @@ public interface WorkflowInstanceHelperConstants {
 	public static final QName CURRENTTIME = new QName("http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd", "CurrentTime");
 	public static final QName TERMINATIONTIME = new QName("http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd", "TerminationTime");
 	public static final QName WORKFLOWINSTANCEHELPERDESCRIPTOR = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "WorkflowInstanceHelperDescriptor");
-	public static final QName STATUS = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "Status");
+	public static final QName TIMESTAMPEDSTATUS = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "TimestampedStatus");
 	
 }

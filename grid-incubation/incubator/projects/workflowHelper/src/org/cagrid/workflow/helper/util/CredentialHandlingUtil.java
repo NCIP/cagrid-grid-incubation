@@ -1,19 +1,12 @@
 package org.cagrid.workflow.helper.util;
 
-import gov.nih.nci.cagrid.authentication.bean.BasicAuthenticationCredential;
-import gov.nih.nci.cagrid.authentication.bean.Credential;
-import gov.nih.nci.cagrid.authentication.client.AuthenticationClient;
 import gov.nih.nci.cagrid.common.security.ProxyUtil;
-import gov.nih.nci.cagrid.dorian.client.IFSUserClient;
-import gov.nih.nci.cagrid.opensaml.SAMLAssertion;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
-import org.apache.axis.types.URI.MalformedURIException;
 import org.cagrid.gaards.cds.client.ClientConstants;
 import org.cagrid.gaards.cds.client.DelegatedCredentialUserClient;
 import org.cagrid.gaards.cds.client.DelegationUserClient;
@@ -21,9 +14,6 @@ import org.cagrid.gaards.cds.common.AllowedParties;
 import org.cagrid.gaards.cds.common.IdentityDelegationPolicy;
 import org.cagrid.gaards.cds.common.ProxyLifetime;
 import org.cagrid.gaards.cds.delegated.stubs.types.DelegatedCredentialReference;
-import org.cagrid.gaards.cds.stubs.types.CDSInternalFault;
-import org.cagrid.gaards.cds.stubs.types.DelegationFault;
-import org.cagrid.gaards.cds.stubs.types.PermissionDeniedFault;
 import org.globus.gsi.GlobusCredential;
 
 public class CredentialHandlingUtil {
@@ -43,12 +33,13 @@ public class CredentialHandlingUtil {
 	 * @return 
 	 * */
 	public static EndpointReferenceType delegateCredential(GlobusCredential toDelegate, String delegatee, String cdsURL, ProxyLifetime delegationLifetime, 
-			ProxyLifetime issuedCredentialLifetime, int delegationPathLength, int issuedCredentialPathLength){
+			ProxyLifetime issuedCredentialLifetime, int delegationPathLength, int issuedCredentialPathLength) throws Throwable {
 
 		//DEBUG
 		/*System.out.println("BEGIN delegateCredential");
 		System.out.println("delegatee: "+ delegatee);
 		System.out.println("delegator: "+ toDelegate.getIdentity());
+		System.out.println("CDS URL: "+ cdsURL);
 		System.out.println("Delegation lenght: "+ delegationPathLength);
 		System.out.println("Issued Credential lenght: "+ issuedCredentialPathLength); // */
 
@@ -66,21 +57,22 @@ public class CredentialHandlingUtil {
 
 		//Create an instance of the delegation client, specifies the CDS Service URL and the credential 
 		//to be delegated.
-
+		//System.out.println("[delegateCredential] Creating DelegationUserClient"); //DEBUG
 		DelegationUserClient client = null;
-		try {
+		//try {
 			client = new DelegationUserClient(cdsURL, toDelegate);
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} // */
 
 		//Delegates the credential and returns a reference which can later be used by allowed parties to 
 		//obtain a credential.
+		//System.out.println("[delegateCredential] Sending delegation request to CDS"); //DEBUG
 		DelegatedCredentialReference ref = null;
-		try {
+		//try {
 			ref = client.delegateCredential(delegationLifetime, delegationPathLength, policy,
 					issuedCredentialLifetime, issuedCredentialPathLength, keySize);
-		} catch (CDSInternalFault e) {
+		/*} catch (CDSInternalFault e) {
 			e.printStackTrace();
 		} catch (DelegationFault e) {
 			e.printStackTrace();
@@ -90,7 +82,7 @@ public class CredentialHandlingUtil {
 			e.printStackTrace();
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
-		}
+		} // */ 
 
 		//DEBUG
 		//System.out.println("END delegateCredential");
@@ -107,10 +99,12 @@ public class CredentialHandlingUtil {
 
 
 
+		// get host key and cert here ->
+		
+		
 		GlobusCredential credential = ProxyUtil.getDefaultProxy();
 
-
-		//System.out.println("Identity: "+ credential.getIdentity()); 	//DEBUG
+		//System.out.println("[getDelegatedCredential] Default proxy DN: "+ credential.getIdentity()); 	//DEBUG
 
 		//A DelegateCredentialReference is provided by the delegator to delegatee, it 
 		//represents the delegated credential that the delegatee should obtain.
@@ -129,49 +123,6 @@ public class CredentialHandlingUtil {
 		GlobusCredential delegatedCredential = client.getDelegatedCredential();
 
 		return delegatedCredential;
-	}
-
-
-
-	public static GlobusCredential LogUserOnGrid(String dorianURL, String userID, String userPassword, 
-			int delegationPathLength, ProxyLifetime lifetime){
-
-		GlobusCredential proxy = null;
-
-
-		try{
-
-			//Create credential		
-
-			Credential cred = new Credential();
-			BasicAuthenticationCredential bac = new BasicAuthenticationCredential();
-			bac.setUserId(userID);
-			bac.setPassword(userPassword);
-			cred.setBasicAuthenticationCredential(bac);
-
-			//Authenticate to the IdP (DorianIdP) using credential
-
-			AuthenticationClient authClient = new AuthenticationClient(dorianURL, cred);
-			SAMLAssertion saml = authClient.authenticate();
-
-			gov.nih.nci.cagrid.dorian.ifs.bean.ProxyLifetime lifetime2 = new gov.nih.nci.cagrid.dorian.ifs.bean.ProxyLifetime();
-			lifetime2.setHours(lifetime.getHours());
-			lifetime2.setMinutes(lifetime.getMinutes());
-			lifetime2.setSeconds(lifetime.getSeconds());
-			
-			
-
-			//Request Grid Credential
-
-			IFSUserClient dorian = new IFSUserClient(dorianURL);
-			proxy = dorian.createProxy(saml, lifetime2,delegationPathLength);
-
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-
-
-		return proxy;
 	}
 
 }

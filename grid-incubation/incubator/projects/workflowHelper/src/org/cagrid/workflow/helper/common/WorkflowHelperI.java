@@ -22,5 +22,7 @@ public interface WorkflowHelperI {
 
   public java.lang.String getIdentity() throws RemoteException ;
 
+  public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException ;
+
 }
 

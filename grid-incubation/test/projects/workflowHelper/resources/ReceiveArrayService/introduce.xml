@@ -139,7 +139,7 @@
     <ns4:Method description="" isImported="false" isProvided="false" name="secureReceiveComplexArray" xsi:type="ns4:MethodType">
      <ns4:Inputs>
       <ns4:Input qName="xsd:int" description="" isArray="false" name="number" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-      <ns4:Input qName="ns9:ComplexType" description="" isArray="false" name="complexArray" xmlns:ns9="http://systemtests.workflow.cagrid.org/SystemTests"/>
+      <ns4:Input qName="ns9:ComplexType" description="" isArray="true" name="complexArray" xmlns:ns9="http://systemtests.workflow.cagrid.org/SystemTests"/>
       <ns4:Input qName="xsd:boolean" description="" isArray="false" name="booleanValue" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
      </ns4:Inputs>
      <ns4:Output qName="void" description="" isArray="false"/>

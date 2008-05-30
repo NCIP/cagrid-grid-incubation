@@ -1,6 +1,15 @@
-package org.cagrid.workflow.helper.service;
+ package org.cagrid.workflow.helper.service;
 
+import gov.nih.nci.cagrid.common.security.ProxyUtil;
+
+import java.io.File;
 import java.rmi.RemoteException;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+
+import org.cagrid.gaards.pki.KeyUtil;
+import org.globus.gsi.CertUtil;
+import org.globus.gsi.GlobusCredential;
 
 /** 
  * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
@@ -12,6 +21,29 @@ public class WorkflowHelperImpl extends WorkflowHelperImplBase {
 
 	public WorkflowHelperImpl() throws RemoteException {
 		super();
+		
+		
+		/* Added by Andre de Souza in May-27-2008. FIXME Should be removed as soon as we find a better way to retrieve the service's credential */
+		// Host credentials and CA's should be the same
+		try {
+			String hostCertBasePath = WorkflowHelperConfiguration.getConfiguration().getHelperCredential();
+			X509Certificate hostCert = CertUtil.loadCertificate(hostCertBasePath + "cert.pem");
+			File hostKeyFile = new File(hostCertBasePath + "key.pem");
+			PrivateKey hostKey = KeyUtil.loadPrivateKey(hostKeyFile, "testing");
+			GlobusCredential hostCredential = new GlobusCredential(hostKey, new X509Certificate[]{ hostCert });
+			
+			ProxyUtil.saveProxyAsDefault(hostCredential); // TODO This shouldn't be necessary, but it is for now.
+			
+			// DEBUG
+			/*GlobusCredential defaultProxy = ProxyUtil.getDefaultProxy(); 
+			System.out.println("[WorkflowHelperImpl] Default identity is "+ defaultProxy.getIdentity()); // */
+			
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} // End of Andre's code */
+		
+		
+		
 	}
 
   public org.cagrid.workflow.helper.instance.stubs.types.WorkflowInstanceHelperReference createWorkflowInstanceHelper(org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptor) throws RemoteException {
@@ -38,6 +70,7 @@ public class WorkflowHelperImpl extends WorkflowHelperImplBase {
 			// sample of setting creator only security.  This will only allow the caller that created
 			// this resource to be able to use it.
 			//thisResource.setSecurityDescriptor(gov.nih.nci.cagrid.introduce.servicetools.security.SecurityUtils.createCreatorOnlyResourceSecurityDescriptor());
+			
 
 			String transportURL = (String) ctx.getProperty(org.apache.axis.MessageContext.TRANS_URL);
 			transportURL = transportURL.substring(0,transportURL.lastIndexOf('/') +1 );
