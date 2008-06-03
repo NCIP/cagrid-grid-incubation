@@ -92,6 +92,11 @@ public class WorkflowInstanceHelperAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeGetEPRString() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -167,6 +172,14 @@ public class WorkflowInstanceHelperAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("subscribe")){
 			try{
 				authorizeSubscribe();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("getEPRString")){
+			try{
+				authorizeGetEPRString();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

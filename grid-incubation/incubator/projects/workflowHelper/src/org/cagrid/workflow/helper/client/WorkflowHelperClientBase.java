@@ -119,7 +119,7 @@ public abstract class WorkflowHelperClientBase extends ServiceSecurityClient imp
             .getResourcePropertyValueChangeNotification();
 
         if (changeMessage != null) {
-            System.out.println("Got notification");
+            System.out.println("[WorkflowHelperClientBase.deliver] Got notification");
         }
     }
 

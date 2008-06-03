@@ -223,6 +223,11 @@
      <ns13:ImportInformation fromIntroduce="false" inputMessage="ns26:SubscribeRequest" namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" outputMessage="ns26:SubscribeResponse" packageName="org.oasis.wsn" portTypeName="NotificationProducer" wsdlFile="../wsrf/notification/WS-BaseN.wsdl" xmlns:ns26="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl"/>
      <ns13:ProviderInformation providerClass="SubscribeProvider"/>
     </ns13:Method>
+    <ns13:Method description="" isImported="false" isProvided="false" name="getEPRString" xsi:type="ns13:MethodType">
+     <ns13:Inputs/>
+     <ns13:Output qName="xsd:string" description="" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns13:Exceptions/>
+    </ns13:Method>
    </ns13:Methods>
    <ns27:ResourcePropertiesList xsi:type="ns27:ResourcePropertiesListType" xmlns:ns27="gme://gov.nih.nci.cagrid.introduce/1/Resources">
     <ns27:ResourceProperty qName="ns28:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns27:ResourcePropertyType" xmlns:ns28="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>

@@ -12,6 +12,8 @@ import java.rmi.RemoteException;
  */
 public interface WorkflowInstanceHelperI {
 
+  public java.lang.String getEPRString() throws RemoteException ;
+
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException ;
 
   public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException ;

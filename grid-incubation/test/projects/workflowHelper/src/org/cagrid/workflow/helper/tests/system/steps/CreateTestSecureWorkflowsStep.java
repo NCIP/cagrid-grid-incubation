@@ -21,6 +21,7 @@ import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
+import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
@@ -185,7 +186,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		System.out.println("BEGIN runOuputMatcher");
 
 		WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
-		validatorInstanceDesc.setWorkflowID("Validator");
+		String workflowID = "Validator";
+		validatorInstanceDesc.setWorkflowID(workflowID);
 		validatorInstanceDesc.setWorkflowManagerEPR(manager_epr);
 
 		String outputMatcherURI =  "http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService";
@@ -196,6 +198,10 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
+		
+		
+		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), validatorInstance, workflowID);
+		
 
 		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
 		validatorInvocationDesc.setOperationQName(
@@ -218,8 +224,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 		// Subscribe for status notifications
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), validatorInvocation1
-				, validatorInvocationDesc.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), validatorInvocation1
+			//	, validatorInvocationDesc.getOperationQName().toString());
 
 		// Set the GlobusCredential to use on InstanceHelper
 		//System.out.println("[runOutputMatcher] Delegating helper's credential to the InstanceHelper"); //DEBUG
@@ -667,7 +673,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		/** complex type arrays **/
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor1 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
-		workflowDescriptor1.setWorkflowID("WorkFlow1");
+		String workflowID = "WorkFlow1";
+		workflowDescriptor1.setWorkflowID(workflowID);
 		workflowDescriptor1.setWorkflowManagerEPR(manager_epr);
 
 		// Get helper client so we can create the invocation helpers
@@ -678,6 +685,12 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e1.printStackTrace();
 		}
 
+		
+		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance1, workflowID);
+		
+		
+		
+		
 		// BEGIN ReceiveArrayService::ReceiveComplexArray	
 
 
@@ -704,8 +717,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client2
-				, operation2.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client2
+			//	, operation2.getOperationQName().toString());
 
 		//System.out.println("Configuring invocation helper"); //DEBUG
 
@@ -776,8 +789,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		}
 
 		// Monitor status changes
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client_ca
-				, operation_ca.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client_ca
+			//	, operation_ca.getOperationQName().toString());
 
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance1.addCredential(client_ca.getEndpointReference(), delegationEPR);
@@ -853,7 +866,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
-		workflowDescriptor2.setWorkflowID("WorkFlow2");
+		String workflowID = "WorkFlow2";
+		workflowDescriptor2.setWorkflowID(workflowID);
 		workflowDescriptor2.setWorkflowManagerEPR(manager_epr);
 
 		// Get helper client so we can create the invocation helpers
@@ -866,6 +880,9 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
+		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance2, workflowID);
+		
+		
 
 		// BEGIN ReceiveArrayService::ReceiveArrayAndMore
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ram = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -889,8 +906,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_ram
-				, operation_ram.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_ram
+			//	, operation_ram.getOperationQName().toString());
 
 				
 		// Set the GlobusCredential to use on InstanceHelper
@@ -957,8 +974,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_cas
-				, operation_cas.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_cas
+			//	, operation_cas.getOperationQName().toString());
 
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance2.addCredential(serviceClient_cas.getEndpointReference(), delegationEPR);
@@ -1031,7 +1048,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
-		workflowDescriptor3.setWorkflowID("WorkFlow2");
+		String workflowID = "WorkFlow2";
+		workflowDescriptor3.setWorkflowID(workflowID);
 		workflowDescriptor3.setWorkflowManagerEPR(manager_epr);
 
 		// Get helper client so we can create the invocation helpers
@@ -1041,6 +1059,9 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		}  catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
+		
+		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance3, workflowID);
+		
 
 		// BEGIN service 4				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -1066,8 +1087,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient4
-				, operation4.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient4
+		//		, operation4.getOperationQName().toString());
 
 
 		// Set the GlobusCredential to use on InstanceHelper
@@ -1127,8 +1148,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient2
-				, operation_2.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient2
+			//	, operation_2.getOperationQName().toString());
 
 
 		// Set the GlobusCredential to use on InstanceHelper
@@ -1208,8 +1229,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient3
-				, operation3.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient3
+			//	, operation3.getOperationQName().toString());
 
 
 		// Set the GlobusCredential to use on InstanceHelper
@@ -1288,8 +1309,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient5
-				, operation5.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient5
+			//	, operation5.getOperationQName().toString());
 
 
 		// Set the GlobusCredential to use on InstanceHelper
@@ -1338,8 +1359,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient1
-				, operation1.getOperationQName().toString());
+		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient1
+		//		, operation1.getOperationQName().toString());
 
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance3.addCredential(serviceClient1.getEndpointReference(), delegationEPR);

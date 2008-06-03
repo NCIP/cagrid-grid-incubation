@@ -2,10 +2,16 @@ package org.cagrid.workflow.helper.instance.service;
 
 import java.rmi.RemoteException;
 
+import javax.xml.namespace.QName;
+
 import org.apache.axis.message.addressing.EndpointReference;
+import org.apache.axis.types.URI.MalformedURIException;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
+import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
+import org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResource;
+import org.cagrid.workflow.helper.invocation.stubs.types.WorkflowInvocationHelperReference;
 
 /** 
  * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
@@ -57,6 +63,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 			thisResource.setServiceOperationEPR(new EndpointReference(epr)); // Inform the InvocationHelper the key it will use to retrieve its credential
 			final boolean isSecure = (workflowInvocationHelperDescriptor.getWorkflowInvocationSecurityDescriptor() != null); 
 			this.setIsInvocationHelperSecure(thisResource.getServiceOperationEPR(), isSecure);
+			this.registerInvocationHelper(thisResource, workflowInvocationHelperDescriptor.getOperationQName());
 
 		} catch (Exception e) {
 			throw new RemoteException("Error looking up WorkflowInvocationHelper home:" + e.getMessage(), e);
@@ -107,13 +114,33 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		try {
 
 			//System.out.println("Invocation is secure? "+isSecure); //DEBUG
-			
+
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
 			resource.setIsInvocationHelperSecure(new EndpointReference(serviceOperationEPR), isSecure);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	private void registerInvocationHelper(WorkflowInvocationHelperResource thisResource, QName name) {
+		
+		try {
+
+			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
+			resource.registerInvocationHelper(thisResource.getServiceOperationEPR(), name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+  public java.lang.String getEPRString() throws RemoteException {
+	  try {
+		  WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
+		  return resource.getEPRString();
+	  } catch (Exception e) {
+		  throw new RemoteException(e.getMessage(),e);
+	  }
+  }
 
 }
 

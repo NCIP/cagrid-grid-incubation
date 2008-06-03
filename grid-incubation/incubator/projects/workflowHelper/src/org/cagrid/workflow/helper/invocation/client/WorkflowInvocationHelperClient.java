@@ -34,7 +34,7 @@ import org.globus.wsrf.container.ContainerException;
 public class WorkflowInvocationHelperClient extends
 WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 
-	public Map<QName, NotifyCallback> callbacks = new HashMap<QName, NotifyCallback>();
+	private Map<QName, NotifyCallback> callbacks = new HashMap<QName, NotifyCallback>();
 
 	public WorkflowInvocationHelperClient(String url)
 	throws MalformedURIException, RemoteException {
@@ -89,7 +89,7 @@ WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 	
 	public org.oasis.wsn.SubscribeResponse subscribeWithCallback(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
 
-		//System.out.print("[subscribe] Putting "+ qname +" on internal list"); //DEBUG
+		//System.out.print("[InvocationHelper::subscribeWithCallback] Putting "+ qname +" on internal list"); //DEBUG
 
 		callbacks.put(qname, callback);
 

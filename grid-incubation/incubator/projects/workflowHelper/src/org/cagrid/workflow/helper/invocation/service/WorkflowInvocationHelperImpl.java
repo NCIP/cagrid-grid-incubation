@@ -59,11 +59,11 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 
   public java.lang.String getEPRString() throws RemoteException {
 	  try {
-			WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
-			return resource.getServiceOperationEPRString();
-		} catch (Exception e) {
-			throw new RemoteException(e.getMessage(),e);
-		}
+		  WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
+		  return resource.getServiceOperationEPRString();
+	  } catch (Exception e) {
+		  throw new RemoteException(e.getMessage(),e);
+	  }
   }
 
 }

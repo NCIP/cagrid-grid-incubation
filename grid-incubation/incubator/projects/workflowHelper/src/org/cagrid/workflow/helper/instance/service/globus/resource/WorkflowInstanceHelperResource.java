@@ -1,22 +1,32 @@
 package org.cagrid.workflow.helper.instance.service.globus.resource;
 
+import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.xml.namespace.QName;
+
+import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.cagrid.workflow.helper.descriptor.Status;
+import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
 import org.cagrid.workflow.helper.util.CredentialHandlingUtil;
 import org.globus.gsi.GlobusCredential;
+import org.globus.wsrf.NotifyCallback;
+import org.globus.wsrf.ResourceException;
+import org.globus.wsrf.container.ContainerException;
 
 
 /** 
@@ -25,7 +35,7 @@ import org.globus.gsi.GlobusCredential;
  * @created by Introduce Toolkit version 1.2
  * 
  */
-public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResourceBase implements CredentialAccess {
+public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResourceBase implements CredentialAccess, NotifyCallback {
 
 	// Associations between services' EPRs and the credential to be used when invoking service-operation
 	private HashMap<String, GlobusCredential> servicesCredentials = new HashMap<String, GlobusCredential>();
@@ -39,8 +49,31 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	private HashMap<String, Condition> serviceConditionVariable = new HashMap<String, Condition>();
 	private HashMap<String, Lock> servicelLock = new HashMap<String, Lock>();
 
-
+	// Set of IDs of services that should not be invoked securely
 	private List<String> unsecureInvocations = new ArrayList<String>();
+
+
+	// Status of each InvocationHelper managed by this InstanceHelper
+	private Map<String, TimestampedStatus> stageStatus = new HashMap<String, TimestampedStatus>() ;
+
+	// Store the operation name for each service subscribed for notification 
+	private Map<String, String> EPR2OperationName = new HashMap<String, String>();
+
+
+	private boolean isFinished = false; // Indication of whether the stages have all finished their execution   
+
+	// Synchronizes the access to variable 'isFinished' 
+	protected Lock isFinishedKey = new ReentrantLock();
+	//protected Condition isFinishedCondition = isFinishedKey.newCondition();
+
+
+	private String eprString;
+
+	// Logical time of a message notifying 
+	private int timestamp = 0;
+
+
+
 
 
 
@@ -300,8 +333,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			Condition credentialAvailability = key.newCondition();
 			this.serviceConditionVariable.put(EPRStr, credentialAvailability);
 			this.servicelLock.put(EPRStr, key);
-			
-			
+
+
 			//this.printCredentials();//DEBUG
 
 		}
@@ -385,4 +418,217 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		return;
 	}
 
+
+
+	/**
+	 * Register an InvocationHelper in order to monitor its status changes
+	 * */
+	public void registerInvocationHelper(EndpointReferenceType epr, QName name){
+
+		//System.out.println("[registerInvocationHelper] Registering "+ name); //DEBUG
+
+		WorkflowInvocationHelperClient invocationHelper;
+		try {
+
+			// Request notification from the InvocationHelper
+			invocationHelper = new WorkflowInvocationHelperClient(epr);
+			invocationHelper.subscribeWithCallback(TimestampedStatus.getTypeDesc().getXmlType(), this);
+
+			// Store reference to the InvocationHelper internally
+			String key = invocationHelper.getEPRString();
+			this.stageStatus.put(key, new TimestampedStatus(Status.UNCONFIGURED, 0));
+			this.EPR2OperationName.put(key, name.toString());
+
+		} catch (MalformedURIException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (ContainerException e) {
+			e.printStackTrace();
+		}
+
+		//System.out.println("[registerInvocationHelper] END"); //DEBUG
+
+	}
+
+
+
+	/**
+	 * Process a received notification
+	 * */
+	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
+
+		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)
+		.getResourcePropertyValueChangeNotification();
+
+		MessageElement actual_property = changeMessage.getNewValue().get_any()[0];
+		QName message_qname = actual_property.getQName();
+		boolean isTimestampedStatusChange = message_qname.equals(TimestampedStatus.getTypeDesc().getXmlType());
+		String stageKey = null;
+		try {
+			stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString();  //arg1.toString();
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			e1.printStackTrace();
+		}   
+
+
+
+
+		//DEBUG
+		PrintStream log = System.out;
+		//log.println("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
+
+
+		// Handle status change notifications
+		if(isTimestampedStatusChange){
+			TimestampedStatus status = null;;
+			try {
+				status = (TimestampedStatus) actual_property.getValueAsType(message_qname, TimestampedStatus.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+
+			//log.println("[InstanceHelper::deliver] Received new status value: "+ status.getStatus().toString() 
+				//	+ ':' + status.getTimestamp() +" from "+ this.EPR2OperationName.get(stageKey)); //DEBUG
+
+			this.isFinishedKey.lock();
+			try{
+
+				boolean statusActuallyChanged = false;
+				if( this.stageStatus.containsKey(stageKey) ){
+
+
+					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
+					statusActuallyChanged = (!curr_status.getStatus().equals(status.getStatus())) && ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+
+					if(statusActuallyChanged){
+
+						this.stageStatus.remove(stageKey);
+						this.stageStatus.put(stageKey, status);
+					}
+
+				}
+				else System.err.println("[WorkflowInstanceHelperResource] Unrecognized stage notified status change: "+ stageKey);
+
+
+
+				// Calculate new status value
+				if(statusActuallyChanged){
+
+					Status new_status = this.calculateStatus();
+					if( new_status.equals(Status.FINISHED) || new_status.equals(Status.ERROR)){
+
+						this.isFinished = true;
+					}
+
+
+					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
+					this.setTimestampedStatus(nextStatus);					
+				}
+
+
+			} catch (ResourceException e) {
+				e.printStackTrace();
+			}
+			finally {
+				this.isFinishedKey.unlock();
+			}
+		}
+
+	}
+
+
+	/**
+	 * Calculate the status of the workflow portion managed by this InstanceHelper
+	 * */
+	private Status calculateStatus() {
+
+		Status next_status;
+
+
+
+		if( this.stagesPresentStatus(Status.ERROR) ){
+			next_status = Status.ERROR;
+		}
+
+		// Starting here, we consider a workflow portion only reach some state 
+		// when all the stages within that portion have already done so. 
+		else if(this.stagesPresentStatus(Status.UNCONFIGURED)){			
+			next_status = Status.UNCONFIGURED;
+		}
+		else if(this.stagesPresentStatus(Status.INPUTCONFIGURED)){
+			next_status = Status.INPUTCONFIGURED;
+		}
+		else if( this.stagesPresentStatus(Status.INPUTOUTPUTCONFIGURED) ){
+			next_status = Status.INPUTOUTPUTCONFIGURED;
+		}
+		else if( this.stagesPresentStatus(Status.WAITING)){
+			next_status = Status.WAITING;
+		}
+		else if( this.stagesPresentStatus(Status.RUNNING)){
+			next_status = Status.RUNNING;
+		}
+		else {
+			next_status = Status.FINISHED;
+		}
+
+		return next_status;
+	}
+
+
+	/**
+	 * Search for any InvocationHelper that present the wanted status
+	 * 
+	 * @param wanted The value to search for
+	 * */
+	private boolean stagesPresentStatus(Status wanted){
+
+		Set<Entry<String, TimestampedStatus>> entries = this.stageStatus.entrySet();
+		Iterator<Entry<String, TimestampedStatus>> entries_iter = entries.iterator();
+
+		while( entries_iter.hasNext() ){
+
+			Entry<String, TimestampedStatus> curr_entry = entries_iter.next();
+			boolean found = curr_entry.getValue().getStatus().equals(wanted);
+
+			if(found) return true;
+		}
+
+		return false;		
+	}
+
+	
+	protected void printMap(){
+
+
+		System.out.println("BEGIN printMap");
+		Set<Entry<String, TimestampedStatus>> entries = this.stageStatus.entrySet();
+		Iterator<Entry<String, TimestampedStatus>> iter = entries.iterator();
+		while(iter.hasNext()){
+
+			Entry<String, TimestampedStatus> curr = iter.next();
+			String operationName = this.EPR2OperationName.get(curr.getKey());
+
+			System.out.println("["+ operationName +", "+ curr.getValue().getStatus() +"]");
+		}
+		System.out.println("END printMap");
+
+
+		return;
+	}
+
+
+	public String getEPRString() {
+		return this.eprString;
+	}
+
+
+	public void setEprString(EndpointReference epr) {
+		this.eprString = epr.toString();
+	}
+
+	
 }

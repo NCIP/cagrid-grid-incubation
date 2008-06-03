@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
+import org.apache.axis.message.addressing.EndpointReference;
 import org.cagrid.gaards.pki.KeyUtil;
 import org.globus.gsi.CertUtil;
 import org.globus.gsi.GlobusCredential;
@@ -76,6 +77,10 @@ public class WorkflowHelperImpl extends WorkflowHelperImplBase {
 			transportURL = transportURL.substring(0,transportURL.lastIndexOf('/') +1 );
 			transportURL += "WorkflowInstanceHelper";
 			epr = org.globus.wsrf.utils.AddressingUtils.createEndpointReference(transportURL,resourceKey);
+			
+			// Set the resource identifier, that is derived from its EPR
+			thisResource.setEprString(new EndpointReference(epr));
+			
 		} catch (Exception e) {
 			throw new RemoteException("Error looking up WorkflowInstanceHelper home:" + e.getMessage(), e);
 		}

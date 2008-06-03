@@ -128,6 +128,18 @@
           <sequence />
         </complexType>
       </element>
+      <element name="GetEPRStringRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetEPRStringResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="WorkflowInstanceHelperResourceProperties">
         <complexType>
           <sequence>
@@ -171,6 +183,12 @@
   <message name="SetIsInvocationHelperSecureResponse">
     <part name="parameters" element="tns:SetIsInvocationHelperSecureResponse" />
   </message>
+  <message name="GetEPRStringRequest">
+    <part name="parameters" element="tns:GetEPRStringRequest" />
+  </message>
+  <message name="GetEPRStringResponse">
+    <part name="parameters" element="tns:GetEPRStringResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -196,6 +214,10 @@
     <operation name="setIsInvocationHelperSecure">
       <input message="tns:SetIsInvocationHelperSecureRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/SetIsInvocationHelperSecureRequest" />
       <output message="tns:SetIsInvocationHelperSecureResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/SetIsInvocationHelperSecureResponse" />
+    </operation>
+    <operation name="getEPRString">
+      <input message="tns:GetEPRStringRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/GetEPRStringRequest" />
+      <output message="tns:GetEPRStringResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/GetEPRStringResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

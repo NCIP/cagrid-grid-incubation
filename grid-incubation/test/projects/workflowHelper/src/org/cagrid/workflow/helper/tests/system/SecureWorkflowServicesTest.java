@@ -62,7 +62,7 @@ public class SecureWorkflowServicesTest extends ServiceStoryBase {
 	private static final String HELPER_PATH_IN_CONTAINER = "/cagrid/WorkflowHelper";
 
 
-	private final boolean enableVerboseOutput = false;
+	private final boolean enableVerboseOutput = true;
 	private String cdsURL;
 
 	public SecureWorkflowServicesTest() {

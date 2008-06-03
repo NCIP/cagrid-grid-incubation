@@ -336,7 +336,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		try {
 			th.join();
 			
-			System.out.println("[executeIfReady] Changing status for FINISHED");
+			//System.out.println("[executeIfReady] Changing status for FINISHED");
 			
 			
 			if( this.getTimestampedStatus().getStatus().equals(Status.RUNNING) ){
@@ -360,7 +360,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			} catch (ResourceException e1) {}
 			
 		}
-		System.out.println("[executeIfReady] END");
+		//System.out.println("[executeIfReady] END");
 		
 		return true;
 	}
@@ -658,7 +658,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	public void setServiceOperationEPR(EndpointReference serviceOperationEPR) {
 		this.serviceOperationEPR = serviceOperationEPR;
 		this.serviceOperationEPRString = this.serviceOperationEPR.toString(); // This value is used as a GUID and should not be modified after this initialization
-	}
+	} // */
 
 
 
