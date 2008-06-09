@@ -11,7 +11,7 @@ public interface WorkflowManagerInstanceConstants {
 	//Service level metadata (exposed as resouce properties)
 	public static final QName CURRENTTIME = new QName("http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd", "CurrentTime");
 	public static final QName TERMINATIONTIME = new QName("http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd", "TerminationTime");
-	public static final QName STATUS = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "Status");
 	public static final QName WORKFLOWMANAGERINSTANCEDESCRIPTOR = new QName("http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService", "WorkflowManagerInstanceDescriptor");
+	public static final QName TIMESTAMPEDSTATUS = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "TimestampedStatus");
 	
 }

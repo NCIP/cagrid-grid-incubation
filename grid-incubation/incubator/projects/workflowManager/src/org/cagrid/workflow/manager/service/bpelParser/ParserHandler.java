@@ -1,9 +1,13 @@
 package org.cagrid.workflow.manager.service.bpelParser;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.xml.namespace.QName;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.SAXException;
+
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 
 public class ParserHandler extends DefaultHandler{
@@ -83,18 +87,31 @@ public class ParserHandler extends DefaultHandler{
 							if(attributes.getQName(x) == ParserStates.ATTRIBUTE_TARGET_NAMESPACE_TAG){
 								workflowLayout.setTargetNamespace(attributes.getValue(x));
 							}else{
-								boolean isNamespace = attributes.getQName(x).startsWith(ParserStates.ATTRIBUTE_XMLNS);
+						
+								// Check whether the current attribute is a namespace definition
+								Pattern p = Pattern.compile(ParserStates.ATTRIBUTE_XMLNS+".*");
+								Matcher m = p.matcher(attributes.getQName(x));
+								
+								boolean isNamespace = m.matches(); //attributes.getQName(x).startsWith(ParserStates.ATTRIBUTE_XMLNS);
 
 								if(isNamespace == true){
 									try{
-										workflowLayout.setEndpoint(attributes.getQName(x).substring( ParserStates.ATTRIBUTE_XMLNS.length(), attributes.getQName(x).length()),attributes.getValue(x));
+										String attributeName = attributes.getQName(x);
+										
+										if( attributeName.length() == ParserStates.ATTRIBUTE_XMLNS.length() ){
+											workflowLayout.setTargetNamespace(attributes.getValue(x));
+											workflowLayout.setEndpoint(ParserStates.ATTRIBUTE_XMLNS, attributes.getValue(x));
+										}
+										else {
+											String namespacePrefix = attributes.getQName(x).substring( ParserStates.ATTRIBUTE_XMLNS.length()+1, attributes.getQName(x).length());
+											workflowLayout.setEndpoint(namespacePrefix, attributes.getValue(x));
+										}
 									}catch (Exception e) {
-										// TODO: handle exception
 										e.printStackTrace();
 									}
 
 								}else{
-									System.out.println("Warnning: Tag process, unknow attribute = "+attributes.getQName(x)+" value = "+attributes.getValue(x));
+									System.out.println("Warnning: Tag process, unknown attribute = "+attributes.getQName(x)+" value = "+attributes.getValue(x));
 								}
 							}
 						}	
@@ -183,7 +200,6 @@ public class ParserHandler extends DefaultHandler{
 					try {
 						workflowLayout.setVariable(auxVariableInside);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}	

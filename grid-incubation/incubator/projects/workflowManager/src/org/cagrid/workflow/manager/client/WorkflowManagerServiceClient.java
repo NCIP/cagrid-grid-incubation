@@ -48,21 +48,21 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	}
 
 	public WorkflowManagerServiceClient(String url, GlobusCredential proxy) throws MalformedURIException, RemoteException {
-	   	super(url,proxy);
-	   	initialize();
-	}
-	
-	public WorkflowManagerServiceClient(EndpointReferenceType epr) throws MalformedURIException, RemoteException {
-	   	this(epr,null);
-	}
-	
-	public WorkflowManagerServiceClient(EndpointReferenceType epr, GlobusCredential proxy) throws MalformedURIException, RemoteException {
-	   	super(epr,proxy);
+		super(url,proxy);
 		initialize();
 	}
-	
+
+	public WorkflowManagerServiceClient(EndpointReferenceType epr) throws MalformedURIException, RemoteException {
+		this(epr,null);
+	}
+
+	public WorkflowManagerServiceClient(EndpointReferenceType epr, GlobusCredential proxy) throws MalformedURIException, RemoteException {
+		super(epr,proxy);
+		initialize();
+	}
+
 	private void initialize() throws RemoteException {
-	    this.portTypeMutex = new Object();
+		this.portTypeMutex = new Object();
 		this.portType = createPortType();
 	}
 
@@ -86,13 +86,13 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 		return port;
 	}
-	
+
 
 	public static void usage(){
 		System.out.println(WorkflowManagerServiceClient.class.getName() + " -url <service url>");
 	}
-	
-	public static String readTextFile(String fullPathFilename) throws IOException {
+
+	private static String readTextFile(String fullPathFilename) throws IOException {
 		StringBuffer sb = new StringBuffer(1024);
 		BufferedReader reader = new BufferedReader(new FileReader(fullPathFilename));
 
@@ -107,90 +107,93 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	}	
 
 	public static void main(String [] args){
-	    System.out.println("Running the Grid Service Client");
+		System.out.println("Running the Grid Service Client");
 		try{
-		if(!(args.length < 2)){
-			if(args[0].equals("-url")){
-			  //WorkflowManagerServiceClient client = new WorkflowManagerServiceClient(args[1]);
-			  // place client calls here if you want to use this main as a
-			  // test....
-			  
-			  
-			  
-				//String bpelFileName = "C:\\subversion_hawks\\branches\\workflowManagerServiceGeorge\\src\\org\\cagrid\\workflow\\manager\\service\\bpelParser\\gaus2.bpel";
-				String bpelFileName = "/scratch/george/workflow/grid-incubation/branches/caOS_ManagerGeorge/incubator/projects/workflowManager/src/org/cagrid/workflow/manager/service/bpelParser/examples/first.bpel";
-				//String bpelFileName = "C:\\BPEL_examples\\AmericanAirline.bpel";
-				//String bpelFileName = "C:\\BPEL_examples\\DeltaAirline.bpel";
-				//String bpelFileName = "C:\\BPEL_examples\\Employee.bpel";
-				//String bpelFileName = "C:\\BPEL_examples\\Travel.bpel";
-				String workflowBpelFileContent = null;
-				try{
-					workflowBpelFileContent = readTextFile(bpelFileName);
-				}catch(IOException ioe){
-					System.out.println("Erro: Could not find bpel file: "+bpelFileName+"\nPlease check the file location.");
+			if(!(args.length < 2)){
+				if(args[0].equals("-url")){
+					WorkflowManagerServiceClient client = new WorkflowManagerServiceClient(args[1]);
+					// place client calls here if you want to use this main as a
+					// test....
+
+					String bpelFileName = "C:\\subversion_hawks\\subversion_hawks\\trunk\\grid-incubation\\test\\projects\\workflowManager\\resources\\bpelSamples\\first.bpel";
+					String serviceURLFileName = "C:\\subversion_hawks\\subversion_hawks\\trunk\\grid-incubation\\test\\projects\\workflowManager\\resources\\bpelSamples\\first.urls.txt";
+
+
+
+
+					String workflowBpelFileContent = null;
+					String workflowServicesURLs = null;
+					try{
+						workflowBpelFileContent = readTextFile(bpelFileName);
+						workflowServicesURLs = readTextFile(serviceURLFileName);
+					}catch(IOException ioe){
+						ioe.printStackTrace();
+						System.exit(1);
+					}
+					System.out.println("File read!");
+
+
+					System.out.println("Manager url = "+ args[1]);
+					WorkflowManagerInstanceDescriptor workflowDescriptor = new WorkflowManagerInstanceDescriptor();
+					workflowDescriptor.setBpelDescription(workflowBpelFileContent);
+					workflowDescriptor.setServicesURLs(workflowServicesURLs);
+					System.out.println("Before create workflow");
+					WorkflowManagerInstanceReference managerInstanceReference = client.createWorkflowManagerInstance(workflowDescriptor);
+					System.out.println("Get reference");
+					WorkflowManagerInstanceClient managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceReference.getEndpointReference());
+					
+										
+					String[] outputs = managerInstanceClient.getOutputValues(); // TODO How will the Manager set the parameters' numeric identifier? 
+
+					
+					
+					System.out.println("End client");
+
+				} else {
+					usage();
 					System.exit(1);
 				}
-				System.out.println("File read!");
-				WorkflowManagerServiceClient client = new WorkflowManagerServiceClient(args[1]);
-			  
-				WorkflowManagerInstanceDescriptor workflowDescriptor = new WorkflowManagerInstanceDescriptor();
-				workflowDescriptor.setBpelFilename(workflowBpelFileContent);
-				System.out.println("Before create workflow");
-				WorkflowManagerInstanceReference managerInstanceReference = client.createWorkflowManagerInstance(workflowDescriptor);
-				System.out.println("Get reference");
-				WorkflowManagerInstanceClient managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceReference.getEndpointReference());
-				//managerInstanceClient.setParameter(param);
-		
-				
-				//DEBUG
-				//System.out.println("ManagerInstanceEPR: "+ managerInstanceReference.getEndpointReference());
-				System.out.println("End client");
-
 			} else {
 				usage();
 				System.exit(1);
 			}
-		} else {
-			usage();
-			System.exit(1);
-		}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 	}
 
-  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
-    return portType.getMultipleResourceProperties(params);
-    }
-  }
+	public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
+			return portType.getMultipleResourceProperties(params);
+		}
+	}
 
-  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getResourceProperty");
-    return portType.getResourceProperty(params);
-    }
-  }
+	public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"getResourceProperty");
+			return portType.getResourceProperty(params);
+		}
+	}
 
-  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"queryResourceProperties");
-    return portType.queryResourceProperties(params);
-    }
-  }
+	public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"queryResourceProperties");
+			return portType.queryResourceProperties(params);
+		}
+	}
 
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptor) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestWorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptorContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestWorkflowManagerInstanceDescriptor();
-    workflowManagerInstanceDescriptorContainer.setWorkflowManagerInstanceDescriptor(workflowManagerInstanceDescriptor);
-    params.setWorkflowManagerInstanceDescriptor(workflowManagerInstanceDescriptorContainer);
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
-    return boxedResult.getWorkflowManagerInstanceReference();
-    }
-  }
+	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptor) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestWorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptorContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestWorkflowManagerInstanceDescriptor();
+			workflowManagerInstanceDescriptorContainer.setWorkflowManagerInstanceDescriptor(workflowManagerInstanceDescriptor);
+			params.setWorkflowManagerInstanceDescriptor(workflowManagerInstanceDescriptorContainer);
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
+			return boxedResult.getWorkflowManagerInstanceReference();
+		}
+	}
 
 }

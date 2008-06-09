@@ -3,6 +3,9 @@ package org.cagrid.workflow.manager.service.bpelParser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
@@ -44,12 +47,42 @@ public class WorkflowProcessLayout{
 		return url;
 	}
 	
+	
+	/**
+	 * Retrieve all registered namespace-prefix associations 
+	 * 
+	 * @return An array of QNames with all existing namespace-prefix associations in this instance 
+	 * */
+	public QName[] getAllNamespaces(){
+		
+		List<QName> qnames = new ArrayList<QName>(this.servicesNamespaces.size());
+		
+		// Retrieve all registered namespaces
+		Set<Entry<String, String>> entries = this.servicesNamespaces.entrySet();
+		Iterator<Entry<String, String>> entries_iter = entries.iterator();
+		
+		while( entries_iter.hasNext() ){
+			
+			Entry<String, String> curr_entry = entries_iter.next();
+			QName curr_qname = new QName(curr_entry.getValue(), curr_entry.getKey());
+			
+			qnames.add(curr_qname);			
+		}
+		
+		QName[] namespaces = qnames.toArray(new QName[qnames.size()]);
+
+		
+		return namespaces;
+	}
+	
+	
+	
 	public void printClass(){
 		System.out.println("   name = "+name);
 		System.out.println("   targetNamespace = "+targetNamespace);
 		// Beginning Printing the variables list
 		System.out.println("BEGIN VARIABLES");
-		Iterator variablesIt = variables.keySet().iterator();
+		Iterator<String> variablesIt = variables.keySet().iterator();
 		while(variablesIt.hasNext()) {
 			String key = (String)variablesIt.next();
 			Variable auxPrint = getVariable(key);
@@ -63,7 +96,7 @@ public class WorkflowProcessLayout{
 		System.out.println("END VARIABLES");
 
 		System.out.println("BEGIN PARTNER_LINKS");
-		Iterator partnerLinksIt = partnerLinks.keySet().iterator();
+		Iterator<String> partnerLinksIt = partnerLinks.keySet().iterator();
 		while(partnerLinksIt.hasNext()) {
 			String key = (String) partnerLinksIt.next();
 			PartnerLink auxPrint = getPartnerLink(key);
@@ -71,15 +104,15 @@ public class WorkflowProcessLayout{
 		}
 		System.out.println("END PARTNER_LINKS");
 
-		System.out.println("BEGIN ENDPOINTS");
-		Iterator endPointIt = servicesNamespaces.keySet().iterator();
+		System.out.println("BEGIN NAMESPACES");
+		Iterator<String> endPointIt = servicesNamespaces.keySet().iterator();
 		while(endPointIt.hasNext()) {
 			String key = (String) endPointIt.next();
 			String auxPrint = (String) servicesNamespaces.get(key);//getPartnerLink(key);
-			System.out.println("key = "+ key + " endpoint = "+ auxPrint);
+			System.out.println("key = "+ key + " namespace = "+ auxPrint);
 			//auxPrint.printClass();
 		}
-		System.out.println("END ENDPOINTS");
+		System.out.println("END NAMESPACES");
 
 		System.out.println("Begin Services");
 		InvokeProperties auxIt = firstService;
@@ -117,6 +150,8 @@ public class WorkflowProcessLayout{
 	}
 	public void setEndpoint(String key, String address)throws Exception{
 		try{
+			System.out.println("[WorkflowProcessLayout.setEndpoint] New endpoint "+ key + '=' + address);
+			
 			servicesNamespaces.put(key, address);
 		}catch(Exception e){
 			throw new Exception(e);

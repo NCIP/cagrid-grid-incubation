@@ -101,7 +101,7 @@ public class ParserStates{
 	public static final String ATTRIBUTE_OPERATION				= "operation";
 	public static final String ATTRIBUTE_INPUT_VARIABLE			= "inputVariable";
 	public static final String ATTRIBUTE_OUTPUT_VARIABLE		= "outputVariable";
-	public static final String ATTRIBUTE_XMLNS					= "xmlns:";
+	public static final String ATTRIBUTE_XMLNS					= "xmlns";
 	
 	// attributes related to the query tag
 	public static final String ATTRIBUTE_QUERY_LANGUAGE			= "queryLanguage";

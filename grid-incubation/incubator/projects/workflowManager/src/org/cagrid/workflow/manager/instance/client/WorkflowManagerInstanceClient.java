@@ -90,16 +90,16 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
     }
   }
 
-  public workflowhelperservice.Status getStatus() throws RemoteException {
+  public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
     synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getStatus");
-    org.cagrid.workflow.manager.instance.stubs.GetStatusRequest params = new org.cagrid.workflow.manager.instance.stubs.GetStatusRequest();
-    org.cagrid.workflow.manager.instance.stubs.GetStatusResponse boxedResult = portType.getStatus(params);
-    return boxedResult.getStatus();
+      configureStubSecurity((Stub)portType,"getTimestampedStatus");
+    org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusRequest params = new org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusRequest();
+    org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse boxedResult = portType.getTimestampedStatus(params);
+    return boxedResult.getTimestampedStatus();
     }
   }
 
-  public void setParameter(workflowhelperservice.InputParameter inputParameter) throws RemoteException {
+  public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"setParameter");
     org.cagrid.workflow.helper.invocation.SetParameterRequest params = new org.cagrid.workflow.helper.invocation.SetParameterRequest();
@@ -107,6 +107,15 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
     inputParameterContainer.setInputParameter(inputParameter);
     params.setInputParameter(inputParameterContainer);
     org.cagrid.workflow.helper.invocation.SetParameterResponse boxedResult = portType.setParameter(params);
+    }
+  }
+
+  public java.lang.String[] getOutputValues() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getOutputValues");
+    org.cagrid.workflow.manager.instance.stubs.GetOutputValuesRequest params = new org.cagrid.workflow.manager.instance.stubs.GetOutputValuesRequest();
+    org.cagrid.workflow.manager.instance.stubs.GetOutputValuesResponse boxedResult = portType.getOutputValues(params);
+    return boxedResult.getResponse();
     }
   }
 

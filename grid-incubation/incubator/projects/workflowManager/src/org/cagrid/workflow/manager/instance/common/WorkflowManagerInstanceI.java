@@ -16,9 +16,11 @@ public interface WorkflowManagerInstanceI {
 
   public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException ;
 
-  public workflowhelperservice.Status getStatus() throws RemoteException ;
+  public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException ;
 
-  public void setParameter(workflowhelperservice.InputParameter inputParameter) throws RemoteException ;
+  public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException ;
+
+  public java.lang.String[] getOutputValues() throws RemoteException ;
 
 }
 

@@ -142,17 +142,6 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
 	    //Getters/Setters for ResourceProperties
 	
 	
-	public workflowhelperservice.Status getStatus(){
-		return ((WorkflowManagerInstanceResourceProperties) getResourceBean()).getStatus();
-	}
-	
-	public void setStatus(workflowhelperservice.Status status ) throws ResourceException {
-        ResourceProperty prop = getResourcePropertySet().get(WorkflowManagerInstanceConstants.STATUS);
-		prop.set(0, status);
-	}
-	
-	
-	
 	public org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor getWorkflowManagerInstanceDescriptor(){
 		return ((WorkflowManagerInstanceResourceProperties) getResourceBean()).getWorkflowManagerInstanceDescriptor();
 	}
@@ -160,6 +149,17 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
 	public void setWorkflowManagerInstanceDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptor ) throws ResourceException {
         ResourceProperty prop = getResourcePropertySet().get(WorkflowManagerInstanceConstants.WORKFLOWMANAGERINSTANCEDESCRIPTOR);
 		prop.set(0, workflowManagerInstanceDescriptor);
+	}
+	
+	
+	
+	public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus(){
+		return ((WorkflowManagerInstanceResourceProperties) getResourceBean()).getTimestampedStatus();
+	}
+	
+	public void setTimestampedStatus(org.cagrid.workflow.helper.descriptor.TimestampedStatus timestampedStatus ) throws ResourceException {
+        ResourceProperty prop = getResourcePropertySet().get(WorkflowManagerInstanceConstants.TIMESTAMPEDSTATUS);
+		prop.set(0, timestampedStatus);
 	}
 	
 

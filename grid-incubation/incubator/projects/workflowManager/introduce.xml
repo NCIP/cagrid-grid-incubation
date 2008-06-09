@@ -1,12 +1,5 @@
 <ns1:ServiceDescription introduceVersion="1.2" xmlns:ns1="gme://gov.nih.nci.cagrid/1/Introduce">
  <ns2:Namespaces xsi:type="ns2:NamespacesType" xmlns:ns2="gme://gov.nih.nci.cagrid.introduce/1/Namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ns2:Namespace location="./WorkflowManager.xsd" namespace="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService" packageName="org.cagrid.workflow.manager.descriptor" xsi:type="ns2:NamespaceType">
-   <ns2:SchemaElement type="WorkflowInputParameter" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowInputParameters" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowManagerInstanceDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
-  </ns2:Namespace>
   <ns2:Namespace location="./WS-Addressing.xsd" namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" packageName="addressing" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="Action" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="EndpointReference" xsi:type="ns2:SchemaElementType"/>
@@ -18,7 +11,14 @@
    <ns2:SchemaElement type="ReplyTo" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="To" xsi:type="ns2:SchemaElementType"/>
   </ns2:Namespace>
-  <ns2:Namespace location="./WorkflowHelper.xsd" namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" packageName="workflowhelperservice" xsi:type="ns2:NamespaceType">
+  <ns2:Namespace location="./WorkflowManager.xsd" namespace="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService" packageName="org.cagrid.workflow.manager.descriptor" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="WorkflowInputParameter" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowInputParameters" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowManagerInstanceDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="./WorkflowHelper.xsd" namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" packageName="org.cagrid.workflow.helper.descriptor" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="DeliveryPolicy" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InputParameter" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InputParameterDescriptor" xsi:type="ns2:SchemaElementType"/>
@@ -28,6 +28,7 @@
    <ns2:SchemaElement type="SecureConversationInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="SecureMessageInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="Status" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="TimestampedStatus" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="TLSInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowHelperInstanceStatus" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowInstanceHelperDescriptor" xsi:type="ns2:SchemaElementType"/>
@@ -168,9 +169,9 @@
      <ns12:ImportInformation fromIntroduce="false" inputMessage="ns16:SetTerminationTimeRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" outputMessage="ns16:SetTerminationTimeResponse" packageName="org.oasis.wsrf.lifetime" portTypeName="ScheduledResourceTermination" wsdlFile="../wsrf/lifetime/WS-ResourceLifetime.wsdl" xmlns:ns16="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl"/>
      <ns12:ProviderInformation providerClass="SetTerminationTimeProvider"/>
     </ns12:Method>
-    <ns12:Method description="" isImported="false" isProvided="false" name="getStatus" xsi:type="ns12:MethodType">
+    <ns12:Method description="" isImported="false" isProvided="false" name="getTimestampedStatus" xsi:type="ns12:MethodType">
      <ns12:Inputs/>
-     <ns12:Output qName="ns17:Status" description="" isArray="false" xmlns:ns17="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+     <ns12:Output qName="ns17:TimestampedStatus" description="" isArray="false" xmlns:ns17="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
      <ns12:Exceptions/>
     </ns12:Method>
     <ns12:Method description="" isImported="true" isProvided="false" name="setParameter" xsi:type="ns12:MethodType">
@@ -181,12 +182,17 @@
      <ns12:Exceptions/>
      <ns12:ImportInformation inputMessage="ns19:SetParameterRequest" namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation" outputMessage="ns19:SetParameterResponse" packageName="org.cagrid.workflow.helper.invocation" portTypeName="WorkflowInvocationHelperPortType" wsdlFile="WorkflowInvocationHelper.wsdl" xmlns:ns19="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation"/>
     </ns12:Method>
+    <ns12:Method description="" isImported="false" isProvided="false" name="getOutputValues" xsi:type="ns12:MethodType">
+     <ns12:Inputs/>
+     <ns12:Output qName="xsd:string" description="" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns12:Exceptions/>
+    </ns12:Method>
    </ns12:Methods>
    <ns20:ResourcePropertiesList xsi:type="ns20:ResourcePropertiesListType" xmlns:ns20="gme://gov.nih.nci.cagrid.introduce/1/Resources">
     <ns20:ResourceProperty qName="ns21:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns21="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
     <ns20:ResourceProperty qName="ns22:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns22="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns20:ResourceProperty qName="ns23:Status" description="" fileLocation="WorkflowManagerInstance_status.xml" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns23="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns20:ResourceProperty qName="ns24:WorkflowManagerInstanceDescriptor" description="" fileLocation="WorkflowManagerInstance_workflowManagerInstanceDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns24="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"/>
+    <ns20:ResourceProperty qName="ns23:WorkflowManagerInstanceDescriptor" description="" fileLocation="WorkflowManagerInstance_workflowManagerInstanceDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns23="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"/>
+    <ns20:ResourceProperty qName="ns24:TimestampedStatus" description="" fileLocation="WorkflowManagerInstance_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns24="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
    </ns20:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">

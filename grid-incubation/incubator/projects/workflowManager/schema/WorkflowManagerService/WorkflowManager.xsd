@@ -11,7 +11,9 @@
 	<!-- Workflow metadata -->
 	<xs:complexType name="WorkflowManagerInstanceDescriptor">
 		<xs:sequence>
-			<xs:element name="bpelFilename" type="string"></xs:element>
+			<xs:element name="bpelDescription" type="string"></xs:element>
+			<xs:element name="servicesURLs" type="string"></xs:element>
+			<xs:element name="parametersValues" type="string"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -35,7 +37,7 @@
 	</xs:complexType>
 	
 	
-	<!-- Outputs of a workflow -->
+	<!-- Transportation of the outputs of a workflow -->
 	<xs:element name="WorkflowOutputTransportDescriptor" type="tns:WorkflowOutputTransportDescriptor" />
 	<xs:complexType name="WorkflowOutputTransportDescriptor">
 		<xs:sequence>
@@ -43,6 +45,7 @@
 				maxOccurs="unbounded"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
 	<xs:element name="WorkflowOutputParameterTransportDescriptor" type="tns:WorkflowOutputParameterTransportDescriptor" />
 	<xs:complexType name="WorkflowOutputParameterTransportDescriptor">
 		<xs:sequence>

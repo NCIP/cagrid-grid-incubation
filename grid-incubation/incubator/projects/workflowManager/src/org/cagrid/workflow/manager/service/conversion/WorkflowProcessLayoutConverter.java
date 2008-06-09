@@ -1,6 +1,8 @@
 package org.cagrid.workflow.manager.service.conversion;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -14,9 +16,10 @@ import org.cagrid.workflow.manager.service.bpelParser.WorkflowProcessLayout;
 public class WorkflowProcessLayoutConverter {
 
 	
-	/** Retrieve the description if all workflow stages from a WorkflowProcessLayout instance */
+	/** Retrieve the description of all workflow stages from a WorkflowProcessLayout instance 
+	 * @param servicesURLs */
 	public static WorkflowInvocationHelperDescriptor[] getWorkflowInvocationHelperDescriptors(
-			final WorkflowProcessLayout workflowLayout) {
+			final WorkflowProcessLayout workflowLayout, HashMap<String, URL> servicesURLs) {
 		
 		List<WorkflowInvocationHelperDescriptor> descs = new ArrayList<WorkflowInvocationHelperDescriptor>();
 
@@ -33,10 +36,19 @@ public class WorkflowProcessLayoutConverter {
 				boolean outputIsVoid = (output_variable == null);
 				QName operation_name = curr_properties.getOperation();
 			
-				// TODO: in the client we always use the primitive type, never the reponse
+				
+				URL operation_url = servicesURLs.get(operation_name.getNamespaceURI());
+				if( operation_url == null ){
+					System.err.println("[getWorkflowInvocationHelperDescriptors] Operation "+ operation_name.getNamespaceURI() +" not found");
+				}
+				
+				
+				// TODO: in the client we always use the primitive type, never the response
 				// type as the service outputType.
-				System.out.println("[WorkflowProcessLayoutConverter] Current operation is"+operation_name);
-				System.out.println("[WorkflowProcessLayoutConverter] Current output variable is: "+ output_variable);			 
+				// TODO
+				/*System.out.println("[WorkflowProcessLayoutConverter] Current operation is "+operation_name);
+				System.out.println("[WorkflowProcessLayoutConverter] Current output variable is "+ output_variable);
+				System.out.println("[WorkflowProcessLayoutConverter] Current URL is "+operation_url); // */
 			
 				QName outputType = null;
 			
@@ -45,9 +57,10 @@ public class WorkflowProcessLayoutConverter {
 					outputType = outputVariable.getMessageType();
 				}
 			
-//TODO Get the service's URL from another XML file (not the main BPEL)
-				String serviceURL1 =  "http://150.164.3.188:8080/wsrf/services/cagrid/First";
-				String serviceURL2 =  "http://150.164.3.188:8080/wsrf/services/cagrid/Second";
+				
+				// TODO Get the service's URL from another XML file (not the main BPEL)
+				/*String serviceURL1 =  "http://150.164.3.188:8080/wsrf/services/cagrid/First";
+				String serviceURL2 =  "http://150.164.3.188:8080/wsrf/services/cagrid/Second"; // */
 				 
 			
 				WorkflowInvocationHelperDescriptor curr_desc = new WorkflowInvocationHelperDescriptor();
@@ -57,16 +70,14 @@ public class WorkflowProcessLayoutConverter {
 					curr_desc.setOutputType(outputType);
 				}
 				
-				if(i == 0){
-					curr_desc.setWorkflowID(workflowLayout.getName());
-					curr_desc.setServiceURL(serviceURL1);
-				}else{
-					curr_desc.setServiceURL(serviceURL2);		
-				}
+				curr_desc.setWorkflowID(workflowLayout.getName());
+				curr_desc.setServiceURL(operation_url.toExternalForm());
 				
 				i++;
 				descs.add(curr_desc);
 			}
+			
+			
 			// Move to the next service...
 			curr_properties = curr_properties.getNextService();
 			hasMoreOperations = (curr_properties != null);

@@ -14,7 +14,7 @@ http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.w
 http\://helper.workflow.cagrid.org/WorkflowHelper/Invocation=org.cagrid.workflow.helper.invocation
 
 http\://manager.workflow.cagrid.org/WorkflowManagerService/types=org.cagrid.workflow.manager.stubs.types
-http\://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService=workflowhelperservice
+http\://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService=org.cagrid.workflow.helper.descriptor
 http\://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService=org.cagrid.workflow.manager.descriptor
 http\://manager.workflow.cagrid.org/WorkflowManagerService/Context/types=org.cagrid.workflow.manager.instance.stubs.types
 gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security

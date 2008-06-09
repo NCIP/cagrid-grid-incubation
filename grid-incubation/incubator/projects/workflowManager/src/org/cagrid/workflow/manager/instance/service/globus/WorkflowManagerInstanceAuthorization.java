@@ -63,12 +63,17 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 		
 	}
 					
-	public static void authorizeGetStatus() throws RemoteException {
+	public static void authorizeGetTimestampedStatus() throws RemoteException {
 		
 		
 	}
 					
 	public static void authorizeSetParameter() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeGetOutputValues() throws RemoteException {
 		
 		
 	}
@@ -104,9 +109,9 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 				e.printStackTrace();
 				return false;
 			}
-		} else if(operation.getLocalPart().equals("getStatus")){
+		} else if(operation.getLocalPart().equals("getTimestampedStatus")){
 			try{
-				authorizeGetStatus();
+				authorizeGetTimestampedStatus();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();
@@ -115,6 +120,14 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("setParameter")){
 			try{
 				authorizeSetParameter();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("getOutputValues")){
+			try{
+				authorizeGetOutputValues();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();
