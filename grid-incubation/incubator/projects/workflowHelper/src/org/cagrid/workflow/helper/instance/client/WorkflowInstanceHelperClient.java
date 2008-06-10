@@ -82,13 +82,28 @@ public class WorkflowInstanceHelperClient extends WorkflowInstanceHelperClientBa
 		return subscribe(qname, callback);
 	} 
 
-  public java.lang.String getEPRString() throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getEPRString");
-    org.cagrid.workflow.helper.instance.stubs.GetEPRStringRequest params = new org.cagrid.workflow.helper.instance.stubs.GetEPRStringRequest();
-    org.cagrid.workflow.helper.instance.stubs.GetEPRStringResponse boxedResult = portType.getEPRString(params);
-    return boxedResult.getResponse();
-    }
+  
+  
+  public org.oasis.wsn.SubscribeResponse subscribe(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
+      synchronized (portTypeMutex) {
+          configureStubSecurity((Stub) portType, "subscribe");
+
+          if (consumer == null) {
+              // Create client side notification consumer
+              consumer = org.globus.wsrf.NotificationConsumerManager.getInstance();
+              consumer.startListening();
+              consumerEPR = consumer.createNotificationConsumer(callback);
+          }
+
+          org.oasis.wsn.Subscribe params = new org.oasis.wsn.Subscribe();
+          params.setUseNotify(Boolean.TRUE);
+          params.setConsumerReference(consumerEPR);
+          org.oasis.wsn.TopicExpressionType topicExpression = new org.oasis.wsn.TopicExpressionType();
+          topicExpression.setDialect(org.globus.wsrf.WSNConstants.SIMPLE_TOPIC_DIALECT);
+          topicExpression.setValue(qname);
+          params.setTopicExpression(topicExpression);
+          return portType.subscribe(params);
+     }
   }
 
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
@@ -175,28 +190,14 @@ public class WorkflowInstanceHelperClient extends WorkflowInstanceHelperClientBa
     return portType.subscribe(params);
     }
   }
-  
-  
-  public org.oasis.wsn.SubscribeResponse subscribe(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
-      synchronized (portTypeMutex) {
-          configureStubSecurity((Stub) portType, "subscribe");
 
-          if (consumer == null) {
-              // Create client side notification consumer
-              consumer = org.globus.wsrf.NotificationConsumerManager.getInstance();
-              consumer.startListening();
-              consumerEPR = consumer.createNotificationConsumer(callback);
-          }
-
-          org.oasis.wsn.Subscribe params = new org.oasis.wsn.Subscribe();
-          params.setUseNotify(Boolean.TRUE);
-          params.setConsumerReference(consumerEPR);
-          org.oasis.wsn.TopicExpressionType topicExpression = new org.oasis.wsn.TopicExpressionType();
-          topicExpression.setDialect(org.globus.wsrf.WSNConstants.SIMPLE_TOPIC_DIALECT);
-          topicExpression.setValue(qname);
-          params.setTopicExpression(topicExpression);
-          return portType.subscribe(params);
-     }
+  public java.lang.String getEPRString() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getEPRString");
+    org.cagrid.workflow.helper.instance.stubs.GetEPRStringRequest params = new org.cagrid.workflow.helper.instance.stubs.GetEPRStringRequest();
+    org.cagrid.workflow.helper.instance.stubs.GetEPRStringResponse boxedResult = portType.getEPRString(params);
+    return boxedResult.getResponse();
+    }
   }
 
 }

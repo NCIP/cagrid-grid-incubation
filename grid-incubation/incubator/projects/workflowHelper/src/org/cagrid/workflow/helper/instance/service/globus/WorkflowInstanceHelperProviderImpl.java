@@ -26,12 +26,6 @@ public class WorkflowInstanceHelperProviderImpl{
 	}
 	
 
-    public org.cagrid.workflow.helper.instance.stubs.GetEPRStringResponse getEPRString(org.cagrid.workflow.helper.instance.stubs.GetEPRStringRequest params) throws RemoteException {
-    org.cagrid.workflow.helper.instance.stubs.GetEPRStringResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.GetEPRStringResponse();
-    boxedResult.setResponse(impl.getEPRString());
-    return boxedResult;
-  }
-
     public org.cagrid.workflow.helper.instance.stubs.CreateWorkflowInvocationHelperResponse createWorkflowInvocationHelper(org.cagrid.workflow.helper.instance.stubs.CreateWorkflowInvocationHelperRequest params) throws RemoteException {
     org.cagrid.workflow.helper.instance.stubs.CreateWorkflowInvocationHelperResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.CreateWorkflowInvocationHelperResponse();
     boxedResult.setWorkflowInvocationHelperReference(impl.createWorkflowInvocationHelper(params.getWorkflowInvocationHelperDescriptor().getWorkflowInvocationHelperDescriptor()));
@@ -59,6 +53,12 @@ public class WorkflowInstanceHelperProviderImpl{
     public org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse setIsInvocationHelperSecure(org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureRequest params) throws RemoteException {
     org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.SetIsInvocationHelperSecureResponse();
     impl.setIsInvocationHelperSecure(params.getServiceOperationEPR().getEndpointReference(),params.isIsSecure());
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.helper.instance.stubs.GetEPRStringResponse getEPRString(org.cagrid.workflow.helper.instance.stubs.GetEPRStringRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.instance.stubs.GetEPRStringResponse boxedResult = new org.cagrid.workflow.helper.instance.stubs.GetEPRStringResponse();
+    boxedResult.setResponse(impl.getEPRString());
     return boxedResult;
   }
 
