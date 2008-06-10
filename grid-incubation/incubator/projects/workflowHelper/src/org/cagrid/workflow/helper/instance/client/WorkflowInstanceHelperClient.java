@@ -79,12 +79,12 @@ public class WorkflowInstanceHelperClient extends WorkflowInstanceHelperClientBa
 
 		//System.out.println("...OK"); // DEBUG
 
-		return subscribe(qname, callback);
+		return subscribeInternally(qname, callback);
 	} 
 
   
   
-  public org.oasis.wsn.SubscribeResponse subscribe(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
+  public org.oasis.wsn.SubscribeResponse subscribeInternally(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
       synchronized (portTypeMutex) {
           configureStubSecurity((Stub) portType, "subscribe");
 

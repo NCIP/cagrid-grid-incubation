@@ -238,6 +238,7 @@
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Lifetime xsi:type="ns3:Lifetime"/>
     <ns3:Identifiable xsi:type="ns3:Identifiable"/>
+    <ns3:Persistent xsi:type="ns3:Persistent"/>
     <ns3:Notification xsi:type="ns3:Notification"/>
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
