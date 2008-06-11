@@ -17,6 +17,7 @@
    <ns2:SchemaElement type="WorkflowManagerInstanceDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowStageDescriptor" xsi:type="ns2:SchemaElementType"/>
   </ns2:Namespace>
   <ns2:Namespace location="./WorkflowHelper.xsd" namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" packageName="org.cagrid.workflow.helper.descriptor" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="DeliveryPolicy" xsi:type="ns2:SchemaElementType"/>
@@ -187,20 +188,27 @@
      <ns12:Output qName="xsd:string" description="" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
      <ns12:Exceptions/>
     </ns12:Method>
+    <ns12:Method isImported="true" isProvided="true" name="Subscribe" xsi:type="ns12:MethodType">
+     <ns12:Output qName="void" isArray="false"/>
+     <ns12:ImportInformation fromIntroduce="false" inputMessage="ns20:SubscribeRequest" namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" outputMessage="ns20:SubscribeResponse" packageName="org.oasis.wsn" portTypeName="NotificationProducer" wsdlFile="../wsrf/notification/WS-BaseN.wsdl" xmlns:ns20="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl"/>
+     <ns12:ProviderInformation providerClass="SubscribeProvider"/>
+    </ns12:Method>
    </ns12:Methods>
-   <ns20:ResourcePropertiesList xsi:type="ns20:ResourcePropertiesListType" xmlns:ns20="gme://gov.nih.nci.cagrid.introduce/1/Resources">
-    <ns20:ResourceProperty qName="ns21:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns21="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns20:ResourceProperty qName="ns22:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns22="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns20:ResourceProperty qName="ns23:WorkflowManagerInstanceDescriptor" description="" fileLocation="WorkflowManagerInstance_workflowManagerInstanceDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns23="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"/>
-    <ns20:ResourceProperty qName="ns24:TimestampedStatus" description="" fileLocation="WorkflowManagerInstance_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns20:ResourcePropertyType" xmlns:ns24="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-   </ns20:ResourcePropertiesList>
+   <ns21:ResourcePropertiesList xsi:type="ns21:ResourcePropertiesListType" xmlns:ns21="gme://gov.nih.nci.cagrid.introduce/1/Resources">
+    <ns21:ResourceProperty qName="ns22:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns21:ResourcePropertyType" xmlns:ns22="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns21:ResourceProperty qName="ns23:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns21:ResourcePropertyType" xmlns:ns23="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns21:ResourceProperty qName="ns24:WorkflowManagerInstanceDescriptor" description="" fileLocation="WorkflowManagerInstance_workflowManagerInstanceDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns21:ResourcePropertyType" xmlns:ns24="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"/>
+    <ns21:ResourceProperty qName="ns25:TimestampedStatus" description="" fileLocation="WorkflowManagerInstance_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns21:ResourcePropertyType" xmlns:ns25="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+   </ns21:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Lifetime xsi:type="ns3:Lifetime"/>
     <ns3:Identifiable xsi:type="ns3:Identifiable"/>
+    <ns3:Persistent xsi:type="ns3:Persistent"/>
+    <ns3:Notification xsi:type="ns3:Notification"/>
     <ns3:Secure xsi:type="ns3:Secure"/>
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns25:Extensions xsi:type="ns25:ExtensionsType" xmlns:ns25="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns26:Extensions xsi:type="ns26:ExtensionsType" xmlns:ns26="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
 </ns1:ServiceDescription>

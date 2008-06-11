@@ -25,7 +25,9 @@ public  class InvokeProperties{
 		isReceive = false;
 		isReply = false;
 	}
-	// more stupid dummy functions
+	
+	
+	// Getters and Setters
 	public void setName(String name){
 		this.name = name;	
 	}
@@ -92,15 +94,27 @@ public  class InvokeProperties{
 		System.out.println("  isReceive = "+isReceive);
 		System.out.println("  isReply = "+isReply);
 		System.out.println("  copyArraySize = "+copyCommandsList.size());
-		//TODO: print the copy command
-		//ArrayList copyCommandsList;
+		for(int i=0 ; i < copyCommandsList.size(); i++){
+			copyCommandsList.get(i).printClass();
+		}
+		
 	}
+	
+	
 	/**
 	 * @return the copyCommandsList
 	 */
 	public CopyOutputDirective getCopyCommand(int index) {
 		return copyCommandsList.get(index);
 	}
+	
+	
+	public int getCopyCommandSize(){
+		
+		return this.copyCommandsList.size();
+	}
+	
+	
 	/**
 	 * @param copyCommandsList the copyCommandsList to set
 	 */

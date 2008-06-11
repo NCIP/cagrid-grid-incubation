@@ -58,7 +58,7 @@ public class SecureWorkflowServicesTest extends ServiceStoryBase {
 	private TomcatSecureServiceContainer myContainer;
 	private String containerBase;
 
-	private static final String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
+	//private static final String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
 	private static final String HELPER_PATH_IN_CONTAINER = "/cagrid/WorkflowHelper";
 
 

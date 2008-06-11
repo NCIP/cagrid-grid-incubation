@@ -89,6 +89,8 @@ import org.oasis.wsrf.lifetime.TerminationNotification;
  * 
  */
 public abstract class WorkflowManagerInstanceResourceBase extends ReflectionResource implements Resource
+                                                  ,PersistenceCallback
+                                                  ,TopicListAccessor
                                                   ,SecureResource
                                                   ,RemoveCallback
                                                   {
@@ -103,9 +105,20 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
     private AdvertisementClient registrationClient;
     
     private URL baseURL;
+    //used to persist the resource properties
+    private PersistenceHelper resourcePropertyPersistenceHelper = null;
+    //used to persist notifications
+    private FilePersistenceHelper resourcePersistenceHelper = null;
+    private TopicList topicList;
     private boolean beingLoaded = false;
     
     public WorkflowManagerInstanceResourceBase() {
+        try {
+            resourcePropertyPersistenceHelper = new gov.nih.nci.cagrid.introduce.servicetools.XmlPersistenceHelper(WorkflowManagerInstanceResourceProperties.class,WorkflowManagerServiceConfiguration.getConfiguration());
+            resourcePersistenceHelper = new FilePersistenceHelper(this.getClass(),WorkflowManagerServiceConfiguration.getConfiguration(),".resource");
+        } catch (Exception ex) {
+            logger.warn("Unable to initialize resource properties persistence helper", ex);
+        }
     }
 
 
@@ -119,11 +132,33 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
         // Call the super initialize on the ReflectionResource                  
 	    super.initialize(resourceBean,resourceElementQName,id);
 		this.desc = null;
+		this.topicList = new SimpleTopicList(this);
+
+        // create the topics for each resource property
+        Iterator it = getResourcePropertySet().iterator();
+        List newTopicProps = new ArrayList();
+        while(it.hasNext()){
+            ResourceProperty prop = (ResourceProperty)it.next();
+            prop.getMetaData().getName();
+            prop = new ResourcePropertyTopic(prop);
+            this.topicList.addTopic((Topic)prop);
+            newTopicProps.add(prop);
+        }
+        // replace the non topic properties with the topic properties
+        Iterator newTopicIt = newTopicProps.iterator();
+        while(newTopicIt.hasNext()){
+            ResourceProperty prop = (ResourceProperty)newTopicIt.next();
+            getResourcePropertySet().remove(prop.getMetaData().getName());
+            getResourcePropertySet().add(prop);
+        }
+        
 
 
 		// register the service to the index service
 		refreshRegistration(true);
 		
+        //call the first store to persist the resource
+        store();
 	}
 	
 	
@@ -133,8 +168,25 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
 	 * @see org.globus.wsrf.ResourceLifetime#setTerminationTime(java.util.Calendar)
 	 */
 	public void setTerminationTime(Calendar time) {	
+		Topic terminationTopic = ((Topic)getResourcePropertySet().get(WorkflowManagerInstanceConstants.TERMINATIONTIME));
+        if (terminationTopic != null) {
+            TerminationNotification terminationNotification =
+                new TerminationNotification();
+            terminationNotification.setTerminationTime(time);
+            try {
+                terminationTopic.notify(terminationNotification);
+            } catch(Exception e) {
+                logger.error("Unable to send terminationTime notification", e);
+            }
+        }	
         
 		super.setTerminationTime(time);
+        //call the first store to persist the resource
+        try {
+            store();
+        } catch (ResourceException e) {
+            throw new RuntimeException(e);
+        }
 	}
 
 
@@ -149,6 +201,8 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
 	public void setWorkflowManagerInstanceDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptor ) throws ResourceException {
         ResourceProperty prop = getResourcePropertySet().get(WorkflowManagerInstanceConstants.WORKFLOWMANAGERINSTANCEDESCRIPTOR);
 		prop.set(0, workflowManagerInstanceDescriptor);
+        //call the first store to persist the resource
+        store();
 	}
 	
 	
@@ -160,6 +214,8 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
 	public void setTimestampedStatus(org.cagrid.workflow.helper.descriptor.TimestampedStatus timestampedStatus ) throws ResourceException {
         ResourceProperty prop = getResourcePropertySet().get(WorkflowManagerInstanceConstants.TIMESTAMPEDSTATUS);
 		prop.set(0, timestampedStatus);
+        //call the first store to persist the resource
+        store();
 	}
 	
 
@@ -377,10 +433,84 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
 	}
 	
 
-
-    public void remove() throws ResourceException {
+    public TopicList getTopicList() {
+        return this.topicList;
     }
 
+    public void remove() throws ResourceException {     
+		resourcePropertyPersistenceHelper.remove(this);
+    }
+
+
+    public void load(ResourceKey resourceKey) throws ResourceException, NoSuchResourceException, InvalidResourceKeyException {
+	  beingLoaded = true;
+       //first we will recover the resource properties and initialize the resource
+	   WorkflowManagerInstanceResourceProperties props = (WorkflowManagerInstanceResourceProperties)resourcePropertyPersistenceHelper.load(WorkflowManagerInstanceResourceProperties.class, resourceKey.getValue());
+       this.initialize(props, WorkflowManagerInstanceConstants.RESOURCE_PROPERTY_SET, resourceKey.getValue());
+       
+        //next we will recover the resource itself
+        File file = resourcePersistenceHelper.getKeyAsFile(this.getClass(), resourceKey.getValue());
+        if (!file.exists()) {
+            beingLoaded = false;
+            throw new NoSuchResourceException();
+        }
+        FileInputStream fis = null;
+        int value = 0;
+        try {
+            fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            SubscriptionPersistenceUtils.loadSubscriptionListeners(
+                this.getTopicList(), ois);
+        } catch (Exception e) {
+            beingLoaded = false;
+            throw new ResourceException("Failed to load resource", e);
+        } finally {
+            if (fis != null) {
+                try { fis.close(); } catch (Exception ee) {}
+            }
+        } 
+       
+       beingLoaded = false;
+    }
+
+
+    public void store() throws ResourceException {
+      if(!beingLoaded){
+        //store the resource properties
+        resourcePropertyPersistenceHelper.store(this);
+        
+        FileOutputStream fos = null;
+        File tmpFile = null;
+
+        try {
+            tmpFile = File.createTempFile(
+                this.getClass().getName(), ".tmp",
+                resourcePersistenceHelper.getStorageDirectory());
+            fos = new FileOutputStream(tmpFile);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            SubscriptionPersistenceUtils.storeSubscriptionListeners(
+                this.getTopicList(), oos);
+        } catch (Exception e) {
+            if (tmpFile != null) {
+                tmpFile.delete();
+            }
+            throw new ResourceException("Failed to store resource", e);
+        } finally {
+            if (fos != null) {
+                try { fos.close();} catch (Exception ee) {}
+            }
+        }
+
+        File file = resourcePersistenceHelper.getKeyAsFile(this.getClass(), getID());
+        if (file.exists()) {
+            file.delete();
+        }
+        if (!tmpFile.renameTo(file)) {
+            tmpFile.delete();
+            throw new ResourceException("Failed to store resource");
+        }
+        }
+    }
 	
 	
 }

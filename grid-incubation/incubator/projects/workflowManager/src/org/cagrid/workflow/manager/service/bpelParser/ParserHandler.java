@@ -420,10 +420,10 @@ public class ParserHandler extends DefaultHandler{
 					System.out.println("numVariables = "+workflowLayout.variables.size());
 					Variable auxVariable1 = workflowLayout.variables.get(variableName);
 					
-					// TODO: case we do not find the variable we have an error.
+					// Case we do not find the variable we have an error.
 					// Stop the execution
 					if( workflowLayout.variables.get(variableName) == null){
-						System.out.println("Could not find variable : "+ variableName);
+						throw new SAXException("Could not find variable : "+ variableName);
 						
 					}else{
 						auxVariable1.setPart(partName, partType, partNamespace);

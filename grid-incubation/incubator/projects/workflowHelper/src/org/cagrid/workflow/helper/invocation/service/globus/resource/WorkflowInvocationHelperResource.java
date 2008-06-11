@@ -1,5 +1,13 @@
 package org.cagrid.workflow.helper.invocation.service.globus.resource;
 
+import gov.nih.nci.cagrid.introduce.servicetools.FilePersistenceHelper;
+import gov.nih.nci.cagrid.introduce.servicetools.PersistenceHelper;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,10 +31,17 @@ import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.instance.service.globus.resource.CredentialAccess;
 import org.cagrid.workflow.helper.invocation.DeliveryEnumerator;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
+import org.cagrid.workflow.helper.invocation.common.WorkflowInvocationHelperConstants;
+import org.cagrid.workflow.helper.invocation.stubs.WorkflowInvocationHelperResourceProperties;
+import org.cagrid.workflow.helper.service.WorkflowHelperConfiguration;
 import org.cagrid.workflow.helper.util.ConversionUtil;
 import org.cagrid.workflow.helper.util.ServiceInvocationUtil;
 import org.globus.gsi.GlobusCredential;
+import org.globus.wsrf.InvalidResourceKeyException;
+import org.globus.wsrf.NoSuchResourceException;
 import org.globus.wsrf.ResourceException;
+import org.globus.wsrf.ResourceKey;
+import org.globus.wsrf.utils.SubscriptionPersistenceUtils;
 import org.w3c.dom.Node;
 
 
@@ -43,30 +58,37 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private WorkflowInvocationHelperDescriptor operationDesc = null;
 	private OperationInputMessageDescriptor input_desc = null;
 	private OperationOutputTransportDescriptor output_desc = null;
-	private InputParameter[] paramData = null;
+	private InputParameter[] paramData = new InputParameter[0];
 	private CredentialAccess credentialAccess;      // Interface to retrieve GlobusCredential from the InstanceHelper (necessary to invoke secure operations)
 	private EndpointReference serviceOperationEPR;  // EPR of this instance. Used as key to retrieve GlobusCredential from the InstanceHelper
 	private String serviceOperationEPRString;
 	private boolean isSecure = false;
-	
-	
+
+
+	// Persistency variables
+	private boolean beingLoaded = false;
+	private PersistenceHelper resourcePropertyPersistenceHelper = null;
+	private FilePersistenceHelper resourcePersistenceHelper = null;
+
+
+
 	public synchronized boolean executeIfReady() {
-        
-		
+
+
 		for (int i = 0; i < paramData.length; i++) {
 			if (paramData[i] == null) {
 				return false;
 			}
 		}
 
-		//System.out.println("[executeIfReady] Execution started for "+ getOperationDesc().getOperationQName().getLocalPart()); // DEBUG
-		
+		logger.debug("[executeIfReady] Execution started for "+ getOperationDesc().getOperationQName().getLocalPart()); 
+
 		try {
-			//System.out.println("[executeIfReady] Will get curr status"); //DEBUG
+			logger.debug("[executeIfReady] Will get curr status"); 
 			int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1;
-			//System.out.println("[executeIfReady] OK. Setting new status");//DEBUG
+			logger.debug("[executeIfReady] OK. Setting new status");
 			this.setTimestampedStatus(new TimestampedStatus(Status.RUNNING, nextTimestamp));
-			//System.out.println("Set status to RUNNING"); // DEBUG
+			logger.debug("Set status to RUNNING"); 
 		} catch (ResourceException e2) {
 			e2.printStackTrace();
 		}
@@ -76,21 +98,20 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			public synchronized void run() {
 
 
-				//DEBUG
-				//System.out.println("-- Thread started");
+				logger.debug("-- Thread started");
 
 				// we have all the input data needed to execute so lets execute
 				// 1. make execution call with axis
 				List<Node> service_response = new ArrayList<Node>();
 				try {
 
-					
-					
-					final boolean invocationIsSecure = isSecure();  //(credential != null);
-					//System.out.println("[RUNNABLE] Blocking until credential is provided");
+
+
+					final boolean invocationIsSecure = isSecure();  
+					logger.debug("[RUNNABLE] Blocking until credential is provided");
 					GlobusCredential credential = invocationIsSecure ? getCredential() : null;
 
-					//System.out.println("[RUNNABLE] Retrieved credential: "+ credential); // DEBUG
+					logger.debug("[RUNNABLE] Retrieved credential: "+ credential); 
 
 					InputParameterDescriptor[] input_desc = getInput_desc().getInputParam();
 					InputParameter[] input_value = getParamData();
@@ -112,7 +133,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 						// Verify whether the soap object represents an array or not
 						dataIsArray = DataIsArray(paramData);
 
-						//System.out.println("Parameter is array = "+ parameterIsArray + " ; data is array = "+ dataIsArray);//DEBUG
+						logger.debug("Parameter is array = "+ parameterIsArray + " ; data is array = "+ dataIsArray);
 
 						// If data is array and parameter is not, we need to generate one request for each array element 
 						if( dataIsArray && !parameterIsArray ){ 
@@ -154,19 +175,19 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 					if( !serviceAlreadyInvoked ){  // Usual service invocation
 
-						//System.out.println("Streaming not applicable");//DEBUG
-						
+						logger.debug("Streaming not applicable");
+
 						/* Invoke service according to its security configuration */
 						if( invocationIsSecure ){
 
-							//System.out.println("Invoking secure service");//DEBUG
-							
+							logger.debug("Invoking secure service");
+
 							service_response.add(ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
 									input_value, getCredential()));
 						}
 						else {
 
-							//System.out.println("Invoking non-secure service"); //DEBUG
+							logger.debug("Invoking non-secure service"); 
 							service_response.add(ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(),
 									input_value));
 						}
@@ -178,7 +199,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					try {
 						int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
 						setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-						//System.out.println("Set status to ERROR"); // DEBUG
+						logger.error("Set status to ERROR"); 
 					} catch (ResourceException e) {
 						e.printStackTrace();
 					}
@@ -186,15 +207,14 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 
-				// DEBUG See list contents
-				/*Node curr_node = null;
-				System.out.println("----------------------------");
+				// See list contents
+				Node curr_node = null;
+				logger.debug("----------------------------");
 				for(ListIterator<Node> it = service_response.listIterator(); it.hasNext(); ){
 					curr_node = it.next();
-					System.out.println("Curr node is: "+curr_node);
+					logger.debug("Curr node is: "+curr_node);
 				}
-				System.out.println("----------------------------");
-				System.out.flush(); // */
+				logger.debug("----------------------------");  // */
 
 
 
@@ -232,8 +252,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								String data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces());
 								iparam.setData(data);
 
-								//DEBUG
-								//System.out.println("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'");
+								
+								logger.debug("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'");
 
 								// send the data to the next workflow helper instance
 								if( pdesc.getDestinationEPR() != null ){
@@ -287,8 +307,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 								}
 								else {
-									System.err.print("No destination assigned to current parameter (in "+ getOperationDesc().getOperationQName() +").");
-									System.err.println("Value of parameter is: \n"+iparam.getData());
+									logger.error("No destination assigned to current parameter (in "+ getOperationDesc().getOperationQName() +").");
+									logger.error("Value of parameter is: \n"+iparam.getData());
 									System.err.flush();
 								}
 
@@ -296,7 +316,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								try {
 									int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
 									setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-									//System.out.println("Set status to ERROR"); // DEBUG
+									logger.error("Set status to ERROR"); 
 								} catch (ResourceException e1) {
 									e1.printStackTrace();
 								}
@@ -305,7 +325,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								try {
 									int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
 									setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-									//System.out.println("Set status to ERROR"); // DEBUG
+									logger.error("Set status to ERROR"); 
 								} catch (ResourceException e1) {
 									e1.printStackTrace();
 								}
@@ -318,50 +338,49 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				try {
 					int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
 					setTimestampedStatus(new TimestampedStatus(Status.FINISHED, nextTimestamp));
-					// System.out.println("Set status to FINISHED ("+ getOperationDesc().getOperationQName() +")"); // DEBUG
+					logger.debug("Set status to FINISHED ("+ getOperationDesc().getOperationQName() +")"); 
 				} catch (ResourceException e) {
 					e.printStackTrace();
 				}
 
-				//DEBUG
-				//System.out.println("-- Thread finished");
+				logger.debug("-- Thread finished");
 				return;
 			}
 
 		});
-		
+
 
 		/* Start thread and wait for it to finish */
 		th.start();
 		try {
 			th.join();
-			
+
 			//System.out.println("[executeIfReady] Changing status for FINISHED");
-			
-			
+
+
 			if( this.getTimestampedStatus().getStatus().equals(Status.RUNNING) ){
-				
+
 				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
 				this.setTimestampedStatus(new TimestampedStatus(Status.FINISHED, nextTimestamp));
 			}
 		} catch (InterruptedException e) {
-			
+
 			e.printStackTrace();
 			try {
 				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
 				this.setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
 			} catch (ResourceException e1) {}
-			
+
 		} catch (ResourceException e) {
 			e.printStackTrace();
 			try {
 				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
 				this.setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
 			} catch (ResourceException e1) {}
-			
+
 		}
 		//System.out.println("[executeIfReady] END");
-		
+
 		return true;
 	}
 
@@ -491,10 +510,10 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 		Status curr_status = this.getTimestampedStatus().getStatus();
-		//System.out.println("[setParameter] status is "+curr_status); //DEBUG
-		
+		logger.debug("[setParameter] status is "+curr_status); 
+
 		if(curr_status.equals(Status.WAITING) || curr_status.equals(Status.FINISHED)){
-		
+
 			if (param != null) {
 				paramData[param.getParamIndex()] = param;
 			}
@@ -527,8 +546,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	public synchronized void setInput_desc(OperationInputMessageDescriptor input_desc) {
 
 		Status curr_status = this.getTimestampedStatus().getStatus();
-		//System.out.println("[Input] status is "+curr_status); //DEBUG
-		
+		logger.debug("[Input] status is "+curr_status); 
+
 		if(curr_status.equals(Status.UNCONFIGURED)){
 
 
@@ -546,7 +565,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			}
 		}
 		else {
-			System.err.println("Input setting is allowed only when state is UNCONFIGURED. Current state: "+curr_status);
+			logger.error("Input setting is allowed only when state is UNCONFIGURED. Current state: "+curr_status);
 		}
 	}
 
@@ -557,41 +576,38 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	public synchronized void setOutput_desc(OperationOutputTransportDescriptor output_desc) {
-		
-		Status curr_status = this.getTimestampedStatus().getStatus();
-		//System.out.println("[Output] status is "+curr_status); //DEBUG
-		//System.out.println("[setOutput_desc] BEGIN"); // DEBUG
 
-		
+		Status curr_status = this.getTimestampedStatus().getStatus();
+		logger.debug("[Output] status is "+curr_status); 
+		logger.debug("[setOutput_desc] BEGIN"); 
+
+
 		if(curr_status.equals(Status.INPUTCONFIGURED)){
 
 
 			this.output_desc = output_desc;
 			try {
-				//System.out.println("[setOutput_desc] Getting current status");
 				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1;
-				//System.out.println("[setOutput_desc] OK. Setting next status");
 				this.setTimestampedStatus(new TimestampedStatus(Status.WAITING, nextTimestamp));
-				//System.out.println("[setOutput_desc] Done");
 				
 				// Skip the 'setParameter' step if we don't have any expected input. 
 				// Though, if the service is secure and the credential wasn't provided yet, a deadlock might occur
 				if(((this.getParamData() == null) || (this.getParamData().length == 0)) ){
-					//System.out.println("[setOutput_desc] No parameters needed, proceeding to execution");
+					logger.debug("[setOutput_desc] No parameters needed, proceeding to execution");
 					executeIfReady();
-				} // */ 
-				
+				} 
+
 			} catch (ResourceException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 		else {
 			System.err.println("Output setting is allowed only when state is INPUTCONFIGURED. Current state: "+curr_status);
 		}
 
-		//System.out.println("[setOutput_desc] END"); // DEBUG
-		
+		logger.debug("[setOutput_desc] END"); 
+
 	}
 
 	public InputParameter[] getParamData() {
@@ -680,5 +696,175 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	public EndpointReference getServiceOperationEPR() {
 		return serviceOperationEPR;
 	}
+
+	
+	
+	/*
+	public void load(ResourceKey resourceKey) throws ResourceException, NoSuchResourceException, InvalidResourceKeyException {
+		beingLoaded = true;
+		//first we will recover the resource properties and initialize the resource
+		WorkflowInvocationHelperResourceProperties props = (WorkflowInvocationHelperResourceProperties)resourcePropertyPersistenceHelper.load(WorkflowInvocationHelperResourceProperties.class, resourceKey.getValue());
+		this.initialize(props, WorkflowInvocationHelperConstants.RESOURCE_PROPERTY_SET, resourceKey.getValue());
+
+		//next we will recover the resource itself
+		File file = resourcePersistenceHelper.getKeyAsFile(this.getClass(), resourceKey.getValue());
+		if (!file.exists()) {
+			beingLoaded = false;
+			throw new NoSuchResourceException();
+		}
+		FileInputStream fis = null;
+		int value = 0;
+		try {
+			fis = new FileInputStream(file);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			SubscriptionPersistenceUtils.loadSubscriptionListeners(
+					this.getTopicList(), ois);
+
+
+
+			// Load local variables
+
+			// Load outputType
+			this.outputType = (QName) ois.readObject();
+
+
+			// Load operationDesc
+			this.operationDesc = (WorkflowInvocationHelperDescriptor) ois.readObject();
+
+
+			// Load input_desc
+			this.input_desc = (OperationInputMessageDescriptor) ois.readObject();
+
+			// Load output_desc
+			this.output_desc = (OperationOutputTransportDescriptor) ois.readObject();
+
+
+			// Load paramData
+			this.paramData = (InputParameter[]) ois.readObject();
+
+
+			// Load credentialAccess
+			this.credentialAccess = (CredentialAccess) ois.readObject();
+
+			// Load serviceOperationEPR
+			this.serviceOperationEPR = (EndpointReference) ois.readObject();			
+
+
+			// Load serviceOperationEPRString
+			this.serviceOperationEPRString = (String) ois.readObject();
+
+
+			// Load isSecure
+			this.isSecure = ois.readBoolean();
+
+		} catch (Exception e) {
+			beingLoaded = false;
+			throw new ResourceException("Failed to load resource", e);
+		} finally {
+			if (fis != null) {
+				try { fis.close(); } catch (Exception ee) {}
+			}
+		} 
+
+		beingLoaded = false;
+	}
+
+
+	public void store() throws ResourceException {
+		if(!beingLoaded){
+			//store the resource properties
+			resourcePropertyPersistenceHelper.store(this);
+
+			FileOutputStream fos = null;
+			File tmpFile = null;
+
+			try {
+				tmpFile = File.createTempFile(
+						this.getClass().getName(), ".tmp",
+						resourcePersistenceHelper.getStorageDirectory());
+				fos = new FileOutputStream(tmpFile);
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				SubscriptionPersistenceUtils.storeSubscriptionListeners(
+						this.getTopicList(), oos);
+
+
+				// Store local variables
+
+				// Write outputType
+				oos.writeObject(this.outputType);
+
+				// Write operationDesc
+				oos.writeObject(this.operationDesc);
+
+
+				// Write input_desc
+				oos.writeObject(this.input_desc);
+
+				// Write output_desc
+				oos.writeObject(this.output_desc);
+
+
+				// Write paramData
+				oos.writeObject(this.paramData);
+
+				// Write credentialAccess
+				oos.writeObject(this.credentialAccess);
+
+
+				// Write serviceOperationEPR
+				oos.writeObject(this.serviceOperationEPR);
+
+
+				// Write serviceOperationEPRString
+				oos.writeObject(this.serviceOperationEPRString);
+				
+				// Write isSecure
+				oos.writeBoolean(this.isSecure);
+
+
+
+			} catch (Exception e) {
+				if (tmpFile != null) {
+					tmpFile.delete();
+				}
+				throw new ResourceException("Failed to store resource", e);
+			} finally {
+				if (fos != null) {
+					try { fos.close();} catch (Exception ee) {}
+				}
+			}
+
+			File file = resourcePersistenceHelper.getKeyAsFile(this.getClass(), getID());
+			if (file.exists()) {
+				file.delete();
+			}
+			if (!tmpFile.renameTo(file)) {
+				tmpFile.delete();
+				throw new ResourceException("Failed to store resource");
+			}
+		}
+	} 
+
+
+
+
+	@Override
+	public void initialize(Object resourceBean, QName resourceElementQName,
+			Object id) throws ResourceException {
+
+		
+		logger.info("[initialize] Initializing persistency objects");
+
+		super.initialize(resourceBean, resourceElementQName, id);
+
+		try {
+			resourcePropertyPersistenceHelper = new gov.nih.nci.cagrid.introduce.servicetools.XmlPersistenceHelper(WorkflowInvocationHelperResourceProperties.class,WorkflowHelperConfiguration.getConfiguration());
+			resourcePersistenceHelper = new FilePersistenceHelper(this.getClass(),WorkflowHelperConfiguration.getConfiguration(),".resource");
+		} catch (Exception ex) {
+			logger.warn("Unable to initialize resource properties persistence helper", ex);
+		}
+		
+		logger.info("[initialize] END");
+	} // */
 
 }

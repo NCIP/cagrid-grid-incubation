@@ -2,7 +2,6 @@ package org.cagrid.workflow.helper.tests.system.steps;
 
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
-import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -138,6 +137,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			// Block until every stage reports either a FINISHED or an ERROR status
 			this.waitUntilCompletion();
+			
 
 		} catch(Throwable t) {
 			t.printStackTrace();
@@ -1178,7 +1178,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 		//DEBUG
-		PrintStream log = System.out;
+		//PrintStream log = System.out;
 		//log.println("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
 
 

@@ -10,7 +10,7 @@ public class Variable{
 	private	String name;
 	private	QName messageType; 
 	// TODO Message type might be qualified by a namespace. We must store 
-	//this namespace so its type are fully specified
+	//this namespace so its type is fully specified
 	private List<VariablePart> parts;
 
 	Variable(){

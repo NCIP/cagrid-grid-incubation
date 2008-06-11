@@ -6,7 +6,7 @@ import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
 
 /** 
- * TODO:I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
+ * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
  * 
  * @created by Introduce Toolkit version 1.2
  * 

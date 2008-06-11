@@ -1,10 +1,10 @@
 #Introduce Properties
-#Fri Jun 06 12:38:44 EDT 2008
-introduce.skeleton.services.list=WorkflowManagerService,WorkflowManagerInstance
+#Tue Jun 10 09:11:17 EDT 2008
 introduce.skeleton.extensions=
+introduce.skeleton.services.list=WorkflowManagerService,WorkflowManagerInstance
 introduce.skeleton.destination.dir=C\:\\subversion_hawks\\subversion_hawks\\trunk\\grid-incubation\\incubator\\projects\\workflowManager
 introduce.skeleton.namespace.domain=http\://manager.workflow.cagrid.org/WorkflowManagerService
+introduce.skeleton.timestamp=1213103411562
 introduce.skeleton.service.name=WorkflowManagerService
-introduce.skeleton.timestamp=1212689404947
 introduce.soap.binding.excludes=\ 
 introduce.ns.excludes=\ -x gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security

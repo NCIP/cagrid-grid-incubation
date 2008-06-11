@@ -1,11 +1,16 @@
 package org.cagrid.workflow.manager.service.bpelParser;
 
-import javax.xml.parsers.SAXParserFactory;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.xml.parsers.SAXParser;
-import java.io.*;
+import javax.xml.parsers.SAXParserFactory;
 
 public class BpelParser {
-
+	
+	
 	public BpelParser() {
 
 	}
@@ -44,5 +49,46 @@ public class BpelParser {
 		BpelParser mainClass = new BpelParser();
 		mainClass.startParsing(fileName);
 
+	}
+	
+	
+	/** Parse a BPEL description within a string */
+	public WorkflowProcessLayout parseString(String bpelDescription, String workflowID) {
+		
+
+		String auxFileName = null;
+		try {
+			auxFileName = java.io.File.createTempFile("WorkflowDescriptor_"
+					+ workflowID.replace('/', '-'),".bpel").
+					getAbsolutePath();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println("FileName = " + auxFileName);
+		
+		
+		// now we have to parse the bpel file we received
+		// first of all I am going to write it into the current directory
+		try {
+			// write the
+			writeTextFile(bpelDescription, auxFileName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return this.startParsing(auxFileName);
+	}
+	
+	
+	/** Write the contents of a string into a file */
+	public static void writeTextFile(String contents, String fullPathFilename)
+	throws IOException {
+		BufferedWriter writer = new BufferedWriter(new FileWriter(
+				fullPathFilename));
+		writer.write(contents);
+		writer.flush();
+		writer.close();
 	}
 }

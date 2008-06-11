@@ -1,19 +1,12 @@
 package org.cagrid.workflow.manager.service;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -22,49 +15,55 @@ import javax.xml.namespace.QName;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.client.WorkflowHelperClient;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
-import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
+import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceHome;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.cagrid.workflow.manager.service.bpelParser.BpelParser;
 import org.cagrid.workflow.manager.service.bpelParser.WorkflowProcessLayout;
 import org.cagrid.workflow.manager.service.conversion.WorkflowProcessLayoutConverter;
+import org.globus.wsrf.NotifyCallback;
+import org.globus.wsrf.container.ContainerException;
 
-//TODO: ask to Hawks why we have both options
-//import workflowhelperservice.OperationInputMessageDescriptor;
 /**
  * I am the service side implementation class. IMPLEMENT AND DOCUMENT ME
  * 
  * @created by Introduce Toolkit version 1.1
  * 
  */
-public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
+public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase implements NotifyCallback {
 
+	
+	
+	private static final String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
+	private static final String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
+	private static final Log logger = LogFactory.getLog(WorkflowManagerServiceImpl.class);
+	
+	
 	public WorkflowManagerServiceImpl() throws RemoteException {
 		super();
 	}
 
-	public static void writeTextFile(String contents, String fullPathFilename)
-	throws IOException {
-		BufferedWriter writer = new BufferedWriter(new FileWriter(
-				fullPathFilename));
-		writer.write(contents);
-		writer.flush();
-		writer.close();
-	}
+
 
 	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptor) throws RemoteException {
-		System.out.println("Manager Service muito doido"); //DEBUG
-		System.out.flush();
+		
+		
+		logger.debug("Manager Service muito doido"); 
+		
+		
 		org.apache.axis.message.addressing.EndpointReferenceType epr = new org.apache.axis.message.addressing.EndpointReferenceType();
 		WorkflowManagerInstanceResourceHome home;
 		// BaseResourceHome home = null;
@@ -85,8 +84,7 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			System.out.println("resourceKey = " + resourceKey);
 
 			// Grab the newly created resource
-			WorkflowManagerInstanceResource thisResource = (WorkflowManagerInstanceResource) home
-			.find(resourceKey);
+			WorkflowManagerInstanceResource thisResource = (WorkflowManagerInstanceResource) home.find(resourceKey);
 
 			// set the workflow descriptor on the helper instance
 			thisResource
@@ -94,256 +92,241 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 
 			String transportURL = (String) ctx
 			.getProperty(org.apache.axis.MessageContext.TRANS_URL);
-			transportURL = transportURL.substring(0, transportURL
-					.lastIndexOf('/') + 1);
+			transportURL = transportURL.substring(0, transportURL.lastIndexOf('/') + 1);
 			transportURL += "WorkflowManagerInstance";
 
 			System.out.println("transportURL = " + transportURL);
-			epr = org.globus.wsrf.utils.AddressingUtils
-			.createEndpointReference(transportURL, resourceKey);
+			epr = org.globus.wsrf.utils.AddressingUtils.createEndpointReference(transportURL, resourceKey);
 		} catch (Exception e) {
 			throw new RemoteException(
 					"Error looking up WorkflowManagerInstance  home:"
 					+ e.getMessage(), e);
 		}
 
-		String auxFileName = null;
-		try {
-			auxFileName = java.io.File
-			.createTempFile(
-					"WorkflowDescriptor_"
-					+ resourceKey.toString().replace('/', '-'),
-			".bpel").getAbsolutePath();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		System.out.println("FileName = " + auxFileName);
-		// now we have to parse the bpel file we received
-		// first of all I am going to write it into the current directory
-		try {
-			// write the
-			writeTextFile(workflowManagerInstanceDescriptor.getBpelDescription(),
-					auxFileName);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RemoteException(
-					"ERROR: Fail to write bpel file to disk: " + auxFileName);
-		}
 
+
+		/** Parse BPEL description */
 		BpelParser parserBpelWorkflowFile = new BpelParser();
 
-		WorkflowProcessLayout workflowLayout = parserBpelWorkflowFile
-		.startParsing(auxFileName);
+		WorkflowProcessLayout workflowLayout = parserBpelWorkflowFile.parseString(workflowManagerInstanceDescriptor.getBpelDescription(),
+				resourceKey.toString());
 		// Parser Bpel done
-		System.out.println("End bpel parser");
-		/*
-		 * try{ workflowLayout.printClass(); // DEBUG }
-		 * catch(NullPointerException npe){ System.err.println("We got a null
-		 * WorkflowProcessLayout. A problem may have happened while parsing the
-		 * BPEL file"); return null; } //
-		 */
+		logger.info("End bpel parser");
 
-		
 		/* Get the URL of the workflow's services */
-		HashMap<String, URL> servicesURLs = this.getServicesURL(workflowManagerInstanceDescriptor.getServicesURLs());
-		
-		
-		
-		
-		System.out.println("Creating workflow");
+		HashMap<String, URL> servicesURLs = WorkflowProcessLayoutConverter.getServicesURL(
+				workflowManagerInstanceDescriptor.getServicesURLs()); 
+
+
+		/* Create as many helpers as containers we are supposed to contact. 
+		 * For now, we are assuming all InvocationHelpers in the same container
+		 * to be managed by the same InstanceHelper */
+		Map<String, List<String>> instancesServices = WorkflowProcessLayoutConverter.
+		getInstanceHelpersForInvocationHelpers(workflowManagerInstanceDescriptor.getServicesURLs());
+
+		WorkflowProcessLayoutConverter converter = new WorkflowProcessLayoutConverter(workflowLayout);
+		List<WorkflowStageDescriptor> invocation_descs = converter.extractWorkflowInvocationHelperDescriptors(
+				servicesURLs);
+
+
+		/** Create all InstanceHelpers and its underlying InvocationHelpers */
+		logger.info("Creating workflow");
 		// TODO: the id just as the workflow name is not a strong name
-		System.out.println("ID = " + workflowLayout.getName());
+		logger.info("ID = " + workflowLayout.getName());
 
-		String helper_url = "http://localhost:8080/wsrf/services/cagrid/WorkflowHelper"; 
-		// TODO
-		// Retrieve this address from some service discovery mechanism
+		Set<Entry<String, List<String>>> instanceHelpers = instancesServices.entrySet();
+		Iterator<Entry<String, List<String>>> instanceHelpersIter = instanceHelpers.iterator();
 
-		WorkflowHelperClient helper_client = null;
-		try {
-			EndpointReference helper_epr = new EndpointReference(helper_url);
-			helper_client = new WorkflowHelperClient(helper_epr);
-		} catch (MalformedURIException e) {
-			e.printStackTrace();
-		}
 
-		// System.out.println("Checkpoint 2");
-		WorkflowInstanceHelperDescriptor wfi_desc = new WorkflowInstanceHelperDescriptor();
-		wfi_desc.setWorkflowID(workflowLayout.getName());
-		wfi_desc.setWorkflowManagerEPR(epr);
+		while( instanceHelpersIter.hasNext() ){
 
-		WorkflowInstanceHelperClient wfi_client = null;
-		try {
-			wfi_client = helper_client.createWorkflowInstanceHelper(wfi_desc);
-		} catch (MalformedURIException e) {
-			e.printStackTrace();
-		}
+			
+			Entry<String, List<String>> curr_entry = instanceHelpersIter.next();
+			
+			
+			
+			// Retrieve WorkflowHelper's address
+			String curr_helperURL = curr_entry.getKey(); 
+			List<String> curr_invocationHelperURLs = curr_entry.getValue();
 
-		// System.out.println("Checkpoint 3");
-		WorkflowInvocationHelperDescriptor[] invocation_descs = WorkflowProcessLayoutConverter.getWorkflowInvocationHelperDescriptors(workflowLayout, servicesURLs);
-
-		// list of clients related to a certain operation. This is needed to be
-		// used during the next
-		// step, when we set the Input/OutputParameterDescriptors for each
-		// operation
-		List<WorkflowInvocationHelperClient> operations_clients = new ArrayList<WorkflowInvocationHelperClient>();
-
-		if (invocation_descs.length > 0) {
-			System.out.println("WorkflowID = "+ invocation_descs[0].getWorkflowID());
-		}
-		System.out.println("Before create infocation services");
-		for(int i = 0; i < invocation_descs.length; i++){
-			WorkflowInvocationHelperClient curr_invocation_client = null;
-			System.out.println("Creating operation");
+			logger.info("Current helper URL is: "+ curr_helperURL);
+			System.out.println("Helper URL = "+ curr_helperURL); // DEBUG
+			WorkflowHelperClient helper_client = null;
 			try {
-				curr_invocation_client = wfi_client.createWorkflowInvocationHelper(invocation_descs[i]);
+				EndpointReference helper_epr = new EndpointReference(curr_helperURL);
+				helper_client = new WorkflowHelperClient(helper_epr);
 			} catch (MalformedURIException e) {
-				System.out.println("Error creating helperInstance Client. Operation =  "+invocation_descs[i].getOperationQName());
 				e.printStackTrace();
 			}
-			operations_clients.add(curr_invocation_client);
-		}
-		System.out.println("after");
 
-		for (int i = invocation_descs.length -1; i >= 0; i--) {
+			
+			
+			// Create InstanceHelper
+			WorkflowInstanceHelperDescriptor wfi_desc = new WorkflowInstanceHelperDescriptor();
+			wfi_desc.setWorkflowID(workflowLayout.getName());
+			wfi_desc.setWorkflowManagerEPR(epr);
 
-			// DEBUG
-			/*System.out.println("[createWorkflowManagerInstance] operationName = " + invocation_descs[i].getOperationQName());
-			System.out.println("[createWorkflowManagerInstance] outputType = " + invocation_descs[i].getOutputType());
-			System.out.println("[createWorkflowManagerInstance] serviceURL = " + invocation_descs[i].getServiceURL()); // */
-
-			// HARDCODE
-			final String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
-			final String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
-			QName[] namespaces = workflowLayout.getAllNamespaces();
-
-			// invocation_descs.
-			WorkflowInvocationHelperClient curr_invocation_client = operations_clients.get(i);
-
-			if(i == 1){
-				org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessageDescSecondService = new OperationInputMessageDescriptor();
-				InputParameterDescriptor[] inputParamsSecondService = new InputParameterDescriptor[1];
-				// configure each input parameter (variable name and namespace)
-				inputParamsSecondService[0] = new InputParameterDescriptor(new QName("input"), new QName(XSD_NAMESPACE, "string"));
-				System.out.println("paramQName = "+inputParamsSecondService[0].getParamQName());
-				inputMessageDescSecondService.setInputParam(inputParamsSecondService);
-				curr_invocation_client.configureInput(inputMessageDescSecondService);
-
-				// Creating an empty outputDescriptor
-				OperationOutputTransportDescriptor outputDescriptorSecondService = new OperationOutputTransportDescriptor();
-				OperationOutputParameterTransportDescriptor outParametersSecondService [] = new OperationOutputParameterTransportDescriptor[0];
-
-				// takes the reference to no service
-				outputDescriptorSecondService.setParamDescriptor(outParametersSecondService);
-				curr_invocation_client.configureOutput(outputDescriptorSecondService);			
+			WorkflowInstanceHelperClient wfi_client = null;
+			try {
+				wfi_client = helper_client.createWorkflowInstanceHelper(wfi_desc);
+				wfi_client.subscribeWithCallback(TimestampedStatus.getTypeDesc().getXmlType(), this);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			} catch (ContainerException e) {
+				e.printStackTrace();
 			}
 
-			if (i == 0) {
+			
+			// list of clients related to a certain operation. This is needed to be
+			// used during the next step, when we set the Input/OutputParameterDescriptors for each
+			// operation
+			List<WorkflowInvocationHelperClient> operations_clients = new ArrayList<WorkflowInvocationHelperClient>();
+			HashMap<QName, EndpointReferenceType> serviceEPR = new HashMap<QName, EndpointReferenceType>(); 
+
+			if (invocation_descs.size() > 0) {
+				System.out.println("WorkflowID = "+ invocation_descs.get(0).getBasicDescription().getWorkflowID());
+			}
+			System.out.println("Before create infocation services");
+
+			// Create all the InvocationHelpers assigned to the InstanceHelper created above  
+			for(int i = 0; i < invocation_descs.size(); i++){
+
+				
+				WorkflowStageDescriptor curr_desc = invocation_descs.get(i);
+				String curr_url = invocation_descs.get(i).getBasicDescription().getServiceURL(); 
+				
+				if( curr_invocationHelperURLs.contains(curr_url) ) continue; 
+						
+				
+				WorkflowInvocationHelperClient curr_invocation_client = null;
 				System.out.println("Creating operation");
-				//curr_invocation_client = wfi_client.createWorkflowInvocationHelper(invocation_descs[i]);
-				// curr_invocation_client.configureInput(operationInputMessageDescriptor)
+				try {
+					curr_invocation_client = wfi_client.createWorkflowInvocationHelper(curr_desc.getBasicDescription());
+				} catch (MalformedURIException e) {
+					System.out.println("Error creating helperInstance Client. Operation =  "+ curr_desc.getBasicDescription().getOperationQName());
+					e.printStackTrace();
+				}
+				catch(RemoteException e){
+					System.out.println("Error creating helperInstance Client. Operation =  "+ curr_desc.getBasicDescription().getOperationQName());
+					e.printStackTrace();
+				}
 
-				OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
-				InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[0];
-				inputMessage_ras.setInputParam(inputParams_ras);
-				curr_invocation_client.configureInput(inputMessage_ras);
+				operations_clients.add(curr_invocation_client);
+				serviceEPR.put(curr_desc.getBasicDescription().getOperationQName(), curr_invocation_client.getEndpointReference());
+			}
+			System.out.println("after");
 
-				// Creating an empty outputDescriptor
+			// Configure stages' inputs, outputs and TODO security requirements
+			HashMap<String, QName> inputVariables = converter.getInputVariables();
+			HashMap<QName, String> outputVariables = converter.getOutputVariables();
+			HashMap<String, String> copyOperations = converter.getAssignOperations();
+			for (int i = invocation_descs.size() -1; i >= 0; i--) {
+
+				
+				WorkflowStageDescriptor curr_desc = invocation_descs.get(i);
+
+				
+				logger.debug("[createWorkflowManagerInstance] operationName = " + curr_desc.getBasicDescription().getOperationQName());
+				logger.debug("[createWorkflowManagerInstance] outputType = " + curr_desc.getBasicDescription().getOutputType());
+				logger.debug("[createWorkflowManagerInstance] serviceURL = " + curr_desc.getBasicDescription().getServiceURL()); 
+
+				
+				QName[] namespaces = workflowLayout.getAllNamespaces();
+
+				// invocation_descs.
+				WorkflowInvocationHelperClient curr_invocation_client = operations_clients.get(i);
+
+				if(i == 1){
+
+					// Configuring input
+					OperationInputMessageDescriptor inputMessageDescSecondService = new OperationInputMessageDescriptor();
+					InputParameterDescriptor[] inputParamsSecondService = new InputParameterDescriptor[1];
+					// configure each input parameter (variable name and namespace)
+					inputParamsSecondService[0] = new InputParameterDescriptor(new QName("input"), new QName(XSD_NAMESPACE, "string"));
+					System.out.println("paramQName = "+inputParamsSecondService[0].getParamQName());
+					inputMessageDescSecondService.setInputParam(inputParamsSecondService);
+					curr_invocation_client.configureInput(inputMessageDescSecondService);
+				}
+
+				if (i == 0) {
+					System.out.println("Creating operation");
+
+					OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
+					InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[0];
+					inputMessage_ras.setInputParam(inputParams_ras);
+					curr_invocation_client.configureInput(inputMessage_ras);
+
+				}
+
+				// Create an empty outputDescriptor
 				OperationOutputTransportDescriptor outputDescriptor_ras = new OperationOutputTransportDescriptor();
-				OperationOutputParameterTransportDescriptor outParameterDescriptor_ras[] = new OperationOutputParameterTransportDescriptor[1];
+				List<OperationOutputParameterTransportDescriptor> outParameterDescriptor_ras = new ArrayList<OperationOutputParameterTransportDescriptor>();
 				System.out.println("before set input");
-				outParameterDescriptor_ras[0] = new OperationOutputParameterTransportDescriptor();
-				outParameterDescriptor_ras[0].setParamIndex(0);
-				outParameterDescriptor_ras[0].setType(new QName(SOAPENCODING_NAMESPACE, "string"));
-				System.out.println("before set namespaces");	
-				outParameterDescriptor_ras[0].setQueryNamespaces(namespaces);
-				outParameterDescriptor_ras[0].setLocationQuery("/ns0:PrintResponse");
-				System.out.println("before endpoint ref");
-				outParameterDescriptor_ras[0].setDestinationEPR(new EndpointReferenceType[] { operations_clients.get(1).getEndpointReference() });
-				System.out.println("after endpoint ref");
 
-				// takes the reference to no service
-				outputDescriptor_ras.setParamDescriptor(outParameterDescriptor_ras);
+				// Configure each destination for the output				
+				OperationOutputTransportDescriptor outputTransportDescriptor = curr_desc.getOutputTransportDescriptor();
+				int num_destinations = outputTransportDescriptor.getParamDescriptor().length;			
+
+				for(int curr_dest_index = 0; curr_dest_index < num_destinations; curr_dest_index++){
+
+					// Create current parameter forwarding descriptor
+					OperationOutputParameterTransportDescriptor curr_dest = new OperationOutputParameterTransportDescriptor();
+
+					curr_dest.setParamIndex(0); // TODO Get param's index
+					curr_dest.setType(new QName(SOAPENCODING_NAMESPACE, "string")); // TODO Get type
+					curr_dest.setQueryNamespaces(namespaces);
+
+					OperationOutputParameterTransportDescriptor paramDescriptor = outputTransportDescriptor.getParamDescriptor(curr_dest_index);
+
+					String locationQuery = paramDescriptor.getLocationQuery();
+					curr_dest.setLocationQuery(locationQuery);
+
+					// Retrieve current destination's EPR
+					QName operationName = curr_desc.getBasicDescription().getOperationQName();
+					String currOutputVariable = outputVariables.get(operationName);
+					String currInputVariable  = copyOperations.get(currOutputVariable);
+					QName nextOperation = inputVariables.get(currInputVariable);
+
+					EndpointReferenceType nextOperationEPR = serviceEPR.get(nextOperation); 
+
+					System.out.println("before endpoint ref");
+					curr_dest.setDestinationEPR(new EndpointReferenceType[] { nextOperationEPR });
+					System.out.println("after endpoint ref");
+
+					// Add new parameter forwarding descriptor to stage's list
+					outParameterDescriptor_ras.add(curr_dest); 
+				}				
+
+				outputDescriptor_ras.setParamDescriptor(outParameterDescriptor_ras.toArray(
+						new OperationOutputParameterTransportDescriptor[outParameterDescriptor_ras.size()]));
 				curr_invocation_client.configureOutput(outputDescriptor_ras);
 
-			}
+				// Set static parameter, if any is supposed to be statically set
+				InputParameter[] staticParameters = converter.getInputParameters(curr_desc.getInputsDescription());
+				for(int j=0; j < staticParameters.length; j++){
 
-			// Set parameter, if any is supposed to be set statically
-			// operations_clients.add(curr_invocation_client);
-			InputParameter[] staticParameters = this.getInputParameters(workflowLayout, invocation_descs[i]);
-			for(int j=0; j < staticParameters.length; j++){
-
-				InputParameter currParam = staticParameters[j];
-				curr_invocation_client.setParameter(currParam);
+					InputParameter currParam = staticParameters[j];
+					curr_invocation_client.setParameter(currParam);
+				}
 			}
 		}
+
 
 		// return the typed EPR
 		WorkflowManagerInstanceReference ref = new WorkflowManagerInstanceReference();
-
 		ref.setEndpointReference(epr);
 
 		// DEBUG
 		System.out.println("END ManagerService");
 
 		return ref;
-
-	}
-
-	
-	/**
-	 * Retrieve all associations <service QName, service URL> present in a string.
-	 * 
-	 * @param servicesURLs A string formatted in java.util.Properties compliant format
-	 * 
-	 * @return The URLs of each service according to the received file
-	 * */
-	private HashMap<String, URL> getServicesURL(String servicesURLs) {
-		
-		
-		// Load the pairs <service, URL> from the received string
-		Properties serviceUrlMapping = new Properties();
-		InputStream propertiesStream = new ByteArrayInputStream(servicesURLs.getBytes());
-		try {
-			serviceUrlMapping.load(propertiesStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-		// Build a map containing each association found in the received file
-		HashMap<String, URL> associations = new HashMap<String, URL>();
-		Enumeration<?> serviceNames = serviceUrlMapping.propertyNames();		
-		
-		while( serviceNames.hasMoreElements() ){
-		
-			// Get service QName
-			String currService = serviceNames.nextElement().toString();
-			
-			// Get service URL
-			String currURL = serviceUrlMapping.getProperty(currService);
-			URL serviceURL = null;
-			try {
-				serviceURL = new URL(currURL);				
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			
-			
-			//System.out.println("[WorkflowManagerServiceImpl.getServicesURL] Curr pair is: <"+ currService +", "+ serviceURL +">");  //DEBUG
-			
-			associations.put(currService, serviceURL);
-		}
-		
-		return associations;
 	}
 
 	
 	
-	private InputParameter[] getInputParameters(
-			WorkflowProcessLayout workflowLayout,
-			WorkflowInvocationHelperDescriptor workflowInvocationHelperDescriptor) {
+	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
 		// TODO Auto-generated method stub
-		return new InputParameter[0];
+		//return 0;
 	}
 
 }

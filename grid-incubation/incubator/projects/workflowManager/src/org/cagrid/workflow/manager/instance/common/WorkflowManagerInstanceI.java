@@ -22,5 +22,7 @@ public interface WorkflowManagerInstanceI {
 
   public java.lang.String[] getOutputValues() throws RemoteException ;
 
+  public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException ;
+
 }
 

@@ -18,6 +18,18 @@
 	</xs:complexType>
 	
 	
+	<xs:element name="WorkflowStageDescriptor" type="tns:WorkflowStageDescriptor"/>
+	<xs:complexType name="WorkflowStageDescriptor">
+		<xs:sequence>
+			<xs:element name="basicDescription" type="helper:WorkflowInvocationHelperDescriptor"/>
+			<xs:element name="inputsDescription" type="helper:OperationInputMessageDescriptor"/>
+			<xs:element name="outputTransportDescriptor" type="helper:OperationOutputTransportDescriptor"/>
+			<xs:element name="bpelInputVariable" type="string"/>
+			<xs:element name="bpelOutputVariable" type="string"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
 	<!-- Inputs of a workflow -->
 	<xs:element name="WorkflowInputParameters" type="tns:WorkflowInputParameters"></xs:element>
 	<xs:complexType name="WorkflowInputParameters">

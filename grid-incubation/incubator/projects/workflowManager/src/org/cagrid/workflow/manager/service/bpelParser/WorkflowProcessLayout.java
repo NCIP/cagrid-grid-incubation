@@ -29,54 +29,54 @@ public class WorkflowProcessLayout{
 
 	// It stores the following data <key<serviceName> , namespace>
 	HashMap <String, String> servicesNamespaces;
-	
+
 	// for each service we have on the system we store the command
 	// to redirect its output
 	//HashMap <String, ArrayList<CopyOutputDirective>> copyCommands;
 
-		
+
 
 	public InvokeProperties getFirstService() {
 		return firstService;
 	}
 
-	
+
 	public String getServiceNamespace( final String prefix ){
-		
+
 		String url = this.servicesNamespaces.get(prefix);
 		return url;
 	}
-	
-	
+
+
 	/**
 	 * Retrieve all registered namespace-prefix associations 
 	 * 
 	 * @return An array of QNames with all existing namespace-prefix associations in this instance 
 	 * */
 	public QName[] getAllNamespaces(){
-		
+
 		List<QName> qnames = new ArrayList<QName>(this.servicesNamespaces.size());
-		
+
 		// Retrieve all registered namespaces
 		Set<Entry<String, String>> entries = this.servicesNamespaces.entrySet();
 		Iterator<Entry<String, String>> entries_iter = entries.iterator();
-		
+
 		while( entries_iter.hasNext() ){
-			
+
 			Entry<String, String> curr_entry = entries_iter.next();
 			QName curr_qname = new QName(curr_entry.getValue(), curr_entry.getKey());
-			
+
 			qnames.add(curr_qname);			
 		}
-		
+
 		QName[] namespaces = qnames.toArray(new QName[qnames.size()]);
 
-		
+
 		return namespaces;
 	}
-	
-	
-	
+
+
+
 	public void printClass(){
 		System.out.println("   name = "+name);
 		System.out.println("   targetNamespace = "+targetNamespace);
@@ -150,8 +150,6 @@ public class WorkflowProcessLayout{
 	}
 	public void setEndpoint(String key, String address)throws Exception{
 		try{
-			System.out.println("[WorkflowProcessLayout.setEndpoint] New endpoint "+ key + '=' + address);
-			
 			servicesNamespaces.put(key, address);
 		}catch(Exception e){
 			throw new Exception(e);
@@ -188,7 +186,7 @@ public class WorkflowProcessLayout{
 		}
 	}
 
-		class PartnerLink{
+	class PartnerLink{
 		private String name;
 		private QName partnerLinkType;
 

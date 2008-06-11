@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+  <info organisation="caGrid" module="workflowmanagerTests" revision="${project.version}">
+    <license name="caGrid" url="http://www.cagrid.org/wiki/CaGrid:LICENSE-1.2"/>
+    <description>caGrid CAOS Workflow Helper Service Tests</description>
+  </info>
+
+  <configurations>
+    <!-- Private Configurations-->
+    <conf name="default" visibility="public"/>
+
+  </configurations>
+
+
+  <publications>
+    
+  </publications>
+
+  <dependencies>
+    <!-- Standard caGrid Service Dependencies -->
+    <dependency rev="latest.integration" org="caGrid" name="workflowManager"
+      conf="default->client"/>
+    <dependency rev="latest.integration" org="caGrid" name="testing" conf="default->system"/>
+    <dependency rev="latest.integration" org="caGrid" name="testUtils" conf="default->containers"/>
+    <dependency rev="latest.integration" org="caGrid" name="workflowManager" conf="default->common"/>
+    <!--
+    <dependency rev="latest.integration" org="caGrid" name="cds" conf="default->stubs"/>
+    <dependency rev="latest.integration" org="caGrid" name="gridca" conf="default->test"/>
+    -->
+  </dependencies>
+</ivy-module>
