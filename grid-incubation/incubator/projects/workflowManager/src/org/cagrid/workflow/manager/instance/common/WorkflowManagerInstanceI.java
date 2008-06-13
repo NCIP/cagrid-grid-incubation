@@ -24,5 +24,11 @@ public interface WorkflowManagerInstanceI {
 
   public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException ;
 
+  public java.lang.String getEPRString() throws RemoteException ;
+
+  public void start() throws RemoteException ;
+
+  public void addParameterForStage(org.apache.axis.message.addressing.EndpointReferenceType stageEPR,org.cagrid.workflow.helper.descriptor.InputParameter param) throws RemoteException ;
+
 }
 

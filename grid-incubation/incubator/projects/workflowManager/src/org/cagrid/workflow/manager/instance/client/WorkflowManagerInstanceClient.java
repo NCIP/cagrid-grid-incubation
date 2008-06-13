@@ -27,9 +27,11 @@ import org.globus.wsrf.container.ContainerException;
  */
 public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClientBase implements WorkflowManagerInstanceI {	
 
-
+	// Callbacks to call for each expected notification topic
 	private Map<QName, NotifyCallback> callbacks = new HashMap<QName, NotifyCallback>();
 
+	
+	
 
 	public WorkflowManagerInstanceClient(String url) throws MalformedURIException, RemoteException {
 		this(url,null);	
@@ -73,18 +75,16 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
 		}
 	}
 
-
 	public org.oasis.wsn.SubscribeResponse subscribeWithCallback(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
 
-		//System.out.print("[InstanceHelper::subscribeWithCallback] Putting "+ qname +" on internal list"); //DEBUG
+//		System.out.print("[ManagerInstance::subscribeWithCallback] Putting "+ qname +" on internal list"); //DEBUG
 
 		callbacks.put(qname, callback);
 
-		//System.out.println("...OK"); // DEBUG
+//		System.out.println("...OK"); // DEBUG
 
 		return subscribeInternally(qname, callback);
 	} 
-
 
 	public org.oasis.wsn.SubscribeResponse subscribeInternally(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
 		synchronized (portTypeMutex) {
@@ -108,57 +108,85 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
 		}
 	}
 
+  public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"destroy");
+    return portType.destroy(params);
+    }
+  }
 
+  public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"setTerminationTime");
+    return portType.setTerminationTime(params);
+    }
+  }
 
+  public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getTimestampedStatus");
+    org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusRequest params = new org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusRequest();
+    org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse boxedResult = portType.getTimestampedStatus(params);
+    return boxedResult.getTimestampedStatus();
+    }
+  }
 
-	public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"destroy");
-			return portType.destroy(params);
-		}
-	}
+  public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"setParameter");
+    org.cagrid.workflow.helper.invocation.SetParameterRequest params = new org.cagrid.workflow.helper.invocation.SetParameterRequest();
+    org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter inputParameterContainer = new org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter();
+    inputParameterContainer.setInputParameter(inputParameter);
+    params.setInputParameter(inputParameterContainer);
+    org.cagrid.workflow.helper.invocation.SetParameterResponse boxedResult = portType.setParameter(params);
+    }
+  }
 
-	public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"setTerminationTime");
-			return portType.setTerminationTime(params);
-		}
-	}
+  public java.lang.String[] getOutputValues() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getOutputValues");
+    org.cagrid.workflow.manager.instance.stubs.GetOutputValuesRequest params = new org.cagrid.workflow.manager.instance.stubs.GetOutputValuesRequest();
+    org.cagrid.workflow.manager.instance.stubs.GetOutputValuesResponse boxedResult = portType.getOutputValues(params);
+    return boxedResult.getResponse();
+    }
+  }
 
-	public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getTimestampedStatus");
-			org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusRequest params = new org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusRequest();
-			org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse boxedResult = portType.getTimestampedStatus(params);
-			return boxedResult.getTimestampedStatus();
-		}
-	}
+  public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"subscribe");
+    return portType.subscribe(params);
+    }
+  }
 
-	public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"setParameter");
-			org.cagrid.workflow.helper.invocation.SetParameterRequest params = new org.cagrid.workflow.helper.invocation.SetParameterRequest();
-			org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter inputParameterContainer = new org.cagrid.workflow.helper.invocation.SetParameterRequestInputParameter();
-			inputParameterContainer.setInputParameter(inputParameter);
-			params.setInputParameter(inputParameterContainer);
-			org.cagrid.workflow.helper.invocation.SetParameterResponse boxedResult = portType.setParameter(params);
-		}
-	}
+  public java.lang.String getEPRString() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getEPRString");
+    org.cagrid.workflow.manager.instance.stubs.GetEPRStringRequest params = new org.cagrid.workflow.manager.instance.stubs.GetEPRStringRequest();
+    org.cagrid.workflow.manager.instance.stubs.GetEPRStringResponse boxedResult = portType.getEPRString(params);
+    return boxedResult.getResponse();
+    }
+  }
 
-	public java.lang.String[] getOutputValues() throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getOutputValues");
-			org.cagrid.workflow.manager.instance.stubs.GetOutputValuesRequest params = new org.cagrid.workflow.manager.instance.stubs.GetOutputValuesRequest();
-			org.cagrid.workflow.manager.instance.stubs.GetOutputValuesResponse boxedResult = portType.getOutputValues(params);
-			return boxedResult.getResponse();
-		}
-	}
+  public void start() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"start");
+    org.cagrid.workflow.manager.instance.stubs.StartRequest params = new org.cagrid.workflow.manager.instance.stubs.StartRequest();
+    org.cagrid.workflow.manager.instance.stubs.StartResponse boxedResult = portType.start(params);
+    }
+  }
 
-	public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"subscribe");
-			return portType.subscribe(params);
-		}
-	}
+  public void addParameterForStage(org.apache.axis.message.addressing.EndpointReferenceType stageEPR,org.cagrid.workflow.helper.descriptor.InputParameter param) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"addParameterForStage");
+    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequest params = new org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequest();
+    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequestStageEPR stageEPRContainer = new org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequestStageEPR();
+    stageEPRContainer.setEndpointReference(stageEPR);
+    params.setStageEPR(stageEPRContainer);
+    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequestParam paramContainer = new org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequestParam();
+    paramContainer.setInputParameter(param);
+    params.setParam(paramContainer);
+    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageResponse boxedResult = portType.addParameterForStage(params);
+    }
+  }
 
 }

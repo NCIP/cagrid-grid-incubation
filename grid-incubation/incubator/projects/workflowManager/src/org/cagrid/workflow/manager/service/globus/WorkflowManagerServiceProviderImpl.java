@@ -28,7 +28,7 @@ public class WorkflowManagerServiceProviderImpl{
 
     public org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse createWorkflowManagerInstance(org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params) throws RemoteException {
     org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse();
-    boxedResult.setWorkflowManagerInstanceReference(impl.createWorkflowManagerInstance(params.getWorkflowManagerInstanceDescriptor().getWorkflowManagerInstanceDescriptor()));
+    boxedResult.setWorkflowManagerInstanceReference(impl.createWorkflowManagerInstance(params.getWorkflowManagerInstanceDescriptor().getWorkflowManagerInstanceDescriptor(),params.getManagerEPR().getEndpointReference()));
     return boxedResult;
   }
 

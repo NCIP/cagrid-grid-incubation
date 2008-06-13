@@ -114,7 +114,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					workflowDescriptor.setBpelDescription(workflowBpelFileContent);
 					workflowDescriptor.setServicesURLs(workflowServicesURLs);
 					System.out.println("Before create workflow");
-					WorkflowManagerInstanceReference managerInstanceReference = client.createWorkflowManagerInstance(workflowDescriptor);
+					WorkflowManagerInstanceReference managerInstanceReference = client.createWorkflowManagerInstance(workflowDescriptor, client.getEndpointReference());
 					System.out.println("Get reference");
 					WorkflowManagerInstanceClient managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceReference.getEndpointReference());
 					
@@ -160,13 +160,16 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
     }
   }
 
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptor) throws RemoteException {
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptor,org.apache.axis.message.addressing.EndpointReferenceType managerEPR) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
     org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
     org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestWorkflowManagerInstanceDescriptor workflowManagerInstanceDescriptorContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestWorkflowManagerInstanceDescriptor();
     workflowManagerInstanceDescriptorContainer.setWorkflowManagerInstanceDescriptor(workflowManagerInstanceDescriptor);
     params.setWorkflowManagerInstanceDescriptor(workflowManagerInstanceDescriptorContainer);
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestManagerEPR managerEPRContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequestManagerEPR();
+    managerEPRContainer.setEndpointReference(managerEPR);
+    params.setManagerEPR(managerEPRContainer);
     org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
     return boxedResult.getWorkflowManagerInstanceReference();
     }

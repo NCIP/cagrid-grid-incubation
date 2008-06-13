@@ -30,6 +30,13 @@
                 </sequence>
               </complexType>
             </element>
+            <element name="managerEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
           </sequence>
         </complexType>
       </element>

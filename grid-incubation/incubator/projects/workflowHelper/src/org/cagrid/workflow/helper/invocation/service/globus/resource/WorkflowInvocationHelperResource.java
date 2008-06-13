@@ -62,24 +62,23 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private CredentialAccess credentialAccess;      // Interface to retrieve GlobusCredential from the InstanceHelper (necessary to invoke secure operations)
 	private EndpointReference serviceOperationEPR;  // EPR of this instance. Used as key to retrieve GlobusCredential from the InstanceHelper
 	private String serviceOperationEPRString;
-	private boolean isSecure = false;
+	private boolean isSecure = false;    // Enable/Disable secure invocation
+	private boolean waitExplicitStart = true;   // true: method 'start' initiates execution. false: execution starts as soon as all parameters are set
 
 
 	// Persistency variables
-	private boolean beingLoaded = false;
+	/*private boolean beingLoaded = false;
 	private PersistenceHelper resourcePropertyPersistenceHelper = null;
-	private FilePersistenceHelper resourcePersistenceHelper = null;
+	private FilePersistenceHelper resourcePersistenceHelper = null; // */
+
 
 
 
 	public synchronized boolean executeIfReady() {
 
 
-		for (int i = 0; i < paramData.length; i++) {
-			if (paramData[i] == null) {
-				return false;
-			}
-		}
+		// Make sure all expected parameters have been retrieved before executing 
+		if( !allParametersSet() ) return false;
 
 		logger.debug("[executeIfReady] Execution started for "+ getOperationDesc().getOperationQName().getLocalPart()); 
 
@@ -252,7 +251,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								String data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces());
 								iparam.setData(data);
 
-								
+
 								logger.debug("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'");
 
 								// send the data to the next workflow helper instance
@@ -380,6 +379,20 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		}
 		//System.out.println("[executeIfReady] END");
+
+		return true;
+	}
+
+
+
+
+	private boolean allParametersSet() {
+
+		for (int i = 0; i < paramData.length; i++) {
+			if (paramData[i] == null) {
+				return false;
+			}
+		}
 
 		return true;
 	}
@@ -518,9 +531,24 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
+			//executeIfReady();
 
-			// poll to see if we can execute
-			executeIfReady();
+			
+			// If all parameters are already set, new status is READY do execute
+			if(  this.allParametersSet() ){
+				try {
+					int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
+					this.setTimestampedStatus(new TimestampedStatus(Status.READY, nextTimestamp));
+				} catch (ResourceException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			
+			if( !this.waitExplicitStart ){
+				executeIfReady();   // poll to see if we can execute
+			}
+
 		}
 		else {
 			System.err.println("setParameter is allowed only when state is WAITING or FINISHED. Current state: "+curr_status);
@@ -589,7 +617,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			try {
 				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1;
 				this.setTimestampedStatus(new TimestampedStatus(Status.WAITING, nextTimestamp));
-				
+
 				// Skip the 'setParameter' step if we don't have any expected input. 
 				// Though, if the service is secure and the credential wasn't provided yet, a deadlock might occur
 				if(((this.getParamData() == null) || (this.getParamData().length == 0)) ){
@@ -697,8 +725,32 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		return serviceOperationEPR;
 	}
 
-	
-	
+
+
+
+	public void start() throws RemoteException {
+
+
+		// If all parameters were set, start execution
+		if( this.getTimestampedStatus().getStatus().equals(Status.READY)){
+
+			executeIfReady();
+		}
+
+
+		if( this.getTimestampedStatus().getStatus().equals(Status.WAITING) || this.getTimestampedStatus().getStatus().equals(Status.FINISHED)){
+
+			// If the parameters are not set, prepare to start as soon as they are all set
+			this.waitExplicitStart  = false;		
+		}
+		else {
+			throw new RemoteException("Method 'start' can only be invoked when status is WAITING or FINISHED. " +
+					"Current status is "+ this.getTimestampedStatus().getStatus().toString());
+		}
+	}
+
+
+
 	/*
 	public void load(ResourceKey resourceKey) throws ResourceException, NoSuchResourceException, InvalidResourceKeyException {
 		beingLoaded = true;
@@ -817,7 +869,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 				// Write serviceOperationEPRString
 				oos.writeObject(this.serviceOperationEPRString);
-				
+
 				// Write isSecure
 				oos.writeBoolean(this.isSecure);
 
@@ -852,7 +904,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	public void initialize(Object resourceBean, QName resourceElementQName,
 			Object id) throws ResourceException {
 
-		
+
 		logger.info("[initialize] Initializing persistency objects");
 
 		super.initialize(resourceBean, resourceElementQName, id);
@@ -863,7 +915,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		} catch (Exception ex) {
 			logger.warn("Unable to initialize resource properties persistence helper", ex);
 		}
-		
+
 		logger.info("[initialize] END");
 	} // */
 

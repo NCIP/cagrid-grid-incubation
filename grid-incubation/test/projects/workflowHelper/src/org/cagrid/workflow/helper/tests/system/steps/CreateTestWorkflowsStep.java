@@ -215,6 +215,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		OperationOutputParameterTransportDescriptor[] paramDescriptor = new OperationOutputParameterTransportDescriptor[0];
 		validatorOutput.setParamDescriptor(paramDescriptor );
 		validatorInvocation1.configureOutput(validatorOutput);
+		validatorInvocation1.start();
 
 
 		// Set static parameters
@@ -284,6 +285,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// takes the reference to no service
 		outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 		serviceClient__4.configureOutput(outputDescriptor4);
+		serviceClient__4.start();
 
 
 		// Setting second parameter
@@ -335,6 +337,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// takes the reference to ReceiveComplexArrayService
 		outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
 		serviceClient__ca.configureOutput(outputDescriptor__ca);
+		serviceClient__ca.start();
 
 		// END CreateArrayService::getComplexArray 
 	}
@@ -392,6 +395,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Setting output descriptor
 		outputDescriptor_4.setParamDescriptor(outParameterDescriptor_4);
 		serviceClient_4.configureOutput(outputDescriptor_4);
+		serviceClient_4.start();
 
 
 		// Setting second parameter
@@ -445,6 +449,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		outputDescriptor__2.setParamDescriptor(outParameterDescriptor__2);
 		serviceClient_2.configureOutput(outputDescriptor__2);
+		serviceClient_2.start();
 
 
 		// END service 2
@@ -492,6 +497,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		outputDescriptor_cs.setParamDescriptor(outParameterDescriptor_cs);
 		serviceClient_cs.configureOutput(outputDescriptor_cs);
+		serviceClient_cs.start();
 
 
 		// END CreateArrayService
@@ -568,6 +574,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// takes the reference to no service
 		outputDescriptor_ras.setParamDescriptor(outParameterDescriptor_ras);
 		client2.configureOutput(outputDescriptor_ras);
+		client2.start();
 
 
 		//System.out.println("Setting params"); //DEBUG
@@ -642,6 +649,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// takes the reference to ReceiveComplexArrayService
 		outputDescriptor_ca.setParamDescriptor(outParameterDescriptor_ca);
 		client_ca.configureOutput(outputDescriptor_ca);
+		client_ca.start();
 		// END CreateArrayService::getComplexArray 
 
 		return;
@@ -707,6 +715,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// takes the reference to no service
 		outputDescriptor_ram.setParamDescriptor(outParameterDescriptor_ram);
 		serviceClient_ram.configureOutput(outputDescriptor_ram);
+		serviceClient_ram.start();
 
 
 		// Set the values of the two arguments of simple type
@@ -777,6 +786,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// takes the reference to ReceiveArrayService
 		outputDescriptor_cas.setParamDescriptor(outParameterDescriptor_cas);
 		serviceClient_cas.configureOutput(outputDescriptor_cas);
+		serviceClient_cas.start();
 
 		// END CreateArrayService 
 
@@ -845,6 +855,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// takes the reference to no service
 		outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 		serviceClient4.configureOutput(outputDescriptor4);
+		serviceClient4.start();
 		// END service 4
 
 
@@ -915,6 +926,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
 		serviceClient2.configureOutput(outputDescriptor2);
+		serviceClient2.start();
 		// END service 2
 
 
@@ -988,6 +1000,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 		serviceClient3.configureOutput(outputDescriptor3);
+		serviceClient3.start();
 		// END service 3				
 
 
@@ -1038,6 +1051,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
 		serviceClient5.configureOutput(outputDescriptor5);
+		serviceClient5.start();
 
 		// END service 5
 
@@ -1105,6 +1119,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// parameters are all set at this point
 		outputDescriptor1.setParamDescriptor(outParameterDescriptor1);
 		serviceClient1.configureOutput(outputDescriptor1);
+		serviceClient1.start();
 
 
 		// set the only one parameter of this service.

@@ -449,8 +449,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 		//System.out.println("[registerInvocationHelper] END"); //DEBUG
 
-	}
-
+	} 
+	
 
 
 	/**

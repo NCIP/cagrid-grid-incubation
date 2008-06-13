@@ -3,6 +3,7 @@ package org.cagrid.workflow.manager.instance.service;
 import java.rmi.RemoteException;
 
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
+import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
 
 /** 
@@ -24,7 +25,7 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 	 * 
 	 * @param inputParameter Parameter one wants to send to the ManagerInstance
 	 * */
-  public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
+	public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
 
 		try {
 			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
@@ -37,7 +38,7 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 	/**
 	 * Retrieve the current status of the workflow managed by this ManagerInstance. 
 	 * */
-  public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
+	public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
 
 		TimestampedStatus status = null;
 		try {
@@ -53,8 +54,8 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 	/**
 	 * Retrieve workflow outputs.
 	 * */
-  public java.lang.String[] getOutputValues() throws RemoteException {
-		
+	public java.lang.String[] getOutputValues() throws RemoteException {
+
 		String[] outputs = null;
 		try {
 			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
@@ -62,9 +63,56 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return outputs;
 	}
 
-}
+	public java.lang.String getEPRString() throws RemoteException {
+
+		String EPR = null;
+
+		try {
+			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
+			EPR = resource.getEPRString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return EPR;
+	}
+
+	public void registerInstanceHelper(WorkflowInstanceHelperClient thisResource, String name) {
+
+		try {
+
+			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
+			resource.registerInstanceHelper(thisResource.getEndpointReference(), name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} 
+
+
+	/** Start workflow execution */
+	public void start() throws RemoteException {
+
+		try {
+			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
+			resource.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addParameterForStage(org.apache.axis.message.addressing.EndpointReferenceType stageEPR,org.cagrid.workflow.helper.descriptor.InputParameter param) throws RemoteException {
+
+		try {
+			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
+			resource.addParameterForStage(stageEPR, param);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+} 
 

@@ -47,6 +47,17 @@
       conf="client->client;service->service"/>
     <dependency rev="latest.integration" org="caGrid" name="advertisement" conf="service->default"/>
 
+    <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="service->service"/>
+    <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="service->common"/>
+    <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="service->client"/>
+    <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="service->stubs"/>
+    
+
+    <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="test->service"/>
+    <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="test->common"/>
+    <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="test->client"/>
+    <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="test->stubs"/>
+
     <dependency rev="${target.grid}" org="caGrid" name="target_grid" conf="target_grid->urls"/>
 
     <!-- Extenernal Dependencies -->

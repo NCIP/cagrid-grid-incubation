@@ -82,6 +82,21 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeGetEPRString() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeStart() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeAddParameterForStage() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -141,6 +156,30 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("subscribe")){
 			try{
 				authorizeSubscribe();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("getEPRString")){
+			try{
+				authorizeGetEPRString();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("start")){
+			try{
+				authorizeStart();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("addParameterForStage")){
+			try{
+				authorizeAddParameterForStage();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

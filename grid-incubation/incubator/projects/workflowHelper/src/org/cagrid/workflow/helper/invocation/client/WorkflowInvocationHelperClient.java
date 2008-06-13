@@ -154,6 +154,14 @@ WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 		}
 	}
 
+  public void start() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"start");
+    org.cagrid.workflow.helper.invocation.stubs.StartRequest params = new org.cagrid.workflow.helper.invocation.stubs.StartRequest();
+    org.cagrid.workflow.helper.invocation.stubs.StartResponse boxedResult = portType.start(params);
+    }
+  }
+
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"destroy");

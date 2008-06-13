@@ -266,6 +266,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		OperationOutputParameterTransportDescriptor[] paramDescriptor = new OperationOutputParameterTransportDescriptor[0];
 		validatorOutput.setParamDescriptor(paramDescriptor );
 		validatorInvocation1.configureOutput(validatorOutput);
+		validatorInvocation1.start();
 
 
 
@@ -372,6 +373,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// takes the reference to no service
 		outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 		serviceClient__4.configureOutput(outputDescriptor4);
+		serviceClient__4.start();
 
 
 
@@ -436,6 +438,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// takes the reference to ReceiveComplexArrayService
 		outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
 		serviceClient__ca.configureOutput(outputDescriptor__ca);
+		serviceClient__ca.start();
 
 
 		System.out.println("END runComplexArrayStreaming");
@@ -531,6 +534,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// Setting output descriptor
 		outputDescriptor_4.setParamDescriptor(outParameterDescriptor_4);
 		serviceClient_4.configureOutput(outputDescriptor_4);
+		serviceClient_4.start();
 
 		// Setting second parameter
 		serviceClient_4.setParameter(new InputParameter("simple type's streaming", 1));
@@ -592,6 +596,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 		outputDescriptor__2.setParamDescriptor(outParameterDescriptor__2);
 		serviceClient_2.configureOutput(outputDescriptor__2);
+		serviceClient_2.start();
 
 		// END service 2
 
@@ -646,6 +651,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 		outputDescriptor_cs.setParamDescriptor(outParameterDescriptor_cs);
 		serviceClient_cs.configureOutput(outputDescriptor_cs);
+		serviceClient_cs.start();
 
 		// END CreateArrayService
 
@@ -758,6 +764,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// takes the reference to no service
 		outputDescriptor_ras.setParamDescriptor(outParameterDescriptor_ras);
 		client2.configureOutput(outputDescriptor_ras);
+		client2.start();
 
 		//System.out.println("Setting params"); //DEBUG
 
@@ -838,6 +845,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// takes the reference to ReceiveComplexArrayService
 		outputDescriptor_ca.setParamDescriptor(outParameterDescriptor_ca);
 		client_ca.configureOutput(outputDescriptor_ca);
+		client_ca.start();
 
 		// END CreateArrayService::getComplexArray 
 
@@ -942,6 +950,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// takes the reference to no service
 		outputDescriptor_ram.setParamDescriptor(outParameterDescriptor_ram);
 		serviceClient_ram.configureOutput(outputDescriptor_ram);
+		serviceClient_ram.start();
 
 
 	
@@ -1021,6 +1030,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// takes the reference to ReceiveArrayService
 		outputDescriptor_cas.setParamDescriptor(outParameterDescriptor_cas);
 		serviceClient_cas.configureOutput(outputDescriptor_cas);
+		serviceClient_cas.start();
 		// END CreateArrayService 
 
 		System.out.println("END runSimpleArrayTest");
@@ -1123,6 +1133,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// takes the reference to no service
 		outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 		serviceClient4.configureOutput(outputDescriptor4);
+		serviceClient4.start();
 
 		// END service 4
 
@@ -1201,6 +1212,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 		outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
 		serviceClient2.configureOutput(outputDescriptor2);
+		serviceClient2.start();
 
 		// END service 2
 
@@ -1283,6 +1295,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 		outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 		serviceClient3.configureOutput(outputDescriptor3);
+		serviceClient3.start();
 
 		// END service 3				
 
@@ -1335,6 +1348,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 		outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
 		serviceClient5.configureOutput(outputDescriptor5);
+		serviceClient5.start();
 
 		// END service 5
 
@@ -1408,6 +1422,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// parameters are all set at this point
 		outputDescriptor1.setParamDescriptor(outParameterDescriptor1);
 		serviceClient1.configureOutput(outputDescriptor1);
+		serviceClient1.start();
 
 
 

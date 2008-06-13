@@ -66,5 +66,14 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 	  }
   }
 
+  public void start() throws RemoteException {
+	  try {
+		  WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
+		  resource.start();
+	  } catch (Exception e) {
+		  throw new RemoteException(e.getMessage(),e);
+	  }
+  }
+
 }
 

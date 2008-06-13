@@ -102,7 +102,7 @@ public class WorkflowProcessLayoutConverter {
 
 
 
-				/** TODO (3) Create output description */
+				/** (3) Create output description */
 				System.out.println("[WorkflowProcessLayoutConverter.getWorkflowInvocationHelperDescriptors] Printing "+ 
 						curr_properties.getCopyCommandSize() +" copy commands");  //DEBUG
 				OperationOutputTransportDescriptor curr_outputDescriptor = new OperationOutputTransportDescriptor();
@@ -113,13 +113,9 @@ public class WorkflowProcessLayoutConverter {
 					OperationOutputParameterTransportDescriptor curr_output = new OperationOutputParameterTransportDescriptor();
 					CopyOutputDirective curr_copyCmd = curr_properties.getCopyCommand(curr_dest);
 					curr_output.setLocationQuery(curr_copyCmd.getQuery());
-					//curr_output.setParamIndex(paramIndex);
-					//curr_output.setType(type);
-					//curr_output.setDeliveryPolicy(DeliveryPolicy.ROUNDROBIN);
 					outputs.add(curr_output);
 
-
-					curr_copyCmd.printClass(); //DEBUG					
+					//curr_copyCmd.printClass(); //DEBUG					
 				}
 
 				OperationOutputParameterTransportDescriptor[] paramDescriptor = outputs.toArray(new OperationOutputParameterTransportDescriptor[outputs.size()]);
@@ -201,12 +197,12 @@ public class WorkflowProcessLayoutConverter {
 
 
 	/**
-	 * TODO Retrieve the workflow inputs specified in the Layout
+	 * Retrieve the workflow inputs specified in the Layout
 	 * */
 	public InputParameter[] getInputParameters(
 			OperationInputMessageDescriptor operationInputMessageDescriptor) {
 
-		return new InputParameter[0];
+		return new InputParameter[0];  // FIXME Retrieve the actual input parameters
 	}
 
 

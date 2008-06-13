@@ -105,6 +105,16 @@
           </sequence>
         </complexType>
       </element>
+      <element name="StartRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="StartResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
       <element name="WorkflowInvocationHelperResourceProperties">
         <complexType>
           <sequence>
@@ -150,6 +160,12 @@
   <message name="GetEPRStringResponse">
     <part name="parameters" element="tns:GetEPRStringResponse" />
   </message>
+  <message name="StartRequest">
+    <part name="parameters" element="tns:StartRequest" />
+  </message>
+  <message name="StartResponse">
+    <part name="parameters" element="tns:StartResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -175,6 +191,10 @@
     <operation name="getEPRString">
       <input message="tns:GetEPRStringRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRStringRequest" />
       <output message="tns:GetEPRStringResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRStringResponse" />
+    </operation>
+    <operation name="start">
+      <input message="tns:StartRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/StartRequest" />
+      <output message="tns:StartResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/StartResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

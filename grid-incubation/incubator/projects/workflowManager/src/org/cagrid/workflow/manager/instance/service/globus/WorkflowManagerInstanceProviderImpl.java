@@ -44,4 +44,22 @@ public class WorkflowManagerInstanceProviderImpl{
     return boxedResult;
   }
 
+    public org.cagrid.workflow.manager.instance.stubs.GetEPRStringResponse getEPRString(org.cagrid.workflow.manager.instance.stubs.GetEPRStringRequest params) throws RemoteException {
+    org.cagrid.workflow.manager.instance.stubs.GetEPRStringResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.GetEPRStringResponse();
+    boxedResult.setResponse(impl.getEPRString());
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.manager.instance.stubs.StartResponse start(org.cagrid.workflow.manager.instance.stubs.StartRequest params) throws RemoteException {
+    org.cagrid.workflow.manager.instance.stubs.StartResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.StartResponse();
+    impl.start();
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.manager.instance.stubs.AddParameterForStageResponse addParameterForStage(org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequest params) throws RemoteException {
+    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.AddParameterForStageResponse();
+    impl.addParameterForStage(params.getStageEPR().getEndpointReference(),params.getParam().getInputParameter());
+    return boxedResult;
+  }
+
 }

@@ -123,7 +123,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 	}
 
 	private void registerInvocationHelper(WorkflowInvocationHelperResource thisResource, QName name) {
-		
+
 		try {
 
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
@@ -131,16 +131,16 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	} 
 
   public java.lang.String getEPRString() throws RemoteException {
-	  try {
-		  WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
-		  return resource.getEPRString();
-	  } catch (Exception e) {
-		  throw new RemoteException(e.getMessage(),e);
-	  }
-  }
+		try {
+			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
+			return resource.getEPRString();
+		} catch (Exception e) {
+			throw new RemoteException(e.getMessage(),e);
+		}
+	}
 
 }
 
