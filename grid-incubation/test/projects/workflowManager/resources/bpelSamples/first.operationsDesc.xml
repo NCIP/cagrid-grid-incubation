@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OperationsDescriptor  xmlns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://tempuri.org/XMLSchema.xsd file:/C:/subversion_hawks/subversion_hawks/trunk/grid-incubation/incubator/projects/workflowManager/schema/OperationsDescriptor.xsd">
+    
+    <!-- First service -->
+    <service>
+        <serviceNamespace>http://first.cagrid.org/First</serviceNamespace>
+        <serviceName>First</serviceName>
+        <serviceURL>
+            http://localhost:8080/wsrf/services/cagrid/First
+        </serviceURL>
+        <operations>
+            <signature name="print">
+                <output>
+                    <outputType>string</outputType>
+                    <outputTypeNamespace>http://www.w3.org/2001/XMLSchema</outputTypeNamespace>
+                </output>
+            </signature>
+        </operations>
+    </service>
+    
+    
+    <!-- Second service -->
+    <service>
+        <serviceNamespace>http://second.cagrid.org/Second</serviceNamespace>
+        <serviceName>Second</serviceName>
+        <serviceURL>http://localhost:8080/wsrf/services/cagrid/Second</serviceURL>
+        <operations>
+            <signature name="receive">
+                <input>
+                    <name>input</name>
+                    <type>string</type>
+                    <typeNamespace>http://www.w3.org/2001/XMLSchema</typeNamespace>
+                </input>
+            </signature>
+        </operations>
+    </service>
+    
+</OperationsDescriptor>

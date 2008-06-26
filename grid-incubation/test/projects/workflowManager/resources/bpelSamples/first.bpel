@@ -14,6 +14,7 @@
 	
 	<sequence name="sequence">
 		<receive name="receiveRequest" partnerLink="User" portType="" operation="" variable="" createInstance="yes" />
+		
 		<assign>
 			<copy>
 				<from expression="'1'" />
@@ -25,18 +26,20 @@
 				<to variable="firstReceive" part="op2" type="string" namespace="http://www.w3.org/2001/XMLSchema"/>
 			</copy>
 		</assign>
-
+	<invoke name="invokeSecond" partnerLink="secondService" portType="second:bla" operation="ReceiveRequest" inputVariable="secondReceive" outputVariable="secondResponse" />
+		
 		<!-- create input message required by news service -->
-		<invoke name="invokeFirst" partnerLink="firstService" portType="first:bla" operation="PrintRequest" inputVariable="firstReceive" outputVariable="firstResponse" />
+
 		<assign name="assign2">
 			<copy>
-        		<from variable="firstResponse" part="lau" type="string" namespace="http://www.w3.org/2001/XMLSchema">
+        		<from variable="firstResponse" part="lau" type="SimVoceCopiouCerto" namespace="http://www.w3.org/2001/XMLSchema">
         			<query queryLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116" query="/ns0:PrintResponse" />
         		</from>
 		        <to variable="secondReceive" part="input" type="string" namespace="http://www.w3.org/2001/XMLSchema"/>
       		</copy>
       	</assign>	
-		<invoke name="invokeSecond" partnerLink="secondService" portType="second:bla" operation="ReceiveRequest" inputVariable="secondReceive" outputVariable="secondResponse" />
+	
+		<invoke name="invokeFirst" partnerLink="firstService" portType="first:bla" operation="PrintRequest" inputVariable="firstReceive" outputVariable="firstResponse" />
 
 		<!-- respond to the user -->
 		<reply name="sendResult" partnerLink="User" portType="tns:UserPT" operation="gauss" variable="secondResponse" />
