@@ -42,7 +42,7 @@
           </sequence>
         </complexType>
       </element>
-      <element name="CreateWorkflowManagerInstanceRequest">
+      <element name="CreateWorkflowManagerInstanceFromObjectDescriptorRequest">
         <complexType>
           <sequence>
             <element name="workflowDesc">
@@ -52,6 +52,20 @@
                 </sequence>
               </complexType>
             </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateWorkflowManagerInstanceFromObjectDescriptorResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns5:WorkflowManagerInstanceReference" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateWorkflowManagerInstanceRequest">
+        <complexType>
+          <sequence>
+            <element name="xmlWorkflowDescription" type="xs:string" minOccurs="1" maxOccurs="1" />
           </sequence>
         </complexType>
       </element>
@@ -76,6 +90,12 @@
   <message name="CreateWorkflowManagerInstanceFromBpelResponse">
     <part name="parameters" element="tns:CreateWorkflowManagerInstanceFromBpelResponse" />
   </message>
+  <message name="CreateWorkflowManagerInstanceFromObjectDescriptorRequest">
+    <part name="parameters" element="tns:CreateWorkflowManagerInstanceFromObjectDescriptorRequest" />
+  </message>
+  <message name="CreateWorkflowManagerInstanceFromObjectDescriptorResponse">
+    <part name="parameters" element="tns:CreateWorkflowManagerInstanceFromObjectDescriptorResponse" />
+  </message>
   <message name="CreateWorkflowManagerInstanceRequest">
     <part name="parameters" element="tns:CreateWorkflowManagerInstanceRequest" />
   </message>
@@ -91,6 +111,10 @@
     <operation name="createWorkflowManagerInstanceFromBpel">
       <input message="tns:CreateWorkflowManagerInstanceFromBpelRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromBpelRequest" />
       <output message="tns:CreateWorkflowManagerInstanceFromBpelResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromBpelResponse" />
+    </operation>
+    <operation name="createWorkflowManagerInstanceFromObjectDescriptor">
+      <input message="tns:CreateWorkflowManagerInstanceFromObjectDescriptorRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromObjectDescriptorRequest" />
+      <output message="tns:CreateWorkflowManagerInstanceFromObjectDescriptorResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromObjectDescriptorResponse" />
     </operation>
     <operation name="createWorkflowManagerInstance">
       <input message="tns:CreateWorkflowManagerInstanceRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceRequest" />

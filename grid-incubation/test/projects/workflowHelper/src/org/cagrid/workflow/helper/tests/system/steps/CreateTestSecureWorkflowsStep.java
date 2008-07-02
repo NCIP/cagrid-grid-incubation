@@ -86,7 +86,6 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			//System.out.println("[CreateTestSecureWorkflowsStep] FakeManager retrieving delegated user credential"); //DEBUG
 			GlobusCredential myCredential = CredentialHandlingUtil.getDelegatedCredential(new EndpointReference(proxyEPR));
 			//System.out.println("[CreateTestSecureWorkflowsStep] Retrieval done");
-			//wf_helper.setProxy(myCredential);
 
 
 

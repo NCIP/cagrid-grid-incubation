@@ -12,6 +12,8 @@ import java.rmi.RemoteException;
  */
 public interface WorkflowManagerServiceI {
 
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException ;
+
   public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
 
   public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;
@@ -20,7 +22,7 @@ public interface WorkflowManagerServiceI {
 
   public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromBpel(java.lang.String bpelDescription,java.lang.String operationsDescription,org.apache.axis.message.addressing.EndpointReferenceType managerEPR) throws RemoteException ;
 
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException ;
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException ;
 
 }
 

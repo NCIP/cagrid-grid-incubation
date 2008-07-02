@@ -18,14 +18,17 @@ import junit.framework.Assert;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
 import org.cagrid.workflow.manager.tests.system.steps.RunToyWorkflowStep;
 
 public class UnsecureWorkflowTest extends ServiceStoryBase {
 
-
+	private Log logger = LogFactory.getLog(UnsecureWorkflowTest.class);
+	
 	private static final String MANAGER_PATH_IN_CONTAINER = "/cagrid/WorkflowManagerService";
-	private boolean enableVerboseOutput = false;  // Enable/Disable internal tasks' output to be shown at console
+	private boolean enableVerboseOutput = true;  // Enable/Disable internal tasks' output to be shown at console
 
 
 	public UnsecureWorkflowTest() {
@@ -68,16 +71,18 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 	@Override
 	protected Vector steps() {
 
+		logger.info("Start");
 
 		Vector<Step> steps = new Vector<Step>();
 
 
 		// Set workflow services' directories
-		String tests_basedir = System.getProperty("resources.dir") + File.separator;
+		String tests_basedir = System.getProperty("resources.dir");
 		if (tests_basedir == null) {
-			System.err.println("ERROR: System property 'resources.dir' not set");
+			logger.error("ERROR: System property 'resources.dir' not set");
 			return null;
 		}
+		tests_basedir = tests_basedir + File.separator;
 		
 		File managerDir = new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
 				+ File.separator + "projects" + File.separator + "workflowManager"); 
@@ -92,12 +97,12 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 
 		
 		// Create container
-		System.out.println("Adding unpack task");
+		logger.info("Adding unpack task");
 		steps.add(new UnpackContainerStep(getContainer()));
 
 		
 		// Deploy each service
-		System.out.println("Adding deploy services task");
+		logger.info("Adding deploy services task");
 		for (int i = 0; i < services_dirs.length; i++) {
 			String curr_service_dir = null;
 			try {
@@ -105,10 +110,10 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Adding deploy for service in directory '" + curr_service_dir + "'");
+			logger.info("Adding deploy for service in directory '" + curr_service_dir + "'");
 			steps.add(new DeployServiceStep(getContainer(), curr_service_dir));
 		}
-		System.out.println("END DeployWorkflowServicesTest");
+		
 
 		// Start container before anything else
 		StartContainerStep start_step = new StartContainerStep(getContainer());
@@ -120,7 +125,7 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		try {
 			URI manager_uri = getContainer().getContainerBaseURI();
 			manager_uri.appendPath(MANAGER_PATH_IN_CONTAINER);
-			//System.out.println("[UnsecureWorkflowTest.steps] Manager URL is: "+ manager_uri.toString()); // DEBUG
+			logger.info("Manager URL is: "+ manager_uri.toString()); 
 	        managerEPR = new EndpointReferenceType(manager_uri);
 	        
 		} catch (MalformedURIException e) {
@@ -130,17 +135,25 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 
 
 
-		// Configure a toy workflow to run
-		String sampleFilesDir = tests_basedir + "bpelSamples"+ File.separator;
-		String bpelFileName = sampleFilesDir + "first.bpel";
+		// Configure a toy workflow to run using a BPEL description file
+		/*String sampleFilesDir = tests_basedir + "bpelSamples"+ File.separator;
+		String bpelFileName = sampleFilesDir + "first.bpel";  // "ToyWorkflow.bpel";
 		String serviceURLFileName = sampleFilesDir +"first.urls.txt";
 
+		RunBpelToyWorkflowStep rtws = new RunBpelToyWorkflowStep(bpelFileName, managerEPR, getContainer()); 
+		steps.add(rtws);  // */
 
-		RunToyWorkflowStep rtws = new RunToyWorkflowStep(bpelFileName, managerEPR, getContainer()); 
-
-		steps.add(rtws);
-
-
+		
+		
+		// Configure a toy workflow to run using the default description format for caOS
+//		String sampleFilesDir = tests_basedir + "workflowDescriptionSamples"+ File.separator;
+		
+		logger.info("Adding step for executing test workflow");
+		
+		Step toyWorkflowStep = new RunToyWorkflowStep(managerEPR);
+		steps.add(toyWorkflowStep);
+		
+		logger.info("END");
 		return steps;
 	}
 
@@ -151,22 +164,26 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		
 		super.storyTearDown();
 		
+		logger.info("Cleaning up container before halting");
+		
 		
 		// Shutdown and delete container
 		ServiceContainer myContainer = getContainer();
 		
 		if( myContainer.isStarted() ){
-			
+		
+			logger.info("Stopping container");
 			myContainer.stopContainer();
 		}
 		
 		if( myContainer.isUnpacked() ){
 			
+			logger.info("Deleting container");
 			myContainer.deleteContainer();
-		}
+		} 
 		
 		
-		
+		logger.info("END");
 	}
 
 }

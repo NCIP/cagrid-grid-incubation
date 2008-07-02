@@ -472,7 +472,12 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			WorkflowInstanceHelperClient curr_client;
 			try {
 				curr_client = new WorkflowInstanceHelperClient(curr_epr);
-				curr_client.destroy();
+				
+				String instanceID = curr_client.getEPRString();
+				this.stageStatus.remove(instanceID);  // Stop monitoring the current instance
+				//this.EPR2Name.remove(instanceID);  
+				curr_client.destroy();  // Destroy the resource associated with the current instance
+				
 			} catch (MalformedURIException e) {
 				e.printStackTrace();
 			} catch (RemoteException e) {

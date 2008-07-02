@@ -26,6 +26,12 @@ public class WorkflowManagerServiceProviderImpl{
 	}
 	
 
+    public org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest params) throws RemoteException {
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse();
+    boxedResult.setWorkflowManagerInstanceReference(impl.createWorkflowManagerInstanceFromObjectDescriptor(params.getWorkflowDesc().getWorkflowManagerInstanceDescriptor()));
+    return boxedResult;
+  }
+
     public org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelResponse createWorkflowManagerInstanceFromBpel(org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequest params) throws RemoteException {
     org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelResponse boxedResult = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelResponse();
     boxedResult.setWorkflowManagerInstanceReference(impl.createWorkflowManagerInstanceFromBpel(params.getBpelDescription(),params.getOperationsDescription(),params.getManagerEPR().getEndpointReference()));
@@ -34,7 +40,7 @@ public class WorkflowManagerServiceProviderImpl{
 
     public org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse createWorkflowManagerInstance(org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params) throws RemoteException {
     org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse();
-    boxedResult.setWorkflowManagerInstanceReference(impl.createWorkflowManagerInstance(params.getWorkflowDesc().getWorkflowManagerInstanceDescriptor()));
+    boxedResult.setWorkflowManagerInstanceReference(impl.createWorkflowManagerInstance(params.getXmlWorkflowDescription()));
     return boxedResult;
   }
 

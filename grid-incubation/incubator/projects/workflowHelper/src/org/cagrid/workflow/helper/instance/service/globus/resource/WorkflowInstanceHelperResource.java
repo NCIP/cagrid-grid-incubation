@@ -645,7 +645,11 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			WorkflowInvocationHelperClient curr_client;
 			try {
 				curr_client = new WorkflowInvocationHelperClient(curr_epr);
-				curr_client.destroy();
+				
+				String stageID = curr_client.getEPRString();
+				this.stageStatus.remove(stageID);  // Stop monitoring current stage's status changes
+				
+				curr_client.destroy();  // Destroy the resource associated with current stage
 			} catch (MalformedURIException e) {
 				e.printStackTrace();
 			} catch (RemoteException e) {

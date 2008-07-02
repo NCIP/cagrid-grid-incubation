@@ -88,5 +88,6 @@
 	<classpathentry kind="lib" path="lib/xmlbeans-qname.jar"/>
 	<classpathentry kind="lib" path="lib/BPEL_xmlbeans.jar"/>
 	<classpathentry kind="lib" path="lib/OperationsDescriptor_xmlbeans.jar"/>
+	<classpathentry kind="lib" path="lib/WorkflowDescription.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

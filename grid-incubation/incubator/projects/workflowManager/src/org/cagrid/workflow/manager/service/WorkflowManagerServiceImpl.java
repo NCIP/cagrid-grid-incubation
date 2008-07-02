@@ -35,8 +35,8 @@ import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceHome;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
-import org.cagrid.workflow.manager.service.bpelParser.BpelParser;
-import org.cagrid.workflow.manager.service.operationsDescriptionParser.OperationsDescriptorParser;
+import org.cagrid.workflow.manager.service.parser.bpel.BpelParser;
+import org.cagrid.workflow.manager.service.parser.workflowDescriptor.WorkflowDescriptorParser;
 import org.oasisOpen.docs.wsbpel.x20.process.executable.ProcessDocument;
 import org.oasisOpen.docs.wsbpel.x20.process.executable.TCopy;
 import org.oasisOpen.docs.wsbpel.x20.process.executable.TInvoke;
@@ -59,7 +59,7 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		super();
 	}
 
-	
+
 	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromBpel(java.lang.String bpelDescription,java.lang.String operationsDescription,org.apache.axis.message.addressing.EndpointReferenceType managerEPR) throws RemoteException {
 
 		logger.debug("Manager Service muito doido"); 
@@ -122,13 +122,13 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			t.printStackTrace();
 		} // */
 
-		
-		
+
+
 		/** Parse additional description file */ 
 		Reader operationsDescReader = new StringReader(operationsDescription);
 		OperationsDescriptorDocument operationsDesc = null;
 		try {
-			operationsDesc = OperationsDescriptorParser.parse(operationsDescReader);
+//			operationsDesc = OperationsDescriptorParser.parse(operationsDescReader);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		} // */
@@ -264,7 +264,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		return ref;
 	}
 
-
 	/** Create description of parameters transport for a workflow */
 	private OperationOutputTransportDescriptor createOperationOutputTransportDescriptor(
 			List<TCopy> copiesToPerform, QName[] documentNamespaces, Map<String, Integer> numberOfCopiesPerDestinationVariable,
@@ -324,7 +323,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 
 		return outDesc;
 	}
-
 
 	/* Retrieve the Endpoint Reference corresponding to the stage that is associated with the received input variable  */
 	private EndpointReferenceType findStageEPRForInputVariable(
@@ -421,7 +419,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		return output;
 	}
 
-
 	/**
 	 * Instantiate a workflow and give the caller a means of interacting with it
 	 * 
@@ -429,7 +426,17 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 	 * @return a handler to communicate with the newly created resource
 	 * 
 	 * */
-	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
+	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
+
+
+		org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc = WorkflowDescriptorParser.parseWorkflowDescriptor(xmlWorkflowDescription);
+
+		return this.createWorkflowManagerInstanceFromObjectDescriptor(workflowDesc);
+	}
+
+	
+	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
+
 
 		org.apache.axis.message.addressing.EndpointReferenceType managerInstanceEpr = new org.apache.axis.message.addressing.EndpointReferenceType();
 		WorkflowManagerInstanceResourceHome home;
@@ -475,10 +482,8 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					+ e.getMessage(), e);
 		}
 
-
 		HashMap<Integer, EndpointReferenceType> stageID2EPR = new HashMap<Integer, EndpointReferenceType>(); // Stages' EPR are stored here
 		HashMap<Integer, OperationOutputTransportDescriptor> stageID2OutputDesc = new HashMap<Integer, OperationOutputTransportDescriptor>();   // Partial output description for stages of the workflow
-
 
 		// Retrieve the description of operations that will be executed (grouped by container) 
 		WorkflowPortionDescriptor[] workflowParts = workflowDesc.getWorkflowParts();
@@ -496,7 +501,7 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 				// Instantiate an InstanceHelper for the current part of the workflow
 				WorkflowInstanceHelperDescriptor instanceDesc = currPart.getInstanceHelperDesc();
 				instanceDesc.setWorkflowManagerEPR(managerInstanceEpr);
-				
+
 				WorkflowInstanceHelperClient instanceHelperClient;
 				instanceHelperClient = helperClient.createWorkflowInstanceHelper(instanceDesc);
 
@@ -504,12 +509,10 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 				WorkflowStageDescriptor[] stagesDesc = currPart.getInvocationHelperDescs();
 				for(int j=0; j < stagesDesc.length; j++){
 
-
 					// Instantiate current stage
 					WorkflowStageDescriptor curr_stageDesc = stagesDesc[j];
 					WorkflowInvocationHelperDescriptor basicDesc = curr_stageDesc.getBasicDescription();
 					WorkflowInvocationHelperClient currInvocationClient = instanceHelperClient.createWorkflowInvocationHelper(basicDesc);
-
 
 					// Configure input
 					OperationInputMessageDescriptor inputDesc = curr_stageDesc.getInputsDescription();
@@ -526,17 +529,17 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					stageID2OutputDesc.put(Integer.valueOf(stageID), curr_stageDesc.getOutputTransportDescriptor());
 				}
 
-				
+
 				// Register current WorkflowInstanceHelper in the current ManagerInstance
 				thisResource.registerInstanceHelper(instanceHelperClient.getEndpointReference(), helperServiceURL);
-				
+
 
 			} catch (MalformedURIException e) {
 				e.printStackTrace();
 			}
 		}
 
-		
+
 		// Configure the outputs of each workflow stage
 		Set<Entry<Integer,OperationOutputTransportDescriptor>> entries = stageID2OutputDesc.entrySet();
 		Iterator<Entry<Integer, OperationOutputTransportDescriptor>> iter = entries.iterator();
@@ -548,11 +551,9 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			OperationOutputTransportDescriptor outputDesc = currEntry.getValue();
 			OperationOutputParameterTransportDescriptor[] outputParams = outputDesc.getParamDescriptor();
 
-
 			// Configure the forwarding of current stage's output to every stage that needs it
 			if( outputParams != null ){
 				for(int i=0; i < outputParams.length; i++){
-
 
 					// Retrieve the destination stage's EPR
 					OperationOutputParameterTransportDescriptor curr_outParam = outputParams[i];
@@ -562,7 +563,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					outputParams[i].setDestinationEPR(new EndpointReferenceType[]{ destinationEPR });
 				}
 			}
-
 
 			// For the current workflow stage, all output destination's EPRs are set. So, we can configure its output transport
 			EndpointReferenceType currStageEPR = stageID2EPR.get(stageID);
@@ -576,20 +576,19 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			currStageClient.configureOutput(outputDesc);
 		}
 
-		
+
 		// Store stages' EPRs so we can start each one of them when asked by the user
 		thisResource.storeStagesEPRs(stageID2EPR);
-		
-		
-		
-		
+
+
+
+
 		// return the typed EPR
 		WorkflowManagerInstanceReference ref = new WorkflowManagerInstanceReference();
 		ref.setEndpointReference(managerInstanceEpr);
-		
-		
-		return ref;
-	}
 
+		return ref;  
+	}
+	
 }
 
