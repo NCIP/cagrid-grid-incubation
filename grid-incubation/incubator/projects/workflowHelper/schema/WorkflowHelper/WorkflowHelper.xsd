@@ -180,6 +180,7 @@
 	<xs:element name="OperationOutputParameterTransportDescriptor" type="tns:OperationOutputParameterTransportDescriptor" />
 	<xs:complexType name="OperationOutputParameterTransportDescriptor">
 		<xs:sequence>
+			<xs:element name="destinationGlobalUniqueIdentifier" type="int" />
 			<xs:element name="destinationEPR" type="wsa:EndpointReferenceType" minOccurs="1" maxOccurs="unbounded"></xs:element>
 			<xs:element name="deliveryPolicy" type="tns:DeliveryPolicy" ></xs:element>
 			<xs:element name="paramIndex" type="int"></xs:element>

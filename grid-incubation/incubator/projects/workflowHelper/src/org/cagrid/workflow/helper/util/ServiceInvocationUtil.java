@@ -31,6 +31,8 @@ import org.apache.axis.message.SOAPEnvelope;
 import org.apache.axis.message.SOAPHeaderElement;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
@@ -47,6 +49,7 @@ import org.xml.sax.InputSource;
 public class ServiceInvocationUtil {
 
 
+	private static Log logger = LogFactory.getLog(ServiceInvocationUtil.class);
 
 	public class SecureServiceInvocationUtil {
 
@@ -56,7 +59,7 @@ public class ServiceInvocationUtil {
 	public static Node generateUnsecureRequest(WorkflowInvocationHelperDescriptor workflowDescriptor, OperationInputMessageDescriptor input_desc,
 			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData) throws Exception{
 
-		//System.out.println("Generating unsecure request"); //DEBUG
+		logger.info("Generating unsecure request"); 
 		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, null);
 	}
 
@@ -64,7 +67,7 @@ public class ServiceInvocationUtil {
 	public static Node generateSecureRequest(WorkflowInvocationHelperDescriptor workflowDescriptor, OperationInputMessageDescriptor input_desc,
 			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData, GlobusCredential proxy) throws Exception{
 
-		//System.out.println("Generating Secure request"); //DEBUG
+		logger.info("Generating Secure request"); 
 		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, proxy);
 	}
 
@@ -90,236 +93,223 @@ public class ServiceInvocationUtil {
 		Node response = null;
 		boolean hasCredential = (proxy != null); // (workflowDescriptor.getWorkflowInvocationSecurityDescriptor() != null)
 
-		
+
 		String serviceNamespace = workflowDescriptor.getOperationQName().getNamespaceURI();
 		String action_name = serviceNamespace+'/'+workflowDescriptor.getOperationQName().getLocalPart();
+		QName operationQname = null;
+
+		logger.info("Creating XML request for: "+ serviceNamespace + " - " + workflowDescriptor.getOperationQName().getLocalPart());
 
 
-		
-		
-		try {
-
-			//DEBUG
-			//System.out.println("Creating XML request for: "+ serviceNamespace + " - " + workflowDescriptor.getOperationQName().getLocalPart());
-
-
-			/** Create invocation message */
-			SOAPEnvelope message = new SOAPEnvelope();
-			message.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
-			message.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
-			"http://schemas.xmlsoap.org/ws/2004/03/addressing");
-			
+		/** Create invocation message */
+		SOAPEnvelope message = new SOAPEnvelope();
+		message.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
+		message.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
+		"http://schemas.xmlsoap.org/ws/2004/03/addressing");
 
 
-			/* Create SOAP Header */
-			SOAPHeader header = message.getHeader();
+
+		/* Create SOAP Header */
+		SOAPHeader header = message.getHeader();
 
 
-			// 'To' element
-			SOAPHeaderElement to = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:To")));
-			to.setValue( workflowDescriptor.getServiceURL());
-			to.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
-			to.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
-			"http://schemas.xmlsoap.org/ws/2004/03/addressing");
-			header.addChildElement(to);
+		// 'To' element
+		SOAPHeaderElement to = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:To")));
+		to.setValue( workflowDescriptor.getServiceURL());
+		to.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
+		to.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
+		"http://schemas.xmlsoap.org/ws/2004/03/addressing");
+		header.addChildElement(to);
 
 
-			// 'Action' element 
-			SOAPHeaderElement action = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:Action")));
-			action.setValue(action_name);
-			action.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
-			action.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), "http://schemas.xmlsoap.org/ws/2004/03/addressing");
-			header.addChildElement(action);
+		// 'Action' element 
+		SOAPHeaderElement action = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:Action")));
+		action.setValue(action_name);
+		action.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
+		action.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), "http://schemas.xmlsoap.org/ws/2004/03/addressing");
+		header.addChildElement(action);
 
 
-			// 'From' element 
-			SOAPHeaderElement from = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:From")));
-			from.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
-			from.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
-			"http://schemas.xmlsoap.org/ws/2004/03/addressing");
-			
-			SOAPHeaderElement address = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:Address"))); // 'Address' element
-			address.setValue("http://schemas.xmlsoap.org/ws/2004/03/addressing/role/anonymous");
-			address.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
-			address.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
-			"http://schemas.xmlsoap.org/ws/2004/03/addressing");
-			from.addChildElement(address);
-			header.addChildElement(from);
+		// 'From' element 
+		SOAPHeaderElement from = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:From")));
+		from.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
+		from.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
+		"http://schemas.xmlsoap.org/ws/2004/03/addressing");
+
+		SOAPHeaderElement address = new SOAPHeaderElement(new PrefixedQName(new QName("wsa:Address"))); // 'Address' element
+		address.setValue("http://schemas.xmlsoap.org/ws/2004/03/addressing/role/anonymous");
+		address.addAttribute(new PrefixedQName(new QName("xmlns")), serviceNamespace);
+		address.addAttribute(new PrefixedQName(new QName("xmlns:wsa")), 
+		"http://schemas.xmlsoap.org/ws/2004/03/addressing");
+		from.addChildElement(address);
+		header.addChildElement(from);
 
 
 
 
-			// Create SOAP body 
-			javax.xml.soap.SOAPBody body = message.getBody();
+		// Create SOAP body 
+		javax.xml.soap.SOAPBody body = message.getBody();
 
 
-			// Set method name
-			QName operation_name = workflowDescriptor.getOperationQName();
-			SOAPBodyElement operation = body.addBodyElement(new PrefixedQName(new QName(operation_name.getLocalPart())));
-			operation.setAttribute("xmlns", serviceNamespace);
+		// Set method name
+		QName operation_name = workflowDescriptor.getOperationQName();
+		SOAPBodyElement operation = body.addBodyElement(new PrefixedQName(new QName(operation_name.getLocalPart())));
+		operation.setAttribute("xmlns", serviceNamespace);
 
 
-			// Set method parameters
-			final int numParams = (input_desc.getInputParam() != null)? input_desc.getInputParam().length : 0;
-			paramsLoop:	for(int i=0; i < numParams; i++){
+		// Set method parameters
+		final int numParams = (input_desc.getInputParam() != null)? input_desc.getInputParam().length : 0;
+		paramsLoop:	for(int i=0; i < numParams; i++){
 
 
-				/* Convert the user's data into one single tree of SOAPElements. 
+			/* Convert the user's data into one single tree of SOAPElements. 
 				 We would need to get rid of the root, that's something like <....Response>.
 				 Although, the root is useful to get information about the parameter's type. 
-				 */
-				final QName cur_param_qname = input_desc.getInputParam(i).getParamQName();
-				SOAPBodyElement curr_param = new org.apache.axis.message.SOAPBodyElement(new QName(cur_param_qname.getLocalPart()));
-				Iterator root_obj = ConversionUtil.String2SOAPElement(paramData[i].getData());
+			 */
+			final QName cur_param_qname = input_desc.getInputParam(i).getParamQName();
+			SOAPBodyElement curr_param = new org.apache.axis.message.SOAPBodyElement(new QName(cur_param_qname.getLocalPart()));
+			Iterator root_obj = ConversionUtil.String2SOAPElement(paramData[i].getData());
 
-				/* Add this parameter */
-				boolean isSimpleArray = false, isComplexArray = false; // True only if current parameter is an array. Default value is set here
-				if( root_obj.hasNext() ){
-
-
-					Object next_elem = root_obj.next();
-
-					// 1st case) Parameter is represented by a simple string
-					if(next_elem instanceof org.apache.axis.message.Text){
-						Text inner_txt = (Text) next_elem;
-						curr_param = new org.apache.axis.message.SOAPBodyElement(new QName(cur_param_qname.getLocalPart())); // can't touch this
-						curr_param.addTextNode(inner_txt.getNodeValue());
-					}
-
-					// 2nd case) Parameter is represented as a list of attributes (complex type, simple type array, complex type array)
-					else if( next_elem instanceof javax.xml.soap.SOAPElement ){
-
-						SOAPElement elem = (SOAPElement) next_elem;
-
-						Iterator objs_to_add = elem.getChildElements();
-
-						// Add all elements one at a time
-						while( objs_to_add.hasNext() ){
-							Object next_to_add = objs_to_add.next();
+			/* Add this parameter */
+			boolean isSimpleArray = false, isComplexArray = false; // True only if current parameter is an array. Default value is set here
+			if( root_obj.hasNext() ){
 
 
-							if( next_to_add instanceof org.apache.axis.message.Text){
-								Text inner_txt = (Text) next_to_add;
-								curr_param.addTextNode(inner_txt.getNodeValue());
-							}
-							else if( next_to_add instanceof javax.xml.soap.SOAPElement ){
+				Object next_elem = root_obj.next();
 
-								SOAPElement next_to_add_soap = (SOAPElement) next_to_add;
-								String next_to_add_name = next_to_add_soap.getNodeName();
-
-								// Verify whether the response is an array
-								isSimpleArray = next_to_add_name.contains("response"); // clause for simple types
-								isComplexArray = elem.getNodeName().contains("Response"); // clause for complex types
-
-
-								if( !isSimpleArray && !isComplexArray ){
-
-									// Then 'elem' belongs to a complex type, and it is already in a suitable format to add to the request
-									curr_param.addChildElement(elem);
-
-									//DEBUG
-									//System.out.println("****************************************** Adding struct: "+elem);
-									break;
-
-								}
-								else if( isSimpleArray ){
-
-									addSimpleArrayToRequest(next_to_add_soap, curr_param, cur_param_qname.getLocalPart(), operation);
-								}
-								else if( isComplexArray ){
-
-									addComplexArrayToRequest(elem.getChildElements(), curr_param);
-									break;
-								}
-							}
-							else throw new Exception("Unknown return class '"+next_to_add.getClass().getCanonicalName()+"'");
-
-						} 
-					}
-
+				// 1st case) Parameter is represented by a simple string
+				if(next_elem instanceof org.apache.axis.message.Text){
+					Text inner_txt = (Text) next_elem;
+					curr_param = new org.apache.axis.message.SOAPBodyElement(new QName(cur_param_qname.getLocalPart())); // can't touch this
+					curr_param.addTextNode(inner_txt.getNodeValue());
 				}
-				if( isSimpleArray ) continue paramsLoop; // Array is completely set, proceed to next parameter
-				operation.addChildElement(curr_param);
+
+				// 2nd case) Parameter is represented as a list of attributes (complex type, simple type array, complex type array)
+				else if( next_elem instanceof javax.xml.soap.SOAPElement ){
+
+					SOAPElement elem = (SOAPElement) next_elem;
+
+					Iterator objs_to_add = elem.getChildElements();
+
+					// Add all elements one at a time
+					while( objs_to_add.hasNext() ){
+						Object next_to_add = objs_to_add.next();
+
+
+						if( next_to_add instanceof org.apache.axis.message.Text){
+							Text inner_txt = (Text) next_to_add;
+							curr_param.addTextNode(inner_txt.getNodeValue());
+						}
+						else if( next_to_add instanceof javax.xml.soap.SOAPElement ){
+
+							SOAPElement next_to_add_soap = (SOAPElement) next_to_add;
+							String next_to_add_name = next_to_add_soap.getNodeName();
+
+							// Verify whether the response is an array
+							isSimpleArray = next_to_add_name.contains("response"); // clause for simple types
+							isComplexArray = elem.getNodeName().contains("Response"); // clause for complex types
+
+
+							if( !isSimpleArray && !isComplexArray ){
+
+								// Then 'elem' belongs to a complex type, and it is already in a suitable format to add to the request
+								curr_param.addChildElement(elem);
+
+								logger.debug("Adding struct: "+elem);
+								break;
+
+							}
+							else if( isSimpleArray ){
+
+								addSimpleArrayToRequest(next_to_add_soap, curr_param, cur_param_qname.getLocalPart(), operation);
+							}
+							else if( isComplexArray ){
+
+								addComplexArrayToRequest(elem.getChildElements(), curr_param);
+								break;
+							}
+						}
+						else throw new Exception("Unknown return class '"+next_to_add.getClass().getCanonicalName()+"'");
+
+					} 
+				}
+
 			}
-
-
-			//DEBUG Print message before sending it
-			/*System.out.println("Printing SOAP Envelope for "+workflowDescriptor.getOperationQName().toString()
-					+":  \n________________________________________________________>\n"+message.toString()+
-			"\n<________________________________________________________\n");
-			System.out.flush(); // */
-
-
-			/// Invoke service 
-			//System.out.println("Invoking service "+workflowDescriptor.getOperationQName().toString()); // DEBUG
-
-			javax.xml.rpc.Service service = null;
-			Call call;
-			EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
-			// Secure invocation when a credential is provided
-			if( hasCredential ){   
-
-				//System.out.println("DO have credential");//DEBUG
-				
-				
-				ServiceSecurityMetadata securityMetadata = ConversionUtil.createServiceSecurityMetadata(
-						workflowDescriptor.getWorkflowInvocationSecurityDescriptor(), workflowDescriptor.getOperationQName().getLocalPart());
-				SecurityConfigurationUtil config_service  = new SecurityConfigurationUtil(serviceOperationEPR, proxy);
-
-
-				
-				// Set Authorization and DelegationMode
-				Authorization authorization = org.globus.wsrf.impl.security.authorization.NoAuthorization.getInstance();  // We don't care about service's identity     
-				config_service.setAuthorization(authorization); 
-				config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart(), securityMetadata);
-
-				call = (Call) config_service.getCall();
-				
-			}
-			else {  // No credential provided, proceed to unsecure invocation 
-
-				//System.out.println("Have NO credential");//DEBUG
-				
-				service = new Service();
-				call = (Call) service.createCall();
-				call.setProperty(org.globus.wsrf.security.Constants.AUTHORIZATION, NoAuthorization.getInstance());
-			}
-
-			
-			call.setTargetEndpointAddress( new java.net.URL(workflowDescriptor.getServiceURL()));
-			String tns = serviceNamespace; 
-			call.setOperationName(new QName(tns, workflowDescriptor.getOperationQName().toString()));
-			
-			//System.out.println("[generateRequest] Service URL: "+ call.getTargetEndpointAddress());//DEBUG
-			
-			ret = call.invoke(message);
-
-
-
-			//DEBUG Print received SOAP message
-			/*System.out.println("Returned SOAP: \n________________________________________________________>\n"+ret.toString()
-					+"\n<________________________________________________________\n");// */
-
-			// Get return from invoked method
-			SOAPBody body1 = ret.getBody(); 
-			response = body1.getFirstChild();
-
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (SOAPException e) {
-			e.printStackTrace();
+			if( isSimpleArray ) continue paramsLoop; // Array is completely set, proceed to next parameter
+			operation.addChildElement(curr_param);
 		}
 
 
-		// DEBUG
-		/*System.out.println("Service return for "+workflowDescriptor.getOperationQName().getLocalPart()
+		// Print message before sending it
+		logger.debug("Printing SOAP Envelope for "+workflowDescriptor.getOperationQName().toString()
+				+":  \n________________________________________________________>\n"+message.toString()+
+		"\n<________________________________________________________\n");
+
+
+
+		/// Invoke service 
+		 
+
+		javax.xml.rpc.Service service = null;
+		Call call;
+		EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
+		// Secure invocation when a credential is provided
+		if( hasCredential ){   
+
+			logger.info("DO have credential");
+
+
+			ServiceSecurityMetadata securityMetadata = ConversionUtil.createServiceSecurityMetadata(
+					workflowDescriptor.getWorkflowInvocationSecurityDescriptor(), workflowDescriptor.getOperationQName().getLocalPart());
+			SecurityConfigurationUtil config_service  = new SecurityConfigurationUtil(serviceOperationEPR, proxy);
+
+
+
+			// Set Authorization and DelegationMode
+			Authorization authorization = org.globus.wsrf.impl.security.authorization.NoAuthorization.getInstance();  // We don't care about service's identity     
+			config_service.setAuthorization(authorization); 
+			config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart(), securityMetadata);
+
+			call = (Call) config_service.getCall();
+
+		}
+		else {  // No credential provided, proceed to unsecure invocation 
+
+			logger.info("Have NO credential");
+
+			service = new Service();
+			call = (Call) service.createCall();
+			call.setProperty(org.globus.wsrf.security.Constants.AUTHORIZATION, NoAuthorization.getInstance());
+		}
+
+
+		call.setTargetEndpointAddress( new java.net.URL(workflowDescriptor.getServiceURL()));
+		String tns = serviceNamespace; 
+		operationQname = new QName(tns, workflowDescriptor.getOperationQName().toString());
+		call.setOperationName(operationQname);
+
+		
+		logger.info("Invoking service "+workflowDescriptor.getOperationQName().toString());
+		logger.info("Service URL: "+ call.getTargetEndpointAddress());
+
+		ret = call.invoke(message);
+
+
+
+		// Print received SOAP message
+		logger.debug("Returned SOAP: \n________________________________________________________>\n"+ret.toString()
+				+"\n<________________________________________________________\n");// */
+
+		// Get return from invoked method
+		SOAPBody body1 = ret.getBody(); 
+		response = body1.getFirstChild();
+
+
+
+		logger.debug("Service return for "+workflowDescriptor.getOperationQName().getLocalPart()
 				+": \n________________________________________________________>\n"+response
 				+"\n<________________________________________________________\n");
-		System.out.flush(); // */
+
 
 		return response;
 	}
@@ -400,8 +390,8 @@ public class ServiceInvocationUtil {
 					} catch (SOAPException e) {
 						e.printStackTrace();
 					} 
-					//DEBUG
-					//System.out.println("Adding array element: "+ inner_txt.getNodeValue());
+
+					logger.info("Adding array element: "+ inner_txt.getNodeValue());
 
 				}
 				else if( next_array_elem instanceof javax.xml.soap.SOAPElement ){
@@ -413,8 +403,8 @@ public class ServiceInvocationUtil {
 					} catch (SOAPException e) {
 						e.printStackTrace();
 					}
-					//DEBUG
-					//System.out.println("Adding complex array element: "+ next_array_elem);
+
+					logger.info("Adding complex array element: "+ next_array_elem);
 				}  
 
 			}																				
@@ -439,16 +429,15 @@ public class ServiceInvocationUtil {
 		String result = null;
 
 
-		//DEBUG
-		/*System.out.println("=== Applying query "+xpath_query+" on '"+xml_doc+"'\n");
-		System.out.println("Namespaces are: ");
+		logger.debug("=== Applying query "+xpath_query+" on '"+xml_doc+"'\n");
+		logger.debug("Namespaces are: ");
 		for(int i=0; i < namespaces.length; i++){
-			
-			System.out.println(namespaces[i].getLocalPart()+" = "+ namespaces[i].getNamespaceURI());
-		}
-		System.out.println("End namespaces"); // */
 
-		
+			logger.debug(namespaces[i].getLocalPart()+" = "+ namespaces[i].getNamespaceURI());
+		}
+		logger.debug("End namespaces"); 
+
+
 
 		// Get return from invoked method using XPath
 		XPathFactory factory = XPathFactory.newInstance();
@@ -468,7 +457,7 @@ public class ServiceInvocationUtil {
 			/* Execute the query and post process the result so we return exactly what was requested */
 			NodeList xpath_result = (NodeList)query.evaluate(xpath_query, source, XPathConstants.NODESET);
 
-			//System.out.println("[applyXPathQuery] xpath_result is: "+ xpath_result); // DEBUG
+			logger.info("XPath query result is: "+ xpath_result); 
 
 			// Result is a single node
 			if( xpath_result.getLength() <= 1 ){
@@ -500,7 +489,7 @@ public class ServiceInvocationUtil {
 			}
 
 			else {
-				//DEBUG //System.out.println("\n\nThe very result of the xpath query is ");
+				logger.debug("\n\nThe very result of the xpath query is ");
 
 				// Arrays are supposed to be into an enclosing tag. So, add an artificial enclosing tag to the array
 				result = "<FakeResponse>";
@@ -508,8 +497,8 @@ public class ServiceInvocationUtil {
 
 					Node curr_node = xpath_result.item(i);
 					result += ConversionUtil.Node2String(curr_node);
-					//DEBUG
-					//System.out.println(ConversionUtil.Node2String(curr_node));
+
+					logger.debug(ConversionUtil.Node2String(curr_node));
 				}
 				result += "</FakeResponse>";
 				System.out.flush(); 
@@ -526,8 +515,7 @@ public class ServiceInvocationUtil {
 			e.printStackTrace();
 		}
 
-		// DEBUG
-		//System.out.println("=== Result for query '"+xpath_query+"':\n"+result);
+		logger.info("=== Result for query '"+xpath_query+"':\n"+result);
 
 		return result;
 	}

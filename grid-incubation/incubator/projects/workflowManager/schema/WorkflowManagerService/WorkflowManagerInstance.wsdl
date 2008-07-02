@@ -68,31 +68,6 @@
           <sequence />
         </complexType>
       </element>
-      <element name="AddParameterForStageRequest">
-        <complexType>
-          <sequence>
-            <element name="stageEPR">
-              <complexType>
-                <sequence>
-                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
-                </sequence>
-              </complexType>
-            </element>
-            <element name="param">
-              <complexType>
-                <sequence>
-                  <element ref="ns2:InputParameter" minOccurs="1" maxOccurs="1" />
-                </sequence>
-              </complexType>
-            </element>
-          </sequence>
-        </complexType>
-      </element>
-      <element name="AddParameterForStageResponse">
-        <complexType>
-          <sequence />
-        </complexType>
-      </element>
       <element name="WorkflowManagerInstanceResourceProperties">
         <complexType>
           <sequence>
@@ -130,12 +105,6 @@
   <message name="StartResponse">
     <part name="parameters" element="tns:StartResponse" />
   </message>
-  <message name="AddParameterForStageRequest">
-    <part name="parameters" element="tns:AddParameterForStageRequest" />
-  </message>
-  <message name="AddParameterForStageResponse">
-    <part name="parameters" element="tns:AddParameterForStageResponse" />
-  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -157,10 +126,6 @@
     <operation name="start">
       <input message="tns:StartRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/StartRequest" />
       <output message="tns:StartResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/StartResponse" />
-    </operation>
-    <operation name="addParameterForStage">
-      <input message="tns:AddParameterForStageRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/AddParameterForStageRequest" />
-      <output message="tns:AddParameterForStageResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/AddParameterForStageResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

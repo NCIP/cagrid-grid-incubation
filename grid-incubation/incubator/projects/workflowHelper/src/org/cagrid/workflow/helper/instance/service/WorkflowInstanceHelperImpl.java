@@ -5,13 +5,12 @@ import java.rmi.RemoteException;
 import javax.xml.namespace.QName;
 
 import org.apache.axis.message.addressing.EndpointReference;
-import org.apache.axis.types.URI.MalformedURIException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
-import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
 import org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResource;
-import org.cagrid.workflow.helper.invocation.stubs.types.WorkflowInvocationHelperReference;
 
 /** 
  * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
@@ -21,6 +20,10 @@ import org.cagrid.workflow.helper.invocation.stubs.types.WorkflowInvocationHelpe
  */
 public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 
+	
+	private static Log logger = LogFactory.getLog(WorkflowInstanceHelperImpl.class);
+	
+	
 	public WorkflowInstanceHelperImpl() throws RemoteException {
 		super();
 	}
@@ -113,7 +116,7 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
   public void setIsInvocationHelperSecure(org.apache.axis.message.addressing.EndpointReferenceType serviceOperationEPR,boolean isSecure) throws RemoteException {
 		try {
 
-			//System.out.println("Invocation is secure? "+isSecure); //DEBUG
+			logger.info("Invocation is secure? "+isSecure); 
 
 			WorkflowInstanceHelperResource resource = getResourceHome().getAddressedResource();
 			resource.setIsInvocationHelperSecure(new EndpointReference(serviceOperationEPR), isSecure);

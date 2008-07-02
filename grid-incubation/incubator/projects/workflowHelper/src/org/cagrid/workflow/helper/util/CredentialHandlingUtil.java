@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.gaards.cds.client.ClientConstants;
 import org.cagrid.gaards.cds.client.DelegatedCredentialUserClient;
 import org.cagrid.gaards.cds.client.DelegationUserClient;
@@ -22,6 +24,10 @@ public class CredentialHandlingUtil {
 	private CredentialHandlingUtil(){}
 
 
+	private static Log logger = LogFactory.getLog(CredentialHandlingUtil.class);
+
+
+
 	/** Delegate a credential to a specific grid identity
 	 * 
 	 * @param delegatee Grid identity of the service the credential will be delegated to
@@ -35,13 +41,13 @@ public class CredentialHandlingUtil {
 	public static EndpointReferenceType delegateCredential(GlobusCredential toDelegate, String delegatee, String cdsURL, ProxyLifetime delegationLifetime, 
 			ProxyLifetime issuedCredentialLifetime, int delegationPathLength, int issuedCredentialPathLength) throws Throwable {
 
-		//DEBUG
-		/*System.out.println("BEGIN delegateCredential");
-		System.out.println("delegatee: "+ delegatee);
-		System.out.println("delegator: "+ toDelegate.getIdentity());
-		System.out.println("CDS URL: "+ cdsURL);
-		System.out.println("Delegation lenght: "+ delegationPathLength);
-		System.out.println("Issued Credential lenght: "+ issuedCredentialPathLength); // */
+
+		logger.info("BEGIN delegateCredential");
+		logger.info("delegatee: "+ delegatee);
+		logger.info("delegator: "+ toDelegate.getIdentity());
+		logger.info("CDS URL: "+ cdsURL);
+		logger.info("Delegation lenght: "+ delegationPathLength);
+		logger.info("Issued Credential lenght: "+ issuedCredentialPathLength);
 
 
 		//Specifies the key length of the delegated credential
@@ -57,35 +63,19 @@ public class CredentialHandlingUtil {
 
 		//Create an instance of the delegation client, specifies the CDS Service URL and the credential 
 		//to be delegated.
-		//System.out.println("[delegateCredential] Creating DelegationUserClient"); //DEBUG
-		DelegationUserClient client = null;
-		//try {
-			client = new DelegationUserClient(cdsURL, toDelegate);
-		/*} catch (Exception e) {
-			e.printStackTrace();
-		} // */
+		logger.info("Creating DelegationUserClient"); 
+		DelegationUserClient client = new DelegationUserClient(cdsURL, toDelegate);
+
 
 		//Delegates the credential and returns a reference which can later be used by allowed parties to 
 		//obtain a credential.
-		//System.out.println("[delegateCredential] Sending delegation request to CDS"); //DEBUG
-		DelegatedCredentialReference ref = null;
-		//try {
-			ref = client.delegateCredential(delegationLifetime, delegationPathLength, policy,
-					issuedCredentialLifetime, issuedCredentialPathLength, keySize);
-		/*} catch (CDSInternalFault e) {
-			e.printStackTrace();
-		} catch (DelegationFault e) {
-			e.printStackTrace();
-		} catch (PermissionDeniedFault e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (MalformedURIException e) {
-			e.printStackTrace();
-		} // */ 
+		logger.info("[delegateCredential] Sending delegation request to CDS");
+		DelegatedCredentialReference ref = client.delegateCredential(delegationLifetime, delegationPathLength, policy,
+				issuedCredentialLifetime, issuedCredentialPathLength, keySize);
 
-		//DEBUG
-		//System.out.println("END delegateCredential");
+
+
+		logger.info("END delegateCredential");
 
 		return ref.getEndpointReference();
 	}
@@ -100,11 +90,11 @@ public class CredentialHandlingUtil {
 
 
 		// get host key and cert here ->
-		
-		
+
+
 		GlobusCredential credential = ProxyUtil.getDefaultProxy();
 
-		//System.out.println("[getDelegatedCredential] Default proxy DN: "+ credential.getIdentity()); 	//DEBUG
+		logger.info("Default proxy DN: "+ credential.getIdentity()); 	
 
 		//A DelegateCredentialReference is provided by the delegator to delegatee, it 
 		//represents the delegated credential that the delegatee should obtain.

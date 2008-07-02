@@ -28,7 +28,5 @@ public interface WorkflowManagerInstanceI {
 
   public void start() throws RemoteException ;
 
-  public void addParameterForStage(org.apache.axis.message.addressing.EndpointReferenceType stageEPR,org.cagrid.workflow.helper.descriptor.InputParameter param) throws RemoteException ;
-
 }
 

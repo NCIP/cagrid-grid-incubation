@@ -230,7 +230,7 @@ public abstract class WorkflowInvocationHelperResourceBase extends ReflectionRes
 		servicePath+="/WorkflowInvocationHelper";
 
 		String jndiName = Constants.JNDI_SERVICES_BASE_NAME + servicePath + "/configuration";
-		logger.debug("Will read configuration from jndi name: " + jndiName);
+		logger.info("Will read configuration from jndi name: " + jndiName);
 		try {
 			Context initialContext = new InitialContext();
 			this.configuration = (WorkflowInvocationHelperResourceConfiguration) initialContext.lookup(jndiName);
@@ -289,7 +289,7 @@ public abstract class WorkflowInvocationHelperResourceBase extends ReflectionRes
                 + getConfiguration().getRegistrationTemplateFile());
 
             if (registrationFile.exists() && registrationFile.canRead()) {
-                logger.debug("Loading registration argumentsrmation from:" + registrationFile);
+                logger.info("Loading registration arguments from:" + registrationFile);
 
                 try {
                     params = ServiceGroupRegistrationClient.readParams(registrationFile.getAbsolutePath());

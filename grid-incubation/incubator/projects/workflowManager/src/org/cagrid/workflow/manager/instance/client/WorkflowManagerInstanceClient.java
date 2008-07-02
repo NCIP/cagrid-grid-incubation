@@ -175,18 +175,4 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
     }
   }
 
-  public void addParameterForStage(org.apache.axis.message.addressing.EndpointReferenceType stageEPR,org.cagrid.workflow.helper.descriptor.InputParameter param) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"addParameterForStage");
-    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequest params = new org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequest();
-    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequestStageEPR stageEPRContainer = new org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequestStageEPR();
-    stageEPRContainer.setEndpointReference(stageEPR);
-    params.setStageEPR(stageEPRContainer);
-    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequestParam paramContainer = new org.cagrid.workflow.manager.instance.stubs.AddParameterForStageRequestParam();
-    paramContainer.setInputParameter(param);
-    params.setParam(paramContainer);
-    org.cagrid.workflow.manager.instance.stubs.AddParameterForStageResponse boxedResult = portType.addParameterForStage(params);
-    }
-  }
-
 }

@@ -8,9 +8,13 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
 import org.apache.axis.message.addressing.EndpointReference;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.gaards.pki.KeyUtil;
 import org.globus.gsi.CertUtil;
 import org.globus.gsi.GlobusCredential;
+
+import commonj.work.WorkListener;
 
 /** 
  * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
@@ -20,6 +24,8 @@ import org.globus.gsi.GlobusCredential;
  */
 public class WorkflowHelperImpl extends WorkflowHelperImplBase {
 
+	private static Log logger = LogFactory.getLog(WorkflowHelperImpl.class);
+	
 	public WorkflowHelperImpl() throws RemoteException {
 		super();
 		
@@ -35,9 +41,9 @@ public class WorkflowHelperImpl extends WorkflowHelperImplBase {
 			
 			ProxyUtil.saveProxyAsDefault(hostCredential); // TODO This shouldn't be necessary, but it is for now.
 			
-			// DEBUG
-			/*GlobusCredential defaultProxy = ProxyUtil.getDefaultProxy(); 
-			System.out.println("[WorkflowHelperImpl] Default identity is "+ defaultProxy.getIdentity()); // */
+			
+			GlobusCredential defaultProxy = ProxyUtil.getDefaultProxy(); 
+			logger.info("Default identity is "+ defaultProxy.getIdentity()); 
 			
 		} catch (Throwable e) {
 			e.printStackTrace();

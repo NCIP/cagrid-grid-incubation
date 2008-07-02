@@ -26,12 +26,6 @@ public class WorkflowInvocationHelperProviderImpl{
 	}
 	
 
-    public org.cagrid.workflow.helper.invocation.stubs.StartResponse start(org.cagrid.workflow.helper.invocation.stubs.StartRequest params) throws RemoteException {
-    org.cagrid.workflow.helper.invocation.stubs.StartResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.StartResponse();
-    impl.start();
-    return boxedResult;
-  }
-
     public org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse configureInput(org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequest params) throws RemoteException {
     org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse();
     impl.configureInput(params.getOperationInputMessageDescriptor().getOperationInputMessageDescriptor());
@@ -59,6 +53,12 @@ public class WorkflowInvocationHelperProviderImpl{
     public org.cagrid.workflow.helper.invocation.stubs.GetEPRStringResponse getEPRString(org.cagrid.workflow.helper.invocation.stubs.GetEPRStringRequest params) throws RemoteException {
     org.cagrid.workflow.helper.invocation.stubs.GetEPRStringResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.GetEPRStringResponse();
     boxedResult.setResponse(impl.getEPRString());
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.helper.invocation.stubs.StartResponse start(org.cagrid.workflow.helper.invocation.stubs.StartRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.invocation.stubs.StartResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.StartResponse();
+    impl.start();
     return boxedResult;
   }
 

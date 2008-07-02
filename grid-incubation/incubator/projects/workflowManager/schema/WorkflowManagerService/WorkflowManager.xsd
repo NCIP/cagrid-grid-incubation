@@ -11,9 +11,9 @@
 	<!-- Workflow metadata -->
 	<xs:complexType name="WorkflowManagerInstanceDescriptor">
 		<xs:sequence>
-			<xs:element name="bpelDescription" type="string"></xs:element>
-			<xs:element name="servicesURLs" type="string"></xs:element>
-			<xs:element name="parametersValues" type="string"></xs:element>
+			<xs:element name="workflowParts" type="tns:WorkflowPortionDescriptor" minOccurs="1" maxOccurs="unbounded"></xs:element>
+			<xs:element name="inputs" type="tns:WorkflowInputParameters" />
+			<xs:element name="outputDesc" type="tns:WorkflowOutputTransportDescriptor" />
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -24,8 +24,17 @@
 			<xs:element name="basicDescription" type="helper:WorkflowInvocationHelperDescriptor"/>
 			<xs:element name="inputsDescription" type="helper:OperationInputMessageDescriptor"/>
 			<xs:element name="outputTransportDescriptor" type="helper:OperationOutputTransportDescriptor"/>
-			<xs:element name="bpelInputVariable" type="string"/>
-			<xs:element name="bpelOutputVariable" type="string"/>
+			<xs:element name="GlobalUniqueIdentifier" type="int" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:element name="WorkflowPortionDescriptor" type="tns:WorkflowPortionDescriptor" />
+	<xs:complexType name="WorkflowPortionDescriptor">
+		<xs:sequence>
+			<xs:element name="WorkflowHelperServiceLocation" type="string" />
+			<xs:element name="instanceHelperDesc" type="helper:WorkflowInstanceHelperDescriptor"></xs:element>
+			<xs:element name="invocationHelperDescs" type="tns:WorkflowStageDescriptor" minOccurs="1" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	

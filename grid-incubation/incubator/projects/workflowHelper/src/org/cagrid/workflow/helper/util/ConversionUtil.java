@@ -21,6 +21,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.descriptor.ChannelProtection;
 import org.cagrid.workflow.helper.descriptor.SecureConversationInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.SecureMessageInvocationSecurityDescriptor;
@@ -31,6 +33,10 @@ import org.w3c.dom.Node;
 
 public class ConversionUtil {
 
+	
+	private static Log logger = LogFactory.getLog(ConversionUtil.class);
+	
+	
 	/* Make the string representation of a (XML) Node object */
 	public static String Node2String(Node node) throws Exception {
 
@@ -97,7 +103,7 @@ public class ConversionUtil {
 		// to return a non-null value. So, we need to figure out which one it is. 
 		if( workflowInvocationSecurityDescriptor.getSecureConversationInvocationSecurityDescriptor() != null ){ // Secure Conversation used
 
-			//System.out.println("[createServiceSecurityMetadata] Setting Secure Conversation"); //DEBUG
+			logger.info("Setting Secure Conversation"); 
 
 			SecureConversationInvocationSecurityDescriptor sec_desc = workflowInvocationSecurityDescriptor.getSecureConversationInvocationSecurityDescriptor();
 			ChannelProtection cp = sec_desc.getChannelProtection();
@@ -111,7 +117,7 @@ public class ConversionUtil {
 		}
 		else if( workflowInvocationSecurityDescriptor.getSecureMessageInvocationSecurityDescriptor() != null ){ // Secure Message used
 
-			//System.out.println("[createServiceSecurityMetadata] Setting Secure Message"); //DEBUG
+			logger.info("Setting Secure Message"); 
 
 			SecureMessageInvocationSecurityDescriptor sec_desc = workflowInvocationSecurityDescriptor.getSecureMessageInvocationSecurityDescriptor();
 			ChannelProtection cp = sec_desc.getChannelProtection();
@@ -125,7 +131,7 @@ public class ConversionUtil {
 		}
 		else if( workflowInvocationSecurityDescriptor.getTLSInvocationSecurityDescriptor() != null ){  // TLS used
 
-			//System.out.println("[createServiceSecurityMetadata] Setting TLS"); //DEBUG
+			logger.info("Setting TLS"); 
 
 			TLSInvocationSecurityDescriptor sec_desc = workflowInvocationSecurityDescriptor.getTLSInvocationSecurityDescriptor();
 			ChannelProtection cp = sec_desc.getChannelProtection();
@@ -134,14 +140,14 @@ public class ConversionUtil {
 			// Figure out what kind of channel protection is required
 			if( cp.equals(ChannelProtection.Integrity) ){
 				protectionLevel = ProtectionLevelType.integrity;
-				//System.out.println("[createServiceSecurityMetadata] Integrity set"); // DEBUG
+				logger.info("Integrity set"); 
 			}
 			else if( cp.equals(ChannelProtection.Privacy) ){
 				protectionLevel = ProtectionLevelType.privacy;
-				//System.out.println("[createServiceSecurityMetadata] Privacy set"); // DEBUG
+				logger.info("Privacy set"); 
 			}
 			else {
-				//System.err.println("[createServiceSecurityMetadata] Unrecognized channel protection mechanism");
+				logger.info("Unrecognized channel protection mechanism");
 			}
 
 
@@ -155,7 +161,7 @@ public class ConversionUtil {
 		}
 		else {  // No security mechanisms used
 
-			//System.out.println("[createServiceSecurityMetadata] Setting none"); //DEBUG
+			logger.info("Setting none"); 
 
 			None none = new None();
 

@@ -80,5 +80,13 @@
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/globus_wsrf_servicegroup.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-Introduce-serviceTools-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/xmlpublic.jar"/>
+	<classpathentry kind="lib" path="lib/xbean.jar"/>
+	<classpathentry kind="lib" path="lib/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="lib/resolver.jar"/>
+	<classpathentry kind="lib" path="lib/xbean_xpath.jar"/>
+	<classpathentry kind="lib" path="lib/xmlbeans-qname.jar"/>
+	<classpathentry kind="lib" path="lib/BPEL_xmlbeans.jar"/>
+	<classpathentry kind="lib" path="lib/OperationsDescriptor_xmlbeans.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,6 +1,5 @@
 package org.cagrid.workflow.helper.instance.service.globus.resource;
 
-import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +36,8 @@ import org.globus.wsrf.container.ContainerException;
  */
 public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResourceBase implements CredentialAccess, NotifyCallback {
 
+	
+
 	// Associations between services' EPRs and the credential to be used when invoking service-operation
 	private HashMap<String, GlobusCredential> servicesCredentials = new HashMap<String, GlobusCredential>();
 
@@ -58,6 +59,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 	// Store the operation name for each service subscribed for notification 
 	private Map<String, String> EPR2OperationName = new HashMap<String, String>();
+	private List<EndpointReferenceType> stagesEPRs = new ArrayList<EndpointReferenceType>();
 
 
 	private boolean isFinished = false; // Indication of whether the stages have all finished their execution   
@@ -86,8 +88,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	 * */
 	public void addCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
 
-		// DEBUG
-		//System.out.println("BEGIN addCredential");
+
+		logger.info("BEGIN");
 
 		// Check whether this credential hasn't already been retrieved
 		boolean credentialAlreadyRetrieved = this.eprCredential.containsKey(proxyEPR);
@@ -96,8 +98,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			this.replaceCredential(serviceOperationEPR, proxyEPR);
 		}
 
-		// DEBUG
-		//System.out.println("END addCredential");
+		logger.info("END");
 
 		return;
 	}
@@ -114,7 +115,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	public GlobusCredential getCredential(EndpointReference serviceOperationEPR){
 
 
-		//this.printCredentials(); //DEBUG
+		this.printCredentials();
 
 		String eprStr = null;
 		try {
@@ -134,17 +135,17 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 		if( serviceIsUnsecure ){
-			//System.out.println("[WorkflowInstanceHelperResource.getCredential] Service is unsecure, returning null credential");
+			logger.info("[WorkflowInstanceHelperResource.getCredential] Service is unsecure, returning null credential");
 			return null;
 		}
 
 		else {
 
-			//System.out.println("[getCredential] Service is secure"); // DEBUG
+			logger.info("[getCredential] Service is secure"); 
 
 			// If credential is unavailable, block until it is available
 			boolean credentialIsNotSet = (!this.servicesCredentials.containsKey(eprStr));
-			//if( credentialIsNotSet ){
+			
 
 			Lock key = this.servicelLock.get(eprStr);
 			Condition credentialAvailability = this.serviceConditionVariable.get(eprStr);
@@ -160,10 +161,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				}
 				credential = this.servicesCredentials.get(eprStr);
 
-				//System.out.println("[getCredential] Retrieved credential: "+ credential.getIdentity()); //DEBUG
+				logger.info("[getCredential] Retrieved credential: "+ credential.getIdentity()); 
 
 			} catch (InterruptedException e) {
-				System.err.println("[getCredential] Error retrieving credential");
+				logger.error("[getCredential] Error retrieving credential");
 				e.printStackTrace();
 			}
 			finally {
@@ -186,8 +187,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	public void replaceCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
 
 
-		//DEBUG
-		//System.out.println("BEGIN replaceCredential");
+		logger.info("BEGIN");
 
 		String eprStr = null;
 		try {
@@ -219,7 +219,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		}
 
 
-		//printCredentials(); //DEBUG
+		this.printCredentials(); 
 
 
 		// Delete old credential (if any) from the associations 
@@ -258,8 +258,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			key.unlock();
 		}
 
-		//DEBUG
-		//System.out.println("END replaceCredential");
+		logger.info("END");
 
 		return;
 	}
@@ -326,7 +325,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 		if( isSecure ){
 
-			//System.out.println("Creating locks"); // DEBUG 
+			logger.info("Creating locks");  
 
 			// Initializes mutual exclusion key that denotes the availability of the delegated credential
 			Lock key = new ReentrantLock();
@@ -335,37 +334,37 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			this.servicelLock.put(EPRStr, key);
 
 
-			//this.printCredentials();//DEBUG
+			this.printCredentials();
 
 		}
 		else{
 
-			//System.out.println("Adding service to unsecure list"); //DEBUG
+			logger.info("Adding service to unsecure list"); 
 
 			this.unsecureInvocations.add(EPRStr); 
 		}
-		//System.out.println("Done"); //DEBUG
+		logger.info("Done");
 	}
 
 
-	/** Print the associations found in each map. Useful for debugging  */
+	/** Print the associations found in each map. Useful for infoging  */
 	private void printCredentials() {
 
-		System.out.println();
-		System.out.println("-------------------------------------------------------------------------");
+		logger.trace("\n");
+		logger.trace("-------------------------------------------------------------------------");
 
 
 		/** Credentials' condition variables */
 		Set<Entry<String, Condition>> entries = this.serviceConditionVariable.entrySet();
 		Iterator<Entry<String, Condition>> entries_iter = entries.iterator();
 
-		System.out.println("BEGIN Condition variables");
+		logger.trace("BEGIN Condition variables");
 		while(entries_iter.hasNext()){
 
 			Entry<String, Condition> curr_entry = entries_iter.next();
-			System.out.println("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
+			logger.trace("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
 		}
-		System.out.println("END Condition variables");
+		logger.trace("END Condition variables");
 
 
 
@@ -373,14 +372,13 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		Set<Entry<String, Lock>> entries2 = this.servicelLock.entrySet();
 		Iterator<Entry<String, Lock>> entries_iter2 = entries2.iterator();
 
-		System.out.println();
-		System.out.println("BEGIN locks");
+		logger.trace("\nBEGIN locks");
 		while(entries_iter2.hasNext()){
 
 			Entry<String, Lock> curr_entry = entries_iter2.next();
-			System.out.println("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
+			logger.trace("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
 		}
-		System.out.println("END locks");
+		logger.trace("END locks");
 
 
 
@@ -389,14 +387,13 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		Set<Entry<EndpointReferenceType, GlobusCredential>> entries3 = this.eprCredential.entrySet();
 		Iterator<Entry<EndpointReferenceType, GlobusCredential>> entries_iter3 = entries3.iterator();
 
-		System.out.println();
-		System.out.println("BEGIN Credentials' EPR");
+		logger.trace("BEGIN Credentials' EPR");
 		while(entries_iter3.hasNext()){
 
 			Entry<EndpointReferenceType, GlobusCredential> curr_entry = entries_iter3.next();
-			System.out.println("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
+			logger.trace("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
 		}
-		System.out.println("END Credentials' EPR");
+		logger.trace("END Credentials' EPR");
 
 
 
@@ -404,17 +401,16 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		Set<Entry<String, GlobusCredential>> entries4 = this.servicesCredentials.entrySet();
 		Iterator<Entry<String, GlobusCredential>> entries_iter4 = entries4.iterator();
 
-		System.out.println();
-		System.out.println("BEGIN services' credentials");
+		logger.trace("BEGIN services' credentials");
 		while(entries_iter4.hasNext()){
 
 			Entry<String, GlobusCredential> curr_entry = entries_iter4.next();
-			System.out.println("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
+			logger.trace("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
 		}
-		System.out.println("END services' credentials");
+		logger.trace("END services' credentials");
 
 
-		System.out.println("-------------------------------------------------------------------------");
+		logger.trace("-------------------------------------------------------------------------");
 		return;
 	}
 
@@ -425,7 +421,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	 * */
 	public void registerInvocationHelper(EndpointReferenceType epr, QName name){
 
-		//System.out.println("[registerInvocationHelper] Registering "+ name); //DEBUG
+		logger.info("Registering "+ name); 
 
 		WorkflowInvocationHelperClient invocationHelper;
 		try {
@@ -438,6 +434,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			String key = invocationHelper.getEPRString();
 			this.stageStatus.put(key, new TimestampedStatus(Status.UNCONFIGURED, 0));
 			this.EPR2OperationName.put(key, name.toString());
+			this.stagesEPRs.add(epr);
 
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
@@ -447,7 +444,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			e.printStackTrace();
 		}
 
-		//System.out.println("[registerInvocationHelper] END"); //DEBUG
+		logger.info("END"); 
 
 	} 
 	
@@ -466,7 +463,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		boolean isTimestampedStatusChange = message_qname.equals(TimestampedStatus.getTypeDesc().getXmlType());
 		String stageKey = null;
 		try {
-			stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString();  //arg1.toString();
+			stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString(); 
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		} catch (MalformedURIException e1) {
@@ -476,9 +473,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 
-		//DEBUG
-		PrintStream log = System.out;
-		//log.println("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
+		logger.debug("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
 
 
 		// Handle status change notifications
@@ -491,8 +486,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			}
 
 
-			//log.println("[InstanceHelper::deliver] Received new status value: "+ status.getStatus().toString() 
-				//	+ ':' + status.getTimestamp() +" from "+ this.EPR2OperationName.get(stageKey)); //DEBUG
+			logger.info("Received new status value: "+ status.getStatus().toString() 
+					+ ':' + status.getTimestamp() +" from "+ this.EPR2OperationName.get(stageKey)); 
 
 			this.isFinishedKey.lock();
 			try{
@@ -511,7 +506,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 					}
 
 				}
-				else System.err.println("[WorkflowInstanceHelperResource] Unrecognized stage notified status change: "+ stageKey);
+				else logger.error("[WorkflowInstanceHelperResource] Unrecognized stage notified status change: "+ stageKey);
 
 
 
@@ -604,7 +599,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	protected void printMap(){
 
 
-		System.out.println("BEGIN printMap");
+		logger.trace("BEGIN printMap");
 		Set<Entry<String, TimestampedStatus>> entries = this.stageStatus.entrySet();
 		Iterator<Entry<String, TimestampedStatus>> iter = entries.iterator();
 		while(iter.hasNext()){
@@ -612,9 +607,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			Entry<String, TimestampedStatus> curr = iter.next();
 			String operationName = this.EPR2OperationName.get(curr.getKey());
 
-			System.out.println("["+ operationName +", "+ curr.getValue().getStatus() +"]");
+			logger.trace("["+ operationName +", "+ curr.getValue().getStatus() +"]");
 		}
-		System.out.println("END printMap");
+		logger.trace("END printMap");
 
 
 		return;
@@ -630,5 +625,39 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		this.eprString = epr.toString();
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResourceBase#remove()
+	 */
+	@Override
+	public void remove() throws ResourceException {
+
+		logger.info("Destroying InstanceHelper resource");
+		
+		super.remove();
+		
+		
+		// Destroy each InvocationHelper associated with this resource
+		Iterator<EndpointReferenceType> stages_iter = this.stagesEPRs.iterator();
+		while( stages_iter.hasNext() ){
+			
+			EndpointReferenceType curr_epr = stages_iter.next();
+			WorkflowInvocationHelperClient curr_client;
+			try {
+				curr_client = new WorkflowInvocationHelperClient(curr_epr);
+				curr_client.destroy();
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+			
+			logger.info("Done");
+			return;
+		}
+		
+	}
+
+	
 	
 }

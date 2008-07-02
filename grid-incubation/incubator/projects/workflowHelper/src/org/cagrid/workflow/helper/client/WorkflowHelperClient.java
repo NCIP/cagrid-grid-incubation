@@ -12,6 +12,8 @@ import org.apache.axis.client.Stub;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.gaards.cds.common.ProxyLifetime;
 import org.cagrid.workflow.helper.common.WorkflowHelperI;
 import org.cagrid.workflow.helper.descriptor.CDSAuthenticationMethod;
@@ -43,6 +45,10 @@ import org.globus.gsi.GlobusCredential;
  */
 public class WorkflowHelperClient extends WorkflowHelperClientBase implements WorkflowHelperI {	
 
+	
+	private static Log logger = LogFactory.getLog(WorkflowHelperClient.class);
+	
+	
 	public WorkflowHelperClient(String url) throws MalformedURIException, RemoteException {
 		this(url,null);	
 	}
@@ -73,8 +79,8 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// test....
 					WorkflowHelperClient wf_helper = new WorkflowHelperClient(args[1]);
 
-					System.out.println("args[0] = "+args[0]);
-					System.out.println("args[1] = "+args[1]);
+					logger.info("args[0] = "+args[0]);
+					logger.info("args[1] = "+args[1]);
 					// place client calls here if you want to use this main as a
 					// test....
 
@@ -96,14 +102,14 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					GlobusCredential userCredential = new GlobusCredential(is);
 					
 					
-					System.out.println("Delegating user credential to the Helper"); //DEBUG
+					logger.info("Delegating user credential to the Helper"); 
 					GlobusCredential myCredential = null;
 					try{
 						EndpointReferenceType proxyEPR = CredentialHandlingUtil.delegateCredential(userCredential, wf_helper.getIdentity(), cds_URL, new ProxyLifetime(5,0,0), 
 								new ProxyLifetime(6,0,0), 3, 2);
 
 						// Get delegated credential from the user
-						System.out.println("FakeManager retrieving delegated user credential"); //DEBUG
+						logger.info("FakeManager retrieving delegated user credential"); 
 						myCredential = CredentialHandlingUtil.getDelegatedCredential(new EndpointReference(proxyEPR));
 						wf_helper.setProxy(myCredential);
 					}
@@ -116,7 +122,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					String containerHost = InetAddress.getLocalHost().getHostAddress();
 					String service_prefix = transportProtocol + "://" + containerHost + ':' + containerPort; 
 
-					System.out.println("Localhost is "+ containerHost);//DEBUG
+					logger.info("Localhost is "+ containerHost);
 
 					ProxyLifetime delegationLifetime = new ProxyLifetime(4,0,0);
 					ProxyLifetime issuedCredentialLifetime = new ProxyLifetime(5,0,0);
@@ -758,12 +764,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 						outputDescriptor6.setParamDescriptor(outParameterDescriptor6);
 						client6.configureOutput(outputDescriptor6);
 
-						//DEBUG
-						System.out.println("I/O configuration done, proceeding to add the credential");
-						System.out.flush();
+						logger.info("I/O configuration done, proceeding to add the credential");
+						
 
 						// Set the GlobusCredential to use on InstanceHelper
-						System.out.println("Delegating helper's credential to the InstanceHelper"); //DEBUG
+						logger.info("Delegating helper's credential to the InstanceHelper"); 
 						try{
 							EndpointReferenceType delegationEPR6 = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), cds_URL, delegationLifetime, issuedCredentialLifetime, 
 									delegationPath, issuedCredentialPath);
@@ -774,16 +779,12 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 							t.printStackTrace();
 						}
 						
-						//DEBUG
-						System.out.println("Credential added");
-						System.out.flush();
+						logger.info("Credential added");
 
 						// Set the single parameter of this service
 						client6.setParameter(new InputParameter("121", 0));
 
-						//DEBUG
-						System.out.println("Parameter set");
-						System.out.flush();
+						logger.info("Parameter set");
 						/** END SecureHelloWorld invocation **/
 					}
 
@@ -804,11 +805,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 	}
 
 	public static void printDescriptor(org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor workflowDescriptor){
-		System.out.println("Printing Descriptor content");
-		System.out.println("ID = "+workflowDescriptor.getWorkflowID());
-		System.out.println("URL = "+workflowDescriptor.getServiceURL());
+		logger.debug("Printing Descriptor content");
+		logger.debug("ID = "+workflowDescriptor.getWorkflowID());
+		logger.debug("URL = "+workflowDescriptor.getServiceURL());
 		if(workflowDescriptor.getOperationQName() != null){
-			System.out.println( "OperationQname = "+ workflowDescriptor.getOperationQName().toString());
+			logger.debug( "OperationQname = "+ workflowDescriptor.getOperationQName().toString());
 		}else{
 			return;
 		}

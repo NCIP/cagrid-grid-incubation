@@ -14,6 +14,8 @@ import javax.xml.rpc.ServiceException;
 
 import org.apache.axis.client.Service;
 import org.apache.axis.message.addressing.EndpointReferenceType;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
 import org.globus.wsrf.impl.security.authorization.NoAuthorization;
@@ -31,10 +33,9 @@ public class SecurityConfigurationUtil {
 	private String delegationMode;
 	private Call call;
 	
+	private Log logger = LogFactory.getLog(SecurityConfigurationUtil.class);
 	
-	private static boolean debug = false;
-
-
+	
 	public SecurityConfigurationUtil(EndpointReferenceType epr, GlobusCredential proxy){
 
 		this.epr = epr;
@@ -112,33 +113,33 @@ public class SecurityConfigurationUtil {
 			boolean delegationAllowed = true;
 			boolean credentialsAllowed = true;
 
-			if(debug) System.out.println("[configureStubSecurity] GSITransport? "+ (mechanism.getGSITransport() != null));
+			logger.info("GSITransport? "+ (mechanism.getGSITransport() != null));
 			if ((https) && (mechanism.getGSITransport() != null)) {
 				
-				if(debug) System.out.println("GSITransport"); //DEBUG
+				logger.info("GSITransport"); 
 				
 				ProtectionLevelType level = mechanism.getGSITransport().getProtectionLevel();
 				if (level != null) {
 					
-					if(debug) System.out.println("Protection level is: "+level);
+					logger.info("Protection level is: "+level);
 					
 					if ((level.equals(ProtectionLevelType.privacy)) || (level.equals(ProtectionLevelType.either))) {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_TRANSPORT,
 								org.globus.wsrf.security.Constants.ENCRYPTION);
 						
-						if(debug) System.out.println("Setting prop GSI_TRANSPORT with value ENCRYPTION");//DEBUG
+						logger.info("Setting prop GSI_TRANSPORT with value ENCRYPTION");
 						
 					} else {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_TRANSPORT,
 								org.globus.wsrf.security.Constants.SIGNATURE);
-						if(debug) System.out.println("Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
+						logger.info("Setting prop GSI_TRANSPORT with value SIGNATURE");
 					}
 
 				} else {
 					call.setProperty(org.globus.wsrf.security.Constants.GSI_TRANSPORT,
 							org.globus.wsrf.security.Constants.SIGNATURE);
 					
-					if(debug) System.out.println("Level is null. Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
+					logger.info("Level is null. Setting prop GSI_TRANSPORT with value SIGNATURE");
 				}
 				delegationAllowed = false;
 
@@ -147,7 +148,7 @@ public class SecurityConfigurationUtil {
 						org.globus.wsrf.security.Constants.SIGNATURE);
 				delegationAllowed = false;
 				
-				if(debug) System.out.println("https set. Setting prop GSI_TRANSPORT with value SIGNATURE");//DEBUG
+				logger.info("https set. Setting prop GSI_TRANSPORT with value SIGNATURE");
 				
 			} else if (mechanism.getGSISecureConversation() != null) {
 				ProtectionLevelType level = mechanism.getGSISecureConversation().getProtectionLevel();
@@ -156,20 +157,20 @@ public class SecurityConfigurationUtil {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_CONV,
 								org.globus.wsrf.security.Constants.ENCRYPTION);
 						
-						if(debug) System.out.println("Setting prop GSI_SEC_CONV with value ENCRYPTION");//DEBUG
+						logger.info("Setting prop GSI_SEC_CONV with value ENCRYPTION");
 
 					} else {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_CONV,
 								org.globus.wsrf.security.Constants.SIGNATURE);
 						
-						if(debug) System.out.println("Setting prop GSI_SEC_CONV with value SIGNATURE");//DEBUG
+						logger.info("Setting prop GSI_SEC_CONV with value SIGNATURE");
 					}
 
 				} else {
 					call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_CONV,
 							org.globus.wsrf.security.Constants.ENCRYPTION);
 					
-					if(debug) System.out.println("Setting prop GSI_SEC_CONV with value ENCRYPTION");//DEBUG
+					logger.info("Setting prop GSI_SEC_CONV with value ENCRYPTION");
 				}
 
 			} else if (mechanism.getGSISecureMessage() != null) {
@@ -179,26 +180,26 @@ public class SecurityConfigurationUtil {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_MSG,
 								org.globus.wsrf.security.Constants.ENCRYPTION);
 						
-						if(debug) System.out.println("Setting prop GSI_SEC_MSG with value ENCRYPTION");//DEBUG
+						logger.info("Setting prop GSI_SEC_MSG with value ENCRYPTION");
 						
 					} else {
 						call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_MSG,
 								org.globus.wsrf.security.Constants.SIGNATURE);
 						
-						if(debug) System.out.println("Setting prop GSI_SEC_MSG with value SIGNATURE");//DEBUG
+						logger.info("Setting prop GSI_SEC_MSG with value SIGNATURE");
 					}
 
 				} else {
 					call.setProperty(org.globus.wsrf.security.Constants.GSI_SEC_MSG,
 							org.globus.wsrf.security.Constants.ENCRYPTION);
 					
-					if(debug) System.out.println("Setting prop GSI_SEC_MSG with value ENCRYPTION");//DEBUG
+					logger.info("Setting prop GSI_SEC_MSG with value ENCRYPTION");
 				}
 				delegationAllowed = false;
 				anonymousAllowed = false;
 			} else {
 				
-				if(debug) System.out.println("NOTHING really set.."); // DEBUG
+				logger.info("NOTHING really set.."); 
 				
 				anonymousAllowed = false;
 				authorizationAllowed = false;
@@ -209,7 +210,7 @@ public class SecurityConfigurationUtil {
 			if ((anonymousAllowed) && (mechanism.isAnonymousPermitted())) {
 				call.setProperty(org.globus.wsrf.security.Constants.GSI_ANONYMOUS, Boolean.TRUE);
 				
-				if(debug) System.out.println("Setting prop GSI_ANONYMOUS with value TRUE");//DEBUG
+				logger.info("Setting prop GSI_ANONYMOUS with value TRUE");
 				
 			} else if ((credentialsAllowed) && (proxy != null)) {
 				try {
@@ -217,7 +218,7 @@ public class SecurityConfigurationUtil {
 							org.ietf.jgss.GSSCredential.INITIATE_AND_ACCEPT);
 					call.setProperty(org.globus.axis.gsi.GSIConstants.GSI_CREDENTIALS, gss);
 					
-					if(debug) System.out.println("Setting prop GSI_CREDENTIALS using identity "+ proxy.getIdentity());//DEBUG
+					logger.info("Setting prop GSI_CREDENTIALS using identity "+ proxy.getIdentity());
 					
 				} catch (org.ietf.jgss.GSSException ex) {
 					throw new RemoteException(ex.getMessage());
@@ -228,19 +229,19 @@ public class SecurityConfigurationUtil {
 				if (authorization == null) {
 					call.setProperty(org.globus.wsrf.security.Constants.AUTHORIZATION, NoAuthorization.getInstance());
 					
-					if(debug) System.out.println("Setting prop AUTHORIZATION with value NO_AUTHORIZATION");//DEBUG
+					logger.info("Setting prop AUTHORIZATION with value NO_AUTHORIZATION");
 					
 				} else {
 					call.setProperty(org.globus.wsrf.security.Constants.AUTHORIZATION, getAuthorization());
 					
-					if(debug) System.out.println("Setting prop AUTHORIZATION with value "+getAuthorization());//DEBUG
+					logger.info("Setting prop AUTHORIZATION with value "+getAuthorization());
 				}
 			}
 			if (delegationAllowed) {
 				if (getDelegationMode() != null) {
 					call.setProperty(org.globus.axis.gsi.GSIConstants.GSI_MODE, getDelegationMode());
 					
-					if(debug) System.out.println("Setting prop GSI_MODE with value "+getDelegationMode());//DEBUG
+					logger.info("Setting prop GSI_MODE with value "+getDelegationMode());
 				}
 			}
 		}
