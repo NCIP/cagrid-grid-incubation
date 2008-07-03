@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
 import org.cagrid.workflow.manager.tests.system.steps.RunToyWorkflowStep;
+import org.cagrid.workflow.manager.tests.system.steps.RunUnsecureWorkflowsStep;
 
 public class UnsecureWorkflowTest extends ServiceStoryBase {
 
@@ -148,10 +149,19 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		// Configure a toy workflow to run using the default description format for caOS
 //		String sampleFilesDir = tests_basedir + "workflowDescriptionSamples"+ File.separator;
 		
-		logger.info("Adding step for executing test workflow");
-		
+		logger.info("Adding step for executing toy workflow");
 		Step toyWorkflowStep = new RunToyWorkflowStep(managerEPR);
 		steps.add(toyWorkflowStep);
+		
+		
+		/*Step unsecureWorkflow = null;
+		try {
+			unsecureWorkflow = new RunUnsecureWorkflowsStep(managerEPR, getContainer().getContainerBaseURI().toString());
+		} catch (MalformedURIException e) {
+			e.printStackTrace();
+		}
+		steps.add(unsecureWorkflow); // */
+		
 		
 		logger.info("END");
 		return steps;

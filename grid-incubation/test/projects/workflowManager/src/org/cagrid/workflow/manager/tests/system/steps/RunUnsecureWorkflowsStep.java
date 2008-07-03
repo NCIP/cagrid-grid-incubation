@@ -3,6 +3,7 @@ package org.cagrid.workflow.manager.tests.system.steps;
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,8 @@ import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
@@ -32,17 +35,28 @@ import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.manager.client.WorkflowManagerServiceClient;
+import org.cagrid.workflow.manager.descriptor.WorkflowInputParameter;
+import org.cagrid.workflow.manager.descriptor.WorkflowInputParameters;
 import org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowOutputParameterTransportDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowOutputTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
+import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.globus.wsrf.NotifyCallback;
+import org.globus.wsrf.container.ContainerException;
 
 
 
 public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
+	
+	
+	protected Log logger = LogFactory.getLog(RunUnsecureWorkflowsStep.class);
+	
 
-protected EndpointReferenceType helper_epr = null;
+	protected EndpointReferenceType manager_epr = null;
 	protected String containerBaseURL = null;
 
 	// Synchronizes the access to variable 'isFinished' 
@@ -60,13 +74,13 @@ protected EndpointReferenceType helper_epr = null;
 	final static String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
 	final static String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
 
-	protected final boolean validatorEnabled = true;  // Enable/Disable the output matcher. Should be true when not debugging
+	protected final boolean validatorEnabled = false;  // Enable/Disable the output matcher. Should be true when not debugging
 
 
 
-	public RunUnsecureWorkflowsStep(EndpointReferenceType helper_epr, String containerBaseURL) {
+	public RunUnsecureWorkflowsStep(EndpointReferenceType manager_epr, String containerBaseURL) {
 		super();
-		this.helper_epr = helper_epr;
+		this.manager_epr = manager_epr;
 		this.containerBaseURL  = containerBaseURL;
 	}
 
@@ -84,13 +98,9 @@ protected EndpointReferenceType helper_epr = null;
 		else System.out.println("Not running the output matcher");
 
 
-		WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(this.helper_epr); 
+		WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(this.manager_epr); 
 
-		// TODO Fill the variables below
-		final EndpointReference manager_epr = null; 
-
-
-
+		
 		try {
 
 			/*** Service that will gather all the output and match against the expected ones ***/
@@ -101,7 +111,7 @@ protected EndpointReferenceType helper_epr = null;
 			/*** Testing arrays as services' input ***/
 
 			/** simple type arrays **/
-			System.out.println("Simple arrays as input");
+			/*System.out.println("Simple arrays as input");
 			runSimpleArrayTest(wf_manager, outputMatcherID);
 			System.out.println("OK");
 
@@ -120,7 +130,7 @@ protected EndpointReferenceType helper_epr = null;
 			System.out.println("BEGIN Testing streaming");
 
 			// Streaming simple types 
-			System.out.println("Streaming of simple-type arrays");
+			/*System.out.println("Streaming of simple-type arrays");
 			runSimpleArrayStreaming(wf_manager);
 			System.out.println("OK");  // */
 
@@ -134,13 +144,13 @@ protected EndpointReferenceType helper_epr = null;
 			System.out.println("END Testing streaming"); // */
 
 			/** FAN IN AND FAN OUT TEST **/
-			System.out.println("BEGIN Testing fan in and fan out"); 
+			/*System.out.println("BEGIN Testing fan in and fan out"); 
 			runFaninFanOutTest(wf_manager, outputMatcherID);
 			System.out.println("END Testing fan in and fan out"); // */
 
 			// Block until every stage reports either a FINISHED or an ERROR status
 			this.waitUntilCompletion();
-			
+
 
 		} catch(Throwable t) {
 			t.printStackTrace();
@@ -157,30 +167,30 @@ protected EndpointReferenceType helper_epr = null;
 	protected int runOuputMatcher(WorkflowManagerServiceClient wf_manager) 
 	throws RemoteException {
 
-		
+
 		WorkflowManagerInstanceDescriptor workflowDesc = new WorkflowManagerInstanceDescriptor();
-		
-		
+
+
 		WorkflowPortionDescriptor localWfDesc = new WorkflowPortionDescriptor();
 		EndpointReferenceType managerEPR = wf_manager.getEndpointReference();
 //		String workflowHelperServiceLocation;
 //		localWfDesc.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
 //		localWfDesc.setInvocationHelperDescs(invocationHelperDescs);
-		
+
 
 		WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "Validator";
 		validatorInstanceDesc.setWorkflowID(workflowID);
 		int stageID = Integer.MAX_VALUE;
 		localWfDesc.setInstanceHelperDesc(validatorInstanceDesc);
-		
-		
+
+
 		String outputMatcherURI =  "http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService";
 		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
 		validatorInvocationDesc.setOperationQName(
 				new QName(outputMatcherURI, "ValidateTestOutputRequest"));
 		validatorInvocationDesc.setServiceURL(containerBaseURL + "/wsrf/services/cagrid/ValidateOutputsService");
-		
+
 
 
 		// Configure inputs
@@ -195,7 +205,7 @@ protected EndpointReferenceType helper_epr = null;
 		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"));
 		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string")); // */
 		validatorInputDesc.setInputParam(inputParam);
-		
+
 
 
 		// Configure outputs: it has none
@@ -210,12 +220,12 @@ protected EndpointReferenceType helper_epr = null;
 //		validatorInvocation1.setParameter(new InputParameter("999", 3));
 //		validatorInvocation1.setParameter(new InputParameter("true", 5)); // */
 
-		
+
 //		workflowDesc.setInputs(inputs);
 //		workflowDesc.setOutputDesc(outputDesc);
 //		WorkflowPortionDescriptor[] workflowParts;
 //		workflowDesc.setWorkflowParts(workflowParts);
-		
+
 
 		return stageID;
 	}
@@ -223,21 +233,38 @@ protected EndpointReferenceType helper_epr = null;
 
 	protected void runComplexArrayStreaming(WorkflowManagerServiceClient wf_manager)throws RemoteException {
 
+		
+		WorkflowPortionDescriptor workflowParts = new WorkflowPortionDescriptor();
+		String workflowHelperServiceLocation = this.containerBaseURL + "/wsrf/services/cagrid/WorkflowHelper";
+		workflowParts.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
+		
+				
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "WorkFlow5";
 		workflowDescriptor5.setWorkflowID(workflowID);
+		workflowParts.setInstanceHelperDesc(workflowDescriptor5);
 		
+		ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
+		ArrayList<WorkflowInputParameter> workflowInputs = new ArrayList<WorkflowInputParameter>();
+
 
 		// BEGIN service 4				
-		// Creating client of service 4
+		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
+		int currStageID = 4;
+		currStageDesc.setGlobalUniqueIdentifier(currStageID);
+		
+		
+		
+		
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
 		java.lang.String acess_url = containerBaseURL+"/wsrf/services/cagrid/Service4";
 		operation4.setWorkflowID("GeorgeliusWorkFlow");
 		operation4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
 		operation4.setServiceURL(acess_url);
-
+		currStageDesc.setBasicDescription(operation4);
+		
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
@@ -245,34 +272,44 @@ protected EndpointReferenceType helper_epr = null;
 		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
 		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
 		inputMessage4.setInputParam(inputParams4);
+		currStageDesc.setInputsDescription(inputMessage4);
 		// End InputMessage Descriptor
 
 		// Setting output descriptor
 		OperationOutputTransportDescriptor outputDescriptor4 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor4 [] = new OperationOutputParameterTransportDescriptor[0];
-
-
-		// takes the reference to no service
 		outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 
 
 		// Setting second parameter
-//		serviceClient__4.setParameter(new InputParameter("complex type's streaming", 1));
+		workflowInputs.add(new WorkflowInputParameter(new InputParameter("complex type's streaming", 1), currStageID));
+		currStageDesc.setOutputTransportDescriptor(outputDescriptor4);
+		stagesDescs.add(currStageDesc);
 		// END service 4
 
-		// BEGIN CreateArrayService::getComplexArray				
+		
+		
+		// BEGIN CreateArrayService::getComplexArray	
+		currStageDesc = new WorkflowStageDescriptor();
+		currStageID = 0;
+		currStageDesc.setGlobalUniqueIdentifier(currStageID);
+		
+		
+		
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
 		operation__ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
 		operation__ca.setServiceURL(access_url);
 		operation__ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
+		currStageDesc.setBasicDescription(operation__ca);
 
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__ca = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams__ca = new InputParameterDescriptor[0];
 		inputMessage__ca.setInputParam(inputParams__ca);
+		currStageDesc.setInputsDescription(inputMessage__ca);
 		// End InputMessage Descriptor
 
 		// Creating the outputDescriptor of the only service that will receive the output (ReceiveArrayService)
@@ -286,13 +323,52 @@ protected EndpointReferenceType helper_epr = null;
 		outParameterDescriptor__ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "abc")});
 		outParameterDescriptor__ca[0].setLocationQuery("/ns0:GetComplexArrayResponse/abc:ComplexType/abc:message");
+		outParameterDescriptor__ca[0].setDestinationGlobalUniqueIdentifier(4);
 //		outParameterDescriptor__ca[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient__4.getEndpointReference()});
 
 
 
 		// takes the reference to ReceiveComplexArrayService
 		outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
+		currStageDesc.setOutputTransportDescriptor(outputDescriptor__ca);
 		// END CreateArrayService::getComplexArray 
+		
+		
+		// Store stages' description
+		WorkflowStageDescriptor[] invocationHelperDescs = stagesDescs.toArray(new WorkflowStageDescriptor[0]);
+		workflowParts.setInvocationHelperDescs(invocationHelperDescs);
+		
+		
+		// Store workflow inputs' settings
+		WorkflowInputParameters inputs = new WorkflowInputParameters();
+		WorkflowInputParameter[] parameters = workflowInputs.toArray(new WorkflowInputParameter[0]);
+		inputs.setParameters(parameters);
+		
+		// Store workflow outputs' description
+		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
+		WorkflowOutputParameterTransportDescriptor[] paramDescriptor = new WorkflowOutputParameterTransportDescriptor[1];
+		OperationOutputParameterTransportDescriptor outParamDescriptor = outParameterDescriptor__ca[0];
+		paramDescriptor[0] = new WorkflowOutputParameterTransportDescriptor(outParamDescriptor, currStageID);
+		outputDesc.setParamDescriptor(paramDescriptor);
+		
+		
+		
+		WorkflowManagerInstanceDescriptor managerInstanceDesc = new WorkflowManagerInstanceDescriptor();
+		managerInstanceDesc.setInputs(inputs);
+		managerInstanceDesc.setOutputDesc(outputDesc);
+		managerInstanceDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowParts });
+
+		WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(managerInstanceDesc);
+		WorkflowManagerInstanceClient managerInstanceClient = null;
+		try {
+			managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceRef.getEndpointReference());
+
+		} catch (MalformedURIException e) {
+			e.printStackTrace();
+			
+		} 
+		
+		managerInstanceClient.start();
 	}
 
 
@@ -301,7 +377,7 @@ protected EndpointReferenceType helper_epr = null;
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
 		workflowDescriptor5.setWorkflowID("WorkFlow5");
-		
+
 
 		// BEGIN service 4
 		WorkflowInvocationHelperDescriptor operation_4 = new WorkflowInvocationHelperDescriptor();
@@ -323,7 +399,7 @@ protected EndpointReferenceType helper_epr = null;
 
 		// Setting output descriptor
 		outputDescriptor_4.setParamDescriptor(outParameterDescriptor_4);
-		
+
 
 		// Setting second parameter
 //		serviceClient_4.setParameter(new InputParameter("simple type's streaming", 1));
@@ -338,7 +414,7 @@ protected EndpointReferenceType helper_epr = null;
 		operation__2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "CapitalizeRequest"));
 		operation__2.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/Service2");
 		operation__2.setOutputType(new QName(XSD_NAMESPACE, "string"));
-	
+
 
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
@@ -414,7 +490,7 @@ protected EndpointReferenceType helper_epr = null;
 		workflowDescriptor1.setWorkflowID(workflowID);
 
 
-		
+
 		// BEGIN ReceiveArrayService::ReceiveComplexArray	
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/ReceiveArrayService";
 		WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
@@ -511,7 +587,7 @@ protected EndpointReferenceType helper_epr = null;
 
 		String workflowID = "WorkFlow2";
 		workflowDescriptor2.setWorkflowID(workflowID);
-		
+
 
 
 		// BEGIN ReceiveArrayService::ReceiveArrayAndMore
@@ -607,7 +683,7 @@ protected EndpointReferenceType helper_epr = null;
 
 		String workflowID = "WorkFlow2";
 		workflowDescriptor3.setWorkflowID(workflowID);
-		
+
 
 		// BEGIN service 4				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -838,7 +914,7 @@ protected EndpointReferenceType helper_epr = null;
 
 		// parameters are all set at this point
 		outputDescriptor1.setParamDescriptor(outParameterDescriptor1);
-	
+
 
 		// set the only one parameter of this service.
 		// now it have to run and set one Parameter of the service4
@@ -881,7 +957,7 @@ protected EndpointReferenceType helper_epr = null;
 			}
 
 			//this.printMap(); //DEBUG
- 
+
 		}
 		finally {
 			this.isFinishedKey.unlock();
@@ -891,7 +967,7 @@ protected EndpointReferenceType helper_epr = null;
 
 
 	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
-		
+
 		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)
 		.getResourcePropertyValueChangeNotification();
 
@@ -932,13 +1008,13 @@ protected EndpointReferenceType helper_epr = null;
 
 				boolean statusActuallyChanged = false;
 				if( this.stageStatus.containsKey(stageKey) ){
-					
-					
+
+
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
 					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
-					
+
 					if(statusActuallyChanged){
-						
+
 						this.stageStatus.remove(stageKey);
 						this.stageStatus.put(stageKey, status);
 					}
@@ -946,14 +1022,14 @@ protected EndpointReferenceType helper_epr = null;
 				}
 				else System.err.println("[CreateTestWorkflowsStep] Unrecognized stage notified status change: "+ stageKey);
 
-								
+
 				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
-					
-					
+
+
 					this.isFinished  = this.hasFinished(); 
 
 					if(this.isFinished){
-						
+
 						this.isFinishedCondition.signalAll();
 						Assert.assertFalse(this.stageStatus.containsValue(Status.ERROR));
 					}
@@ -974,23 +1050,23 @@ protected EndpointReferenceType helper_epr = null;
 
 		Set<Entry<String, TimestampedStatus>> entries = this.stageStatus.entrySet();
 		Iterator<Entry<String, TimestampedStatus>> entries_iter = entries.iterator();
-		
+
 		while( entries_iter.hasNext() ){
-		
+
 			Entry<String, TimestampedStatus> curr_entry = entries_iter.next();
 			boolean stageEnded =   curr_entry.getValue().getStatus().equals(Status.FINISHED)
-								|| curr_entry.getValue().getStatus().equals(Status.ERROR);
-			
+			|| curr_entry.getValue().getStatus().equals(Status.ERROR);
+
 			if( !stageEnded )  return false;
-			
+
 		}
-		
+
 		return true;
 	}
 
 
 	protected void subscribe(QName notificationType, WorkflowManagerInstanceClient  toSubscribe, String stageOperationQName){
-	//protected void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
+		//protected void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
 
 		try{
 
@@ -1027,5 +1103,5 @@ protected EndpointReferenceType helper_epr = null;
 
 		return;
 	}
-	
-	}
+
+}
