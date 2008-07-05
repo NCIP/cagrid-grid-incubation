@@ -98,10 +98,15 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		
 		
 		File services_dirs[] = new File[]{
-				/*new File(tests_basedir + "First"),
+				new File(tests_basedir + "First"),
 				new File(tests_basedir + "Second"), // */
 				new File(helperResourcesDir + "CreateArrayService"),
+				new File(helperResourcesDir + "ReceiveArrayService"),
+				new File(helperResourcesDir + "Service1"),
+				new File(helperResourcesDir + "Service2"),
+				new File(helperResourcesDir + "Service3"),
 				new File(helperResourcesDir + "Service4"),
+				new File(helperResourcesDir + "Service5"),
 				helperDir,            
 				managerDir,
 				
@@ -160,8 +165,8 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		// Configure a toy workflow to run using the default description format for caOS
 //		String sampleFilesDir = tests_basedir + "workflowDescriptionSamples"+ File.separator;
 		
-		/*
-		logger.info("Adding step for executing toy workflow");
+		
+		/*logger.info("Adding step for executing toy workflow");
 		Step toyWorkflowStep = new RunToyWorkflowStep(managerEPR);
 		steps.add(toyWorkflowStep); // */
 		
