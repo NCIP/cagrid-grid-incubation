@@ -88,12 +88,23 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		File managerDir = new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
 				+ File.separator + "projects" + File.separator + "workflowManager"); 
 		
+		File helperDir = new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
+				+ File.separator + "projects" + File.separator + "workflowHelper");
+		
+		
+		String helperResourcesDir = null;
+		helperResourcesDir = tests_basedir + ".."+ File.separator +".."+ File.separator +"WorkflowHelper" + File.separator + "resources" + File.separator;
+		logger.info("Helper resources directory is: "+ helperResourcesDir);
+		
+		
 		File services_dirs[] = new File[]{
-				new File(tests_basedir + "First"),
-				new File(tests_basedir + "Second"),            
-				new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
-						+ File.separator + "projects" + File.separator + "workflowHelper"),            
-				managerDir
+				/*new File(tests_basedir + "First"),
+				new File(tests_basedir + "Second"), // */
+				new File(helperResourcesDir + "CreateArrayService"),
+				new File(helperResourcesDir + "Service4"),
+				helperDir,            
+				managerDir,
+				
 				};
 
 		
@@ -149,17 +160,22 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		// Configure a toy workflow to run using the default description format for caOS
 //		String sampleFilesDir = tests_basedir + "workflowDescriptionSamples"+ File.separator;
 		
+		/*
 		logger.info("Adding step for executing toy workflow");
 		Step toyWorkflowStep = new RunToyWorkflowStep(managerEPR);
-		steps.add(toyWorkflowStep);
+		steps.add(toyWorkflowStep); // */
 		
 		
-		/*Step unsecureWorkflow = null;
+		logger.info("Adding step for executing unsecure workflow test");
+		Step unsecureWorkflow = null;
 		try {
 			unsecureWorkflow = new RunUnsecureWorkflowsStep(managerEPR, getContainer().getContainerBaseURI().toString());
 		} catch (MalformedURIException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
+		} catch(Throwable t){
+			logger.error(t.getMessage());
 		}
+		
 		steps.add(unsecureWorkflow); // */
 		
 		

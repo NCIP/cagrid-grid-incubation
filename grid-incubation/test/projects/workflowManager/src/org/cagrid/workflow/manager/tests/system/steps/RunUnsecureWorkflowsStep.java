@@ -20,11 +20,11 @@ import javax.xml.namespace.QName;
 import junit.framework.Assert;
 
 import org.apache.axis.message.MessageElement;
-import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.workflow.helper.descriptor.DeliveryPolicy;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
@@ -45,7 +45,6 @@ import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.globus.wsrf.NotifyCallback;
-import org.globus.wsrf.container.ContainerException;
 
 
 
@@ -93,9 +92,9 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		/** Instantiate each of the workflows: Fan in-Fan out, simple-type array forwarding, complex-type array forwarding,
 		 * simple-type array streaming, complex-type array streaming  
 		 * */
-		System.out.println("-x-x-x- BEGIN NON-SECURE WORKFLOWS TESTS -x-x-x-");
-		if( this.validatorEnabled ) System.out.println("Running the output matcher");
-		else System.out.println("Not running the output matcher");
+		logger.info("-x-x-x- BEGIN NON-SECURE WORKFLOWS TESTS -x-x-x-");
+		if( this.validatorEnabled ) logger.info("Running the output matcher");
+		else logger.info("Not running the output matcher");
 
 
 		WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(this.manager_epr); 
@@ -104,22 +103,22 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		try {
 
 			/*** Service that will gather all the output and match against the expected ones ***/
-			int outputMatcherID = this.validatorEnabled ? runOuputMatcher(wf_manager) : null;
+//			int outputMatcherID = this.validatorEnabled ? runOuputMatcher(wf_manager) : Integer.MAX_VALUE;
 
 
 
 			/*** Testing arrays as services' input ***/
 
 			/** simple type arrays **/
-			/*System.out.println("Simple arrays as input");
+			/*logger.info("Simple arrays as input");
 			runSimpleArrayTest(wf_manager, outputMatcherID);
-			System.out.println("OK");
+			logger.info("OK");
 
-			System.out.println("Complex arrays as input");
+			logger.info("Complex arrays as input");
 			runComplexArrayTest(wf_manager, outputMatcherID);
-			System.out.println("OK"); 
+			logger.info("OK"); 
 
-			System.out.println("END Testing arrays"); // */
+			logger.info("END Testing arrays"); // */
 
 
 
@@ -127,26 +126,26 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 			/** BEGIN streaming test **/
-			System.out.println("BEGIN Testing streaming");
+			logger.info("BEGIN Testing streaming");
 
 			// Streaming simple types 
-			/*System.out.println("Streaming of simple-type arrays");
+			/*logger.info("Streaming of simple-type arrays");
 			runSimpleArrayStreaming(wf_manager);
-			System.out.println("OK");  // */
+			logger.info("OK");  // */
 
 
 
 			/* Streaming complex types */
-			System.out.println("Streaming of complex-type arrays");
+			logger.info("Streaming of complex-type arrays");
 			runComplexArrayStreaming(wf_manager);
-			System.out.println("OK");
+			logger.info("OK");
 
-			System.out.println("END Testing streaming"); // */
+			logger.info("END Testing streaming"); // */
 
 			/** FAN IN AND FAN OUT TEST **/
-			/*System.out.println("BEGIN Testing fan in and fan out"); 
+			/*logger.info("BEGIN Testing fan in and fan out"); 
 			runFaninFanOutTest(wf_manager, outputMatcherID);
-			System.out.println("END Testing fan in and fan out"); // */
+			logger.info("END Testing fan in and fan out"); // */
 
 			// Block until every stage reports either a FINISHED or an ERROR status
 			this.waitUntilCompletion();
@@ -158,7 +157,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		}
 
 
-		System.out.println("-x-x-x- END NON-SECURE WORKFLOWS TESTS -x-x-x-");
+		logger.info("-x-x-x- END NON-SECURE WORKFLOWS TESTS -x-x-x-");
 		return;
 	}
 
@@ -234,12 +233,16 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	protected void runComplexArrayStreaming(WorkflowManagerServiceClient wf_manager)throws RemoteException {
 
 		
+		logger.info("BEGIN");
+		
 		WorkflowPortionDescriptor workflowParts = new WorkflowPortionDescriptor();
-		String workflowHelperServiceLocation = this.containerBaseURL + "/wsrf/services/cagrid/WorkflowHelper";
+		String workflowHelperServiceLocation = this.containerBaseURL + "cagrid/WorkflowHelper";
+		logger.info("WorkflowHelper is located at: "+ workflowHelperServiceLocation);
 		workflowParts.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
 		
 				
 
+		logger.info("Creating InstanceHelper descriptor");
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "WorkFlow5";
 		workflowDescriptor5.setWorkflowID(workflowID);
@@ -250,16 +253,17 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 		// BEGIN service 4				
+		logger.info("Describing service 4");
 		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 		int currStageID = 4;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
 		
 		
 		
-		
+		logger.info("Building basic description");
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
-		java.lang.String acess_url = containerBaseURL+"/wsrf/services/cagrid/Service4";
+		java.lang.String acess_url = containerBaseURL+"cagrid/Service4";
 		operation4.setWorkflowID("GeorgeliusWorkFlow");
 		operation4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
 		operation4.setServiceURL(acess_url);
@@ -267,6 +271,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		
 
 		// Creating Descriptor of the InputMessage
+		logger.info("Building input parameters descriptor");
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
 		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
@@ -276,28 +281,32 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// End InputMessage Descriptor
 
 		// Setting output descriptor
+		logger.info("Building output descriptor");
 		OperationOutputTransportDescriptor outputDescriptor4 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor4 [] = new OperationOutputParameterTransportDescriptor[0];
 		outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 
 
 		// Setting second parameter
+		logger.info("Setting value for the 2nd argument");
 		workflowInputs.add(new WorkflowInputParameter(new InputParameter("complex type's streaming", 1), currStageID));
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor4);
 		stagesDescs.add(currStageDesc);
+		logger.info("Done Service 4");
 		// END service 4
 
 		
 		
 		// BEGIN CreateArrayService::getComplexArray	
+		logger.info("Describing CreateArrayService");
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID = 0;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
 		
 		
-		
+		logger.info("Building stage basic description");
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-		String access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
+		String access_url = containerBaseURL+"cagrid/CreateArrayService";
 		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
 		operation__ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
 		operation__ca.setServiceURL(access_url);
@@ -306,6 +315,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 		// Creating Descriptor of the InputMessage
+		logger.info("Building input parameters' descriptor");
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__ca = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams__ca = new InputParameterDescriptor[0];
 		inputMessage__ca.setInputParam(inputParams__ca);
@@ -313,11 +323,14 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// End InputMessage Descriptor
 
 		// Creating the outputDescriptor of the only service that will receive the output (ReceiveArrayService)
+		logger.info("Building output descriptor");
 		OperationOutputTransportDescriptor outputDescriptor__ca = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor__ca [] = new OperationOutputParameterTransportDescriptor[1];
 
 		// First destination: ReceiveArrayService::ReceiveComplexArray
+		logger.info("Adding destination for output");
 		outParameterDescriptor__ca[0] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor__ca[0].setDeliveryPolicy(DeliveryPolicy.ROUNDROBIN);
 		outParameterDescriptor__ca[0].setParamIndex(0);
 		outParameterDescriptor__ca[0].setType(new QName(XSD_NAMESPACE ,"string"));
 		outParameterDescriptor__ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
@@ -331,28 +344,31 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// takes the reference to ReceiveComplexArrayService
 		outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor__ca);
+		stagesDescs.add(currStageDesc);
+		logger.info("Done CreateArrayService");
 		// END CreateArrayService::getComplexArray 
 		
 		
 		// Store stages' description
+		logger.info("Storing stages' descriptors");
 		WorkflowStageDescriptor[] invocationHelperDescs = stagesDescs.toArray(new WorkflowStageDescriptor[0]);
 		workflowParts.setInvocationHelperDescs(invocationHelperDescs);
 		
 		
 		// Store workflow inputs' settings
+		logger.info("Storing workflow input data");
 		WorkflowInputParameters inputs = new WorkflowInputParameters();
 		WorkflowInputParameter[] parameters = workflowInputs.toArray(new WorkflowInputParameter[0]);
 		inputs.setParameters(parameters);
 		
 		// Store workflow outputs' description
+		logger.info("Storing workflow output output description");
 		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
-		WorkflowOutputParameterTransportDescriptor[] paramDescriptor = new WorkflowOutputParameterTransportDescriptor[1];
-		OperationOutputParameterTransportDescriptor outParamDescriptor = outParameterDescriptor__ca[0];
-		paramDescriptor[0] = new WorkflowOutputParameterTransportDescriptor(outParamDescriptor, currStageID);
+		WorkflowOutputParameterTransportDescriptor[] paramDescriptor = new WorkflowOutputParameterTransportDescriptor[0];
 		outputDesc.setParamDescriptor(paramDescriptor);
 		
 		
-		
+		logger.info("Creating ManagerInstance");
 		WorkflowManagerInstanceDescriptor managerInstanceDesc = new WorkflowManagerInstanceDescriptor();
 		managerInstanceDesc.setInputs(inputs);
 		managerInstanceDesc.setOutputDesc(outputDesc);
@@ -368,7 +384,10 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			
 		} 
 		
+		logger.info("Starting workflow execution");
 		managerInstanceClient.start();
+		
+		logger.info("END");
 	}
 
 
