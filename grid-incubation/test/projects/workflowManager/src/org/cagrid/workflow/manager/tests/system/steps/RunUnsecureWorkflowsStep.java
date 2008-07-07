@@ -45,7 +45,6 @@ import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.globus.wsrf.NotifyCallback;
-import org.globus.wsrf.container.ContainerException;
 
 
 
@@ -69,6 +68,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	protected Map<String, String> EPR2OperationName = new HashMap<String, String>();
 
 	protected boolean isFinished = false;
+	protected List<EndpointReferenceType> managerInstances = new ArrayList<EndpointReferenceType>();
 
 
 	final static String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
@@ -385,6 +385,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			
 		} 
 		
+		this.managerInstances.add(managerInstanceRef.getEndpointReference());
+		
 		logger.info("Starting workflow execution");
 		managerInstanceClient.start();
 		
@@ -552,6 +554,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 		WorkflowManagerInstanceClient managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceRef.getEndpointReference());
 		
+		this.managerInstances.add(managerInstanceRef.getEndpointReference());
+		
 		managerInstanceClient.start();
 //		managerInstanceClient.destroy();
 		
@@ -707,6 +711,9 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(), e);
 		} 
+		
+		this.managerInstances.add(managerInstanceRef.getEndpointReference());
+		
 		managerInstanceClient.start();
 		
 //		managerInstanceClient.destroy();
@@ -859,11 +866,13 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(),e );
 		} 
+		
+		this.managerInstances.add(instanceRef.getEndpointReference());
 	
 		instanceClient.start();
 		
-		this.waitUntilCompletion();
-		instanceClient.destroy();
+//		this.waitUntilCompletion();
+//		instanceClient.destroy();
 		
 		
 		return;
@@ -1189,6 +1198,10 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(), e);
 		}
+		
+		
+		this.managerInstances.add(instanceRef.getEndpointReference());
+		
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), instanceClient, workflowID);
 		
 		instanceClient.start();
@@ -1290,7 +1303,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 					}
 
 				}
-				else System.err.println("[CreateTestWorkflowsStep] Unrecognized stage notified status change: "+ stageKey);
+				else logger.warn("Unrecognized stage notified status change: "+ stageKey);
 
 
 				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
@@ -1302,6 +1315,27 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 						this.isFinishedCondition.signalAll();
 						Assert.assertFalse(this.stageStatus.containsValue(Status.ERROR));
+						
+						// Destroy ManagerInstance resources
+						Iterator<EndpointReferenceType> instances_iter = this.managerInstances.iterator();
+						while( instances_iter.hasNext() ){
+							
+							EndpointReferenceType curr_managerInstance = instances_iter.next();
+							WorkflowManagerInstanceClient curr_client;
+							try {
+								curr_client = new WorkflowManagerInstanceClient(curr_managerInstance);
+//								curr_client.destroy();
+							} catch (MalformedURIException e) {
+								logger.error(e.getMessage(), e);
+								e.printStackTrace();
+							} catch (RemoteException e) {
+								logger.error(e.getMessage(), e);
+								e.printStackTrace();
+							}
+							
+							
+						}
+						
 					}
 				}
 			}

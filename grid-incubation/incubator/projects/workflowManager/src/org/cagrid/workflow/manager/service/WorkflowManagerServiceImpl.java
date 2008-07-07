@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlException;
 import org.cagrid.workflow.helper.client.WorkflowHelperClient;
+import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
@@ -30,6 +31,8 @@ import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
+import org.cagrid.workflow.manager.descriptor.WorkflowInputParameter;
+import org.cagrid.workflow.manager.descriptor.WorkflowInputParameters;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
@@ -58,7 +61,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 	public WorkflowManagerServiceImpl() throws RemoteException {
 		super();
 	}
-
 
 	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromBpel(java.lang.String bpelDescription,java.lang.String operationsDescription,org.apache.axis.message.addressing.EndpointReferenceType managerEPR) throws RemoteException {
 
@@ -121,8 +123,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		} catch(Throwable t){
 			t.printStackTrace();
 		} // */
-
-
 
 		/** Parse additional description file */ 
 		Reader operationsDescReader = new StringReader(operationsDescription);
@@ -428,15 +428,13 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 	 * */
 	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
 
-
 		org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc = WorkflowDescriptorParser.parseWorkflowDescriptor(xmlWorkflowDescription);
 
 		return this.createWorkflowManagerInstanceFromObjectDescriptor(workflowDesc);
 	}
 
-	
-	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
 
+	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
 
 		org.apache.axis.message.addressing.EndpointReferenceType managerInstanceEpr = new org.apache.axis.message.addressing.EndpointReferenceType();
 		WorkflowManagerInstanceResourceHome home;
@@ -529,18 +527,17 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					stageID2OutputDesc.put(Integer.valueOf(stageID), curr_stageDesc.getOutputTransportDescriptor());
 				}
 
-
 				// Register current WorkflowInstanceHelper in the current ManagerInstance
 				thisResource.registerInstanceHelper(instanceHelperClient.getEndpointReference(), helperServiceURL);
-
 
 			} catch (MalformedURIException e) {
 				e.printStackTrace();
 			}
 		}
 
-
+		
 		// Configure the outputs of each workflow stage
+		logger.info("Configuring stages' outputs");
 		Set<Entry<Integer,OperationOutputTransportDescriptor>> entries = stageID2OutputDesc.entrySet();
 		Iterator<Entry<Integer, OperationOutputTransportDescriptor>> iter = entries.iterator();
 		while( iter.hasNext() ){
@@ -576,19 +573,44 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			currStageClient.configureOutput(outputDesc);
 		}
 
-
 		// Store stages' EPRs so we can start each one of them when asked by the user
 		thisResource.storeStagesEPRs(stageID2EPR);
 
+		
+		// Get static input values and send them to the associated InvocationHelper
+		logger.info("Setting stages' static parameter values");
+		WorkflowInputParameters workflowInput = workflowDesc.getInputs();
+		WorkflowInputParameter[] inputValues = workflowInput.getParameters();;
+		for(int i=0; i < inputValues.length; i++){
+			
+			WorkflowInputParameter currInputValue = inputValues[i];
+			InputParameter param = currInputValue.getParamDescription();
+			int destinationID = currInputValue.getParamDestinationGUID();
 
-
-
+			logger.info("Sending parameter value to stage identified by "+ destinationID +": ("
+					+ param.getData() + ", " + param.getParamIndex() + ')');
+			
+			// Get EPR associated with current destination to send the input value to the appropriate location
+			EndpointReferenceType destinationEPR = stageID2EPR.get(Integer.valueOf(destinationID));
+			WorkflowInvocationHelperClient destinationClient = null;
+			try {
+				destinationClient = new WorkflowInvocationHelperClient(destinationEPR);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
+			destinationClient.setParameter(param);
+		}
+		
+		
+		
 		// return the typed EPR
 		WorkflowManagerInstanceReference ref = new WorkflowManagerInstanceReference();
 		ref.setEndpointReference(managerInstanceEpr);
 
+		
+		logger.info("END");
 		return ref;  
 	}
-	
+
 }
 

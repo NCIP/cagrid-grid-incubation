@@ -5,8 +5,10 @@ import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import javax.xml.namespace.QName;
+import javax.xml.rpc.NamespaceConstants;
 
 import org.apache.axis.EngineConfiguration;
 import org.apache.axis.client.AxisClient;
@@ -15,15 +17,21 @@ import org.apache.axis.configuration.FileProvider;
 import org.apache.axis.message.addressing.AttributedURI;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.descriptor.DeliveryPolicy;
+import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
-import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.manager.common.WorkflowManagerServiceI;
+import org.cagrid.workflow.manager.descriptor.WorkflowInputParameter;
+import org.cagrid.workflow.manager.descriptor.WorkflowInputParameters;
 import org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowOutputParameterTransportDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowOutputTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
@@ -47,6 +55,11 @@ import org.globus.gsi.GlobusCredential;
 public class WorkflowManagerServiceClient extends ServiceSecurityClient implements WorkflowManagerServiceI {	
 	protected WorkflowManagerServicePortType portType;
 	private Object portTypeMutex;
+
+
+
+	private static Log logger = LogFactory.getLog(WorkflowManagerServiceClient.class);
+
 
 	public WorkflowManagerServiceClient(String url) throws MalformedURIException, RemoteException {
 		this(url,null);	
@@ -96,7 +109,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		System.out.println(WorkflowManagerServiceClient.class.getName() + " -url <service url>");
 	}
 
-	
+
 
 	public static void main(String [] args){
 		System.out.println("Running the Grid Service Client");
@@ -107,12 +120,12 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					// place client calls here if you want to use this main as a
 					// test....
 //					runBpelTest(client);
-					
-					
+
+
 					runCaosDescriptorTest(client);
-					
-					
-					
+
+
+
 					System.out.println("End client");
 
 				} else {
@@ -129,135 +142,187 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		}
 	}
 
-	
-	
-	private static void runCaosDescriptorTest(WorkflowManagerServiceClient client) throws RemoteException {
-		
-		
+
+
+	private static void runCaosDescriptorTest(WorkflowManagerServiceClient managerClient) throws RemoteException {
+
+		logger.info("BEGIN");
+
 		WorkflowManagerInstanceDescriptor workflowDesc = new WorkflowManagerInstanceDescriptor();
-		
-		
-		// Create description for the portion of the workflow that will be within the same container
-		WorkflowPortionDescriptor[] workflowParts = new WorkflowPortionDescriptor[1];
-		workflowParts[0] = new WorkflowPortionDescriptor();
-		
-		
-		WorkflowInstanceHelperDescriptor instanceHelperDesc = new WorkflowInstanceHelperDescriptor();
-		String workflowID = "test_workflow_123";
-		instanceHelperDesc.setWorkflowID(workflowID);
-		EndpointReferenceType managerEPR = client.getEndpointReference();
-		instanceHelperDesc.setWorkflowManagerEPR(managerEPR);
-		// instanceHelperDesc.setProxyEPR(proxyEPR); // TODO Set the EPRs of each credential that should be managed
-		workflowParts[0].setInstanceHelperDesc(instanceHelperDesc);
-		
-		
+
+
 		// Build HelperService URL
-		
+		EndpointReferenceType managerEPR = managerClient.getEndpointReference();
 		AttributedURI managerAddress = managerEPR.getAddress();
-		String workflowHelperServiceLocation = managerAddress.getScheme() + "://" + managerAddress.getHost() + ':' +
-			managerAddress.getPort() + "/wsrf/services/cagrid/WorkflowHelper";
-		workflowParts[0].setWorkflowHelperServiceLocation(workflowHelperServiceLocation );
+		String containerBaseURL = managerAddress.getScheme() + "://" + managerAddress.getHost() + ':' +
+		managerAddress.getPort() + "/wsrf/services/";
+		String workflowHelperServiceLocation = containerBaseURL + "cagrid/WorkflowHelper";
+	
+
+
+
 		
-		
-		
-		// Build description of each stage
-		WorkflowStageDescriptor[] invocationHelperDescs = new WorkflowStageDescriptor[2];
-		
-		
-		
-		/** 2nd stage */
-		invocationHelperDescs[1] = new WorkflowStageDescriptor();
-		invocationHelperDescs[1].setGlobalUniqueIdentifier(2);
-		WorkflowInvocationHelperDescriptor basicDescription = new WorkflowInvocationHelperDescriptor();
-		basicDescription.setOperationQName(new QName("http://second.cagrid.org/Second", "ReceiveRequest"));  // Remember this is actually the request name, not the method name 
-		basicDescription.setServiceURL(managerAddress.getScheme() + "://" + managerAddress.getHost() + ':' +
-				managerAddress.getPort() + "/wsrf/services/cagrid/Second");
-		basicDescription.setWorkflowID(workflowID);
-		basicDescription.setWorkflowManagerEPR(managerEPR);
-		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor); // TODO
-		invocationHelperDescs[1].setBasicDescription(basicDescription);
-		
-		
-		
-		InputParameterDescriptor[] inputDesc = new InputParameterDescriptor[1]; 
-		inputDesc[0] = new InputParameterDescriptor();
-		inputDesc[0].setParamQName(new QName("input"));
-		inputDesc[0].setParamType(new QName("string"));
-		OperationInputMessageDescriptor inputsDescription = new OperationInputMessageDescriptor(inputDesc );
-		invocationHelperDescs[1].setInputsDescription(inputsDescription);
-		
-		
-		
-		OperationOutputTransportDescriptor outputTransportDescriptor = new OperationOutputTransportDescriptor(new OperationOutputParameterTransportDescriptor[0]);
-		invocationHelperDescs[1].setOutputTransportDescriptor(outputTransportDescriptor);
-		
-		
-		workflowParts[0].setInvocationHelperDescs(invocationHelperDescs);
-		workflowDesc.setWorkflowParts(workflowParts);
-		
-		
-		
-		/** 1st stage */
-		invocationHelperDescs[0] = new WorkflowStageDescriptor();
-		invocationHelperDescs[0].setGlobalUniqueIdentifier(1);
-		basicDescription = new WorkflowInvocationHelperDescriptor();
-		basicDescription.setOperationQName(new QName("http://first.cagrid.org/First", "PrintRequest"));
-		basicDescription.setOutputType(new QName("string"));
-		basicDescription.setServiceURL(managerAddress.getScheme() + "://" + managerAddress.getHost() + ':' +
-				managerAddress.getPort() + "/wsrf/services/cagrid/First");
-		basicDescription.setWorkflowID(workflowID);
-		basicDescription.setWorkflowManagerEPR(managerEPR);
-		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor); // TODO
-		invocationHelperDescs[0].setBasicDescription(basicDescription);
-		
-		
-		
-		inputDesc = new InputParameterDescriptor[0]; // No input parameters for this stage
-		inputsDescription = new OperationInputMessageDescriptor(inputDesc );
-		invocationHelperDescs[0].setInputsDescription(inputsDescription);
-		
-		
-		
-		outputTransportDescriptor = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor[] paramDescriptor = new OperationOutputParameterTransportDescriptor[1];
-		paramDescriptor[0] = new OperationOutputParameterTransportDescriptor();
-		paramDescriptor[0].setDeliveryPolicy(DeliveryPolicy.ROUNDROBIN);
-		paramDescriptor[0].setDestinationGlobalUniqueIdentifier(2);
-		paramDescriptor[0].setQueryNamespaces(new QName[]{ new QName("http://first.cagrid.org/First", "ns1") });
-		paramDescriptor[0].setLocationQuery("/ns1:PrintResponse");
-		paramDescriptor[0].setParamIndex(0);
-		paramDescriptor[0].setType(new QName("string"));
-		
-		outputTransportDescriptor.setParamDescriptor(paramDescriptor );
-		invocationHelperDescs[0].setOutputTransportDescriptor(outputTransportDescriptor);
-		
-		
-		
-		
-		
-		// TODO Configure the data exchange between the user and the workflow
-//		workflowDesc.setInputs(inputs);
-//		workflowDesc.setOutputDesc(outputDesc);
-		
-		
-		
-		WorkflowManagerInstanceReference managerInstance = client.createWorkflowManagerInstanceFromObjectDescriptor(workflowDesc);
-		
+
+		WorkflowPortionDescriptor workflowParts = new WorkflowPortionDescriptor();
+		logger.info("WorkflowHelper is located at: "+ workflowHelperServiceLocation);
+		workflowParts.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
+
+
+
+		logger.info("Creating InstanceHelper descriptor");
+		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
+		String workflowID = "WorkFlow5";
+		workflowDescriptor5.setWorkflowID(workflowID);
+		workflowParts.setInstanceHelperDesc(workflowDescriptor5);
+
+		ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
+		ArrayList<WorkflowInputParameter> workflowInputs = new ArrayList<WorkflowInputParameter>();
+
+
+		// BEGIN service 4				
+		logger.info("Describing service 4");
+		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
+		int currStageID = 4;
+		currStageDesc.setGlobalUniqueIdentifier(currStageID);
+
+
+
+		logger.info("Building basic description");
+		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+
+		java.lang.String acess_url = containerBaseURL+"cagrid/Service4";
+		operation4.setWorkflowID("GeorgeliusWorkFlow");
+		operation4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
+		operation4.setServiceURL(acess_url);
+		currStageDesc.setBasicDescription(operation4);
+
+
+		// Creating Descriptor of the InputMessage
+		logger.info("Building input parameters descriptor");
+		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
+		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
+		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		inputMessage4.setInputParam(inputParams4);
+		currStageDesc.setInputsDescription(inputMessage4);
+		// End InputMessage Descriptor
+
+		// Setting output descriptor
+		logger.info("Building output descriptor");
+		OperationOutputTransportDescriptor outputDescriptor4 = new OperationOutputTransportDescriptor();
+		OperationOutputParameterTransportDescriptor outParameterDescriptor4 [] = new OperationOutputParameterTransportDescriptor[0];
+		outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
+
+
+		// Setting second parameter
+		logger.info("Setting value for the 2nd argument");
+		workflowInputs.add(new WorkflowInputParameter(new InputParameter("complex type's streaming", 1), currStageID));
+		currStageDesc.setOutputTransportDescriptor(outputDescriptor4);
+		stagesDescs.add(currStageDesc);
+		logger.info("Done Service 4");
+		// END service 4
+
+
+
+		// BEGIN CreateArrayService::getComplexArray	
+		logger.info("Describing CreateArrayService");
+		currStageDesc = new WorkflowStageDescriptor();
+		currStageID = 0;
+		currStageDesc.setGlobalUniqueIdentifier(currStageID);
+
+
+		logger.info("Building stage basic description");
+		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+		String access_url = containerBaseURL+"cagrid/CreateArrayService";
+		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
+		operation__ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
+		operation__ca.setServiceURL(access_url);
+		operation__ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
+		currStageDesc.setBasicDescription(operation__ca);
+
+
+		// Creating Descriptor of the InputMessage
+		logger.info("Building input parameters' descriptor");
+		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__ca = new OperationInputMessageDescriptor();
+		InputParameterDescriptor[] inputParams__ca = new InputParameterDescriptor[0];
+		inputMessage__ca.setInputParam(inputParams__ca);
+		currStageDesc.setInputsDescription(inputMessage__ca);
+		// End InputMessage Descriptor
+
+		// Creating the outputDescriptor of the only service that will receive the output (ReceiveArrayService)
+		logger.info("Building output descriptor");
+		OperationOutputTransportDescriptor outputDescriptor__ca = new OperationOutputTransportDescriptor();
+		OperationOutputParameterTransportDescriptor outParameterDescriptor__ca [] = new OperationOutputParameterTransportDescriptor[1];
+
+		// First destination: ReceiveArrayService::ReceiveComplexArray
+		logger.info("Adding destination for output");
+		outParameterDescriptor__ca[0] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor__ca[0].setDeliveryPolicy(DeliveryPolicy.ROUNDROBIN);
+		outParameterDescriptor__ca[0].setParamIndex(0);
+		outParameterDescriptor__ca[0].setType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD ,"string"));
+		outParameterDescriptor__ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
+				new QName(NamespaceConstants.NSURI_SCHEMA_XSD,"xsd"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "abc")});
+		outParameterDescriptor__ca[0].setLocationQuery("/ns0:GetComplexArrayResponse/abc:ComplexType/abc:message");
+		outParameterDescriptor__ca[0].setDestinationGlobalUniqueIdentifier(4);
+//		outParameterDescriptor__ca[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient__4.getEndpointReference()});
+
+
+
+		// takes the reference to ReceiveComplexArrayService
+		outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
+		currStageDesc.setOutputTransportDescriptor(outputDescriptor__ca);
+		stagesDescs.add(currStageDesc);
+		logger.info("Done CreateArrayService");
+		// END CreateArrayService::getComplexArray 
+
+
+		// Store stages' description
+		logger.info("Storing stages' descriptors");
+		WorkflowStageDescriptor[] invocationHelperDescs = stagesDescs.toArray(new WorkflowStageDescriptor[0]);
+		workflowParts.setInvocationHelperDescs(invocationHelperDescs);
+
+
+		// Store workflow inputs' settings
+		logger.info("Storing workflow input data");
+		WorkflowInputParameters inputs = new WorkflowInputParameters();
+		WorkflowInputParameter[] parameters = workflowInputs.toArray(new WorkflowInputParameter[0]);
+		inputs.setParameters(parameters);
+
+		// Store workflow outputs' description
+		logger.info("Storing workflow output output description");
+		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
+		WorkflowOutputParameterTransportDescriptor[] paramDescriptor = new WorkflowOutputParameterTransportDescriptor[0];
+		outputDesc.setParamDescriptor(paramDescriptor);
+
+
+		logger.info("Creating ManagerInstance");
+		WorkflowManagerInstanceDescriptor managerInstanceDesc = new WorkflowManagerInstanceDescriptor();
+		managerInstanceDesc.setInputs(inputs);
+		managerInstanceDesc.setOutputDesc(outputDesc);
+		managerInstanceDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowParts });
+
+		WorkflowManagerInstanceReference managerInstanceRef = managerClient.createWorkflowManagerInstanceFromObjectDescriptor(managerInstanceDesc);
 		WorkflowManagerInstanceClient managerInstanceClient = null;
 		try {
-			managerInstanceClient = new WorkflowManagerInstanceClient(managerInstance.getEndpointReference());
+			managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceRef.getEndpointReference());
+
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
-		}
+
+		} 
+
+		logger.info("Starting workflow execution");
 		managerInstanceClient.start();
 		managerInstanceClient.destroy();
-		
+
+		logger.info("END");
+
 	}
 
-	
-	
+
+
 	private static void runBpelTest(WorkflowManagerServiceClient client) throws RemoteException{
-		
+
 		String bpelFileName = System.getProperty("bpel.file");
 		System.out.println("BPEL file is "+ bpelFileName);
 		String extraDescFilename = System.getProperty("extra.file");
@@ -273,7 +338,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		}
 		System.out.println("File read!");
 
-		
+
 		System.out.println("Before create workflow");
 		WorkflowManagerInstanceReference managerInstanceReference = client.createWorkflowManagerInstanceFromBpel(workflowBpelFileContent, workflowExtraDesc, client.getEndpointReference());
 		System.out.println("Get reference");
@@ -284,71 +349,71 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			e.printStackTrace();
 		}
 		managerInstanceClient.start();
-							
+
 		//String[] outputs = managerInstanceClient.getOutputValues(); // TODO How will the Manager set the parameters' numeric identifier? 
 
-		
+
 	}
-	
-	
-	
-	
 
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"createWorkflowManagerInstanceFromObjectDescriptor");
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest();
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc workflowDescContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc();
-    workflowDescContainer.setWorkflowManagerInstanceDescriptor(workflowDesc);
-    params.setWorkflowDesc(workflowDescContainer);
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = portType.createWorkflowManagerInstanceFromObjectDescriptor(params);
-    return boxedResult.getWorkflowManagerInstanceReference();
-    }
-  }
 
-  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
-    return portType.getMultipleResourceProperties(params);
-    }
-  }
 
-  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getResourceProperty");
-    return portType.getResourceProperty(params);
-    }
-  }
 
-  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"queryResourceProperties");
-    return portType.queryResourceProperties(params);
-    }
-  }
 
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromBpel(java.lang.String bpelDescription,java.lang.String operationsDescription,org.apache.axis.message.addressing.EndpointReferenceType managerEPR) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"createWorkflowManagerInstanceFromBpel");
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequest();
-    params.setBpelDescription(bpelDescription);
-    params.setOperationsDescription(operationsDescription);
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequestManagerEPR managerEPRContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequestManagerEPR();
-    managerEPRContainer.setEndpointReference(managerEPR);
-    params.setManagerEPR(managerEPRContainer);
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelResponse boxedResult = portType.createWorkflowManagerInstanceFromBpel(params);
-    return boxedResult.getWorkflowManagerInstanceReference();
-    }
-  }
+	public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
+			return portType.getMultipleResourceProperties(params);
+		}
+	}
 
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
-    params.setXmlWorkflowDescription(xmlWorkflowDescription);
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
-    return boxedResult.getWorkflowManagerInstanceReference();
-    }
-  }
+	public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"getResourceProperty");
+			return portType.getResourceProperty(params);
+		}
+	}
+
+	public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"queryResourceProperties");
+			return portType.queryResourceProperties(params);
+		}
+	}
+
+	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromBpel(java.lang.String bpelDescription,java.lang.String operationsDescription,org.apache.axis.message.addressing.EndpointReferenceType managerEPR) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"createWorkflowManagerInstanceFromBpel");
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequest();
+			params.setBpelDescription(bpelDescription);
+			params.setOperationsDescription(operationsDescription);
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequestManagerEPR managerEPRContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequestManagerEPR();
+			managerEPRContainer.setEndpointReference(managerEPR);
+			params.setManagerEPR(managerEPRContainer);
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelResponse boxedResult = portType.createWorkflowManagerInstanceFromBpel(params);
+			return boxedResult.getWorkflowManagerInstanceReference();
+		}
+	}
+
+	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"createWorkflowManagerInstanceFromObjectDescriptor");
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest();
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc workflowDescContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc();
+			workflowDescContainer.setWorkflowManagerInstanceDescriptor(workflowDesc);
+			params.setWorkflowDesc(workflowDescContainer);
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = portType.createWorkflowManagerInstanceFromObjectDescriptor(params);
+			return boxedResult.getWorkflowManagerInstanceReference();
+		}
+	}
+
+	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
+		synchronized(portTypeMutex){
+			configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
+			params.setXmlWorkflowDescription(xmlWorkflowDescription);
+			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
+			return boxedResult.getWorkflowManagerInstanceReference();
+		}
+	}
 
 }
