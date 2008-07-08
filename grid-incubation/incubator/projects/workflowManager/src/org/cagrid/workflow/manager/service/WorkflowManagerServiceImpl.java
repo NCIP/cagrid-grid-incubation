@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlException;
 import org.cagrid.workflow.helper.client.WorkflowHelperClient;
+import org.cagrid.workflow.helper.descriptor.DeliveryPolicy;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
@@ -33,6 +34,8 @@ import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
 import org.cagrid.workflow.manager.descriptor.WorkflowInputParameter;
 import org.cagrid.workflow.manager.descriptor.WorkflowInputParameters;
+import org.cagrid.workflow.manager.descriptor.WorkflowOutputParameterTransportDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowOutputTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
@@ -480,8 +483,10 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					+ e.getMessage(), e);
 		}
 
+
 		HashMap<Integer, EndpointReferenceType> stageID2EPR = new HashMap<Integer, EndpointReferenceType>(); // Stages' EPR are stored here
 		HashMap<Integer, OperationOutputTransportDescriptor> stageID2OutputDesc = new HashMap<Integer, OperationOutputTransportDescriptor>();   // Partial output description for stages of the workflow
+
 
 		// Retrieve the description of operations that will be executed (grouped by container) 
 		WorkflowPortionDescriptor[] workflowParts = workflowDesc.getWorkflowParts();
@@ -535,7 +540,35 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			}
 		}
 
-		
+
+		// Get the output transport description for the workflow as a whole and update the referred stages' descriptions
+		WorkflowOutputTransportDescriptor wfOutputDesc = workflowDesc.getOutputDesc();
+		HashMap<Integer, List<OperationOutputParameterTransportDescriptor> > stagesExtraOutputTransport =
+			new HashMap<Integer, List<OperationOutputParameterTransportDescriptor>>();
+		if( wfOutputDesc != null ){
+			int numWfOutputs = (wfOutputDesc.getParamDescriptor() != null)? 
+				wfOutputDesc.getParamDescriptor().length : 0 ;
+			for(int i=0; i < numWfOutputs; i++){
+
+				// Associate the current output with the stage responsible for sending it back
+				WorkflowOutputParameterTransportDescriptor curr_output = wfOutputDesc.getParamDescriptor(i);
+				int sourceStageID = curr_output.getSourceGUID();
+				OperationOutputParameterTransportDescriptor paramDesc = curr_output.getParamDescription();
+
+				// Update the list associated with the source of the current output
+				List<OperationOutputParameterTransportDescriptor> curr_list;
+				if( stagesExtraOutputTransport.containsKey(sourceStageID) ){
+					curr_list = stagesExtraOutputTransport.get(sourceStageID);
+				}
+				else {
+					curr_list = new ArrayList<OperationOutputParameterTransportDescriptor>();
+				}
+				curr_list.add(paramDesc);
+				stagesExtraOutputTransport.put(sourceStageID, curr_list);
+			}
+		}
+
+
 		// Configure the outputs of each workflow stage
 		logger.info("Configuring stages' outputs");
 		Set<Entry<Integer,OperationOutputTransportDescriptor>> entries = stageID2OutputDesc.entrySet();
@@ -548,8 +581,13 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			OperationOutputTransportDescriptor outputDesc = currEntry.getValue();
 			OperationOutputParameterTransportDescriptor[] outputParams = outputDesc.getParamDescriptor();
 
+			ArrayList<OperationOutputParameterTransportDescriptor> fullTransportDesc = new ArrayList<OperationOutputParameterTransportDescriptor>();
+
+
 			// Configure the forwarding of current stage's output to every stage that needs it
 			if( outputParams != null ){
+
+				logger.info("Configuring transport between stages within the workflow");
 				for(int i=0; i < outputParams.length; i++){
 
 					// Retrieve the destination stage's EPR
@@ -558,11 +596,34 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					EndpointReferenceType destinationEPR = stageID2EPR.get(Integer.valueOf(destinationStageID));
 
 					outputParams[i].setDestinationEPR(new EndpointReferenceType[]{ destinationEPR });
+					fullTransportDesc.add(outputParams[i]);  // Add to transport description list, that will receive workflow outputs' descs too
 				}
 			}
 
-			// For the current workflow stage, all output destination's EPRs are set. So, we can configure its output transport
 			EndpointReferenceType currStageEPR = stageID2EPR.get(stageID);
+
+			// Configure any outputs required by the user to be sent back to the ManagerInstance
+			if( stagesExtraOutputTransport.containsKey(stageID) ){
+
+				logger.info("Configuring transport of workflow outputs");
+				List<OperationOutputParameterTransportDescriptor> extraOutputs = stagesExtraOutputTransport.get(stageID);
+				Iterator<OperationOutputParameterTransportDescriptor> outputs_iter = extraOutputs.iterator();
+				while( outputs_iter.hasNext() ){
+
+					OperationOutputParameterTransportDescriptor currOutput = outputs_iter.next();
+					currOutput.setDestinationEPR(new EndpointReferenceType[]{ managerInstanceEpr });
+					currOutput.setDeliveryPolicy(DeliveryPolicy.ROUNDROBIN);
+					int paramIndex = thisResource.registerOutputValue(currOutput, currStageEPR);
+					currOutput.setParamIndex(paramIndex);
+					fullTransportDesc.add(currOutput);
+				}
+			}		
+
+			// Update output transport description for current stage
+			outputDesc.setParamDescriptor(fullTransportDesc.toArray(new OperationOutputParameterTransportDescriptor[0]));
+
+
+			// For the current workflow stage, all output destination's EPRs are set. So, we can configure its output transport
 			WorkflowInvocationHelperClient currStageClient = null;
 			try {
 				currStageClient = new WorkflowInvocationHelperClient(currStageEPR);
@@ -576,20 +637,20 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		// Store stages' EPRs so we can start each one of them when asked by the user
 		thisResource.storeStagesEPRs(stageID2EPR);
 
-		
+
 		// Get static input values and send them to the associated InvocationHelper
-		logger.info("Setting stages' static parameter values");
+		logger.info("Setting stages' static input parameter values");
 		WorkflowInputParameters workflowInput = workflowDesc.getInputs();
 		WorkflowInputParameter[] inputValues = workflowInput.getParameters();;
 		for(int i=0; i < inputValues.length; i++){
-			
+
 			WorkflowInputParameter currInputValue = inputValues[i];
 			InputParameter param = currInputValue.getParamDescription();
 			int destinationID = currInputValue.getParamDestinationGUID();
 
 			logger.info("Sending parameter value to stage identified by "+ destinationID +": ("
 					+ param.getData() + ", " + param.getParamIndex() + ')');
-			
+
 			// Get EPR associated with current destination to send the input value to the appropriate location
 			EndpointReferenceType destinationEPR = stageID2EPR.get(Integer.valueOf(destinationID));
 			WorkflowInvocationHelperClient destinationClient = null;
@@ -600,14 +661,14 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			}
 			destinationClient.setParameter(param);
 		}
-		
-		
-		
+
+
+
 		// return the typed EPR
 		WorkflowManagerInstanceReference ref = new WorkflowManagerInstanceReference();
 		ref.setEndpointReference(managerInstanceEpr);
 
-		
+
 		logger.info("END");
 		return ref;  
 	}

@@ -20,6 +20,7 @@ import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
+import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
@@ -86,6 +87,12 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	public void setParameter(InputParameter inputParameter) throws RemoteException {
 
 		int paramIndex = inputParameter.getParamIndex();
+		
+		logger.info("Manager receiving "+ paramIndex +"th parameter ");
+		
+		
+		
+		
 		if(paramIndex >= this.invocationHelperEPRString.size()){
 			throw new RemoteException("Parameter index ("+ paramIndex +") is greater than the " +
 					"number of expected parameters ("+ this.invocationHelperEPRString.size() +").");
@@ -105,6 +112,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		finally {
 			this.outputDataLock.unlock();
 		}
+		
+		logger.info("END SetParameter");
 	}
 
 
@@ -115,7 +124,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	 * @return The integer identifier of the registered parameter
 	 * 
 	 * */
-	public int registerOutputValue(EndpointReferenceType invocationHelperEPR) throws RemoteException{
+	public int registerOutputValue(OperationOutputParameterTransportDescriptor paramDesc, EndpointReferenceType invocationHelperEPR) 
+		throws RemoteException{
 
 		// Retrieve the InvocationHelper identifier
 		String invID = null;

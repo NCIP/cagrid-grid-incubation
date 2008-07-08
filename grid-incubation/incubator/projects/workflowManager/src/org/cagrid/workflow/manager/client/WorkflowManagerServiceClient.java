@@ -25,6 +25,7 @@ import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.manager.common.WorkflowManagerServiceI;
 import org.cagrid.workflow.manager.descriptor.WorkflowInputParameter;
@@ -148,46 +149,35 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 		logger.info("BEGIN");
 
-		WorkflowManagerInstanceDescriptor workflowDesc = new WorkflowManagerInstanceDescriptor();
 
-
-		// Build HelperService URL
-		EndpointReferenceType managerEPR = managerClient.getEndpointReference();
-		AttributedURI managerAddress = managerEPR.getAddress();
-		String containerBaseURL = managerAddress.getScheme() + "://" + managerAddress.getHost() + ':' +
-		managerAddress.getPort() + "/wsrf/services/";
+		WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
+		WorkflowPortionDescriptor wfPart = new WorkflowPortionDescriptor();
+		String containerBaseURL = "http://localhost:8080/wsrf/services/";
 		String workflowHelperServiceLocation = containerBaseURL + "cagrid/WorkflowHelper";
-	
-
-
+		wfPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
+		
+		
+		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
+		String workflowID = "WorkFlow2";
+		workflowDescriptor3.setWorkflowID(workflowID);
+		wfPart.setInstanceHelperDesc(workflowDescriptor3);
 
 		
-
-		WorkflowPortionDescriptor workflowParts = new WorkflowPortionDescriptor();
-		logger.info("WorkflowHelper is located at: "+ workflowHelperServiceLocation);
-		workflowParts.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
-
-
-
-		logger.info("Creating InstanceHelper descriptor");
-		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
-		String workflowID = "WorkFlow5";
-		workflowDescriptor5.setWorkflowID(workflowID);
-		workflowParts.setInstanceHelperDesc(workflowDescriptor5);
-
+		
 		ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
-		ArrayList<WorkflowInputParameter> workflowInputs = new ArrayList<WorkflowInputParameter>();
+		ArrayList<WorkflowInputParameter> inputParams = new ArrayList<WorkflowInputParameter>();
+		ArrayList<WorkflowOutputParameterTransportDescriptor> outputParams = new ArrayList<WorkflowOutputParameterTransportDescriptor>();
+		
+		
 
 
-		// BEGIN service 4				
-		logger.info("Describing service 4");
+		// BEGIN service 4
 		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 		int currStageID = 4;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
-
-
-		logger.info("Building basic description");
+		
+		
+		
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
 		java.lang.String acess_url = containerBaseURL+"cagrid/Service4";
@@ -198,7 +188,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 
 		// Creating Descriptor of the InputMessage
-		logger.info("Building input parameters descriptor");
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
 		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
@@ -207,113 +196,298 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		currStageDesc.setInputsDescription(inputMessage4);
 		// End InputMessage Descriptor
 
-		// Setting output descriptor
-		logger.info("Building output descriptor");
+		// Creating the outputDescriptor of the first Filter
 		OperationOutputTransportDescriptor outputDescriptor4 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor4 [] = new OperationOutputParameterTransportDescriptor[0];
+		QName namespaces[] = null;
+
+
+		// takes the reference to no service
 		outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
-
-
-		// Setting second parameter
-		logger.info("Setting value for the 2nd argument");
-		workflowInputs.add(new WorkflowInputParameter(new InputParameter("complex type's streaming", 1), currStageID));
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor4);
 		stagesDescs.add(currStageDesc);
-		logger.info("Done Service 4");
 		// END service 4
 
 
 
-		// BEGIN CreateArrayService::getComplexArray	
-		logger.info("Describing CreateArrayService");
+		
+		// BEGIN service 2		
 		currStageDesc = new WorkflowStageDescriptor();
-		currStageID = 0;
+		currStageID = 2;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
-
-		logger.info("Building stage basic description");
-		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
-		String access_url = containerBaseURL+"cagrid/CreateArrayService";
-		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
-		operation__ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
-		operation__ca.setServiceURL(access_url);
-		operation__ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-		currStageDesc.setBasicDescription(operation__ca);
+		
+		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_2 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+		acess_url = containerBaseURL+"cagrid/Service2";
+		operation_2.setWorkflowID("GeorgeliusWorkFlow");
+		operation_2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "CapitalizeRequest"));
+		operation_2.setServiceURL(acess_url);
+		operation_2.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		currStageDesc.setBasicDescription(operation_2);
 
 
 		// Creating Descriptor of the InputMessage
-		logger.info("Building input parameters' descriptor");
-		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__ca = new OperationInputMessageDescriptor();
-		InputParameterDescriptor[] inputParams__ca = new InputParameterDescriptor[0];
-		inputMessage__ca.setInputParam(inputParams__ca);
-		currStageDesc.setInputsDescription(inputMessage__ca);
+		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
+		InputParameterDescriptor[] inputParams_2 = new InputParameterDescriptor[1];
+		inputParams_2[0] = new InputParameterDescriptor( new QName("uncapitalized"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		inputMessage_2.setInputParam(inputParams_2);
+		currStageDesc.setInputsDescription(inputMessage_2);
 		// End InputMessage Descriptor
 
-		// Creating the outputDescriptor of the only service that will receive the output (ReceiveArrayService)
-		logger.info("Building output descriptor");
-		OperationOutputTransportDescriptor outputDescriptor__ca = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor outParameterDescriptor__ca [] = new OperationOutputParameterTransportDescriptor[1];
+		// Creating the outputDescriptor of the first Filter
+		OperationOutputTransportDescriptor outputDescriptor2 = new OperationOutputTransportDescriptor();
+		int numDestinations = 1;
+		OperationOutputParameterTransportDescriptor outParameterDescriptor2 [] = new OperationOutputParameterTransportDescriptor[numDestinations];
 
-		// First destination: ReceiveArrayService::ReceiveComplexArray
-		logger.info("Adding destination for output");
-		outParameterDescriptor__ca[0] = new OperationOutputParameterTransportDescriptor();
-		outParameterDescriptor__ca[0].setDeliveryPolicy(DeliveryPolicy.ROUNDROBIN);
-		outParameterDescriptor__ca[0].setParamIndex(0);
-		outParameterDescriptor__ca[0].setType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD ,"string"));
-		outParameterDescriptor__ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
-				new QName(NamespaceConstants.NSURI_SCHEMA_XSD,"xsd"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "abc")});
-		outParameterDescriptor__ca[0].setLocationQuery("/ns0:GetComplexArrayResponse/abc:ComplexType/abc:message");
-		outParameterDescriptor__ca[0].setDestinationGlobalUniqueIdentifier(4);
-//		outParameterDescriptor__ca[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient__4.getEndpointReference()});
-
+		// First destination
+		outParameterDescriptor2[0] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor2[0].setParamIndex(0);
+		outParameterDescriptor2[0].setType(new QName("string"));
+		namespaces = new QName[]{ new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
+				new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd")};
+		outParameterDescriptor2[0].setQueryNamespaces(namespaces);
+		outParameterDescriptor2[0].setLocationQuery("/ns0:CapitalizeResponse");
+		outParameterDescriptor2[0].setDestinationGlobalUniqueIdentifier(4);
+//		outParameterDescriptor2[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient4.getEndpointReference()});
 
 
-		// takes the reference to ReceiveComplexArrayService
-		outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
-		currStageDesc.setOutputTransportDescriptor(outputDescriptor__ca);
+
+		// Add one output to the workflow outputs
+		WorkflowOutputParameterTransportDescriptor outputParam = new WorkflowOutputParameterTransportDescriptor();
+		OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
+		paramDescription.setLocationQuery("/ns0:CapitalizeResponse");
+		paramDescription.setQueryNamespaces(new QName[]{ new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
+				new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd")});
+		paramDescription.setType(new QName("string"));
+		outputParam.setParamDescription(paramDescription);
+		outputParam.setSourceGUID(currStageID);
+		outputParams.add(outputParam);
+		
+		
+		outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
+		currStageDesc.setOutputTransportDescriptor(outputDescriptor2);
 		stagesDescs.add(currStageDesc);
-		logger.info("Done CreateArrayService");
-		// END CreateArrayService::getComplexArray 
+		// END service 2
 
 
-		// Store stages' description
-		logger.info("Storing stages' descriptors");
-		WorkflowStageDescriptor[] invocationHelperDescs = stagesDescs.toArray(new WorkflowStageDescriptor[0]);
-		workflowParts.setInvocationHelperDescs(invocationHelperDescs);
+
+		// BEGIN service 3
+		currStageDesc = new WorkflowStageDescriptor();
+		currStageID = 3;
+		currStageDesc.setGlobalUniqueIdentifier(currStageID);
+		
+		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation3 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+		acess_url = containerBaseURL+"cagrid/Service3";
+
+		// This is the greek version of my name...
+		operation3.setWorkflowID("GeorgeliusWorkFlow");
+		operation3.setOperationQName(new QName("http://service3.introduce.cagrid.org/Service3", "GenerateXRequest"));
+		operation3.setServiceURL(acess_url);
+		operation3.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		currStageDesc.setBasicDescription(operation3);
 
 
-		// Store workflow inputs' settings
-		logger.info("Storing workflow input data");
-		WorkflowInputParameters inputs = new WorkflowInputParameters();
-		WorkflowInputParameter[] parameters = workflowInputs.toArray(new WorkflowInputParameter[0]);
-		inputs.setParameters(parameters);
+		// Creating Descriptor of the InputMessage
+		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage3 = new OperationInputMessageDescriptor();
+		InputParameterDescriptor[] inputParams3 = new InputParameterDescriptor[1];
+		inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "int"));
+		inputMessage3.setInputParam(inputParams3);
+		currStageDesc.setInputsDescription(inputMessage3);
+		// End InputMessage Descriptor
 
-		// Store workflow outputs' description
-		logger.info("Storing workflow output output description");
+		// Creating the outputDescriptor of the first Filter
+		OperationOutputTransportDescriptor outputDescriptor3 = new OperationOutputTransportDescriptor();
+		numDestinations = 1;
+		OperationOutputParameterTransportDescriptor outParameterDescriptor3 [] = new OperationOutputParameterTransportDescriptor[numDestinations];
+
+
+		// 1st destination
+		outParameterDescriptor3[0] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor3[0].setParamIndex(1);
+		outParameterDescriptor3[0].setType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		namespaces = new QName[]{ new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
+				new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd")};
+		outParameterDescriptor3[0].setQueryNamespaces(namespaces);
+		outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse"); 
+		outParameterDescriptor3[0].setDestinationGlobalUniqueIdentifier(4);
+//		outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
+
+
+	
+
+		// Add one output to the workflow outputs
+		outputParam = new WorkflowOutputParameterTransportDescriptor();
+		paramDescription = new OperationOutputParameterTransportDescriptor();
+		paramDescription.setLocationQuery("/ns0:GenerateXResponse");
+		paramDescription.setQueryNamespaces(new QName[]{ new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
+				new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd")});
+		paramDescription.setType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		outputParam.setParamDescription(paramDescription);
+		outputParam.setSourceGUID(currStageID);
+		outputParams.add(outputParam);
+		
+		
+		outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
+		currStageDesc.setOutputTransportDescriptor(outputDescriptor3);
+		stagesDescs.add(currStageDesc);
+		// END service 3				
+
+		
+
+		// BEGIN service 5
+		currStageDesc = new WorkflowStageDescriptor();
+		currStageID = 5;
+		currStageDesc.setGlobalUniqueIdentifier(currStageID);
+		
+		
+		
+		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation5 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+
+		acess_url = containerBaseURL+"cagrid/Service5";
+		operation5.setWorkflowID("GeorgeliusWorkFlow");
+		operation5.setOperationQName(new QName("http://service5.introduce.cagrid.org/Service5" , "CheckStringAndItsLengthRequest"));
+		operation5.setServiceURL(acess_url);
+		operation5.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+		currStageDesc.setBasicDescription(operation5);
+
+
+		// Creating Descriptor of the InputMessage
+		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
+		InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
+		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
+				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"));
+		inputMessage5.setInputParam(inputParams5);
+		currStageDesc.setInputsDescription(inputMessage5);
+		// End InputMessage Descriptor
+
+		// Creating the outputDescriptor of the first Filter
+		OperationOutputTransportDescriptor outputDescriptor5 = new OperationOutputTransportDescriptor();
+		OperationOutputParameterTransportDescriptor outParameterDescriptor5 [] = new OperationOutputParameterTransportDescriptor[0];
+		
+		
+		outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
+		currStageDesc.setOutputTransportDescriptor(outputDescriptor5);
+		stagesDescs.add(currStageDesc);
+		// END service 5
+
+		
+
+		// BEGIN service 1			
+		currStageDesc = new WorkflowStageDescriptor();
+		currStageID = 1;
+		currStageDesc.setGlobalUniqueIdentifier(currStageID);
+
+
+
+		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation1 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+		acess_url = containerBaseURL+"cagrid/Service1";
+		operation1.setWorkflowID("GeorgeliusWorkFlow");
+		operation1.setOperationQName(new QName("http://service1.introduce.cagrid.org/Service1", "GenerateDataRequest"));
+		operation1.setServiceURL(acess_url);
+		operation1.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		currStageDesc.setBasicDescription(operation1);
+
+
+		// Creating Descriptor of the InputMessage
+		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
+		InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
+		inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"));
+		inputMessage1.setInputParam(inputParams1);
+		currStageDesc.setInputsDescription(inputMessage1);
+		// End InputMessage Descriptor
+
+		// Creating the outputDescriptor of the first Filter (Service2)
+		OperationOutputTransportDescriptor outputDescriptor1 = new OperationOutputTransportDescriptor();
+		OperationOutputParameterTransportDescriptor outParameterDescriptor1 [] = new OperationOutputParameterTransportDescriptor[3];
+		outParameterDescriptor1[0] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor1[0].setParamIndex(0);
+		outParameterDescriptor1[0].setType(new QName("string"));
+		namespaces = new QName[]{ new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "xsd"), new QName("http://service1.introduce.cagrid.org/Service1", "ns0"),
+				new QName("http://service1.workflow.cagrid.org/Service1", "ns1")};
+		outParameterDescriptor1[0].setQueryNamespaces(namespaces);
+		outParameterDescriptor1[0].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:str"); 
+		outParameterDescriptor1[0].setDestinationGlobalUniqueIdentifier(2);
+//		outParameterDescriptor1[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient2.getEndpointReference()});
+
+		// Creating the outputDescriptor of the second filter (Service3)
+		outParameterDescriptor1[1] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor1[1].setParamIndex(0);
+		outParameterDescriptor1[1].setType(new QName("int"));
+		outParameterDescriptor1[1].setQueryNamespaces(namespaces);
+		outParameterDescriptor1[1].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:length");
+		outParameterDescriptor1[1].setDestinationGlobalUniqueIdentifier(3);
+//		outParameterDescriptor1[1].setDestinationEPR(new EndpointReferenceType[]{serviceClient3.getEndpointReference()});
+
+		// Creating the outputDescriptor of the 3rd filter (Service5)
+		outParameterDescriptor1[2] = new OperationOutputParameterTransportDescriptor();
+		outParameterDescriptor1[2].setParamIndex(0);
+		outParameterDescriptor1[2].setType(new QName("http://service1.workflow.cagrid.org/Service1","StringAndItsLenght"));
+		outParameterDescriptor1[2].setQueryNamespaces(namespaces);
+		outParameterDescriptor1[2].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght");
+		outParameterDescriptor1[2].setDestinationGlobalUniqueIdentifier(5);
+//		outParameterDescriptor1[2].setDestinationEPR(new EndpointReferenceType[]{serviceClient5.getEndpointReference()});
+
+		
+
+		// Add one output to the workflow outputs
+		outputParam = new WorkflowOutputParameterTransportDescriptor();
+		outputParam.setSourceGUID(currStageID);
+		paramDescription = new OperationOutputParameterTransportDescriptor();
+		paramDescription.setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght");
+		paramDescription.setQueryNamespaces(namespaces);
+		paramDescription.setType(new QName("http://service1.workflow.cagrid.org/Service1","StringAndItsLenght"));
+		outputParam.setParamDescription(paramDescription);
+		outputParams.add(outputParam);
+		
+		
+		// parameters are all set at this point
+		outputDescriptor1.setParamDescriptor(outParameterDescriptor1);
+		currStageDesc.setOutputTransportDescriptor(outputDescriptor1);
+		stagesDescs.add(currStageDesc);
+
+
+		// set the only one parameter of this service.
+		// now it have to run and set one Parameter of the service4
+		String workflow_input = "george teadoro gordao que falou";
+		System.out.println("Setting input for service 1: '"+workflow_input+"'");
+		InputParameter inputService1 = new InputParameter(workflow_input, 0);
+		inputParams.add(new WorkflowInputParameter(inputService1, currStageID));
+		// END service 1 
+
+		
+		
+		// Build the workflow output descriptor
+		logger.info("Setting workflow outputs");
 		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
-		WorkflowOutputParameterTransportDescriptor[] paramDescriptor = new WorkflowOutputParameterTransportDescriptor[0];
-		outputDesc.setParamDescriptor(paramDescriptor);
+		outputDesc.setParamDescriptor(outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]));
+		
+		
+		wfPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
+		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
+		wfDesc.setInputs(inputParameters);
+		wfDesc.setOutputDesc(outputDesc);
+		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ wfPart });
 
-
-		logger.info("Creating ManagerInstance");
-		WorkflowManagerInstanceDescriptor managerInstanceDesc = new WorkflowManagerInstanceDescriptor();
-		managerInstanceDesc.setInputs(inputs);
-		managerInstanceDesc.setOutputDesc(outputDesc);
-		managerInstanceDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowParts });
-
-		WorkflowManagerInstanceReference managerInstanceRef = managerClient.createWorkflowManagerInstanceFromObjectDescriptor(managerInstanceDesc);
-		WorkflowManagerInstanceClient managerInstanceClient = null;
+		logger.info("Creating Manager Instance");
+		WorkflowManagerInstanceReference instanceRef = managerClient.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
+		WorkflowManagerInstanceClient instanceClient = null;
 		try {
-			managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceRef.getEndpointReference());
-
+			instanceClient = new WorkflowManagerInstanceClient(instanceRef.getEndpointReference());
 		} catch (MalformedURIException e) {
-			e.printStackTrace();
-
-		} 
-
-		logger.info("Starting workflow execution");
-		managerInstanceClient.start();
-		managerInstanceClient.destroy();
+			logger.error(e.getMessage(), e);
+		}
+		
+		
+		logger.info("Starting execution");
+		instanceClient.start();
+//		instanceClient.destroy();
+		
+		logger.info("Retrieving workflow outputs");
+		String[] outputs = instanceClient.getOutputValues();
+		for(int i=0; i < outputs.length; i++){
+			
+			
+			logger.info("Output #"+ i +" is: "+ outputs[i]);
+		}
 
 		logger.info("END");
 

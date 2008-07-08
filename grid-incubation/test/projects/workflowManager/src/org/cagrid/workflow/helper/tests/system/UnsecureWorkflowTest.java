@@ -21,7 +21,6 @@ import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
-import org.cagrid.workflow.manager.tests.system.steps.RunToyWorkflowStep;
 import org.cagrid.workflow.manager.tests.system.steps.RunUnsecureWorkflowsStep;
 
 public class UnsecureWorkflowTest extends ServiceStoryBase {
@@ -98,8 +97,8 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		
 		
 		File services_dirs[] = new File[]{
-				new File(tests_basedir + "First"),
-				new File(tests_basedir + "Second"), // */
+//				new File(tests_basedir + "First"),
+//				new File(tests_basedir + "Second"), // */
 				new File(helperResourcesDir + "CreateArrayService"),
 				new File(helperResourcesDir + "ReceiveArrayService"),
 				new File(helperResourcesDir + "Service1"),
