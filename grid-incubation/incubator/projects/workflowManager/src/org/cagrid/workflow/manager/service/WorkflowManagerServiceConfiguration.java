@@ -45,6 +45,8 @@ public class WorkflowManagerServiceConfiguration implements ServiceConfiguration
 	private String etcDirectoryPath;
 	
 	
+	private String managerIdentity;
+	
 	
 	public String getEtcDirectoryPath() {
 		return ContainerConfig.getBaseDirectory() + File.separator + etcDirectoryPath;
@@ -52,6 +54,16 @@ public class WorkflowManagerServiceConfiguration implements ServiceConfiguration
 	
 	public void setEtcDirectoryPath(String etcDirectoryPath) {
 		this.etcDirectoryPath = etcDirectoryPath;
+	}
+
+	
+	public String getManagerIdentity() {
+		return managerIdentity;
+	}
+	
+	
+	public void setManagerIdentity(String managerIdentity) {
+		this.managerIdentity = managerIdentity;
 	}
 
 	

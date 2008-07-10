@@ -18,6 +18,8 @@
 	<classpathentry kind="lib" path="ext/dependencies/jars/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/wsrf_core.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-cds-stubs-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-workflowHelper-common-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/addressing-1.0.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/axis.jar"/>

@@ -1,13 +1,12 @@
 package org.cagrid.workflow.manager.tests.system.steps;
 
-import java.io.PrintStream;
+import gov.nih.nci.cagrid.testing.system.haste.Step;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import gov.nih.nci.cagrid.testing.system.haste.Step;
 
 import javax.xml.namespace.QName;
 
@@ -79,7 +78,7 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 		instanceHelperDesc.setWorkflowID(workflowID);
 		EndpointReferenceType managerEPR = this.managerEPR;
 		instanceHelperDesc.setWorkflowManagerEPR(managerEPR);
-		// instanceHelperDesc.setProxyEPR(proxyEPR); // TODO Set the EPRs of each credential that should be managed
+		// instanceHelperDesc.setProxyEPR(proxyEPR); 
 		workflowParts[0].setInstanceHelperDesc(instanceHelperDesc);
 
 
@@ -106,7 +105,7 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 				managerAddress.getPort() + "/wsrf/services/cagrid/Second");
 		basicDescription.setWorkflowID(workflowID);
 		basicDescription.setWorkflowManagerEPR(managerEPR);
-		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor); // TODO
+		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor); 
 		invocationHelperDescs[1].setBasicDescription(basicDescription);
 
 
@@ -139,7 +138,7 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 				managerAddress.getPort() + "/wsrf/services/cagrid/First");
 		basicDescription.setWorkflowID(workflowID);
 		basicDescription.setWorkflowManagerEPR(managerEPR);
-		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor); // TODO
+		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor); 
 		invocationHelperDescs[0].setBasicDescription(basicDescription);
 
 
@@ -162,16 +161,6 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 
 		outputTransportDescriptor.setParamDescriptor(paramDescriptor );
 		invocationHelperDescs[0].setOutputTransportDescriptor(outputTransportDescriptor);
-
-
-
-
-
-		// TODO Configure the data exchange between the user and the workflow
-//		workflowDesc.setInputs(inputs);
-//		workflowDesc.setOutputDesc(outputDesc);
-
-
 		logger.info("Creating manager instance");
 
 

@@ -153,6 +153,11 @@
      <ns4:Output qName="ns13:WorkflowManagerInstanceReference" description="" isArray="false" xmlns:ns13="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/types"/>
      <ns4:Exceptions/>
     </ns4:Method>
+    <ns4:Method description="" isImported="false" isProvided="false" name="getIdentity" xsi:type="ns4:MethodType">
+     <ns4:Inputs/>
+     <ns4:Output qName="xsd:string" description="" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
    </ns4:Methods>
    <ns14:ResourcePropertiesList xsi:type="ns14:ResourcePropertiesListType" xmlns:ns14="gme://gov.nih.nci.cagrid.introduce/1/Resources"/>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
@@ -238,4 +243,7 @@
   </ns3:Service>
  </ns3:Services>
  <ns29:Extensions xsi:type="ns29:ExtensionsType" xmlns:ns29="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns30:ServiceProperties xmlns:ns30="gme://gov.nih.nci.cagrid.introduce/1/Property">
+  <ns30:Property description="WorkflowManager's DN, Temporarily added by andrecs. Shouldn't be necessary" isFromETC="false" key="managerIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
+ </ns30:ServiceProperties>
 </ns1:ServiceDescription>

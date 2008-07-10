@@ -71,6 +71,10 @@
           <name>etcDirectoryPath</name>
           <value>ETC-PATH</value>
         </parameter>
+        <parameter>
+          <name>managerIdentity</name>
+          <value>@managerIdentity@</value>
+        </parameter>
       </resourceParams>
     </resource>
     <resource name="home" type="org.cagrid.workflow.manager.service.globus.resource.WorkflowManagerServiceResourceHome">

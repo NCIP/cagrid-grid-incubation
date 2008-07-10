@@ -74,7 +74,7 @@
 					<xs:choice minOccurs="1" maxOccurs="1">
 						<xs:element name="AnonymousAuthenticationMethod" type="tns:AnonymousAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
 						<xs:element name="ServiceAuthenticationMethod" type="tns:ServiceAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>
-						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>						
+						<xs:element name="CDSAuthenticationMethod" type="tns:CDSAuthenticationMethod" minOccurs="1" maxOccurs="1"></xs:element>	
 					</xs:choice>		
 				</xs:sequence>
 			<!--/xs:extension>

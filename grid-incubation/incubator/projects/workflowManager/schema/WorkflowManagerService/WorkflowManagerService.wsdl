@@ -76,6 +76,18 @@
           </sequence>
         </complexType>
       </element>
+      <element name="GetIdentityRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetIdentityResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="WorkflowManagerServiceResourceProperties">
         <complexType>
           <sequence />
@@ -102,6 +114,12 @@
   <message name="CreateWorkflowManagerInstanceResponse">
     <part name="parameters" element="tns:CreateWorkflowManagerInstanceResponse" />
   </message>
+  <message name="GetIdentityRequest">
+    <part name="parameters" element="tns:GetIdentityRequest" />
+  </message>
+  <message name="GetIdentityResponse">
+    <part name="parameters" element="tns:GetIdentityResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -119,6 +137,10 @@
     <operation name="createWorkflowManagerInstance">
       <input message="tns:CreateWorkflowManagerInstanceRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceRequest" />
       <output message="tns:CreateWorkflowManagerInstanceResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceResponse" />
+    </operation>
+    <operation name="getIdentity">
+      <input message="tns:GetIdentityRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/GetIdentityRequest" />
+      <output message="tns:GetIdentityResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/GetIdentityResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

@@ -46,6 +46,7 @@
     <dependency rev="latest.integration" org="caGrid" name="service-security-provider"
       conf="client->client;service->service"/>
     <dependency rev="latest.integration" org="caGrid" name="advertisement" conf="service->default"/>
+	<dependency rev="latest.integration" org="caGrid" name="cds" conf="service->common"/>
 
     <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="service->service"/>
     <dependency rev="latest.integration" org="caGrid" name="workflowHelper" conf="service->common"/>

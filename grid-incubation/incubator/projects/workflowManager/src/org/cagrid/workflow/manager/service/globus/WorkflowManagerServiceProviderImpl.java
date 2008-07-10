@@ -44,4 +44,10 @@ public class WorkflowManagerServiceProviderImpl{
     return boxedResult;
   }
 
+    public org.cagrid.workflow.manager.stubs.GetIdentityResponse getIdentity(org.cagrid.workflow.manager.stubs.GetIdentityRequest params) throws RemoteException {
+    org.cagrid.workflow.manager.stubs.GetIdentityResponse boxedResult = new org.cagrid.workflow.manager.stubs.GetIdentityResponse();
+    boxedResult.setResponse(impl.getIdentity());
+    return boxedResult;
+  }
+
 }

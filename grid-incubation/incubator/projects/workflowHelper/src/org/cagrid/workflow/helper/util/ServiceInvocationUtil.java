@@ -5,15 +5,12 @@ package org.cagrid.workflow.helper.util;
 import gov.nih.nci.cagrid.metadata.security.ServiceSecurityMetadata;
 
 import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
-import javax.xml.rpc.ServiceException;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPBodyElement;
 import javax.xml.soap.SOAPElement;
@@ -265,7 +262,7 @@ public class ServiceInvocationUtil {
 
 
 
-			// Set Authorization and DelegationMode
+			// Set Authorization
 			Authorization authorization = org.globus.wsrf.impl.security.authorization.NoAuthorization.getInstance();  // We don't care about service's identity     
 			config_service.setAuthorization(authorization); 
 			config_service.configureStubSecurity(workflowDescriptor.getOperationQName().getLocalPart(), securityMetadata);

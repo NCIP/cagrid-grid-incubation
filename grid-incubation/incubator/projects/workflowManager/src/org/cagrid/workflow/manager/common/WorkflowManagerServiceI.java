@@ -24,5 +24,7 @@ public interface WorkflowManagerServiceI {
 
   public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException ;
 
+  public java.lang.String getIdentity() throws RemoteException ;
+
 }
 
