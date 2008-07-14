@@ -49,8 +49,6 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 
 	private EndpointReferenceType cdsEPR;
-//	private String cdsURL;
-
 	private GlobusCredential userCredential; 
 
 
@@ -114,13 +112,11 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 			/** simple type arrays **/
 			System.out.println("[CreateTestSecureWorkflowsStep] Simple arrays as input");
-			runSimpleArrayTest(wf_manager, outputMatcherID, issuedCredentialLifetime, delegatedCredentialProxy, delegationLifetime,
-					issuedCredentialPath, delegationPath);
-			System.out.println("[CreateTestSecureWorkflowsStep] OK");
+			runSimpleArrayTest(wf_manager, outputMatcherID, delegatedCredentialProxy);
+			System.out.println("[CreateTestSecureWorkflowsStep] OK"); // */
 
-			/*System.out.println("[CreateTestSecureWorkflowsStep] Complex arrays as input");
-			runComplexArrayTest(wf_manager, outputMatcherID, issuedCredentialLifetime, delegationLifetime, delegatedCredentialProxy,
-					issuedCredentialPath, delegationPath);
+			System.out.println("[CreateTestSecureWorkflowsStep] Complex arrays as input");
+			runComplexArrayTest(wf_manager, outputMatcherID, delegatedCredentialProxy);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK");
 
 			System.out.println("[CreateTestSecureWorkflowsStep] END Testing arrays"); // */
@@ -129,31 +125,28 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 
 			/** BEGIN streaming test **/
-			/*System.out.println("[CreateTestSecureWorkflowsStep] BEGIN Testing streaming");
+			logger.info("[CreateTestSecureWorkflowsStep] BEGIN Testing streaming");
 
 			// Streaming simple types 
-			System.out.println("[CreateTestSecureWorkflowsStep] Streaming of simple-type arrays");
-			runSimpleArrayStreaming(wf_manager, delegatedCredentialProxy, issuedCredentialLifetime, delegationLifetime, issuedCredentialPath,
-					delegationPath);
-			System.out.println("[CreateTestSecureWorkflowsStep] OK");  // */
+			logger.info("[CreateTestSecureWorkflowsStep] Streaming of simple-type arrays");
+			runSimpleArrayStreaming(wf_manager, delegatedCredentialProxy);
+			logger.info("[CreateTestSecureWorkflowsStep] OK");  // */
 
 
 
 			/* Streaming complex types */
-			/*System.out.print("[CreateTestSecureWorkflowsStep] Streaming of complex-type arrays");
-			runComplexArrayStreaming(wf_manager, issuedCredentialLifetime, delegatedCredentialProxy, delegationLifetime, 
-					issuedCredentialPath, delegationPath);
-			System.out.println("[CreateTestSecureWorkflowsStep] OK");
+			System.out.print("[CreateTestSecureWorkflowsStep] Streaming of complex-type arrays");
+			runComplexArrayStreaming(wf_manager, delegatedCredentialProxy);
+			logger.info("[CreateTestSecureWorkflowsStep] OK");
 
-			System.out.println("[CreateTestSecureWorkflowsStep] END Testing streaming"); // */
+			logger.info("[CreateTestSecureWorkflowsStep] END Testing streaming"); // */
 
 
 
 			/** FAN IN AND FAN OUT TEST **/
-			/*System.out.println("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out"); 
-			runFaninFanOutTest(wf_manager, outputMatcherID, delegationLifetime, delegatedCredentialProxy, issuedCredentialLifetime,
-					delegationPath, issuedCredentialPath);
-			System.out.println("[CreateTestSecureWorkflowsStep] END Testing fan in and fan out"); // */
+			logger.info("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out"); 
+			runFaninFanOutTest(wf_manager, outputMatcherID, delegatedCredentialProxy);
+			logger.info("[CreateTestSecureWorkflowsStep] END Testing fan in and fan out"); // */
 
 
 			// Block until every stage reports either a FINISHED or an ERROR status
@@ -165,7 +158,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			Assert.fail();
 		}
 
-		System.out.println("---- END SECURE WORKFLOW TEST ----");
+		logger.info("---- END SECURE WORKFLOW TEST ----");
 
 		return;
 	}
@@ -191,7 +184,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			EndpointReferenceType delegatedCredentialProxy, ProxyLifetime delegationLifetime, ProxyLifetime issuedCredentialLifetime, 
 			int delegationPath, int issuedCredentialPath) throws RemoteException {
 
-		System.out.println("BEGIN runOuputMatcher");
+		logger.info("BEGIN runOuputMatcher");
 
 		/*	WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "Validator";
@@ -236,16 +229,16 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			//	, validatorInvocationDesc.getOperationQName().toString());
 
 		// Set the GlobusCredential to use on InstanceHelper
-		//System.out.println("[runOutputMatcher] Delegating helper's credential to the InstanceHelper"); //DEBUG
+		//logger.info("[runOutputMatcher] Delegating helper's credential to the InstanceHelper"); //DEBUG
 		EndpointReferenceType delegationEPR = null;
 		try{
 			delegationEPR = CredentialHandlingUtil.delegateCredential(delegatedCredentialProxy, wf_manager.getIdentity(), this.cdsURL, delegationLifetime, issuedCredentialLifetime, 
 					delegationPath, issuedCredentialPath);
 
-			//System.out.println("Informing the InstanceHelper about the delegation"); //DEBUG
+			//logger.info("Informing the InstanceHelper about the delegation"); //DEBUG
 
 			validatorInstance.addCredential(validatorInvocation1.getEndpointReference(), delegationEPR);
-			//System.out.println("[runOutputMatcher] Done");
+			//logger.info("[runOutputMatcher] Done");
 		}
 		catch(Throwable t){
 			t.printStackTrace();
@@ -285,7 +278,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		validatorInvocation1.setParameter(new InputParameter("true", 5));
 
 
-		System.out.println("END runOuputMatcher");
+		logger.info("END runOuputMatcher");
 
 		return validatorInvocation1.getEndpointReference(); // */
 		return Integer.MAX_VALUE;
@@ -306,13 +299,13 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runComplexArrayStreaming(WorkflowManagerServiceClient wf_manager, ProxyLifetime issuedCredentialLifetime, EndpointReferenceType delegatedCredentialProxy, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath)throws RemoteException {
+	private void runComplexArrayStreaming(WorkflowManagerServiceClient wf_manager, EndpointReferenceType delegatedCredentialProxy)throws RemoteException {
 
 		logger.info("BEGIN");
 
 		
 		// Create security descriptor for the stages (in this case, all of them present the same security requirements)
-		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
+		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
 		
@@ -420,7 +413,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor__ca[0].setType(new QName(XSD_NAMESPACE ,"string"));
 		outParameterDescriptor__ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "abc")});
-		outParameterDescriptor__ca[0].setLocationQuery("/ns0:GetComplexArrayResponse/abc:ComplexType/abc:message");
+		outParameterDescriptor__ca[0].setLocationQuery("/ns0:SecureGetComplexArrayResponse/abc:ComplexType/abc:message");
 		outParameterDescriptor__ca[0].setDestinationGlobalUniqueIdentifier(4);
 //		outParameterDescriptor__ca[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient__4.getEndpointReference()});
 
@@ -491,12 +484,12 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runSimpleArrayStreaming(WorkflowManagerServiceClient wf_manager, EndpointReferenceType delegatedCredentialProxy, ProxyLifetime issuedCredentialLifetime, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath) throws RemoteException {
+	private void runSimpleArrayStreaming(WorkflowManagerServiceClient wf_manager, EndpointReferenceType delegatedCredentialProxy) throws RemoteException {
 
 
 
 		// Create security descriptor for the stages (in this case, all of them present the same security requirements)
-		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
+		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
 
@@ -597,7 +590,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		QName[] namespaces__2 = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor__2[0].setQueryNamespaces(namespaces__2);
-		outParameterDescriptor__2[0].setLocationQuery("/ns0:CapitalizeResponse");
+		outParameterDescriptor__2[0].setLocationQuery("/ns0:SecureCapitalizeResponse");
 		outParameterDescriptor__2[0].setDestinationGlobalUniqueIdentifier(4);
 
 
@@ -640,7 +633,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor_cs[0].setType(new QName( SOAPENCODING_NAMESPACE, "string"));
 		outParameterDescriptor_cs[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
-		outParameterDescriptor_cs[0].setLocationQuery("/ns0:GetArrayResponse");
+		outParameterDescriptor_cs[0].setLocationQuery("/ns0:SecureGetArrayResponse");
 		outParameterDescriptor_cs[0].setDestinationGlobalUniqueIdentifier(2);
 
 
@@ -687,12 +680,12 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runComplexArrayTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, ProxyLifetime issuedCredentialLifetime, ProxyLifetime delegationLifetime, EndpointReferenceType delegatedCredentialProxy, int issuedCredentialPath, int delegationPath) throws RemoteException{
+	private void runComplexArrayTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, EndpointReferenceType delegatedCredentialProxy) throws RemoteException{
 
 
 
 		// Create security descriptor for the stages (in this case, all of them present the same security requirements)
-		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
+		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
 
@@ -754,7 +747,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 
 
-		//System.out.println("Setting params"); //DEBUG
+		//logger.info("Setting params"); //DEBUG
 
 		// Set the values of its simple-type arguments
 		inputParams.add(new WorkflowInputParameter(new InputParameter("999", 0), currStageID));
@@ -800,7 +793,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor_ca[0].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
 		outParameterDescriptor_ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
-		outParameterDescriptor_ca[0].setLocationQuery("/ns0:GetComplexArrayResponse");
+		outParameterDescriptor_ca[0].setLocationQuery("/ns0:SecureGetComplexArrayResponse");
 		outParameterDescriptor_ca[0].setDestinationGlobalUniqueIdentifier(0);
 
 
@@ -808,14 +801,14 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Second destination: Output matcher
 		if( validatorEnabled ){
 
-			//System.out.println("Setting 2nd param in the output matcher: "+ outputMatcherEPR); //DEBUG
+			//logger.info("Setting 2nd param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_ca[1].setParamIndex(1); // Setting 2nd argument in the output matcher 
 			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
 			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
-			outParameterDescriptor_ca[1].setLocationQuery("/ns0:GetComplexArrayResponse");
+			outParameterDescriptor_ca[1].setLocationQuery("/ns0:SecureGetComplexArrayResponse");
 //			outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID });
 		}
 
@@ -825,7 +818,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outputParamDesc.setSourceGUID(currStageID);
 		OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
 		paramDescription.setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
-		paramDescription.setLocationQuery("/ns0:GetComplexArrayResponse");
+		paramDescription.setLocationQuery("/ns0:SecureGetComplexArrayResponse");
 		paramDescription.setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		outputParamDesc.setParamDescription(paramDescription);
@@ -899,7 +892,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runSimpleArrayTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, ProxyLifetime issuedCredentialLifetime, EndpointReferenceType delegatedCredentialProxy, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath) throws RemoteException{
+	private void runSimpleArrayTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, EndpointReferenceType delegatedCredentialProxy) throws RemoteException{
 
 		
 		
@@ -907,7 +900,6 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-		
 	
 		
 		// Instantiate ManagerDescription
@@ -1008,7 +1000,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor_cas[0].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
 		outParameterDescriptor_cas[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
-		outParameterDescriptor_cas[0].setLocationQuery("/ns0:GetArrayResponse");
+		outParameterDescriptor_cas[0].setLocationQuery("/ns0:SecureGetArrayResponse");
 		outParameterDescriptor_cas[0].setDestinationGlobalUniqueIdentifier(0);
 //		outParameterDescriptor_cas[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient_ram.getEndpointReference()});
 
@@ -1016,14 +1008,14 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Second destination: Output matcher
 		if(validatorEnabled){
 
-			//System.out.println("Setting 5th param in the output matcher: "+ outputMatcherEPR); //DEBUG
+			//logger.info("Setting 5th param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor_cas[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_cas[1].setParamIndex(4);
 			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
 			outParameterDescriptor_cas[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
-			outParameterDescriptor_cas[1].setLocationQuery("/ns0:GetArrayResponse");
+			outParameterDescriptor_cas[1].setLocationQuery("/ns0:SecureGetArrayResponse");
 //			outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID});
 		}
 
@@ -1033,7 +1025,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Add one output to the worklow outputs' description
 		WorkflowOutputParameterTransportDescriptor outputParam = new WorkflowOutputParameterTransportDescriptor();
 		OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
-		paramDescription.setLocationQuery("/ns0:GetArrayResponse");
+		paramDescription.setLocationQuery("/ns0:SecureGetArrayResponse");
 		paramDescription.setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		paramDescription.setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
@@ -1066,7 +1058,10 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), instanceClient, workflowID);
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(),e );
+		} catch(Throwable t){
+			logger.error(t.getMessage(), t);
 		} 
+		
 
 		this.managerInstances.add(instanceRef.getEndpointReference());
 
@@ -1104,11 +1099,11 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runFaninFanOutTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, ProxyLifetime delegationLifetime, EndpointReferenceType delegatedCredentialProxy, ProxyLifetime issuedCredentialLifetime, int delegationPath, int issuedCredentialPath) throws RemoteException{
+	private void runFaninFanOutTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, EndpointReferenceType delegatedCredentialProxy) throws RemoteException{
 
 	
 		// Create security descriptor for the stages (in this case, all of them present the same security requirements)
-		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
+		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
 		
@@ -1206,7 +1201,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor2[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor2[0].setLocationQuery("/ns0:CapitalizeResponse");
+		outParameterDescriptor2[0].setLocationQuery("/ns0:SecureCapitalizeResponse");
 		outParameterDescriptor2[0].setDestinationGlobalUniqueIdentifier(4);
 //		outParameterDescriptor2[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient4.getEndpointReference()});
 
@@ -1214,7 +1209,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Second destination: output matcher
 		if(this.validatorEnabled){
 
-			//System.out.println("Setting 7th param in the output matcher: "+ outputMatcherEPR); //DEBUG
+			//logger.info("Setting 7th param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor2[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor2[1].setParamIndex(6);
@@ -1222,7 +1217,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor2[1].setQueryNamespaces(namespaces);
-			outParameterDescriptor2[1].setLocationQuery("/ns0:CapitalizeResponse");
+			outParameterDescriptor2[1].setLocationQuery("/ns0:SecureCapitalizeResponse");
 //			outParameterDescriptor2[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID});
 		}
 
@@ -1230,7 +1225,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Add one output to the workflow outputs
 		WorkflowOutputParameterTransportDescriptor outputParam = new WorkflowOutputParameterTransportDescriptor();
 		OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
-		paramDescription.setLocationQuery("/ns0:CapitalizeResponse");
+		paramDescription.setLocationQuery("/ns0:SecureCapitalizeResponse");
 		paramDescription.setQueryNamespaces(new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")});
 		paramDescription.setType(new QName("string"));
@@ -1284,7 +1279,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor3[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse"); 
+		outParameterDescriptor3[0].setLocationQuery("/ns0:SecureGenerateXResponse"); 
 		outParameterDescriptor3[0].setDestinationGlobalUniqueIdentifier(4);
 //		outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
 
@@ -1292,7 +1287,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// 2nd destination: output matcher
 		if(this.validatorEnabled){
 
-			//System.out.println("Setting 8th param in the output matcher: "+ outputMatcherEPR); //DEBUG
+			//logger.info("Setting 8th param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor3[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor3[1].setParamIndex(7);
@@ -1300,7 +1295,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor3[1].setQueryNamespaces(namespaces);
-			outParameterDescriptor3[1].setLocationQuery("/ns0:GenerateXResponse"); 
+			outParameterDescriptor3[1].setLocationQuery("/ns0:SecureGenerateXResponse"); 
 //			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{outputMatcherID});  // */
 		}
 
@@ -1308,7 +1303,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Add one output to the workflow outputs
 		outputParam = new WorkflowOutputParameterTransportDescriptor();
 		paramDescription = new OperationOutputParameterTransportDescriptor();
-		paramDescription.setLocationQuery("/ns0:GenerateXResponse");
+		paramDescription.setLocationQuery("/ns0:SecureGenerateXResponse");
 		paramDescription.setQueryNamespaces(new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")});
 		paramDescription.setType(new QName(XSD_NAMESPACE, "string"));
@@ -1397,7 +1392,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service1.introduce.cagrid.org/Service1", "ns0"),
 				new QName("http://service1.workflow.cagrid.org/Service1", "ns1")};
 		outParameterDescriptor1[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor1[0].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:str"); 
+		outParameterDescriptor1[0].setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght/ns1:str"); 
 		outParameterDescriptor1[0].setDestinationGlobalUniqueIdentifier(2);
 //		outParameterDescriptor1[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient2.getEndpointReference()});
 
@@ -1406,7 +1401,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor1[1].setParamIndex(0);
 		outParameterDescriptor1[1].setType(new QName("int"));
 		outParameterDescriptor1[1].setQueryNamespaces(namespaces);
-		outParameterDescriptor1[1].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:length");
+		outParameterDescriptor1[1].setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght/ns1:length");
 		outParameterDescriptor1[1].setDestinationGlobalUniqueIdentifier(3);
 //		outParameterDescriptor1[1].setDestinationEPR(new EndpointReferenceType[]{serviceClient3.getEndpointReference()});
 
@@ -1415,7 +1410,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor1[2].setParamIndex(0);
 		outParameterDescriptor1[2].setType(new QName("http://service1.workflow.cagrid.org/Service1","StringAndItsLenght"));
 		outParameterDescriptor1[2].setQueryNamespaces(namespaces);
-		outParameterDescriptor1[2].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght");
+		outParameterDescriptor1[2].setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght");
 		outParameterDescriptor1[2].setDestinationGlobalUniqueIdentifier(5);
 //		outParameterDescriptor1[2].setDestinationEPR(new EndpointReferenceType[]{serviceClient5.getEndpointReference()});
 
@@ -1425,7 +1420,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outputParam = new WorkflowOutputParameterTransportDescriptor();
 		outputParam.setSourceGUID(currStageID);
 		paramDescription = new OperationOutputParameterTransportDescriptor();
-		paramDescription.setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght");
+		paramDescription.setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght");
 		paramDescription.setQueryNamespaces(namespaces);
 		paramDescription.setType(new QName("http://service1.workflow.cagrid.org/Service1","StringAndItsLenght"));
 		outputParam.setParamDescription(paramDescription);
@@ -1441,7 +1436,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// set the only one parameter of this service.
 		// now it have to run and set one Parameter of the service4
 		String workflow_input = "george teadoro gordao que falou";
-		System.out.println("Setting input for service 1: '"+workflow_input+"'");
+		logger.info("Setting input for service 1: '"+workflow_input+"'");
 		InputParameter inputService1 = new InputParameter(workflow_input, 0);
 		inputParams.add(new WorkflowInputParameter(inputService1, currStageID));
 		// END service 1 

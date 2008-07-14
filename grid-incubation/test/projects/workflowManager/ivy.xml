@@ -38,6 +38,8 @@
 			name="testUtils" conf="default->containers" />
 		<dependency rev="latest.integration" org="caGrid" name="cds"
 			conf="default->stubs" />
+			<dependency rev="latest.integration" org="caGrid" name="cds"
+			conf="default->client" />
 		<dependency rev="latest.integration" org="caGrid" name="gridca"
 			conf="default->test" />
 	</dependencies>

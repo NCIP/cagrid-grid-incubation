@@ -18,6 +18,7 @@ import gov.nih.nci.cagrid.testing.system.deployment.story.ServiceStoryBase;
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
@@ -35,6 +36,7 @@ import org.apache.axis.types.URI;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.FileAppender;
 import org.apache.log4j.PropertyConfigurator;
 import org.cagrid.workflow.manager.tests.system.steps.ConfigureContainerSecurityStep;
 import org.cagrid.workflow.manager.tests.system.steps.RunSecureWorkflowsStep;
@@ -43,6 +45,10 @@ import org.globus.gsi.GlobusCredential;
 
 public class SecureWorkflowTest  extends ServiceStoryBase {
 
+
+	private static final String LOG4J_CONF_FILE = "." + File.separator + "conf" +
+						File.separator
+						+ "log4j.properties";
 
 	private static Log logger = LogFactory.getLog(SecureWorkflowTest.class);
 
@@ -57,7 +63,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 	private static final String MANAGER_PATH_IN_CONTAINER = "cagrid/WorkflowManagerService";
 
 
-	private final boolean enableVerboseOutput = false;
+	private final boolean enableVerboseOutput = true;
 	private String cdsURL;
 
 	public SecureWorkflowTest() {
@@ -99,9 +105,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 
 
 		if( this.enableVerboseOutput ){
-			PropertyConfigurator.configure("." + File.separator + "conf" +
-					File.separator
-					+ "log4j.properties"); 
+			PropertyConfigurator.configure(LOG4J_CONF_FILE); 
 		}
 	}
 
@@ -122,9 +126,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		}
 
 		if( this.enableVerboseOutput ){
-			PropertyConfigurator.configure("." + File.separator + "conf" +
-					File.separator
-					+ "log4j.properties"); 
+			PropertyConfigurator.configure(LOG4J_CONF_FILE); 
 		}
 
 	}
@@ -168,11 +170,11 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 
 		// Directories in which the test services are found
 		File services_dirs[] = new File[]{ // TODO Add services that will test each possible security mechanism
-//				new File(helperResourcesDir + "Service1"),
-//				new File(helperResourcesDir + "Service2"),
-//				new File(helperResourcesDir + "Service3"),
-//				new File(helperResourcesDir + "Service4"),
-//				new File(helperResourcesDir + "Service5"), // */
+				new File(helperResourcesDir + "Service1"),
+				new File(helperResourcesDir + "Service2"),
+				new File(helperResourcesDir + "Service3"),
+				new File(helperResourcesDir + "Service4"),
+				new File(helperResourcesDir + "Service5"), 
 				new File(helperResourcesDir + "ReceiveArrayService"),
 				new File(helperResourcesDir + "CreateArrayService"),
 //				new File(helperResourcesDir + "ValidateOutputsService"),
@@ -294,7 +296,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		if (getContainer() != null) {
 			try {
 
-				System.out.println("["+ this.getClass().getName() +"] Stopping container after executing tests");
+				logger.info("["+ this.getClass().getName() +"] Stopping container after executing tests");
 				if( getContainer().isStarted() ){
 
 					getContainer().stopContainer();

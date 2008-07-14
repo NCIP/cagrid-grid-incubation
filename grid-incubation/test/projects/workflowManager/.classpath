@@ -20,6 +20,10 @@
 	<classpathentry kind="lib" path="lib/wsrf_core.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-cds-stubs-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-workflowHelper-common-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-core-tests-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-gridca-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-gridca-tests-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-workflowHelper-stubs-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/addressing-1.0.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/axis.jar"/>
@@ -87,5 +91,10 @@
 	<classpathentry kind="var" path="GT4_LOCATION/lib/xercesImpl.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/xml-apis.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/xmlsec.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/caGrid-cds-client-1.3-dev.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/caGrid-cds-common-1.2.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/caGrid-cds-common-1.3-dev.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/caGrid-cds-stubs-1.2.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/caGrid-cds-stubs-1.3-dev.jar"/>
 	<classpathentry kind="output" path="resources/Second/build/stubs-Second/classes"/>
 </classpath>
