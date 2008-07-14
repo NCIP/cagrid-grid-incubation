@@ -86,10 +86,8 @@
 	<classpathentry kind="lib" path="lib/resolver.jar"/>
 	<classpathentry kind="lib" path="lib/xbean_xpath.jar"/>
 	<classpathentry kind="lib" path="lib/xmlbeans-qname.jar"/>
-	<classpathentry kind="lib" path="lib/BPEL_xmlbeans.jar"/>
-	<classpathentry kind="lib" path="lib/OperationsDescriptor_xmlbeans.jar"/>
-	<classpathentry kind="lib" path="lib/WorkflowDescription.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-cds-common-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-cds-stubs-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/WorkflowDescriptor.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

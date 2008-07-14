@@ -26,12 +26,6 @@ public class WorkflowManagerServiceProviderImpl{
 	}
 	
 
-    public org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelResponse createWorkflowManagerInstanceFromBpel(org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelRequest params) throws RemoteException {
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelResponse boxedResult = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromBpelResponse();
-    boxedResult.setWorkflowManagerInstanceReference(impl.createWorkflowManagerInstanceFromBpel(params.getBpelDescription(),params.getOperationsDescription(),params.getManagerEPR().getEndpointReference()));
-    return boxedResult;
-  }
-
     public org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest params) throws RemoteException {
     org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse();
     boxedResult.setWorkflowManagerInstanceReference(impl.createWorkflowManagerInstanceFromObjectDescriptor(params.getWorkflowDesc().getWorkflowManagerInstanceDescriptor()));

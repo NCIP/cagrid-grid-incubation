@@ -290,7 +290,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 					Status new_status = this.calculateStatus();
 					if( new_status.equals(Status.FINISHED) || new_status.equals(Status.ERROR)){
 
-						System.out.println("[WorkflowManagerInstanceResource.deliver] EXECUTION HAS FINISHED");
+						logger.info("[WorkflowManagerInstanceResource.deliver] EXECUTION HAS FINISHED");
 						//this.isFinished = true;
 					}
 
@@ -298,7 +298,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
 					this.setTimestampedStatus(nextStatus);		
 					
-					System.out.println("[WorkflowManagerInstanceResource] Current workflow status is "+ nextStatus.getStatus() +
+					logger.info("[WorkflowManagerInstanceResource] Current workflow status is "+ nextStatus.getStatus() +
 							':' + nextStatus.getTimestamp());
 				}
 

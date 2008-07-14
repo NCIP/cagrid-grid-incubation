@@ -20,28 +20,6 @@
       <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
       <import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="./WS-Addressing.xsd" />
       <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" schemaLocation="../wsrf/lifetime/WS-ResourceLifetime.xsd" />
-      <element name="CreateWorkflowManagerInstanceFromBpelRequest">
-        <complexType>
-          <sequence>
-            <element name="bpelDescription" type="xs:string" minOccurs="1" maxOccurs="1" />
-            <element name="operationsDescription" type="xs:string" minOccurs="1" maxOccurs="1" />
-            <element name="managerEPR">
-              <complexType>
-                <sequence>
-                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
-                </sequence>
-              </complexType>
-            </element>
-          </sequence>
-        </complexType>
-      </element>
-      <element name="CreateWorkflowManagerInstanceFromBpelResponse">
-        <complexType>
-          <sequence>
-            <element ref="ns5:WorkflowManagerInstanceReference" minOccurs="1" maxOccurs="1" />
-          </sequence>
-        </complexType>
-      </element>
       <element name="CreateWorkflowManagerInstanceFromObjectDescriptorRequest">
         <complexType>
           <sequence>
@@ -96,12 +74,6 @@
     </schema>
   </types>
   <!--  place service messages here -->
-  <message name="CreateWorkflowManagerInstanceFromBpelRequest">
-    <part name="parameters" element="tns:CreateWorkflowManagerInstanceFromBpelRequest" />
-  </message>
-  <message name="CreateWorkflowManagerInstanceFromBpelResponse">
-    <part name="parameters" element="tns:CreateWorkflowManagerInstanceFromBpelResponse" />
-  </message>
   <message name="CreateWorkflowManagerInstanceFromObjectDescriptorRequest">
     <part name="parameters" element="tns:CreateWorkflowManagerInstanceFromObjectDescriptorRequest" />
   </message>
@@ -126,10 +98,6 @@
                       
   ============================================================-->
   <portType name="WorkflowManagerServicePortType" wsrp:ResourceProperties="tns:WorkflowManagerServiceResourceProperties">
-    <operation name="createWorkflowManagerInstanceFromBpel">
-      <input message="tns:CreateWorkflowManagerInstanceFromBpelRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromBpelRequest" />
-      <output message="tns:CreateWorkflowManagerInstanceFromBpelResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromBpelResponse" />
-    </operation>
     <operation name="createWorkflowManagerInstanceFromObjectDescriptor">
       <input message="tns:CreateWorkflowManagerInstanceFromObjectDescriptorRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromObjectDescriptorRequest" />
       <output message="tns:CreateWorkflowManagerInstanceFromObjectDescriptorResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromObjectDescriptorResponse" />
