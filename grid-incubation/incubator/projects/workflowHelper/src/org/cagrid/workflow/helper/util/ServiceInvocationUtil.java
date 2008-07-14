@@ -548,7 +548,7 @@ public class ServiceInvocationUtil {
 	public static void main(String[] args){
 
 
-		System.out.println("Begin test");
+		logger.info("Begin test");
 
 
 		// testing xpath on complex types
@@ -570,22 +570,22 @@ public class ServiceInvocationUtil {
 
 
 		String ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces);
-		System.out.println("Query 1: '"+ xpath_query +"'");
-		System.out.println("Returned 1: \n"+ret);
+		logger.info("Query 1: '"+ xpath_query +"'");
+		logger.info("Returned 1: \n"+ret);
 
 
 		Iterator elem_iter = ConversionUtil.String2SOAPElement(ret);
 		if( elem_iter.hasNext() ){
 			SOAPElement elem = (SOAPElement) elem_iter.next();
 			elem.getPrefix();
-			System.out.println("Element returned is: "+ elem.getPrefix()+':'+elem.getLocalName());
+			logger.info("Element returned is: "+ elem.getPrefix()+':'+elem.getLocalName());
 		}
 
 
 		xpath_query = "/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:length";
 		ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces);
-		System.out.println("Query 2: '"+ xpath_query +"'");
-		System.out.println("Returned 2: \n"+ret);
+		logger.info("Query 2: '"+ xpath_query +"'");
+		logger.info("Returned 2: \n"+ret);
 
 
 
@@ -597,8 +597,8 @@ public class ServiceInvocationUtil {
 		namespaces = new QName[]{ new QName("http://service5.introduce.cagrid.org/Service5", "ns5") };
 		xpath_query = "/ns5:CheckStringAndItsLengthResponse";
 		ret = ServiceInvocationUtil.applyXPathQuery(xml_response2, xpath_query, namespaces);
-		System.out.println("Query 2: '"+ xpath_query +"'");
-		System.out.println("Returned 2: \n"+ret);
+		logger.info("Query 2: '"+ xpath_query +"'");
+		logger.info("Returned 2: \n"+ret);
 
 
 
@@ -616,17 +616,17 @@ public class ServiceInvocationUtil {
 		namespaces = new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "abc") };
 		xpath_query = "/abc:GetArrayResponse";
 		ret = ServiceInvocationUtil.applyXPathQuery(xml_response3, xpath_query, namespaces);
-		System.out.println("Query 3: '"+ xpath_query +"'");
-		System.out.println("Returned 3: \n"+ret);
+		logger.info("Query 3: '"+ xpath_query +"'");
+		logger.info("Returned 3: \n"+ret);
 
 
 
-		System.out.println("End test"); 
+		logger.info("End test"); 
 
 		/*****************************************************************************************/
 
 
-		System.out.println("Leaving main...");
+		logger.info("Leaving main...");
 
 	}
 

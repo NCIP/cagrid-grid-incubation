@@ -254,8 +254,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									if( !outputIsArray || nextStageInputIsArray ){    
 
 										// Do usual forwarding
-										next_destination = pdesc.getDestinationEPR()[0];
+										next_destination = pdesc.getDestinationEPR()[0];  // This might change when we have multiple destinations
 										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
+//										logger.info("Setting parameter to stage identified by "+ client.getEndpointReference());
 										client.setParameter(iparam);
 
 									}
@@ -343,7 +344,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			th.start();
 			th.join();
 
-			//System.out.println("[executeIfReady] Changing status for FINISHED");
+			//logger.info("[executeIfReady] Changing status for FINISHED");
 
 
 			if( this.getTimestampedStatus().getStatus().equals(Status.RUNNING) ){
@@ -506,7 +507,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			output += '['+paramData[i].getData()+" : "+paramData[i].getParamIndex()+"]\n";
 		}
 		output += "END PRINT PARAMETERS\n";
-		System.out.println(output);
+		logger.info(output);
 		System.out.flush();
 		return;
 	} // */
@@ -615,7 +616,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				if(((this.getParamData() == null) || (this.getParamData().length == 0)) ){
 					logger.info("[setOutput_desc] No parameters needed, ready to execute");
 					this.setTimestampedStatus(new TimestampedStatus(Status.READY, ++nextTimestamp));
-					//executeIfReady();
 				} 
 
 			} catch (ResourceException e) {
@@ -641,7 +641,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	}
 
 
-	public GlobusCredential getCredential() {
+	public GlobusCredential getCredential() throws RemoteException {
 
 		GlobusCredential retval = this.getCredentialAccess().getCredential(this.serviceOperationEPR);
 		return retval;
@@ -729,9 +729,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 			executeIfReady();
 		}
-
-
-		if( this.getTimestampedStatus().getStatus().equals(Status.WAITING) || this.getTimestampedStatus().getStatus().equals(Status.FINISHED)){
+		else if( this.getTimestampedStatus().getStatus().equals(Status.WAITING) || this.getTimestampedStatus().getStatus().equals(Status.FINISHED)){
 
 			// If the parameters are not set, prepare to start as soon as they are all set
 			this.waitExplicitStart  = false;		

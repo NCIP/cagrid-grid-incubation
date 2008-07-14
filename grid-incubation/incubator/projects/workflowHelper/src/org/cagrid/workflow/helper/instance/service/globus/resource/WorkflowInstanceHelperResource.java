@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -110,9 +111,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	 * 
 	 * @param serviceOperationEPR EPR of the InvocationHelper
 	 * @return The associated GlobusCredential, or null if no such association does exist  
+	 * @throws RemoteException 
 	 * 
 	 * */
-	public GlobusCredential getCredential(EndpointReference serviceOperationEPR){
+	public GlobusCredential getCredential(EndpointReference serviceOperationEPR) throws RemoteException{
 
 
 		this.printCredentials();
@@ -157,7 +159,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			try{
 
 				if( credentialIsNotSet ){
-					credentialAvailability.await();
+					boolean explicitlyAwaken = credentialAvailability.await(60, TimeUnit.SECONDS);
+					if( !explicitlyAwaken )  throw new RemoteException("Couldn't retrieve credential. " +
+							"Was it registered into the InstanceHelper? Is the EndpointReference for the credential proxy valid?");
 				}
 				credential = this.servicesCredentials.get(eprStr);
 
@@ -171,7 +175,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				key.unlock();
 			}
 
-
+			logger.info("Returning credential: "+ ((credential != null)? credential.getIdentity() : null));
 			return credential;
 		}
 	}
