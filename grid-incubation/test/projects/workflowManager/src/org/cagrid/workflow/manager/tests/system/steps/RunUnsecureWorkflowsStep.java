@@ -41,6 +41,7 @@ import org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowOutputParameterTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowOutputTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowPortionsDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
@@ -363,7 +364,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		logger.info("Storing workflow input data");
 		WorkflowInputParameters inputs = new WorkflowInputParameters();
 		WorkflowInputParameter[] parameters = workflowInputs.toArray(new WorkflowInputParameter[0]);
-		inputs.setParameters(parameters);
+		inputs.setParameter(parameters);
 		
 		// Store workflow outputs' description
 		logger.info("Storing workflow output output description");
@@ -376,7 +377,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		WorkflowManagerInstanceDescriptor managerInstanceDesc = new WorkflowManagerInstanceDescriptor();
 		managerInstanceDesc.setInputs(inputs);
 		managerInstanceDesc.setOutputDesc(outputDesc);
-		managerInstanceDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowParts });
+		managerInstanceDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowParts }));
 
 		WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(managerInstanceDesc);
 		WorkflowManagerInstanceClient managerInstanceClient = null;
@@ -549,10 +550,10 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		
 		workflowPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 		WorkflowInputParameters inputs = new WorkflowInputParameters();
-		inputs.setParameters(inputData.toArray(new WorkflowInputParameter[0]));
+		inputs.setParameter(inputData.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputs);
 		wfDesc.setOutputDesc(new WorkflowOutputTransportDescriptor());
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowPart }));
 
 		WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 		WorkflowManagerInstanceClient managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceRef.getEndpointReference());
@@ -721,7 +722,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputParameters );
 		wfDesc.setOutputDesc(outputDesc ); 
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowPart }));
 		
 		
 		// Instantiate the workflow
@@ -907,7 +908,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor(outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]));
 		wfDesc.setOutputDesc(outputDesc);
 		wfPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ wfPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ wfPart }));
 		WorkflowManagerInstanceReference instanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 		WorkflowManagerInstanceClient instanceClient = null;
 		try {
@@ -1287,7 +1288,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputParameters);
 		wfDesc.setOutputDesc(outputDesc);
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ wfPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ wfPart }));
 
 		logger.info("Creating Manager Instance");
 		WorkflowManagerInstanceReference instanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);

@@ -6,12 +6,22 @@
 	attributeFormDefault="unqualified">
 	<xs:import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="./WS-Addressing.xsd"></xs:import>
 	<xs:import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="./WorkflowHelper.xsd"></xs:import>
-	<xs:element name="WorkflowManagerInstanceDescriptor" type="tns:WorkflowManagerInstanceDescriptor" />
+	
+	
+	
+	<xs:element name="RootElement" type="tns:RootElement"></xs:element>
+	<xs:complexType name="RootElement">
+		<xs:sequence>
+			<xs:element name="workflowManagerInstanceDescriptor" type="tns:WorkflowManagerInstanceDescriptor"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
 	
 	<!-- Workflow metadata -->
+	<xs:element name="WorkflowManagerInstanceDescriptor" type="tns:WorkflowManagerInstanceDescriptor" />
 	<xs:complexType name="WorkflowManagerInstanceDescriptor">
 		<xs:sequence>
-			<xs:element name="workflowParts" type="tns:WorkflowPortionDescriptor" minOccurs="1" maxOccurs="unbounded"></xs:element>
+			<xs:element name="localWorkflows" type="tns:WorkflowPortionsDescriptor"></xs:element>
 			<xs:element name="inputs" type="tns:WorkflowInputParameters" />
 			<xs:element name="outputDesc" type="tns:WorkflowOutputTransportDescriptor" />
 		</xs:sequence>
@@ -28,6 +38,12 @@
 		</xs:sequence>
 	</xs:complexType>
 	
+	<xs:element name="WorkflowPortionsDescriptor" type="tns:WorkflowPortionsDescriptor" />
+	<xs:complexType name="WorkflowPortionsDescriptor">
+		<xs:sequence>
+			<xs:element name="localWorkflowDesc" type="tns:WorkflowPortionDescriptor" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
 	
 	<xs:element name="WorkflowPortionDescriptor" type="tns:WorkflowPortionDescriptor" />
 	<xs:complexType name="WorkflowPortionDescriptor">
@@ -43,7 +59,7 @@
 	<xs:element name="WorkflowInputParameters" type="tns:WorkflowInputParameters"></xs:element>
 	<xs:complexType name="WorkflowInputParameters">
 		<xs:sequence>
-			<xs:element name="parameters" type="tns:WorkflowInputParameter" minOccurs="0" maxOccurs="unbounded"></xs:element>
+			<xs:element name="parameter" type="tns:WorkflowInputParameter" minOccurs="0" maxOccurs="unbounded"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -74,7 +90,5 @@
 			<xs:element name="sourceGUID" type="int"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	
-	
 	
 </xs:schema>

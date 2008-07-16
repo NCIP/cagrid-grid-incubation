@@ -30,6 +30,7 @@ import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.manager.client.WorkflowManagerServiceClient;
 import org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowPortionsDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
@@ -124,7 +125,7 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 
 
 		workflowParts[0].setInvocationHelperDescs(invocationHelperDescs);
-		workflowDesc.setWorkflowParts(workflowParts);
+		workflowDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(workflowParts));
 
 
 

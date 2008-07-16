@@ -6,64 +6,47 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.xml.namespace.QName;
 
-import junit.framework.Assert;
-
-import org.apache.axis.message.MessageElement;
-import org.apache.axis.message.addressing.Address;
 import org.apache.axis.message.addressing.AttributedURI;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
-import org.apache.axis.message.addressing.ServiceNameType;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.gaards.cds.common.ProxyLifetime;
 import org.cagrid.workflow.helper.client.WorkflowHelperClient;
 import org.cagrid.workflow.helper.descriptor.CDSAuthenticationMethod;
-import org.cagrid.workflow.helper.descriptor.ChannelProtection;
 import org.cagrid.workflow.helper.descriptor.DeliveryPolicy;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
-import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.SecureConversationInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.SecureMessageInvocationSecurityDescriptor;
-import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
-import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
 import org.cagrid.workflow.helper.util.CredentialHandlingUtil;
-import org.cagrid.workflow.manager.client.WorkflowManagerServiceClient;
 import org.cagrid.workflow.manager.descriptor.WorkflowInputParameter;
 import org.cagrid.workflow.manager.descriptor.WorkflowInputParameters;
-import org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowOutputParameterTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowOutputTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowPortionsDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
-import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceHome;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.cagrid.workflow.manager.service.parser.workflowDescriptor.WorkflowDescriptorParser;
 import org.globus.gsi.GlobusCredential;
-import org.globus.wsrf.NotifyCallback;
 
 /**
  * I am the service side implementation class. IMPLEMENT AND DOCUMENT ME
@@ -81,8 +64,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 	}
 
 	/*
-
-
 
 	// Create description of parameters transport for a workflow 
 	private OperationOutputTransportDescriptor createOperationOutputTransportDescriptor(
@@ -143,7 +124,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 
 		return outDesc;
 	} 
-
 
 	// Retrieve the Endpoint Reference corresponding to the stage that is associated with the received input variable  
 	private EndpointReferenceType findStageEPRForInputVariable(
@@ -249,14 +229,20 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 	 * @return a handler to communicate with the newly created resource
 	 * 
 	 * */
-	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
 
-		org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc = WorkflowDescriptorParser.parseWorkflowDescriptor(xmlWorkflowDescription);
+		org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc;
+		try {
+			workflowDesc = WorkflowDescriptorParser.parseWorkflowDescriptor(xmlWorkflowDescription);
+		} catch (Exception e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
 
 		return this.createWorkflowManagerInstanceFromObjectDescriptor(workflowDesc);
 	}
 
-	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
+	
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
 
 		org.apache.axis.message.addressing.EndpointReferenceType managerInstanceEpr = new org.apache.axis.message.addressing.EndpointReferenceType();
 		WorkflowManagerInstanceResourceHome home;
@@ -309,7 +295,8 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 
 		// Retrieve the description of operations that will be executed (grouped by container) 
 		logger.info("Start creating local workflows");
-		WorkflowPortionDescriptor[] workflowParts = workflowDesc.getWorkflowParts();
+		final WorkflowPortionsDescriptor localWorkflows = workflowDesc.getLocalWorkflows();
+		WorkflowPortionDescriptor[] workflowParts = localWorkflows.getLocalWorkflowDesc();
 
 		for(int i=0; i < workflowParts.length; i++){
 
@@ -375,8 +362,7 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 
 							// Tell the instance helper to manage this credential and associate it with the current stage
 							instanceHelperClient.addCredential(currInvocationClient.getEndpointReference(), proxyEPR);
-							
-							
+
 							// Verify whether the credential wasn't already retrieved
 							boolean alreadyRetrieved = alreadyRetrievedCredentials.contains(proxyEPR.toString());
 
@@ -415,13 +401,11 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					}
 					else logger.info("No security mechanisms required");
 
-					
 					// Configure input
 					logger.info("Configuring stage input");
 					OperationInputMessageDescriptor inputDesc = curr_stageDesc.getInputsDescription();
 					currInvocationClient.configureInput(inputDesc);
 
-					
 					// Output can't be configured here because we don't have the EPR of each workflow stage, 
 					// so we store current EPR for using later
 					int stageID = curr_stageDesc.getGlobalUniqueIdentifier();
@@ -445,7 +429,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			}
 
 		}
-
 
 		// Get the output transport description for the workflow as a whole and update the referred stages' descriptions
 		logger.info("Searching for workflow outputs");
@@ -475,7 +458,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					}
 		}
 
-		
 		// Configure the outputs of each workflow stage
 		logger.info("Configuring stages' outputs");
 		Set<Entry<Integer,OperationOutputTransportDescriptor>> entries = stageID2OutputDesc.entrySet();
@@ -542,11 +524,10 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		// Store stages' EPRs so we can start each one of them when asked by the user
 		thisResource.storeStagesEPRs(stageID2EPR);
 
-		
 		// Get static input values and send them to the associated InvocationHelper
 		logger.info("Setting stages' static input parameter values");
 		WorkflowInputParameters workflowInput = workflowDesc.getInputs();
-		WorkflowInputParameter[] inputValues = workflowInput.getParameters();;
+		WorkflowInputParameter[] inputValues = workflowInput.getParameter();;
 		for(int i=0; i < inputValues.length; i++){
 
 			WorkflowInputParameter currInputValue = inputValues[i];
@@ -575,9 +556,7 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		return ref;  
 	}
 
-	
-	
-	public java.lang.String getIdentity() throws RemoteException {
+  public java.lang.String getIdentity() throws RemoteException {
 		// TODO Retrieve the Manager's ID dynamically
 		String managerIdentity = null;
 		try {

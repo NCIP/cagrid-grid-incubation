@@ -23,6 +23,7 @@ import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.ProxyList;
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
@@ -35,6 +36,7 @@ import org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowOutputParameterTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowOutputTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowPortionsDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
@@ -437,7 +439,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		logger.info("Storing workflow input data");
 		WorkflowInputParameters inputs = new WorkflowInputParameters();
 		WorkflowInputParameter[] parameters = workflowInputs.toArray(new WorkflowInputParameter[0]);
-		inputs.setParameters(parameters);
+		inputs.setParameter(parameters);
 
 		// Store workflow outputs' description
 		logger.info("Storing workflow output output description");
@@ -450,7 +452,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		WorkflowManagerInstanceDescriptor managerInstanceDesc = new WorkflowManagerInstanceDescriptor();
 		managerInstanceDesc.setInputs(inputs);
 		managerInstanceDesc.setOutputDesc(outputDesc);
-		managerInstanceDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowParts });
+		managerInstanceDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowParts }));
 
 		WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(managerInstanceDesc);
 		WorkflowManagerInstanceClient managerInstanceClient = null;
@@ -504,7 +506,6 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 		// Create descriptor for the only InstanceHelper of this workflow
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor instanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
-		instanceDesc.setProxyEPR(new EndpointReferenceType[]{ delegatedCredentialProxy });
 		instanceDesc.setWorkflowID("WorkFlow5");
 		workflowPart.setInstanceHelperDesc(instanceDesc);
 
@@ -647,10 +648,10 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 		workflowPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 		WorkflowInputParameters inputs = new WorkflowInputParameters();
-		inputs.setParameters(inputData.toArray(new WorkflowInputParameter[0]));
+		inputs.setParameter(inputData.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputs);
 		wfDesc.setOutputDesc(new WorkflowOutputTransportDescriptor());
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowPart }));
 
 		WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 		WorkflowManagerInstanceClient managerInstanceClient = null;
@@ -845,7 +846,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputParameters );
 		wfDesc.setOutputDesc(outputDesc ); 
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowPart }));
 
 
 		// Instantiate the workflow
@@ -1050,7 +1051,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor(outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]));
 		wfDesc.setOutputDesc(outputDesc);
 		wfPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ wfPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ wfPart }));
 		WorkflowManagerInstanceReference instanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 		WorkflowManagerInstanceClient instanceClient = null;
 		try {
@@ -1453,7 +1454,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputParameters);
 		wfDesc.setOutputDesc(outputDesc);
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ wfPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ wfPart }));
 
 		logger.info("Creating Manager Instance");
 		WorkflowManagerInstanceReference instanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);

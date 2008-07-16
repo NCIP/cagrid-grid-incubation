@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkflowManagerInstanceDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService ../../../../../incubator/projects/workflowManager/schema/WorkflowManagerService/WorkflowManager.xsd" xmlns:svc4="http://service4.introduce.cagrid.org/Service4" xmlns:sys="http://systemtests.workflow.cagrid.org/SystemTests" xmlns:cas="http://createarrayservice.introduce.cagrid.org/CreateArrayService" xmlns="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService">
+    <localWorkflows>
+        <localWorkflowDesc>
+            <WorkflowHelperServiceLocation>http://localhost:8080/wsrf/services/cagrid/WorkflowHelper</WorkflowHelperServiceLocation>
+            <instanceHelperDesc>
+                <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                    <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing">http://localhost:8080/wsrf/services/cagrid/WorkflowManagerService</Address>
+                </WorkflowManagerEPR>
+                <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">ComplexArrayStreaming</WorkflowID>
+            </instanceHelperDesc>
+            <invocationHelperDescs>
+                <basicDescription>
+                    <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"><Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/></WorkflowManagerEPR>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">ComplexArrayStreaming</WorkflowID>
+                    <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">http://localhost:8080/wsrf/services/cagrid/Service4</ServiceURL>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">svc4:PrintResultsRequest</operationQName>
+                </basicDescription>
+                <inputsDescription>
+                    <inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <paramQName>result1</paramQName>
+                        <paramType>string</paramType>
+                    </inputParam>
+                    <inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <paramQName>result2</paramQName>
+                        <paramType>string</paramType>
+                    </inputParam>
+                </inputsDescription>
+                <outputTransportDescriptor/>
+                <GlobalUniqueIdentifier>0</GlobalUniqueIdentifier>
+            </invocationHelperDescs>
+            <invocationHelperDescs>
+                <basicDescription>
+                    <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+                    </WorkflowManagerEPR>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">ComplexArrayStreaming</WorkflowID>
+                    <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">http://localhost:8080/wsrf/services/cagrid/CreateArrayService</ServiceURL>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">cas:GetComplexArrayRequest</operationQName>
+                </basicDescription>
+                <inputsDescription/>
+                <outputTransportDescriptor><paramDescriptor xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                    <destinationGlobalUniqueIdentifier>0</destinationGlobalUniqueIdentifier>
+                    <destinationEPR><Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/></destinationEPR>
+                    <deliveryPolicy>ROUNDROBIN</deliveryPolicy>
+                    <paramIndex>0</paramIndex>
+                    <type>sys:ComplexType</type> <!-- [] -->
+                    <locationQuery/>
+                </paramDescriptor>
+                </outputTransportDescriptor>
+                <GlobalUniqueIdentifier>1</GlobalUniqueIdentifier>
+            </invocationHelperDescs>
+        </localWorkflowDesc>
+    </localWorkflows>
+    <inputs>
+        <parameter>
+            <paramDescription>
+                <paramIndex xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">1</paramIndex>
+                <data xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">complex type's streaming</data>
+            </paramDescription>
+            <paramDestinationGUID>0</paramDestinationGUID>
+        </parameter>
+    </inputs>
+    <outputDesc/>
+</WorkflowManagerInstanceDescriptor>

@@ -18,6 +18,7 @@
    <ns2:SchemaElement type="OperationInputMessageDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ProxyList" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="SecureConversationInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="SecureMessageInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="Status" xsi:type="ns2:SchemaElementType"/>

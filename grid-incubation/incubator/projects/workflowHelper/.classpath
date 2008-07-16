@@ -24,8 +24,6 @@
 	<classpathentry kind="lib" path="ext/dependencies/test/jars/jdepend-2.7.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/test/jars/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/caGrid-Introduce-serviceTools-1.2.jar"/>
-	<classpathentry kind="lib" path="ext/dependencies/test/jars/caGrid-testing-core-1.2.jar"/>
-	<classpathentry kind="lib" path="ext/dependencies/test/jars/caGrid-testing-system-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-opensaml-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-dorian-client-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/caGrid-dorian-stubs-1.2.jar"/>

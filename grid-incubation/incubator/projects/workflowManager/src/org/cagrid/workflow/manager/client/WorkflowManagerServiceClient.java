@@ -43,6 +43,7 @@ import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.ProxyList;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
@@ -56,6 +57,7 @@ import org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowOutputParameterTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowOutputTransportDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowPortionDescriptor;
+import org.cagrid.workflow.manager.descriptor.WorkflowPortionsDescriptor;
 import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
@@ -324,7 +326,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor(outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]));
 		wfDesc.setOutputDesc(outputDesc);
 		wfPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
-		wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ wfPart });
+		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ wfPart }));
 		WorkflowManagerInstanceReference instanceRef = managerClient.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 		WorkflowManagerInstanceClient instanceClient = null;
 		try {
@@ -391,67 +393,11 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	
 	
 
-  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
-    return portType.getMultipleResourceProperties(params);
-    }
-  }
-
-  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getResourceProperty");
-    return portType.getResourceProperty(params);
-    }
-  }
-
-  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"queryResourceProperties");
-    return portType.queryResourceProperties(params);
-    }
-  }
-
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"createWorkflowManagerInstanceFromObjectDescriptor");
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest();
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc workflowDescContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc();
-    workflowDescContainer.setWorkflowManagerInstanceDescriptor(workflowDesc);
-    params.setWorkflowDesc(workflowDescContainer);
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = portType.createWorkflowManagerInstanceFromObjectDescriptor(params);
-    return boxedResult.getWorkflowManagerInstanceReference();
-    }
-  }
-
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
-    params.setXmlWorkflowDescription(xmlWorkflowDescription);
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
-    return boxedResult.getWorkflowManagerInstanceReference();
-    }
-  }
-
-  public java.lang.String getIdentity() throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getIdentity");
-    org.cagrid.workflow.manager.stubs.GetIdentityRequest params = new org.cagrid.workflow.manager.stubs.GetIdentityRequest();
-    org.cagrid.workflow.manager.stubs.GetIdentityResponse boxedResult = portType.getIdentity(params);
-    return boxedResult.getResponse();
-    }
-  }
-
   
   
   
   /************ TODO TEST, CAN BE REMOVED AFTER DEBUGGING ***************/
 	static class RunSecureWorkflowStep implements NotifyCallback {
-
-
-
-
 
 		// Synchronizes the access to variable 'isFinished' 
 		protected Lock isFinishedKey = new ReentrantLock();
@@ -464,21 +410,15 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		protected boolean isFinished = false;
 		protected List<EndpointReferenceType> managerInstances = new ArrayList<EndpointReferenceType>();
 
-
-
-
 		private EndpointReferenceType cdsEPR;
 		private GlobusCredential userCredential; 
 		private EndpointReferenceType managerEPR;
 		private String containerBaseURL;
 
-
 		final static String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
 		final static String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
 
-
 		protected final boolean validatorEnabled = false;  // Enable/Disable the output matcher. Should be true when not debugging
-
 
 		public RunSecureWorkflowStep(EndpointReference managerEPR, EndpointReferenceType cdsEPR, String container_base_url, 
 				GlobusCredential userCredential, String cdsURL) {
@@ -494,18 +434,15 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			}
 		}
 
-
 		public void runStep() throws Throwable {
 
 			System.out.println("---- BEGIN SECURE WORKFLOW TEST ----");
-
 
 			try{
 
 				String wfManagerURL = this.containerBaseURL + "cagrid/WorkflowManagerService";
 				final EndpointReferenceType manager_epr = new EndpointReferenceType(new Address(wfManagerURL));
 				WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(manager_epr);
-
 
 				// User role: Delegate user credential to the Manager 	
 				logger.info("Obtaining user credential"); 
@@ -515,19 +452,15 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 						cdsURL , new ProxyLifetime(5,0,0), new ProxyLifetime(6,0,0), 3, 2);
 				logger.info("Delegation done");
 
-
 				// Set delegation parameters
 				ProxyLifetime delegationLifetime = new ProxyLifetime(4,0,0);
 				ProxyLifetime issuedCredentialLifetime = new ProxyLifetime(5,0,0);
 				int delegationPath = 1;
 				int issuedCredentialPath = 0; 
 
-
 				/*** Service that will gather all the output and match against the expected ones ***/
 				Integer outputMatcherID = this.validatorEnabled ? runOuputMatcher(wf_manager, delegatedCredentialProxy, 
 						delegationLifetime, issuedCredentialLifetime, delegationPath, issuedCredentialPath) : null;
-
-
 
 				/*** Testing arrays as services' input ***/
 
@@ -544,9 +477,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 			System.out.println("[CreateTestSecureWorkflowsStep] END Testing arrays"); // */
 
-
-
-
 				/** BEGIN streaming test **/
 				/*System.out.println("[CreateTestSecureWorkflowsStep] BEGIN Testing streaming");
 
@@ -556,8 +486,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					delegationPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK");  // */
 
-
-
 				/* Streaming complex types */
 				/*System.out.print("[CreateTestSecureWorkflowsStep] Streaming of complex-type arrays");
 			runComplexArrayStreaming(wf_manager, issuedCredentialLifetime, delegatedCredentialProxy, delegationLifetime, 
@@ -566,14 +494,11 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 			System.out.println("[CreateTestSecureWorkflowsStep] END Testing streaming"); // */
 
-
-
 				/** FAN IN AND FAN OUT TEST **/
 				/*System.out.println("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out"); 
 			runFaninFanOutTest(wf_manager, outputMatcherID, delegationLifetime, delegatedCredentialProxy, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] END Testing fan in and fan out"); // */
-
 
 				// Block until every stage reports either a FINISHED or an ERROR status
 				this.waitForCompletion();
@@ -588,8 +513,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 			return;
 		}
-
-
 
 		/**
 		 * Instantiate the service that can match all the workflows' outputs against the expected ones 
@@ -626,9 +549,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			e.printStackTrace();
 		}
 
-
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), validatorInstance, workflowID);
-
 
 		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
 		validatorInvocationDesc.setOperationQName(
@@ -641,14 +562,12 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
 		validatorInvocationDesc.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 
-
 		WorkflowInvocationHelperClient validatorInvocation1 = null;
 		try {
 			validatorInvocation1 = validatorInstance.createWorkflowInvocationHelper(validatorInvocationDesc);
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-
 
 		// Subscribe for status notifications
 		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), validatorInvocation1
@@ -670,7 +589,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			t.printStackTrace();
 		}
 
-
 		// Configure inputs
 		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[8];
@@ -683,10 +601,8 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"));
 		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string")); 
 
-
 		validatorInputDesc.setInputParam(inputParam);
 		validatorInvocation1.configureInput(validatorInputDesc);
-
 
 		// Configure outputs: it has none
 		OperationOutputTransportDescriptor validatorOutput = new OperationOutputTransportDescriptor();
@@ -695,23 +611,17 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		validatorInvocation1.configureOutput(validatorOutput);
 		validatorInvocation1.start();
 
-
-
 		// Set static parameters
 		validatorInvocation1.setParameter(new InputParameter("999", 0));
 		validatorInvocation1.setParameter(new InputParameter("true", 2));
 		validatorInvocation1.setParameter(new InputParameter("999", 3));
 		validatorInvocation1.setParameter(new InputParameter("true", 5));
 
-
 		System.out.println("END runOuputMatcher");
 
 		return validatorInvocation1.getEndpointReference(); // */
 			return Integer.MAX_VALUE;
 		}
-
-
-
 
 		/**
 		 * Instantiate the workflow that will test complex array streaming
@@ -729,20 +639,16 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 			logger.info("BEGIN");
 
-
 			// Create security descriptor for the stages (in this case, all of them present the same security requirements)
 			CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
 			TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 			WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-
 
 			// Create the description of the single local workflow this workflow is divided in 
 			WorkflowPortionDescriptor workflowParts = new WorkflowPortionDescriptor();
 			String workflowHelperServiceLocation = this.containerBaseURL + "cagrid/WorkflowHelper";
 			logger.info("WorkflowHelper is located at: "+ workflowHelperServiceLocation);
 			workflowParts.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
-
-
 
 			logger.info("Creating InstanceHelper descriptor");
 			org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
@@ -753,14 +659,11 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 			ArrayList<WorkflowInputParameter> workflowInputs = new ArrayList<WorkflowInputParameter>();
 
-
 			// BEGIN service 4				
 			logger.info("Describing service 4");
 			WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 			int currStageID = 4;
 			currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
-
 
 			logger.info("Building basic description");
 			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -771,7 +674,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation4.setServiceURL(acess_url);
 			operation4.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation4);
-
 
 			// Creating Descriptor of the InputMessage
 			logger.info("Building input parameters descriptor");
@@ -789,7 +691,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			OperationOutputParameterTransportDescriptor outParameterDescriptor4 [] = new OperationOutputParameterTransportDescriptor[0];
 			outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 
-
 			// Setting second parameter
 			logger.info("Setting value for the 2nd argument");
 			workflowInputs.add(new WorkflowInputParameter(new InputParameter("complex type's streaming", 1), currStageID));
@@ -798,14 +699,11 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			logger.info("Done Service 4");
 			// END service 4
 
-
-
 			// BEGIN CreateArrayService::getComplexArray	
 			logger.info("Describing CreateArrayService");
 			currStageDesc = new WorkflowStageDescriptor();
 			currStageID = 0;
 			currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
 
 			logger.info("Building stage basic description");
 			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -816,7 +714,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation__ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
 			operation__ca.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation__ca);
-
 
 			// Creating Descriptor of the InputMessage
 			logger.info("Building input parameters' descriptor");
@@ -843,8 +740,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outParameterDescriptor__ca[0].setDestinationGlobalUniqueIdentifier(4);
 //			outParameterDescriptor__ca[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient__4.getEndpointReference()});
 
-
-
 			// takes the reference to ReceiveComplexArrayService
 			outputDescriptor__ca.setParamDescriptor(outParameterDescriptor__ca);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor__ca);
@@ -852,18 +747,16 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			logger.info("Done CreateArrayService");
 			// END CreateArrayService::getComplexArray 
 
-
 			// Store stages' description
 			logger.info("Storing stages' descriptors");
 			WorkflowStageDescriptor[] invocationHelperDescs = stagesDescs.toArray(new WorkflowStageDescriptor[0]);
 			workflowParts.setInvocationHelperDescs(invocationHelperDescs);
 
-
 			// Store workflow inputs' settings
 			logger.info("Storing workflow input data");
 			WorkflowInputParameters inputs = new WorkflowInputParameters();
 			WorkflowInputParameter[] parameters = workflowInputs.toArray(new WorkflowInputParameter[0]);
-			inputs.setParameters(parameters);
+			inputs.setParameter(parameters);
 
 			// Store workflow outputs' description
 			logger.info("Storing workflow output output description");
@@ -871,12 +764,11 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			WorkflowOutputParameterTransportDescriptor[] paramDescriptor = new WorkflowOutputParameterTransportDescriptor[0];
 			outputDesc.setParamDescriptor(paramDescriptor);
 
-
 			logger.info("Creating ManagerInstance");
 			WorkflowManagerInstanceDescriptor managerInstanceDesc = new WorkflowManagerInstanceDescriptor();
 			managerInstanceDesc.setInputs(inputs);
 			managerInstanceDesc.setOutputDesc(outputDesc);
-			managerInstanceDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowParts });
+			managerInstanceDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowParts }));
 
 			WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(managerInstanceDesc);
 			WorkflowManagerInstanceClient managerInstanceClient = null;
@@ -896,8 +788,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 			logger.info("END");	}
 
-
-
 		/**
 		 * Instantiate the workflow that will test simple array streaming
 		 * 
@@ -912,14 +802,10 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		 * */
 		private void runSimpleArrayStreaming(WorkflowManagerServiceClient wf_manager, EndpointReferenceType delegatedCredentialProxy, ProxyLifetime issuedCredentialLifetime, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath) throws RemoteException {
 
-
-
 			// Create security descriptor for the stages (in this case, all of them present the same security requirements)
 			CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
 			TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 			WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-
-
 
 			// Create descriptor of the ManagerInstance
 			WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
@@ -927,25 +813,18 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			String workflowHelperServiceLocation = this.containerBaseURL + "cagrid/WorkflowHelper";
 			workflowPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
 
-
 			// Create descriptor for the only InstanceHelper of this workflow
 			org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor instanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
-			instanceDesc.setProxyEPR(new EndpointReferenceType[]{ delegatedCredentialProxy });
 			instanceDesc.setWorkflowID("WorkFlow5");
 			workflowPart.setInstanceHelperDesc(instanceDesc);
 
-
 			ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 			ArrayList<WorkflowInputParameter> inputData = new ArrayList<WorkflowInputParameter>();
-
-
 
 			// BEGIN service 4
 			WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 			int currGUID = 4;
 			currStageDesc.setGlobalUniqueIdentifier(currGUID);
-
-
 
 			WorkflowInvocationHelperDescriptor operation_4 = new WorkflowInvocationHelperDescriptor();
 			operation_4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "SecurePrintResultsRequest"));
@@ -953,7 +832,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation_4.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 			// operation_4.setOutputType(); // Void output expected
 			currStageDesc.setBasicDescription(operation_4);
-
 
 			// Creating Descriptor of the InputMessage
 			OperationInputMessageDescriptor inputMessage_4 = new OperationInputMessageDescriptor();
@@ -971,21 +849,16 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outputDescriptor_4.setParamDescriptor(outParameterDescriptor_4);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor_4);
 
-
 			// Setting second parameter
 			WorkflowInputParameter inputParam = new WorkflowInputParameter(new InputParameter("simple type's streaming", 1), currGUID);
 			inputData.add(inputParam);
 			stagesDescs.add(currStageDesc);
 			// END service 4
 
-
-
-
 			// BEGIN service 2				
 			currStageDesc = new WorkflowStageDescriptor();
 			currGUID = 2;
 			currStageDesc.setGlobalUniqueIdentifier(currGUID);
-
 
 			WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
 			operation2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "SecureCapitalizeRequest"));
@@ -993,7 +866,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation2.setOutputType(new QName(XSD_NAMESPACE, "string"));
 			operation2.setWorkflowInvocationSecurityDescriptor(secDescriptor); // Set security requirements
 			currStageDesc.setBasicDescription(operation2);
-
 
 			// Creating Descriptor of the InputMessage
 			OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
@@ -1003,11 +875,9 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			currStageDesc.setInputsDescription(inputMessage__2);
 			// End InputMessage Descriptor
 
-
 			// configure destination of output
 			OperationOutputTransportDescriptor outputDescriptor__2 = new OperationOutputTransportDescriptor();
 			OperationOutputParameterTransportDescriptor outParameterDescriptor__2 [] = new OperationOutputParameterTransportDescriptor[1];
-
 
 			// 1st destination: Service4
 			outParameterDescriptor__2[0] = new OperationOutputParameterTransportDescriptor();
@@ -1019,19 +889,15 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outParameterDescriptor__2[0].setLocationQuery("/ns0:CapitalizeResponse");
 			outParameterDescriptor__2[0].setDestinationGlobalUniqueIdentifier(4);
 
-
 			outputDescriptor__2.setParamDescriptor(outParameterDescriptor__2);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor__2);
 			stagesDescs.add(currStageDesc);
 			// END service 2
 
-
-
 			// BEGIN CreateArrayService				
 			currStageDesc = new WorkflowStageDescriptor();
 			currGUID = 0;
 			currStageDesc.setGlobalUniqueIdentifier(currGUID);
-
 
 			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 			operation__cas.setWorkflowID("GeorgeliusWorkFlow");
@@ -1040,7 +906,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation__cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
 			operation__cas.setWorkflowInvocationSecurityDescriptor(secDescriptor); // Set security requirements
 			currStageDesc.setBasicDescription(operation__cas);
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__cas = new OperationInputMessageDescriptor();
@@ -1062,21 +927,17 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outParameterDescriptor_cs[0].setLocationQuery("/ns0:GetArrayResponse");
 			outParameterDescriptor_cs[0].setDestinationGlobalUniqueIdentifier(2);
 
-
 			outputDescriptor_cs.setParamDescriptor(outParameterDescriptor_cs);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor_cs);
 			stagesDescs.add(currStageDesc);
 			// END CreateArrayService
 
-
-
-
 			workflowPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 			WorkflowInputParameters inputs = new WorkflowInputParameters();
-			inputs.setParameters(inputData.toArray(new WorkflowInputParameter[0]));
+			inputs.setParameter(inputData.toArray(new WorkflowInputParameter[0]));
 			wfDesc.setInputs(inputs);
 			wfDesc.setOutputDesc(new WorkflowOutputTransportDescriptor());
-			wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowPart });
+			wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowPart }));
 
 			WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 			WorkflowManagerInstanceClient managerInstanceClient = null;
@@ -1092,8 +953,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 //			managerInstanceClient.destroy();
 		}
 
-
-
 		/**
 		 * Instantiate the workflow that will test complex array usual handling
 		 * 
@@ -1108,13 +967,10 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		 * */
 		private void runComplexArrayTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, ProxyLifetime issuedCredentialLifetime, ProxyLifetime delegationLifetime, EndpointReferenceType delegatedCredentialProxy, int issuedCredentialPath, int delegationPath) throws RemoteException{
 
-
-
 			// Create security descriptor for the stages (in this case, all of them present the same security requirements)
 			CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
 			TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 			WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-
 
 			// Create description of the ManagerInstance
 			WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
@@ -1122,12 +978,9 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			String workflowHelperServiceLocation = this.containerBaseURL + "cagrid/WorkflowHelper";
 			workflowPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
 
-
 			ArrayList <WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 			ArrayList<WorkflowInputParameter> inputParams = new ArrayList<WorkflowInputParameter>();
 			ArrayList<WorkflowOutputParameterTransportDescriptor> outputParams = new ArrayList<WorkflowOutputParameterTransportDescriptor>();
-
-
 
 			/** complex type arrays **/
 			org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor1 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
@@ -1135,13 +988,10 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			workflowDescriptor1.setWorkflowID(workflowID);
 			workflowPart.setInstanceHelperDesc(workflowDescriptor1);
 
-
-
 			// BEGIN ReceiveArrayService::ReceiveComplexArray
 			WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 			int currStageID = 0;
 			currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
 
 			String access_url = containerBaseURL+"cagrid/ReceiveArrayService";
 			WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
@@ -1150,8 +1000,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			//operation2.setOutput(); // This service has no output
 			operation2.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation2);
-
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
@@ -1171,8 +1019,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outputDescriptor_ras.setParamDescriptor(outParameterDescriptor_ras);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor_ras);
 
-
-
 			//System.out.println("Setting params"); //DEBUG
 
 			// Set the values of its simple-type arguments
@@ -1181,14 +1027,10 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			stagesDescs.add(currStageDesc);
 			// END ReceiveArrayService::ReceiveComplexArray
 
-
-
-
 			// BEGIN CreateArrayService::getComplexArray
 			currStageDesc = new WorkflowStageDescriptor();
 			currStageID++;
 			currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
 
 			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 			access_url = containerBaseURL+"cagrid/CreateArrayService";
@@ -1198,7 +1040,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation_ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
 			operation_ca.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation_ca);
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ca = new OperationInputMessageDescriptor();
@@ -1222,8 +1063,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outParameterDescriptor_ca[0].setLocationQuery("/ns0:GetComplexArrayResponse");
 			outParameterDescriptor_ca[0].setDestinationGlobalUniqueIdentifier(0);
 
-
-
 			// Second destination: Output matcher
 			if( validatorEnabled ){
 
@@ -1238,7 +1077,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 //				outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID });
 			}
 
-
 			// Add one output to the workflow outputs
 			WorkflowOutputParameterTransportDescriptor outputParamDesc = new WorkflowOutputParameterTransportDescriptor();
 			outputParamDesc.setSourceGUID(currStageID);
@@ -1250,29 +1088,23 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outputParamDesc.setParamDescription(paramDescription);
 			outputParams.add(outputParamDesc);
 
-
-
 			// takes the reference to ReceiveComplexArrayService
 			outputDescriptor_ca.setParamDescriptor(outParameterDescriptor_ca);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor_ca);
 			stagesDescs.add(currStageDesc);
 			// END CreateArrayService::getComplexArray 
 
-
-
 			// Set workflow outputs
 			WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
 			WorkflowOutputParameterTransportDescriptor[] paramDescriptor = outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]);
 			outputDesc.setParamDescriptor(paramDescriptor);
-
 
 			// Finish creating the workflow descriptor
 			workflowPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 			WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 			wfDesc.setInputs(inputParameters );
 			wfDesc.setOutputDesc(outputDesc ); 
-			wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ workflowPart });
-
+			wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowPart }));
 
 			// Instantiate the workflow
 			WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
@@ -1291,20 +1123,16 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			logger.info("Retrieving workflow outputs");
 			String[] wf_outputs = managerInstanceClient.getOutputValues();  // Retrieve workflow outputs
 
-
 			for(int i = 0; i < wf_outputs.length; i++){
 
 				logger.info("Workflow output #"+ i +" is: "+ wf_outputs[i]);
 			}
-
 
 //			managerInstanceClient.destroy();
 
 			logger.info("END");
 			return;
 		}
-
-
 
 		/**
 		 * Instantiate the workflow that will test simple array usual handling
@@ -1320,14 +1148,11 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		 * */
 		private void runSimpleArrayTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, ProxyLifetime issuedCredentialLifetime, EndpointReferenceType delegatedCredentialProxy, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath) throws RemoteException{
 
-
-
 			// Create security descriptor for the stages (in this case, all of them present the same security requirements)
 			CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 			TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 			WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
 			secDescriptor = null; // DEBUG
-
 
 			// Instantiate ManagerDescription
 			WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
@@ -1343,18 +1168,14 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			workflowDescriptor2.setWorkflowID(workflowID);
 			wfPart.setInstanceHelperDesc(workflowDescriptor2);
 
-
 			ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 			ArrayList<WorkflowInputParameter> inputParams = new ArrayList<WorkflowInputParameter>();
 			ArrayList<WorkflowOutputParameterTransportDescriptor> outputParams = new ArrayList<WorkflowOutputParameterTransportDescriptor>();
-
-
 
 			// BEGIN ReceiveArrayService::ReceiveArrayAndMore
 			WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 			int currStageID = 0;
 			currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
 
 			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ram = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 			operation_ram.setWorkflowID("GeorgeliusWorkFlow");
@@ -1363,7 +1184,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			//operation_ram.setOutputType(); // Service has no output
 			operation_ram.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation_ram);
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
@@ -1384,20 +1204,15 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor_ram);
 			stagesDescs.add(currStageDesc);
 
-
 			// Set the values of the two arguments of simple type
 			inputParams.add(new WorkflowInputParameter(new InputParameter("999", 0), currStageID));
 			inputParams.add(new WorkflowInputParameter(new InputParameter("true",2), currStageID));
 			// END ReceiveArrayService::ReceiveArrayAndMore
 
-
-
-
 			// BEGIN CreateArrayService
 			currStageDesc = new WorkflowStageDescriptor();
 			currStageID++;
 			currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
 
 			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 			String access_url = containerBaseURL+"cagrid/CreateArrayService";
@@ -1407,7 +1222,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation_cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
 			operation_cas.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation_cas);
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_cas = new OperationInputMessageDescriptor();
@@ -1431,7 +1245,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outParameterDescriptor_cas[0].setDestinationGlobalUniqueIdentifier(0);
 //			outParameterDescriptor_cas[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient_ram.getEndpointReference()});
 
-
 			// Second destination: Output matcher
 			if(validatorEnabled){
 
@@ -1446,9 +1259,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 //				outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID});
 			}
 
-
-
-
 			// Add one output to the worklow outputs' description
 			WorkflowOutputParameterTransportDescriptor outputParam = new WorkflowOutputParameterTransportDescriptor();
 			OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
@@ -1460,9 +1270,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outputParam.setSourceGUID(currStageID);
 			outputParams.add(outputParam);
 
-
-
-
 			// takes the reference to ReceiveArrayService
 			outputDescriptor_cas.setParamDescriptor(outParameterDescriptor_cas);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor_cas);
@@ -1470,14 +1277,13 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			stagesDescs.add(currStageDesc);
 			// END CreateArrayService 
 
-
 			logger.info("Configuring workflow inputs and outputs");
 			WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 			wfDesc.setInputs(inputParameters);
 			WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor(outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]));
 			wfDesc.setOutputDesc(outputDesc);
 			wfPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
-			wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ wfPart });
+			wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ wfPart }));
 			WorkflowManagerInstanceReference instanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 			WorkflowManagerInstanceClient instanceClient = null;
 			try {
@@ -1488,7 +1294,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			} catch(Throwable t){
 				logger.error(t.getMessage(), t);
 			} 
-
 
 			this.managerInstances.add(instanceRef.getEndpointReference());
 
@@ -1503,15 +1308,12 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 				logger.info("Output #"+ i +" is "+ outputs[i]);
 			}
 
-
 //			this.waitUntilCompletion();
 //			instanceClient.destroy();
 
 			logger.info("END");
 			return;
 		}
-
-
 
 		/**
 		 * Instantiate the workflow that will test the mechanisms for receiving input from multiple stages and forwarding the outputs
@@ -1528,12 +1330,10 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		 * */
 		private void runFaninFanOutTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, ProxyLifetime delegationLifetime, EndpointReferenceType delegatedCredentialProxy, ProxyLifetime issuedCredentialLifetime, int delegationPath, int issuedCredentialPath) throws RemoteException{
 
-
 			// Create security descriptor for the stages (in this case, all of them present the same security requirements)
 			CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
 			TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 			WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-
 
 			// Describe the ManagerInstance and the single local workflow it is responsible for
 			WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
@@ -1541,19 +1341,14 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			String workflowHelperServiceLocation = this.containerBaseURL + "cagrid/WorkflowHelper";
 			wfPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
 
-
 			org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 			String workflowID = "WorkFlow2";
 			workflowDescriptor3.setWorkflowID(workflowID);
 			wfPart.setInstanceHelperDesc(workflowDescriptor3);
 
-
-
 			ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 			ArrayList<WorkflowInputParameter> inputParams = new ArrayList<WorkflowInputParameter>();
 			ArrayList<WorkflowOutputParameterTransportDescriptor> outputParams = new ArrayList<WorkflowOutputParameterTransportDescriptor>();
-
-
 
 			// BEGIN service 4
 			WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
@@ -1567,7 +1362,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation4.setServiceURL(acess_url);
 			operation4.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation4);
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
@@ -1583,15 +1377,11 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			OperationOutputParameterTransportDescriptor outParameterDescriptor4 [] = new OperationOutputParameterTransportDescriptor[0];
 			QName namespaces[] = null;
 
-
 			// takes the reference to no service
 			outputDescriptor4.setParamDescriptor(outParameterDescriptor4);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor4);
 			stagesDescs.add(currStageDesc);
 			// END service 4
-
-
-
 
 			// BEGIN service 2		
 			currStageDesc = new WorkflowStageDescriptor();
@@ -1606,7 +1396,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation_2.setOutputType(new QName(XSD_NAMESPACE, "string"));
 			operation_2.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation_2);
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
@@ -1632,7 +1421,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outParameterDescriptor2[0].setDestinationGlobalUniqueIdentifier(4);
 //			outParameterDescriptor2[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient4.getEndpointReference()});
 
-
 			// Second destination: output matcher
 			if(this.validatorEnabled){
 
@@ -1648,7 +1436,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 //				outParameterDescriptor2[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID});
 			}
 
-
 			// Add one output to the workflow outputs
 			WorkflowOutputParameterTransportDescriptor outputParam = new WorkflowOutputParameterTransportDescriptor();
 			OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
@@ -1660,13 +1447,10 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outputParam.setSourceGUID(currStageID);
 			outputParams.add(outputParam);
 
-
 			outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor2);
 			stagesDescs.add(currStageDesc);
 			// END service 2
-
-
 
 			// BEGIN service 3
 			currStageDesc = new WorkflowStageDescriptor();
@@ -1684,7 +1468,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation3.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation3);
 
-
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage3 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams3 = new InputParameterDescriptor[1];
@@ -1698,7 +1481,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			numDestinations = this.validatorEnabled ? 2 : 1;
 			OperationOutputParameterTransportDescriptor outParameterDescriptor3 [] = new OperationOutputParameterTransportDescriptor[numDestinations];
 
-
 			// 1st destination
 			outParameterDescriptor3[0] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor3[0].setParamIndex(1);
@@ -1709,7 +1491,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse"); 
 			outParameterDescriptor3[0].setDestinationGlobalUniqueIdentifier(4);
 //			outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
-
 
 			// 2nd destination: output matcher
 			if(this.validatorEnabled){
@@ -1726,7 +1507,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 //				outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{outputMatcherID});  // */
 			}
 
-
 			// Add one output to the workflow outputs
 			outputParam = new WorkflowOutputParameterTransportDescriptor();
 			paramDescription = new OperationOutputParameterTransportDescriptor();
@@ -1738,20 +1518,15 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outputParam.setSourceGUID(currStageID);
 			outputParams.add(outputParam);
 
-
 			outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor3);
 			stagesDescs.add(currStageDesc);
 			// END service 3				
 
-
-
 			// BEGIN service 5
 			currStageDesc = new WorkflowStageDescriptor();
 			currStageID = 5;
 			currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
-
 
 			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation5 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
@@ -1762,7 +1537,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation5.setOutputType(new QName(XSD_NAMESPACE, "boolean"));
 			operation5.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation5);
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
@@ -1777,20 +1551,15 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			OperationOutputTransportDescriptor outputDescriptor5 = new OperationOutputTransportDescriptor();
 			OperationOutputParameterTransportDescriptor outParameterDescriptor5 [] = new OperationOutputParameterTransportDescriptor[0];
 
-
 			outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor5);
 			stagesDescs.add(currStageDesc);
 			// END service 5
 
-
-
 			// BEGIN service 1			
 			currStageDesc = new WorkflowStageDescriptor();
 			currStageID = 1;
 			currStageDesc.setGlobalUniqueIdentifier(currStageID);
-
-
 
 			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation1 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 			acess_url = containerBaseURL+"cagrid/Service1";
@@ -1800,7 +1569,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			operation1.setOutputType(new QName(XSD_NAMESPACE, "string"));
 			operation1.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 			currStageDesc.setBasicDescription(operation1);
-
 
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
@@ -1841,8 +1609,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outParameterDescriptor1[2].setDestinationGlobalUniqueIdentifier(5);
 //			outParameterDescriptor1[2].setDestinationEPR(new EndpointReferenceType[]{serviceClient5.getEndpointReference()});
 
-
-
 			// Add one output to the workflow outputs
 			outputParam = new WorkflowOutputParameterTransportDescriptor();
 			outputParam.setSourceGUID(currStageID);
@@ -1853,12 +1619,10 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			outputParam.setParamDescription(paramDescription);
 			outputParams.add(outputParam);
 
-
 			// parameters are all set at this point
 			outputDescriptor1.setParamDescriptor(outParameterDescriptor1);
 			currStageDesc.setOutputTransportDescriptor(outputDescriptor1);
 			stagesDescs.add(currStageDesc);
-
 
 			// set the only one parameter of this service.
 			// now it have to run and set one Parameter of the service4
@@ -1868,19 +1632,16 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			inputParams.add(new WorkflowInputParameter(inputService1, currStageID));
 			// END service 1 
 
-
-
 			// Build the workflow output descriptor
 			logger.info("Setting workflow outputs");
 			WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
 			outputDesc.setParamDescriptor(outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]));
 
-
 			wfPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 			WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 			wfDesc.setInputs(inputParameters);
 			wfDesc.setOutputDesc(outputDesc);
-			wfDesc.setWorkflowParts(new WorkflowPortionDescriptor[]{ wfPart });
+			wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ wfPart }));
 
 			logger.info("Creating Manager Instance");
 			WorkflowManagerInstanceReference instanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
@@ -1890,7 +1651,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			} catch (MalformedURIException e) {
 				logger.error(e.getMessage(), e);
 			}
-
 
 			this.managerInstances.add(instanceRef.getEndpointReference());
 
@@ -1904,23 +1664,17 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			String[] outputs = instanceClient.getOutputValues();
 			for(int i=0; i < outputs.length; i++){
 
-
 				logger.info("Output #"+ i +" is: "+ outputs[i]);
 			}
 			return;
 		}
 
-
-
-
 		protected void waitForCompletion() {
 
 			System.out.println("Waiting for workflow notification of FINISH status");
 
-
 			this.isFinishedKey.lock();
 			try {
-
 
 				if( !this.isFinished ){
 
@@ -1948,7 +1702,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 				this.isFinishedKey.unlock();
 			}
 		}
-
 
 		protected void subscribe(QName notificationType, WorkflowManagerInstanceClient  toSubscribe, String stageOperationQName){
 			//protected void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
@@ -2007,13 +1760,9 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 				e1.printStackTrace();
 			}   
 
-
-
-
 			//DEBUG
 			//PrintStream log = System.out;
 			//log.println("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
-
 
 			// Handle status change notifications
 			if(isTimestampedStatusChange){
@@ -2024,7 +1773,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					e.printStackTrace();
 				}
 
-
 				logger.info("Received new status value: "+ status.getStatus().toString() + ':' + status.getTimestamp());
 
 				this.isFinishedKey.lock();
@@ -2032,7 +1780,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 					boolean statusActuallyChanged = false;
 					if( this.stageStatus.containsKey(stageKey) ){
-
 
 						TimestampedStatus curr_status = this.stageStatus.get(stageKey);
 						statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
@@ -2046,9 +1793,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					}
 					else logger.warn("Unrecognized stage notified status change: "+ stageKey);
 
-
 					if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
-
 
 						this.isFinished  = this.hasFinished(); 
 
@@ -2074,7 +1819,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 									e.printStackTrace();
 								}
 
-
 							}
 
 						}
@@ -2088,4 +1832,57 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	}
 	/***************************************************************/
   
+
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
+    return portType.getMultipleResourceProperties(params);
+    }
+  }
+
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getResourceProperty");
+    return portType.getResourceProperty(params);
+    }
+  }
+
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"queryResourceProperties");
+    return portType.queryResourceProperties(params);
+    }
+  }
+
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"createWorkflowManagerInstanceFromObjectDescriptor");
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest();
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc workflowDescContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc();
+    workflowDescContainer.setWorkflowManagerInstanceDescriptor(workflowDesc);
+    params.setWorkflowDesc(workflowDescContainer);
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = portType.createWorkflowManagerInstanceFromObjectDescriptor(params);
+    return boxedResult.getWorkflowManagerInstanceReference();
+    }
+  }
+
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
+    params.setXmlWorkflowDescription(xmlWorkflowDescription);
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
+    return boxedResult.getWorkflowManagerInstanceReference();
+    }
+  }
+
+  public java.lang.String getIdentity() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getIdentity");
+    org.cagrid.workflow.manager.stubs.GetIdentityRequest params = new org.cagrid.workflow.manager.stubs.GetIdentityRequest();
+    org.cagrid.workflow.manager.stubs.GetIdentityResponse boxedResult = portType.getIdentity(params);
+    return boxedResult.getResponse();
+    }
+  }
+
 }
