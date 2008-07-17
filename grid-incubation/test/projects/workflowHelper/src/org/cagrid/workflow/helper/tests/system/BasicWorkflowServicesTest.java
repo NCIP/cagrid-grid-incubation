@@ -32,7 +32,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
     private static final String HELPER_PATH_IN_CONTAINER = "/cagrid/WorkflowHelper";
 
     
-    private boolean enableVerboseOutput = false;
+    private boolean enableVerboseOutput = true;
 
     public BasicWorkflowServicesTest(ServiceContainer container) {
         super(container);

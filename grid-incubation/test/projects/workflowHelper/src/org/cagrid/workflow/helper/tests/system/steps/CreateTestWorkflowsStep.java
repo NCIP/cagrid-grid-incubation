@@ -196,14 +196,14 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Configure inputs
 		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[8];
-		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"));
-		inputParam[3] = new InputParameterDescriptor(new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[4] = new InputParameterDescriptor(new QName("test2Param2"), new QName(XSD_NAMESPACE, "string[]"));
-		inputParam[5] = new InputParameterDescriptor(new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"));
-		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"));
-		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string")); // */
+		inputParam[0] = new InputParameterDescriptor(false, new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"));
+		inputParam[1] = new InputParameterDescriptor(true, new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
+		inputParam[2] = new InputParameterDescriptor(false, new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParam[3] = new InputParameterDescriptor(false, new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"));
+		inputParam[4] = new InputParameterDescriptor(true, new QName("test2Param2"), new QName(XSD_NAMESPACE, "string[]"));
+		inputParam[5] = new InputParameterDescriptor(false, new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParam[6] = new InputParameterDescriptor(false, new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"));
+		inputParam[7] = new InputParameterDescriptor(false, new QName("test3Param2"), new QName(XSD_NAMESPACE, "string")); // */
 
 
 		validatorInputDesc.setInputParam(inputParam);
@@ -271,8 +271,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[0] = new InputParameterDescriptor(false, new QName("result1"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[1] = new InputParameterDescriptor(false, new QName("result2"), new QName(XSD_NAMESPACE, "string"));
 		inputMessage4.setInputParam(inputParams4);
 		serviceClient__4.configureInput(inputMessage4);
 		// End InputMessage Descriptor
@@ -383,8 +383,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage_4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam_4 = new InputParameterDescriptor[2];
-		inputParam_4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParam_4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParam_4[0] = new InputParameterDescriptor(false, new QName("result1"), new QName(XSD_NAMESPACE, "string"));
+		inputParam_4[1] = new InputParameterDescriptor(false, new QName("result2"), new QName(XSD_NAMESPACE, "string"));
 		inputMessage_4.setInputParam(inputParam_4);
 		serviceClient_4.configureInput(inputMessage_4);
 		// End InputMessage Descriptor
@@ -425,7 +425,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam__2 = new InputParameterDescriptor[1];
-		inputParam__2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+		inputParam__2[0] = new InputParameterDescriptor(false, new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
 		inputMessage__2.setInputParam(inputParam__2 );
 		serviceClient_2.configureInput(inputMessage__2);
 		// End InputMessage Descriptor
@@ -556,9 +556,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[3];
-		inputParams_ras[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"));
-		inputParams_ras[1] = new InputParameterDescriptor(new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-		inputParams_ras[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParams_ras[0] = new InputParameterDescriptor(false, new QName("number"), new QName(XSD_NAMESPACE, "int"));
+		inputParams_ras[1] = new InputParameterDescriptor(true, new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
+		inputParams_ras[2] = new InputParameterDescriptor(false, new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
 		inputMessage_ras.setInputParam(inputParams_ras);
 		try {
 			client2.configureInput(inputMessage_ras);
@@ -701,9 +701,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ram = new InputParameterDescriptor[3];
-		inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"));
-		inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(XSD_NAMESPACE, "string[]"));
-		inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParams_ram[0] = new InputParameterDescriptor(false, new QName("number"), new QName(XSD_NAMESPACE, "int"));
+		inputParams_ram[1] = new InputParameterDescriptor(true, new QName("strArray"), new QName(XSD_NAMESPACE, "string"));
+		inputParams_ram[2] = new InputParameterDescriptor(false, new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
 		inputMessage_ram.setInputParam(inputParams_ram);
 		serviceClient_ram.configureInput(inputMessage_ram);
 		// End InputMessage Descriptor
@@ -840,8 +840,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[0] = new InputParameterDescriptor(false, new QName("result1"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[1] = new InputParameterDescriptor(false, new QName("result2"), new QName(XSD_NAMESPACE, "string"));
 		inputMessage4.setInputParam(inputParams4);
 		serviceClient4.configureInput(inputMessage4);
 		// End InputMessage Descriptor
@@ -884,7 +884,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_2 = new InputParameterDescriptor[1];
-		inputParams_2[0] = new InputParameterDescriptor( new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+		inputParams_2[0] = new InputParameterDescriptor(false, new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
 		inputMessage_2.setInputParam(inputParams_2);
 		serviceClient2.configureInput(inputMessage_2);
 		// End InputMessage Descriptor
@@ -957,7 +957,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage3 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams3 = new InputParameterDescriptor[1];
-		inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(XSD_NAMESPACE, "int"));
+		inputParams3[0] = new InputParameterDescriptor(false, new QName("str_length"), new QName(XSD_NAMESPACE, "int"));
 		inputMessage3.setInputParam(inputParams3);
 		serviceClient3.configureInput(inputMessage3);
 		// End InputMessage Descriptor
@@ -1029,7 +1029,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
-		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
+		inputParams5[0] = new InputParameterDescriptor(false, new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
 				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"));
 		inputMessage5.setInputParam(inputParams5);
 		serviceClient5.configureInput(inputMessage5);
@@ -1080,7 +1080,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
-		inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"));
+		inputParams1[0] = new InputParameterDescriptor(false, new QName("info"), new QName(XSD_NAMESPACE, "string"));
 		inputMessage1.setInputParam(inputParams1);
 		serviceClient1.configureInput(inputMessage1);
 		// End InputMessage Descriptor
