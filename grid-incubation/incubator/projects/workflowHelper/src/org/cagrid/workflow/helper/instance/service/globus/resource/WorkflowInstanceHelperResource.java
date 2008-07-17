@@ -63,9 +63,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	private List<EndpointReferenceType> stagesEPRs = new ArrayList<EndpointReferenceType>();
 
 
-	private boolean isFinished = false; // Indication of whether the stages have all finished their execution   
+//	private boolean isFinished = false; // Indication of whether the stages have all finished their execution   
 
-	// Synchronizes the access to variable 'isFinished' 
+	// Synchronizes the access to variable 'isFinished', indicating whether the execution has finished
 	protected Lock isFinishedKey = new ReentrantLock();
 	//protected Condition isFinishedCondition = isFinishedKey.newCondition();
 
@@ -518,10 +518,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				if(statusActuallyChanged){
 
 					Status new_status = this.calculateStatus();
-					if( new_status.equals(Status.FINISHED) || new_status.equals(Status.ERROR)){
+					/*if( new_status.equals(Status.FINISHED) || new_status.equals(Status.ERROR)){
 
 						this.isFinished = true;
-					}
+					} // */
 
 
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					

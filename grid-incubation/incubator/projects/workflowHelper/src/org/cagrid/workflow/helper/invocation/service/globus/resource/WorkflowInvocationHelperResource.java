@@ -45,6 +45,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	private QName outputType = null;
+	private boolean outputIsArray;
 	private WorkflowInvocationHelperDescriptor operationDesc = null;
 	private OperationInputMessageDescriptor input_desc = null;
 	private OperationOutputTransportDescriptor output_desc = null;
@@ -114,7 +115,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 						dataIsArray = parameterIsArray = false;
 
 						final int paramIndex = input_value[input].getParamIndex();
-						parameterIsArray = input_desc[paramIndex].getParamType().getLocalPart().contains("[]");		
+						parameterIsArray = input_desc[paramIndex].isParamIsArray();
+//						parameterIsArray = input_desc[paramIndex].getParamType().getLocalPart().contains("[]");	
 						final String paramData = input_value[input].getData();
 
 						// Verify whether the soap object represents an array or not
@@ -231,8 +233,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 								String thisStageOutputType = getOutputType().getLocalPart(); // Get output type of the just executed operation 
 								String nextStageExpectedType = pdesc.getType().getLocalPart(); // Get expected type of the receiver of this invocation's output   
-								boolean outputIsArray = thisStageOutputType.contains("[]");
-								boolean nextStageInputIsArray = nextStageExpectedType.contains("[]");
+								boolean outputIsArray = isOutputIsArray();   //thisStageOutputType.contains("[]"); // TODO
+								boolean nextStageInputIsArray = pdesc.isTypeIsArray();  //nextStageExpectedType.contains("[]"); // TODO
 
 
 								// need to get that data out of the response;
@@ -755,6 +757,26 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		
 		logger.info("Done");
 		return;
+	}
+
+
+
+
+	/**
+	 * @return the outputIsArray
+	 */
+	public boolean isOutputIsArray() {
+		return outputIsArray;
+	}
+
+
+
+
+	/**
+	 * @param outputIsArray the outputIsArray to set
+	 */
+	public void setOutputIsArray(boolean outputIsArray) {
+		this.outputIsArray = outputIsArray;
 	}
 
 

@@ -14,8 +14,6 @@ import org.cagrid.gaards.pki.KeyUtil;
 import org.globus.gsi.CertUtil;
 import org.globus.gsi.GlobusCredential;
 
-import commonj.work.WorkListener;
-
 /** 
  * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
  * 
