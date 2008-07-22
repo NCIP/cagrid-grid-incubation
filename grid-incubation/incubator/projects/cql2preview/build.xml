@@ -1,7 +1,7 @@
 <!-- ======================================================================= -->
 <!-- caGrid CQL2.0 tech preview project build file                           -->
 <!-- ======================================================================= -->
-<project name="caGrid-CQL2Preview" default="all" basedir=".">
+<project name="caGrid-cql2preview" default="all" basedir=".">
 	<!-- Environment -->
 	<property environment="env" />
 	<property file="${basedir}/build.properties" />
