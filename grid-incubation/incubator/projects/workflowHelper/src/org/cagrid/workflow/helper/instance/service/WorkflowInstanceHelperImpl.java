@@ -50,7 +50,10 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 			//  give it the query string.
 			thisResource.setOperationDesc(workflowInvocationHelperDescriptor);
 			thisResource.setOutputType(workflowInvocationHelperDescriptor.getOutputType());
-			thisResource.setOutputIsArray(workflowInvocationHelperDescriptor.isOutputIsArray());
+			
+			boolean outputIsArray = (workflowInvocationHelperDescriptor.getOutputIsArray() != null)? workflowInvocationHelperDescriptor.getOutputIsArray().booleanValue() : false ; 
+			
+			thisResource.setOutputIsArray(outputIsArray);
 			thisResource.setTimestampedStatus(new TimestampedStatus(Status.UNCONFIGURED, 0));
 			thisResource.setCredentialAccess(getResourceHome().getAddressedResource());
 			thisResource.setWorkflowInvocationHelperDescriptor(workflowInvocationHelperDescriptor);

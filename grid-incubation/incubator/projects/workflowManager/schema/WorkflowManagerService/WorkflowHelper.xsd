@@ -59,12 +59,17 @@
 	<xs:element name="WorkflowInvocationHelperDescriptor" type="tns:WorkflowInvocationHelperDescriptor" />
 	<xs:complexType name="WorkflowInvocationHelperDescriptor">
 		<xs:sequence>
-			<xs:element name="WorkflowManagerEPR" type="wsa:EndpointReferenceType"></xs:element>
+			<xs:element name="WorkflowManagerEPR"
+				type="wsa:EndpointReferenceType">
+			</xs:element>
 			<xs:element name="WorkflowID" type="string"></xs:element>
 			<xs:element name="ServiceURL" type="string"></xs:element>
 			<xs:element name="operationQName" type="QName"></xs:element>
-			<xs:element name="outputType" type="QName" minOccurs="0" maxOccurs="1"></xs:element><!-- Knowing the output type (if any) allows us to do streaming bewteen stages -->
-			<xs:element name="WorkflowInvocationSecurityDescriptor" type="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1"></xs:element>			
+			<xs:element name="outputType" type="QName" minOccurs="0" maxOccurs="1">
+			</xs:element><!-- Knowing the output type (if any) allows us to do streaming bewteen stages -->
+			<xs:element name="WorkflowInvocationSecurityDescriptor"  type="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1">
+			</xs:element>
+			<xs:element name="outputIsArray" type="xs:boolean" minOccurs="0" maxOccurs="1"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -170,7 +175,8 @@
 	<xs:complexType name="InputParameterDescriptor">
 		<xs:sequence>
 			<xs:element name="paramQName" type="QName"></xs:element>
-			<xs:element name="paramType"  type="QName"></xs:element>
+			<xs:element name="paramType" type="QName"></xs:element>
+			<xs:element name="parameterIsArray" type="xs:boolean" minOccurs="0" maxOccurs="1"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	
@@ -186,13 +192,22 @@
 	<xs:element name="OperationOutputParameterTransportDescriptor" type="tns:OperationOutputParameterTransportDescriptor" />
 	<xs:complexType name="OperationOutputParameterTransportDescriptor">
 		<xs:sequence>
-			<xs:element name="destinationGlobalUniqueIdentifier" type="int" />
-			<xs:element name="destinationEPR" type="wsa:EndpointReferenceType" minOccurs="1" maxOccurs="unbounded"></xs:element>
-			<xs:element name="deliveryPolicy" type="tns:DeliveryPolicy" ></xs:element>
+			<xs:element name="destinationGlobalUniqueIdentifier"
+				type="int" />
+			<xs:element name="destinationEPR"
+				type="wsa:EndpointReferenceType" minOccurs="1"
+				maxOccurs="unbounded">
+			</xs:element>
+			<xs:element name="deliveryPolicy"
+				type="tns:DeliveryPolicy">
+			</xs:element>
 			<xs:element name="paramIndex" type="int"></xs:element>
 			<xs:element name="type" type="QName"></xs:element>
 			<xs:element name="locationQuery" type="string"></xs:element>
-			<xs:element name="queryNamespaces" type="QName" minOccurs="0" maxOccurs="unbounded"></xs:element>
+			<xs:element name="queryNamespaces" type="QName"
+				minOccurs="0" maxOccurs="unbounded">
+			</xs:element>
+			<xs:element name="expectedTypeIsArray" type="xs:boolean"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	

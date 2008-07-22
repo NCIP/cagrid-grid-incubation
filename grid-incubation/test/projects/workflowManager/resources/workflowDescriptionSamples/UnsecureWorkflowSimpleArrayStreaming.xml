@@ -13,14 +13,14 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
                     <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing">CONTAINERBASE/cagrid/WorkflowManagerService</Address>
                 </WorkflowManagerEPR>
-                <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">ComplexArrayStreaming</WorkflowID>
+                <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">SimpleArrayStreaming</WorkflowID>
             </instanceHelperDesc>
             <invocationHelperDescs>
                 <basicDescription>
                     <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
                     	<Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
                     </WorkflowManagerEPR>
-                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">ComplexArrayStreaming</WorkflowID>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">SimpleArrayStreaming</WorkflowID>
                     <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">CONTAINERBASE/cagrid/Service4</ServiceURL>
                     <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">svc4:PrintResultsRequest</operationQName>
                 </basicDescription>
@@ -44,10 +44,10 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                     <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
                         <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
                     </WorkflowManagerEPR>
-                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">ComplexArrayStreaming</WorkflowID>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">SimpleArrayStreaming</WorkflowID>
                     <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">CONTAINERBASE/cagrid/CreateArrayService</ServiceURL>
-                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">cas:GetComplexArrayRequest</operationQName>
-                    <outputType xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">sys:ComplexType</outputType>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">cas:GetArrayRequest</operationQName>
+                    <outputType xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">xsd:string</outputType>
                     <outputIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">true</outputIsArray>
                 </basicDescription>
                 <inputsDescription/>
@@ -57,8 +57,8 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                     <destinationEPR><Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/></destinationEPR>
                     <deliveryPolicy>ROUNDROBIN</deliveryPolicy>
                     <paramIndex>0</paramIndex>
-                    <type>sys:ComplexType</type> 
-                    <locationQuery>/cas:GetComplexArrayResponse/sys:ComplexType/sys:message</locationQuery>
+                    <type>xsd:string</type> 
+                    <locationQuery>/cas:GetArrayResponse</locationQuery>
                     <expectedTypeIsArray>true</expectedTypeIsArray>
                 </paramDescriptor>
                 </outputTransportDescriptor>
@@ -70,7 +70,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
         <parameter>
             <paramDescription>
                 <paramIndex xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">1</paramIndex>
-                <data xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">complex type's streaming</data>
+                <data xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">simple type's streaming</data>
             </paramDescription>
             <paramDestinationGUID>0</paramDestinationGUID>
         </parameter>

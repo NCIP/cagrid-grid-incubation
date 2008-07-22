@@ -498,7 +498,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
 					InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
-					inputParams1[0] = new InputParameterDescriptor(false, new QName("info"), new QName(XSD_NAMESPACE, "string"));
+					inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"), false);
 					inputMessage1.setInputParam(inputParams1);
 					serviceClient1.configureInput(inputMessage1);
 					// End InputMessage Descriptor
@@ -751,7 +751,7 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 						// Creating Descriptor of the InputMessage
 						org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage6 = new OperationInputMessageDescriptor();
 						InputParameterDescriptor[] inputParams6 = new InputParameterDescriptor[1];
-						inputParams6[0] = new InputParameterDescriptor(false, new QName("_byte"), new QName(XSD_NAMESPACE, "byte"));
+						inputParams6[0] = new InputParameterDescriptor(new QName("_byte"), new QName(XSD_NAMESPACE, "byte"), false);
 						inputMessage6.setInputParam(inputParams6);
 						client6.configureInput(inputMessage6);
 						// End InputMessage Descriptor

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://manager.workflow.cagrid.org/WorkflowManagerService/Context" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns2="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation" xmlns:wns1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wns0="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:wns3="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:ns3="http://manager.workflow.cagrid.org/WorkflowManagerService/types" xmlns:ns1="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" xmlns:ns2="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService" xmlns:ns5="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/types" xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:ns6="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" name="WorkflowManagerInstance" targetNamespace="http://manager.workflow.cagrid.org/WorkflowManagerService/Context">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://manager.workflow.cagrid.org/WorkflowManagerService/Context" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns2="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation" xmlns:wns1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wns0="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:wns3="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:ns3="http://manager.workflow.cagrid.org/WorkflowManagerService/types" xmlns:ns2="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" xmlns:ns1="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService" xmlns:ns5="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/types" xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:ns6="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" name="WorkflowManagerInstance" targetNamespace="http://manager.workflow.cagrid.org/WorkflowManagerService/Context">
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
@@ -30,7 +30,7 @@
       <element name="GetTimestampedStatusResponse">
         <complexType>
           <sequence>
-            <element ref="ns1:TimestampedStatus" minOccurs="1" maxOccurs="1" />
+            <element ref="ns2:TimestampedStatus" minOccurs="1" maxOccurs="1" />
           </sequence>
         </complexType>
       </element>
@@ -73,8 +73,8 @@
           <sequence>
             <element ref="ns6:CurrentTime" />
             <element ref="ns6:TerminationTime" />
-            <element ref="ns2:WorkflowManagerInstanceDescriptor" />
-            <element ref="ns1:TimestampedStatus" />
+            <element ref="ns1:WorkflowManagerInstanceDescriptor" />
+            <element ref="ns2:TimestampedStatus" />
           </sequence>
         </complexType>
       </element>

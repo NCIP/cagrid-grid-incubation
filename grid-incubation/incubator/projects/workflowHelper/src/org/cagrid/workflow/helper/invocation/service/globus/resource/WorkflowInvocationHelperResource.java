@@ -115,7 +115,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 						dataIsArray = parameterIsArray = false;
 
 						final int paramIndex = input_value[input].getParamIndex();
-						parameterIsArray = input_desc[paramIndex].isParamIsArray();
+						parameterIsArray = input_desc[paramIndex].getParameterIsArray();
 //						parameterIsArray = input_desc[paramIndex].getParamType().getLocalPart().contains("[]");	
 						final String paramData = input_value[input].getData();
 
@@ -234,7 +234,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								String thisStageOutputType = getOutputType().getLocalPart(); // Get output type of the just executed operation 
 								String nextStageExpectedType = pdesc.getType().getLocalPart(); // Get expected type of the receiver of this invocation's output   
 								boolean outputIsArray = isOutputIsArray();   //thisStageOutputType.contains("[]"); // TODO
-								boolean nextStageInputIsArray = pdesc.isTypeIsArray();  //nextStageExpectedType.contains("[]"); // TODO
+								boolean nextStageInputIsArray = pdesc.isExpectedTypeIsArray();  //nextStageExpectedType.contains("[]"); // TODO
 
 
 								// need to get that data out of the response;

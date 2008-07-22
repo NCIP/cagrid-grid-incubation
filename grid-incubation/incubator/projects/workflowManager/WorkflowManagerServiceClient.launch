@@ -14,5 +14,4 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.cagrid.workflow.manager.client.WorkflowManagerServiceClient"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-url ${string_prompt:the service url}"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="manager_trunk"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dbpel.file=&quot;C:\\subversion_hawks\\subversion_hawks\\trunk\\grid-incubation\\test\\projects\\workflowManager\\resources\\bpelSamples\\ToyWorkflow.bpel&quot; -Dextra.file=&quot;C:\\subversion_hawks\\subversion_hawks\\trunk\\grid-incubation\\test\\projects\\workflowManager\\resources\\bpelSamples\\first.operationsDesc.xml&quot;"/>
 </launchConfiguration>

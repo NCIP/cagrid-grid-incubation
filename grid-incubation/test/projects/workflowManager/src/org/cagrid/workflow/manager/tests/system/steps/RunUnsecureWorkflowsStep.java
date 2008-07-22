@@ -78,10 +78,6 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	protected final boolean validatorEnabled = false;  // Enable/Disable the output matcher. Should be true when not debugging
 
 
-	private int currParamIndex = 0;
-
-
-
 	public RunUnsecureWorkflowsStep(EndpointReferenceType manager_epr, String containerBaseURL) {
 		super();
 		this.manager_epr = manager_epr;
@@ -126,10 +122,6 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			logger.info("END Testing arrays"); // */
 
 
-
-
-
-
 			/** BEGIN streaming test **/
 			logger.info("BEGIN Testing streaming");
 
@@ -149,7 +141,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 			/** FAN IN AND FAN OUT TEST **/
 			logger.info("BEGIN Testing fan in and fan out"); 
-			runFaninFanOutTest(wf_manager, -1);
+			runFaninFanOutTest(wf_manager);
 			logger.info("END Testing fan in and fan out"); // */
 
 			// Block until every stage reports either a FINISHED or an ERROR status
@@ -200,14 +192,14 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Configure inputs
 		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[8];
-		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"));
-		inputParam[3] = new InputParameterDescriptor(new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[4] = new InputParameterDescriptor(new QName("test2Param2"), new QName(XSD_NAMESPACE, "string[]"));
-		inputParam[5] = new InputParameterDescriptor(new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"));
-		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"));
-		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string")); // */
+		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"), false);
+		inputParam[3] = new InputParameterDescriptor(new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParam[4] = new InputParameterDescriptor(new QName("test2Param2"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParam[5] = new InputParameterDescriptor(new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"), false);
+		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string"), false); // */
 		validatorInputDesc.setInputParam(inputParam);
 
 
@@ -279,8 +271,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		logger.info("Building input parameters descriptor");
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage4.setInputParam(inputParams4);
 		currStageDesc.setInputsDescription(inputMessage4);
 		// End InputMessage Descriptor
@@ -435,8 +427,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage_4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam_4 = new InputParameterDescriptor[2];
-		inputParam_4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParam_4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParam_4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParam_4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage_4.setInputParam(inputParam_4);
 		currStageDesc.setInputsDescription(inputMessage_4);
 		// End InputMessage Descriptor
@@ -474,7 +466,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam__2 = new InputParameterDescriptor[1];
-		inputParam__2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+		inputParam__2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage__2.setInputParam(inputParam__2 );
 		currStageDesc.setInputsDescription(inputMessage__2);
 		// End InputMessage Descriptor
@@ -608,9 +600,9 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[3];
-		inputParams_ras[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"));
-		inputParams_ras[1] = new InputParameterDescriptor(new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-		inputParams_ras[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParams_ras[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParams_ras[1] = new InputParameterDescriptor(new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+		inputParams_ras[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"), false);
 		inputMessage_ras.setInputParam(inputParams_ras);
 		currStageDesc.setInputsDescription(inputMessage_ras);
 		// End InputMessage Descriptor
@@ -800,9 +792,9 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ram = new InputParameterDescriptor[3];
-		inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"));
-		inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(XSD_NAMESPACE, "string[]"));
-		inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(XSD_NAMESPACE, "string"), true);
+		inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"), false);
 		inputMessage_ram.setInputParam(inputParams_ram);
 		currStageDesc.setInputsDescription(inputMessage_ram);
 		// End InputMessage Descriptor
@@ -941,8 +933,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 
-	protected void runFaninFanOutTest(WorkflowManagerServiceClient  wf_manager, 
-			int outputMatcherID) throws RemoteException{
+	protected void runFaninFanOutTest(WorkflowManagerServiceClient  wf_manager) throws RemoteException{
 
 		
 		WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
@@ -984,8 +975,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage4.setInputParam(inputParams4);
 		currStageDesc.setInputsDescription(inputMessage4);
 		// End InputMessage Descriptor
@@ -1022,7 +1013,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_2 = new InputParameterDescriptor[1];
-		inputParams_2[0] = new InputParameterDescriptor( new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+		inputParams_2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage_2.setInputParam(inputParams_2);
 		currStageDesc.setInputsDescription(inputMessage_2);
 		// End InputMessage Descriptor
@@ -1098,7 +1089,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage3 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams3 = new InputParameterDescriptor[1];
-		inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(XSD_NAMESPACE, "int"));
+		inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(XSD_NAMESPACE, "int"), false);
 		inputMessage3.setInputParam(inputParams3);
 		currStageDesc.setInputsDescription(inputMessage3);
 		// End InputMessage Descriptor
@@ -1176,8 +1167,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
-		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
-				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"));
+		inputParams5[0] = new InputParameterDescriptor(new QName("http://service5.introduce.cagrid.org/Service5", "stringAndItsLenght"), 
+				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"), false);
 		inputMessage5.setInputParam(inputParams5);
 		currStageDesc.setInputsDescription(inputMessage5);
 		// End InputMessage Descriptor
@@ -1213,7 +1204,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
-		inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"));
+		inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage1.setInputParam(inputParams1);
 		currStageDesc.setInputsDescription(inputMessage1);
 		// End InputMessage Descriptor
@@ -1268,7 +1259,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		stagesDescs.add(currStageDesc);
 
 
-		// set the only one parameter of this service.
+		// Add the only one parameter of this service.
 		// now it have to run and set one Parameter of the service4
 		String workflow_input = "george teadoro gordao que falou";
 		System.out.println("Setting input for service 1: '"+workflow_input+"'");

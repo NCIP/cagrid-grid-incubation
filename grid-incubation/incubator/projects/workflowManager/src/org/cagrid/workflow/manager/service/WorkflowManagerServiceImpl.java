@@ -45,7 +45,7 @@ import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceHome;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
-import org.cagrid.workflow.manager.service.parser.workflowDescriptor.WorkflowDescriptorParser;
+import org.cagrid.workflow.manager.util.WorkflowDescriptorParser;
 import org.globus.gsi.GlobusCredential;
 
 /**

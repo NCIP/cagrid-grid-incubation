@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="resources/First/lib/caGrid-ServiceSecurityProvider-client-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-core-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-metadata-common-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-metadata-security-1.2.jar"/>
@@ -24,6 +23,12 @@
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-gridca-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-gridca-tests-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-workflowHelper-stubs-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/resolver.jar"/>
+	<classpathentry kind="lib" path="lib/xbean_xpath.jar"/>
+	<classpathentry kind="lib" path="lib/xbean.jar"/>
+	<classpathentry kind="lib" path="lib/xmlbeans-qname.jar"/>
+	<classpathentry kind="lib" path="lib/xmlpublic.jar"/>
+	<classpathentry kind="lib" path="lib/WorkflowDescriptor.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/addressing-1.0.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/axis.jar"/>

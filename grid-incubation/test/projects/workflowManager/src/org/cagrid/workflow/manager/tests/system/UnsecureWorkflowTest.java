@@ -21,7 +21,7 @@ import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
-import org.cagrid.workflow.manager.tests.system.steps.RunUnsecureWorkflowsStep;
+import org.cagrid.workflow.manager.tests.system.steps.RunUnsecureWorkflowStepFromXML;
 
 public class UnsecureWorkflowTest extends ServiceStoryBase {
 
@@ -93,6 +93,7 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		String helperResourcesDir = null;
 		helperResourcesDir = tests_basedir + ".."+ File.separator +".."+ File.separator +"WorkflowHelper" + File.separator + "resources" + File.separator;
 		logger.info("Helper resources directory is: "+ helperResourcesDir);
+		String managerResourceDir = tests_basedir + ".."+ File.separator +".."+ File.separator +"WorkflowManager" + File.separator + "resources" + File.separator;
 		
 		
 		File services_dirs[] = new File[]{
@@ -149,7 +150,10 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		logger.info("Adding step for executing unsecure workflow test");
 		Step unsecureWorkflow = null;
 		try {
-			unsecureWorkflow = new RunUnsecureWorkflowsStep(managerEPR, getContainer().getContainerBaseURI().toString());
+			File sampleXMLDirectory = new File( managerResourceDir +"workflowDescriptionSamples" );
+			unsecureWorkflow = new RunUnsecureWorkflowStepFromXML(managerEPR, getContainer().getContainerBaseURI().toString(), 
+					sampleXMLDirectory); 
+				//new RunUnsecureWorkflowsStep(managerEPR, getContainer().getContainerBaseURI().toString());
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage());
 		} catch(Throwable t){

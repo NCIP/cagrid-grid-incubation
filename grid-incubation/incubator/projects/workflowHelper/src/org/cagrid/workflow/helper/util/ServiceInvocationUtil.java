@@ -37,6 +37,7 @@ import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
 import org.globus.wsrf.impl.security.authorization.NoAuthorization;
+import org.globus.wsrf.security.SecurityException;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -289,8 +290,13 @@ public class ServiceInvocationUtil {
 		logger.info("Invoking service "+workflowDescriptor.getOperationQName().toString());
 		logger.info("Service URL: "+ call.getTargetEndpointAddress());
 
-		ret = call.invoke(message);
-
+		try {
+			ret = call.invoke(message);
+		}
+		catch(Throwable t){
+			logger.error("Error invoking operation "+ workflowDescriptor.getOperationQName(), t);
+			throw new Exception(t.getMessage());
+		}
 
 
 		// Print received SOAP message
@@ -457,10 +463,17 @@ public class ServiceInvocationUtil {
 			logger.info("XPath query result is: "+ xpath_result); 
 
 			// Result is a single node
-			if( xpath_result.getLength() <= 1 ){
+			final int numElements = xpath_result.getLength();
+			logger.debug("XPath result has "+ numElements +" elements");
+			if( numElements <= 1 ){
 
-				query_result = xpath_result.item(0);
-
+				try{
+					query_result = xpath_result.item(0);
+				} catch(NullPointerException npe){
+					String errMsg = "XPath query result is null. Check your XPath query and associated namespaces. Query: "+ xpath_query;
+					logger.error(errMsg);
+					throw new Exception(errMsg);
+				}
 
 
 				/* In case of a simple type return, it will be a structure like <FooResponse><response>bar</response><FooResponse>
@@ -490,7 +503,7 @@ public class ServiceInvocationUtil {
 
 				// Arrays are supposed to be into an enclosing tag. So, add an artificial enclosing tag to the array
 				result = "<FakeResponse>";
-				for(int i=0; i < xpath_result.getLength(); i++){
+				for(int i=0; i < numElements; i++){
 
 					Node curr_node = xpath_result.item(i);
 					result += ConversionUtil.Node2String(curr_node);

@@ -38,9 +38,9 @@ import org.globus.wsrf.container.ContainerException;
  */
 public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceResourceBase implements NotifyCallback {
 
-	
+
 	private static Log logger = LogFactory.getLog(WorkflowManagerInstanceResource.class);
-	
+
 
 	private String eprString; // GUID for this resource
 
@@ -51,7 +51,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	// Synchronization of the access to the output values
 	Lock outputDataLock = new ReentrantLock();
 	Condition allValuesSetCondition = outputDataLock.newCondition();
-	boolean allValuesSet = false;
+	boolean allValuesSet = true;
 
 
 	// Data to be set for each InvocationHelper
@@ -70,8 +70,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 	// Synchronization of the access to variable 'isFinished' 
 	protected Lock isFinishedKey = new ReentrantLock();
-	
-		
+
+
 	private HashMap<Integer, EndpointReferenceType> stageID2EPR;  // EPR of each InvocationHelper associated with this resource
 	private List<EndpointReferenceType> instanceHelperEPRs = new ArrayList<EndpointReferenceType>();    // EPR of each InstanceHelper associated with this resource
 
@@ -87,12 +87,12 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	public void setParameter(InputParameter inputParameter) throws RemoteException {
 
 		int paramIndex = inputParameter.getParamIndex();
-		
+
 		logger.info("Manager receiving "+ paramIndex +"th parameter ");
-		
-		
-		
-		
+
+
+
+
 		if(paramIndex >= this.invocationHelperEPRString.size()){
 			throw new RemoteException("Parameter index ("+ paramIndex +") is greater than the " +
 					"number of expected parameters ("+ this.invocationHelperEPRString.size() +").");
@@ -112,7 +112,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		finally {
 			this.outputDataLock.unlock();
 		}
-		
+
 		logger.info("END SetParameter");
 	}
 
@@ -126,6 +126,17 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	 * */
 	public int registerOutputValue(OperationOutputParameterTransportDescriptor paramDesc, EndpointReferenceType invocationHelperEPR) 
 		throws RemoteException{
+
+		
+		// At this point, we now for sure that the user expects output 
+		try{
+			outputDataLock.lock();
+			this.allValuesSet = false;  // Setting false here means we will wait until the outputs are retrieved
+		}
+		finally {
+			outputDataLock.unlock();
+		}
+
 
 		// Retrieve the InvocationHelper identifier
 		String invID = null;
@@ -209,9 +220,9 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			String key = instanceHelper.getEPRString();
 			this.stageStatus.put(key, new TimestampedStatus(Status.UNCONFIGURED, 0));
 			this.EPR2Name.put(key, instanceHelperName);
-			
+
 			this.instanceHelperEPRs.add(epr);  // Store EPR of the InstanceHelper
-			
+
 
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
@@ -297,7 +308,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
 					this.setTimestampedStatus(nextStatus);		
-					
+
 					logger.info("[WorkflowManagerInstanceResource] Current workflow status is "+ nextStatus.getStatus() +
 							':' + nextStatus.getTimestamp());
 				}
@@ -309,8 +320,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			finally {
 				this.isFinishedKey.unlock();
 			}
-			
-			
+
+
 		}
 
 	}
@@ -431,14 +442,14 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	/** Start workflow execution */
 	public void start() {
 
-		
+
 		Set<Entry<Integer, EndpointReferenceType>> stagesEPRs = this.stageID2EPR.entrySet();
 		Iterator<Entry<Integer, EndpointReferenceType>> stages_iter = stagesEPRs.iterator();
 		while( stages_iter.hasNext() ){
-			
+
 			Entry<Integer, EndpointReferenceType> curr_entry = stages_iter.next();
 			EndpointReferenceType currStageEPR = curr_entry.getValue();
-			
+
 			WorkflowInvocationHelperClient currStageClient;
 			try {
 				currStageClient = new WorkflowInvocationHelperClient(currStageEPR);
@@ -450,9 +461,9 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 				e.printStackTrace();
 				logger.error(e.getMessage());
 			}
-			
+
 		}
-		
+
 	}
 
 
@@ -467,34 +478,34 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	 */
 	@Override
 	public void remove() throws ResourceException {
-		
+
 		logger.info("Destroying ManagerInstance");
-		
-		
+
+
 		super.remove();
-		
+
 
 		Iterator<EndpointReferenceType> instanceHelper_iter = this.instanceHelperEPRs.iterator();
 		while( instanceHelper_iter.hasNext() ){
-			
-			
+
+
 			EndpointReferenceType curr_epr = instanceHelper_iter.next();
 			WorkflowInstanceHelperClient curr_client;
 			try {
 				curr_client = new WorkflowInstanceHelperClient(curr_epr);
-				
+
 				String instanceID = curr_client.getEPRString();
 				//this.stageStatus.remove(instanceID);  // Stop monitoring the current instance
 				//this.EPR2Name.remove(instanceID);  
 				curr_client.destroy();  // Destroy the resource associated with the current instance
-				
+
 			} catch (MalformedURIException e) {
 				e.printStackTrace();
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		logger.info("Done");
 		return;
 	}

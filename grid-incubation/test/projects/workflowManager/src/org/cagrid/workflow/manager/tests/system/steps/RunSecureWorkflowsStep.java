@@ -23,7 +23,6 @@ import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
-import org.cagrid.workflow.helper.descriptor.ProxyList;
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
@@ -65,9 +64,9 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			GlobusCredential userCredential, String cdsURL) {
 		super(managerEPR, container_base_url);
 
-		//this.cdsEPR = cdsEPR;		
+		
 		this.userCredential = userCredential;
-//		this.cdsURL = cdsURL;
+
 		try {
 			this.cdsEPR = new EndpointReferenceType(new Address(cdsURL));
 		} catch (MalformedURIException e) {
@@ -353,8 +352,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		logger.info("Building input parameters descriptor");
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage4.setInputParam(inputParams4);
 		currStageDesc.setInputsDescription(inputMessage4);
 		// End InputMessage Descriptor
@@ -389,7 +388,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
 		operation__ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "SecureGetComplexArrayRequest"));
 		operation__ca.setServiceURL(access_url);
-		operation__ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
+		operation__ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
+		operation__ca.setOutputIsArray(true);
 		operation__ca.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 		currStageDesc.setBasicDescription(operation__ca);
 
@@ -533,8 +533,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage_4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam_4 = new InputParameterDescriptor[2];
-		inputParam_4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParam_4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParam_4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParam_4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage_4.setInputParam(inputParam_4);
 		currStageDesc.setInputsDescription(inputMessage_4);
 		// End InputMessage Descriptor
@@ -573,7 +573,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam__2 = new InputParameterDescriptor[1];
-		inputParam__2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+		inputParam__2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage__2.setInputParam(inputParam__2 );
 		currStageDesc.setInputsDescription(inputMessage__2);
 		// End InputMessage Descriptor
@@ -612,7 +612,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		operation__cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation__cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "SecureGetArrayRequest"));
 		operation__cas.setServiceURL(containerBaseURL+"cagrid/CreateArrayService");
-		operation__cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
+		operation__cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string"));
+		operation__cas.setOutputIsArray(true);
 		operation__cas.setWorkflowInvocationSecurityDescriptor(secDescriptor); // Set security requirements
 		currStageDesc.setBasicDescription(operation__cas);
 
@@ -731,9 +732,9 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[3];
-		inputParams_ras[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"));
-		inputParams_ras[1] = new InputParameterDescriptor(new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-		inputParams_ras[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParams_ras[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParams_ras[1] = new InputParameterDescriptor(new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), false);
+		inputParams_ras[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"), false);
 		inputMessage_ras.setInputParam(inputParams_ras);
 		currStageDesc.setInputsDescription(inputMessage_ras);
 		// End InputMessage Descriptor
@@ -770,7 +771,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		operation_ca.setWorkflowID("GeorgeliusWorkFlow");
 		operation_ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "SecureGetComplexArrayRequest"));
 		operation_ca.setServiceURL(access_url);
-		operation_ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
+		operation_ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
+		operation_ca.setOutputIsArray(true);
 		operation_ca.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 		currStageDesc.setBasicDescription(operation_ca);
 
@@ -791,7 +793,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// First destination: ReceiveArrayService::ReceiveComplexArray
 		outParameterDescriptor_ca[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_ca[0].setParamIndex(1);
-		outParameterDescriptor_ca[0].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
+		outParameterDescriptor_ca[0].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
+		outParameterDescriptor_ca[0].setExpectedTypeIsArray(true);
 		outParameterDescriptor_ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_ca[0].setLocationQuery("/ns0:SecureGetComplexArrayResponse");
@@ -806,7 +809,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_ca[1].setParamIndex(1); // Setting 2nd argument in the output matcher 
-			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
+			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
+			outParameterDescriptor_ca[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_ca[1].setLocationQuery("/ns0:SecureGetComplexArrayResponse");
@@ -818,7 +822,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		WorkflowOutputParameterTransportDescriptor outputParamDesc = new WorkflowOutputParameterTransportDescriptor();
 		outputParamDesc.setSourceGUID(currStageID);
 		OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
-		paramDescription.setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
+		paramDescription.setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
+		paramDescription.setExpectedTypeIsArray(true);
 		paramDescription.setLocationQuery("/ns0:SecureGetComplexArrayResponse");
 		paramDescription.setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
@@ -942,9 +947,9 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ram = new InputParameterDescriptor[3];
-		inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"));
-		inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(XSD_NAMESPACE, "string[]"));
-		inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(XSD_NAMESPACE, "string"), true);
+		inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"), false);
 		inputMessage_ram.setInputParam(inputParams_ram);
 		currStageDesc.setInputsDescription(inputMessage_ram);
 		// End InputMessage Descriptor
@@ -978,7 +983,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		operation_cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation_cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "SecureGetArrayRequest"));
 		operation_cas.setServiceURL(access_url);
-		operation_cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
+		operation_cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string"));
+		operation_cas.setOutputIsArray(true);
 		operation_cas.setWorkflowInvocationSecurityDescriptor(secDescriptor);  // Set security requirements
 		currStageDesc.setBasicDescription(operation_cas);
 
@@ -998,7 +1004,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// First destination: ReceiveArrayService::ReceiveArrayAndMore
 		outParameterDescriptor_cas[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_cas[0].setParamIndex(1);
-		outParameterDescriptor_cas[0].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
+		outParameterDescriptor_cas[0].setType(new QName( SOAPENCODING_NAMESPACE ,"string"));
+		outParameterDescriptor_cas[0].setExpectedTypeIsArray(true);
 		outParameterDescriptor_cas[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_cas[0].setLocationQuery("/ns0:SecureGetArrayResponse");
@@ -1013,7 +1020,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 			outParameterDescriptor_cas[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_cas[1].setParamIndex(4);
-			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
+			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string"));
+			outParameterDescriptor_cas[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_cas[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_cas[1].setLocationQuery("/ns0:SecureGetArrayResponse");
@@ -1029,7 +1037,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		paramDescription.setLocationQuery("/ns0:SecureGetArrayResponse");
 		paramDescription.setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
-		paramDescription.setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
+		paramDescription.setType(new QName( SOAPENCODING_NAMESPACE ,"string"));
+		paramDescription.setExpectedTypeIsArray(true);
 		outputParam.setParamDescription(paramDescription );
 		outputParam.setSourceGUID(currStageID);
 		outputParams.add(outputParam);
@@ -1146,8 +1155,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage4.setInputParam(inputParams4);
 		currStageDesc.setInputsDescription(inputMessage4);
 		// End InputMessage Descriptor
@@ -1185,7 +1194,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_2 = new InputParameterDescriptor[1];
-		inputParams_2[0] = new InputParameterDescriptor( new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+		inputParams_2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage_2.setInputParam(inputParams_2);
 		currStageDesc.setInputsDescription(inputMessage_2);
 		// End InputMessage Descriptor
@@ -1262,7 +1271,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage3 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams3 = new InputParameterDescriptor[1];
-		inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(XSD_NAMESPACE, "int"));
+		inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(XSD_NAMESPACE, "int"), false);
 		inputMessage3.setInputParam(inputParams3);
 		currStageDesc.setInputsDescription(inputMessage3);
 		// End InputMessage Descriptor
@@ -1342,7 +1351,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
 		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
-				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"));
+				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"), false);
 		inputMessage5.setInputParam(inputParams5);
 		currStageDesc.setInputsDescription(inputMessage5);
 		// End InputMessage Descriptor
@@ -1379,7 +1388,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
-		inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"));
+		inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage1.setInputParam(inputParams1);
 		currStageDesc.setInputsDescription(inputMessage1);
 		// End InputMessage Descriptor

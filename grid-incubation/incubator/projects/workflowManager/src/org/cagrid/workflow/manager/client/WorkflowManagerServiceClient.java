@@ -2,6 +2,8 @@ package org.cagrid.workflow.manager.client;
 
 import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
@@ -43,7 +45,6 @@ import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
-import org.cagrid.workflow.helper.descriptor.ProxyList;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
@@ -63,7 +64,6 @@ import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.cagrid.workflow.manager.stubs.WorkflowManagerServicePortType;
 import org.cagrid.workflow.manager.stubs.service.WorkflowManagerServiceAddressingLocator;
-import org.cagrid.workflow.manager.util.FileUtil;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.NotifyCallback;
 
@@ -83,8 +83,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	private Object portTypeMutex;
 
 	
-	
-	
 	// Synchronizes the access to variable 'isFinished' 
 	protected static Lock isFinishedKey = new ReentrantLock();
 	protected static Condition isFinishedCondition = isFinishedKey.newCondition();
@@ -102,12 +100,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	protected final boolean validatorEnabled = false;  // Enable/Disable the output matcher. Should be true when not debugging
 
 	private static int currParamIndex = 0;
-	
-	
-	
-	
-	
-	
 	
 	
 	private static Log logger = LogFactory.getLog(WorkflowManagerServiceClient.class);
@@ -159,6 +151,31 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	public static void usage(){
 		System.out.println(WorkflowManagerServiceClient.class.getName() + " -url <service url>");
 	}
+	
+	
+	
+
+	/** Store the contents of a file in a String */
+	private static String readFileToString(File wfDescriptor) {
+
+		int fileLenght = (int) wfDescriptor.length();
+		String retval = null;
+		
+		try {
+			FileReader reader = new FileReader(wfDescriptor);
+			char[] cbuf = new char[fileLenght];
+			reader.read(cbuf);
+			
+			retval = new String(cbuf);
+			
+		} catch(IOException ioe){
+			logger.error(ioe.getMessage(), ioe);
+		}
+
+		return retval;
+	}
+	
+	
 
 	public static void main(String [] args){
 		System.out.println("Running the Grid Service Client");
@@ -168,9 +185,32 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					WorkflowManagerServiceClient client = new WorkflowManagerServiceClient(args[1]);
 					// place client calls here if you want to use this main as a
 					// test....
-//					runBpelTest(client);
-
-					runCaosDescriptorTest(client, client.getEndpointReference(), "http://localhost:8080/wsrf/services/");
+//					runCaosDescriptorTest(client, client.getEndpointReference(), "http://localhost:8080/wsrf/services/");
+					
+					
+					File wfDescriptor = new File("C:\\subversion_hawks\\subversion_hawks\\trunk\\grid-incubation\\test\\projects\\" +
+							"workflowManager\\resources\\workflowDescriptionSamples\\UnsecureFanInFanOutWorkflow.xml");
+					String wfXmlDescriptor = readFileToString(wfDescriptor );
+					
+					
+					wfXmlDescriptor = wfXmlDescriptor.replaceAll("CONTAINERBASE", "http://localhost:8080/wsrf/services");
+					
+					
+					WorkflowManagerInstanceReference ref = client.createWorkflowManagerInstance(wfXmlDescriptor);
+					WorkflowManagerInstanceClient instClient = new WorkflowManagerInstanceClient(ref.getEndpointReference());
+					instClient.start(); 
+					String[] outputs = instClient.getOutputValues();
+					
+					if( outputs != null ){
+						System.out.println("Outputs retrieved");
+						for(int i=0; i < outputs.length; i++){
+							
+							System.out.println("Output #"+ i +" is "+ outputs[i]);
+						}
+						System.out.println("End printing outputs");
+						
+					}
+					
 
 					System.out.println("End client");
 
@@ -187,6 +227,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			System.exit(1);
 		}
 	}
+	
 
 	private static void runCaosDescriptorTest(WorkflowManagerServiceClient managerClient, EndpointReferenceType delegatedCredentialProxy, String containerBaseURL) throws RemoteException {
 
@@ -231,9 +272,9 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ram = new InputParameterDescriptor[3];
-		inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "int"));
-		inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string[]"));
-		inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+		inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "int"), false);
+		inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), true);
+		inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"), false);
 		inputMessage_ram.setInputParam(inputParams_ram);
 		currStageDesc.setInputsDescription(inputMessage_ram);
 		// End InputMessage Descriptor
@@ -679,8 +720,8 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			logger.info("Building input parameters descriptor");
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-			inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-			inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+			inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+			inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 			inputMessage4.setInputParam(inputParams4);
 			currStageDesc.setInputsDescription(inputMessage4);
 			// End InputMessage Descriptor
@@ -836,8 +877,8 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			// Creating Descriptor of the InputMessage
 			OperationInputMessageDescriptor inputMessage_4 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParam_4 = new InputParameterDescriptor[2];
-			inputParam_4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-			inputParam_4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+			inputParam_4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+			inputParam_4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 			inputMessage_4.setInputParam(inputParam_4);
 			currStageDesc.setInputsDescription(inputMessage_4);
 			// End InputMessage Descriptor
@@ -870,7 +911,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			// Creating Descriptor of the InputMessage
 			OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParam__2 = new InputParameterDescriptor[1];
-			inputParam__2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+			inputParam__2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"), false);
 			inputMessage__2.setInputParam(inputParam__2 );
 			currStageDesc.setInputsDescription(inputMessage__2);
 			// End InputMessage Descriptor
@@ -1004,9 +1045,9 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[3];
-			inputParams_ras[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"));
-			inputParams_ras[1] = new InputParameterDescriptor(new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-			inputParams_ras[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+			inputParams_ras[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"), false);
+			inputParams_ras[1] = new InputParameterDescriptor(new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+			inputParams_ras[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"), false);
 			inputMessage_ras.setInputParam(inputParams_ras);
 			currStageDesc.setInputsDescription(inputMessage_ras);
 			// End InputMessage Descriptor
@@ -1188,9 +1229,9 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams_ram = new InputParameterDescriptor[3];
-			inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"));
-			inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(XSD_NAMESPACE, "string[]"));
-			inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+			inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"), false);
+			inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(XSD_NAMESPACE, "string"), true);
+			inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"), false);
 			inputMessage_ram.setInputParam(inputParams_ram);
 			currStageDesc.setInputsDescription(inputMessage_ram);
 			// End InputMessage Descriptor
@@ -1366,8 +1407,8 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-			inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-			inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+			inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+			inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 			inputMessage4.setInputParam(inputParams4);
 			currStageDesc.setInputsDescription(inputMessage4);
 			// End InputMessage Descriptor
@@ -1400,7 +1441,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams_2 = new InputParameterDescriptor[1];
-			inputParams_2[0] = new InputParameterDescriptor( new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+			inputParams_2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"), false);
 			inputMessage_2.setInputParam(inputParams_2);
 			currStageDesc.setInputsDescription(inputMessage_2);
 			// End InputMessage Descriptor
@@ -1471,7 +1512,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage3 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams3 = new InputParameterDescriptor[1];
-			inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(XSD_NAMESPACE, "int"));
+			inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(XSD_NAMESPACE, "int"), false);
 			inputMessage3.setInputParam(inputParams3);
 			currStageDesc.setInputsDescription(inputMessage3);
 			// End InputMessage Descriptor
@@ -1542,7 +1583,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
 			inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
-					new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"));
+					new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"), false);
 			inputMessage5.setInputParam(inputParams5);
 			currStageDesc.setInputsDescription(inputMessage5);
 			// End InputMessage Descriptor
@@ -1573,7 +1614,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			// Creating Descriptor of the InputMessage
 			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
 			InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
-			inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"));
+			inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"), false);
 			inputMessage1.setInputParam(inputParams1);
 			currStageDesc.setInputsDescription(inputMessage1);
 			// End InputMessage Descriptor

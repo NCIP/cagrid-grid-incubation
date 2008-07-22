@@ -18,7 +18,6 @@ import gov.nih.nci.cagrid.testing.system.deployment.story.ServiceStoryBase;
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
@@ -36,7 +35,6 @@ import org.apache.axis.types.URI;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.FileAppender;
 import org.apache.log4j.PropertyConfigurator;
 import org.cagrid.workflow.manager.tests.system.steps.ConfigureContainerSecurityStep;
 import org.cagrid.workflow.manager.tests.system.steps.RunSecureWorkflowsStep;
@@ -143,6 +141,8 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		logger.info("Creating steps for secure workflows test");
 		Vector steps = new Vector();
 
+//		System.out.println("SKIPPING TEST FOR DEBUGGING PURPOSES"); // TODO DEBUG
+//		System.exit(0);
 
 		// Set workflow services' directories
 		String tests_basedir = System.getProperty("resources.dir") + File.separator;
@@ -264,7 +264,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 			+ "/wsrf/services/"; 
 			manager_uri.appendPath(MANAGER_PATH_IN_CONTAINER);
 			this.managerEPR = new EndpointReference(manager_uri);
-			RunSecureWorkflowsStep create_workflows = new RunSecureWorkflowsStep(this.managerEPR, this.cdsEPR, 
+			Step create_workflows = new RunSecureWorkflowsStep(this.managerEPR, this.cdsEPR, 
 					container_base_url, userCredential, this.cdsURL);
 			steps.add(create_workflows);
 		} catch (MalformedURIException e) {

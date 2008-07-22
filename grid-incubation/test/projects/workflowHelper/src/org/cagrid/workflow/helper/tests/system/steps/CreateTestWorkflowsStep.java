@@ -196,14 +196,14 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Configure inputs
 		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[8];
-		inputParam[0] = new InputParameterDescriptor(false, new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[1] = new InputParameterDescriptor(true, new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
-		inputParam[2] = new InputParameterDescriptor(false, new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"));
-		inputParam[3] = new InputParameterDescriptor(false, new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[4] = new InputParameterDescriptor(true, new QName("test2Param2"), new QName(XSD_NAMESPACE, "string[]"));
-		inputParam[5] = new InputParameterDescriptor(false, new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"));
-		inputParam[6] = new InputParameterDescriptor(false, new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"));
-		inputParam[7] = new InputParameterDescriptor(false, new QName("test3Param2"), new QName(XSD_NAMESPACE, "string")); // */
+		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"), false);
+		inputParam[3] = new InputParameterDescriptor(new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParam[4] = new InputParameterDescriptor(new QName("test2Param2"), new QName(XSD_NAMESPACE, "string"), true);
+		inputParam[5] = new InputParameterDescriptor(new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"), false);
+		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string"), false); // */
 
 
 		validatorInputDesc.setInputParam(inputParam);
@@ -257,6 +257,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		java.lang.String acess_url = containerBaseURL+"/wsrf/services/cagrid/Service4";
 		operation4.setWorkflowID("GeorgeliusWorkFlow");
 		operation4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
+		operation4.setOutputIsArray(false);
 		operation4.setServiceURL(acess_url);
 		WorkflowInvocationHelperClient serviceClient__4 = null;
 		try {
@@ -271,8 +272,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-		inputParams4[0] = new InputParameterDescriptor(false, new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParams4[1] = new InputParameterDescriptor(false, new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage4.setInputParam(inputParams4);
 		serviceClient__4.configureInput(inputMessage4);
 		// End InputMessage Descriptor
@@ -298,7 +299,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
 		operation__ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
 		operation__ca.setServiceURL(access_url);
-		operation__ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
+		operation__ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
+		operation__ca.setOutputIsArray(true);
 
 
 		// create ReceiveArrayService				
@@ -327,6 +329,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor__ca[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor__ca[0].setParamIndex(0);
 		outParameterDescriptor__ca[0].setType(new QName(XSD_NAMESPACE ,"string"));
+		outParameterDescriptor__ca[0].setExpectedTypeIsArray(false);
 		outParameterDescriptor__ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "abc")});
 		outParameterDescriptor__ca[0].setLocationQuery("/ns0:GetComplexArrayResponse/abc:ComplexType/abc:message");
@@ -383,8 +386,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage_4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam_4 = new InputParameterDescriptor[2];
-		inputParam_4[0] = new InputParameterDescriptor(false, new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParam_4[1] = new InputParameterDescriptor(false, new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParam_4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParam_4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage_4.setInputParam(inputParam_4);
 		serviceClient_4.configureInput(inputMessage_4);
 		// End InputMessage Descriptor
@@ -411,6 +414,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation__2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "CapitalizeRequest"));
 		operation__2.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/Service2");
 		operation__2.setOutputType(new QName(XSD_NAMESPACE, "string"));
+		operation__2.setOutputIsArray(false);
 		WorkflowInvocationHelperClient serviceClient_2 = null;
 		try {
 			serviceClient_2 = wf_instance5.createWorkflowInvocationHelper(operation__2);
@@ -425,7 +429,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParam__2 = new InputParameterDescriptor[1];
-		inputParam__2[0] = new InputParameterDescriptor(false, new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+		inputParam__2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage__2.setInputParam(inputParam__2 );
 		serviceClient_2.configureInput(inputMessage__2);
 		// End InputMessage Descriptor
@@ -440,6 +444,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor__2[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor__2[0].setParamIndex(0);
 		outParameterDescriptor__2[0].setType(new QName(XSD_NAMESPACE, "string"));
+		outParameterDescriptor__2[0].setExpectedTypeIsArray(false);
 		QName[] namespaces__2 = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor__2[0].setQueryNamespaces(namespaces__2);
@@ -462,7 +467,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation__cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation__cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetArrayRequest"));
 		operation__cas.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/CreateArrayService");
-		operation__cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
+		operation__cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string"));
+		operation__cas.setOutputIsArray(true);
 		WorkflowInvocationHelperClient serviceClient_cs = null;
 		try {
 			serviceClient_cs = wf_instance5.createWorkflowInvocationHelper(operation__cas);
@@ -489,6 +495,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor_cs[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_cs[0].setParamIndex(0);
 		outParameterDescriptor_cs[0].setType(new QName( SOAPENCODING_NAMESPACE, "string"));
+		outParameterDescriptor_cs[0].setExpectedTypeIsArray(true);
 		outParameterDescriptor_cs[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_cs[0].setLocationQuery("/ns0:GetArrayResponse");
@@ -548,17 +555,13 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client2
-			//	, operation2.getOperationQName().toString());
-
-		//System.out.println("Configuring invocation helper"); //DEBUG
-
+		
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[3];
-		inputParams_ras[0] = new InputParameterDescriptor(false, new QName("number"), new QName(XSD_NAMESPACE, "int"));
-		inputParams_ras[1] = new InputParameterDescriptor(true, new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
-		inputParams_ras[2] = new InputParameterDescriptor(false, new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParams_ras[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParams_ras[1] = new InputParameterDescriptor(new QName("complexArray"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+		inputParams_ras[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"), false);
 		inputMessage_ras.setInputParam(inputParams_ras);
 		try {
 			client2.configureInput(inputMessage_ras);
@@ -592,8 +595,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation_ca.setWorkflowID("GeorgeliusWorkFlow");
 		operation_ca.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetComplexArrayRequest"));
 		operation_ca.setServiceURL(access_url);
-		operation_ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-
+		operation_ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
+		operation_ca.setOutputIsArray(true);
+		
 
 		// create ReceiveArrayService		
 		WorkflowInvocationHelperClient client_ca = null;
@@ -603,11 +607,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		// Monitor status changes
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client_ca
-			//	, operation_ca.getOperationQName().toString());
-
-
+		
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ca = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ca = new InputParameterDescriptor[0];
@@ -623,7 +623,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// First destination: ReceiveArrayService::ReceiveComplexArray
 		outParameterDescriptor_ca[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_ca[0].setParamIndex(1);
-		outParameterDescriptor_ca[0].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
+		outParameterDescriptor_ca[0].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
+		outParameterDescriptor_ca[0].setExpectedTypeIsArray(true);
 		outParameterDescriptor_ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_ca[0].setLocationQuery("/ns0:GetComplexArrayResponse");
@@ -637,7 +638,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_ca[1].setParamIndex(1); // Setting 2nd argument in the output matcher 
-			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
+			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
+			outParameterDescriptor_ca[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_ca[1].setLocationQuery("/ns0:GetComplexArrayResponse");
@@ -701,9 +703,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ram = new InputParameterDescriptor[3];
-		inputParams_ram[0] = new InputParameterDescriptor(false, new QName("number"), new QName(XSD_NAMESPACE, "int"));
-		inputParams_ram[1] = new InputParameterDescriptor(true, new QName("strArray"), new QName(XSD_NAMESPACE, "string"));
-		inputParams_ram[2] = new InputParameterDescriptor(false, new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"));
+		inputParams_ram[0] = new InputParameterDescriptor(new QName("number"), new QName(XSD_NAMESPACE, "int"), false);
+		inputParams_ram[1] = new InputParameterDescriptor(new QName("strArray"), new QName(XSD_NAMESPACE, "string"), true);
+		inputParams_ram[2] = new InputParameterDescriptor(new QName("booleanValue"), new QName(XSD_NAMESPACE, "boolean"), false);
 		inputMessage_ram.setInputParam(inputParams_ram);
 		serviceClient_ram.configureInput(inputMessage_ram);
 		// End InputMessage Descriptor
@@ -731,7 +733,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation_cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation_cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetArrayRequest"));
 		operation_cas.setServiceURL(access_url);
-		operation_cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
+		operation_cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string"));
+		operation_cas.setOutputIsArray(true);
 
 
 		// create ReceiveArrayService				
@@ -741,9 +744,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_cas
-			//	, operation_cas.getOperationQName().toString());
 
 
 		// Creating Descriptor of the InputMessage
@@ -761,7 +761,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// First destination: ReceiveArrayService::ReceiveArrayAndMore
 		outParameterDescriptor_cas[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_cas[0].setParamIndex(1);
-		outParameterDescriptor_cas[0].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
+		outParameterDescriptor_cas[0].setType(new QName( SOAPENCODING_NAMESPACE ,"string"));
+		outParameterDescriptor_cas[0].setExpectedTypeIsArray(true);
 		outParameterDescriptor_cas[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_cas[0].setLocationQuery("/ns0:GetArrayResponse");
@@ -775,7 +776,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			outParameterDescriptor_cas[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_cas[1].setParamIndex(4);
-			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string[]"));
+			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string"));
+			outParameterDescriptor_cas[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_cas[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_cas[1].setLocationQuery("/ns0:GetArrayResponse");
@@ -840,8 +842,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
-		inputParams4[0] = new InputParameterDescriptor(false, new QName("result1"), new QName(XSD_NAMESPACE, "string"));
-		inputParams4[1] = new InputParameterDescriptor(false, new QName("result2"), new QName(XSD_NAMESPACE, "string"));
+		inputParams4[0] = new InputParameterDescriptor(new QName("result1"), new QName(XSD_NAMESPACE, "string"), false);
+		inputParams4[1] = new InputParameterDescriptor(new QName("result2"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage4.setInputParam(inputParams4);
 		serviceClient4.configureInput(inputMessage4);
 		// End InputMessage Descriptor
@@ -867,6 +869,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation_2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "CapitalizeRequest"));
 		operation_2.setServiceURL(acess_url);
 		operation_2.setOutputType(new QName(XSD_NAMESPACE, "string"));
+		operation_2.setOutputIsArray(false);
 
 
 		// create service 2				
@@ -884,7 +887,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_2 = new InputParameterDescriptor[1];
-		inputParams_2[0] = new InputParameterDescriptor(false, new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"));
+		inputParams_2[0] = new InputParameterDescriptor(new QName("uncapitalized"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage_2.setInputParam(inputParams_2);
 		serviceClient2.configureInput(inputMessage_2);
 		// End InputMessage Descriptor
@@ -898,6 +901,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor2[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor2[0].setParamIndex(0);
 		outParameterDescriptor2[0].setType(new QName("string"));
+		outParameterDescriptor2[0].setExpectedTypeIsArray(false);
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor2[0].setQueryNamespaces(namespaces);
@@ -913,6 +917,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			outParameterDescriptor2[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor2[1].setParamIndex(6);
 			outParameterDescriptor2[1].setType(new QName("string"));
+			outParameterDescriptor2[1].setExpectedTypeIsArray(false);
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor2[1].setQueryNamespaces(namespaces);
@@ -940,6 +945,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation3.setOperationQName(new QName("http://service3.introduce.cagrid.org/Service3", "GenerateXRequest"));
 		operation3.setServiceURL(acess_url);
 		operation3.setOutputType(new QName(XSD_NAMESPACE, "string"));
+		operation3.setOutputIsArray(false);
 
 
 		// create service 3				
@@ -950,14 +956,11 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient3
-			//	, operation3.getOperationQName().toString());
-
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage3 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams3 = new InputParameterDescriptor[1];
-		inputParams3[0] = new InputParameterDescriptor(false, new QName("str_length"), new QName(XSD_NAMESPACE, "int"));
+		inputParams3[0] = new InputParameterDescriptor(new QName("str_length"), new QName(XSD_NAMESPACE, "int"), false);
 		inputMessage3.setInputParam(inputParams3);
 		serviceClient3.configureInput(inputMessage3);
 		// End InputMessage Descriptor
@@ -972,6 +975,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor3[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor3[0].setParamIndex(1);
 		outParameterDescriptor3[0].setType(new QName(XSD_NAMESPACE, "string"));
+		outParameterDescriptor3[0].setExpectedTypeIsArray(false);
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor3[0].setQueryNamespaces(namespaces);
@@ -987,6 +991,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			outParameterDescriptor3[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor3[1].setParamIndex(7);
 			outParameterDescriptor3[1].setType(new QName(XSD_NAMESPACE, "string"));
+			outParameterDescriptor3[1].setExpectedTypeIsArray(false);
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor3[1].setQueryNamespaces(namespaces);
@@ -1012,6 +1017,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation5.setOperationQName(new QName("http://service5.introduce.cagrid.org/Service5" , "CheckStringAndItsLengthRequest"));
 		operation5.setServiceURL(acess_url);
 		operation5.setOutputType(new QName(XSD_NAMESPACE, "boolean"));
+		operation5.setOutputIsArray(false);
 
 
 		// Creating client of service 5
@@ -1022,15 +1028,12 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient5
-			//	, operation5.getOperationQName().toString());
-
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
-		inputParams5[0] = new InputParameterDescriptor(false, new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
-				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"));
+		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
+				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"), false);
 		inputMessage5.setInputParam(inputParams5);
 		serviceClient5.configureInput(inputMessage5);
 		// End InputMessage Descriptor
@@ -1038,14 +1041,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating the outputDescriptor of the first Filter
 		OperationOutputTransportDescriptor outputDescriptor5 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor5 [] = new OperationOutputParameterTransportDescriptor[0];
-		/*outParameterDescriptor5[0] = new OperationOutputParameterTransportDescriptor();
-		outParameterDescriptor5[0].setParamIndex(0);
-		outParameterDescriptor5[0].setType(new QName("string"));
-		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service5.introduce.cagrid.org/Service5", "ns0")};
-		outParameterDescriptor5[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor5[0].setLocationQuery("/ns0:CheckStringAndItsLengthResponse");
-		outParameterDescriptor5[0].setDestinationEPR(null); // */
-
+	
 
 		// takes the reference to no service
 
@@ -1063,6 +1059,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation1.setOperationQName(new QName("http://service1.introduce.cagrid.org/Service1", "GenerateDataRequest"));
 		operation1.setServiceURL(acess_url);
 		operation1.setOutputType(new QName(XSD_NAMESPACE, "string"));
+		operation1.setOutputIsArray(false);
 
 
 		// create service 1				
@@ -1080,7 +1077,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
-		inputParams1[0] = new InputParameterDescriptor(false, new QName("info"), new QName(XSD_NAMESPACE, "string"));
+		inputParams1[0] = new InputParameterDescriptor(new QName("info"), new QName(XSD_NAMESPACE, "string"), false);
 		inputMessage1.setInputParam(inputParams1);
 		serviceClient1.configureInput(inputMessage1);
 		// End InputMessage Descriptor
@@ -1091,6 +1088,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor1[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor1[0].setParamIndex(0);
 		outParameterDescriptor1[0].setType(new QName("string"));
+		outParameterDescriptor1[0].setExpectedTypeIsArray(false);
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service1.introduce.cagrid.org/Service1", "ns0"),
 				new QName("http://service1.workflow.cagrid.org/Service1", "ns1")};
 		outParameterDescriptor1[0].setQueryNamespaces(namespaces);
@@ -1102,6 +1100,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor1[1] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor1[1].setParamIndex(0);
 		outParameterDescriptor1[1].setType(new QName("int"));
+		outParameterDescriptor1[1].setExpectedTypeIsArray(false);
 		outParameterDescriptor1[1].setQueryNamespaces(namespaces);
 		outParameterDescriptor1[1].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:length");
 		// takes the reference to the service 3
@@ -1111,6 +1110,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outParameterDescriptor1[2] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor1[2].setParamIndex(0);
 		outParameterDescriptor1[2].setType(new QName("http://service1.workflow.cagrid.org/Service1","StringAndItsLenght"));
+		outParameterDescriptor1[2].setExpectedTypeIsArray(false);
 		outParameterDescriptor1[2].setQueryNamespaces(namespaces);
 		outParameterDescriptor1[2].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght");
 		// takes the reference to the service 5
