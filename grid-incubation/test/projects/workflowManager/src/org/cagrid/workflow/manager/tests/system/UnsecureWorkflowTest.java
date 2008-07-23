@@ -91,9 +91,9 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		
 		
 		String helperResourcesDir = null;
-		helperResourcesDir = tests_basedir + ".."+ File.separator +".."+ File.separator +"WorkflowHelper" + File.separator + "resources" + File.separator;
+		helperResourcesDir = tests_basedir + ".."+ File.separator +".."+ File.separator +"workflowHelper" + File.separator + "resources" + File.separator;
 		logger.info("Helper resources directory is: "+ helperResourcesDir);
-		String managerResourceDir = tests_basedir + ".."+ File.separator +".."+ File.separator +"WorkflowManager" + File.separator + "resources" + File.separator;
+		String managerResourceDir = tests_basedir + ".."+ File.separator +".."+ File.separator +"workflowManager" + File.separator + "resources" + File.separator;
 		
 		
 		File services_dirs[] = new File[]{

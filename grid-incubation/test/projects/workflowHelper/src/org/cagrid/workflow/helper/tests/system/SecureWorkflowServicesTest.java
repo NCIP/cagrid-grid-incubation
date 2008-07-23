@@ -284,7 +284,7 @@ public class SecureWorkflowServicesTest extends ServiceStoryBase {
 					getContainer().stopContainer();
 				}
 
-				/*if( getContainer().isUnpacked() ){
+				if( getContainer().isUnpacked() ){
 
 					getContainer().deleteContainer();
 				} // */
@@ -350,8 +350,6 @@ public class SecureWorkflowServicesTest extends ServiceStoryBase {
 	public TomcatSecureServiceContainer getMyContainer() {
 		return myContainer;
 	}
-
-
 
 }
 
