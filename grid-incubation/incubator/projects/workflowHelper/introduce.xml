@@ -329,6 +329,6 @@
  <ns49:Extensions xsi:type="ns49:ExtensionsType" xmlns:ns49="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
  <ns50:ServiceProperties xmlns:ns50="gme://gov.nih.nci.cagrid.introduce/1/Property">
   <ns50:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
-  <ns50:Property description="Location of the credential configured to be used as container's credential. Should be removed" isFromETC="false" key="helperCredential" value="C:\subversion_hawks\subversion_hawks\trunk\grid-incubation\test\projects\testUtils\certificates\ca\testing_ca_"/>
+  <ns50:Property description="Location of the credential configured to be used as container's credential. Should be removed" isFromETC="true" key="helperCredential" value="../../../../../../../../testUtils/certificates/ca/testing_ca_"/>
  </ns50:ServiceProperties>
 </ns1:ServiceDescription>

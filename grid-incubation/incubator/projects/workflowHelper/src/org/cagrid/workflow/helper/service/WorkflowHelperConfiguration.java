@@ -70,7 +70,7 @@ public class WorkflowHelperConfiguration implements ServiceConfiguration {
 
 	
 	public String getHelperCredential() {
-		return helperCredential;
+		return ContainerConfig.getBaseDirectory() + File.separator + helperCredential;
 	}
 	
 	
