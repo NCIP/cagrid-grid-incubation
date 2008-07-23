@@ -47,7 +47,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.xmlsoap.schemas.ws.x2004.x03.addressing.AttributedURI;
 
-public class WorkflowDescriptorParser {
+public class WorkflowDescriptorParser implements WorkflowManagerInstanceParser {
 
 
 	private static Log logger = LogFactory.getLog(WorkflowDescriptorParser.class);
@@ -57,7 +57,7 @@ public class WorkflowDescriptorParser {
 	 * Parse an XML description of a workflow into the WorkflowManagerInstance descriptor
 	 * @throws Exception 
 	 * */
-	public static org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor parseWorkflowDescriptor(
+	public org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor parseWorkflowDescriptor(
 			String xmlWorkflowDescription) throws Exception {
 
 
@@ -706,7 +706,7 @@ public class WorkflowDescriptorParser {
 		String xmlWorkflowDescription = new String(fileBytes);
 		WorkflowManagerInstanceDescriptor wfDesc = null;
 		try {
-			wfDesc = parseWorkflowDescriptor(xmlWorkflowDescription);
+			wfDesc = new WorkflowDescriptorParser().parseWorkflowDescriptor(xmlWorkflowDescription);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

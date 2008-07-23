@@ -73,11 +73,6 @@ public class WorkflowManagerServiceAuthorization implements PDP {
 		
 	}
 					
-	public static void authorizeCreateWorkflowManagerInstance() throws RemoteException {
-		
-		
-	}
-					
 	public static void authorizeGetIdentity() throws RemoteException {
 		
 		
@@ -125,14 +120,6 @@ public class WorkflowManagerServiceAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("createWorkflowManagerInstanceFromObjectDescriptor")){
 			try{
 				authorizeCreateWorkflowManagerInstanceFromObjectDescriptor();
-				return true;
-			} catch (Exception e){
-				e.printStackTrace();
-				return false;
-			}
-		} else if(operation.getLocalPart().equals("createWorkflowManagerInstance")){
-			try{
-				authorizeCreateWorkflowManagerInstance();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

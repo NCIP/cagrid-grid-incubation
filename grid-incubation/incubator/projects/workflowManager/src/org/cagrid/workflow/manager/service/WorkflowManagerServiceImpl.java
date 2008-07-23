@@ -229,17 +229,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 	 * @return a handler to communicate with the newly created resource
 	 * 
 	 * */
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
-
-		org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc;
-		try {
-			workflowDesc = WorkflowDescriptorParser.parseWorkflowDescriptor(xmlWorkflowDescription);
-		} catch (Exception e) {
-			throw new RemoteException(e.getMessage(), e);
-		}
-
-		return this.createWorkflowManagerInstanceFromObjectDescriptor(workflowDesc);
-	}
 
 	
   public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {

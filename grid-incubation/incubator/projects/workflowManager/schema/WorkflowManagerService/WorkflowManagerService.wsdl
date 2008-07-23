@@ -40,20 +40,6 @@
           </sequence>
         </complexType>
       </element>
-      <element name="CreateWorkflowManagerInstanceRequest">
-        <complexType>
-          <sequence>
-            <element name="xmlWorkflowDescription" type="xs:string" minOccurs="1" maxOccurs="1" />
-          </sequence>
-        </complexType>
-      </element>
-      <element name="CreateWorkflowManagerInstanceResponse">
-        <complexType>
-          <sequence>
-            <element ref="ns5:WorkflowManagerInstanceReference" minOccurs="1" maxOccurs="1" />
-          </sequence>
-        </complexType>
-      </element>
       <element name="GetIdentityRequest">
         <complexType>
           <sequence />
@@ -80,12 +66,6 @@
   <message name="CreateWorkflowManagerInstanceFromObjectDescriptorResponse">
     <part name="parameters" element="tns:CreateWorkflowManagerInstanceFromObjectDescriptorResponse" />
   </message>
-  <message name="CreateWorkflowManagerInstanceRequest">
-    <part name="parameters" element="tns:CreateWorkflowManagerInstanceRequest" />
-  </message>
-  <message name="CreateWorkflowManagerInstanceResponse">
-    <part name="parameters" element="tns:CreateWorkflowManagerInstanceResponse" />
-  </message>
   <message name="GetIdentityRequest">
     <part name="parameters" element="tns:GetIdentityRequest" />
   </message>
@@ -101,10 +81,6 @@
     <operation name="createWorkflowManagerInstanceFromObjectDescriptor">
       <input message="tns:CreateWorkflowManagerInstanceFromObjectDescriptorRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromObjectDescriptorRequest" />
       <output message="tns:CreateWorkflowManagerInstanceFromObjectDescriptorResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceFromObjectDescriptorResponse" />
-    </operation>
-    <operation name="createWorkflowManagerInstance">
-      <input message="tns:CreateWorkflowManagerInstanceRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceRequest" />
-      <output message="tns:CreateWorkflowManagerInstanceResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/CreateWorkflowManagerInstanceResponse" />
     </operation>
     <operation name="getIdentity">
       <input message="tns:GetIdentityRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/GetIdentityRequest" />

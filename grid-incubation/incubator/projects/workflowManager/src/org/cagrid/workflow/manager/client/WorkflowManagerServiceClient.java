@@ -64,6 +64,7 @@ import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.cagrid.workflow.manager.stubs.WorkflowManagerServicePortType;
 import org.cagrid.workflow.manager.stubs.service.WorkflowManagerServiceAddressingLocator;
+import org.cagrid.workflow.manager.util.WorkflowDescriptorParser;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.NotifyCallback;
 
@@ -195,8 +196,8 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					
 					wfXmlDescriptor = wfXmlDescriptor.replaceAll("CONTAINERBASE", "http://localhost:8080/wsrf/services");
 					
-					
-					WorkflowManagerInstanceReference ref = client.createWorkflowManagerInstance(wfXmlDescriptor);
+				    WorkflowManagerInstanceDescriptor descriptor = new WorkflowDescriptorParser().parseWorkflowDescriptor(wfXmlDescriptor);
+					WorkflowManagerInstanceReference ref = client.createWorkflowManagerInstanceFromObjectDescriptor(descriptor);
 					WorkflowManagerInstanceClient instClient = new WorkflowManagerInstanceClient(ref.getEndpointReference());
 					instClient.start(); 
 					String[] outputs = instClient.getOutputValues();
@@ -1903,16 +1904,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
     workflowDescContainer.setWorkflowManagerInstanceDescriptor(workflowDesc);
     params.setWorkflowDesc(workflowDescContainer);
     org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = portType.createWorkflowManagerInstanceFromObjectDescriptor(params);
-    return boxedResult.getWorkflowManagerInstanceReference();
-    }
-  }
-
-  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstance(java.lang.String xmlWorkflowDescription) throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"createWorkflowManagerInstance");
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceRequest();
-    params.setXmlWorkflowDescription(xmlWorkflowDescription);
-    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceResponse boxedResult = portType.createWorkflowManagerInstance(params);
     return boxedResult.getWorkflowManagerInstanceReference();
     }
   }
