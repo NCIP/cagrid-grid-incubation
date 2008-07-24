@@ -34,7 +34,7 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 	public UnsecureWorkflowTest() {
 		super();
 		try {
-			ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.GLOBUS_CONTAINER);
+			ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.TOMCAT_CONTAINER);  //GLOBUS_CONTAINER);
 			setContainer(cont);
 		} catch (IOException e) {
 

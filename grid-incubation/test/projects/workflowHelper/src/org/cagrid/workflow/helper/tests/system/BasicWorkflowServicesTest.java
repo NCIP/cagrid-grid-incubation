@@ -47,7 +47,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
     public BasicWorkflowServicesTest() {
         super();
         try {
-            ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.GLOBUS_CONTAINER);
+            ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.TOMCAT_CONTAINER);  //GLOBUS_CONTAINER);
             setContainer(cont);
         } catch (IOException e) {
 
