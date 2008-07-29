@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://systemtests.workflow.cagrid.org/SystemTests"
+	xmlns:tns="http://systemtests.workflow.cagrid.org/SystemTests"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	
+	<xs:element name="ComplexType" type="tns:ComplexType" />
+	<xs:complexType name="ComplexType">
+		<xs:sequence>
+			<xs:element name="id" type="int"></xs:element>
+			<xs:element name="message" type="string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

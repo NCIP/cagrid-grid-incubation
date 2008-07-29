@@ -87,6 +87,16 @@ public class AssertServiceAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeAssertComplexArrayEquals() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeAssertSimpleArrayEquals() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -154,6 +164,22 @@ public class AssertServiceAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("secureAssertNumberEquals")){
 			try{
 				authorizeSecureAssertNumberEquals();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("assertComplexArrayEquals")){
+			try{
+				authorizeAssertComplexArrayEquals();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("assertSimpleArrayEquals")){
+			try{
+				authorizeAssertSimpleArrayEquals();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

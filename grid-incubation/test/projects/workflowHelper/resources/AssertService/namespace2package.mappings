@@ -6,5 +6,6 @@ http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01
 http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
 http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
 
+http\://systemtests.workflow.cagrid.org/SystemTests=systemtests
 gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security
 http\://assertService.test.system.workflow.cagrid.org/AssertService/types=org.cagrid.workflow.system.test.assertService.stubs.types

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://assertService.test.system.workflow.cagrid.org/AssertService" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns0="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns0="http://assertService.test.system.workflow.cagrid.org/AssertService/types" name="AssertService" targetNamespace="http://assertService.test.system.workflow.cagrid.org/AssertService">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://assertService.test.system.workflow.cagrid.org/AssertService" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns0="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns0="http://systemtests.workflow.cagrid.org/SystemTests" xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns1="http://assertService.test.system.workflow.cagrid.org/AssertService/types" name="AssertService" targetNamespace="http://assertService.test.system.workflow.cagrid.org/AssertService">
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
@@ -13,6 +13,7 @@
   <types>
     <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" targetNamespace="http://assertService.test.system.workflow.cagrid.org/AssertService" elementFormDefault="qualified" attributeFormDefault="unqualified">
       <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" />
+      <import namespace="http://systemtests.workflow.cagrid.org/SystemTests" schemaLocation="./SystemTests.xsd" />
       <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
       <import namespace="http://assertService.test.system.workflow.cagrid.org/AssertService/types" schemaLocation="./AssertServiceTypes.xsd" />
       <element name="AssertEqualsRequest">
@@ -75,6 +76,48 @@
           </sequence>
         </complexType>
       </element>
+      <element name="AssertComplexArrayEqualsRequest">
+        <complexType>
+          <sequence>
+            <element name="complexArray1">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:ComplexType" minOccurs="1" maxOccurs="unbounded" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="complexArray2">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:ComplexType" minOccurs="1" maxOccurs="unbounded" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AssertComplexArrayEqualsResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AssertSimpleArrayEqualsRequest">
+        <complexType>
+          <sequence>
+            <element name="stringArray1" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+            <element name="stringArray2" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AssertSimpleArrayEqualsResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="AssertServiceResourceProperties">
         <complexType>
           <sequence />
@@ -107,6 +150,18 @@
   <message name="SecureAssertNumberEqualsResponse">
     <part name="parameters" element="tns:SecureAssertNumberEqualsResponse" />
   </message>
+  <message name="AssertComplexArrayEqualsRequest">
+    <part name="parameters" element="tns:AssertComplexArrayEqualsRequest" />
+  </message>
+  <message name="AssertComplexArrayEqualsResponse">
+    <part name="parameters" element="tns:AssertComplexArrayEqualsResponse" />
+  </message>
+  <message name="AssertSimpleArrayEqualsRequest">
+    <part name="parameters" element="tns:AssertSimpleArrayEqualsRequest" />
+  </message>
+  <message name="AssertSimpleArrayEqualsResponse">
+    <part name="parameters" element="tns:AssertSimpleArrayEqualsResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -128,6 +183,14 @@
     <operation name="secureAssertNumberEquals">
       <input message="tns:SecureAssertNumberEqualsRequest" wsa:Action="http://assertService.test.system.workflow.cagrid.org/AssertService/SecureAssertNumberEqualsRequest" />
       <output message="tns:SecureAssertNumberEqualsResponse" wsa:Action="http://assertService.test.system.workflow.cagrid.org/AssertService/SecureAssertNumberEqualsResponse" />
+    </operation>
+    <operation name="assertComplexArrayEquals">
+      <input message="tns:AssertComplexArrayEqualsRequest" wsa:Action="http://assertService.test.system.workflow.cagrid.org/AssertService/AssertComplexArrayEqualsRequest" />
+      <output message="tns:AssertComplexArrayEqualsResponse" wsa:Action="http://assertService.test.system.workflow.cagrid.org/AssertService/AssertComplexArrayEqualsResponse" />
+    </operation>
+    <operation name="assertSimpleArrayEquals">
+      <input message="tns:AssertSimpleArrayEqualsRequest" wsa:Action="http://assertService.test.system.workflow.cagrid.org/AssertService/AssertSimpleArrayEqualsRequest" />
+      <output message="tns:AssertSimpleArrayEqualsResponse" wsa:Action="http://assertService.test.system.workflow.cagrid.org/AssertService/AssertSimpleArrayEqualsResponse" />
     </operation>
     <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetMultipleResourceProperties">
       <wsdl:input name="GetMultipleResourcePropertiesRequest" message="wsrpw:GetMultipleResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" />

@@ -12,6 +12,10 @@ import java.rmi.RemoteException;
  */
 public interface AssertServiceI {
 
+  public boolean assertComplexArrayEquals(systemtests.ComplexType[] complexArray1,systemtests.ComplexType[] complexArray2) throws RemoteException ;
+
+  public boolean assertSimpleArrayEquals(java.lang.String[] stringArray1,java.lang.String[] stringArray2) throws RemoteException ;
+
   public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException ;
 
   public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException ;

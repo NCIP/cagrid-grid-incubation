@@ -26,6 +26,18 @@ public class AssertServiceProviderImpl{
 	}
 	
 
+    public org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsResponse assertComplexArrayEquals(org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsRequest params) throws RemoteException {
+    org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsResponse boxedResult = new org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsResponse();
+    boxedResult.setResponse(impl.assertComplexArrayEquals(params.getComplexArray1().getComplexType(),params.getComplexArray2().getComplexType()));
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.system.test.assertService.stubs.AssertSimpleArrayEqualsResponse assertSimpleArrayEquals(org.cagrid.workflow.system.test.assertService.stubs.AssertSimpleArrayEqualsRequest params) throws RemoteException {
+    org.cagrid.workflow.system.test.assertService.stubs.AssertSimpleArrayEqualsResponse boxedResult = new org.cagrid.workflow.system.test.assertService.stubs.AssertSimpleArrayEqualsResponse();
+    boxedResult.setResponse(impl.assertSimpleArrayEquals(params.getStringArray1(),params.getStringArray2()));
+    return boxedResult;
+  }
+
     public org.cagrid.workflow.system.test.assertService.stubs.AssertEqualsResponse assertEquals(org.cagrid.workflow.system.test.assertService.stubs.AssertEqualsRequest params) throws RemoteException {
     org.cagrid.workflow.system.test.assertService.stubs.AssertEqualsResponse boxedResult = new org.cagrid.workflow.system.test.assertService.stubs.AssertEqualsResponse();
     boxedResult.setResponse(impl.assertEquals(params.getString1(),params.getString2()));

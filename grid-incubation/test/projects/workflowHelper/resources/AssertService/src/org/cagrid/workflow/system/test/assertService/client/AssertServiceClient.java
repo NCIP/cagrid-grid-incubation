@@ -76,6 +76,32 @@ public class AssertServiceClient extends AssertServiceClientBase implements Asse
 		}
 	}
 
+  public boolean assertComplexArrayEquals(systemtests.ComplexType[] complexArray1,systemtests.ComplexType[] complexArray2) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"assertComplexArrayEquals");
+    org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsRequest params = new org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsRequest();
+    org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsRequestComplexArray1 complexArray1Container = new org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsRequestComplexArray1();
+    complexArray1Container.setComplexType(complexArray1);
+    params.setComplexArray1(complexArray1Container);
+    org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsRequestComplexArray2 complexArray2Container = new org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsRequestComplexArray2();
+    complexArray2Container.setComplexType(complexArray2);
+    params.setComplexArray2(complexArray2Container);
+    org.cagrid.workflow.system.test.assertService.stubs.AssertComplexArrayEqualsResponse boxedResult = portType.assertComplexArrayEquals(params);
+    return boxedResult.isResponse();
+    }
+  }
+
+  public boolean assertSimpleArrayEquals(java.lang.String[] stringArray1,java.lang.String[] stringArray2) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"assertSimpleArrayEquals");
+    org.cagrid.workflow.system.test.assertService.stubs.AssertSimpleArrayEqualsRequest params = new org.cagrid.workflow.system.test.assertService.stubs.AssertSimpleArrayEqualsRequest();
+    params.setStringArray1(stringArray1);
+    params.setStringArray2(stringArray2);
+    org.cagrid.workflow.system.test.assertService.stubs.AssertSimpleArrayEqualsResponse boxedResult = portType.assertSimpleArrayEquals(params);
+    return boxedResult.isResponse();
+    }
+  }
+
   public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
