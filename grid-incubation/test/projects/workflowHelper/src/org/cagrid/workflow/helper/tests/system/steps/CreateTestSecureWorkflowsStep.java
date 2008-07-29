@@ -3,6 +3,7 @@ package org.cagrid.workflow.helper.tests.system.steps;
 import java.rmi.RemoteException;
 
 import javax.xml.namespace.QName;
+import javax.xml.rpc.NamespaceConstants;
 
 import junit.framework.Assert;
 
@@ -96,8 +97,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 			/*** Service that will gather all the output and match against the expected ones ***/
-			EndpointReferenceType outputMatcherEPR = this.validatorEnabled ? runOuputMatcher(manager_epr, wf_helper, myCredential, 
-					delegationLifetime, issuedCredentialLifetime, delegationPath, issuedCredentialPath) : null;
+			EndpointReferenceType outputMatcherEPR = null;//this.validatorEnabled ? runOuputMatcher(manager_epr, wf_helper, myCredential, 
+//					delegationLifetime, issuedCredentialLifetime, delegationPath, issuedCredentialPath) : null;
 
 
 
@@ -105,12 +106,12 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 			/** simple type arrays **/
 			System.out.println("[CreateTestSecureWorkflowsStep] Simple arrays as input");
-			runSimpleArrayTest(manager_epr, wf_helper, outputMatcherEPR, issuedCredentialLifetime, myCredential, delegationLifetime,
+			runSimpleArrayTest(manager_epr, wf_helper, issuedCredentialLifetime, myCredential, delegationLifetime,
 					issuedCredentialPath, delegationPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK");
 
 			System.out.println("[CreateTestSecureWorkflowsStep] Complex arrays as input");
-			runComplexArrayTest(manager_epr, wf_helper, outputMatcherEPR, issuedCredentialLifetime, delegationLifetime, myCredential,
+			runComplexArrayTest(manager_epr, wf_helper, issuedCredentialLifetime, delegationLifetime, myCredential,
 					issuedCredentialPath, delegationPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK");
 
@@ -142,7 +143,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 			/** FAN IN AND FAN OUT TEST **/
 			System.out.println("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out"); 
-			runFaninFanOutTest(manager_epr, wf_helper, outputMatcherEPR, delegationLifetime, myCredential, issuedCredentialLifetime,
+			runFaninFanOutTest(manager_epr, wf_helper, delegationLifetime, myCredential, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] END Testing fan in and fan out"); // */
 
@@ -673,7 +674,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, EndpointReferenceType outputMatcherEPR, ProxyLifetime issuedCredentialLifetime, ProxyLifetime delegationLifetime, GlobusCredential myCredential, int issuedCredentialPath, int delegationPath) throws RemoteException{
+	private void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, ProxyLifetime issuedCredentialLifetime, ProxyLifetime delegationLifetime, GlobusCredential myCredential, int issuedCredentialPath, int delegationPath) throws RemoteException{
 
 		System.out.println("BEGIN runComplexArrayTest");
 
@@ -699,8 +700,6 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		
 		
 		// BEGIN ReceiveArrayService::ReceiveComplexArray	
-
-
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/ReceiveArrayService";
 		WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
 		operation2.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "SecureReceiveComplexArrayRequest"));
@@ -774,6 +773,66 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		client2.setParameter(new InputParameter("true",2));  // booleanValue
 		// END ReceiveArrayService::ReceiveComplexArray
 
+		
+		
+		
+		
+		// Stage that verifies whether the workflow output matches the expected
+		WorkflowInvocationHelperClient client_assert = null;
+		if(this.validatorEnabled){
+
+			// BEGIN AssertService::assertSimpleArrayEquals
+			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_assert = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+			operation_assert.setWorkflowID("GeorgeliusWorkFlow");
+			operation_assert.setOperationQName(new QName("http://assertService.test.system.workflow.cagrid.org/AssertService", "AssertComplexArrayEqualsRequest"));
+			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
+			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+
+
+			
+			// create ReceiveArrayService
+			try {
+				client_assert = wf_instance1.createWorkflowInvocationHelper(operation_assert);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
+
+
+			// Creating Descriptor of the InputMessage
+			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_assert = new OperationInputMessageDescriptor();
+			InputParameterDescriptor[] inputParams_assert = new InputParameterDescriptor[2];
+			inputParams_assert[0] = new InputParameterDescriptor(new QName("complexArray1"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+			inputParams_assert[1] = new InputParameterDescriptor(new QName("complexArray2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+			inputMessage_assert.setInputParam(inputParams_assert);
+			client_assert.configureInput(inputMessage_assert);
+			// End InputMessage Descriptor
+
+			// Creating an empty outputDescriptor
+			OperationOutputTransportDescriptor outputDescriptor_assert = new OperationOutputTransportDescriptor();
+			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
+
+			// takes the reference to no service
+			outputDescriptor_assert.setParamDescriptor(outParameterDescriptor_assert);
+			client_assert.configureOutput(outputDescriptor_assert);
+
+
+
+			// Set the expected output
+			InputParameter inputParameter = new InputParameter("<SecureGetComplexArrayResponse xmlns=\"http://createarrayservice.introduce.cagrid.org/CreateArrayService\">" +
+					"<ns1:ComplexType xmlns:ns1=\"http://systemtests.workflow.cagrid.org/SystemTests\"><ns1:id>0</ns1:id><ns1:message>Element 0</ns1:message>" +
+					"</ns1:ComplexType><ns2:ComplexType xmlns:ns2=\"http://systemtests.workflow.cagrid.org/SystemTests\"><ns2:id>1</ns2:id>" +
+					"<ns2:message>Element 1</ns2:message></ns2:ComplexType><ns3:ComplexType xmlns:ns3=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
+					"<ns3:id>2</ns3:id><ns3:message>Element 2</ns3:message></ns3:ComplexType><ns4:ComplexType xmlns:ns4=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
+					"<ns4:id>3</ns4:id><ns4:message>Element 3</ns4:message></ns4:ComplexType><ns5:ComplexType xmlns:ns5=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
+					"<ns5:id>4</ns5:id><ns5:message>Element 4</ns5:message></ns5:ComplexType><ns6:ComplexType xmlns:ns6=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
+					"<ns6:id>5</ns6:id><ns6:message>Element 5</ns6:message></ns6:ComplexType></SecureGetComplexArrayResponse>", 1);
+			client_assert.setParameter(inputParameter);
+
+			client_assert.start();
+			// END AssertService::assertSimpleArrayEquals
+		}
+		
+		
 
 
 		// BEGIN CreateArrayService::getComplexArray				
@@ -797,10 +856,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		// Monitor status changes
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), client_ca
-			//	, operation_ca.getOperationQName().toString());
-
+	
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance1.addCredential(client_ca.getEndpointReference(), delegationEPR);
 
@@ -834,14 +890,14 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			//System.out.println("Setting 2nd param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_ca[1].setParamIndex(1); // Setting 2nd argument in the output matcher 
+			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 2nd argument in the output matcher 
 			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
 			outParameterDescriptor_ca[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ 
 					new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_ca[1].setLocationQuery("/ns0:SecureGetComplexArrayResponse");
-			outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR });
+			outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ client_assert.getEndpointReference() });
 		}
 
 
@@ -872,7 +928,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, EndpointReferenceType outputMatcherEPR, ProxyLifetime issuedCredentialLifetime, GlobusCredential myCredential, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath) throws RemoteException{
+	private void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, ProxyLifetime issuedCredentialLifetime, GlobusCredential myCredential, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath) throws RemoteException{
 
 		System.out.println("BEGIN runSimpleArrayTest");
 
@@ -918,12 +974,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_ram
-			//	, operation_ram.getOperationQName().toString());
-
-				
+					
 		// Set the GlobusCredential to use on InstanceHelper
-		//System.out.println("[runSimpleArray] Delegating helper's credential to the InstanceHelper"); //DEBUG
 		EndpointReferenceType delegationEPR = null;
 		try{
 			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL
@@ -965,7 +1017,60 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// END ReceiveArrayService::ReceiveArrayAndMore
 
 
-		//System.out.println("[runSimpleArray] Configuring CreateArrayService");//DEBUG
+
+		
+		// Stage that verifies whether the workflow output matches the expected
+		WorkflowInvocationHelperClient serviceClient_assert = null;
+		if(this.validatorEnabled){
+
+			// BEGIN AssertService::assertSimpleArrayEquals
+			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_assert = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+			operation_assert.setWorkflowID("GeorgeliusWorkFlow");
+			operation_assert.setOperationQName(new QName("http://assertService.test.system.workflow.cagrid.org/AssertService", "AssertSimpleArrayEqualsRequest"));
+			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
+			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+
+
+			// create AssertService				
+			try {
+				serviceClient_assert = wf_instance2.createWorkflowInvocationHelper(operation_assert);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
+
+
+			// Creating Descriptor of the InputMessage
+			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_assert = new OperationInputMessageDescriptor();
+			InputParameterDescriptor[] inputParams_assert = new InputParameterDescriptor[2];
+			inputParams_assert[0] = new InputParameterDescriptor(new QName("stringArray1"), new QName(XSD_NAMESPACE, "string"), true);
+			inputParams_assert[1] = new InputParameterDescriptor(new QName("stringArray2"), new QName(XSD_NAMESPACE, "string"), true);
+			inputMessage_assert.setInputParam(inputParams_assert);
+			serviceClient_assert.configureInput(inputMessage_assert);
+			// End InputMessage Descriptor
+
+			// Creating an empty outputDescriptor
+			OperationOutputTransportDescriptor outputDescriptor_assert = new OperationOutputTransportDescriptor();
+			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
+
+			// takes the reference to no service
+			outputDescriptor_assert.setParamDescriptor(outParameterDescriptor_assert);
+			serviceClient_assert.configureOutput(outputDescriptor_assert);
+
+
+
+			// Set the expected output
+			InputParameter inputParameter = new InputParameter("<SecureGetArrayResponse xmlns=\"http://createarrayservice.introduce.cagrid.org/CreateArrayService\">" +
+					"<response>number 0</response><response>number 1</response><response>number 2</response><response>number 3</response><response>number 4</response><response>number 5" +
+					"</response></SecureGetArrayResponse>", 1);  
+			serviceClient_assert.setParameter(inputParameter);
+
+			serviceClient_assert.start();
+			// END AssertService::assertSimpleArrayEquals
+		}
+		
+		
+		
+		
 
 		// BEGIN CreateArrayService				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -988,9 +1093,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_cas
-			//	, operation_cas.getOperationQName().toString());
-
+	
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance2.addCredential(serviceClient_cas.getEndpointReference(), delegationEPR);
 
@@ -1024,13 +1127,13 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			//System.out.println("Setting 5th param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor_cas[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_cas[1].setParamIndex(4);
+			outParameterDescriptor_cas[1].setParamIndex(0);
 			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string"));
 			outParameterDescriptor_cas[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_cas[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_cas[1].setLocationQuery("/ns0:SecureGetArrayResponse");
-			outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR});
+			outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ serviceClient_assert.getEndpointReference() });
 		}
 
 
@@ -1059,7 +1162,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, EndpointReferenceType outputMatcherEPR, ProxyLifetime delegationLifetime, GlobusCredential myCredential, ProxyLifetime issuedCredentialLifetime, int delegationPath, int issuedCredentialPath) throws RemoteException{
+	private void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, ProxyLifetime delegationLifetime, GlobusCredential myCredential, ProxyLifetime issuedCredentialLifetime, int delegationPath, int issuedCredentialPath) throws RemoteException{
 
 		System.out.println("BEGIN runFaninFanOutTest");
 
@@ -1145,6 +1248,58 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// END service 4
 
 
+		
+		
+		// Stage that verifies whether service2's output matches the expected
+		WorkflowInvocationHelperClient client_assert2 = null;
+		if(this.validatorEnabled){
+
+			// BEGIN AssertService::assertSimpleArrayEquals
+			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_assert = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+			operation_assert.setWorkflowID("GeorgeliusWorkFlow");
+			operation_assert.setOperationQName(new QName("http://assertService.test.system.workflow.cagrid.org/AssertService", "AssertEqualsRequest"));
+			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
+			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+
+	
+			try {
+				client_assert2 = wf_instance3.createWorkflowInvocationHelper(operation_assert);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
+
+
+			// Creating Descriptor of the InputMessage
+			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_assert = new OperationInputMessageDescriptor();
+			InputParameterDescriptor[] inputParams_assert = new InputParameterDescriptor[2];
+			inputParams_assert[0] = new InputParameterDescriptor(new QName("string1"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), false);
+			inputParams_assert[1] = new InputParameterDescriptor(new QName("string2"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), false);
+			inputMessage_assert.setInputParam(inputParams_assert);
+			client_assert2.configureInput(inputMessage_assert);
+			// End InputMessage Descriptor
+
+			// Creating an empty outputDescriptor
+			OperationOutputTransportDescriptor outputDescriptor_assert = new OperationOutputTransportDescriptor();
+			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
+
+			// takes the reference to no service
+			outputDescriptor_assert.setParamDescriptor(outParameterDescriptor_assert);
+			client_assert2.configureOutput(outputDescriptor_assert);
+
+
+
+			// Set the expected output
+			InputParameter inputParameter = new InputParameter("GEORGE TEADORO GORDAO QUE FALOU", 1);
+			client_assert2.setParameter(inputParameter);
+
+			client_assert2.start();
+			// END AssertService::assertSimpleArrayEquals
+		}
+
+		
+		
+		
+		
 
 		// BEGIN service 2				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_2 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -1166,10 +1321,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient2
-			//	, operation_2.getOperationQName().toString());
-
-
+	
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance3.addCredential(serviceClient2.getEndpointReference(), delegationEPR);
 
@@ -1204,27 +1356,69 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			//System.out.println("Setting 7th param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor2[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor2[1].setParamIndex(6);
+			outParameterDescriptor2[1].setParamIndex(0);
 			outParameterDescriptor2[1].setType(new QName("string"));
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor2[1].setQueryNamespaces(namespaces);
 			outParameterDescriptor2[1].setLocationQuery("/ns0:SecureCapitalizeResponse");
-			outParameterDescriptor2[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR});
+			outParameterDescriptor2[1].setDestinationEPR(new EndpointReferenceType[]{ client_assert2.getEndpointReference() });
 		}
-
-
-
-		// takes the reference to the service 4
 
 		outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
 		serviceClient2.configureOutput(outputDescriptor2);
 		serviceClient2.start();
-
 		// END service 2
 
+		
+		
+		// Stage that verifies whether service3's output matches the expected
+		WorkflowInvocationHelperClient client_assert3 = null;
+		if(this.validatorEnabled){
+
+			// BEGIN AssertService::assertSimpleArrayEquals
+			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_assert = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+			operation_assert.setWorkflowID("GeorgeliusWorkFlow");
+			operation_assert.setOperationQName(new QName("http://assertService.test.system.workflow.cagrid.org/AssertService", "AssertEqualsRequest"));
+			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
+			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+
+	
+			try {
+				client_assert3 = wf_instance3.createWorkflowInvocationHelper(operation_assert);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
 
 
+			// Creating Descriptor of the InputMessage
+			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_assert = new OperationInputMessageDescriptor();
+			InputParameterDescriptor[] inputParams_assert = new InputParameterDescriptor[2];
+			inputParams_assert[0] = new InputParameterDescriptor(new QName("string1"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), false);
+			inputParams_assert[1] = new InputParameterDescriptor(new QName("string2"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), false);
+			inputMessage_assert.setInputParam(inputParams_assert);
+			client_assert3.configureInput(inputMessage_assert);
+			// End InputMessage Descriptor
+
+			// Creating an empty outputDescriptor
+			OperationOutputTransportDescriptor outputDescriptor_assert = new OperationOutputTransportDescriptor();
+			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
+
+			// takes the reference to no service
+			outputDescriptor_assert.setParamDescriptor(outParameterDescriptor_assert);
+			client_assert3.configureOutput(outputDescriptor_assert);
+
+
+
+			// Set the expected output
+			InputParameter inputParameter = new InputParameter("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 1);
+			client_assert3.setParameter(inputParameter);
+
+			client_assert3.start();
+			// END AssertService::assertSimpleArrayEquals
+		}
+		
+		
 		// BEGIN service 3
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation3 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service3";
@@ -1287,13 +1481,13 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			//System.out.println("Setting 8th param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor3[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor3[1].setParamIndex(7);
+			outParameterDescriptor3[1].setParamIndex(0);
 			outParameterDescriptor3[1].setType(new QName(XSD_NAMESPACE, "string"));
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor3[1].setQueryNamespaces(namespaces);
 			outParameterDescriptor3[1].setLocationQuery("/ns0:SecureGenerateXResponse"); 
-			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{outputMatcherEPR});  // */
+			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{client_assert3.getEndpointReference()});  
 		}
 
 

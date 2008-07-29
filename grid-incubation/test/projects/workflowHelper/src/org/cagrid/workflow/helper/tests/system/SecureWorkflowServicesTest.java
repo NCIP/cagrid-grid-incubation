@@ -163,7 +163,7 @@ public class SecureWorkflowServicesTest extends ServiceStoryBase {
 				new File(tests_basedir + "Service5"), // */
 				new File(tests_basedir + "ReceiveArrayService"),
 				new File(tests_basedir + "CreateArrayService"),
-			    new File(tests_basedir + "ValidateOutputsService"),
+			    new File(tests_basedir + "AssertService"),
 				new File(tests_basedir + "CredentialDelegationService"),
 				new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
 						+ File.separator + "projects" + File.separator + "workflowHelper")};
@@ -246,7 +246,7 @@ public class SecureWorkflowServicesTest extends ServiceStoryBase {
 			String container_base_url = "https://"+ helper_uri.getHost() + ':' + helper_uri.getPort(); 
 			helper_uri.appendPath(HELPER_PATH_IN_CONTAINER);
 			this.helperEPR = new EndpointReference(helper_uri);
-			CreateTestSecureWorkflowsStep create_workflows = new CreateTestSecureWorkflowsStep(this.helperEPR, this.cdsEPR, 
+			Step create_workflows = new CreateTestSecureWorkflowsStep(this.helperEPR, this.cdsEPR, 
 					container_base_url, userCredential, this.cdsURL);
 			steps.add(create_workflows);
 		} catch (MalformedURIException e) {
@@ -349,6 +349,15 @@ public class SecureWorkflowServicesTest extends ServiceStoryBase {
 
 	public TomcatSecureServiceContainer getMyContainer() {
 		return myContainer;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#getName()
+	 */
+	@Override
+	public String getName() {
+		return "testHelperSecureWorkflows";
 	}
 
 }

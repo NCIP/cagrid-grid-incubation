@@ -47,7 +47,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
     public BasicWorkflowServicesTest() {
         super();
         try {
-            ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.TOMCAT_CONTAINER);  //GLOBUS_CONTAINER);
+            ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.TOMCAT_CONTAINER);
             setContainer(cont);
         } catch (IOException e) {
 
@@ -90,7 +90,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
                 new File(tests_basedir + "Service5"), // */
                 new File(tests_basedir + "ReceiveArrayService"),
                 new File(tests_basedir + "CreateArrayService"),
-                new File(tests_basedir + "ValidateOutputsService"),
+                new File(tests_basedir + "AssertService"),
                 new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
                     + File.separator + "projects" + File.separator + "workflowHelper")};
 
@@ -123,7 +123,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
             helper_uri.appendPath(HELPER_PATH_IN_CONTAINER);
             this.helperEPR = new EndpointReference(helper_uri);
             CreateTestWorkflowsStep create_workflows = new CreateTestWorkflowsStep(this.helperEPR, container_base_url);
-            steps.add(create_workflows);
+             steps.add(create_workflows);
         } catch (MalformedURIException e) {
             e.printStackTrace();
             Assert.fail();
@@ -180,5 +180,14 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
     	}    	   
     	
     }
+
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#getName()
+	 */
+	@Override
+	public String getName() {
+		
+		return "testHelperUnsecureWorkflows";
+	}
 
 }

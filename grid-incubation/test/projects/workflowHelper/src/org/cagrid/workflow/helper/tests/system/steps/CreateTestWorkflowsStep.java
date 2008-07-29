@@ -15,6 +15,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.xml.namespace.QName;
+import javax.xml.rpc.NamespaceConstants;
 
 import junit.framework.Assert;
 
@@ -30,7 +31,6 @@ import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDe
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
-import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
@@ -91,7 +91,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		try {
 
 			/*** Service that will gather all the output and match against the expected ones ***/
-			EndpointReferenceType outputMatcherEPR = this.validatorEnabled ? runOuputMatcher(manager_epr, wf_helper) : null;
+			EndpointReferenceType outputMatcherEPR = null;//this.validatorEnabled ? runOuputMatcher(manager_epr, wf_helper) : null;
 
 
 
@@ -99,17 +99,14 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			/** simple type arrays **/
 			System.out.println("Simple arrays as input");
-			runSimpleArrayTest(manager_epr, wf_helper, outputMatcherEPR);
+			runSimpleArrayTest(manager_epr, wf_helper);
 			System.out.println("OK");
 
 			System.out.println("Complex arrays as input");
-			runComplexArrayTest(manager_epr, wf_helper, outputMatcherEPR);
+			runComplexArrayTest(manager_epr, wf_helper);
 			System.out.println("OK"); 
 
 			System.out.println("END Testing arrays"); // */
-
-
-
 
 
 
@@ -132,12 +129,12 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			/** FAN IN AND FAN OUT TEST **/
 			System.out.println("BEGIN Testing fan in and fan out"); 
-			runFaninFanOutTest(manager_epr, wf_helper, outputMatcherEPR);
+			runFaninFanOutTest(manager_epr, wf_helper);
 			System.out.println("END Testing fan in and fan out"); // */
 
 			// Block until every stage reports either a FINISHED or an ERROR status
 			this.waitUntilCompletion();
-			
+
 
 		} catch(Throwable t) {
 			t.printStackTrace();
@@ -147,86 +144,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		System.out.println("-x-x-x- END NON-SECURE WORKFLOWS TESTS -x-x-x-");
 		return;
-	}
-
-
-
-	protected EndpointReferenceType runOuputMatcher(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) 
-	throws RemoteException {
-
-
-		WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
-		String workflowID = "Validator";
-		validatorInstanceDesc.setWorkflowID(workflowID);
-		validatorInstanceDesc.setWorkflowManagerEPR(manager_epr);
-
-		String outputMatcherURI =  "http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService";
-
-		WorkflowInstanceHelperClient validatorInstance = null;
-		try {
-			validatorInstance = wf_helper.createWorkflowInstanceHelper(validatorInstanceDesc);
-		} catch (MalformedURIException e) {
-			e.printStackTrace();
-		}
-
-		this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), validatorInstance
-				, workflowID);
-		
-		
-		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
-		validatorInvocationDesc.setOperationQName(
-				new QName(outputMatcherURI, "ValidateTestOutputRequest"));
-		validatorInvocationDesc.setServiceURL(containerBaseURL + "/wsrf/services/cagrid/ValidateOutputsService");
-
-
-		WorkflowInvocationHelperClient validatorInvocation1 = null;
-		try {
-			validatorInvocation1 = validatorInstance.createWorkflowInvocationHelper(validatorInvocationDesc);
-		} catch (MalformedURIException e) {
-			e.printStackTrace();
-		}
-
-
-		// Subscribe for status notifications
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), validatorInvocation1
-		//	, validatorInvocationDesc.getOperationQName().toString());
-
-
-
-		// Configure inputs
-		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
-		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[8];
-		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"), false);
-		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
-		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"), false);
-		inputParam[3] = new InputParameterDescriptor(new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"), false);
-		inputParam[4] = new InputParameterDescriptor(new QName("test2Param2"), new QName(XSD_NAMESPACE, "string"), true);
-		inputParam[5] = new InputParameterDescriptor(new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"), false);
-		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"), false);
-		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string"), false); // */
-
-
-		validatorInputDesc.setInputParam(inputParam);
-		validatorInvocation1.configureInput(validatorInputDesc);
-
-
-		// Configure outputs: it has none
-		OperationOutputTransportDescriptor validatorOutput = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor[] paramDescriptor = new OperationOutputParameterTransportDescriptor[0];
-		validatorOutput.setParamDescriptor(paramDescriptor );
-		validatorInvocation1.configureOutput(validatorOutput);
-		validatorInvocation1.start();
-
-
-		// Set static parameters
-		validatorInvocation1.setParameter(new InputParameter("999", 0));
-		validatorInvocation1.setParameter(new InputParameter("true", 2));
-		validatorInvocation1.setParameter(new InputParameter("999", 3));
-		validatorInvocation1.setParameter(new InputParameter("true", 5)); // */
-
-
-
-		return validatorInvocation1.getEndpointReference();
 	}
 
 
@@ -247,7 +164,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		
+
 		// BEGIN service 4				
 
 
@@ -511,8 +428,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	}
 
 
-	protected void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper,
-			EndpointReferenceType outputMatcherEPR) throws RemoteException{
+	protected void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) throws RemoteException{
 
 
 		/** complex type arrays **/
@@ -531,13 +447,68 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		}
 
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance1, workflowID);
-		
-		
-		
-		
+
+
+
+		WorkflowInvocationHelperClient client_assert = null;
+
+
+		// Stage that verifies whether the workflow output matches the expected
+		if(this.validatorEnabled){
+
+			// BEGIN AssertService::assertSimpleArrayEquals
+			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_assert = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+			operation_assert.setWorkflowID("GeorgeliusWorkFlow");
+			operation_assert.setOperationQName(new QName("http://assertService.test.system.workflow.cagrid.org/AssertService", "AssertComplexArrayEqualsRequest"));
+			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
+			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+
+
+			// create ReceiveArrayService				
+			try {
+				client_assert = wf_instance1.createWorkflowInvocationHelper(operation_assert);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
+
+
+			// Creating Descriptor of the InputMessage
+			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_assert = new OperationInputMessageDescriptor();
+			InputParameterDescriptor[] inputParams_assert = new InputParameterDescriptor[2];
+			inputParams_assert[0] = new InputParameterDescriptor(new QName("complexArray1"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+			inputParams_assert[1] = new InputParameterDescriptor(new QName("complexArray2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"), true);
+			inputMessage_assert.setInputParam(inputParams_assert);
+			client_assert.configureInput(inputMessage_assert);
+			// End InputMessage Descriptor
+
+			// Creating an empty outputDescriptor
+			OperationOutputTransportDescriptor outputDescriptor_assert = new OperationOutputTransportDescriptor();
+			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
+
+			// takes the reference to no service
+			outputDescriptor_assert.setParamDescriptor(outParameterDescriptor_assert);
+			client_assert.configureOutput(outputDescriptor_assert);
+
+
+
+			// Set the expected output
+			InputParameter inputParameter = new InputParameter("<GetComplexArrayResponse xmlns=\"http://createarrayservice.introduce.cagrid.org/CreateArrayService\">" +
+					"<ns1:ComplexType xmlns:ns1=\"http://systemtests.workflow.cagrid.org/SystemTests\"><ns1:id>0</ns1:id><ns1:message>Element 0</ns1:message>" +
+					"</ns1:ComplexType><ns2:ComplexType xmlns:ns2=\"http://systemtests.workflow.cagrid.org/SystemTests\"><ns2:id>1</ns2:id>" +
+					"<ns2:message>Element 1</ns2:message></ns2:ComplexType><ns3:ComplexType xmlns:ns3=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
+					"<ns3:id>2</ns3:id><ns3:message>Element 2</ns3:message></ns3:ComplexType><ns4:ComplexType xmlns:ns4=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
+					"<ns4:id>3</ns4:id><ns4:message>Element 3</ns4:message></ns4:ComplexType><ns5:ComplexType xmlns:ns5=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
+					"<ns5:id>4</ns5:id><ns5:message>Element 4</ns5:message></ns5:ComplexType><ns6:ComplexType xmlns:ns6=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
+					"<ns6:id>5</ns6:id><ns6:message>Element 5</ns6:message></ns6:ComplexType></GetComplexArrayResponse>", 1);
+			client_assert.setParameter(inputParameter);
+
+			client_assert.start();
+			// END AssertService::assertSimpleArrayEquals
+		}
+
+
+
 		// BEGIN ReceiveArrayService::ReceiveComplexArray	
-
-
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/ReceiveArrayService";
 		WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
 		operation2.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "ReceiveComplexArrayRequest"));
@@ -555,7 +526,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		
+
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[3];
@@ -597,7 +568,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation_ca.setServiceURL(access_url);
 		operation_ca.setOutputType(new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType"));
 		operation_ca.setOutputIsArray(true);
-		
+
 
 		// create ReceiveArrayService		
 		WorkflowInvocationHelperClient client_ca = null;
@@ -607,7 +578,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		
+
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ca = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ca = new InputParameterDescriptor[0];
@@ -634,16 +605,14 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Second destination: Output matcher
 		if( validatorEnabled ){
 
-			//System.out.println("Setting 2nd param in the output matcher: "+ outputMatcherEPR); //DEBUG
-
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_ca[1].setParamIndex(1); // Setting 2nd argument in the output matcher 
+			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 2nd argument in the output matcher 
 			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
 			outParameterDescriptor_ca[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_ca[1].setLocationQuery("/ns0:GetComplexArrayResponse");
-			outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR });
+			outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ client_assert.getEndpointReference() });
 		}
 
 
@@ -659,8 +628,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-	protected void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper
-			, EndpointReferenceType outputMatcherEPR) throws RemoteException{
+	protected void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) throws RemoteException{
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
@@ -680,6 +648,62 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance2, workflowID);
 
+
+		// Stage that verifies whether the workflow output matches the expected
+		WorkflowInvocationHelperClient serviceClient_assert = null;
+		if(this.validatorEnabled){
+
+			// BEGIN AssertService::assertSimpleArrayEquals
+			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_assert = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+			operation_assert.setWorkflowID("GeorgeliusWorkFlow");
+			operation_assert.setOperationQName(new QName("http://assertService.test.system.workflow.cagrid.org/AssertService", "AssertSimpleArrayEqualsRequest"));
+			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
+			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+
+
+			// create AssertService				
+			try {
+				serviceClient_assert = wf_instance2.createWorkflowInvocationHelper(operation_assert);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
+
+
+			// Creating Descriptor of the InputMessage
+			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_assert = new OperationInputMessageDescriptor();
+			InputParameterDescriptor[] inputParams_assert = new InputParameterDescriptor[2];
+			inputParams_assert[0] = new InputParameterDescriptor(new QName("stringArray1"), new QName(XSD_NAMESPACE, "string"), true);
+			inputParams_assert[1] = new InputParameterDescriptor(new QName("stringArray2"), new QName(XSD_NAMESPACE, "string"), true);
+			inputMessage_assert.setInputParam(inputParams_assert);
+			serviceClient_assert.configureInput(inputMessage_assert);
+			// End InputMessage Descriptor
+
+			// Creating an empty outputDescriptor
+			OperationOutputTransportDescriptor outputDescriptor_assert = new OperationOutputTransportDescriptor();
+			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
+
+			// takes the reference to no service
+			outputDescriptor_assert.setParamDescriptor(outParameterDescriptor_assert);
+			serviceClient_assert.configureOutput(outputDescriptor_assert);
+
+
+
+			// Set the expected output
+			InputParameter inputParameter = new InputParameter("<GetArrayResponse xmlns=\"http://createarrayservice.introduce.cagrid.org/CreateArrayService\">" +
+					"<response>number 0</response><response>number 1</response><response>number 2</response><response>number 3</response><response>number 4</response><response>number 5" +
+					"</response></GetArrayResponse>", 1);  
+			serviceClient_assert.setParameter(inputParameter);
+
+
+
+
+			serviceClient_assert.start();
+			// END AssertService::assertSimpleArrayEquals
+		}
+
+
+
+
 		// BEGIN ReceiveArrayService::ReceiveArrayAndMore
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ram = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		operation_ram.setWorkflowID("GeorgeliusWorkFlow");
@@ -695,9 +719,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-
-		/*this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_ram
-				, operation_ram.getOperationQName().toString()); // */
 
 
 		// Creating Descriptor of the InputMessage
@@ -770,18 +791,16 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 		// Second destination: Output matcher
-		if(validatorEnabled){
-
-			//System.out.println("Setting 5th param in the output matcher: "+ outputMatcherEPR); //DEBUG
+		if(this.validatorEnabled){
 
 			outParameterDescriptor_cas[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_cas[1].setParamIndex(4);
-			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string"));
+			outParameterDescriptor_cas[1].setParamIndex(0);
+			outParameterDescriptor_cas[1].setType(new QName( NamespaceConstants.NSURI_SCHEMA_XSD ,"string"));
 			outParameterDescriptor_cas[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_cas[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_cas[1].setLocationQuery("/ns0:GetArrayResponse");
-			outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR});
+			outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ serviceClient_assert.getEndpointReference() });
 		}
 
 
@@ -797,8 +816,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-	protected void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, 
-			EndpointReferenceType outputMatcherEPR) throws RemoteException{
+	protected void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper) throws RemoteException{
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
@@ -813,10 +831,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		}  catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance3, workflowID);
-		
+
 
 		// BEGIN service 4				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -835,10 +853,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient4
-			//	, operation4.getOperationQName().toString());
-
-
+		
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
@@ -861,6 +876,58 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// END service 4
 
 
+		
+		// Stage that verifies whether service2's output matches the expected
+		WorkflowInvocationHelperClient client_assert2 = null;
+		if(this.validatorEnabled){
+
+			// BEGIN AssertService::assertSimpleArrayEquals
+			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_assert = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+			operation_assert.setWorkflowID("GeorgeliusWorkFlow");
+			operation_assert.setOperationQName(new QName("http://assertService.test.system.workflow.cagrid.org/AssertService", "AssertEqualsRequest"));
+			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
+			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+
+	
+			try {
+				client_assert2 = wf_instance3.createWorkflowInvocationHelper(operation_assert);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
+
+
+			// Creating Descriptor of the InputMessage
+			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_assert = new OperationInputMessageDescriptor();
+			InputParameterDescriptor[] inputParams_assert = new InputParameterDescriptor[2];
+			inputParams_assert[0] = new InputParameterDescriptor(new QName("string1"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), false);
+			inputParams_assert[1] = new InputParameterDescriptor(new QName("string2"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), false);
+			inputMessage_assert.setInputParam(inputParams_assert);
+			client_assert2.configureInput(inputMessage_assert);
+			// End InputMessage Descriptor
+
+			// Creating an empty outputDescriptor
+			OperationOutputTransportDescriptor outputDescriptor_assert = new OperationOutputTransportDescriptor();
+			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
+
+			// takes the reference to no service
+			outputDescriptor_assert.setParamDescriptor(outParameterDescriptor_assert);
+			client_assert2.configureOutput(outputDescriptor_assert);
+
+
+
+			// Set the expected output
+			InputParameter inputParameter = new InputParameter("GEORGE TEADORO GORDAO QUE FALOU", 1);
+			client_assert2.setParameter(inputParameter);
+
+			client_assert2.start();
+			// END AssertService::assertSimpleArrayEquals
+		}
+
+		
+		
+		
+		
+		
 
 		// BEGIN service 2				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_2 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -880,10 +947,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient2
-			//	, operation_2.getOperationQName().toString());
-
-
+	
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_2 = new InputParameterDescriptor[1];
@@ -912,23 +976,18 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Second destination: output matcher
 		if(this.validatorEnabled){
 
-			//System.out.println("Setting 7th param in the output matcher: "+ outputMatcherEPR); //DEBUG
-
 			outParameterDescriptor2[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor2[1].setParamIndex(6);
+			outParameterDescriptor2[1].setParamIndex(0);
 			outParameterDescriptor2[1].setType(new QName("string"));
 			outParameterDescriptor2[1].setExpectedTypeIsArray(false);
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor2[1].setQueryNamespaces(namespaces);
 			outParameterDescriptor2[1].setLocationQuery("/ns0:CapitalizeResponse");
-			outParameterDescriptor2[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherEPR});
+			outParameterDescriptor2[1].setDestinationEPR(new EndpointReferenceType[]{ client_assert2.getEndpointReference()});
 		}
 
-
-
 		// takes the reference to the service 4
-
 		outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
 		serviceClient2.configureOutput(outputDescriptor2);
 		serviceClient2.start();
@@ -947,6 +1006,57 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation3.setOutputType(new QName(XSD_NAMESPACE, "string"));
 		operation3.setOutputIsArray(false);
 
+		
+		
+		
+		// Stage that verifies whether service3's output matches the expected
+		WorkflowInvocationHelperClient client_assert3 = null;
+		if(this.validatorEnabled){
+
+			// BEGIN AssertService::assertSimpleArrayEquals
+			org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_assert = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
+			operation_assert.setWorkflowID("GeorgeliusWorkFlow");
+			operation_assert.setOperationQName(new QName("http://assertService.test.system.workflow.cagrid.org/AssertService", "AssertEqualsRequest"));
+			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
+			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
+
+	
+			try {
+				client_assert3 = wf_instance3.createWorkflowInvocationHelper(operation_assert);
+			} catch (MalformedURIException e) {
+				e.printStackTrace();
+			}
+
+
+			// Creating Descriptor of the InputMessage
+			org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_assert = new OperationInputMessageDescriptor();
+			InputParameterDescriptor[] inputParams_assert = new InputParameterDescriptor[2];
+			inputParams_assert[0] = new InputParameterDescriptor(new QName("string1"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), false);
+			inputParams_assert[1] = new InputParameterDescriptor(new QName("string2"), new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "string"), false);
+			inputMessage_assert.setInputParam(inputParams_assert);
+			client_assert3.configureInput(inputMessage_assert);
+			// End InputMessage Descriptor
+
+			// Creating an empty outputDescriptor
+			OperationOutputTransportDescriptor outputDescriptor_assert = new OperationOutputTransportDescriptor();
+			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
+
+			// takes the reference to no service
+			outputDescriptor_assert.setParamDescriptor(outParameterDescriptor_assert);
+			client_assert3.configureOutput(outputDescriptor_assert);
+
+
+
+			// Set the expected output
+			InputParameter inputParameter = new InputParameter("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 1);
+			client_assert3.setParameter(inputParameter);
+
+			client_assert3.start();
+			// END AssertService::assertSimpleArrayEquals
+		}
+		
+		
+		
 
 		// create service 3				
 		WorkflowInvocationHelperClient serviceClient3 = null;
@@ -986,28 +1096,24 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// 2nd destination: output matcher
 		if(this.validatorEnabled){
 
-			//System.out.println("Setting 8th param in the output matcher: "+ outputMatcherEPR); //DEBUG
-
 			outParameterDescriptor3[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor3[1].setParamIndex(7);
+			outParameterDescriptor3[1].setParamIndex(0);
 			outParameterDescriptor3[1].setType(new QName(XSD_NAMESPACE, "string"));
 			outParameterDescriptor3[1].setExpectedTypeIsArray(false);
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor3[1].setQueryNamespaces(namespaces);
 			outParameterDescriptor3[1].setLocationQuery("/ns0:GenerateXResponse"); 
-			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{outputMatcherEPR});  // */
+			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{client_assert3.getEndpointReference()}); 
 		}
-
-
-
-		// takes the reference to the service 4
 
 		outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 		serviceClient3.configureOutput(outputDescriptor3);
 		serviceClient3.start();
 		// END service 3				
 
+		
+		
 
 		// BEGIN service 5				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation5 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -1038,19 +1144,16 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		serviceClient5.configureInput(inputMessage5);
 		// End InputMessage Descriptor
 
-		// Creating the outputDescriptor of the first Filter
+		// Creating the outputDescriptor 
 		OperationOutputTransportDescriptor outputDescriptor5 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor5 [] = new OperationOutputParameterTransportDescriptor[0];
-	
-
-		// takes the reference to no service
-
 		outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
 		serviceClient5.configureOutput(outputDescriptor5);
 		serviceClient5.start();
-
 		// END service 5
 
+		
+		
 
 		// BEGIN service 1				
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation1 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -1070,10 +1173,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient1
-			//	, operation1.getOperationQName().toString());
-
-
+	
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
@@ -1163,7 +1263,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			}
 
 			//this.printMap(); //DEBUG
- 
+
 		}
 		finally {
 			this.isFinishedKey.unlock();
@@ -1173,7 +1273,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
-		
+
 		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)
 		.getResourcePropertyValueChangeNotification();
 
@@ -1214,13 +1314,13 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 				boolean statusActuallyChanged = false;
 				if( this.stageStatus.containsKey(stageKey) ){
-					
-					
+
+
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
 					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
-					
+
 					if(statusActuallyChanged){
-						
+
 						this.stageStatus.remove(stageKey);
 						this.stageStatus.put(stageKey, status);
 					}
@@ -1228,14 +1328,14 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 				}
 				else System.err.println("[CreateTestWorkflowsStep] Unrecognized stage notified status change: "+ stageKey);
 
-								
+
 				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
-					
-					
+
+
 					this.isFinished  = this.hasFinished(); 
 
 					if(this.isFinished){
-						
+
 						this.isFinishedCondition.signalAll();
 						Assert.assertFalse(this.stageStatus.containsValue(Status.ERROR));
 					}
@@ -1256,23 +1356,23 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		Set<Entry<String, TimestampedStatus>> entries = this.stageStatus.entrySet();
 		Iterator<Entry<String, TimestampedStatus>> entries_iter = entries.iterator();
-		
+
 		while( entries_iter.hasNext() ){
-		
+
 			Entry<String, TimestampedStatus> curr_entry = entries_iter.next();
 			boolean stageEnded =   curr_entry.getValue().getStatus().equals(Status.FINISHED)
-								|| curr_entry.getValue().getStatus().equals(Status.ERROR);
-			
+			|| curr_entry.getValue().getStatus().equals(Status.ERROR);
+
 			if( !stageEnded )  return false;
-			
+
 		}
-		
+
 		return true;
 	}
 
 
 	protected void subscribe(QName notificationType, WorkflowInstanceHelperClient toSubscribe, String stageOperationQName){
-	//protected void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
+		//protected void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
 
 		try{
 
