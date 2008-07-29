@@ -91,7 +91,7 @@
 
     <!-- not to be called directly -->
     <target name="project-test">
-        <for list="${testable.projects.list}" parallel="true" param="project.name" trim="true">
+        <for list="${testable.projects.list}" parallel="false" param="project.name" trim="true">
             <sequential>
                 <stopwatch name="@{project.name}"/> 
                 <echo message="Testing project @{project.name}." />
