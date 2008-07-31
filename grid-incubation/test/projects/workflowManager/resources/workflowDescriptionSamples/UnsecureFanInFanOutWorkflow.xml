@@ -141,6 +141,8 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 <outputTransportDescriptor/>
                 <GlobalUniqueIdentifier>5</GlobalUniqueIdentifier>
             </invocationHelperDescs>
+            
+            <!-- Service 1 -->
             <invocationHelperDescs>
                 <basicDescription>
                     <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
@@ -224,7 +226,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
     			<locationQuery xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">/svc1:GenerateDataResponse/types:StringAndItsLenght</locationQuery>
     			<expectedTypeIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">false</expectedTypeIsArray>
     		</paramDescription>
-    		<sourceGUID>2</sourceGUID>
+    		<sourceGUID>1</sourceGUID>
     	</paramDescriptor>
     </outputDesc>
 </WorkflowManagerInstanceDescriptor>

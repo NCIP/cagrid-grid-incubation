@@ -37,7 +37,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                     </inputParam>
                 </inputsDescription>
                 <outputTransportDescriptor/>
-                <GlobalUniqueIdentifier>0</GlobalUniqueIdentifier>
+                <GlobalUniqueIdentifier>4</GlobalUniqueIdentifier>
             </invocationHelperDescs>
             <invocationHelperDescs>
                 <basicDescription>
@@ -62,7 +62,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                     <expectedTypeIsArray>true</expectedTypeIsArray>
                 </paramDescriptor>
                 </outputTransportDescriptor>
-                <GlobalUniqueIdentifier>1</GlobalUniqueIdentifier>
+                <GlobalUniqueIdentifier>0</GlobalUniqueIdentifier>
             </invocationHelperDescs>
         </localWorkflowDesc>
     </localWorkflows>
@@ -72,7 +72,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 <paramIndex xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">1</paramIndex>
                 <data xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">complex type's streaming</data>
             </paramDescription>
-            <paramDestinationGUID>0</paramDestinationGUID>
+            <paramDestinationGUID>4</paramDestinationGUID>
         </parameter>
     </inputs>
     <outputDesc/>
