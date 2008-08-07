@@ -31,8 +31,8 @@
       <cagrid-incubator-fs-resolver repo.dir="${integration.repository.dir}" name="caGrid-incubator-local-fs"/>
       <!-- Then, use the integration repository -->
       <cagrid-incubator-fs-resolver repo.dir="${repository.dir}" name="caGrid-incubator-fs"/>
-      <cagrid-fs-resolver repo.dir="P:/cagrid-1-2/integration-repository" name="caGrid-local-fs"/>
-      <cagrid-fs-resolver repo.dir="P:/cagrid-1-2/repository" name="caGrid-fs"/>
+      <!-- Try the developer's local caGrid integration repository-->
+      <cagrid-fs-resolver repo.dir="${cagrid.integration.repository.dir}" name="caGrid-local-fs"/>
 	  
 	  <!-- Last, use the caGrid release repository -->
 	  <url name="remote-caGrid-ivy-resolver">

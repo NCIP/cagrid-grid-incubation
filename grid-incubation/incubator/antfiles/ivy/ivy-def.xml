@@ -12,6 +12,9 @@
 	<property name="repository.dir" location="${project.root.dir}/repository" />
 	<property name="integration.repository.dir" location="${project.root.dir}/integration-repository" />
 
+        <!-- set ivy repositories for caGrid -->
+	<property name="cagrid.integration.repository.dir" location="${project.root.dir}/cagrid-repository" />
+        
 
 	<target name="init-ivy" unless="ivy.initialized">
 		<!-- NOTE: I used to just do this at parse time, but there is a bug in Ant versions < 1.7 
