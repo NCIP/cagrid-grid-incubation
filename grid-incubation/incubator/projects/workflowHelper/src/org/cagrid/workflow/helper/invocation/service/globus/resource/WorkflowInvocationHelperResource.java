@@ -233,8 +233,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 								String thisStageOutputType = getOutputType().getLocalPart(); // Get output type of the just executed operation 
 								String nextStageExpectedType = pdesc.getType().getLocalPart(); // Get expected type of the receiver of this invocation's output   
-								boolean outputIsArray = isOutputIsArray();   //thisStageOutputType.contains("[]"); // TODO
-								boolean nextStageInputIsArray = pdesc.isExpectedTypeIsArray();  //nextStageExpectedType.contains("[]"); // TODO
+								boolean outputIsArray = isOutputIsArray();   
+								boolean nextStageInputIsArray = pdesc.isExpectedTypeIsArray();  
 
 
 								// need to get that data out of the response;
@@ -243,7 +243,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								iparam.setData(data);
 
 
-								logger.info("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'");
+								logger.debug("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'"); 
 
 								// send the data to the next workflow helper instance
 								if( pdesc.getDestinationEPR() != null ){

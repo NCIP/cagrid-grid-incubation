@@ -82,7 +82,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 
 
 			/** Fan-in and Fan-out test **/
-			/*logger.info("Fan-in Fan-out test");
+			logger.info("Fan-in Fan-out test");
 			runFaninFanOutTest(wf_manager);
 			logger.info("OK");
 			logger.info("END Fan-in Fan-out test"); // */

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkflowManagerInstanceDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService ../../../../../incubator/projects/workflowManager/schema/WorkflowManagerService/WorkflowManager.xsd" 
+	xmlns:svc1="http://service1.introduce.cagrid.org/Service1"
+	xmlns:svc2="http://service2.introduce.cagrid.org/Service2"
+	xmlns:svc3="http://service3.introduce.cagrid.org/Service3"
+	xmlns:svc4="http://service4.introduce.cagrid.org/Service4"
+	xmlns:svc5="http://service5.introduce.cagrid.org/Service5" 
+	xmlns:types="http://service1.workflow.cagrid.org/Service1" 	 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService">
+    <localWorkflows>
+        <localWorkflowDesc>
+            <WorkflowHelperServiceLocation>CONTAINERBASE/cagrid/WorkflowHelper</WorkflowHelperServiceLocation>
+            <instanceHelperDesc>
+                <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                    <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing">CONTAINERBASE/cagrid/WorkflowManagerService</Address>
+                </WorkflowManagerEPR>
+                <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">FanInFanOut</WorkflowID>
+            </instanceHelperDesc>
+            
+            <!-- Service 4 -->
+            <invocationHelperDescs>
+                <basicDescription>
+                    <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                    	<Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+                    </WorkflowManagerEPR>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">FanInFanOut</WorkflowID>
+                    <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">CONTAINERBASE/cagrid/Service4</ServiceURL>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">svc4:PrintResultsRequest</operationQName>
+                </basicDescription>
+                <inputsDescription>
+                    <inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <paramQName>svc4:result1</paramQName>
+                        <paramType>xsd:string</paramType>
+                        <parameterIsArray>false</parameterIsArray>
+                    </inputParam>
+                    <inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <paramQName>svc4:result2</paramQName>
+                        <paramType>xsd:string</paramType>
+                        <parameterIsArray>false</parameterIsArray>
+                    </inputParam>
+                </inputsDescription>
+                <outputTransportDescriptor/>
+                <GlobalUniqueIdentifier>4</GlobalUniqueIdentifier>
+            </invocationHelperDescs>
+            
+            <!-- Service 2 -->
+            <invocationHelperDescs>
+                <basicDescription>
+                    <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+                    </WorkflowManagerEPR>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">FanInFanOut</WorkflowID>
+                    <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">CONTAINERBASE/cagrid/Service2</ServiceURL>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">svc2:CapitalizeRequest</operationQName>
+                    <outputType xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">xsd:string</outputType>
+                    <outputIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">false</outputIsArray>
+                </basicDescription>
+                <inputsDescription>
+                   <inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <paramQName>svc2:uncapitalized</paramQName>
+                        <paramType>xsd:string</paramType>
+                        <parameterIsArray>false</parameterIsArray>
+                    </inputParam>
+                </inputsDescription>
+                <outputTransportDescriptor>
+                	<paramDescriptor
+                		xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                		<destinationGlobalUniqueIdentifier>4</destinationGlobalUniqueIdentifier>
+                		<destinationEPR>
+                			<Address
+                				xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing" />
+                		</destinationEPR>
+                		<deliveryPolicy>ROUNDROBIN</deliveryPolicy>
+                		<paramIndex>0</paramIndex>
+                		<type>xsd:string</type>
+                		<locationQuery>/svc2:CapitalizeResponse</locationQuery>
+                		<expectedTypeIsArray>false</expectedTypeIsArray>
+                	</paramDescriptor>
+                </outputTransportDescriptor>
+                <GlobalUniqueIdentifier>2</GlobalUniqueIdentifier>
+            </invocationHelperDescs>
+            
+            <!-- Service 3 -->
+            <invocationHelperDescs>
+                <basicDescription>
+                    <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+                    </WorkflowManagerEPR>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">FanInFanOut</WorkflowID>
+                    <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">CONTAINERBASE/cagrid/Service3</ServiceURL>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">svc3:GenerateXRequest</operationQName>
+                    <outputType xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">xsd:string</outputType>
+                    <outputIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">false</outputIsArray>
+                </basicDescription>
+                <inputsDescription>
+                   <inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <paramQName>svc3:str_length</paramQName>
+                        <paramType>xsd:int</paramType>
+                        <parameterIsArray>false</parameterIsArray>
+                    </inputParam>
+                </inputsDescription>
+                <outputTransportDescriptor>
+                	<paramDescriptor
+                		xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                		<destinationGlobalUniqueIdentifier>4</destinationGlobalUniqueIdentifier>
+                		<destinationEPR>
+                			<Address
+                				xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing" />
+                		</destinationEPR>
+                		<deliveryPolicy>ROUNDROBIN</deliveryPolicy>
+                		<paramIndex>1</paramIndex>
+                		<type>xsd:string</type>
+                		<locationQuery>/svc3:GenerateXResponse</locationQuery>
+                		<expectedTypeIsArray>false</expectedTypeIsArray>
+                	</paramDescriptor>
+                </outputTransportDescriptor>
+                <GlobalUniqueIdentifier>3</GlobalUniqueIdentifier>
+            </invocationHelperDescs>
+            
+            <!-- Service 5 -->
+            <invocationHelperDescs>
+                <basicDescription>
+                    <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+                    </WorkflowManagerEPR>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">FanInFanOut</WorkflowID>
+                    <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">CONTAINERBASE/cagrid/Service5</ServiceURL>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">svc5:CheckStringAndItsLengthRequest</operationQName>
+                    <outputType xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">xsd:boolean</outputType>
+                    <outputIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">false</outputIsArray>
+                </basicDescription>
+                <inputsDescription>
+                   <inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <paramQName>svc5:stringAndItsLenght</paramQName>
+                        <paramType>types:StringAndItsLenght</paramType>
+                        <parameterIsArray>false</parameterIsArray>
+                    </inputParam>
+                </inputsDescription>
+                <outputTransportDescriptor/>
+                <GlobalUniqueIdentifier>5</GlobalUniqueIdentifier>
+            </invocationHelperDescs>
+            
+            <!-- Service 1 -->
+            <invocationHelperDescs>
+                <basicDescription>
+                    <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+                    </WorkflowManagerEPR>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">FanInFanOut</WorkflowID>
+                    <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">CONTAINERBASE/cagrid/Service1</ServiceURL>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">svc1:GenerateDataRequest</operationQName>
+                    <outputType xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">xsd:string</outputType>
+                    <outputIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">false</outputIsArray>
+                </basicDescription>
+                <inputsDescription>
+                	<inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                		<paramQName>svc1:info</paramQName>
+                		<paramType>xsd:string</paramType>
+                	</inputParam></inputsDescription>
+                <outputTransportDescriptor>
+                	<paramDescriptor
+                		xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                		<destinationGlobalUniqueIdentifier>2</destinationGlobalUniqueIdentifier>
+                		<destinationEPR>
+                			<Address
+                				xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing" />
+                		</destinationEPR>
+                		<deliveryPolicy>ROUNDROBIN</deliveryPolicy>
+                		<paramIndex>0</paramIndex>
+                		<type>xsd:string</type>
+                		<locationQuery>/svc1:GenerateDataResponse/types:StringAndItsLenght/types:str</locationQuery>
+                		<expectedTypeIsArray>false</expectedTypeIsArray>
+                	</paramDescriptor>
+                	<paramDescriptor
+                		xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                		<destinationGlobalUniqueIdentifier>3</destinationGlobalUniqueIdentifier>
+                		<destinationEPR>
+                			<Address
+                				xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing" />
+                		</destinationEPR>
+                		<deliveryPolicy>ROUNDROBIN</deliveryPolicy>
+                		<paramIndex>0</paramIndex>
+                		<type>xsd:int</type>
+                		<locationQuery>/svc1:GenerateDataResponse/types:StringAndItsLenght/types:length</locationQuery>
+                		<expectedTypeIsArray>false</expectedTypeIsArray>
+                	</paramDescriptor>
+                	<paramDescriptor
+                		xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                		<destinationGlobalUniqueIdentifier>5</destinationGlobalUniqueIdentifier>
+                		<destinationEPR>
+                			<Address
+                				xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing" />
+                		</destinationEPR>
+                		<deliveryPolicy>ROUNDROBIN</deliveryPolicy>
+                		<paramIndex>0</paramIndex>
+                		<type>svc1:StringAndItsLenght</type>
+                		<locationQuery>/svc1:GenerateDataResponse/types:StringAndItsLenght</locationQuery>
+                		<expectedTypeIsArray>false</expectedTypeIsArray>
+                	</paramDescriptor>
+                </outputTransportDescriptor>
+                <GlobalUniqueIdentifier>1</GlobalUniqueIdentifier>
+            </invocationHelperDescs>
+        </localWorkflowDesc>
+    </localWorkflows>
+    <inputs>
+        <parameter>
+            <paramDescription>
+                <paramIndex xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">0</paramIndex>
+                <data xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">george teadoro gordao que falou</data>
+            </paramDescription>
+            <paramDestinationGUID>1</paramDestinationGUID>
+        </parameter>       
+    </inputs>
+    <outputDesc>
+    	<paramDescriptor>
+    		<paramDescription >
+    			<destinationGlobalUniqueIdentifier xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">-1</destinationGlobalUniqueIdentifier>
+    			<destinationEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+    				<Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"></Address>
+    			</destinationEPR>
+    			<deliveryPolicy xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">BROADCAST</deliveryPolicy>
+    			<paramIndex xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">0</paramIndex>
+    			<type xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">types:StringAndItsLenght</type>
+    			<locationQuery xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">/svc1:GenerateDataResponse/types:StringAndItsLenght</locationQuery>
+    			<expectedTypeIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">false</expectedTypeIsArray>
+    		</paramDescription>
+    		<sourceGUID>1</sourceGUID>
+    	</paramDescriptor>
+    </outputDesc>
+</WorkflowManagerInstanceDescriptor>

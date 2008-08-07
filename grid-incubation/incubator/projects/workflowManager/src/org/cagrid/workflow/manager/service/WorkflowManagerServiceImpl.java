@@ -365,8 +365,15 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 									AttributedURI cdsAddress = proxyEPR.getAddress(); 
 									cdsURL = cdsAddress.getScheme() + "://" + cdsAddress.getHost() + ':' + cdsAddress.getPort()
 									+ CDS_PATH_IN_CONTAINER; 
+									
+									if( credential == null ){
+										String errMsg = "Null credential received, but a valid credential was expected";
+										throw new RemoteException(errMsg);
+									}
+									
 								} catch (Exception e) {
 									logger.error(e.getMessage(), e);
+									throw new RemoteException(e.getMessage(), e);
 								}
 
 								// Delegate the credential to the InstanceHelper

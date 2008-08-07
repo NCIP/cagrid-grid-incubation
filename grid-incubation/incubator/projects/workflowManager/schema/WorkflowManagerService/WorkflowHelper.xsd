@@ -62,13 +62,12 @@
 			<xs:element name="WorkflowManagerEPR"
 				type="wsa:EndpointReferenceType">
 			</xs:element>
-			<xs:element name="WorkflowID" type="string"></xs:element>
-			<xs:element name="ServiceURL" type="string"></xs:element>
-			<xs:element name="operationQName" type="QName"></xs:element>
-			<xs:element name="outputType" type="QName" minOccurs="0" maxOccurs="1">
-			</xs:element><!-- Knowing the output type (if any) allows us to do streaming bewteen stages -->
-			<xs:element name="WorkflowInvocationSecurityDescriptor"  type="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1">
-			</xs:element>
+			<xs:element name="WorkflowID" type="string"></xs:element>
+            <xs:element name="WorkflowInvocationSecurityDescriptor" type="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1" />
+            <xs:element name="ServiceURL" type="xs:string"></xs:element>
+            <xs:element name="operationQName" type="QName"></xs:element>
+			<xs:element name="outputType" type="QName" minOccurs="0" maxOccurs="1" />
+			<!-- Knowing the output type (if any) allows us to do streaming bewteen stages -->
 			<xs:element name="outputIsArray" type="xs:boolean" minOccurs="0" maxOccurs="1"></xs:element>
 		</xs:sequence>
 	</xs:complexType>

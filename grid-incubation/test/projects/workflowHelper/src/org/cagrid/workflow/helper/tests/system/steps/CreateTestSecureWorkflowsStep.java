@@ -96,12 +96,6 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			int issuedCredentialPath = 0; 
 
 
-			/*** Service that will gather all the output and match against the expected ones ***/
-			EndpointReferenceType outputMatcherEPR = null;//this.validatorEnabled ? runOuputMatcher(manager_epr, wf_helper, myCredential, 
-//					delegationLifetime, issuedCredentialLifetime, delegationPath, issuedCredentialPath) : null;
-
-
-
 			/*** Testing arrays as services' input ***/
 
 			/** simple type arrays **/

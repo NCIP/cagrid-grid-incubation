@@ -44,6 +44,16 @@ import org.globus.gsi.GlobusCredential;
 public class SecureWorkflowTest  extends ServiceStoryBase {
 
 
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#getName()
+	 */
+	@Override
+	public String getName() {
+		
+		return "testManagerSecureWorkflows";
+	}
+
+
 	private static final String LOG4J_CONF_FILE = "." + File.separator + "conf" +
 						File.separator
 						+ "log4j.properties";
@@ -139,16 +149,17 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 	protected Vector steps() {
 
 		logger.info("Creating steps for secure workflows test");
-		Vector steps = new Vector();
+		Vector<Step> steps = new Vector<Step>();
 
-//		System.out.println("SKIPPING TEST FOR DEBUGGING PURPOSES"); // TODO DEBUG
-//		System.exit(0);
 
 		// Set workflow services' directories
-		String tests_basedir = System.getProperty("resources.dir") + File.separator;
+		String tests_basedir = System.getProperty("resources.dir");
 		if (( tests_basedir == null) || (tests_basedir.trim().equals(""))) {
 			System.err.println("ERROR: System property 'resources.dir' not set");
 			return null;
+		}
+		else {
+			tests_basedir = tests_basedir + File.separator;
 		}
 		
 		tests_basedir = tests_basedir + File.separator;
@@ -160,8 +171,8 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 				+ File.separator + "projects" + File.separator + "workflowHelper");
 
 
-		String helperResourcesDir = null;
-		helperResourcesDir = tests_basedir + ".." + File.separator + ".." + File.separator + "workflowHelper" + File.separator + "resources" + File.separator;
+		String helperResourcesDir = tests_basedir + ".." + File.separator + ".." + File.separator + "workflowHelper" + File.separator + "resources" + File.separator;
+		String managerResourceDir = tests_basedir + ".." + File.separator + ".." + File.separator + "workflowManager" + File.separator + "resources" + File.separator;
 		try {
 			logger.info("Helper resources directory is: "+ new File(helperResourcesDir).getCanonicalPath() );
 		} catch (IOException e3) {
@@ -177,7 +188,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 				new File(helperResourcesDir + "Service5"), 
 				new File(helperResourcesDir + "ReceiveArrayService"),
 				new File(helperResourcesDir + "CreateArrayService"),
-//				new File(helperResourcesDir + "ValidateOutputsService"),
+				new File(helperResourcesDir + "AssertService"),
 				new File(helperResourcesDir + "CredentialDelegationService"),
 				helperDir,
 				managerDir
@@ -264,8 +275,10 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 			+ "/wsrf/services/"; 
 			manager_uri.appendPath(MANAGER_PATH_IN_CONTAINER);
 			this.managerEPR = new EndpointReference(manager_uri);
-			Step create_workflows = new RunSecureWorkflowsStep(this.managerEPR, this.cdsEPR, 
-					container_base_url, userCredential, this.cdsURL);
+			File sampleXMLDirectory = new File( managerResourceDir +"workflowDescriptionSamples" );
+			Step create_workflows = 
+//				new RunSecureWorkflowsFromXMLStep(this.managerEPR, this.cdsEPR, container_base_url, userCredential, this.cdsURL, sampleXMLDirectory);
+				new RunSecureWorkflowsStep(this.managerEPR, this.cdsEPR, container_base_url, userCredential, this.cdsURL);
 			steps.add(create_workflows);
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage() ,e);
@@ -273,7 +286,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		}
 
 
-		return steps;
+		return steps; 
 	}
 
 

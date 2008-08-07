@@ -25,6 +25,17 @@ import org.cagrid.workflow.manager.tests.system.steps.RunUnsecureWorkflowStepFro
 
 public class UnsecureWorkflowTest extends ServiceStoryBase {
 
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#getName()
+	 */
+	@Override
+	public String getName() {
+		
+		return "testManagerUnsecureWorkflows";
+	}
+
+
+
 	private Log logger = LogFactory.getLog(UnsecureWorkflowTest.class);
 	
 	private static final String MANAGER_PATH_IN_CONTAINER = "/cagrid/WorkflowManagerService";
@@ -34,7 +45,7 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 	public UnsecureWorkflowTest() {
 		super();
 		try {
-			ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.TOMCAT_CONTAINER);  //GLOBUS_CONTAINER);
+			ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.TOMCAT_CONTAINER);
 			setContainer(cont);
 		} catch (IOException e) {
 
@@ -164,7 +175,8 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		
 		
 		logger.info("END");
-		return steps;
+		return //new Vector();  FIXME REMOVE ME NOW!!!   
+		           steps; 
 	}
 
 

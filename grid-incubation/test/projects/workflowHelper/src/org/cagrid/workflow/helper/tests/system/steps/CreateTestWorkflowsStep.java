@@ -83,17 +83,12 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		WorkflowHelperClient wf_helper = new WorkflowHelperClient(this.helper_epr); 
 
-		// TODO Fill the variables below
+
 		final EndpointReference manager_epr = null; 
 
 
 
 		try {
-
-			/*** Service that will gather all the output and match against the expected ones ***/
-			EndpointReferenceType outputMatcherEPR = null;//this.validatorEnabled ? runOuputMatcher(manager_epr, wf_helper) : null;
-
-
 
 			/*** Testing arrays as services' input ***/
 
