@@ -334,8 +334,6 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 		Status next_status;
 
-
-
 		if( this.stagesPresentStatus(Status.ERROR) ){
 			next_status = Status.ERROR;
 		}
@@ -359,6 +357,9 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		}
 		else if( this.stagesPresentStatus(Status.RUNNING)){
 			next_status = Status.RUNNING;
+		}
+		else if( this.stagesPresentStatus(Status.GENERATING_OUTPUT)){
+			next_status = Status.GENERATING_OUTPUT;
 		}
 		else {
 			next_status = Status.FINISHED;

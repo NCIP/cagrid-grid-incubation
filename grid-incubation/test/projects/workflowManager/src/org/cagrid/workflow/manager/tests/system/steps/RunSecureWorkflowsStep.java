@@ -116,9 +116,9 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			runSimpleArrayTest(wf_manager, outputMatcherID, delegatedCredentialProxy);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK"); // */
 
-			System.out.println("[CreateTestSecureWorkflowsStep] Complex arrays as input");
+			/*System.out.println("[CreateTestSecureWorkflowsStep] Complex arrays as input");
 			runComplexArrayTest(wf_manager, outputMatcherID, delegatedCredentialProxy);
-			System.out.println("[CreateTestSecureWorkflowsStep] OK");
+			System.out.println("[CreateTestSecureWorkflowsStep] OK"); // */
 
 			System.out.println("[CreateTestSecureWorkflowsStep] END Testing arrays"); // */
 

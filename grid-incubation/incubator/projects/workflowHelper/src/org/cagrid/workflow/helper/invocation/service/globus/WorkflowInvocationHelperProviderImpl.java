@@ -26,6 +26,18 @@ public class WorkflowInvocationHelperProviderImpl{
 	}
 	
 
+    public org.cagrid.workflow.helper.invocation.stubs.StartStreamingResponse startStreaming(org.cagrid.workflow.helper.invocation.stubs.StartStreamingRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.invocation.stubs.StartStreamingResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.StartStreamingResponse();
+    impl.startStreaming();
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.helper.invocation.stubs.EndStreamingResponse endStreaming(org.cagrid.workflow.helper.invocation.stubs.EndStreamingRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.invocation.stubs.EndStreamingResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.EndStreamingResponse();
+    impl.endStreaming();
+    return boxedResult;
+  }
+
     public org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse configureInput(org.cagrid.workflow.helper.invocation.stubs.ConfigureInputRequest params) throws RemoteException {
     org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse boxedResult = new org.cagrid.workflow.helper.invocation.stubs.ConfigureInputResponse();
     impl.configureInput(params.getOperationInputMessageDescriptor().getOperationInputMessageDescriptor());

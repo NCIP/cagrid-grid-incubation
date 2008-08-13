@@ -309,6 +309,16 @@
      <ns32:Output qName="void" description="" isArray="false"/>
      <ns32:Exceptions/>
     </ns32:Method>
+    <ns32:Method description="" isImported="false" isProvided="false" name="startStreaming" xsi:type="ns32:MethodType">
+     <ns32:Inputs/>
+     <ns32:Output qName="void" description="" isArray="false"/>
+     <ns32:Exceptions/>
+    </ns32:Method>
+    <ns32:Method description="" isImported="false" isProvided="false" name="endStreaming" xsi:type="ns32:MethodType">
+     <ns32:Inputs/>
+     <ns32:Output qName="void" description="" isArray="false"/>
+     <ns32:Exceptions/>
+    </ns32:Method>
    </ns32:Methods>
    <ns42:ResourcePropertiesList xsi:type="ns42:ResourcePropertiesListType" xmlns:ns42="gme://gov.nih.nci.cagrid.introduce/1/Resources">
     <ns42:ResourceProperty qName="ns43:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns43="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>

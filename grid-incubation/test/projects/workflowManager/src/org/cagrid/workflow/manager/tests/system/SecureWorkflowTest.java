@@ -286,7 +286,9 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		}
 
 
-		return steps; 
+		return steps;
+//			   new Vector(); //DEBUG
+			
 	}
 
 

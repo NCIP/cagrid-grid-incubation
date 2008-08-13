@@ -11,17 +11,6 @@
    <ns2:SchemaElement type="ReplyTo" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="To" xsi:type="ns2:SchemaElementType"/>
   </ns2:Namespace>
-  <ns2:Namespace location="./WorkflowManager.xsd" namespace="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService" packageName="org.cagrid.workflow.manager.descriptor" xsi:type="ns2:NamespaceType">
-   <ns2:SchemaElement type="RootElement" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowInputParameter" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowInputParameters" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowManagerInstanceDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowPortionDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowPortionsDescriptor" xsi:type="ns2:SchemaElementType"/>
-   <ns2:SchemaElement type="WorkflowStageDescriptor" xsi:type="ns2:SchemaElementType"/>
-  </ns2:Namespace>
   <ns2:Namespace location="./WorkflowHelper.xsd" namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" packageName="org.cagrid.workflow.helper.descriptor" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="DeliveryPolicy" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InputParameter" xsi:type="ns2:SchemaElementType"/>
@@ -39,6 +28,17 @@
    <ns2:SchemaElement type="WorkflowInstanceHelperDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowInvocationHelperDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="WorkflowInvocationSecurityDescriptor" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="./WorkflowManager.xsd" namespace="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService" packageName="org.cagrid.workflow.manager.descriptor" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="RootElement" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowInputParameter" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowInputParameters" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowManagerInstanceDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowPortionDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowPortionsDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="WorkflowStageDescriptor" xsi:type="ns2:SchemaElementType"/>
   </ns2:Namespace>
   <ns2:Namespace namespace="http://www.w3.org/2001/XMLSchema" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="anySimpleType" xsi:type="ns2:SchemaElementType"/>

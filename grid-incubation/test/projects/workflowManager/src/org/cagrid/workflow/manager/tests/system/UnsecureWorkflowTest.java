@@ -162,9 +162,9 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		Step unsecureWorkflow = null;
 		try {
 			File sampleXMLDirectory = new File( managerResourceDir +"workflowDescriptionSamples" );
-			unsecureWorkflow = new RunUnsecureWorkflowStepFromXML(managerEPR, getContainer().getContainerBaseURI().toString(), 
-					sampleXMLDirectory); 
-				//new RunUnsecureWorkflowsStep(managerEPR, getContainer().getContainerBaseURI().toString());
+			unsecureWorkflow = 
+				new RunUnsecureWorkflowStepFromXML(managerEPR, getContainer().getContainerBaseURI().toString(), sampleXMLDirectory); 
+//				new RunUnsecureWorkflowsStep(managerEPR, getContainer().getContainerBaseURI().toString());
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage());
 		} catch(Throwable t){
@@ -175,8 +175,7 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 		
 		
 		logger.info("END");
-		return //new Vector();  FIXME REMOVE ME NOW!!!   
-		           steps; 
+		return steps;
 	}
 
 

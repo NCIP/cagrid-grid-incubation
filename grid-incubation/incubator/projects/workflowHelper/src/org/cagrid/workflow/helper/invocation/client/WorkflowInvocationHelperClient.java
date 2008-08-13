@@ -154,6 +154,22 @@ WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 		}
 	}
 
+  public void startStreaming() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"startStreaming");
+    org.cagrid.workflow.helper.invocation.stubs.StartStreamingRequest params = new org.cagrid.workflow.helper.invocation.stubs.StartStreamingRequest();
+    org.cagrid.workflow.helper.invocation.stubs.StartStreamingResponse boxedResult = portType.startStreaming(params);
+    }
+  }
+
+  public void endStreaming() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"endStreaming");
+    org.cagrid.workflow.helper.invocation.stubs.EndStreamingRequest params = new org.cagrid.workflow.helper.invocation.stubs.EndStreamingRequest();
+    org.cagrid.workflow.helper.invocation.stubs.EndStreamingResponse boxedResult = portType.endStreaming(params);
+    }
+  }
+
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"destroy");

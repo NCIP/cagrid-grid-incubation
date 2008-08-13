@@ -58,7 +58,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 
 			/** Test streaming ability **/
 			logger.info("Streaming tests");
-			/*logger.info("Complex array streaming");
+			logger.info("Complex array streaming");
 			runComplexArrayStreaming(wf_manager); 
 			logger.info("OK"); // */
 
@@ -92,51 +92,10 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 			logger.error(t.getMessage(), t);
 			t.printStackTrace();
 		}
-
-
-
 	}
 
 
 	
-	protected WorkflowManagerInstanceDescriptor parseXMLDescriptor( File xmlDescriptor ){
-		
-		WorkflowManagerInstanceDescriptor descriptor = null;
-		
-		// Read descriptor into a string
-		String wfDescriptorFilename = null;
-		try {
-			wfDescriptorFilename = this.sampleDescriptors.getCanonicalFile() + File.separator + "UnsecureWorkflowComplexArrayStreaming.xml";
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-			e.printStackTrace();
-		}
-
-		File wfDescriptor = new File(wfDescriptorFilename);
-		String wfXmlDescriptor = readFileToString(wfDescriptor);
-
-
-		// Replace the URLs in the descriptor with the actual container URL	
-		wfXmlDescriptor = wfXmlDescriptor.replaceAll(CONTAINERBASEPLACEHOLDER, this.containerBaseURL);
-		Reader descriptorReader = new StringReader(wfXmlDescriptor);
-		try {
-			descriptor = (WorkflowManagerInstanceDescriptor)Utils.deserializeObject(descriptorReader,
-					WorkflowManagerInstanceDescriptor.class);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			e.printStackTrace();
-		}
-
-		
-		
-		
-		
-		return descriptor;
-	}
-	
-	
-	
-
 	@Override
 	protected void runComplexArrayStreaming(
 			WorkflowManagerServiceClient wf_manager) throws RemoteException {
@@ -157,16 +116,16 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 
 		// Replace the URLs in the descriptor with the actual container URL	
 		wfXmlDescriptor = wfXmlDescriptor.replaceAll(CONTAINERBASEPLACEHOLDER, this.containerBaseURL);
-		Reader descriptorReader = new StringReader(wfXmlDescriptor);
+//		Reader descriptorReader = new StringReader(wfXmlDescriptor);
 
 
 		// Create and execute the workflow
 		WorkflowManagerInstanceClient managerInstanceClient = null;
 		try {
 			
-			WorkflowManagerInstanceDescriptor wfmid = (WorkflowManagerInstanceDescriptor)Utils.deserializeObject(descriptorReader, WorkflowManagerInstanceDescriptor.class);
-//			WorkflowManagerInstanceDescriptor wfDesc = org.cagrid.workflow.manager.util.WorkflowDescriptorParser.parseWorkflowDescriptor(wfXmlDescriptor);
-			WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfmid);
+//			WorkflowManagerInstanceDescriptor wfDesc = (WorkflowManagerInstanceDescriptor)Utils.deserializeObject(descriptorReader, WorkflowManagerInstanceDescriptor.class);
+			WorkflowManagerInstanceDescriptor wfDesc = new org.cagrid.workflow.manager.util.WorkflowDescriptorParser().parseWorkflowDescriptor(wfXmlDescriptor);
+			WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 			managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceRef.getEndpointReference());
 
 		} catch (MalformedURIException e) {
@@ -183,29 +142,6 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 
 
 	}
-
-
-	/** Store the contents of a file in a String */
-	private String readFileToString(File wfDescriptor) {
-
-
-		int fileLenght = (int) wfDescriptor.length();
-		String retval = null;
-
-		try {
-			FileReader reader = new FileReader(wfDescriptor);
-			char[] cbuf = new char[fileLenght];
-			reader.read(cbuf);
-
-			retval = new String(cbuf);
-
-		} catch(IOException ioe){
-			logger.error(ioe.getMessage(), ioe);
-		}
-
-		return retval;
-	}
-
 
 
 	@Override
@@ -441,4 +377,26 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 		return;
 	}
 
+
+	/** Store the contents of a file in a String */
+	private String readFileToString(File wfDescriptor) {
+
+
+		int fileLenght = (int) wfDescriptor.length();
+		String retval = null;
+
+		try {
+			FileReader reader = new FileReader(wfDescriptor);
+			char[] cbuf = new char[fileLenght];
+			reader.read(cbuf);
+
+			retval = new String(cbuf);
+
+		} catch(IOException ioe){
+			logger.error(ioe.getMessage(), ioe);
+		}
+
+		return retval;
+	}
+	
 }

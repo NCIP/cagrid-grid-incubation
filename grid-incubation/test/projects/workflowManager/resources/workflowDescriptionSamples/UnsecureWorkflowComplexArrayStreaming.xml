@@ -52,15 +52,15 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 </basicDescription>
                 <inputsDescription/>
                 <outputTransportDescriptor>
-                <paramDescriptor xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
-                    <destinationGlobalUniqueIdentifier>0</destinationGlobalUniqueIdentifier>
+                  <paramDescriptor xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                    <destinationGlobalUniqueIdentifier>4</destinationGlobalUniqueIdentifier>
                     <destinationEPR><Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/></destinationEPR>
                     <deliveryPolicy>ROUNDROBIN</deliveryPolicy>
                     <paramIndex>0</paramIndex>
-                    <type>sys:ComplexType</type> 
+                    <type>xsd:string</type> 
                     <locationQuery>/cas:GetComplexArrayResponse/sys:ComplexType/sys:message</locationQuery>
-                    <expectedTypeIsArray>true</expectedTypeIsArray>
-                </paramDescriptor>
+                    <expectedTypeIsArray>false</expectedTypeIsArray>
+                  </paramDescriptor>
                 </outputTransportDescriptor>
                 <GlobalUniqueIdentifier>0</GlobalUniqueIdentifier>
             </invocationHelperDescs>

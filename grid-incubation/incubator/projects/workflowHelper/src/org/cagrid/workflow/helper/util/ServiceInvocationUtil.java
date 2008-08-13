@@ -34,6 +34,7 @@ import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
+import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
 import org.globus.wsrf.impl.security.authorization.NoAuthorization;
@@ -55,18 +56,18 @@ public class ServiceInvocationUtil {
 
 
 	public static Node generateUnsecureRequest(WorkflowInvocationHelperDescriptor workflowDescriptor, OperationInputMessageDescriptor input_desc,
-			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData) throws Exception{
+			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData, WorkflowInvocationHelperClient operationClient) throws Exception{
 
 		logger.info("Generating unsecure request"); 
-		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, null);
+		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, null, operationClient);
 	}
 
 
 	public static Node generateSecureRequest(WorkflowInvocationHelperDescriptor workflowDescriptor, OperationInputMessageDescriptor input_desc,
-			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData, GlobusCredential proxy) throws Exception{
+			OperationOutputTransportDescriptor output_desc, InputParameter[] paramData, GlobusCredential proxy, WorkflowInvocationHelperClient operationClient) throws Exception{
 
 		logger.info("Generating Secure request"); 
-		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, proxy);
+		return generateRequest(workflowDescriptor, input_desc, output_desc, paramData, proxy, operationClient);
 	}
 
 
@@ -78,12 +79,13 @@ public class ServiceInvocationUtil {
 	 * @param input_desc Description of operation's inputs
 	 * @param output_desc Description of operation's output
 	 * @param paramData Values of operation's parameters
+	 * @param operationClient 
 	 * 
 	 * @return The operation's output value
 	 * 
 	 * */
 	private static Node generateRequest(final WorkflowInvocationHelperDescriptor workflowDescriptor, final OperationInputMessageDescriptor input_desc,
-			final OperationOutputTransportDescriptor output_desc, final InputParameter[] paramData, final GlobusCredential proxy) throws Exception{
+			final OperationOutputTransportDescriptor output_desc, final InputParameter[] paramData, final GlobusCredential proxy, WorkflowInvocationHelperClient operationClient) throws Exception{
 
 
 
@@ -250,7 +252,7 @@ public class ServiceInvocationUtil {
 
 		javax.xml.rpc.Service service = null;
 		Call call;
-		EndpointReferenceType serviceOperationEPR = new EndpointReference(workflowDescriptor.getServiceURL());
+		EndpointReferenceType serviceOperationEPR = operationClient.getEndpointReference();  //new EndpointReference(workflowDescriptor.getServiceURL());
 		// Secure invocation when a credential is provided
 		if( hasCredential ){   
 
@@ -426,8 +428,17 @@ public class ServiceInvocationUtil {
 	 * @return result of the query in a string with XML content
 	 * 
 	 * */
-	public static String applyXPathQuery(String xml_doc, String xpath_query, QName[] namespaces){
+	public static String applyXPathQuery(String xml_doc, String xpath_query, QName[] namespaces) throws Exception {
 
+		
+		if( (xml_doc == null) || (xpath_query == null) || (namespaces == null) ){
+			String errMsg = "Null reference received as argument. (xml_doc="+ xml_doc +", xpath_query="+ xpath_query +", namespaces="+ namespaces +")";
+			logger.error(errMsg);
+			throw new Exception(errMsg);
+		}
+		
+		
+		
 		Node query_result = null;
 		String result = null;
 
@@ -557,8 +568,9 @@ public class ServiceInvocationUtil {
 	}
 
 
-	/** test */
-	public static void main(String[] args){
+	/** test 
+	 * @throws Exception */
+	public static void main(String[] args) throws Exception{
 
 
 		logger.info("Begin test");

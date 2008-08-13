@@ -55,12 +55,14 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private String serviceOperationEPRString;
 	private boolean isSecure = false;    // Enable/Disable secure invocation
 	private boolean waitExplicitStart = true;   // true: method 'start' initiates execution. false: execution starts as soon as all parameters are set
+	private boolean isReceivingStream = false;
 
 
 	// Persistency variables
 	/*private boolean beingLoaded = false;
 	private PersistenceHelper resourcePropertyPersistenceHelper = null;
 	private FilePersistenceHelper resourcePersistenceHelper = null; // */
+
 
 
 
@@ -94,6 +96,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				try {
 
 
+					logger.info("Operation: "+ getOperationDesc().getOperationQName()); 
 
 					final boolean invocationIsSecure = isSecure();  
 					logger.info("[RUNNABLE] Blocking until credential is provided");
@@ -110,13 +113,15 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 					/* Inspect each parameter so we can determine what we're supposed to do with the provided values */
+					EndpointReferenceType operationEpr = new EndpointReference(getOperationDesc().getServiceURL());
+					WorkflowInvocationHelperClient operationClient = new WorkflowInvocationHelperClient(operationEpr);
+					
 					for(int input = 0; input < input_value.length; input++){
 
 						dataIsArray = parameterIsArray = false;
 
 						final int paramIndex = input_value[input].getParamIndex();
 						parameterIsArray = input_desc[paramIndex].getParameterIsArray();
-//						parameterIsArray = input_desc[paramIndex].getParamType().getLocalPart().contains("[]");	
 						final String paramData = input_value[input].getData();
 
 						// Verify whether the soap object represents an array or not
@@ -132,10 +137,23 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 							List<String> array_elements = getArrayElementsFromData(paramData);
 							ListIterator<String> array_elements_iter = array_elements.listIterator();
 
-							while( array_elements_iter.hasNext() ){
+
+							// Let the next stage know we will start streaming output to it 
+							operationClient.startStreaming();
+							
+							
+							while( array_elements_iter.hasNext() ){ 
 
 
 								String curr_array_str = array_elements_iter.next();
+								
+								
+								if( !array_elements_iter.hasNext() ){
+
+									// Let the next stage know we will stop streaming output to it
+									operationClient.endStreaming();		
+								}
+								
 
 								// Create new inputs, with the original input value substituted for a new one (only the current array element as data)
 								InputParameter[] new_input_params = input_value.clone();
@@ -147,17 +165,16 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								if( invocationIsSecure ){
 
 									response_node = ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-											new_input_params, getCredential()); 									
+											new_input_params, getCredential(), operationClient); 							
 								}
 								else {
 
 									response_node = ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-											new_input_params);									
+											new_input_params, operationClient);									
 								}
 								service_response.add(response_node);
 								serviceAlreadyInvoked = true;
-
-							}
+							}							
 						}
 					}
 
@@ -172,19 +189,38 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 							logger.info("Invoking secure service");
 
 							service_response.add(ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-									input_value, getCredential()));
+									input_value, getCredential(), operationClient));
 						}
 						else {
 
 							logger.info("Invoking non-secure service"); 
 							service_response.add(ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(),
-									input_value));
+									input_value, operationClient));
 						}
 
 					}
 
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					System.err.println("ERROR processing " + getOperationDesc().getOperationQName() + e1.getMessage());
+					try {
+						int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
+						setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
+						logger.error("Set status to ERROR in "+ getOperationDesc().getOperationQName()); 
+						return;
+					} catch (ResourceException e) {
+						e.printStackTrace();
+					}
+				}
+
+
+				// Invocation done: change the status to "delivering output"				 
+				try {
+
+					int currTimestamp = getTimestampedStatus().getTimestamp();
+					setTimestampedStatus(new TimestampedStatus(Status.GENERATING_OUTPUT, currTimestamp  + 1));
+					logger.info("Changed status to "+ getTimestampedStatus().getStatus().toString());
+				} catch (ResourceException e2) {
+					e2.printStackTrace();
 					try {
 						int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
 						setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
@@ -231,17 +267,24 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								InputParameter iparam = new InputParameter();
 								iparam.setParamIndex(pdesc.getParamIndex());
 
-								String thisStageOutputType = getOutputType().getLocalPart(); // Get output type of the just executed operation 
-								String nextStageExpectedType = pdesc.getType().getLocalPart(); // Get expected type of the receiver of this invocation's output   
-								boolean outputIsArray = isOutputIsArray();   
-								boolean nextStageInputIsArray = pdesc.isExpectedTypeIsArray();  
-
-
+								
 								// need to get that data out of the response;
 								// first, prepare all namespace mappings to the query
-								String data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces());
+								String data = null;
+								try {
+									
+									data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces());
+								} catch (Exception e) {
+									logger.error(e.getMessage(), e);
+									e.printStackTrace();
+								}
 								iparam.setData(data);
+								
+								
+								boolean outputIsArray = DataIsArray(data); //isOutputIsArray(); // TODO Debugging this part 
+								boolean nextStageInputIsArray = pdesc.isExpectedTypeIsArray();  
 
+								logger.debug("[After getting operation's output] outputIsArray? "+ outputIsArray +". nextStageInputIsArray? "+ nextStageInputIsArray);
 
 								logger.debug("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'"); 
 
@@ -256,6 +299,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									if( !outputIsArray || nextStageInputIsArray ){    
 
 										// Do usual forwarding
+										logger.debug("Doing usual forwarding after getting operation's output");
 										next_destination = pdesc.getDestinationEPR()[0];  // This might change when we have multiple destinations
 										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
 //										logger.info("Setting parameter to stage identified by "+ client.getEndpointReference());
@@ -264,6 +308,15 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									}
 									else {  // Do streaming between stages 
 
+										
+										// Enable streaming in the output recipient
+										logger.debug("Streaming output after getting operation's output");
+										next_destination = pdesc.getDestinationEPR()[0];  //  This might change when we have multiple destinations
+										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
+										client.startStreaming();
+										client.start();
+										logger.debug("Streaming enabled"); 
+										
 
 										// Get array elements
 										List<String> array_elements = getArrayElementsFromData(data);
@@ -271,13 +324,24 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										DeliveryEnumerator destinations_iter = new DeliveryEnumerator(pdesc.getDeliveryPolicy(), pdesc.getDestinationEPR());
 
 
-										// Iterate over the array elements' list, forwarding each one to a (possibly) different location 
+										// Iterate over the array elements' list, forwarding each one to a (possibly) different location
 										ListIterator<String> array_iter = array_elements.listIterator();
+										logger.debug("Iterating over each element of the output");
 										while( array_iter.hasNext() ){
 
 
 											String curr_array_element = array_iter.next();
+											
+											if( !array_iter.hasNext() ){
+												
+												// Disable streaming in the output recipient
+												client.endStreaming();
+												
+												logger.debug("Disabling streaming"); 
+											} 
+											
 											iparam.setData(curr_array_element);
+											logger.debug("Current array element sent"); 
 
 
 											// Get one of the possible destinations according to the delivery policy
@@ -290,12 +354,10 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 											}
 
 											// Send the data to the appropriate InvocationHelper 
-											WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
 											client.setParameter(iparam);
 
-										} // End of array elements
+										} // End of array elements										
 									}
-
 								}
 								else {
 									logger.error("No destination assigned to current parameter (in "+ getOperationDesc().getOperationQName() +").");
@@ -327,9 +389,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 				}
 				try {
-					int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
-					setTimestampedStatus(new TimestampedStatus(Status.FINISHED, nextTimestamp));
-					logger.info("Set status to FINISHED ("+ getOperationDesc().getOperationQName() +")"); 
+					// Calculate the next status and change the status of the execution. Note: when reading from a stream, the stage won't terminate until the end of the stream is reached.  
+					finishRun();					 
 				} catch (ResourceException e) {
 					e.printStackTrace();
 				}
@@ -351,8 +412,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 			if( this.getTimestampedStatus().getStatus().equals(Status.RUNNING) ){
 
-				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
-				this.setTimestampedStatus(new TimestampedStatus(Status.FINISHED, nextTimestamp));
+				this.finishRun();
+				/*int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
+				this.setTimestampedStatus(new TimestampedStatus(Status.FINISHED, nextTimestamp)); // */
 			}
 		} catch (InterruptedException e) {
 
@@ -388,6 +450,20 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 
+	/**
+	 * Change the state of a particular execution to finished. Specifically, the status will be set to FINISHED unless we have to allow streaming.  
+	 * In the latter case, the status will be reset to "waiting for inputs" (or "ready for execution", when there are no inputs to wait for).
+	 * 
+	 * */
+	private void finishRun() throws ResourceException {
+
+		int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
+		
+		Status nextStatus = this.isReceivingStream ? Status.WAITING : Status.FINISHED;
+		setTimestampedStatus(new TimestampedStatus(nextStatus, nextTimestamp));
+		logger.info("[finishRun] Set status to "+ nextStatus +" ("+ getOperationDesc().getOperationQName() +")"); 
+	}
+
 
 	private boolean allParametersSet() {
 
@@ -396,11 +472,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				return false;
 			}
 		}
-
 		return true;
 	}
-
-
 
 
 	/** Get an array represented as a SOAP element and extracts the array elements
@@ -534,14 +607,13 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
-			//executeIfReady();
-
-
+	
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
 				try {
 					int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
 					this.setTimestampedStatus(new TimestampedStatus(Status.READY, nextTimestamp));
+					logger.info("[setParameter] Status is READY for "+ this.getOperationDesc().getOperationQName());
 				} catch (ResourceException e) {
 					e.printStackTrace();
 				}
@@ -618,6 +690,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				if(((this.getParamData() == null) || (this.getParamData().length == 0)) ){
 					logger.info("[setOutput_desc] No parameters needed, ready to execute");
 					this.setTimestampedStatus(new TimestampedStatus(Status.READY, ++nextTimestamp));
+					logger.info("[setOutput_desc] Status is READY for "+ this.getOperationDesc().getOperationQName()); 
 				} 
 
 			} catch (ResourceException e) {
@@ -750,11 +823,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	 */
 	@Override
 	public void remove() throws ResourceException {
-		
+
 		logger.info("Destroying resource for "+ this.getOperationDesc().getOperationQName());
-		
+
 		super.remove();
-		
+
 		logger.info("Done");
 		return;
 	}
@@ -781,6 +854,24 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 
+
+	public void setReceivingStream() {
+
+		logger.info("Streaming started.."); 
+		this.isReceivingStream = true;
+	}
+
+
+
+
+	public void unsetReceivingStream() {
+		
+		logger.info("Streaming ended..");
+		this.isReceivingStream = false;
+		
+	}
+
+	
 	/*
 	public void load(ResourceKey resourceKey) throws ResourceException, NoSuchResourceException, InvalidResourceKeyException {
 		beingLoaded = true;

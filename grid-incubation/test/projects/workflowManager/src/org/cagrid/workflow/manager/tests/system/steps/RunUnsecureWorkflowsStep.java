@@ -2,6 +2,7 @@ package org.cagrid.workflow.manager.tests.system.steps;
 
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,15 +48,16 @@ import org.cagrid.workflow.manager.descriptor.WorkflowStageDescriptor;
 import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient;
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.globus.wsrf.NotifyCallback;
+import org.oasis.wsn.SubscribeResponse;
 
 
 
 public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
-	
-	
+
+
 	protected Log logger = LogFactory.getLog(RunUnsecureWorkflowsStep.class);
-	
+
 
 	protected EndpointReferenceType manager_epr = null;
 	protected String containerBaseURL = null;
@@ -64,10 +66,12 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	protected Lock isFinishedKey = new ReentrantLock();
 	protected Condition isFinishedCondition = isFinishedKey.newCondition();
 	protected Map<String, TimestampedStatus> stageStatus = new HashMap<String, TimestampedStatus>() ;
+	protected Map<String, List<EndpointReferenceType> > stageSubscriptions = new HashMap<String, List<EndpointReferenceType>>();
 
 
-	// Store the operation name for each service subscribed for notification 
+	// Store the operation name and EPR for each service subscribed for notification 
 	protected Map<String, String> EPR2OperationName = new HashMap<String, String>();
+	protected Map<String, EndpointReferenceType> managerEPRs = new HashMap<String, EndpointReferenceType>();
 
 	protected boolean isFinished = false;
 	protected List<EndpointReferenceType> managerInstances = new ArrayList<EndpointReferenceType>();
@@ -101,7 +105,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 		WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(this.manager_epr); 
 
-		
+
 		try {
 
 			/*** Service that will gather all the output and match against the expected ones ***/
@@ -112,7 +116,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			/*** Testing arrays as services' input ***/
 
 			/** simple type arrays **/
-			logger.info("Simple arrays as input");
+			/*logger.info("Simple arrays as input");
 			runSimpleArrayTest(wf_manager);
 			logger.info("OK"); // */
 
@@ -169,7 +173,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 		WorkflowPortionDescriptor localWfDesc = new WorkflowPortionDescriptor();
-		
+
 		WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "Validator";
 		validatorInstanceDesc.setWorkflowID(workflowID);
@@ -225,22 +229,22 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 	protected void runComplexArrayStreaming(WorkflowManagerServiceClient wf_manager)throws RemoteException {
 
-		
+
 		logger.info("BEGIN");
-		
+
 		WorkflowPortionDescriptor workflowParts = new WorkflowPortionDescriptor();
 		String workflowHelperServiceLocation = this.containerBaseURL + "/cagrid/WorkflowHelper";
 		logger.info("WorkflowHelper is located at: "+ workflowHelperServiceLocation);
 		workflowParts.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
-		
-				
+
+
 
 		logger.info("Creating InstanceHelper descriptor");
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "WorkFlow5";
 		workflowDescriptor5.setWorkflowID(workflowID);
 		workflowParts.setInstanceHelperDesc(workflowDescriptor5);
-		
+
 		ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 		ArrayList<WorkflowInputParameter> workflowInputs = new ArrayList<WorkflowInputParameter>();
 
@@ -250,9 +254,9 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 		int currStageID = 4;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
-		
-		
+
+
+
 		logger.info("Building basic description");
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
@@ -261,7 +265,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		operation4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
 		operation4.setServiceURL(acess_url);
 		currStageDesc.setBasicDescription(operation4);
-		
+
 
 		// Creating Descriptor of the InputMessage
 		logger.info("Building input parameters descriptor");
@@ -288,15 +292,15 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		logger.info("Done Service 4");
 		// END service 4
 
-		
-		
+
+
 		// BEGIN CreateArrayService::getComplexArray	
 		logger.info("Describing CreateArrayService");
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID = 0;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
-		
+
+
 		logger.info("Building stage basic description");
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		String access_url = containerBaseURL+"/cagrid/CreateArrayService";
@@ -341,27 +345,27 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		stagesDescs.add(currStageDesc);
 		logger.info("Done CreateArrayService");
 		// END CreateArrayService::getComplexArray 
-		
-		
+
+
 		// Store stages' description
 		logger.info("Storing stages' descriptors");
 		WorkflowStageDescriptor[] invocationHelperDescs = stagesDescs.toArray(new WorkflowStageDescriptor[0]);
 		workflowParts.setInvocationHelperDescs(invocationHelperDescs);
-		
-		
+
+
 		// Store workflow inputs' settings
 		logger.info("Storing workflow input data");
 		WorkflowInputParameters inputs = new WorkflowInputParameters();
 		WorkflowInputParameter[] parameters = workflowInputs.toArray(new WorkflowInputParameter[0]);
 		inputs.setParameter(parameters);
-		
+
 		// Store workflow outputs' description
 		logger.info("Storing workflow output output description");
 		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
 		WorkflowOutputParameterTransportDescriptor[] paramDescriptor = new WorkflowOutputParameterTransportDescriptor[0];
 		outputDesc.setParamDescriptor(paramDescriptor);
-		
-		
+
+
 		logger.info("Creating ManagerInstance");
 		WorkflowManagerInstanceDescriptor managerInstanceDesc = new WorkflowManagerInstanceDescriptor();
 		managerInstanceDesc.setInputs(inputs);
@@ -375,45 +379,46 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
-			
+
 		} 
-		
+
 		this.managerInstances.add(managerInstanceRef.getEndpointReference());
-		
+		this.managerEPRs.put(managerInstanceClient.getEPRString(), managerInstanceClient.getEndpointReference());
+
 		logger.info("Starting workflow execution");
 		managerInstanceClient.start();
-		
+
 		logger.info("END");
 	}
 
 
 	protected void runSimpleArrayStreaming(WorkflowManagerServiceClient  wf_manager) throws RemoteException, MalformedURIException {
 
-		
+
 		WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
 		WorkflowPortionDescriptor workflowPart = new WorkflowPortionDescriptor();
 		String workflowHelperServiceLocation = this.containerBaseURL + "/cagrid/WorkflowHelper";
 		workflowPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
-		
-		
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor instanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		instanceDesc.setWorkflowID("WorkFlow5");
 		workflowPart.setInstanceHelperDesc(instanceDesc);
-		
-		
+
+
 		ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 		ArrayList<WorkflowInputParameter> inputData = new ArrayList<WorkflowInputParameter>();
-		
-		
-		
+
+
+
 
 		// BEGIN service 4
 		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 		int currGUID = 4;
 		currStageDesc.setGlobalUniqueIdentifier(currGUID);
-		
-		
-		
+
+
+
 		WorkflowInvocationHelperDescriptor operation_4 = new WorkflowInvocationHelperDescriptor();
 		operation_4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
 		operation_4.setServiceURL(containerBaseURL+"/cagrid/Service4");
@@ -437,7 +442,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		outputDescriptor_4.setParamDescriptor(outParameterDescriptor_4);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_4);
 
-		
+
 		// Setting second parameter
 		WorkflowInputParameter inputParam = new WorkflowInputParameter(new InputParameter("simple type's streaming", 1), currGUID);
 		inputData.add(inputParam);
@@ -457,6 +462,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		operation2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "CapitalizeRequest"));
 		operation2.setServiceURL(containerBaseURL+"/cagrid/Service2");
 		operation2.setOutputType(new QName(XSD_NAMESPACE, "string"));
+		operation2.setOutputIsArray(false);
 		currStageDesc.setBasicDescription(operation2);
 
 
@@ -496,15 +502,13 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		currStageDesc = new WorkflowStageDescriptor();
 		currGUID = 0;
 		currStageDesc.setGlobalUniqueIdentifier(currGUID);
-		
 
-		
-		
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		operation__cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation__cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetArrayRequest"));
 		operation__cas.setServiceURL(containerBaseURL+"/cagrid/CreateArrayService");
-		operation__cas.setOutputType(new QName(SOAPENCODING_NAMESPACE, "string[]"));
+		operation__cas.setOutputType(new QName(XSD_NAMESPACE, "string"));
+		operation__cas.setOutputIsArray(true);
 		currStageDesc.setBasicDescription(operation__cas);
 
 
@@ -522,7 +526,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// First destination: Service2::capitalize
 		outParameterDescriptor_cs[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_cs[0].setParamIndex(0);
-		outParameterDescriptor_cs[0].setType(new QName( SOAPENCODING_NAMESPACE, "string"));
+		outParameterDescriptor_cs[0].setType(new QName( XSD_NAMESPACE, "string"));
+		outParameterDescriptor_cs[0].setExpectedTypeIsArray(false);
 		outParameterDescriptor_cs[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_cs[0].setLocationQuery("/ns0:GetArrayResponse");
@@ -533,10 +538,10 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_cs);
 		stagesDescs.add(currStageDesc);
 		// END CreateArrayService
-		
-		
-		
-		
+
+
+
+
 		workflowPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 		WorkflowInputParameters inputs = new WorkflowInputParameters();
 		inputs.setParameter(inputData.toArray(new WorkflowInputParameter[0]));
@@ -546,30 +551,31 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 		WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 		WorkflowManagerInstanceClient managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceRef.getEndpointReference());
-		
+
 		this.managerInstances.add(managerInstanceRef.getEndpointReference());
-		
+		this.managerEPRs.put(managerInstanceClient.getEPRString(), managerInstanceClient.getEndpointReference());
+
 		managerInstanceClient.start();
 //		managerInstanceClient.destroy();
-		
+
 	}
 
 
 	protected void runComplexArrayTest(WorkflowManagerServiceClient wf_manager) 
-		throws RemoteException{
+	throws RemoteException{
 
-		
+
 		WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
 		WorkflowPortionDescriptor workflowPart = new WorkflowPortionDescriptor();
 		String workflowHelperServiceLocation = this.containerBaseURL + "/cagrid/WorkflowHelper";
 		workflowPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
-		
-		
+
+
 		ArrayList <WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 		ArrayList<WorkflowInputParameter> inputParams = new ArrayList<WorkflowInputParameter>();
 		ArrayList<WorkflowOutputParameterTransportDescriptor> outputParams = new ArrayList<WorkflowOutputParameterTransportDescriptor>();
-		
-		
+
+
 
 		/** complex type arrays **/
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor1 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
@@ -583,15 +589,15 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 		int currStageID = 0;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
-		
+
+
 		String access_url = containerBaseURL+"/cagrid/ReceiveArrayService";
 		WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
 		operation2.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "ReceiveComplexArrayRequest"));
 		operation2.setServiceURL(access_url);
 		//operation2.setOutput(); // This service has no output
 		currStageDesc.setBasicDescription(operation2);
-		
+
 
 
 		// Creating Descriptor of the InputMessage
@@ -611,7 +617,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// takes the reference to no service
 		outputDescriptor_ras.setParamDescriptor(outParameterDescriptor_ras);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_ras);
-		
+
 
 
 		//System.out.println("Setting params"); //DEBUG
@@ -623,10 +629,10 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// END ReceiveArrayService::ReceiveComplexArray
 
 
-		
+
 		if(this.validatorEnabled){
-			
-			
+
+
 			// BEGIN AssertService::assertComplexArrayEquals // Used to match the following service's output against the expected ones
 			currStageDesc = new WorkflowStageDescriptor();
 			currStageID++;
@@ -656,7 +662,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			OperationOutputParameterTransportDescriptor outParameterDescriptor_assert [] = new OperationOutputParameterTransportDescriptor[0];
 
 
-		
+
 			// Add one input to the workflow
 			InputParameter inParamDesc = new InputParameter("<GetComplexArrayResponse xmlns=\"http://createarrayservice.introduce.cagrid.org/CreateArrayService\">" +
 					"<ns1:ComplexType xmlns:ns1=\"http://systemtests.workflow.cagrid.org/SystemTests\"><ns1:id>0</ns1:id><ns1:message>Element 0</ns1:message>" +
@@ -690,16 +696,16 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			// END AssertService::assertComplexArrayEquals
 		}
 
-		
-		
-		
+
+
+
 
 		// BEGIN CreateArrayService::getComplexArray
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID++;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
-		
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		access_url = containerBaseURL+"/cagrid/CreateArrayService";
 		operation_ca.setWorkflowID("GeorgeliusWorkFlow");
@@ -714,7 +720,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		InputParameterDescriptor[] inputParams_ca = new InputParameterDescriptor[0];
 		inputMessage_ca.setInputParam(inputParams_ca);
 		currStageDesc.setInputsDescription(inputMessage_ca);
-		
+
 		// End InputMessage Descriptor
 
 		// Creating the outputDescriptor of the only service that will receive the output (ReceiveArrayService)
@@ -722,6 +728,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		int numDestination = this.validatorEnabled ? 2 : 1;
 		OperationOutputParameterTransportDescriptor outParameterDescriptor_ca [] = new OperationOutputParameterTransportDescriptor[numDestination];
 
+		
 		// First destination: ReceiveArrayService::ReceiveComplexArray
 		outParameterDescriptor_ca[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_ca[0].setParamIndex(1);
@@ -756,31 +763,31 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 				new QName(XSD_NAMESPACE,"xsd")});
 		outputParamDesc.setParamDescription(paramDescription);
 		outputParams.add(outputParamDesc);
-		
-		
-		
+
+
+
 		// takes the reference to ReceiveComplexArrayService
 		outputDescriptor_ca.setParamDescriptor(outParameterDescriptor_ca);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_ca);
 		stagesDescs.add(currStageDesc);
 		// END CreateArrayService::getComplexArray 
 
-		
-		
+
+
 		// Set workflow outputs
 		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
 		WorkflowOutputParameterTransportDescriptor[] paramDescriptor = outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]);
 		outputDesc.setParamDescriptor(paramDescriptor);
-		
-		
+
+
 		// Finish creating the workflow descriptor
 		workflowPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputParameters );
 		wfDesc.setOutputDesc(outputDesc ); 
 		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowPart }));
-		
-		
+
+
 		// Instantiate the workflow
 		WorkflowManagerInstanceReference managerInstanceRef = wf_manager.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 		WorkflowManagerInstanceClient managerInstanceClient = null;
@@ -790,23 +797,24 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(), e);
 		} 
-		
+
 		this.managerInstances.add(managerInstanceRef.getEndpointReference());
-		
+		this.managerEPRs.put(managerInstanceClient.getEPRString(), managerInstanceClient.getEndpointReference());
+
 		logger.info("Executing workflow");
 		managerInstanceClient.start();  // Start workflow execution
 		logger.info("Retrieving workflow outputs");
 		String[] wf_outputs = managerInstanceClient.getOutputValues();  // Retrieve workflow outputs
-		
-		
+
+
 		for(int i = 0; i < wf_outputs.length; i++){
-			
+
 			logger.info("Workflow output #"+ i +" is: "+ wf_outputs[i]);
 		}
-		
-		
+
+
 //		managerInstanceClient.destroy();
-		
+
 		logger.info("END");
 		return;
 	}
@@ -816,35 +824,35 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	protected void runSimpleArrayTest(WorkflowManagerServiceClient  wf_manager) 
 	throws RemoteException{
 
-		
-		
+
+
 		WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
-		
-		
+
+
 		WorkflowPortionDescriptor wfPart = new WorkflowPortionDescriptor();
 		String workflowHelperServiceLocation = this.containerBaseURL + "/cagrid/WorkflowHelper";
 		wfPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
-		
-		
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor2 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "WorkFlow2";
 		workflowDescriptor2.setWorkflowID(workflowID);
 		wfPart.setInstanceHelperDesc(workflowDescriptor2);
 
-		
-		
+
+
 		ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 		ArrayList<WorkflowInputParameter> inputParams = new ArrayList<WorkflowInputParameter>();
 		ArrayList<WorkflowOutputParameterTransportDescriptor> outputParams = new ArrayList<WorkflowOutputParameterTransportDescriptor>();
-		
+
 
 
 		// BEGIN ReceiveArrayService::ReceiveArrayAndMore
 		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 		int currStageID = 0;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
-		
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ram = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		operation_ram.setWorkflowID("GeorgeliusWorkFlow");
 		operation_ram.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "ReceiveArrayAndMoreRequest"));
@@ -871,7 +879,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		outputDescriptor_ram.setParamDescriptor(outParameterDescriptor_ram);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_ram);
 		stagesDescs.add(currStageDesc);
-		
+
 
 		// Set the values of the two arguments of simple type
 		inputParams.add(new WorkflowInputParameter(new InputParameter("999", 0), currStageID));
@@ -879,14 +887,14 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// END ReceiveArrayService::ReceiveArrayAndMore
 
 
-		
+
 
 		// BEGIN CreateArrayService
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID++;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
-		
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		String access_url = containerBaseURL+"/cagrid/CreateArrayService";
 		operation_cas.setWorkflowID("GeorgeliusWorkFlow");
@@ -933,9 +941,9 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 //			outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID});
 		}
 
-		
-		
-		
+
+
+
 		// Add one output to the worklow outputs' description
 		WorkflowOutputParameterTransportDescriptor outputParam = new WorkflowOutputParameterTransportDescriptor();
 		OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
@@ -946,18 +954,18 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		outputParam.setParamDescription(paramDescription );
 		outputParam.setSourceGUID(currStageID);
 		outputParams.add(outputParam);
-		
-		
-		
+
+
+
 
 		// takes the reference to ReceiveArrayService
 		outputDescriptor_cas.setParamDescriptor(outParameterDescriptor_cas);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_cas);
-		
+
 		stagesDescs.add(currStageDesc);
 		// END CreateArrayService 
 
-		
+
 		logger.info("Configuring workflow inputs and outputs");
 		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputParameters);
@@ -973,25 +981,26 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(),e );
 		} 
-		
+
 		this.managerInstances.add(instanceRef.getEndpointReference());
-	
+		this.managerEPRs.put(instanceClient.getEPRString(), instanceClient.getEndpointReference());
+
 		logger.info("Starting execution");
 		instanceClient.start();
-		
+
 		logger.info("Retrieving workflow outputs");
 		String[] outputs = instanceClient.getOutputValues();
-		
+
 		for(int i=0; i < outputs.length; i++){
-			
+
 			logger.info("Output #"+ i +" is "+ outputs[i]);
 		}
-		
-		
+
+
 //		this.waitUntilCompletion();
 //		instanceClient.destroy();
-		
-		
+
+
 		return;
 	}
 
@@ -999,34 +1008,34 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 	protected void runFaninFanOutTest(WorkflowManagerServiceClient  wf_manager) throws RemoteException{
 
-		
+
 		WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
 		WorkflowPortionDescriptor wfPart = new WorkflowPortionDescriptor();
 		String workflowHelperServiceLocation = this.containerBaseURL + "/cagrid/WorkflowHelper";
 		wfPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
-		
-		
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "WorkFlow2";
 		workflowDescriptor3.setWorkflowID(workflowID);
 		wfPart.setInstanceHelperDesc(workflowDescriptor3);
 
-		
-		
+
+
 		ArrayList<WorkflowStageDescriptor> stagesDescs = new ArrayList<WorkflowStageDescriptor>();
 		ArrayList<WorkflowInputParameter> inputParams = new ArrayList<WorkflowInputParameter>();
 		ArrayList<WorkflowOutputParameterTransportDescriptor> outputParams = new ArrayList<WorkflowOutputParameterTransportDescriptor>();
-		
-		
+
+
 
 
 		// BEGIN service 4
 		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 		int currStageID = 4;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
-		
-		
+
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
 		java.lang.String acess_url = containerBaseURL+"/cagrid/Service4";
@@ -1059,12 +1068,12 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 
-		
+
 		// BEGIN service 2		
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID = 2;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_2 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		acess_url = containerBaseURL+"/cagrid/Service2";
 		operation_2.setWorkflowID("GeorgeliusWorkFlow");
@@ -1125,8 +1134,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		outputParam.setParamDescription(paramDescription);
 		outputParam.setSourceGUID(currStageID);
 		outputParams.add(outputParam);
-		
-		
+
+
 		outputDescriptor2.setParamDescriptor(outParameterDescriptor2);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor2);
 		stagesDescs.add(currStageDesc);
@@ -1138,7 +1147,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID = 3;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation3 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		acess_url = containerBaseURL+"/cagrid/Service3";
 
@@ -1202,22 +1211,22 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		outputParam.setParamDescription(paramDescription);
 		outputParam.setSourceGUID(currStageID);
 		outputParams.add(outputParam);
-		
-		
+
+
 		outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor3);
 		stagesDescs.add(currStageDesc);
 		// END service 3				
 
-		
+
 
 		// BEGIN service 5
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID = 5;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
-		
-		
-		
+
+
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation5 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
 		acess_url = containerBaseURL+"/cagrid/Service5";
@@ -1240,14 +1249,14 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating the outputDescriptor of the first Filter
 		OperationOutputTransportDescriptor outputDescriptor5 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor5 [] = new OperationOutputParameterTransportDescriptor[0];
-		
-		
+
+
 		outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor5);
 		stagesDescs.add(currStageDesc);
 		// END service 5
 
-		
+
 
 		// BEGIN service 1			
 		currStageDesc = new WorkflowStageDescriptor();
@@ -1304,7 +1313,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		outParameterDescriptor1[2].setDestinationGlobalUniqueIdentifier(5);
 //		outParameterDescriptor1[2].setDestinationEPR(new EndpointReferenceType[]{serviceClient5.getEndpointReference()});
 
-		
+
 
 		// Add one output to the workflow outputs
 		outputParam = new WorkflowOutputParameterTransportDescriptor();
@@ -1315,8 +1324,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		paramDescription.setType(new QName("http://service1.workflow.cagrid.org/Service1","StringAndItsLenght"));
 		outputParam.setParamDescription(paramDescription);
 		outputParams.add(outputParam);
-		
-		
+
+
 		// parameters are all set at this point
 		outputDescriptor1.setParamDescriptor(outParameterDescriptor1);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor1);
@@ -1331,14 +1340,14 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		inputParams.add(new WorkflowInputParameter(inputService1, currStageID));
 		// END service 1 
 
-		
-		
+
+
 		// Build the workflow output descriptor
 		logger.info("Setting workflow outputs");
 		WorkflowOutputTransportDescriptor outputDesc = new WorkflowOutputTransportDescriptor();
 		outputDesc.setParamDescriptor(outputParams.toArray(new WorkflowOutputParameterTransportDescriptor[0]));
-		
-		
+
+
 		wfPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputParameters);
@@ -1353,21 +1362,22 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(), e);
 		}
-		
-		
+
+
 		this.managerInstances.add(instanceRef.getEndpointReference());
-		
+		this.managerEPRs.put(instanceClient.getEPRString(), instanceClient.getEndpointReference());
+
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), instanceClient, workflowID);
-		
+
 		logger.info("Starting execution");
 		instanceClient.start();
 //		instanceClient.destroy();
-		
+
 		logger.info("Retrieving workflow outputs");
 		String[] outputs = instanceClient.getOutputValues();
 		for(int i=0; i < outputs.length; i++){
-			
-			
+
+
 			logger.info("Output #"+ i +" is: "+ outputs[i]);
 		}
 		return;
@@ -1397,6 +1407,10 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 						Assert.fail(errMsg);
 					}
 
+
+					this.unsubscribeAllNotifications();  // Stop monitoring status changes
+
+
 				} catch(Throwable t){
 					System.err.println("Error while waiting");
 					t.printStackTrace();
@@ -1410,6 +1424,42 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			this.isFinishedKey.unlock();
 		}
 
+	}
+
+
+	/** Stop monitoring status changes */
+	protected void unsubscribeAllNotifications() {
+
+		
+		System.out.println("Unsubscribing all notifications");
+
+		Iterator<EndpointReferenceType> epr_iter = this.managerInstances.iterator();
+		while(epr_iter.hasNext()){
+
+			try{
+				EndpointReferenceType currEpr = epr_iter.next();
+				WorkflowManagerInstanceClient curr_workflow = new WorkflowManagerInstanceClient(currEpr);
+
+				String instanceKey = curr_workflow.getEPRString();
+				List<EndpointReferenceType> subscriptions = this.stageSubscriptions.get(instanceKey);
+				Iterator<EndpointReferenceType> subscriptions_iter = subscriptions.iterator();
+
+				// Unsubscribe to current workflow's status changes
+				while( subscriptions_iter.hasNext() ){   
+
+					EndpointReferenceType curr_subcription = subscriptions_iter.next();
+					curr_workflow.unSubscribe(curr_subcription);
+				}
+
+			}catch(IOException ioe){
+				logger.error(ioe.getMessage(), ioe);
+				ioe.printStackTrace();
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Unsubscribed");
 	}
 
 
@@ -1431,13 +1481,9 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		}   
 
 
+		logger.trace("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
 
-
-		//DEBUG
-		//PrintStream log = System.out;
-		//log.println("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
-
-
+		
 		// Handle status change notifications
 		if(isTimestampedStatusChange){
 			TimestampedStatus status = null;;
@@ -1479,16 +1525,17 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 						this.isFinishedCondition.signalAll();
 						Assert.assertFalse(this.stageStatus.containsValue(Status.ERROR));
-						
+
 						// Destroy ManagerInstance resources
 						Iterator<EndpointReferenceType> instances_iter = this.managerInstances.iterator();
 						while( instances_iter.hasNext() ){
-							
+
 							EndpointReferenceType curr_managerInstance = instances_iter.next();
 							WorkflowManagerInstanceClient curr_client;
 							try {
 								curr_client = new WorkflowManagerInstanceClient(curr_managerInstance);
-//								curr_client.destroy();
+								//curr_client.destroy();
+
 							} catch (MalformedURIException e) {
 								logger.error(e.getMessage(), e);
 								e.printStackTrace();
@@ -1496,10 +1543,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 								logger.error(e.getMessage(), e);
 								e.printStackTrace();
 							}
-							
-							
 						}
-						
 					}
 				}
 			}
@@ -1534,17 +1578,33 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 	protected void subscribe(QName notificationType, WorkflowManagerInstanceClient  toSubscribe, String stageOperationQName){
-		//protected void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
+		
 
 		try{
 
-			//System.out.println("[subscribe] Subscribing service: "+ toSubscribe.getEPRString());
-
 			this.stageStatus.put(toSubscribe.getEPRString(), new TimestampedStatus(Status.UNCONFIGURED, 0)); // Register to be monitored for status changes
-			toSubscribe.subscribeWithCallback(notificationType, this);
+			SubscribeResponse response = toSubscribe.subscribeWithCallback(notificationType, this);
+
+			// Store subscription reference so we can unsubscribe later
+			EndpointReferenceType subscriptionEPR = response.getSubscriptionReference();
+
+			List<EndpointReferenceType> curr_subscriptions = null;
+			String stageKey = toSubscribe.getEPRString();
+
+			
+			// Add current reference to a list
+			if( this.stageSubscriptions.containsKey(stageKey) ){
+				curr_subscriptions = this.stageSubscriptions.get(stageKey);
+			}
+			else {
+				curr_subscriptions = new ArrayList<EndpointReferenceType>();
+			}
+			
+			curr_subscriptions.add(subscriptionEPR);
+			this.stageSubscriptions.put(stageKey, curr_subscriptions);
+
 
 			this.EPR2OperationName.put(toSubscribe.getEPRString(), stageOperationQName);
-
 		}
 		catch(Throwable t){
 			t.printStackTrace();

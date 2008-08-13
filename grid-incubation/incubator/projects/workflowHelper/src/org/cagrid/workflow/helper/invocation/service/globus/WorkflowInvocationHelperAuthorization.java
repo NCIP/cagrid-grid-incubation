@@ -97,6 +97,16 @@ public class WorkflowInvocationHelperAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeStartStreaming() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeEndStreaming() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -180,6 +190,22 @@ public class WorkflowInvocationHelperAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("start")){
 			try{
 				authorizeStart();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("startStreaming")){
+			try{
+				authorizeStartStreaming();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("endStreaming")){
+			try{
+				authorizeEndStreaming();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

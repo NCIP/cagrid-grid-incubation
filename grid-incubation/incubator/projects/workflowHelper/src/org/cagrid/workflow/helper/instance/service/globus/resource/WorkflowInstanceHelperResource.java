@@ -553,7 +553,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			next_status = Status.ERROR;
 		}
 
-		// Starting here, we consider a workflow portion only reach some state 
+		// Starting here, we consider a workflow portion only reaches a state 
 		// when all the stages within that portion have already done so. 
 		else if(this.stagesPresentStatus(Status.UNCONFIGURED)){			
 			next_status = Status.UNCONFIGURED;
@@ -569,6 +569,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		}
 		else if( this.stagesPresentStatus(Status.RUNNING)){
 			next_status = Status.RUNNING;
+		}
+		else if( this.stagesPresentStatus(Status.GENERATING_OUTPUT) ){
+			next_status = Status.GENERATING_OUTPUT;
 		}
 		else {
 			next_status = Status.FINISHED;

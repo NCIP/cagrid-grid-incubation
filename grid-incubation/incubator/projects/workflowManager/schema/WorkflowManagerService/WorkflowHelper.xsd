@@ -20,6 +20,7 @@
 			<xs:enumeration value="INPUTOUTPUTCONFIGURED" />
 			<xs:enumeration value="WAITING" />
 			<xs:enumeration value="RUNNING" />
+			<xs:enumeration value="GENERATING_OUTPUT" />
 			<xs:enumeration value="FINISHED" />
 			<xs:enumeration value="PAUSED" />
 			<xs:enumeration value="READY" />

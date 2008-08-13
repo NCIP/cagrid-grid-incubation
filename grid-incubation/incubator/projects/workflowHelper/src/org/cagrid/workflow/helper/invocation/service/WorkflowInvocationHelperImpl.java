@@ -98,5 +98,27 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 	  logger.info("END");
   }
 
+  public void startStreaming() throws RemoteException {
+	  logger.info("BEGIN");
+	  try {
+		  WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
+		  resource.setReceivingStream();
+	  } catch (Exception e) {
+		  throw new RemoteException(e.getMessage(),e);
+	  }
+	  logger.info("END");
+  }
+
+  public void endStreaming() throws RemoteException {
+	  logger.info("BEGIN");
+	  try {
+		  WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
+		  resource.unsetReceivingStream();
+	  } catch (Exception e) {
+		  throw new RemoteException(e.getMessage(),e);
+	  }
+	  logger.info("END");
+  }
+
 }
 

@@ -36,7 +36,7 @@ public class ServiceInvocationUtilTest extends TestCase {
     }
 
 
-    public void testApplyXPathQuery() {
+    public void testApplyXPathQuery() throws Exception {
 
         System.out.println("Begin testApplyXPathQuery");
 

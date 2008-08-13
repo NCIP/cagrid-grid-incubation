@@ -59,7 +59,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                     <paramIndex>0</paramIndex>
                     <type>xsd:string</type> 
                     <locationQuery>/cas:GetArrayResponse</locationQuery>
-                    <expectedTypeIsArray>true</expectedTypeIsArray>
+                    <expectedTypeIsArray>false</expectedTypeIsArray>
                 </paramDescriptor>
                 </outputTransportDescriptor>
                 <GlobalUniqueIdentifier>1</GlobalUniqueIdentifier>
