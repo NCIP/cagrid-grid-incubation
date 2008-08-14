@@ -75,6 +75,7 @@
             <element ref="ns6:TerminationTime" />
             <element ref="ns2:WorkflowManagerInstanceDescriptor" />
             <element ref="ns1:TimestampedStatus" />
+            <element ref="ns1:InstrumentationRecord" />
           </sequence>
         </complexType>
       </element>

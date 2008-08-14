@@ -218,6 +218,19 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
         store();
 	}
 	
+	
+	
+	public org.cagrid.workflow.helper.descriptor.InstrumentationRecord getInstrumentationRecord(){
+		return ((WorkflowManagerInstanceResourceProperties) getResourceBean()).getInstrumentationRecord();
+	}
+	
+	public void setInstrumentationRecord(org.cagrid.workflow.helper.descriptor.InstrumentationRecord instrumentationRecord ) throws ResourceException {
+        ResourceProperty prop = getResourcePropertySet().get(WorkflowManagerInstanceConstants.INSTRUMENTATIONRECORD);
+		prop.set(0, instrumentationRecord);
+        //call the first store to persist the resource
+        store();
+	}
+	
 
 
 	

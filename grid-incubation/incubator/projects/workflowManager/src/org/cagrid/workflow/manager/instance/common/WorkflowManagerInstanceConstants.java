@@ -13,5 +13,6 @@ public interface WorkflowManagerInstanceConstants {
 	public static final QName TERMINATIONTIME = new QName("http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd", "TerminationTime");
 	public static final QName WORKFLOWMANAGERINSTANCEDESCRIPTOR = new QName("http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService", "WorkflowManagerInstanceDescriptor");
 	public static final QName TIMESTAMPEDSTATUS = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "TimestampedStatus");
+	public static final QName INSTRUMENTATIONRECORD = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "InstrumentationRecord");
 	
 }

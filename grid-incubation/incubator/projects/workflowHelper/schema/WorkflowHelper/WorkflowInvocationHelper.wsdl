@@ -144,6 +144,7 @@
             <element ref="ns1:OperationInputMessageDescriptor" />
             <element ref="ns1:OperationOutputTransportDescriptor" />
             <element ref="ns1:TimestampedStatus" />
+            <element ref="ns1:InstrumentationRecord" />
           </sequence>
         </complexType>
       </element>

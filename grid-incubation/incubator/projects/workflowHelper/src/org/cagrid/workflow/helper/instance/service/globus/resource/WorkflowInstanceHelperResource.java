@@ -19,6 +19,8 @@ import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.cagrid.workflow.helper.descriptor.EventTimePeriod;
+import org.cagrid.workflow.helper.descriptor.InstrumentationRecord;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
@@ -63,12 +65,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	private List<EndpointReferenceType> stagesEPRs = new ArrayList<EndpointReferenceType>();
 
 
-//	private boolean isFinished = false; // Indication of whether the stages have all finished their execution   
-
 	// Synchronizes the access to variable 'isFinished', indicating whether the execution has finished
 	protected Lock isFinishedKey = new ReentrantLock();
-	//protected Condition isFinishedCondition = isFinishedKey.newCondition();
-
 
 	private String eprString;
 
@@ -76,8 +74,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	private int timestamp = 0;
 
 
-
-
+	// Times elapsed in each phase of the execution
+	private org.cagrid.workflow.helper.instrumentation.InstrumentationRecord localWorkflowInstrumentation = null;
+	private List<InstrumentationRecord> stagesInstrumentation = null;
+	
 
 
 	/**
@@ -432,7 +432,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 			// Request notification from the InvocationHelper
 			invocationHelper = new WorkflowInvocationHelperClient(epr);
-			invocationHelper.subscribeWithCallback(TimestampedStatus.getTypeDesc().getXmlType(), this);
+			invocationHelper.subscribeWithCallback(TimestampedStatus.getTypeDesc().getXmlType(), this);  // Monitor status changes
+			invocationHelper.subscribeWithCallback(InstrumentationRecord.getTypeDesc().getXmlType(), this);  // Monitor instrumentation reports
 
 			// Store reference to the InvocationHelper internally
 			String key = invocationHelper.getEPRString();
@@ -465,6 +466,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		MessageElement actual_property = changeMessage.getNewValue().get_any()[0];
 		QName message_qname = actual_property.getQName();
 		boolean isTimestampedStatusChange = message_qname.equals(TimestampedStatus.getTypeDesc().getXmlType());
+		boolean isInstrumentationReport = message_qname.equals(InstrumentationRecord.getTypeDesc().getXmlType());
 		String stageKey = null;
 		try {
 			stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString(); 
@@ -475,11 +477,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		}   
 
 
-
-
 		logger.debug("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
 
-
+		
 		// Handle status change notifications
 		if(isTimestampedStatusChange){
 			TimestampedStatus status = null;;
@@ -507,6 +507,11 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 						this.stageStatus.remove(stageKey);
 						this.stageStatus.put(stageKey, status);
+						
+						
+						// TODO Get and store time for the termination of the current state
+						
+						
 					}
 
 				}
@@ -518,14 +523,11 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				if(statusActuallyChanged){
 
 					Status new_status = this.calculateStatus();
-					/*if( new_status.equals(Status.FINISHED) || new_status.equals(Status.ERROR)){
-
-						this.isFinished = true;
-					} // */
-
-
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
-					this.setTimestampedStatus(nextStatus);					
+					this.setTimestampedStatus(nextStatus);
+					
+					// TODO Get and store time for the start of the new state
+					
 				}
 
 
@@ -535,6 +537,32 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			finally {
 				this.isFinishedKey.unlock();
 			}
+		}
+		
+		
+		// Handle instrumentation reports
+		else if( isInstrumentationReport ){
+			
+			InstrumentationRecord instrumentation_data = null;;
+			try {
+				instrumentation_data = (InstrumentationRecord) actual_property.getValueAsType(message_qname, InstrumentationRecord.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			// Log the instrumentation data
+			logger.info("Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier());
+			final int numMeasurements = instrumentation_data.getRecords().length;
+			for(int i=0; i < numMeasurements; i++){
+				
+				EventTimePeriod curr_measurement = instrumentation_data.getRecords(i);
+				long elapsedTimeInNanos = curr_measurement.getEndTime() - curr_measurement.getStartTime(); 
+				logger.info(curr_measurement.getEvent()+ ": "+ (elapsedTimeInNanos/1000) + " microseconds");
+			}
+			logger.info("-------------------------------------------------------");
+			
+			
 		}
 
 	}
@@ -669,6 +697,16 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		
 	}
 
+
+	// Initialize the variable that will store the instrumentation data for each InvocationHelper under this InstanceHelper
+	public void initializeInstrumentationRecord(String workflowID) {
+		
+		this.localWorkflowInstrumentation = new org.cagrid.workflow.helper.instrumentation.InstrumentationRecord(workflowID);	
+		this.stagesInstrumentation = new ArrayList<InstrumentationRecord>();
+	}
+	
+	
+	
 	
 	
 }

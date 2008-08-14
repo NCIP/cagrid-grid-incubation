@@ -15,6 +15,7 @@ import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.workflow.helper.descriptor.EventTimePeriod;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
@@ -23,6 +24,7 @@ import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
 import org.cagrid.workflow.helper.instance.service.globus.resource.CredentialAccess;
+import org.cagrid.workflow.helper.instrumentation.InstrumentationRecord;
 import org.cagrid.workflow.helper.invocation.DeliveryEnumerator;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
 import org.cagrid.workflow.helper.util.ConversionUtil;
@@ -64,6 +66,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private FilePersistenceHelper resourcePersistenceHelper = null; // */
 
 
+	// Instrumentation information
+	InstrumentationRecord step_times;
+
 
 
 
@@ -75,13 +80,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		logger.info("Execution started for "+ getOperationDesc().getOperationQName().getLocalPart()); 
 
-		try {
-			int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1;
-			this.setTimestampedStatus(new TimestampedStatus(Status.RUNNING, nextTimestamp));
-			logger.info("Set status to RUNNING"); 
-		} catch (ResourceException e2) {
-			e2.printStackTrace();
-		}
+		this.changeStatus(Status.RUNNING);
+
 
 		final Thread th = new Thread(new Runnable() {
 
@@ -115,7 +115,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					/* Inspect each parameter so we can determine what we're supposed to do with the provided values */
 					EndpointReferenceType operationEpr = new EndpointReference(getOperationDesc().getServiceURL());
 					WorkflowInvocationHelperClient operationClient = new WorkflowInvocationHelperClient(operationEpr);
-					
+
 					for(int input = 0; input < input_value.length; input++){
 
 						dataIsArray = parameterIsArray = false;
@@ -140,20 +140,20 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 							// Let the next stage know we will start streaming output to it 
 							operationClient.startStreaming();
-							
-							
+
+
 							while( array_elements_iter.hasNext() ){ 
 
 
 								String curr_array_str = array_elements_iter.next();
-								
-								
+
+
 								if( !array_elements_iter.hasNext() ){
 
 									// Let the next stage know we will stop streaming output to it
 									operationClient.endStreaming();		
 								}
-								
+
 
 								// Create new inputs, with the original input value substituted for a new one (only the current array element as data)
 								InputParameter[] new_input_params = input_value.clone();
@@ -201,36 +201,14 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					}
 
 				} catch (Exception e1) {
-					System.err.println("ERROR processing " + getOperationDesc().getOperationQName() + e1.getMessage());
-					try {
-						int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
-						setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-						logger.error("Set status to ERROR in "+ getOperationDesc().getOperationQName()); 
-						return;
-					} catch (ResourceException e) {
-						e.printStackTrace();
-					}
+					System.err.println("ERROR processing " + getOperationDesc().getOperationQName() + e1.getMessage());					
+					changeStatus(Status.ERROR);
+					return;					
 				}
 
 
 				// Invocation done: change the status to "delivering output"				 
-				try {
-
-					int currTimestamp = getTimestampedStatus().getTimestamp();
-					setTimestampedStatus(new TimestampedStatus(Status.GENERATING_OUTPUT, currTimestamp  + 1));
-					logger.info("Changed status to "+ getTimestampedStatus().getStatus().toString());
-				} catch (ResourceException e2) {
-					e2.printStackTrace();
-					try {
-						int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
-						setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-						logger.error("Set status to ERROR in "+ getOperationDesc().getOperationQName()); 
-						return;
-					} catch (ResourceException e) {
-						e.printStackTrace();
-					}
-				}
-
+				changeStatus(Status.GENERATING_OUTPUT);
 
 
 				// See list contents
@@ -267,25 +245,24 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								InputParameter iparam = new InputParameter();
 								iparam.setParamIndex(pdesc.getParamIndex());
 
-								
+
 								// need to get that data out of the response;
 								// first, prepare all namespace mappings to the query
 								String data = null;
 								try {
-									
+
 									data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces());
 								} catch (Exception e) {
 									logger.error(e.getMessage(), e);
 									e.printStackTrace();
 								}
 								iparam.setData(data);
-								
-								
-								boolean outputIsArray = DataIsArray(data); //isOutputIsArray(); // TODO Debugging this part 
+
+
+								boolean outputIsArray = DataIsArray(data);  
 								boolean nextStageInputIsArray = pdesc.isExpectedTypeIsArray();  
 
 								logger.debug("[After getting operation's output] outputIsArray? "+ outputIsArray +". nextStageInputIsArray? "+ nextStageInputIsArray);
-
 								logger.debug("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'"); 
 
 								// send the data to the next workflow helper instance
@@ -308,7 +285,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									}
 									else {  // Do streaming between stages 
 
-										
+
 										// Enable streaming in the output recipient
 										logger.debug("Streaming output after getting operation's output");
 										next_destination = pdesc.getDestinationEPR()[0];  //  This might change when we have multiple destinations
@@ -316,7 +293,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										client.startStreaming();
 										client.start();
 										logger.debug("Streaming enabled"); 
-										
+
 
 										// Get array elements
 										List<String> array_elements = getArrayElementsFromData(data);
@@ -331,15 +308,15 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 											String curr_array_element = array_iter.next();
-											
+
 											if( !array_iter.hasNext() ){
-												
+
 												// Disable streaming in the output recipient
 												client.endStreaming();
-												
+
 												logger.debug("Disabling streaming"); 
 											} 
-											
+
 											iparam.setData(curr_array_element);
 											logger.debug("Current array element sent"); 
 
@@ -366,22 +343,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								}
 
 							} catch (MalformedURIException e) {
-								try {
-									int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
-									setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-									logger.error("Set status to ERROR in "+ getOperationDesc().getOperationQName()); 
-								} catch (ResourceException e1) {
-									e1.printStackTrace();
-								}
+								changeStatus(Status.ERROR);	
 								e.printStackTrace();
+
 							} catch (RemoteException e) {
-								try {
-									int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
-									setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-									logger.error("Set status to ERROR in "+ getOperationDesc().getOperationQName()); 
-								} catch (ResourceException e1) {
-									e1.printStackTrace();
-								}
+								changeStatus(Status.ERROR);
 								e.printStackTrace();
 							}
 						}
@@ -390,8 +356,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				}
 				try {
 					// Calculate the next status and change the status of the execution. Note: when reading from a stream, the stage won't terminate until the end of the stream is reached.  
-					finishRun();					 
+					finishRun();						
 				} catch (ResourceException e) {
+					logger.error(e.getMessage(), e);
+					e.printStackTrace();
+				} catch (Exception e) {
+					logger.error(e.getMessage(), e);
 					e.printStackTrace();
 				}
 
@@ -404,50 +374,31 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		/* Start thread and wait for it to finish */
 		try {
+		
 			th.start();
 			th.join();
-
-			//logger.info("[executeIfReady] Changing status for FINISHED");
-
 
 			if( this.getTimestampedStatus().getStatus().equals(Status.RUNNING) ){
 
 				this.finishRun();
-				/*int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
-				this.setTimestampedStatus(new TimestampedStatus(Status.FINISHED, nextTimestamp)); // */
 			}
 		} catch (InterruptedException e) {
 
 			e.printStackTrace();
-			try {
-				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
-				this.setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-				logger.error("Set status to ERROR in "+ getOperationDesc().getOperationQName());
-			} catch (ResourceException e1) {}
+			changeStatus(Status.ERROR);
 
 		} catch (ResourceException e) {
 			e.printStackTrace();
-			try {
-				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
-				this.setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-				logger.error("Set status to ERROR in "+ getOperationDesc().getOperationQName());
-			} catch (ResourceException e1) {}
-
+			changeStatus(Status.ERROR);			
 		}
 		catch (Throwable e) {
 			e.printStackTrace();
-			try {
-				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
-				this.setTimestampedStatus(new TimestampedStatus(Status.ERROR, nextTimestamp));
-				logger.error("Set status to ERROR in "+ getOperationDesc().getOperationQName());
-			} catch (ResourceException e1) {}
-
+			changeStatus(Status.ERROR);
 		}
 		logger.info("END");
 
 		return true;
 	}
-
 
 
 	/**
@@ -457,11 +408,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	 * */
 	private void finishRun() throws ResourceException {
 
-		int nextTimestamp = getTimestampedStatus().getTimestamp() + 1; 
-		
 		Status nextStatus = this.isReceivingStream ? Status.WAITING : Status.FINISHED;
-		setTimestampedStatus(new TimestampedStatus(nextStatus, nextTimestamp));
-		logger.info("[finishRun] Set status to "+ nextStatus +" ("+ getOperationDesc().getOperationQName() +")"); 
+		changeStatus(nextStatus);
+		logger.info("[finishRun] Set status to "+ nextStatus +" ("+ getOperationDesc().getOperationQName() +")");
 	}
 
 
@@ -514,8 +463,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				curr_array_str = ""+tree;
 				output_elements.add(curr_array_str);
 			} 
-
-
 		}
 
 		return output_elements;
@@ -572,7 +519,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 
-	/** The method below is used for debugging purposes */
+	/** The method below is used for debugging purposes  */
 	/*private static void printParameters(InputParameter[] paramData){
 
 
@@ -586,6 +533,18 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		System.out.flush();
 		return;
 	} // */
+
+
+	public void initializeInstrumentationRecord(String stageGUID){
+
+		this.step_times  = new InstrumentationRecord(stageGUID);
+		try {
+			this.step_times.eventStart(Status.UNCONFIGURED.toString());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			e.printStackTrace();
+		}
+	} 
 
 
 	public synchronized void setParameters(InputParameter[] params) {
@@ -607,16 +566,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
-	
+
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
-				try {
-					int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
-					this.setTimestampedStatus(new TimestampedStatus(Status.READY, nextTimestamp));
-					logger.info("[setParameter] Status is READY for "+ this.getOperationDesc().getOperationQName());
-				} catch (ResourceException e) {
-					e.printStackTrace();
-				}
+
+				changeStatus(Status.READY);
+				logger.info("[setParameter] Status is READY for "+ this.getOperationDesc().getOperationQName());				
 			}
 
 
@@ -644,19 +599,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		if(curr_status.equals(Status.UNCONFIGURED)){
 
-
 			this.input_desc = input_desc;
 
 			// Prepare for receiving the arguments (if there's any)
 			final int num_params = (this.input_desc.getInputParam() != null)? this.input_desc.getInputParam().length : 0 ; 
 			this.paramData = new InputParameter[num_params];
-
-			try {
-				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1; 
-				this.setTimestampedStatus(new TimestampedStatus(Status.INPUTCONFIGURED, nextTimestamp));
-			} catch (ResourceException e) {
-				e.printStackTrace();
-			}
+			changeStatus(Status.INPUTCONFIGURED);			
 		}
 		else {
 			logger.error("Input setting is allowed only when state is UNCONFIGURED. Current state: "+curr_status);
@@ -680,22 +628,17 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		if(curr_status.equals(Status.INPUTCONFIGURED)){
 
 
+
 			this.output_desc = output_desc;
-			try {
-				int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1;
-				this.setTimestampedStatus(new TimestampedStatus(Status.WAITING, nextTimestamp));
+			changeStatus(Status.WAITING);
 
-				// Skip the 'setParameter' step if we don't have any expected input. 
-				// Though, if the service is secure and the credential wasn't provided yet, a deadlock might occur
-				if(((this.getParamData() == null) || (this.getParamData().length == 0)) ){
-					logger.info("[setOutput_desc] No parameters needed, ready to execute");
-					this.setTimestampedStatus(new TimestampedStatus(Status.READY, ++nextTimestamp));
-					logger.info("[setOutput_desc] Status is READY for "+ this.getOperationDesc().getOperationQName()); 
-				} 
-
-			} catch (ResourceException e) {
-				e.printStackTrace();
-			}
+			// Skip the 'setParameter' step if we don't have any expected input. 
+			// Though, if the service is secure and the credential wasn't provided yet, a deadlock might occur
+			if(((this.getParamData() == null) || (this.getParamData().length == 0)) ){
+				logger.info("[setOutput_desc] No parameters needed, ready to execute");
+				changeStatus(Status.READY);
+				logger.info("[setOutput_desc] Status is READY for "+ this.getOperationDesc().getOperationQName()); 
+			} 
 
 		}
 		else {
@@ -834,6 +777,60 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 
+	public void changeStatus(Status new_status){
+
+
+		// Store time for the recently finished step
+		try {
+			this.step_times.eventEnd(this.getTimestampedStatus().getStatus().toString());  // Mark the previous phase as finished
+
+
+			// Update current status
+			int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1;
+
+			this.setTimestampedStatus(new TimestampedStatus(new_status, nextTimestamp));
+			this.step_times.eventStart(new_status.toString());
+			
+			
+			if(new_status.equals(Status.FINISHED)){
+				
+				this.step_times.eventEnd(Status.FINISHED.toString());	
+				
+				// Copy instrumentation data to a resource property 
+				EventTimePeriod[] instrumentaion_data = this.step_times.retrieveRecordAsArray();
+				this.setInstrumentationRecord(new org.cagrid.workflow.helper.descriptor.
+						InstrumentationRecord(getOperationDesc().getOperationQName().toString(), instrumentaion_data));
+				
+				
+				// BEGIN DEBUG 
+				/*System.out.println("Printing instrumentation data for "+ this.getOperationDesc().getOperationQName());
+				System.out.println("EVENT   -   ELAPSED TIME   -   (START, END)");
+				for(int i=0; i < instrumentaion_data.length; i++){
+					
+					
+					long elapsed_time, start_time, end_time;
+					start_time = instrumentaion_data[i].getStartTime();
+					end_time = instrumentaion_data[i].getEndTime();
+					elapsed_time = end_time - start_time;
+					
+					System.out.println(instrumentaion_data[i].getEvent() + " ; Elapsed time: "+ elapsed_time +"  ("+ start_time + ", " + end_time +")");
+				} 
+				System.out.println("End printing instrumentation data");  
+				// END DEBUG */
+				
+			}
+			
+		} catch (ResourceException e) {
+			logger.error(e.getMessage(), e);
+			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			e.printStackTrace();
+		}
+		logger.info("Set status to "+ new_status);
+	}
+
+
 
 	/**
 	 * @return the outputIsArray
@@ -865,13 +862,13 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 	public void unsetReceivingStream() {
-		
+
 		logger.info("Streaming ended..");
 		this.isReceivingStream = false;
-		
+
 	}
 
-	
+
 	/*
 	public void load(ResourceKey resourceKey) throws ResourceException, NoSuchResourceException, InvalidResourceKeyException {
 		beingLoaded = true;

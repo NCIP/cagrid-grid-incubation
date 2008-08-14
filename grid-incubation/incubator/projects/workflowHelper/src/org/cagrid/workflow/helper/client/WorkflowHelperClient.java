@@ -1,36 +1,24 @@
 package org.cagrid.workflow.helper.client;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.InetAddress;
 import java.rmi.RemoteException;
 
 import javax.xml.namespace.QName;
 import javax.xml.rpc.NamespaceConstants;
 
 import org.apache.axis.client.Stub;
-import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cagrid.gaards.cds.common.ProxyLifetime;
 import org.cagrid.workflow.helper.common.WorkflowHelperI;
-import org.cagrid.workflow.helper.descriptor.CDSAuthenticationMethod;
-import org.cagrid.workflow.helper.descriptor.ChannelProtection;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
-import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
-import org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
-import org.cagrid.workflow.helper.descriptor.WorkflowInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
-import org.cagrid.workflow.helper.util.CredentialHandlingUtil;
 import org.globus.gsi.GlobusCredential;
 
 /**
@@ -46,10 +34,8 @@ import org.globus.gsi.GlobusCredential;
  */
 public class WorkflowHelperClient extends WorkflowHelperClientBase implements WorkflowHelperI {	
 
-
 	private static Log logger = LogFactory.getLog(WorkflowHelperClient.class);
 	private static String XSD_NAMESPACE = NamespaceConstants.NSURI_SCHEMA_XSD;
-
 
 	public WorkflowHelperClient(String url) throws MalformedURIException, RemoteException {
 		this(url,null);	
@@ -98,14 +84,11 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 						e.printStackTrace();
 					}
 
-
 					// BEGIN service 4
 					WorkflowInvocationHelperDescriptor operation_4 = new WorkflowInvocationHelperDescriptor();
 					operation_4.setOperationQName(new QName("http://service4.introduce.cagrid.org/Service4", "PrintResultsRequest"));
 					operation_4.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/Service4");
 					// operation_4.setOutputType(); // Void output expected
-
-
 
 					// Creating client of service 4
 					WorkflowInvocationHelperClient serviceClient_4 = null;
@@ -117,8 +100,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
 					//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_4);
-
-
 
 					// Creating Descriptor of the InputMessage
 					OperationInputMessageDescriptor inputMessage_4 = new OperationInputMessageDescriptor();
@@ -137,13 +118,9 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient_4.configureOutput(outputDescriptor_4);
 					serviceClient_4.start();
 
-
 					// Setting second parameter
 					serviceClient_4.setParameter(new InputParameter("simple type's streaming", 1));
 					// END service 4
-
-
-
 
 					// BEGIN service 2				
 					// create service 2
@@ -162,7 +139,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
 					//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_2);
 
-
 					// Creating Descriptor of the InputMessage
 					OperationInputMessageDescriptor inputMessage__2 = new OperationInputMessageDescriptor();
 					InputParameterDescriptor[] inputParam__2 = new InputParameterDescriptor[1];
@@ -171,11 +147,9 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					serviceClient_2.configureInput(inputMessage__2);
 					// End InputMessage Descriptor
 
-
 					// configure destination of output
 					OperationOutputTransportDescriptor outputDescriptor__2 = new OperationOutputTransportDescriptor();
 					OperationOutputParameterTransportDescriptor outParameterDescriptor__2 [] = new OperationOutputParameterTransportDescriptor[1];
-
 
 					// 1st destination: Service4
 					outParameterDescriptor__2[0] = new OperationOutputParameterTransportDescriptor();
@@ -188,13 +162,10 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor__2[0].setLocationQuery("/ns0:CapitalizeResponse");
 					outParameterDescriptor__2[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient_4.getEndpointReference()});
 
-
 					outputDescriptor__2.setParamDescriptor(outParameterDescriptor__2);
 					serviceClient_2.configureOutput(outputDescriptor__2);
 					serviceClient_2.start();
 					// END service 2
-
-
 
 					// BEGIN CreateArrayService				
 					// create CreateArrayService	
@@ -213,7 +184,6 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 
 					// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
 					//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_cs);
-
 
 					// Creating Descriptor of the InputMessage
 					org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__cas = new OperationInputMessageDescriptor();
@@ -236,11 +206,9 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 					outParameterDescriptor_cs[0].setLocationQuery("/ns0:GetArrayResponse");
 					outParameterDescriptor_cs[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient_2.getEndpointReference()});  // takes the reference to Service2::capitalize
 
-
 					outputDescriptor_cs.setParamDescriptor(outParameterDescriptor_cs);
 					serviceClient_cs.configureOutput(outputDescriptor_cs);
 					serviceClient_cs.start();
-
 
 					// END CreateArrayService
 
@@ -269,54 +237,54 @@ public class WorkflowHelperClient extends WorkflowHelperClientBase implements Wo
 		}
 	}
 
-	public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
-			return portType.getMultipleResourceProperties(params);
-		}
-	}
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
+    return portType.getMultipleResourceProperties(params);
+    }
+  }
 
-	public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getResourceProperty");
-			return portType.getResourceProperty(params);
-		}
-	}
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getResourceProperty");
+    return portType.getResourceProperty(params);
+    }
+  }
 
-	public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"queryResourceProperties");
-			return portType.queryResourceProperties(params);
-		}
-	}
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"queryResourceProperties");
+    return portType.queryResourceProperties(params);
+    }
+  }
 
-	public org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient createWorkflowInstanceHelper(org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptor) throws RemoteException, org.apache.axis.types.URI.MalformedURIException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"createWorkflowInstanceHelper");
-			org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequest params = new org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequest();
-			org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequestWorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptorContainer = new org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequestWorkflowInstanceHelperDescriptor();
-			workflowInstanceHelperDescriptorContainer.setWorkflowInstanceHelperDescriptor(workflowInstanceHelperDescriptor);
-			params.setWorkflowInstanceHelperDescriptor(workflowInstanceHelperDescriptorContainer);
-			org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperResponse boxedResult = portType.createWorkflowInstanceHelper(params);
-			EndpointReferenceType ref = boxedResult.getWorkflowInstanceHelperReference().getEndpointReference();
-			return new org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient(ref);
-		}
-	}
+  public org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient createWorkflowInstanceHelper(org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptor) throws RemoteException, org.apache.axis.types.URI.MalformedURIException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"createWorkflowInstanceHelper");
+    org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequest params = new org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequest();
+    org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequestWorkflowInstanceHelperDescriptor workflowInstanceHelperDescriptorContainer = new org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperRequestWorkflowInstanceHelperDescriptor();
+    workflowInstanceHelperDescriptorContainer.setWorkflowInstanceHelperDescriptor(workflowInstanceHelperDescriptor);
+    params.setWorkflowInstanceHelperDescriptor(workflowInstanceHelperDescriptorContainer);
+    org.cagrid.workflow.helper.stubs.CreateWorkflowInstanceHelperResponse boxedResult = portType.createWorkflowInstanceHelper(params);
+    EndpointReferenceType ref = boxedResult.getWorkflowInstanceHelperReference().getEndpointReference();
+    return new org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient(ref);
+    }
+  }
 
-	public java.lang.String getIdentity() throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getIdentity");
-			org.cagrid.workflow.helper.stubs.GetIdentityRequest params = new org.cagrid.workflow.helper.stubs.GetIdentityRequest();
-			org.cagrid.workflow.helper.stubs.GetIdentityResponse boxedResult = portType.getIdentity(params);
-			return boxedResult.getResponse();
-		}
-	}
+  public java.lang.String getIdentity() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getIdentity");
+    org.cagrid.workflow.helper.stubs.GetIdentityRequest params = new org.cagrid.workflow.helper.stubs.GetIdentityRequest();
+    org.cagrid.workflow.helper.stubs.GetIdentityResponse boxedResult = portType.getIdentity(params);
+    return boxedResult.getResponse();
+    }
+  }
 
-	public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"subscribe");
-			return portType.subscribe(params);
-		}
-	}
+  public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"subscribe");
+    return portType.subscribe(params);
+    }
+  }
 
 }

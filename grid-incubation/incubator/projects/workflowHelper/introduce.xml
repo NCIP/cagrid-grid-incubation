@@ -13,8 +13,10 @@
   </ns2:Namespace>
   <ns2:Namespace location="./WorkflowHelper.xsd" namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" packageName="org.cagrid.workflow.helper.descriptor" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="DeliveryPolicy" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="EventTimePeriod" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InputParameter" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InputParameterDescriptor" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="InstrumentationRecord" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationInputMessageDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
@@ -327,6 +329,7 @@
     <ns42:ResourceProperty qName="ns46:OperationInputMessageDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationInputMessageDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns46="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
     <ns42:ResourceProperty qName="ns47:OperationOutputTransportDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationOutputTransportDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns47="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
     <ns42:ResourceProperty qName="ns48:TimestampedStatus" description="" fileLocation="WorkflowInvocationHelper_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns48="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns42:ResourceProperty qName="ns49:InstrumentationRecord" description="" fileLocation="WorkflowInvocationHelper_instrumentationRecord.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns49="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
    </ns42:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
@@ -336,9 +339,9 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns49:Extensions xsi:type="ns49:ExtensionsType" xmlns:ns49="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
- <ns50:ServiceProperties xmlns:ns50="gme://gov.nih.nci.cagrid.introduce/1/Property">
-  <ns50:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
-  <ns50:Property description="Location of the credential configured to be used as container's credential. Should be removed" isFromETC="true" key="helperCredential" value="../../../../../../../../testUtils/certificates/ca/testing_ca_"/>
- </ns50:ServiceProperties>
+ <ns50:Extensions xsi:type="ns50:ExtensionsType" xmlns:ns50="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns51:ServiceProperties xmlns:ns51="gme://gov.nih.nci.cagrid.introduce/1/Property">
+  <ns51:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
+  <ns51:Property description="Location of the credential configured to be used as container's credential. Should be removed" isFromETC="true" key="helperCredential" value="../../../../../../../../testUtils/certificates/ca/testing_ca_"/>
+ </ns51:ServiceProperties>
 </ns1:ServiceDescription>

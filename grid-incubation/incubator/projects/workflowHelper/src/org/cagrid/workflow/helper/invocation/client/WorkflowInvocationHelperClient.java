@@ -1,6 +1,5 @@
 package org.cagrid.workflow.helper.invocation.client;
 
-import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,8 @@ import org.apache.axis.client.Stub;
 import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
-import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.invocation.common.WorkflowInvocationHelperI;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.NotifyCallback;
@@ -34,6 +34,10 @@ import org.globus.wsrf.container.ContainerException;
 public class WorkflowInvocationHelperClient extends
 WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 
+	
+	private static Log logger = LogFactory.getLog(WorkflowInvocationHelperClient.class);
+	
+	
 	private Map<QName, NotifyCallback> callbacks = new HashMap<QName, NotifyCallback>();
 
 	public WorkflowInvocationHelperClient(String url)
@@ -89,11 +93,11 @@ WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 	
 	public org.oasis.wsn.SubscribeResponse subscribeWithCallback(QName qname, NotifyCallback callback) throws RemoteException, ContainerException, MalformedURIException {
 
-		//System.out.print("[InvocationHelper::subscribeWithCallback] Putting "+ qname +" on internal list"); //DEBUG
+		logger.debug("[InvocationHelper::subscribeWithCallback] Putting "+ qname +" on internal list");
 
 		callbacks.put(qname, callback);
 
-		//System.out.println("...OK"); // DEBUG
+		logger.debug("...OK"); 
 
 		return subscribe(qname);
 	} 
@@ -119,32 +123,11 @@ WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 
 		MessageElement messageToDeliver = changeMessage.getNewValue().get_any()[0];
 		QName notification_qname = messageToDeliver.getQName();
-		String stageKey = null;
-		try {
-			stageKey = new WorkflowInvocationHelperClient(producer).getEPRString(); //toString();
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		} catch (MalformedURIException e1) {
-			e1.printStackTrace();
-		}  
-
-		PrintStream log = System.out;  //DEBUG
-		TimestampedStatus messageValue = null;
-		try {
-			messageValue = (TimestampedStatus) messageToDeliver.getValueAsType(notification_qname, TimestampedStatus.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} // */
-		//log.println("[WorkflowInvocationHelper.deliver] Received message: "+ messageValue.toString() + " from "+ stageKey);  //DEBUG
-
+		
+		
 		if(callbacks.containsKey(notification_qname)){
 
-			//DEBUG
-			//log.println("[WorkflowInvocationHelperClient.deliver] Delivering "+ notification_qname);
-
 			(callbacks.get(notification_qname)).deliver(topicPath, producer, message);
-
-			//log.println("Delivered");
 
 		}
 		else {
@@ -153,22 +136,6 @@ WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 
 		}
 	}
-
-  public void startStreaming() throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"startStreaming");
-    org.cagrid.workflow.helper.invocation.stubs.StartStreamingRequest params = new org.cagrid.workflow.helper.invocation.stubs.StartStreamingRequest();
-    org.cagrid.workflow.helper.invocation.stubs.StartStreamingResponse boxedResult = portType.startStreaming(params);
-    }
-  }
-
-  public void endStreaming() throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"endStreaming");
-    org.cagrid.workflow.helper.invocation.stubs.EndStreamingRequest params = new org.cagrid.workflow.helper.invocation.stubs.EndStreamingRequest();
-    org.cagrid.workflow.helper.invocation.stubs.EndStreamingResponse boxedResult = portType.endStreaming(params);
-    }
-  }
 
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
@@ -249,6 +216,22 @@ WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
       configureStubSecurity((Stub)portType,"start");
     org.cagrid.workflow.helper.invocation.stubs.StartRequest params = new org.cagrid.workflow.helper.invocation.stubs.StartRequest();
     org.cagrid.workflow.helper.invocation.stubs.StartResponse boxedResult = portType.start(params);
+    }
+  }
+
+  public void startStreaming() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"startStreaming");
+    org.cagrid.workflow.helper.invocation.stubs.StartStreamingRequest params = new org.cagrid.workflow.helper.invocation.stubs.StartStreamingRequest();
+    org.cagrid.workflow.helper.invocation.stubs.StartStreamingResponse boxedResult = portType.startStreaming(params);
+    }
+  }
+
+  public void endStreaming() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"endStreaming");
+    org.cagrid.workflow.helper.invocation.stubs.EndStreamingRequest params = new org.cagrid.workflow.helper.invocation.stubs.EndStreamingRequest();
+    org.cagrid.workflow.helper.invocation.stubs.EndStreamingResponse boxedResult = portType.endStreaming(params);
     }
   }
 

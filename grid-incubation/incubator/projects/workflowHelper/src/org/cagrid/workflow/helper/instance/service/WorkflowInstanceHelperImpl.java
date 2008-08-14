@@ -1,6 +1,7 @@
 package org.cagrid.workflow.helper.instance.service;
 
 import java.rmi.RemoteException;
+import java.util.Random;
 
 import javax.xml.namespace.QName;
 
@@ -52,11 +53,14 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 			thisResource.setOutputType(workflowInvocationHelperDescriptor.getOutputType());
 			
 			boolean outputIsArray = (workflowInvocationHelperDescriptor.getOutputIsArray() != null)? workflowInvocationHelperDescriptor.getOutputIsArray().booleanValue() : false ; 
+			String stageGUID = workflowInvocationHelperDescriptor.getOperationQName()+ String.valueOf(new Random().nextInt());
+			
 			
 			thisResource.setOutputIsArray(outputIsArray);
 			thisResource.setTimestampedStatus(new TimestampedStatus(Status.UNCONFIGURED, 0));
 			thisResource.setCredentialAccess(getResourceHome().getAddressedResource());
 			thisResource.setWorkflowInvocationHelperDescriptor(workflowInvocationHelperDescriptor);
+			thisResource.initializeInstrumentationRecord(stageGUID);
 
 			// sample of setting creator only security.  This will only allow the caller that created
 			// this resource to be able to use it.

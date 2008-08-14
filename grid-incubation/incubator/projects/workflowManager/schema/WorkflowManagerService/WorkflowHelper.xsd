@@ -63,10 +63,10 @@
 			<xs:element name="WorkflowManagerEPR"
 				type="wsa:EndpointReferenceType">
 			</xs:element>
-			<xs:element name="WorkflowID" type="string"></xs:element>
+			<xs:element name="WorkflowID" type="string"></xs:element>
             <xs:element name="WorkflowInvocationSecurityDescriptor" type="tns:WorkflowInvocationSecurityDescriptor" minOccurs="0" maxOccurs="1" />
             <xs:element name="ServiceURL" type="xs:string"></xs:element>
-            <xs:element name="operationQName" type="QName"></xs:element>
+            <xs:element name="operationQName" type="QName"></xs:element>
 			<xs:element name="outputType" type="QName" minOccurs="0" maxOccurs="1" />
 			<!-- Knowing the output type (if any) allows us to do streaming bewteen stages -->
 			<xs:element name="outputIsArray" type="xs:boolean" minOccurs="0" maxOccurs="1"></xs:element>
@@ -189,6 +189,26 @@
 		</xs:sequence>
 	</xs:complexType>
 	
+	<!-- Type used to instrument the code -->
+	<xs:element name="EventTimePeriod" type="tns:EventTimePeriod" />
+	<xs:complexType name="EventTimePeriod">
+		<xs:sequence>
+			<xs:element name="event" type="string" />
+			<xs:element name="startTime" type="long" />
+			<xs:element name="endTime" type="long" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="InstrumentationRecord" type="tns:InstrumentationRecord" />
+	<xs:complexType name="InstrumentationRecord">
+		<xs:sequence>
+			<xs:element name="identifier" type="string" />
+			<xs:element name="records" type="tns:EventTimePeriod" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- End of types used for instrumentation -->
+	
+
 	<xs:element name="OperationOutputParameterTransportDescriptor" type="tns:OperationOutputParameterTransportDescriptor" />
 	<xs:complexType name="OperationOutputParameterTransportDescriptor">
 		<xs:sequence>
@@ -221,3 +241,4 @@
 	</xs:simpleType>
 	
 </xs:schema>
+

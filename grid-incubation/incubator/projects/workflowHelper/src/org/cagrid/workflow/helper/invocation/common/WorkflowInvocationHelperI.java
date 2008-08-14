@@ -12,10 +12,6 @@ import java.rmi.RemoteException;
  */
 public interface WorkflowInvocationHelperI {
 
-  public void startStreaming() throws RemoteException ;
-
-  public void endStreaming() throws RemoteException ;
-
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException ;
 
   public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException ;
@@ -38,6 +34,10 @@ public interface WorkflowInvocationHelperI {
   public java.lang.String getEPRString() throws RemoteException ;
 
   public void start() throws RemoteException ;
+
+  public void startStreaming() throws RemoteException ;
+
+  public void endStreaming() throws RemoteException ;
 
 }
 

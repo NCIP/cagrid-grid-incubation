@@ -1,20 +1,19 @@
 package org.cagrid.workflow.helper.service.globus.resource;
 
-import org.cagrid.workflow.helper.common.WorkflowHelperConstants;
-import org.cagrid.workflow.helper.stubs.WorkflowHelperResourceProperties;
+import gov.nih.nci.cagrid.introduce.servicetools.SingletonResourceHomeImpl;
 
 import org.apache.axis.components.uuid.UUIDGen;
 import org.apache.axis.components.uuid.UUIDGenFactory;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.workflow.helper.common.WorkflowHelperConstants;
+import org.cagrid.workflow.helper.stubs.WorkflowHelperResourceProperties;
 import org.globus.wsrf.InvalidResourceKeyException;
 import org.globus.wsrf.PersistenceCallback;
 import org.globus.wsrf.Resource;
+import org.globus.wsrf.ResourceContext;
 import org.globus.wsrf.ResourceException;
 import org.globus.wsrf.ResourceKey;
-import org.globus.wsrf.ResourceContext;
-import gov.nih.nci.cagrid.introduce.servicetools.SingletonResourceHomeImpl;
 import org.globus.wsrf.jndi.Initializable;
 
 
