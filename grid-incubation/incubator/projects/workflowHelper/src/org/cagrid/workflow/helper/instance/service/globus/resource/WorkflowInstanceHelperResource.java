@@ -21,6 +21,7 @@ import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.cagrid.workflow.helper.descriptor.EventTimePeriod;
 import org.cagrid.workflow.helper.descriptor.InstrumentationRecord;
+import org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClient;
@@ -70,7 +71,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 	private String eprString;
 
-	// Logical time of a message notifying 
+	// Logical time of a message notification 
 	private int timestamp = 0;
 
 
@@ -440,6 +441,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			this.stageStatus.put(key, new TimestampedStatus(Status.UNCONFIGURED, 0));
 			this.EPR2OperationName.put(key, name.toString());
 			this.stagesEPRs.add(epr);
+			 
 
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
@@ -480,7 +482,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		logger.debug("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
 
 		
-		// Handle status change notifications
+		/// Handle status change notifications
 		if(isTimestampedStatusChange){
 			TimestampedStatus status = null;;
 			try {
@@ -506,12 +508,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 					if(statusActuallyChanged){
 
 						this.stageStatus.remove(stageKey);
-						this.stageStatus.put(stageKey, status);
-						
-						
-						// TODO Get and store time for the termination of the current state
-						
-						
+						this.stageStatus.put(stageKey, status);						
 					}
 
 				}
@@ -522,16 +519,49 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				// Calculate new status value
 				if(statusActuallyChanged){
 
+					
+					// Terminate current status
+					this.localWorkflowInstrumentation.eventEnd(this.getTimestampedStatus().getStatus().toString());
+					
+					
+					// Set new status
 					Status new_status = this.calculateStatus();
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
 					this.setTimestampedStatus(nextStatus);
 					
-					// TODO Get and store time for the start of the new state
+					// Get and store time for the start of the new state
+					this.localWorkflowInstrumentation.eventStart(this.getTimestampedStatus().getStatus().toString());
+					
+					
+					
+					// If the local workflow is finished, copy all the collected instrumentation data to a 
+					// resource property so it is exposed by this resource 
+					if( nextStatus.getStatus().equals(Status.FINISHED) || nextStatus.getStatus().equals(Status.ERROR) ){
+					
+						logger.info("Workflow is finished, exposing instrumentation data");
+						
+						LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
+						localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
+						InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(), 
+								this.localWorkflowInstrumentation.retrieveRecordAsArray());
+						localWorkflowInstrumentationRecord.setLocalWorkflowRecord(localWorkflowRecord);  // Info about local workflow as a whole
+						
+						InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
+						localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource 
+						this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
+
+						this.printLocalWorkflowInstrumentationRecord();
+						logger.info("Resource property set"); //DEBUG
+					}
 					
 				}
 
 
 			} catch (ResourceException e) {
+				logger.error(e.getMessage(), e);
+				e.printStackTrace();
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
 				e.printStackTrace();
 			}
 			finally {
@@ -540,7 +570,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		}
 		
 		
-		// Handle instrumentation reports
+		/// Handle instrumentation reports
 		else if( isInstrumentationReport ){
 			
 			InstrumentationRecord instrumentation_data = null;;
@@ -549,6 +579,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			
+			// Store the received measurements 
+			this.stagesInstrumentation.add(instrumentation_data);
 			
 			
 			// Log the instrumentation data
@@ -565,6 +599,12 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			
 		}
 
+	}
+
+
+	private void printLocalWorkflowInstrumentationRecord() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
@@ -703,10 +743,16 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		
 		this.localWorkflowInstrumentation = new org.cagrid.workflow.helper.instrumentation.InstrumentationRecord(workflowID);	
 		this.stagesInstrumentation = new ArrayList<InstrumentationRecord>();
+		try {
+			this.localWorkflowInstrumentation.eventStart(Status.UNCONFIGURED.toString());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			e.printStackTrace();
+		}
 	}
 	
 	
-	
+	// TODO Store the instrumentation data both from the InvocationHelpers and from the local workflow as a whole
 	
 	
 }

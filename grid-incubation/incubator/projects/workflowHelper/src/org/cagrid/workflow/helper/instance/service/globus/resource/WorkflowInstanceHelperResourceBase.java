@@ -215,6 +215,19 @@ public abstract class WorkflowInstanceHelperResourceBase extends ReflectionResou
         store();
 	}
 	
+	
+	
+	public org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord getLocalWorkflowInstrumentationRecord(){
+		return ((WorkflowInstanceHelperResourceProperties) getResourceBean()).getLocalWorkflowInstrumentationRecord();
+	}
+	
+	public void setLocalWorkflowInstrumentationRecord(org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord ) throws ResourceException {
+        ResourceProperty prop = getResourcePropertySet().get(WorkflowInstanceHelperConstants.LOCALWORKFLOWINSTRUMENTATIONRECORD);
+		prop.set(0, localWorkflowInstrumentationRecord);
+        //call the first store to persist the resource
+        store();
+	}
+	
 
 
 	  

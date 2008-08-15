@@ -17,6 +17,7 @@
    <ns2:SchemaElement type="InputParameter" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InputParameterDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InstrumentationRecord" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="LocalWorkflowInstrumentationRecord" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationInputMessageDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
@@ -236,6 +237,7 @@
     <ns27:ResourceProperty qName="ns29:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns27:ResourcePropertyType" xmlns:ns29="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
     <ns27:ResourceProperty qName="ns30:WorkflowInstanceHelperDescriptor" description="" fileLocation="WorkflowInstanceHelper_workflowInstanceHelperDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns27:ResourcePropertyType" xmlns:ns30="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
     <ns27:ResourceProperty qName="ns31:TimestampedStatus" description="" fileLocation="WorkflowInstanceHelper_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns27:ResourcePropertyType" xmlns:ns31="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns27:ResourceProperty qName="ns32:LocalWorkflowInstrumentationRecord" description="" fileLocation="WorkflowInstanceHelper_localWorkflowInstrumentationRecord.xml" populateFromFile="false" register="false" xsi:type="ns27:ResourcePropertyType" xmlns:ns32="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
    </ns27:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
@@ -246,91 +248,91 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
   <ns3:Service name="WorkflowInvocationHelper" namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation" packageName="org.cagrid.workflow.helper.invocation" xsi:type="ns3:ServiceType">
-   <ns32:Methods xsi:type="ns32:MethodsType" xmlns:ns32="gme://gov.nih.nci.cagrid.introduce/1/Methods">
-    <ns32:Method isImported="true" isProvided="true" name="getServiceSecurityMetadata" xsi:type="ns32:MethodType">
-     <ns32:Output qName="ns33:ServiceSecurityMetadata" isArray="false" isClientHandle="false" xmlns:ns33="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"/>
-     <ns34:MethodSecurity xsi:type="ns34:MethodSecurity" xmlns:ns34="gme://gov.nih.nci.cagrid.introduce/1/Security">
-      <ns34:SecuritySetting xsi:type="ns34:SecuritySetting">None</ns34:SecuritySetting>
-      <ns34:MethodAuthorization xsi:type="ns34:MethodAuthorization">
-       <ns34:NoAuthorization xsi:type="ns34:NoAuthorization"/>
-      </ns34:MethodAuthorization>
-     </ns34:MethodSecurity>
-     <ns32:ImportInformation namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" packageName="gov.nih.nci.cagrid.introduce.security.stubs" portTypeName="ServiceSecurityPortType" wsdlFile="ServiceSecurity.wsdl"/>
-     <ns32:ProviderInformation providerClass="gov.nih.nci.cagrid.introduce.security.service.globus.ServiceSecurityProviderImpl"/>
-    </ns32:Method>
-    <ns32:Method isImported="true" isProvided="true" name="Destroy" xsi:type="ns32:MethodType">
-     <ns32:Output qName="void" isArray="false"/>
-     <ns32:ImportInformation fromIntroduce="false" inputMessage="ns35:DestroyRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" outputMessage="ns35:DestroyResponse" packageName="org.oasis.wsrf.lifetime" portTypeName="ImmediateResourceTermination" wsdlFile="../wsrf/lifetime/WS-ResourceLifetime.wsdl" xmlns:ns35="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl"/>
-     <ns32:ProviderInformation providerClass="DestroyProvider"/>
-    </ns32:Method>
-    <ns32:Method isImported="true" isProvided="true" name="SetTerminationTime" xsi:type="ns32:MethodType">
-     <ns32:Output qName="void" isArray="false"/>
-     <ns32:ImportInformation fromIntroduce="false" inputMessage="ns36:SetTerminationTimeRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" outputMessage="ns36:SetTerminationTimeResponse" packageName="org.oasis.wsrf.lifetime" portTypeName="ScheduledResourceTermination" wsdlFile="../wsrf/lifetime/WS-ResourceLifetime.wsdl" xmlns:ns36="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl"/>
-     <ns32:ProviderInformation providerClass="SetTerminationTimeProvider"/>
-    </ns32:Method>
-    <ns32:Method description="" isImported="false" isProvided="false" name="configureInput" xsi:type="ns32:MethodType">
-     <ns32:Inputs>
-      <ns32:Input qName="ns37:OperationInputMessageDescriptor" description="" isArray="false" name="operationInputMessageDescriptor" xmlns:ns37="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-     </ns32:Inputs>
-     <ns32:Output qName="void" description="" isArray="false"/>
-     <ns32:Exceptions/>
-    </ns32:Method>
-    <ns32:Method description="---" isImported="false" isProvided="false" name="configureOutput" xsi:type="ns32:MethodType">
-     <ns32:Inputs>
-      <ns32:Input qName="ns38:OperationOutputTransportDescriptor" description="" isArray="false" name="operationOutputTransportDescriptor" xmlns:ns38="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-     </ns32:Inputs>
-     <ns32:Output qName="void" description="" isArray="false"/>
-     <ns32:Exceptions/>
-    </ns32:Method>
-    <ns32:Method description="" isImported="false" isProvided="false" name="setParameter" xsi:type="ns32:MethodType">
-     <ns32:Inputs>
-      <ns32:Input qName="ns39:InputParameter" description="" isArray="false" name="inputParameter" xmlns:ns39="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-     </ns32:Inputs>
-     <ns32:Output qName="void" description="" isArray="false"/>
-     <ns32:Exceptions/>
-    </ns32:Method>
-    <ns32:Method description="" isImported="false" isProvided="false" name="setParameters" xsi:type="ns32:MethodType">
-     <ns32:Inputs>
-      <ns32:Input qName="ns40:InputParameter" description="" isArray="true" name="inputParameters" xmlns:ns40="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-     </ns32:Inputs>
-     <ns32:Output qName="void" description="" isArray="false"/>
-     <ns32:Exceptions/>
-    </ns32:Method>
-    <ns32:Method isImported="true" isProvided="true" name="Subscribe" xsi:type="ns32:MethodType">
-     <ns32:Output qName="void" isArray="false"/>
-     <ns32:ImportInformation fromIntroduce="false" inputMessage="ns41:SubscribeRequest" namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" outputMessage="ns41:SubscribeResponse" packageName="org.oasis.wsn" portTypeName="NotificationProducer" wsdlFile="../wsrf/notification/WS-BaseN.wsdl" xmlns:ns41="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl"/>
-     <ns32:ProviderInformation providerClass="SubscribeProvider"/>
-    </ns32:Method>
-    <ns32:Method description="" isImported="false" isProvided="false" name="getEPRString" xsi:type="ns32:MethodType">
-     <ns32:Inputs/>
-     <ns32:Output qName="xsd:string" description="" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-     <ns32:Exceptions/>
-    </ns32:Method>
-    <ns32:Method description="" isImported="false" isProvided="false" name="start" xsi:type="ns32:MethodType">
-     <ns32:Inputs/>
-     <ns32:Output qName="void" description="" isArray="false"/>
-     <ns32:Exceptions/>
-    </ns32:Method>
-    <ns32:Method description="" isImported="false" isProvided="false" name="startStreaming" xsi:type="ns32:MethodType">
-     <ns32:Inputs/>
-     <ns32:Output qName="void" description="" isArray="false"/>
-     <ns32:Exceptions/>
-    </ns32:Method>
-    <ns32:Method description="" isImported="false" isProvided="false" name="endStreaming" xsi:type="ns32:MethodType">
-     <ns32:Inputs/>
-     <ns32:Output qName="void" description="" isArray="false"/>
-     <ns32:Exceptions/>
-    </ns32:Method>
-   </ns32:Methods>
-   <ns42:ResourcePropertiesList xsi:type="ns42:ResourcePropertiesListType" xmlns:ns42="gme://gov.nih.nci.cagrid.introduce/1/Resources">
-    <ns42:ResourceProperty qName="ns43:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns43="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns42:ResourceProperty qName="ns44:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns44="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns42:ResourceProperty qName="ns45:WorkflowInvocationHelperDescriptor" description="" fileLocation="WorkflowInvocationHelper_workflowInvocationHelperDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns45="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns42:ResourceProperty qName="ns46:OperationInputMessageDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationInputMessageDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns46="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns42:ResourceProperty qName="ns47:OperationOutputTransportDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationOutputTransportDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns47="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns42:ResourceProperty qName="ns48:TimestampedStatus" description="" fileLocation="WorkflowInvocationHelper_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns48="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns42:ResourceProperty qName="ns49:InstrumentationRecord" description="" fileLocation="WorkflowInvocationHelper_instrumentationRecord.xml" populateFromFile="false" register="false" xsi:type="ns42:ResourcePropertyType" xmlns:ns49="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-   </ns42:ResourcePropertiesList>
+   <ns33:Methods xsi:type="ns33:MethodsType" xmlns:ns33="gme://gov.nih.nci.cagrid.introduce/1/Methods">
+    <ns33:Method isImported="true" isProvided="true" name="getServiceSecurityMetadata" xsi:type="ns33:MethodType">
+     <ns33:Output qName="ns34:ServiceSecurityMetadata" isArray="false" isClientHandle="false" xmlns:ns34="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"/>
+     <ns35:MethodSecurity xsi:type="ns35:MethodSecurity" xmlns:ns35="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns35:SecuritySetting xsi:type="ns35:SecuritySetting">None</ns35:SecuritySetting>
+      <ns35:MethodAuthorization xsi:type="ns35:MethodAuthorization">
+       <ns35:NoAuthorization xsi:type="ns35:NoAuthorization"/>
+      </ns35:MethodAuthorization>
+     </ns35:MethodSecurity>
+     <ns33:ImportInformation namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" packageName="gov.nih.nci.cagrid.introduce.security.stubs" portTypeName="ServiceSecurityPortType" wsdlFile="ServiceSecurity.wsdl"/>
+     <ns33:ProviderInformation providerClass="gov.nih.nci.cagrid.introduce.security.service.globus.ServiceSecurityProviderImpl"/>
+    </ns33:Method>
+    <ns33:Method isImported="true" isProvided="true" name="Destroy" xsi:type="ns33:MethodType">
+     <ns33:Output qName="void" isArray="false"/>
+     <ns33:ImportInformation fromIntroduce="false" inputMessage="ns36:DestroyRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" outputMessage="ns36:DestroyResponse" packageName="org.oasis.wsrf.lifetime" portTypeName="ImmediateResourceTermination" wsdlFile="../wsrf/lifetime/WS-ResourceLifetime.wsdl" xmlns:ns36="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl"/>
+     <ns33:ProviderInformation providerClass="DestroyProvider"/>
+    </ns33:Method>
+    <ns33:Method isImported="true" isProvided="true" name="SetTerminationTime" xsi:type="ns33:MethodType">
+     <ns33:Output qName="void" isArray="false"/>
+     <ns33:ImportInformation fromIntroduce="false" inputMessage="ns37:SetTerminationTimeRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" outputMessage="ns37:SetTerminationTimeResponse" packageName="org.oasis.wsrf.lifetime" portTypeName="ScheduledResourceTermination" wsdlFile="../wsrf/lifetime/WS-ResourceLifetime.wsdl" xmlns:ns37="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl"/>
+     <ns33:ProviderInformation providerClass="SetTerminationTimeProvider"/>
+    </ns33:Method>
+    <ns33:Method description="" isImported="false" isProvided="false" name="configureInput" xsi:type="ns33:MethodType">
+     <ns33:Inputs>
+      <ns33:Input qName="ns38:OperationInputMessageDescriptor" description="" isArray="false" name="operationInputMessageDescriptor" xmlns:ns38="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+     </ns33:Inputs>
+     <ns33:Output qName="void" description="" isArray="false"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
+    <ns33:Method description="---" isImported="false" isProvided="false" name="configureOutput" xsi:type="ns33:MethodType">
+     <ns33:Inputs>
+      <ns33:Input qName="ns39:OperationOutputTransportDescriptor" description="" isArray="false" name="operationOutputTransportDescriptor" xmlns:ns39="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+     </ns33:Inputs>
+     <ns33:Output qName="void" description="" isArray="false"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
+    <ns33:Method description="" isImported="false" isProvided="false" name="setParameter" xsi:type="ns33:MethodType">
+     <ns33:Inputs>
+      <ns33:Input qName="ns40:InputParameter" description="" isArray="false" name="inputParameter" xmlns:ns40="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+     </ns33:Inputs>
+     <ns33:Output qName="void" description="" isArray="false"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
+    <ns33:Method description="" isImported="false" isProvided="false" name="setParameters" xsi:type="ns33:MethodType">
+     <ns33:Inputs>
+      <ns33:Input qName="ns41:InputParameter" description="" isArray="true" name="inputParameters" xmlns:ns41="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+     </ns33:Inputs>
+     <ns33:Output qName="void" description="" isArray="false"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
+    <ns33:Method isImported="true" isProvided="true" name="Subscribe" xsi:type="ns33:MethodType">
+     <ns33:Output qName="void" isArray="false"/>
+     <ns33:ImportInformation fromIntroduce="false" inputMessage="ns42:SubscribeRequest" namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" outputMessage="ns42:SubscribeResponse" packageName="org.oasis.wsn" portTypeName="NotificationProducer" wsdlFile="../wsrf/notification/WS-BaseN.wsdl" xmlns:ns42="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl"/>
+     <ns33:ProviderInformation providerClass="SubscribeProvider"/>
+    </ns33:Method>
+    <ns33:Method description="" isImported="false" isProvided="false" name="getEPRString" xsi:type="ns33:MethodType">
+     <ns33:Inputs/>
+     <ns33:Output qName="xsd:string" description="" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
+    <ns33:Method description="" isImported="false" isProvided="false" name="start" xsi:type="ns33:MethodType">
+     <ns33:Inputs/>
+     <ns33:Output qName="void" description="" isArray="false"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
+    <ns33:Method description="" isImported="false" isProvided="false" name="startStreaming" xsi:type="ns33:MethodType">
+     <ns33:Inputs/>
+     <ns33:Output qName="void" description="" isArray="false"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
+    <ns33:Method description="" isImported="false" isProvided="false" name="endStreaming" xsi:type="ns33:MethodType">
+     <ns33:Inputs/>
+     <ns33:Output qName="void" description="" isArray="false"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
+   </ns33:Methods>
+   <ns43:ResourcePropertiesList xsi:type="ns43:ResourcePropertiesListType" xmlns:ns43="gme://gov.nih.nci.cagrid.introduce/1/Resources">
+    <ns43:ResourceProperty qName="ns44:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns43:ResourcePropertyType" xmlns:ns44="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns43:ResourceProperty qName="ns45:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns43:ResourcePropertyType" xmlns:ns45="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns43:ResourceProperty qName="ns46:WorkflowInvocationHelperDescriptor" description="" fileLocation="WorkflowInvocationHelper_workflowInvocationHelperDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns43:ResourcePropertyType" xmlns:ns46="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns43:ResourceProperty qName="ns47:OperationInputMessageDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationInputMessageDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns43:ResourcePropertyType" xmlns:ns47="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns43:ResourceProperty qName="ns48:OperationOutputTransportDescriptor" description="" fileLocation="WorkflowInvocationHelper_operationOutputTransportDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns43:ResourcePropertyType" xmlns:ns48="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns43:ResourceProperty qName="ns49:TimestampedStatus" description="" fileLocation="WorkflowInvocationHelper_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns43:ResourcePropertyType" xmlns:ns49="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns43:ResourceProperty qName="ns50:InstrumentationRecord" description="" fileLocation="WorkflowInvocationHelper_instrumentationRecord.xml" populateFromFile="false" register="false" xsi:type="ns43:ResourcePropertyType" xmlns:ns50="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+   </ns43:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Lifetime xsi:type="ns3:Lifetime"/>
@@ -339,9 +341,9 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns50:Extensions xsi:type="ns50:ExtensionsType" xmlns:ns50="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
- <ns51:ServiceProperties xmlns:ns51="gme://gov.nih.nci.cagrid.introduce/1/Property">
-  <ns51:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
-  <ns51:Property description="Location of the credential configured to be used as container's credential. Should be removed" isFromETC="true" key="helperCredential" value="../../../../../../../../testUtils/certificates/ca/testing_ca_"/>
- </ns51:ServiceProperties>
+ <ns51:Extensions xsi:type="ns51:ExtensionsType" xmlns:ns51="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns52:ServiceProperties xmlns:ns52="gme://gov.nih.nci.cagrid.introduce/1/Property">
+  <ns52:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
+  <ns52:Property description="Location of the credential configured to be used as container's credential. Should be removed" isFromETC="true" key="helperCredential" value="../../../../../../../../testUtils/certificates/ca/testing_ca_"/>
+ </ns52:ServiceProperties>
 </ns1:ServiceDescription>

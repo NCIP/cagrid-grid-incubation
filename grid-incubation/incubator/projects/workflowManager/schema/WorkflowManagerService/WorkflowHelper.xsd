@@ -206,6 +206,16 @@
 			<xs:element name="records" type="tns:EventTimePeriod" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
+
+
+	<xs:element name="LocalWorkflowInstrumentationRecord" type="tns:LocalWorkflowInstrumentationRecord" />
+	<xs:complexType name="LocalWorkflowInstrumentationRecord">
+		<xs:sequence>
+			<xs:element name="identifier" type="string" />
+			<xs:element name="localWorkflowRecord" type="tns:InstrumentationRecord" />
+			<xs:element name="stagesRecords" type="tns:InstrumentationRecord" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
 	<!-- End of types used for instrumentation -->
 	
 

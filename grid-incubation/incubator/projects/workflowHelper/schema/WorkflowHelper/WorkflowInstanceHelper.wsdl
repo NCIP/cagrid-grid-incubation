@@ -147,6 +147,7 @@
             <element ref="ns5:TerminationTime" />
             <element ref="ns1:WorkflowInstanceHelperDescriptor" />
             <element ref="ns1:TimestampedStatus" />
+            <element ref="ns1:LocalWorkflowInstrumentationRecord" />
           </sequence>
         </complexType>
       </element>

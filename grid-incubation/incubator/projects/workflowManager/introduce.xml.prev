@@ -17,6 +17,7 @@
    <ns2:SchemaElement type="InputParameter" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InputParameterDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="InstrumentationRecord" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="LocalWorkflowInstrumentationRecord" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationInputMessageDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationOutputParameterTransportDescriptor" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="OperationOutputTransportDescriptor" xsi:type="ns2:SchemaElementType"/>

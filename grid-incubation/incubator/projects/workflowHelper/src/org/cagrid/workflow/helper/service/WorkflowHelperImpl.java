@@ -11,6 +11,8 @@ import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.gaards.pki.KeyUtil;
+import org.cagrid.workflow.helper.descriptor.Status;
+import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.globus.gsi.CertUtil;
 import org.globus.gsi.GlobusCredential;
 
@@ -85,6 +87,7 @@ public class WorkflowHelperImpl extends WorkflowHelperImplBase {
 			// Set the resource identifier, that is derived from its EPR
 			thisResource.setEprString(new EndpointReference(epr));
 			thisResource.initializeInstrumentationRecord(workflowInstanceHelperDescriptor.getWorkflowID());
+			thisResource.setTimestampedStatus(new TimestampedStatus(Status.UNCONFIGURED, 0));
 			
 		} catch (Exception e) {
 			throw new RemoteException("Error looking up WorkflowInstanceHelper home:" + e.getMessage(), e);

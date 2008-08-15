@@ -91,7 +91,7 @@ public class InstrumentationRecord {
 
 		EventTimePeriod record = this.getRecord(event);
 		if(record == null){
-			throw new Exception("Could not find the record for the received event");
+			throw new Exception("Could not find the record for the received event ("+ event +")");
 		}
 
 		long endTime = System.nanoTime();
