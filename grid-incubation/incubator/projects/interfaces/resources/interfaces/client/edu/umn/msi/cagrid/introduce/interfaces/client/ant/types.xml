@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<antlib>
+  <typedef name="typeartifacts" classname="edu.umn.msi.cagrid.introduce.interfaces.client.ant.PrepareTypeArtifactsTask" />
+  <typedef name="schema" classname="edu.umn.msi.cagrid.introduce.interfaces.client.ant.PrepareTypeArtifactsTask$Schema" />
+  
+  <macrodef name="resyncservice">
+    <attribute name="globusdir" />
+    <attribute name="servicedir" />
+    <attribute name="cagriddir" />
+    <sequential>
+      <java classname="gov.nih.nci.cagrid.introduce.codegen.SyncTools" fork="yes" failonerror="true" dir="@{cagriddir}/projects/introduce">
+        <sysproperty key="GLOBUS_LOCATION" value="@{globusdir}" />
+        <arg value="-d" />
+        <arg value="@{servicedir}" />
+        <classpath>
+          <fileset dir="@{cagriddir}/projects/introduce/build/jars">
+            <include name="*.jar" />
+          </fileset>
+          <fileset dir="@{cagriddir}/projects/introduce/lib">
+            <include name="*.jar" />
+          </fileset>
+          <fileset dir="@{cagriddir}/projects/introduce/ext/dependencies/jars">
+            <include name="*.jar" />
+          </fileset>
+          <fileset dir="@{cagriddir}/projects/introduce/extensions/lib">
+            <include name="*.jar" />
+            <exclude name="caGrid-Introduce-*.jar" />
+          </fileset>
+          <fileset dir="${ant.library.dir}">
+            <include name="*.jar" />
+          </fileset>
+          <fileset dir="@{globusdir}/lib">
+            <include name="*.jar" />
+          </fileset>
+        </classpath>
+      </java>
+    </sequential>
+  </macrodef>
+
+
+  <macrodef name="globustypes">      
+    <attribute name="globusdir"/>
+    <attribute name="workdir" />
+    <attribute name="targetdir" />
+    <element name="mappings" />
+    <sequential>
+      <mkdir dir="@{workdir}" />
+      <typeartifacts wsdlFile="@{workdir}/types.wsdl" namespaceMappingFile="@{workdir}/namespace2package.mappings">
+        <mappings />
+      </typeartifacts>
+      <ant antfile="@{globusdir}/share/globus_wsrf_tools/build-stubs.xml" target="generateStubs" inheritall="false">
+        <property name="mapping.file" location="@{workdir}/namespace2package.mappings" />
+        <property name="source.stubs.dir" location="@{workdir}" />
+        <property name="target.stubs.dir" location="@{targetdir}" />
+        <property name="wsdl.file" value="types.wsdl" />
+        <property name="ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration" />
+      </ant>
+    </sequential>
+  </macrodef>
+</antlib>

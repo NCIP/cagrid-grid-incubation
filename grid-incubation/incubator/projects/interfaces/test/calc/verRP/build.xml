@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Calculator" default="compile" basedir=".">
+  <description>
+  </description>
+	
+  <property environment="env" />
+	
+  <property name="lib.dir" value="${basedir}/lib" />
+
+  <property name="src.dir" value="${basedir}/src" />
+  <property name="build.dir" value="${basedir}/build" />
+  <property name="build.classes.dir" value="${build.dir}/classes" />
+  <property name="build.jar" value="${build.dir}/calc.jar" />
+
+  <path id="classpath">
+    <pathelement path="${build.classes.dir}" />
+    <pathelement path="${java.class.path}" />
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar" />
+    </fileset>
+    <fileset dir="${env.GLOBUS_LOCATION}/lib">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+  <typedef resource="edu/umn/msi/cagrid/introduce/interfaces/client/ant/types.xml" classpathref="classpath" />
+  
+  <target name="prepare-directories">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${build.classes.dir}" />
+  </target>
+
+  <target name="prepare" depends="prepare-directories" />
+	
+  <target name="clean">
+    <delete dir="${build.dir}" />
+  </target>
+  
+  <target name="gen-axis-types" depends="prepare">
+    <globustypes globusdir="${env.GLOBUS_LOCATION}" targetdir="${src.dir}" workdir="${build.dir}/axis-tmp">
+      <mappings>
+        <schema path="${basedir}/LastOp.xsd" package="lastop" namespace="http://msi.umn.edu/calc/LastOp" />
+      </mappings>
+    </globustypes>
+  </target>
+
+  <target name="compile" description="Compile Java" depends="prepare,gen-axis-types">
+    <javac destdir="${build.classes.dir}">
+      <src path="${src.dir}" />
+      <classpath refid="classpath" />
+    </javac>
+  </target>
+	
+  <target name="jar" description="Builds a jar file" depends="compile">
+    <jar destfile="${build.jar}" basedir="${build.classes.dir}" />
+  </target> 
+
+  <target name="all" depends="jar" />
+  
+</project>

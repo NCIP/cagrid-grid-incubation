@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+  xmlns="http://msi.umn.edu/cagrid/introduce/interfaces/spring/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://msi.umn.edu/cagrid/introduce/interfaces/spring/1.1"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xsd:complexType name="Interfaces">
+    <xsd:sequence>
+      <xsd:element name="interface" type="Interface" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Interface">
+    <xsd:attribute name="name" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:element name="interfaces" type="Interfaces" />
+
+
+  <xsd:complexType name="ImplementsForService">
+    <xsd:complexContent>
+      <xsd:extension base="Interfaces">
+        <xsd:sequence>
+          <xsd:element name="field" type="Field" minOccurs="0"
+            maxOccurs="1" />
+        </xsd:sequence>
+        <xsd:attribute name="service" type="xsd:string" use="optional" />
+        <xsd:attribute name="implementer" type="xsd:string"
+          use="required" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:element name="implements-for-service" type="ImplementsForService" />
+
+  <xsd:complexType name="Field">
+    <xsd:attribute name="name" type="xsd:string" use="optional" />
+    <xsd:attribute name="class" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+  <xsd:element name="resource-property">
+    <xsd:complexType>
+      <xsd:attribute name="name" type="xsd:string" use="required" />
+      <xsd:attribute name="bean-property" type="xsd:string" use="optional" />
+      <xsd:attribute name="set-method" type="xsd:string" use="optional" />
+      <xsd:attribute name="get-method" type="xsd:string" use="optional" />
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="metadata">
+    <xsd:complexType>
+      <xsd:attribute name="bean-property" type="xsd:string" use="optional" />
+      <xsd:attribute name="set-method" type="xsd:string" use="optional" />
+      <xsd:attribute name="get-method" type="xsd:string" use="optional" />
+      <xsd:attribute name="service" type="xsd:string" use="required" />    
+      <xsd:attribute name="type" type="xsd:string" use="required" />
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

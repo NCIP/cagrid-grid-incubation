@@ -1,0 +1,14 @@
+<%@ jet package="edu.umn.msi.cagrid.introduce.interfaces.spring"
+  class="SpringConfigFileGenerator"
+  skeleton="SpringConfigFileGenerator.skeleton.java" %>
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:interfaces="http://msi.umn.edu/cagrid/introduce/interfaces/spring/1.1"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://msi.umn.edu/cagrid/introduce/interfaces/spring/1.1 http://www.msi.umn.edu/tropix/cagrid/spring/schema/1.1/spring.xsd">
+
+  <!-- Define beans and caGrid mappings here -->
+
+</beans>

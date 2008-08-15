@@ -1,0 +1,22 @@
+<%@ jet package="edu.umn.msi.cagrid.introduce.interfaces.spring"
+  class="SpringInitGenerator"
+  skeleton="SpringGenerator.skeleton.java" %>
+
+  /**
+   * DO NOT REMOVE THIS COMMENT!
+   * @<%= Constants.SPRING_EXTENSION_ANNOTATION %>
+   */
+  private void <%= Constants.INIT_METHOD_NAME %>(<%= serviceName %>Configuration configuration) throws RemoteException 
+  {
+    <%= serviceName %>ApplicationContext.init(configuration);
+<% 
+Iterator<SpringBeanConfiguration> beans = getBeans();
+while(beans.hasNext()) 
+{
+  SpringBeanConfiguration bean = beans.next();
+%>
+    <%= bean.getFieldName() %> = <%= serviceName %>ApplicationContext.get().getBean("<%= bean.getBeanId() %>");
+<% 
+   }
+%>
+  }

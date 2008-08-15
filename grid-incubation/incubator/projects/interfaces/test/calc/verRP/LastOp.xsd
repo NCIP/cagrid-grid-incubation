@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://msi.umn.edu/calc/LastOp"
+	   elementFormDefault="qualified"
+	   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	   xmlns="http://msi.umn.edu/calc/LastOp" >
+
+  <xs:element name="LastOp" type="LastOp" />
+
+  <xs:complexType name="LastOp">
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+</xs:schema>
