@@ -498,14 +498,14 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			this.isFinishedKey.lock();
 			try{
 
-				boolean statusActuallyChanged = false;
+				boolean timestampChanged = false;
 				if( this.stageStatus.containsKey(stageKey) ){
 
 
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
-					statusActuallyChanged = (!curr_status.getStatus().equals(status.getStatus())) && ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+					timestampChanged = (!curr_status.getStatus().equals(status.getStatus())) && ( curr_status.getTimestamp() < status.getTimestamp() ); 										
 
-					if(statusActuallyChanged){
+					if(timestampChanged){
 
 						this.stageStatus.remove(stageKey);
 						this.stageStatus.put(stageKey, status);						
@@ -517,43 +517,43 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 				// Calculate new status value
-				if(statusActuallyChanged){
+				if(timestampChanged){
 
-					
-					// Terminate current status
-					this.localWorkflowInstrumentation.eventEnd(this.getTimestampedStatus().getStatus().toString());
-					
 					
 					// Set new status
 					Status new_status = this.calculateStatus();
+					boolean statusesDiffer = (!new_status.equals(this.getTimestampedStatus().getStatus()));
+					if(statusesDiffer) this.localWorkflowInstrumentation.eventEnd(this.getTimestampedStatus().getStatus().toString());
+					
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
 					this.setTimestampedStatus(nextStatus);
-					
-					// Get and store time for the start of the new state
-					this.localWorkflowInstrumentation.eventStart(this.getTimestampedStatus().getStatus().toString());
-					
-					
-					
-					// If the local workflow is finished, copy all the collected instrumentation data to a 
-					// resource property so it is exposed by this resource 
-					if( nextStatus.getStatus().equals(Status.FINISHED) || nextStatus.getStatus().equals(Status.ERROR) ){
-					
-						logger.info("Workflow is finished, exposing instrumentation data");
-						
-						LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
-						localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
-						InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(), 
-								this.localWorkflowInstrumentation.retrieveRecordAsArray());
-						localWorkflowInstrumentationRecord.setLocalWorkflowRecord(localWorkflowRecord);  // Info about local workflow as a whole
-						
-						InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
-						localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource 
-						this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
 
-						this.printLocalWorkflowInstrumentationRecord();
-						logger.info("Resource property set"); //DEBUG
-					}
+					// Get and store time for the start of the new state
+					if( statusesDiffer ){
+						
 					
+						this.localWorkflowInstrumentation.eventStart(this.getTimestampedStatus().getStatus().toString());
+
+
+						// If the local workflow is finished, copy all the collected instrumentation data to a 
+						// resource property so it is exposed by this resource 
+						if( nextStatus.getStatus().equals(Status.FINISHED) || nextStatus.getStatus().equals(Status.ERROR) ){
+
+							System.out.println("Workflow is finished, exposing instrumentation data");  //DEBUG
+
+							LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
+							localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
+							InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(), 
+									this.localWorkflowInstrumentation.retrieveRecordAsArray());
+							localWorkflowInstrumentationRecord.setLocalWorkflowRecord(localWorkflowRecord);  // Info about local workflow as a whole
+
+							InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
+							localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource 
+							this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
+
+							System.out.println("Resource property set");    //DEBUG
+						}
+					}
 				}
 
 
@@ -585,6 +585,28 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			this.stagesInstrumentation.add(instrumentation_data);
 			
 			
+			// Update the instrumentation data exposed by this resource
+			System.out.println("Updating instrumentation data"); //DEBUG
+			LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
+			localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
+			InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(), 
+					this.localWorkflowInstrumentation.retrieveRecordAsArray());
+			localWorkflowInstrumentationRecord.setLocalWorkflowRecord(localWorkflowRecord);  // Info about local workflow as a whole
+
+			InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
+			localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource 
+			try {
+				this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
+			} catch (ResourceException e) {
+				logger.error(e.getMessage(), e);
+				e.printStackTrace();
+			}
+
+			System.out.println("Resource property set");    //DEBUG
+
+			
+			
+			
 			// Log the instrumentation data
 			logger.info("Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier());
 			final int numMeasurements = instrumentation_data.getRecords().length;
@@ -599,12 +621,6 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			
 		}
 
-	}
-
-
-	private void printLocalWorkflowInstrumentationRecord() {
-		// TODO Auto-generated method stub
-		
 	}
 
 
@@ -750,9 +766,5 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			e.printStackTrace();
 		}
 	}
-	
-	
-	// TODO Store the instrumentation data both from the InvocationHelpers and from the local workflow as a whole
-	
-	
+		
 }

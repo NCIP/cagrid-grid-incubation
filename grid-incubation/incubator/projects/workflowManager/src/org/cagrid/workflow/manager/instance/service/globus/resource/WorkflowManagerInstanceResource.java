@@ -20,6 +20,7 @@ import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
+import org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
@@ -76,6 +77,14 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	private List<EndpointReferenceType> instanceHelperEPRs = new ArrayList<EndpointReferenceType>();    // EPR of each InstanceHelper associated with this resource
 
 
+	// TODO Instrumentation data from this workflow
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * Receive the output of a WorkflowInvocationHelper and store it internally. The source of the received
@@ -214,7 +223,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 			// Request notification from the InvocationHelper
 			instanceHelper = new WorkflowInstanceHelperClient(epr);
-			instanceHelper.subscribeWithCallback(TimestampedStatus.getTypeDesc().getXmlType(), this);
+			instanceHelper.subscribeWithCallback(TimestampedStatus.getTypeDesc().getXmlType(), this);  // Monitor status changes
+			instanceHelper.subscribeWithCallback(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), this);  // Monitor instrumentation reports
 
 			// Store reference to the InstanceHelper internally
 			String key = instanceHelper.getEPRString();
@@ -246,6 +256,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		MessageElement actual_property = changeMessage.getNewValue().get_any()[0];
 		QName message_qname = actual_property.getQName();
 		boolean isTimestampedStatusChange = message_qname.equals(TimestampedStatus.getTypeDesc().getXmlType());
+		boolean isInstrumentationReport = message_qname.equals(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType());
 		String stageKey = null;
 		try {
 			stageKey = new WorkflowInstanceHelperClient(arg1).getEPRString(); 
@@ -322,6 +333,17 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			}
 
 
+		}
+		
+		
+		// TODO Handle instrumentation reports
+		else if(isInstrumentationReport){
+			
+			
+			
+			
+			
+			
 		}
 
 	}

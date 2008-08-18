@@ -18,6 +18,7 @@ import org.cagrid.workflow.helper.descriptor.CDSAuthenticationMethod;
 import org.cagrid.workflow.helper.descriptor.ChannelProtection;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
+import org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
@@ -296,7 +297,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		System.out.println("BEGIN runComplexArrayStreaming");
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
-		workflowDescriptor5.setWorkflowID("WorkFlow5");
+		String workflowID = "WorkFlow5";
+		workflowDescriptor5.setWorkflowID(workflowID);
 		workflowDescriptor5.setWorkflowManagerEPR(manager_epr);
 
 
@@ -308,9 +310,14 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
+		
+		// Subscribe to receive status changes and instrumentation reports
+		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance5, workflowID);
+		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance5, workflowID);
+		
+		
+		
 		// BEGIN service 4				
-
-
 		// Creating client of service 4
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
@@ -462,7 +469,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
-		workflowDescriptor5.setWorkflowID("WorkFlow5");
+		String workflowID = "WorkFlow5";
+		workflowDescriptor5.setWorkflowID(workflowID);
 		workflowDescriptor5.setWorkflowManagerEPR(manager_epr);
 
 		// Get helper client so we can create the invocation helpers
@@ -473,6 +481,12 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
+		
+		// Subscribe to be notified of status change and instrumentation reports
+		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance5, workflowID);
+		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance5, workflowID);
+		
+		
 
 		// BEGIN service 4
 		WorkflowInvocationHelperDescriptor operation_4 = new WorkflowInvocationHelperDescriptor();
@@ -687,8 +701,11 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e1.printStackTrace();
 		}
 
-		
+
+		// Subscribe to be notified of status change and instrumentation reports
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance1, workflowID);
+		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance1, workflowID);
+		
 		
 		
 		
@@ -942,7 +959,11 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
+
+		// Subscribe to be notified of status change and instrumentation reports
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance2, workflowID);
+		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance2, workflowID);
+		
 		
 		
 
@@ -1174,7 +1195,11 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 		
+
+		// Subscribe to be notified of status change and instrumentation reports
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance3, workflowID);
+		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance3, workflowID);
+		
 		
 
 		// BEGIN service 4				

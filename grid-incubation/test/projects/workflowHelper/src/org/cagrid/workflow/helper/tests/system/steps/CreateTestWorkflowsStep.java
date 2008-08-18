@@ -23,9 +23,14 @@ import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.workflow.helper.client.WorkflowHelperClient;
+import org.cagrid.workflow.helper.descriptor.EventTimePeriod;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
+import org.cagrid.workflow.helper.descriptor.InstrumentationRecord;
+import org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
@@ -38,6 +43,7 @@ import org.globus.wsrf.NotifyCallback;
 
 public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
+	private static Log logger = LogFactory.getLog(CreateTestWorkflowsStep.class);
 
 	protected EndpointReferenceType helper_epr = null;
 	protected String containerBaseURL = null;
@@ -59,6 +65,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 	protected final boolean validatorEnabled = true;  // Enable/Disable the output matcher. Should be true when not debugging
 
+	private Map<String, LocalWorkflowInstrumentationRecord> localWorkflowsMeasurements = new HashMap<String, LocalWorkflowInstrumentationRecord>();
+//	private org.cagrid.workflow.helper.instrumentation.InstrumentationRecord globalWorkflowMeasurements;  
 
 
 	public CreateTestWorkflowsStep(EndpointReferenceType helper_epr, String containerBaseURL) {
@@ -77,11 +85,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		 * simple-type array streaming, complex-type array streaming  
 		 * */
 		System.out.println("-x-x-x- BEGIN NON-SECURE WORKFLOWS TESTS -x-x-x-");
-		if( this.validatorEnabled ) System.out.println("Running the output matcher");
-		else System.out.println("Not running the output matcher");
-
-
-		WorkflowHelperClient wf_helper = new WorkflowHelperClient(this.helper_epr); 
+				WorkflowHelperClient wf_helper = new WorkflowHelperClient(this.helper_epr); 
 
 
 		final EndpointReference manager_epr = null; 
@@ -155,6 +159,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		WorkflowInstanceHelperClient wf_instance5 = null;
 		try {
 			wf_instance5 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor5);
+			this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance5, workflowID);
+			this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance5, workflowID);
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
@@ -178,8 +184,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends 
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient__4);
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
@@ -223,9 +227,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient__ca);
-
+	
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__ca = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams__ca = new InputParameterDescriptor[0];
@@ -262,13 +264,16 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor5 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 
-		workflowDescriptor5.setWorkflowID("WorkFlow5");
+		String workflowID = "WorkFlow5";
+		workflowDescriptor5.setWorkflowID(workflowID);
 		workflowDescriptor5.setWorkflowManagerEPR(manager_epr);
 
 		// Get helper client so we can create the invocation helpers
 		WorkflowInstanceHelperClient wf_instance5 = null;
 		try {
 			wf_instance5 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor5);
+			this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance5, workflowID);
+			this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance5, workflowID);
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
@@ -289,10 +294,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-
-		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_4);
-
 
 
 		// Creating Descriptor of the InputMessage
@@ -333,9 +334,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-
-		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_2);
 
 
 		// Creating Descriptor of the InputMessage
@@ -388,9 +386,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient_cs);
-
+		
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__cas = new OperationInputMessageDescriptor();
@@ -437,11 +433,15 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		WorkflowInstanceHelperClient wf_instance1 = null;
 		try {
 			wf_instance1 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor1);
+			
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
 		}
 
+		
+		// Monitor status changes and an instrumentation report
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance1, workflowID);
+		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance1, workflowID);
 
 
 
@@ -641,7 +641,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
+		
+		// Monitor status changes and an instrumentation report
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance2, workflowID);
+		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance2, workflowID);
 
 
 		// Stage that verifies whether the workflow output matches the expected
@@ -827,8 +830,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-
+		
+		// Monitor status changes and an instrumentation report
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance3, workflowID);
+		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance3, workflowID);
 
 
 		// BEGIN service 4				
@@ -1275,6 +1280,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		MessageElement actual_property = changeMessage.getNewValue().get_any()[0];
 		QName message_qname = actual_property.getQName();
 		boolean isTimestampedStatusChange = message_qname.equals(TimestampedStatus.getTypeDesc().getXmlType());
+		boolean isInstrumentationReport = message_qname.equals(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType());
 		String stageKey = null;
 		try {
 			stageKey = new WorkflowInstanceHelperClient(arg1).getEPRString();
@@ -1283,13 +1289,6 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
 		}   
-
-
-
-
-		//DEBUG
-		//PrintStream log = System.out;
-		//log.println("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
 
 
 		// Handle status change notifications
@@ -1302,7 +1301,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			}
 
 
-			//log.println("[deliver] Received new status value: "+ status.getStatus().toString() + ':' + status.getTimestamp() +" from "+ this.EPR2OperationName.get(stageKey)); //DEBUG
+			logger.debug("[deliver] Received new status value: "+ status.getStatus().toString() + ':' + status.getTimestamp() +" from "+ this.EPR2OperationName.get(stageKey)); //DEBUG
 
 			this.isFinishedKey.lock();
 			try{
@@ -1333,6 +1332,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 						this.isFinishedCondition.signalAll();
 						Assert.assertFalse(this.stageStatus.containsValue(Status.ERROR));
+						
+						// Print the received instrumentation reports	
+						this.printInstrumentationReport();
 					}
 				}
 			}
@@ -1340,7 +1342,83 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 				this.isFinishedKey.unlock();
 			}
 		}
+		
+		
+		// Handle instrumentation reports
+		else if(isInstrumentationReport){
+			
+			
+			// Extract data 
+			LocalWorkflowInstrumentationRecord instrumentation_data = null;;
+			try {
+				instrumentation_data = (LocalWorkflowInstrumentationRecord) actual_property.getValueAsType(message_qname, LocalWorkflowInstrumentationRecord.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println("Received instrumentation report from "+ instrumentation_data.getIdentifier());
+			
+			// Store data in the list of local workflows' instrumentation reports
+			this.localWorkflowsMeasurements.put(instrumentation_data.getIdentifier(), instrumentation_data);
+		}
 
+	}
+
+
+	
+	// Print the instrumentation data received
+	private void printInstrumentationReport() {
+
+
+		// Iterate over the list of reports, printing each one of them
+		Set<Entry<String,LocalWorkflowInstrumentationRecord>> entries = this.localWorkflowsMeasurements.entrySet();
+		Iterator<Entry<String, LocalWorkflowInstrumentationRecord>> iter = entries.iterator();
+		System.out.println("======================================================================");
+		System.out.println("Instrumentation reports");
+		while(iter.hasNext()){
+		
+			
+			Entry<String, LocalWorkflowInstrumentationRecord> curr_entry = iter.next();
+			LocalWorkflowInstrumentationRecord curr_report = curr_entry.getValue();
+			
+			System.out.println("Report for local workflow identified by "+ curr_report.getIdentifier());
+			
+			// Print data for the a local workflow as a whole
+			InstrumentationRecord localWorkflowData = curr_report.getLocalWorkflowRecord();
+			System.out.println("------------- BEGIN Local workflow -------------");
+			EventTimePeriod[] localWorkflowRecords = localWorkflowData.getRecords();
+			for(int i=0; i < localWorkflowRecords.length; i++){
+				
+				String stage_event = localWorkflowData.getRecords(i).getEvent();
+				long elapsedTimeInNanos = localWorkflowData.getRecords(i).getEndTime() - localWorkflowData.getRecords(i).getStartTime(); 
+				
+				System.out.println("EVENT: "+ stage_event +" ; ELAPSED TIME: "+ (elapsedTimeInNanos/1000) + " microseconds");
+			}
+			System.out.println("------------- END Local workflow -------------");
+			
+			
+			// Print data for each component of the current local workflow
+			int num_stages_records = curr_report.getStagesRecords().length;
+			for(int i=0; i < num_stages_records; i++){
+				
+				
+				InstrumentationRecord curr_record = curr_report.getStagesRecords(i);
+				System.out.println("------------- BEGIN Local workflow stage identified by "+ curr_record.getIdentifier() +" -------------");
+				int num_events = curr_record.getRecords().length;
+				for(int j=0; j < num_events; j++){
+				
+					EventTimePeriod curr_event = curr_record.getRecords(j);
+					String stage_event = curr_event.getEvent();
+					long elapsedTimeInNanos = curr_event.getEndTime() - curr_event.getStartTime(); 
+					System.out.println("EVENT: "+ stage_event +" ; ELAPSED TIME: "+ (elapsedTimeInNanos/1000) + " microseconds");
+					
+				}
+				System.out.println("------------- BEGIN Local workflow stage  -------------");
+			}
+			
+			
+		}		
+		System.out.println("======================================================================");
 	}
 
 
@@ -1367,11 +1445,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 	protected void subscribe(QName notificationType, WorkflowInstanceHelperClient toSubscribe, String stageOperationQName){
-		//protected void subscribe(QName notificationType, WorkflowInvocationHelperClient toSubscribe, String stageOperationQName){
 
 		try{
-
-			//System.out.println("[subscribe] Subscribing service: "+ toSubscribe.getEPRString());
 
 			this.stageStatus.put(toSubscribe.getEPRString(), new TimestampedStatus(Status.UNCONFIGURED, 0)); // Register to be monitored for status changes
 			toSubscribe.subscribeWithCallback(notificationType, this);
