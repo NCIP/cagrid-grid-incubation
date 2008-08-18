@@ -77,7 +77,7 @@
             <htmlemail>
                 <failure address="${mail.list}" reportWhenFixed="true"/>
             </htmlemail>
-            <antpublisher buildfile="${project.dir}/test/build.xml"/>
+            <antpublisher buildfile="${project.dir}/incubator/build.xml"/>
         </publishers>
     </plugin>
 
@@ -104,7 +104,7 @@
             <htmlemail>
                 <failure address="${mail.list}" reportWhenFixed="true"/>
             </htmlemail>
-            <antpublisher buildfile="${project.dir}/test/build.xml"/>
+            <antpublisher buildfile="${project.dir}/incubator/build.xml"/>
         </publishers>
     </plugin>
 

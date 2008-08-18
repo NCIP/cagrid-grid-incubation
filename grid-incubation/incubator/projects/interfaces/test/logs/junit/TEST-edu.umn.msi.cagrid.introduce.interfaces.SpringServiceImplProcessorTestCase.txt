@@ -1,4 +1,0 @@
-Testsuite: edu.umn.msi.cagrid.introduce.interfaces.SpringServiceImplProcessorTestCase
-Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.084 sec
-
-Testcase: test took 0.071 sec
