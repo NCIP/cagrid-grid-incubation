@@ -50,7 +50,11 @@ public class PrepareTypeArtifactsTask extends Task {
       imports.append("<import namespace=\"");
       imports.append(schema.getNamespace());
       imports.append("\" schemaLocation=\"");
-      imports.append(schema.getPath());
+      String schemaPath = schema.getPath();
+      if(!schemaPath.startsWith("/")) {
+        schemaPath = "/" + schemaPath;
+      }
+      imports.append(schemaPath);
       imports.append("\" />");
     }
     return WSDL_PREFIX + imports.toString() + WSDL_SUFFIX;
