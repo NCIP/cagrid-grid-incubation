@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkflowManagerInstanceDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService ../../../../../../incubator/projects/workflowManager/schema/WorkflowManagerService/WorkflowManager.xsd"
+    xmlns:svc2="http://service2.introduce.cagrid.org/Service2"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService">
+    <localWorkflows>
+        <localWorkflowDesc>
+            <WorkflowHelperServiceLocation>CONTAINERBASE/cagrid/WorkflowHelper</WorkflowHelperServiceLocation>
+            <instanceHelperDesc>
+                <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                    <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing">CONTAINERBASE/cagrid/WorkflowManagerService</Address>
+                </WorkflowManagerEPR>
+                <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">Capitalize</WorkflowID>
+            </instanceHelperDesc>
+
+            <!-- Service 2 -->
+            <invocationHelperDescs>
+                <basicDescription>
+                    <WorkflowManagerEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+                    </WorkflowManagerEPR>
+                    <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">Capitalize</WorkflowID>
+                    <WorkflowInvocationSecurityDescriptor xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <TLSInvocationSecurityDescriptor>
+                            <ChannelProtection>Privacy</ChannelProtection>
+                            <CDSAuthenticationMethod>
+                                <ProxyEPR>CREDENTIALPROXY</ProxyEPR>
+                            </CDSAuthenticationMethod>
+                        </TLSInvocationSecurityDescriptor>
+                    </WorkflowInvocationSecurityDescriptor>
+                    <ServiceURL xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">CONTAINERBASE/cagrid/Service2</ServiceURL>
+                    <operationQName xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">svc2:SecureCapitalizeRequest</operationQName>
+                    <outputType xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">xsd:string</outputType>
+                    <outputIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">false</outputIsArray>
+                </basicDescription>
+                <inputsDescription>
+                    <inputParam xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                        <paramQName>svc2:uncapitalized</paramQName>
+                        <paramType>xsd:string</paramType>
+                        <parameterIsArray>false</parameterIsArray>
+                    </inputParam>
+                </inputsDescription>
+                <outputTransportDescriptor/>
+                <GlobalUniqueIdentifier>2</GlobalUniqueIdentifier>
+            </invocationHelperDescs>
+        </localWorkflowDesc>
+    </localWorkflows>
+    <inputs>
+        <parameter>
+            <paramDescription>
+                <paramIndex xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">0</paramIndex>
+                <data xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">capitalized</data>
+            </paramDescription>
+            <paramDestinationGUID>2</paramDestinationGUID>
+        </parameter>
+    </inputs>
+    <outputDesc>
+        <paramDescriptor>
+            <paramDescription >
+                <destinationGlobalUniqueIdentifier xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">-1</destinationGlobalUniqueIdentifier>
+                <destinationEPR xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
+                    <Address xmlns="http://schemas.xmlsoap.org/ws/2004/03/addressing"></Address>
+                </destinationEPR>
+                <deliveryPolicy xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">BROADCAST</deliveryPolicy>
+                <paramIndex xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">0</paramIndex>
+                <type xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">xsd:string</type>
+                <locationQuery xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">/svc2:SecureCapitalizeResponse</locationQuery>
+                <expectedTypeIsArray xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">false</expectedTypeIsArray>
+            </paramDescription>
+            <sourceGUID>2</sourceGUID>
+    </paramDescriptor></outputDesc>
+</WorkflowManagerInstanceDescriptor>
