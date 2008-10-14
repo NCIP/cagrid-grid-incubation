@@ -522,8 +522,16 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 					
 					// Set new status
 					Status new_status = this.calculateStatus();
-					boolean statusesDiffer = (!new_status.equals(this.getTimestampedStatus().getStatus()));
-					if(statusesDiffer) this.localWorkflowInstrumentation.eventEnd(this.getTimestampedStatus().getStatus().toString());
+					TimestampedStatus currTimestampedStatus = this.getTimestampedStatus();
+					if( currTimestampedStatus == null ){
+						
+						String errMsg = "Unable to retrieve current timestamped status from "+ this.getEPRString();
+						logger.error(errMsg);
+						throw new RemoteException(errMsg);
+					}
+					
+					boolean statusesDiffer = (!new_status.equals(currTimestampedStatus.getStatus()));
+					if(statusesDiffer) this.localWorkflowInstrumentation.eventEnd(currTimestampedStatus.getStatus().toString());
 					
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
 					this.setTimestampedStatus(nextStatus);
@@ -532,7 +540,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 					if( statusesDiffer ){
 						
 					
-						this.localWorkflowInstrumentation.eventStart(this.getTimestampedStatus().getStatus().toString());
+						this.localWorkflowInstrumentation.eventStart(currTimestampedStatus.getStatus().toString());
 
 
 						// If the local workflow is finished, copy all the collected instrumentation data to a 
