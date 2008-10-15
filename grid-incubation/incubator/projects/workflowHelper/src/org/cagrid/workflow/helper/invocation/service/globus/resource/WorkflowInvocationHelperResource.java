@@ -424,7 +424,25 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		return true;
 	}
 
+	
+	private int numParametersSet() {
 
+		int received_values = 0;
+		
+		for (int i = 0; i < paramData.length; i++) {
+			if (paramData[i] != null) {
+				received_values++;
+			}
+		}
+		return received_values;
+	}
+	
+
+	private int numParameters(){
+		return paramData.length;
+	}
+	
+	
 	/** Get an array represented as a SOAP element and extracts the array elements
 	 * 
 	 * @param paramData The SOAP element whose child is an array
@@ -566,6 +584,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
+			logger.info("[setParameter] Received parameter "+ this.numParametersSet() +" of "+ this.numParameters());
 
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
