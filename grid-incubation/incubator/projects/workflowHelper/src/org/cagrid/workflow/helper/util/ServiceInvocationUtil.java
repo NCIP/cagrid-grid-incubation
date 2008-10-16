@@ -441,7 +441,7 @@ public class ServiceInvocationUtil {
 		String result = null;
 
 
-		logger.debug("=== Applying query "+xpath_query+" on '"+xml_doc+"'\n");
+		logger.info("=== Applying query "+xpath_query+" on '"+xml_doc+"'\n");
 		logger.debug("Namespaces are: ");
 		for(int i=0; i < namespaces.length; i++){
 
