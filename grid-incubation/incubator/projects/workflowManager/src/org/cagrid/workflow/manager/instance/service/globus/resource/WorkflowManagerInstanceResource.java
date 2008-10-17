@@ -465,6 +465,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	/** Start workflow execution */
 	public void start() {
 
+		logger.info("STARTING stages' execution");
 
 		Set<Entry<Integer, EndpointReferenceType>> stagesEPRs = this.stageID2EPR.entrySet();
 		Iterator<Entry<Integer, EndpointReferenceType>> stages_iter = stagesEPRs.iterator();
@@ -486,6 +487,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			}
 
 		}
+		logger.info("Stages' execution STARTED");
 
 	}
 
