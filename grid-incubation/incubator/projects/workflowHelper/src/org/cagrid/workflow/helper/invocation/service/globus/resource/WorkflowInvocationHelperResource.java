@@ -761,6 +761,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	public void start() throws RemoteException {
 
 
+		logger.info("STARTING execution for "+ getOperationDesc().getOperationQName().getLocalPart());
+
 		// If all parameters were set, start execution
 		if( this.getTimestampedStatus().getStatus().equals(Status.READY)){
 
@@ -769,6 +771,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		else if( this.getTimestampedStatus().getStatus().equals(Status.WAITING) || this.getTimestampedStatus().getStatus().equals(Status.FINISHED)){
 
 			// If the parameters are not set, prepare to start as soon as they are all set
+			logger.info("Postponing execution until all inputs are available");
 			this.waitExplicitStart  = false;		
 		}
 		else {
