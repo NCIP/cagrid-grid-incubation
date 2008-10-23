@@ -589,7 +589,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// First destination: ReceiveArrayService::ReceiveComplexArray
 		outParameterDescriptor_ca[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_ca[0].setParamIndex(1);
-		outParameterDescriptor_ca[0].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
+		outParameterDescriptor_ca[0].setType(new QName( "http://systemtests.workflow.cagrid.org/SystemTests" ,"ComplexType"));
 		outParameterDescriptor_ca[0].setExpectedTypeIsArray(true);
 		outParameterDescriptor_ca[0].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 				new QName(XSD_NAMESPACE,"xsd")});
@@ -602,7 +602,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
 			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 2nd argument in the output matcher 
-			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
+			outParameterDescriptor_ca[1].setType(new QName( "http://systemtests.workflow.cagrid.org/SystemTests" ,"ComplexType"));
 			outParameterDescriptor_ca[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});

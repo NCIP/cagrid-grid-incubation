@@ -39,7 +39,7 @@ public class UnsecureWorkflowTest extends ServiceStoryBase {
 	private Log logger = LogFactory.getLog(UnsecureWorkflowTest.class);
 	
 	private static final String MANAGER_PATH_IN_CONTAINER = "/cagrid/WorkflowManagerService";
-	private boolean enableVerboseOutput = true;  // Enable/Disable internal tasks' output to be shown at console
+	private boolean enableVerboseOutput = false;  // Enable/Disable internal tasks' output to be shown at console
 
 
 	public UnsecureWorkflowTest() {

@@ -11,6 +11,9 @@ import java.util.Map;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.rpc.NamespaceConstants;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPBodyElement;
 import javax.xml.soap.SOAPElement;
@@ -37,7 +40,11 @@ import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClie
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.impl.security.authorization.Authorization;
 import org.globus.wsrf.impl.security.authorization.NoAuthorization;
+import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -242,9 +249,15 @@ public class ServiceInvocationUtil {
 		logger.debug("Printing SOAP Envelope for "+workflowDescriptor.getOperationQName().toString()
 				+":  \n________________________________________________________>\n"+message.toString()+
 		"\n<________________________________________________________\n");
-
-
-
+	
+		
+		// DEBUG
+//		System.out.println("Printing SOAP Envelope for "+workflowDescriptor.getOperationQName().toString()
+//				+":  \n________________________________________________________>\n"+message.toString()+
+//		"\n<________________________________________________________\n");
+		
+		
+	
 		/// Invoke service 
 		 
 
@@ -426,7 +439,7 @@ public class ServiceInvocationUtil {
 	 * @return result of the query in a string with XML content
 	 * 
 	 * */
-	public static String applyXPathQuery(String xml_doc, String xpath_query, QName[] namespaces) throws Exception {
+	public static String applyXPathQuery(String xml_doc, String xpath_query, QName[] namespaces, QName expectedOutputType) throws Exception {
 
 		
 		if( (xml_doc == null) || (xpath_query == null) || (namespaces == null) ){
@@ -492,16 +505,60 @@ public class ServiceInvocationUtil {
 
 					final int query_result_cardinality = query_result.getChildNodes().getLength();
 
+					
 
 					Node first_child = query_result.getFirstChild();
+					boolean isComplexType = (query_result_cardinality > 1) && (!first_child.getNodeName().matches(".*"+expectedOutputType.getLocalPart()+".*"));
+//					System.out.println("Node name ("+first_child.getNodeName()+") matches output type ("+expectedOutputType.getLocalPart() +")? "+ isComplexType);   //DEBUG
+					
+					
+					//DEBUG
+//					System.out.println("First child's name: "+ first_child.getNodeName() +" (is complex? "+ isComplexType +")");
+					
 					if( first_child.getNodeName().equals("response") ){
 
-						// If query_result has only one child, it represents a simple type. If it has more than that, it represents an array
+						// If query_result has only one child, it represents a simple type. If it has more than that, it represents a complex type
 						if(  (query_result_cardinality == 1) && first_child.hasChildNodes() ){   
 
 							query_result = first_child.getFirstChild();
 						}
 					}
+					
+					
+					// Make sure the result is named by the output type
+					else if (isComplexType){
+						
+						
+						
+					
+						Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+						
+						//DEBUG
+//						System.out.println("EXPECTED TYPE IS: "+ expectedOutputType.getLocalPart() +" (localPart); "+ expectedOutputType.getPrefix() 
+//								+" (prefix); "+ expectedOutputType.getNamespaceURI() +" (namespace)");
+						
+						
+						Element node = d.createElementNS(expectedOutputType.getNamespaceURI(), "nsns:"+ expectedOutputType.getLocalPart());
+						
+						// Copy attributes and children nodes
+						NamedNodeMap attrs = query_result.getAttributes();
+						for(int i=0; i < attrs.getLength(); i++){
+							
+							Node curr_attr = attrs.item(i);
+							Node attr_clone = d.importNode(curr_attr, true);
+							node.setAttributeNode((Attr) attr_clone);
+						}
+						NodeList children = query_result.getChildNodes();
+						for(int i=0; i < children.getLength(); i++){
+							
+							Node curr_child = children.item(i);
+							Node child_clone = d.importNode(curr_child, true);
+							node.appendChild(child_clone);
+						}
+						
+						query_result = node;  // Update resulting node
+					}	// */				
+					
 				}
 
 				result = ConversionUtil.Node2String(query_result);
@@ -592,7 +649,7 @@ public class ServiceInvocationUtil {
 
 
 
-		String ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces);
+		String ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces, new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLenght"));
 		logger.info("Query 1: '"+ xpath_query +"'");
 		logger.info("Returned 1: \n"+ret);
 
@@ -606,7 +663,7 @@ public class ServiceInvocationUtil {
 
 
 		xpath_query = "/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:length";
-		ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces);
+		ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces, new QName(NamespaceConstants.NSPREFIX_SCHEMA_XSD, "string"));
 		logger.info("Query 2: '"+ xpath_query +"'");
 		logger.info("Returned 2: \n"+ret);
 
@@ -619,7 +676,7 @@ public class ServiceInvocationUtil {
 
 		namespaces = new QName[]{ new QName("http://service5.introduce.cagrid.org/Service5", "ns5") };
 		xpath_query = "/ns5:CheckStringAndItsLengthResponse";
-		ret = ServiceInvocationUtil.applyXPathQuery(xml_response2, xpath_query, namespaces);
+		ret = ServiceInvocationUtil.applyXPathQuery(xml_response2, xpath_query, namespaces, new QName(NamespaceConstants.NSPREFIX_SCHEMA_XSD, "boolean"));
 		logger.info("Query 2: '"+ xpath_query +"'");
 		logger.info("Returned 2: \n"+ret);
 
@@ -638,7 +695,7 @@ public class ServiceInvocationUtil {
 
 		namespaces = new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "abc") };
 		xpath_query = "/abc:GetArrayResponse";
-		ret = ServiceInvocationUtil.applyXPathQuery(xml_response3, xpath_query, namespaces);
+		ret = ServiceInvocationUtil.applyXPathQuery(xml_response3, xpath_query, namespaces, new QName(NamespaceConstants.NSPREFIX_SCHEMA_XSD, "string"));
 		logger.info("Query 3: '"+ xpath_query +"'");
 		logger.info("Returned 3: \n"+ret);
 

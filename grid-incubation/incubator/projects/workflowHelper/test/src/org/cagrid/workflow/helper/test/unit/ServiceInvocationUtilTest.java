@@ -3,6 +3,7 @@ package org.cagrid.workflow.helper.test.unit;
 import java.util.Iterator;
 
 import javax.xml.namespace.QName;
+import javax.xml.rpc.NamespaceConstants;
 import javax.xml.soap.SOAPElement;
 
 import junit.framework.Assert;
@@ -27,8 +28,7 @@ public class ServiceInvocationUtilTest extends TestCase {
     /*
      * The method tested is supposed to connect to a WebService. So, we can't
      * create a unit test for now. Maybe we'll be able to use mock objects to
-     * overcome this. TODO Investigate use of mock objects to overcome the need
-     * for a deployed WebService
+     * overcome this. 
      */
     public void testGenerateRequest() {
         // fail("Not yet implemented");
@@ -55,7 +55,7 @@ public class ServiceInvocationUtilTest extends TestCase {
                 new QName("http://service1.workflow.cagrid.org/Service1", "ns1")};
         String xpath_query = "/ns0:GenerateDataResponse/ns1:StringAndItsLenght";
 
-        String ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces);
+        String ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces, new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLenght"));
         String expected_ret = "<ns1:StringAndItsLenght xmlns:ns1=\"http://service1.workflow.cagrid.org/Service1\"> <ns1:str>george teadoro gordao que falou</ns1:str><ns1:length>31</ns1:length></ns1:StringAndItsLenght>";
         System.out.println("Query 1: '" + xpath_query + "'");
         System.out.println("Returned 1: \n" + ret);
@@ -64,7 +64,7 @@ public class ServiceInvocationUtilTest extends TestCase {
         }
 
         xpath_query = "/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:length";
-        ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces);
+        ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces, new QName(NamespaceConstants.NSPREFIX_SCHEMA_XSD, "string"));
         expected_ret = "<ns1:length xmlns:ns1=\"http://service1.workflow.cagrid.org/Service1\">31</ns1:length>";
         System.out.println("Query 2: '" + xpath_query + "'");
         System.out.println("Returned 2: \n" + ret);
@@ -74,7 +74,7 @@ public class ServiceInvocationUtilTest extends TestCase {
 
         namespaces = new QName[]{new QName("http://service5.introduce.cagrid.org/Service5", "ns5")};
         xpath_query = "/ns5:CheckStringAndItsLengthResponse";
-        ret = ServiceInvocationUtil.applyXPathQuery(xml_response2, xpath_query, namespaces);
+        ret = ServiceInvocationUtil.applyXPathQuery(xml_response2, xpath_query, namespaces, new QName(NamespaceConstants.NSPREFIX_SCHEMA_XSD, "boolean"));
         expected_ret = "true";
         System.out.println("Query 3: '" + xpath_query + "'");
         System.out.println("Returned 3: \n" + ret);

@@ -251,7 +251,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								String data = null;
 								try {
 
-									data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces());
+									data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces(), pdesc.getType());
 								} catch (Exception e) {
 									logger.error(e.getMessage(), e);
 									e.printStackTrace();

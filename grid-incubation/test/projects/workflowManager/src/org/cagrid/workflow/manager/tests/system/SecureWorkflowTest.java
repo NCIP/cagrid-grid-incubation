@@ -71,7 +71,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 	private static final String MANAGER_PATH_IN_CONTAINER = "cagrid/WorkflowManagerService";
 
 
-	private final boolean enableVerboseOutput = true;
+	private final boolean enableVerboseOutput = false;
 	private String cdsURL;
 
 	public SecureWorkflowTest() {

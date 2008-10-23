@@ -33,7 +33,6 @@
 	<classpathentry kind="var" path="GT4_LOCATION/lib/commonj.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/commons-beanutils.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/commons-cli-2.0.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/commons-collections-3.0.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/commons-digester.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/commons-discovery.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/commons-logging.jar"/>
@@ -41,12 +40,6 @@
 	<classpathentry kind="var" path="GT4_LOCATION/lib/cryptix.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/cryptix32.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/cryptix-asn1.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_resolution_service.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_resolution_stubs_java.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_resolution_test.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_transfer_service.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_transfer_stubs_java.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_transfer_test.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_usage_core.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_usage_packets_common.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/globus_wsrf_tools_test.jar"/>
@@ -54,7 +47,6 @@
 	<classpathentry kind="var" path="GT4_LOCATION/lib/jce-jdk13-125.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/jgss.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/junit.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/log4j-1.2.8.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/naming-common.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/naming-factory.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/naming-java.jar"/>
@@ -84,9 +76,12 @@
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_test.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_tools.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wss4j.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/xalan.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/xercesImpl.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/xml-apis.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/xmlsec.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/backport-util-concurrent.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/commons-collections-3.2.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/xalan-2.6.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/xercesImpl-2.7.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
