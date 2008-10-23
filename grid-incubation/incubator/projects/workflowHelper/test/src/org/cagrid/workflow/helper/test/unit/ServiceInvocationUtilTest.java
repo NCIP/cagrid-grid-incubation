@@ -56,7 +56,7 @@ public class ServiceInvocationUtilTest extends TestCase {
         String xpath_query = "/ns0:GenerateDataResponse/ns1:StringAndItsLenght";
 
         String ret = ServiceInvocationUtil.applyXPathQuery(xml_response, xpath_query, namespaces, new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLenght"));
-        String expected_ret = "<ns1:StringAndItsLenght xmlns:ns1=\"http://service1.workflow.cagrid.org/Service1\"> <ns1:str>george teadoro gordao que falou</ns1:str><ns1:length>31</ns1:length></ns1:StringAndItsLenght>";
+        String expected_ret = "<nsns:StringAndItsLenght xmlns:ns1=\"http://service1.workflow.cagrid.org/Service1\" xmlns:nsns=\"http://service1.workflow.cagrid.org/Service1\"> <ns1:str>george teadoro gordao que falou</ns1:str><ns1:length>31</ns1:length></nsns:StringAndItsLenght>";
         System.out.println("Query 1: '" + xpath_query + "'");
         System.out.println("Returned 1: \n" + ret);
         if (!ret.equals(expected_ret)) {
@@ -82,6 +82,23 @@ public class ServiceInvocationUtilTest extends TestCase {
             fail("Third XPath query failed");
         }
 
+        
+        // TODO Add XPath query on a complex type with attributes of type EndpointReference
+        /*String xml_response3 = "";
+        namespaces = new QName[]{new QName("http://inputdatastager.workflow.tma.org/InputDataStager", "svc0"), 
+        			 			 new QName("http://inputdatastager.tma.workflow.org/InputDataStager", "types")};
+        xpath_query = "/svc0:StageInputFilesResponse/types:TMAStagedInputsEPRs/types:TIF";
+        ret = ServiceInvocationUtil.applyXPathQuery(xml_response3, xpath_query, namespaces, new QName(NamespaceConstants.NSPREFIX_SCHEMA_XSD, "boolean"));
+        expected_ret = "true";
+        System.out.println("Query 3: '" + xpath_query + "'");
+        System.out.println("Returned 3: \n" + ret);
+        if (!ret.equals(expected_ret)) {
+            fail("Third XPath query failed");
+        } // */
+        
+        
+        
+        
         System.out.println("End testApplyXPathQuery");
         return;
 
