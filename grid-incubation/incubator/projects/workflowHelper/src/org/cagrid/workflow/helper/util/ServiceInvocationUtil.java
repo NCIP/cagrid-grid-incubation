@@ -251,16 +251,9 @@ public class ServiceInvocationUtil {
 		"\n<________________________________________________________\n");
 	
 		
-		// DEBUG
-//		System.out.println("Printing SOAP Envelope for "+workflowDescriptor.getOperationQName().toString()
-//				+":  \n________________________________________________________>\n"+message.toString()+
-//		"\n<________________________________________________________\n");
-		
 		
 	
 		/// Invoke service 
-		 
-
 		javax.xml.rpc.Service service = null;
 		Call call;
 		EndpointReferenceType serviceOperationEPR = operationClient.getEndpointReference();  //new EndpointReference(workflowDescriptor.getServiceURL());
@@ -454,6 +447,7 @@ public class ServiceInvocationUtil {
 		String result = null;
 
 
+		
 		logger.info("=== Applying query "+xpath_query+" on '"+xml_doc+"'\n");
 		logger.debug("Namespaces are: ");
 		for(int i=0; i < namespaces.length; i++){
@@ -509,11 +503,8 @@ public class ServiceInvocationUtil {
 
 					Node first_child = query_result.getFirstChild();
 					boolean isComplexType = (query_result_cardinality > 1) && (!first_child.getNodeName().matches(".*"+expectedOutputType.getLocalPart()+".*"));
-//					System.out.println("Node name ("+first_child.getNodeName()+") matches output type ("+expectedOutputType.getLocalPart() +")? "+ isComplexType);   //DEBUG
 					
 					
-					//DEBUG
-//					System.out.println("First child's name: "+ first_child.getNodeName() +" (is complex? "+ isComplexType +")");
 					
 					if( first_child.getNodeName().equals("response") ){
 
@@ -532,12 +523,6 @@ public class ServiceInvocationUtil {
 						
 					
 						Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-						
-						//DEBUG
-//						System.out.println("EXPECTED TYPE IS: "+ expectedOutputType.getLocalPart() +" (localPart); "+ expectedOutputType.getPrefix() 
-//								+" (prefix); "+ expectedOutputType.getNamespaceURI() +" (namespace)");
-						
-						
 						Element node = d.createElementNS(expectedOutputType.getNamespaceURI(), "nsns:"+ expectedOutputType.getLocalPart());
 						
 						// Copy attributes and children nodes

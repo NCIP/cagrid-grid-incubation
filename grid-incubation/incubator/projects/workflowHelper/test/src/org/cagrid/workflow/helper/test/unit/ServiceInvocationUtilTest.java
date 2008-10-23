@@ -83,17 +83,17 @@ public class ServiceInvocationUtilTest extends TestCase {
         }
 
         
-        // TODO Add XPath query on a complex type with attributes of type EndpointReference
-        /*String xml_response3 = "";
+        // XPath query on a complex type with attributes of type EndpointReference
+        String xml_response3 = "<StageInputFilesResponse xmlns=\"http://inputdatastager.workflow.tma.org/InputDataStager\"><ns1:TMAStagedInputsEPRs xmlns:ns1=\"http://inputdatastager.tma.workflow.org/InputDataStager\"><ns1:TIF><ns2:Address xmlns:ns2=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\">http://localhost:8080/wsrf/services/cagrid/TransferServiceContext</ns2:Address><ns3:ReferenceProperties xmlns:ns3=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"><ns2:TransferServiceContextResultsKey xmlns:ns2=\"http://transfer.cagrid.org/TransferService/Context\">78ca4980-a10e-11dd-86e0-c9b21d34a082</ns2:TransferServiceContextResultsKey></ns3:ReferenceProperties><ns4:ReferenceParameters xmlns:ns4=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"/></ns1:TIF><ns1:GRID><ns5:Address xmlns:ns5=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\">http://localhost:8080/wsrf/services/cagrid/TransferServiceContext</ns5:Address><ns6:ReferenceProperties xmlns:ns6=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"><ns3:TransferServiceContextResultsKey xmlns:ns3=\"http://transfer.cagrid.org/TransferService/Context\">78ceb650-a10e-11dd-86e0-c9b21d34a082</ns3:TransferServiceContextResultsKey></ns6:ReferenceProperties><ns7:ReferenceParameters xmlns:ns7=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"/></ns1:GRID><ns1:DAT><ns8:Address xmlns:ns8=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\">http://localhost:8080/wsrf/services/cagrid/TransferServiceContext</ns8:Address><ns9:ReferenceProperties xmlns:ns9=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"><ns4:TransferServiceContextResultsKey xmlns:ns4=\"http://transfer.cagrid.org/TransferService/Context\">78d45ba0-a10e-11dd-86e0-c9b21d34a082</ns4:TransferServiceContextResultsKey></ns9:ReferenceProperties><ns10:ReferenceParameters xmlns:ns10=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"/></ns1:DAT></ns1:TMAStagedInputsEPRs></StageInputFilesResponse>";
         namespaces = new QName[]{new QName("http://inputdatastager.workflow.tma.org/InputDataStager", "svc0"), 
         			 			 new QName("http://inputdatastager.tma.workflow.org/InputDataStager", "types")};
         xpath_query = "/svc0:StageInputFilesResponse/types:TMAStagedInputsEPRs/types:TIF";
-        ret = ServiceInvocationUtil.applyXPathQuery(xml_response3, xpath_query, namespaces, new QName(NamespaceConstants.NSPREFIX_SCHEMA_XSD, "boolean"));
-        expected_ret = "true";
-        System.out.println("Query 3: '" + xpath_query + "'");
-        System.out.println("Returned 3: \n" + ret);
+        ret = ServiceInvocationUtil.applyXPathQuery(xml_response3, xpath_query, namespaces, new QName("http://schemas.xmlsoap.org/ws/2004/03/addressing", "EndpointReference"));
+        expected_ret = "<nsns:EndpointReference xmlns:nsns=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"><ns2:Address xmlns:ns2=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\">http://localhost:8080/wsrf/services/cagrid/TransferServiceContext</ns2:Address><ns3:ReferenceProperties xmlns:ns3=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"><ns2:TransferServiceContextResultsKey xmlns:ns2=\"http://transfer.cagrid.org/TransferService/Context\">78ca4980-a10e-11dd-86e0-c9b21d34a082</ns2:TransferServiceContextResultsKey></ns3:ReferenceProperties><ns4:ReferenceParameters xmlns:ns4=\"http://schemas.xmlsoap.org/ws/2004/03/addressing\"/></nsns:EndpointReference>";
+        System.out.println("Query 4: '" + xpath_query + "'");
+        System.out.println("Returned 4: \n" + ret);
         if (!ret.equals(expected_ret)) {
-            fail("Third XPath query failed");
+            fail("Fourth XPath query failed");
         } // */
         
         
