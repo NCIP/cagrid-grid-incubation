@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<WorkflowManagerInstanceDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService ../../../../../incubator/projects/workflowManager/schema/WorkflowManagerService/WorkflowManager.xsd" 
+<WorkflowManagerInstanceDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService ../../../../../incubator/projects/workflowManager/schema/WorkflowManagerService/WorkflowManager.xsd"
 	xmlns:svc1="http://service1.introduce.cagrid.org/Service1"
 	xmlns:svc2="http://service2.introduce.cagrid.org/Service2"
 	xmlns:svc3="http://service3.introduce.cagrid.org/Service3"
 	xmlns:svc4="http://service4.introduce.cagrid.org/Service4"
-	xmlns:svc5="http://service5.introduce.cagrid.org/Service5" 
-	xmlns:types="http://service1.workflow.cagrid.org/Service1" 	 
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:svc5="http://service5.introduce.cagrid.org/Service5"
+	xmlns:types="http://service1.workflow.cagrid.org/Service1"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService">
     <localWorkflows>
         <localWorkflowDesc>
@@ -18,7 +18,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 </WorkflowManagerEPR>
                 <WorkflowID xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">FanInFanOut</WorkflowID>
             </instanceHelperDesc>
-            
+
             <!-- Service 4 -->
             <invocationHelperDescs>
                 <basicDescription>
@@ -44,7 +44,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 <outputTransportDescriptor/>
                 <GlobalUniqueIdentifier>4</GlobalUniqueIdentifier>
             </invocationHelperDescs>
-            
+
             <!-- Service 2 -->
             <invocationHelperDescs>
                 <basicDescription>
@@ -81,7 +81,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 </outputTransportDescriptor>
                 <GlobalUniqueIdentifier>2</GlobalUniqueIdentifier>
             </invocationHelperDescs>
-            
+
             <!-- Service 3 -->
             <invocationHelperDescs>
                 <basicDescription>
@@ -118,7 +118,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 </outputTransportDescriptor>
                 <GlobalUniqueIdentifier>3</GlobalUniqueIdentifier>
             </invocationHelperDescs>
-            
+
             <!-- Service 5 -->
             <invocationHelperDescs>
                 <basicDescription>
@@ -141,7 +141,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 <outputTransportDescriptor/>
                 <GlobalUniqueIdentifier>5</GlobalUniqueIdentifier>
             </invocationHelperDescs>
-            
+
             <!-- Service 1 -->
             <invocationHelperDescs>
                 <basicDescription>
@@ -195,7 +195,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 		</destinationEPR>
                 		<deliveryPolicy>ROUNDROBIN</deliveryPolicy>
                 		<paramIndex>0</paramIndex>
-                		<type>svc1:StringAndItsLenght</type>
+                		<type>types:StringAndItsLenght</type>
                 		<locationQuery>/svc1:GenerateDataResponse/types:StringAndItsLenght</locationQuery>
                 		<expectedTypeIsArray>false</expectedTypeIsArray>
                 	</paramDescriptor>
@@ -211,7 +211,7 @@ xsi:schemaLocation="http://workflowmanagerservice.workflow.cagrid.org/WorkflowMa
                 <data xmlns="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">george teadoro gordao que falou</data>
             </paramDescription>
             <paramDestinationGUID>1</paramDestinationGUID>
-        </parameter>       
+        </parameter>
     </inputs>
     <outputDesc>
     	<paramDescriptor>
