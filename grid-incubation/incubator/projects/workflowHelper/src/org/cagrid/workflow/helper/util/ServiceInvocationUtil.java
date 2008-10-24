@@ -491,6 +491,20 @@ public class ServiceInvocationUtil {
 					throw new Exception(errMsg);
 				}
 
+				
+				/* Check the validity of the query result */
+				if( query_result == null ){
+					String errMsg = "XPath query result is null. Check your XPath query and associated namespaces. Query: "+ xpath_query
+					+ " ; XML doc: "+ xml_doc +" ; namespaces: \n";
+					for(int i=0; i < namespaces.length; i++){
+
+						errMsg += namespaces[i].getLocalPart()+" = "+ namespaces[i].getNamespaceURI() + "\n";
+					}
+					errMsg += "End namespaces"; 
+					logger.error(errMsg);
+					throw new Exception(errMsg);
+				}
+				
 
 				/* In case of a simple type return, it will be a structure like <FooResponse><response>bar</response><FooResponse>
 				 * but we must return only the text node, because the entire tree will be confounded with a complex type's object */
