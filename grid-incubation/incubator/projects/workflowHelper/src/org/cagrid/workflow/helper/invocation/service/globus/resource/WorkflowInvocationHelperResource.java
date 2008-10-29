@@ -115,7 +115,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					/* Inspect each parameter so we can determine what we're supposed to do with the provided values */
 					EndpointReferenceType operationEpr = new EndpointReference(getOperationDesc().getServiceURL());
 					WorkflowInvocationHelperClient operationClient = new WorkflowInvocationHelperClient(operationEpr);
-
+					
+					EndpointReference enclosingInvocationHelperEPR = serviceOperationEPR;
+					WorkflowInvocationHelperClient enclosingInvocationHelperClient = new WorkflowInvocationHelperClient(enclosingInvocationHelperEPR);
+					
+					System.out.println("Operation EPR: "+ operationEpr);
+					
 					for(int input = 0; input < input_value.length; input++){
 
 						dataIsArray = parameterIsArray = false;
@@ -139,7 +144,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 							// Let the next stage know we will start streaming output to it 
-							operationClient.startStreaming();
+							enclosingInvocationHelperClient.startStreaming();
 
 
 							while( array_elements_iter.hasNext() ){ 
@@ -151,7 +156,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								if( !array_elements_iter.hasNext() ){
 
 									// Let the next stage know we will stop streaming output to it
-									operationClient.endStreaming();		
+									enclosingInvocationHelperClient.endStreaming();		
 								}
 
 
@@ -165,12 +170,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 								if( invocationIsSecure ){
 
 									response_node = ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-											new_input_params, getCredential(), operationClient); 							
+											new_input_params, getCredential(), enclosingInvocationHelperClient); 							
 								}
 								else {
 
 									response_node = ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-											new_input_params, operationClient);									
+											new_input_params, enclosingInvocationHelperClient);									
 								}
 								service_response.add(response_node);
 								serviceAlreadyInvoked = true;
