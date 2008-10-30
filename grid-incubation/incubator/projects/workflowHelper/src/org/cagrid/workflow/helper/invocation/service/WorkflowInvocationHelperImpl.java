@@ -25,7 +25,7 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 
   public void configureInput(org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor operationInputMessageDescriptor) throws RemoteException {
 	
-	  logger.info("BEGIN");
+	  logger.info("BEGIN configureInput");
 	  
 	  try {
 			WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
@@ -33,11 +33,11 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		logger.info("END");
+		logger.info("END configureInput");
 	}
 
   public void configureOutput(org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor operationOutputTransportDescriptor) throws RemoteException {
-	  logger.info("BEGIN");
+	  logger.info("BEGIN configureOutput");
 	  try {
 		
 			WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
@@ -46,11 +46,11 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		logger.info("END");
+		logger.info("END configureOutput");
 	}
 
   public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
-	  logger.info("BEGIN");
+	  logger.info("BEGIN setParameter");
 	  try {
 
 			WorkflowInvocationHelperResourceHome brh = getResourceHome();
@@ -59,7 +59,7 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(),e);
 		}
-		logger.info("END");
+		logger.info("END setParameter");
 	}
 
   public void setParameters(org.cagrid.workflow.helper.descriptor.InputParameter[] inputParameters) throws RemoteException {

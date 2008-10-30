@@ -430,7 +430,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	}
 
 	
-	private int numParametersSet() {
+	private int numSetParameters() {
 
 		int received_values = 0;
 		
@@ -581,15 +581,22 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 
 		Status curr_status = this.getTimestampedStatus().getStatus();
-		logger.info("status is "+curr_status); 
+		logger.info("status is "+curr_status);
 
-		if(curr_status.equals(Status.WAITING) || curr_status.equals(Status.FINISHED)){
+		if(curr_status.equals(Status.WAITING) || curr_status.equals(Status.FINISHED) || curr_status.equals(Status.READY) ){
 
+			// 
+			if(curr_status.equals(Status.READY)){
+				logger.warn("[Operation "+ this.getOperationDesc().getOperationQName() +" ; parameter index "+ param.getParamIndex() 
+					+"] All parameters were already set. Parameter "+ param.getParamIndex() +" is being overriden");
+			}
+			
+			
 			if (param != null) {
 				paramData[param.getParamIndex()] = param;
 			}
 
-			logger.info("[setParameter] Received parameter "+ this.numParametersSet() +" of "+ this.numParameters());
+			logger.info("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters());
 
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
@@ -605,7 +612,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		}
 		else {
-			System.err.println("setParameter is allowed only when state is WAITING or FINISHED. Current state: "+curr_status);
+			System.err.println("[Operation "+ this.getOperationDesc().getOperationQName() +" ; parameter index "+ param.getParamIndex() 
+					+"] setParameter is allowed only when state is WAITING or FINISHED. Current state: "+curr_status);
 		}
 	}
 
