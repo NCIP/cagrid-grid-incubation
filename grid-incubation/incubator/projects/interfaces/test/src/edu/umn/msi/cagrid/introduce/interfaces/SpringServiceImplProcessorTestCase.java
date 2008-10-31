@@ -37,7 +37,7 @@ public class SpringServiceImplProcessorTestCase extends TestCase {
     processor = new ServiceImplProcessor(emptySource, "SpringTest", "SpringTest", config);
     processor.execute();
     assertTrue(StringBufferUtils.countOccurrences(emptySource, INIT_METHOD_NAME) == 2); // Call and declaration
-    assertTrue(StringBufferUtils.countOccurrences(emptySource, SPRING_EXTENSION_ANNOTATION) == 2); // init method and 1 bean
+    assertTrue(StringBufferUtils.countOccurrences(emptySource, SPRING_EXTENSION_ANNOTATION) == 3); // init method and 1 bean
     assertTrue(StringBufferUtils.countMatches(emptySource, "java.lang.Object\\s+testBean\\s*;") == 1);
     assertTrue(StringBufferUtils.countOccurrences(emptySource, "testBean") >= 2);
     assertTrue(StringBufferUtils.countMatches(emptySource, "getBean\\s*\\(\\s*\"beanId\"\\s*\\)\\s*;") == 1);
@@ -46,7 +46,7 @@ public class SpringServiceImplProcessorTestCase extends TestCase {
     processor = new ServiceImplProcessor(emptySource, "SpringTest", "SpringTest", config);
     processor.execute();    
     assertTrue(StringBufferUtils.countOccurrences(emptySource, INIT_METHOD_NAME) == 2); // Call and declaration
-    assertTrue(StringBufferUtils.countOccurrences(emptySource, SPRING_EXTENSION_ANNOTATION) == 2); // init method and 1 bean
+    assertTrue(StringBufferUtils.countOccurrences(emptySource, SPRING_EXTENSION_ANNOTATION) == 3); // init method and 1 bean
     assertTrue(StringBufferUtils.countOccurrences(emptySource, "java.lang.Object testBean;") == 1);
     assertTrue(StringBufferUtils.countOccurrences(emptySource, "testBean") >= 2);
     assertTrue(StringBufferUtils.countMatches(emptySource, "getBean\\s*\\(\\s*\"beanId\"\\s*\\)\\s*;") == 1);
@@ -71,10 +71,22 @@ public class SpringServiceImplProcessorTestCase extends TestCase {
     processor.execute();
 
     assertTrue(StringBufferUtils.countOccurrences(emptySource, INIT_METHOD_NAME) == 2); // Call and declaration
-    assertTrue(StringBufferUtils.countOccurrences(emptySource, SPRING_EXTENSION_ANNOTATION) == 3); // init method and 2 beans
+    assertTrue(StringBufferUtils.countOccurrences(emptySource, SPRING_EXTENSION_ANNOTATION) == 5); // init method and 2 beans
     assertTrue(StringBufferUtils.countMatches(emptySource, "java.lang.Object\\s+testBean\\s*;") == 1);
     assertTrue(StringBufferUtils.countOccurrences(emptySource, "testBean") >= 2);
     assertTrue(StringBufferUtils.countMatches(emptySource, "getBean\\s*\\(\\s*\"beanId\"\\s*\\)\\s*;") == 1);   
+
+    emptySource = new StringBuffer(SourceProvider.getSpringFirstTestContents());
+    processor = new ServiceImplProcessor(emptySource, "SpringTest", "SpringMainTest",  config);
+    processor.execute();
+
+    assertTrue(StringBufferUtils.countOccurrences(emptySource, INIT_METHOD_NAME) == 0); // no init method, its not the main service
+    assertTrue(StringBufferUtils.countOccurrences(emptySource, SPRING_EXTENSION_ANNOTATION) == 4); // 2 beans
+    assertTrue(StringBufferUtils.countMatches(emptySource, "java.lang.Object\\s+testBean\\s*;") == 1);
+    assertTrue(StringBufferUtils.countOccurrences(emptySource, "testBean") >= 2);
+    assertTrue(StringBufferUtils.countMatches(emptySource, "getBean\\s*\\(\\s*\"beanId\"\\s*\\)\\s*;") == 1);   
+
+  
   }
   
   

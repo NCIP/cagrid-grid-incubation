@@ -19,7 +19,12 @@ public class SourceProvider {
     contentMap.put("hello2", readContents("HelloWorld2.java"));
     contentMap.put("hello3", readContents("HelloWorld3.java"));
     contentMap.put("hello4", readContents("HelloWorld4.java"));
+    contentMap.put("hello5", readContents("HelloWorld5.java"));
     contentMap.put("generic", readContents("GenericTest.java"));
+  }
+  
+  public static String getHello5TestContents() {
+    return contentMap.get("hello5");
   }
   
   public static String getHello1TestContents() {

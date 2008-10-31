@@ -1,0 +1,5 @@
+Testsuite: edu.umn.msi.cagrid.introduce.interfaces.ExceptionUtilsTestCase
+Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.007 sec
+
+Testcase: testRequiresExceptionWrapping took 0.002 sec
+Testcase: testThrowsRemoteException took 0 sec

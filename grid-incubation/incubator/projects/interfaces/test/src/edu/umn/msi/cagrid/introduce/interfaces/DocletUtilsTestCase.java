@@ -9,7 +9,7 @@ import edu.umn.msi.cagrid.introduce.interfaces.codegen.StringBufferUtils;
 import static edu.umn.msi.cagrid.introduce.interfaces.codegen.DocletUtils.HasAnnotation;
 import static edu.umn.msi.cagrid.introduce.interfaces.codegen.DocletUtils.HasDoclet;
 
-import static com.google.common.collect.Iterators.filter;
+import static com.google.common.collect.Iterables.filter;
 
 import junit.framework.TestCase;
 
@@ -27,14 +27,14 @@ public class DocletUtilsTestCase extends TestCase {
   private String contents = SourceProvider.getDocletTestContents();
 
   public void testEnumerate() throws Exception {
-    Iterator<JavaField> fields = DocletUtils.enumerateFields(contents);
+    Iterable<JavaField> fields = DocletUtils.enumerateFields(contents);
     assertEquals(4,count(fields));
-    Iterator<JavaMethod> methods = DocletUtils.enumerateMethods(contents);
+    Iterable<JavaMethod> methods = DocletUtils.enumerateMethods(contents);
     assertEquals(5,count(methods));
   }
 
   public void testPredicates() throws Exception {
-    Iterator<JavaField> fields;
+    Iterable<JavaField> fields;
 
     fields = DocletUtils.enumerateFields(contents);
     fields = filter(fields, new HasAnnotation());
@@ -48,7 +48,7 @@ public class DocletUtilsTestCase extends TestCase {
     fields = filter(fields, new HasAnnotation("edu.test.OtherAnnotation"));
     assertEquals(0, count(fields));
 
-    Iterator<JavaMethod> methods;
+    Iterable<JavaMethod> methods;
 
     methods = DocletUtils.enumerateMethods(contents);
     methods = filter(methods, new HasDoclet());
@@ -66,10 +66,9 @@ public class DocletUtilsTestCase extends TestCase {
 
 
 
-  private int count(Iterator<?> iterator) {
+  private int count(Iterable<?> iterator) {
     int count = 0;
-    while(iterator.hasNext()) {
-      iterator.next();
+    for(Object object : iterator) {
       count++;
     }
     return count;

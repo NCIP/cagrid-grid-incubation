@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 import com.thoughtworks.qdox.model.JavaMethod;
 
-import static com.google.common.collect.Iterators.filter;
+import static com.google.common.collect.Iterables.filter;
 
 public class PreCodegenServiceProcessor implements ServiceProcessor {
   private TypeMapping typeMap;
@@ -79,19 +79,17 @@ public class PreCodegenServiceProcessor implements ServiceProcessor {
   private void addNewMethods(Collection<MethodType> methods, ServiceConfiguration serviceConfiguration) {
     //Iterator<Method> methodsToImplement = MethodUtils.enumerateMethodsToImplement(map.keySet());
     Collection<MethodConfiguration> allMethods = serviceConfiguration.getMethods();
-    Iterator<MethodConfiguration> methodsToImplement = filter(allMethods.iterator(), MethodConfiguration.getIncludedPredicate());
-    while(methodsToImplement.hasNext()) {
-      MethodConfiguration methodConfiguration = methodsToImplement.next();
+    Iterable<MethodConfiguration> methodsToImplement = filter(allMethods, MethodConfiguration.getIncludedPredicate());
+    for(MethodConfiguration methodConfiguration : methodsToImplement) {
       methods.add(methodConfiguration.getIntroduceMethodType());
     }
   }
 
   private void removeOldMethods(Collection<MethodType> methods, Service service) throws IOException {
     String sourceContents = service.getServiceImplContents();
-    Iterator<JavaMethod> javaMethods = DocletUtils.enumerateMethods(sourceContents);
+    Iterable<JavaMethod> javaMethods = DocletUtils.enumerateMethods(sourceContents);
     javaMethods = filter(javaMethods, new DocletUtils.HasDoclet(Constants.INTERFACES_ANNOTATION_TAG));
-    while(javaMethods.hasNext()) {
-      JavaMethod javaMethod = javaMethods.next();
+    for(JavaMethod javaMethod : javaMethods) {
       boolean methodRemoved = false;
       for(MethodType method : methods) {
         if(javaMethod.getName().equals(method.getName())) {

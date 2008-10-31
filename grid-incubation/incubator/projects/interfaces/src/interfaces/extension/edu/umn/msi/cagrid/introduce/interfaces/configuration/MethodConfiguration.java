@@ -217,6 +217,9 @@ public class MethodConfiguration {
   // Type casting the delegated calls lets Spring beans be declared as 
   // Objects!
   public String getDelegatedCall(String delegate, boolean cast) {
+    if(this.getInterfaceConfiguration().getFieldConfiguration().isMethod()) {
+      delegate = delegate + "()";
+    }
     StringBuffer call = new StringBuffer();
     String interfaceName = getInterfaceConfiguration().getName();
     if(cast) {

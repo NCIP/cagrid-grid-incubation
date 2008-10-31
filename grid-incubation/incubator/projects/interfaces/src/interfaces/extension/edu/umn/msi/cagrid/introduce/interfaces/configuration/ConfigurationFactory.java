@@ -19,8 +19,10 @@ import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
 
+import com.thoughtworks.qdox.model.AbstractJavaEntity;
 import com.thoughtworks.qdox.model.Annotation;
 import com.thoughtworks.qdox.model.JavaField;
+import com.thoughtworks.qdox.model.JavaMethod;
 
 import edu.umn.msi.cagrid.introduce.interfaces.client.GridMethod;
 import edu.umn.msi.cagrid.introduce.interfaces.client.GridParam;
@@ -36,34 +38,41 @@ public class ConfigurationFactory {
     return getServiceConfiguration(source, service.getCaGridService().getClassLoader());
   }
   
+  private LinkedList<String> getInterfaces(AbstractJavaEntity entity) {
+    LinkedList<String> interfaces = new LinkedList<String>();
+    for(Annotation annotation : entity.getAnnotations()) {
+      if(annotation.getType().getValue().equals(ImplementsForService.class.getCanonicalName())) {
+        // Annotations of the form {"a", "b"} are lists of lists of strings for some reason?
+        Object value = annotation.getNamedParameter("interfaces");
+        if(value instanceof Collection) {
+          for(Object element : (Collection<?>) value) {
+            if(element instanceof Collection) { 
+              for(Object subElement : (Collection<?>) element) {
+                interfaces.add(fixQdoxAnnotationString(subElement.toString()));
+              }
+            } else {
+              interfaces.add(fixQdoxAnnotationString(element.toString()));
+            }
+          }
+        } else {
+          interfaces.add(fixQdoxAnnotationString(value.toString()));
+        }
+      }
+    } // End loop over annotations, interfaces is set
+    return interfaces;
+  }
+  
   public ServiceConfiguration getServiceConfiguration(String source, ClassLoader loader) {
     DocletUtils.HasAnnotation predicate = new DocletUtils.HasAnnotation(ImplementsForService.class);
-    Iterator<JavaField> fields = DocletUtils.findFields(source, predicate);
     LinkedList<FieldConfiguration> fieldConfigurations = new LinkedList<FieldConfiguration>();
-    while(fields.hasNext()) {
-      JavaField field = fields.next();
-      LinkedList<String> interfaces = new LinkedList<String>();
-      for(Annotation annotation : field.getAnnotations()) {
-        if(annotation.getType().getValue().equals(ImplementsForService.class.getCanonicalName())) {
-          // Annotations of the form {"a", "b"} are lists of lists of strings for some reason?
-          Object value = annotation.getNamedParameter("interfaces");
-          if(value instanceof Collection) {
-            for(Object element : (Collection<?>) value) {
-              if(element instanceof Collection) { 
-                for(Object subElement : (Collection<?>) element) {
-                  interfaces.add(fixQdoxAnnotationString(subElement.toString()));
-                }
-              } else {
-                interfaces.add(fixQdoxAnnotationString(element.toString()));
-              }
-            }
-          } else {
-            interfaces.add(fixQdoxAnnotationString(value.toString()));
-          }
-        }
-      } // End loop over annotations, interfaces is set
-      fieldConfigurations.add(getFieldConfiguration(getInterfaceClasses(interfaces, loader), field.getName()));
+    for(JavaField field : DocletUtils.findFields(source, predicate)) {
+      LinkedList<String> interfaces = getInterfaces(field); 
+      fieldConfigurations.add(getFieldConfiguration(getInterfaceClasses(interfaces, loader), field.getName(), false));
     } // End loop over fields
+    for(JavaMethod method : DocletUtils.findMethods(source, predicate)) {
+      LinkedList<String> interfaces = getInterfaces(method);
+      fieldConfigurations.add(getFieldConfiguration(getInterfaceClasses(interfaces, loader), method.getName(), true));
+    }
     ServiceConfiguration serviceConfiguration = new ServiceConfiguration();
     serviceConfiguration.setFields(fieldConfigurations);
     return serviceConfiguration;
@@ -84,9 +93,10 @@ public class ConfigurationFactory {
   }
   
   
-  public FieldConfiguration getFieldConfiguration(Collection<Class<?>> interfaces, String fieldName) {
+  public FieldConfiguration getFieldConfiguration(Collection<Class<?>> interfaces, String fieldName, boolean isMethod) {
     FieldConfiguration fieldConfiguration = new FieldConfiguration();
     fieldConfiguration.setName(fieldName);
+    fieldConfiguration.setMethod(isMethod);
     for(Class<?> interface_ : interfaces) {
       InterfaceConfiguration interfaceConfiguration = getInterfaceConfiguration(interface_);
       fieldConfiguration.getInterfaces().add(interfaceConfiguration);

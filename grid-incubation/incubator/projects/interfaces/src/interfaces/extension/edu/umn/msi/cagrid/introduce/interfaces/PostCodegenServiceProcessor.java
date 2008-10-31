@@ -34,6 +34,9 @@ import org.apache.commons.io.FileUtils;
 public class PostCodegenServiceProcessor implements ServiceProcessor {
 
   public void execute(Service service) throws Exception {
+    if(Constants.DEBUG) {
+      System.out.println("Interfaces postprocessing service " + service.getName());
+    }
     //InterfaceToVariableMap map = InterfaceToVariableMap.build(service);
     StringBuffer contentsBuffer = new StringBuffer(service.getServiceImplContents());
     ServiceConfiguration serviceConfiguration = new ConfigurationFactory().getServiceConfiguration(service);

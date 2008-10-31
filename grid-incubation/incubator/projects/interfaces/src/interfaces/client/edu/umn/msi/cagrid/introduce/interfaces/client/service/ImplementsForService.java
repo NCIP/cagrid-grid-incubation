@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  *
  */
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD,ElementType.METHOD})
 public @interface ImplementsForService {
   /**
    * @return Interfaces the service should be modified to implement at 

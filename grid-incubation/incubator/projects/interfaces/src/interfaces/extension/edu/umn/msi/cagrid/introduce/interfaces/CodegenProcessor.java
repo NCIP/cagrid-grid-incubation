@@ -36,6 +36,9 @@ public class CodegenProcessor implements CodegenExtensionPreProcessor, CodegenEx
    */
   public void preCodegen(ServiceExtensionDescriptionType description, ServiceInformation information) throws CodegenExtensionException {
     preCodegenCompleted = false;
+    if(Constants.DEBUG) {
+      System.out.println("Interfaces preCodegen executed");
+    }
     CaGridService caGridService = new CaGridService(information);
     
     try {
@@ -48,6 +51,7 @@ public class CodegenProcessor implements CodegenExtensionPreProcessor, CodegenEx
     
     if(!PreCodegenTypeBeanCollectionSupplierImpl.canConstruct(information)) {
       // Type information is not available, don't attempt to run interface creation
+      System.out.println("Interfaces: Type information not available, skipping precodgen.");
       return;
     }
     
@@ -70,9 +74,13 @@ public class CodegenProcessor implements CodegenExtensionPreProcessor, CodegenEx
    */
   public void postCodegen(ServiceExtensionDescriptionType description, ServiceInformation information) throws CodegenExtensionException {
     if(!preCodegenCompleted) {
+      System.out.println("Skipping Interfaces postCodegen, it appears as though preCodgen did not execute");
       // If preCodegen didn't run or failed to execute, there shouldn't
       // be anything to do.
       return;
+    }
+    if(Constants.DEBUG) {
+      System.out.println("Interfaces postCodegen executed");
     }
     CaGridService caGridService = new CaGridService(information);
     caGridService.executeOnEachService(new PostCodegenServiceProcessor());

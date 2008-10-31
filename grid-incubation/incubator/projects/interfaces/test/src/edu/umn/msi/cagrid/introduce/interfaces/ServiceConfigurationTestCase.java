@@ -1,5 +1,6 @@
 package edu.umn.msi.cagrid.introduce.interfaces;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
@@ -32,6 +33,19 @@ public class ServiceConfigurationTestCase extends TestCase {
     
     source = SourceProvider.getGenericTestContents();
     testGeneric(source);
+    
+    source = SourceProvider.getHello5TestContents();
+    ServiceConfiguration config = factory.getServiceConfiguration(source, null);
+    Collection<FieldConfiguration> fields = config.getFields();
+    assertEquals(2, fields.size());
+    boolean foundMethod = false;
+    for(FieldConfiguration field : fields) {
+      if(field.isMethod()) {
+        foundMethod = true;
+      }
+    }
+    assertTrue(foundMethod);
+    
   }
 
   
@@ -58,6 +72,7 @@ public class ServiceConfigurationTestCase extends TestCase {
     ServiceConfiguration config = factory.getServiceConfiguration(source, null);
     assertEquals(2, config.getFields().size());
     for(FieldConfiguration fieldConfiguration : config.getFields()) {
+      assertFalse(fieldConfiguration.isMethod());
       if(fieldConfiguration.getName().equals("subtracter")) {
         assertEquals(1, fieldConfiguration.getInterfaces().size());
         assertEquals(2, fieldConfiguration.getMethods().size());

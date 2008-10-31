@@ -12,9 +12,18 @@ while(beans.hasNext())
    * DO NOT REMOVE THIS COMMENT!
    * @<%= Constants.SPRING_EXTENSION_ANNOTATION %>
    */
-  @ImplementsForService(interfaces = {<%= getInterfacesString(bean.getInterfaces()) %>})
   <%= bean.getFieldClass() %> <%= bean.getFieldName() %>;
 
+  /**
+   * DO NOT REMOVE THIS COMMENT!
+   * @<%= Constants.SPRING_EXTENSION_ANNOTATION %>
+   */
+  @ImplementsForService(interfaces = {<%= getInterfacesString(bean.getInterfaces()) %>})
+  private <%= bean.getFieldClass() %> get<%= bean.getFieldName() %>() {
+    if(<%= bean.getFieldName() %> == null) 
+      <%= bean.getFieldName() %> =  (<%= bean.getFieldClass() %>) <%= serviceName %>ApplicationContext.get().getBean("<%= bean.getBeanId() %>");
+    return <%= bean.getFieldName() %>; 
+  }
 <%
 }
 %>

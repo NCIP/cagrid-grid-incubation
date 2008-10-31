@@ -17,7 +17,7 @@ import com.thoughtworks.qdox.model.Annotation;
 import static edu.umn.msi.cagrid.introduce.interfaces.codegen.StringBufferUtils.replaceAll;
 
 import com.google.common.base.Predicate;
-import static com.google.common.collect.Iterators.filter;
+import static com.google.common.collect.Iterables.filter;
 
 /**
  * Utilities for dealing with doclet tags in java source files, 
@@ -145,9 +145,14 @@ public class DocletUtils {
     }
   }
 
-  public static Iterator<JavaField> findFields(String contents, Predicate<? super JavaField> predicate) {
-    Iterator<JavaField> fields = enumerateFields(contents);
+  public static Iterable<JavaField> findFields(String contents, Predicate<? super JavaField> predicate) {
+    Iterable<JavaField> fields = enumerateFields(contents);
     return filter(fields, predicate);
+  }
+  
+  public static Iterable<JavaMethod> findMethods(String contents, Predicate<? super JavaMethod> predicate) {
+    Iterable<JavaMethod> methods = enumerateMethods(contents);
+    return filter(methods,predicate);
   }
   
   /**
@@ -156,13 +161,13 @@ public class DocletUtils {
    * @return An Iterator over all of the class fields declared in
    * the given Java source file as QDOX JavaField objects
    */
-  public static Iterator<JavaField> enumerateFields(String source) {
+  public static Iterable<JavaField> enumerateFields(String source) {
     JavaSource javaSource = getJavaSourceFromContents(source);
     LinkedList<JavaField> fields = new LinkedList<JavaField>();
     for(JavaClass class_ : javaSource.getClasses()) {
       fields.addAll(Arrays.asList(class_.getFields()));      
     }
-    return fields.iterator();
+    return fields;
   }
 
   /**
@@ -171,26 +176,26 @@ public class DocletUtils {
    * @return An Iterator over all of the class methods declared in
    * the given Java source file as QDOX JavaMethod objects
    */
-  public static Iterator<JavaMethod> enumerateMethods(String source) {
+  public static Iterable<JavaMethod> enumerateMethods(String source) {
     JavaSource javaSource = getJavaSourceFromContents(source);
     LinkedList<JavaMethod> methods = new LinkedList<JavaMethod>();
     for(JavaClass class_ : javaSource.getClasses()) {
       methods.addAll(Arrays.asList(class_.getMethods()));
     }
-    return methods.iterator();
+    return methods;
   }
 
   /**
    * @see enumerateMethods(String)
    */
-  public static Iterator<JavaMethod> enumerateMethods(StringBuffer source) {
+  public static Iterable<JavaMethod> enumerateMethods(StringBuffer source) {
     return enumerateMethods(source.toString());
   }
 
   /**
    * @see enumerateMethods(String)
    */
-  public static Iterator<JavaField> enumerateFields(StringBuffer contents) {
+  public static Iterable<JavaField> enumerateFields(StringBuffer contents) {
     return enumerateFields(contents.toString());
   }
 

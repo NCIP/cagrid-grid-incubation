@@ -5,12 +5,17 @@ import java.util.LinkedList;
 
 import edu.umn.msi.cagrid.introduce.interfaces.types.mapping.TypeMapping;
 
-public class FieldConfiguration {
+public class FieldConfiguration { // TODO: Rename to DelegateConfiguration
   /**
    * Name of the Java class field that implements interfaces for the given
    * caGrid service.
    */
   private String name;
+
+  /**
+   * Is the delegate a method (otherwise its a field).
+   */
+  private boolean method;
   
   /**
    * Collection of configurations objects for the interfaces this field 
@@ -44,6 +49,14 @@ public class FieldConfiguration {
    */
   public void setInterfaces(Collection<InterfaceConfiguration> interfaces) {
     this.interfaces = interfaces;
+  }
+  
+  public void setMethod(boolean method) {
+    this.method = method;
+  }
+  
+  public boolean isMethod() {
+    return method;
   }
   
   public void addDefaultValues(TypeMapping defaultTypeMapping) {

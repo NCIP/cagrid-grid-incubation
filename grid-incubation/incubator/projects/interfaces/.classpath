@@ -7,7 +7,7 @@
 	<classpathentry kind="src" path="src/spring/client"/>
 	<classpathentry kind="src" path="build/jet/interfaces"/>
 	<classpathentry kind="src" path="build/jet/spring"/>
-	<classpathentry excluding="*|edu/umn/msi/cagrid/introduce/interfaces/GenericTest.java" kind="src" path="test/resources"/>
+	<classpathentry excluding="*|edu/umn/msi/cagrid/introduce/interfaces/GenericTest.java|edu/umn/msi/cagrid/introduce/interfaces/AddTest.java|edu/umn/msi/cagrid/introduce/interfaces/AkwardTest.java|edu/umn/msi/cagrid/introduce/interfaces/DocletTest.java|edu/umn/msi/cagrid/introduce/interfaces/HelloWorld1.java|edu/umn/msi/cagrid/introduce/interfaces/HelloWorld2.java|edu/umn/msi/cagrid/introduce/interfaces/HelloWorld3.java|edu/umn/msi/cagrid/introduce/interfaces/HelloWorld4.java|edu/umn/msi/cagrid/introduce/interfaces/HelloWorld5.java|edu/umn/msi/cagrid/introduce/interfaces/SpringEmptyTest.java|edu/umn/msi/cagrid/introduce/interfaces/SpringFirstTest.java|edu/umn/msi/cagrid/introduce/interfaces/TestSource.java" kind="src" path="test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/addressing-1.0.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/axis.jar"/>
