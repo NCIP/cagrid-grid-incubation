@@ -16,5 +16,6 @@ public interface WorkflowInvocationHelperConstants {
 	public static final QName OPERATIONOUTPUTTRANSPORTDESCRIPTOR = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "OperationOutputTransportDescriptor");
 	public static final QName TIMESTAMPEDSTATUS = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "TimestampedStatus");
 	public static final QName INSTRUMENTATIONRECORD = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "InstrumentationRecord");
+	public static final QName OUTPUTREADY = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "OutputReady");
 	
 }

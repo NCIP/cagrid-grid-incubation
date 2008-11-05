@@ -225,6 +225,17 @@ public abstract class WorkflowInvocationHelperResourceBase extends ReflectionRes
 		prop.set(0, instrumentationRecord);
 	}
 	
+	
+	
+	public org.cagrid.workflow.helper.descriptor.OutputReady getOutputReady(){
+		return ((WorkflowInvocationHelperResourceProperties) getResourceBean()).getOutputReady();
+	}
+	
+	public void setOutputReady(org.cagrid.workflow.helper.descriptor.OutputReady outputReady ) throws ResourceException {
+        ResourceProperty prop = getResourcePropertySet().get(WorkflowInvocationHelperConstants.OUTPUTREADY);
+		prop.set(0, outputReady);
+	}
+	
 
 
 	  
