@@ -2,14 +2,20 @@ package org.cagrid.workflow.helper.invocation.service.globus.resource;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.Text;
 
+import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
@@ -20,6 +26,7 @@ import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.OutputReady;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
@@ -30,7 +37,9 @@ import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClie
 import org.cagrid.workflow.helper.util.ConversionUtil;
 import org.cagrid.workflow.helper.util.ServiceInvocationUtil;
 import org.globus.gsi.GlobusCredential;
+import org.globus.wsrf.NotifyCallback;
 import org.globus.wsrf.ResourceException;
+import org.globus.wsrf.container.ContainerException;
 import org.w3c.dom.Node;
 
 
@@ -40,7 +49,7 @@ import org.w3c.dom.Node;
  * @created by Introduce Toolkit version 1.2
  * 
  */
-public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperResourceBase {
+public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperResourceBase implements NotifyCallback {
 
 	private static Log logger = LogFactory.getLog(WorkflowInvocationHelperResource.class);
 
@@ -57,35 +66,48 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private String serviceOperationEPRString;
 	private boolean isSecure = false;    // Enable/Disable secure invocation
 	private boolean waitExplicitStart = true;   // true: method 'start' initiates execution. false: execution starts as soon as all parameters are set
-	private boolean isReceivingStream = false;
+	private boolean isReceivingStream = false;  // State variable to control the read from a stream
 
 
-	// Persistency variables
-	/*private boolean beingLoaded = false;
-	private PersistenceHelper resourcePropertyPersistenceHelper = null;
-	private FilePersistenceHelper resourcePersistenceHelper = null; // */
-
+	// Synchronization variables
+	private Map<String, Lock> outputReadyKey = new HashMap<String, Lock>();
+	private Map<String, Condition> outputReadyCondition = new HashMap<String, Condition>();
+	private Map<String, Boolean> outputReady = new HashMap<String, Boolean>();
 
 	// Instrumentation information
 	InstrumentationRecord step_times;
 
 
-
-
+	
 	public synchronized boolean executeIfReady() {
 
 
 		// Make sure all expected parameters have been retrieved before executing 
-		if( !allParametersSet() ) return false;
+		if( !allParametersSet() ){ 
+			
+			// Generate a callback so the caller can proceed
+			try {
+				this.setOutputReady(OutputReady.FALSE);
+			} catch (ResourceException e) {
+				e.printStackTrace();
+			}
+			return false; 
+		}
 
 		logger.info("Execution started for "+ getOperationDesc().getOperationQName().getLocalPart()); 
 
 		this.changeStatus(Status.RUNNING);
+		try {
+			this.setOutputReady(OutputReady.FALSE);
+		} catch (ResourceException e2) {
+			e2.printStackTrace();
+			logger.error(e2);
+		}
 
 
-		final Thread th = new Thread(new Runnable() {
-
-			public synchronized void run() {
+//		final Thread th = new Thread(new Runnable() {
+//
+//			public synchronized void run() {
 
 
 				logger.info("-- Thread started --");
@@ -115,12 +137,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					/* Inspect each parameter so we can determine what we're supposed to do with the provided values */
 					EndpointReferenceType operationEpr = new EndpointReference(getOperationDesc().getServiceURL());
 					WorkflowInvocationHelperClient operationClient = new WorkflowInvocationHelperClient(operationEpr);
-					
+
 					EndpointReference enclosingInvocationHelperEPR = serviceOperationEPR;
 					WorkflowInvocationHelperClient enclosingInvocationHelperClient = new WorkflowInvocationHelperClient(enclosingInvocationHelperEPR);
-					
+
 					System.out.println("Operation EPR: "+ operationEpr);
-					
+
 					for(int input = 0; input < input_value.length; input++){
 
 						dataIsArray = parameterIsArray = false;
@@ -208,7 +230,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				} catch (Exception e1) {
 					System.err.println("ERROR processing " + getOperationDesc().getOperationQName() + e1.getMessage());					
 					changeStatus(Status.ERROR);
-					return;					
+//					return;					
 				}
 
 
@@ -284,7 +306,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										logger.debug("Doing usual forwarding after getting operation's output");
 										next_destination = pdesc.getDestinationEPR()[0];  // This might change when we have multiple destinations
 										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
-//										logger.info("Setting parameter to stage identified by "+ client.getEndpointReference());
+										//										logger.info("Setting parameter to stage identified by "+ client.getEndpointReference());
 										client.setParameter(iparam);
 
 									}
@@ -296,8 +318,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										next_destination = pdesc.getDestinationEPR()[0];  //  This might change when we have multiple destinations
 										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
 										client.startStreaming();
+										logger.debug("Streaming enabled");
+
+										// Subscribe to notifications of output availability
+										this.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);  // The next method is asynchronous, so we need to register a callback
 										client.start();
-										logger.debug("Streaming enabled"); 
 
 
 										// Get array elements
@@ -338,6 +363,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 											// Send the data to the appropriate InvocationHelper 
 											client.setParameter(iparam);
 
+
+											// Wait for the callback to be made
+											waitForCallback(client.getEPRString());
+
+
+
 										} // End of array elements										
 									}
 								}
@@ -354,7 +385,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 							} catch (RemoteException e) {
 								changeStatus(Status.ERROR);
 								e.printStackTrace();
-							}
+							} 
 						}
 					}
 
@@ -371,31 +402,32 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				}
 
 				logger.info("-- Thread finished --");
-				return;
-			}
+//				return;
+//			}
 
-		});
-
+//		});
+/////////
 
 		/* Start thread and wait for it to finish */
 		try {
-		
-			th.start();
-			th.join();
+//
+//			th.start();
+//			th.join();
 
 			if( this.getTimestampedStatus().getStatus().equals(Status.RUNNING) ){
 
 				this.finishRun();
 			}
-		} catch (InterruptedException e) {
-
-			e.printStackTrace();
-			changeStatus(Status.ERROR);
-
-		} catch (ResourceException e) {
-			e.printStackTrace();
-			changeStatus(Status.ERROR);			
-		}
+		} 
+//	catch (InterruptedException e) {
+//
+//			e.printStackTrace();
+//			changeStatus(Status.ERROR);
+//
+//		} catch (ResourceException e) {
+//			e.printStackTrace();
+//			changeStatus(Status.ERROR);			
+//		}
 		catch (Throwable e) {
 			e.printStackTrace();
 			changeStatus(Status.ERROR);
@@ -404,6 +436,66 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		return true;
 	}
+
+
+	/** Subscribe for receiving notifications of a certain type and register the subscription internally */
+	private void subscribeWithCallback(QName xmlType,
+			WorkflowInvocationHelperClient client) {
+
+		try{
+		
+		// Register the subscription internally
+		String key = client.getEPRString();
+		this.outputReady.put(key, Boolean.FALSE);
+		Lock mutex = new ReentrantLock();
+		Condition condition = mutex.newCondition();
+		this.outputReadyKey.put(key, mutex);
+		this.outputReadyCondition.put(key, condition);
+		
+		
+		// Subscribe
+		client.subscribeWithCallback(xmlType, this);
+		
+		} catch (RemoteException e) {
+			logger.error(e);
+			e.printStackTrace();
+		} catch (ContainerException e) {
+			logger.error(e);
+			e.printStackTrace();
+		} catch (MalformedURIException e) {
+			logger.error(e);
+			e.printStackTrace();
+		} 
+	}
+
+
+	// Wait on condition variable until a notification is received and we can proceed
+	private void waitForCallback(String key) {
+
+		if( !this.outputReadyKey.containsKey(key) ){
+			logger.error("Unknown key received: "+ key);
+			return;
+		}
+
+		logger.info("Waiting for callback");
+		this.outputReadyKey.get(key).lock();
+		try{
+
+			if(!this.outputReady.get(key).booleanValue()){
+
+				//System.out.println("Waiting for signal");//DEBUG
+				this.outputReadyCondition.get(key).await();
+			}
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally{
+			this.outputReadyKey.get(key).unlock();
+		}
+		logger.info("Callback received");
+	}
+	
+
 
 
 	/**
@@ -416,6 +508,10 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		Status nextStatus = this.isReceivingStream ? Status.WAITING : Status.FINISHED;
 		changeStatus(nextStatus);
 		logger.info("[finishRun] Set status to "+ nextStatus +" ("+ getOperationDesc().getOperationQName() +")");
+
+		// Generate event that will dispatch all callbacks
+//		System.out.println("[finishRun] Generating callback");//DEBUG
+		this.setOutputReady(OutputReady.TRUE);
 	}
 
 
@@ -429,11 +525,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		return true;
 	}
 
-	
+
 	private int numSetParameters() {
 
 		int received_values = 0;
-		
+
 		for (int i = 0; i < paramData.length; i++) {
 			if (paramData[i] != null) {
 				received_values++;
@@ -441,13 +537,13 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		}
 		return received_values;
 	}
-	
+
 
 	private int numParameters(){
 		return paramData.length;
 	}
-	
-	
+
+
 	/** Get an array represented as a SOAP element and extracts the array elements
 	 * 
 	 * @param paramData The SOAP element whose child is an array
@@ -579,19 +675,20 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public synchronized void setParameter(InputParameter param) {
 
+		logger.info("BEGIN setParameter");  
 
 		Status curr_status = this.getTimestampedStatus().getStatus();
 		logger.info("status is "+curr_status);
 
 		if(curr_status.equals(Status.WAITING) || curr_status.equals(Status.FINISHED) || curr_status.equals(Status.READY) ){
 
-			// 
+			// Warn about the overwriting that is about to be performed 
 			if(curr_status.equals(Status.READY)){
 				logger.warn("[Operation "+ this.getOperationDesc().getOperationQName() +" ; parameter index "+ param.getParamIndex() 
-					+"] All parameters were already set. Parameter "+ param.getParamIndex() +" is being overriden");
+						+"] All parameters were already set. Parameter "+ param.getParamIndex() +" is being overriden");
 			}
-			
-			
+
+
 			if (param != null) {
 				paramData[param.getParamIndex()] = param;
 			}
@@ -603,18 +700,58 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 				changeStatus(Status.READY);
 				logger.info("[setParameter] Status is READY for "+ this.getOperationDesc().getOperationQName());				
+
+
+
+				if( !this.waitExplicitStart ){  // Run stage. There will be a callback in the end of the execution
+
+					// If ready to run, start the stage's execution and return. The method returns before the stage's execution finishes
+//					System.out.println("[setParameter] Starting stage execution and returning");//DEBUG
+					logger.info("Starting stage execution and returning");
+//					final Thread th = new Thread(new Runnable(){
+//
+//						public synchronized void run() {
+							executeIfReady();   // poll to see if we can execute
+//						}
+//					});
+//
+//					th.start();
+//					System.out.println("Stage execution started"); //DEBUG
+				}
+				else{  // Generate a callback so the caller can proceed, since the stage won't run right now 
+					
+//					System.out.println("[setParameter] Generating callback");//DEBUG
+					try {
+						this.setOutputReady(OutputReady.FALSE);
+					} catch (ResourceException e) {
+						e.printStackTrace();
+					}
+
+				}
 			}
+			else{  // Generate a callback so the caller can proceed setting input parameters
+//				System.out.println("[setParameter] Generating callback..");//DEBUG
+				try {
+					this.setOutputReady(OutputReady.FALSE);
+				} catch (ResourceException e) {
+					e.printStackTrace();
+				}
 
-
-			if( !this.waitExplicitStart ){
-				executeIfReady();   // poll to see if we can execute
 			}
-
 		}
 		else {
 			System.err.println("[Operation "+ this.getOperationDesc().getOperationQName() +" ; parameter index "+ param.getParamIndex() 
 					+"] setParameter is allowed only when state is WAITING or FINISHED. Current state: "+curr_status);
+
+			// Generate a callback so the caller can proceed setting input parameters
+//			System.out.println("[setParameter] Generating callback   .....");//DEBUG
+			try {
+				this.setOutputReady(OutputReady.FALSE);
+			} catch (ResourceException e) {
+				e.printStackTrace();
+			}
 		}
+		System.out.println("END setParameter");
 	}
 
 
@@ -779,15 +916,31 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		// If all parameters were set, start execution
 		if( this.getTimestampedStatus().getStatus().equals(Status.READY)){
 
-			executeIfReady();
+			
+//			Thread th = new Thread(new Runnable(){
+//
+//				@Override
+//				public void run() {
+			
+					executeIfReady();
+//				}
+//			});
+//			
+//			th.start();
+						
 		}
 		else if( this.getTimestampedStatus().getStatus().equals(Status.WAITING) || this.getTimestampedStatus().getStatus().equals(Status.FINISHED)){
 
+			this.setOutputReady(OutputReady.FALSE);
+			
+			
 			// If the parameters are not set, prepare to start as soon as they are all set
 			logger.info("Postponing execution until all inputs are available");
 			this.waitExplicitStart  = false;		
 		}
 		else {
+			this.setOutputReady(OutputReady.FALSE);
+			
 			throw new RemoteException("Method 'start' can only be invoked when status is WAITING or FINISHED. " +
 					"Current status is "+ this.getTimestampedStatus().getStatus().toString());
 		}
@@ -825,36 +978,19 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 			this.setTimestampedStatus(new TimestampedStatus(new_status, nextTimestamp));
 			this.step_times.eventStart(new_status.toString());
-			
-			
+
+
 			if(new_status.equals(Status.FINISHED)){
-				
+
 				this.step_times.eventEnd(Status.FINISHED.toString());	
-				
+
 				// Copy instrumentation data to a resource property 
 				EventTimePeriod[] instrumentaion_data = this.step_times.retrieveRecordAsArray();
 				this.setInstrumentationRecord(new org.cagrid.workflow.helper.descriptor.
 						InstrumentationRecord(getOperationDesc().getOperationQName().toString(), instrumentaion_data));
-				
-				
-				// BEGIN DEBUG 
-				/*System.out.println("Printing instrumentation data for "+ this.getOperationDesc().getOperationQName());
-				System.out.println("EVENT   -   ELAPSED TIME   -   (START, END)");
-				for(int i=0; i < instrumentaion_data.length; i++){
-					
-					
-					long elapsed_time, start_time, end_time;
-					start_time = instrumentaion_data[i].getStartTime();
-					end_time = instrumentaion_data[i].getEndTime();
-					elapsed_time = end_time - start_time;
-					
-					System.out.println(instrumentaion_data[i].getEvent() + " ; Elapsed time: "+ elapsed_time +"  ("+ start_time + ", " + end_time +")");
-				} 
-				System.out.println("End printing instrumentation data");  
-				// END DEBUG */
-				
+
 			}
-			
+
 		} catch (ResourceException e) {
 			logger.error(e.getMessage(), e);
 			e.printStackTrace();
@@ -904,172 +1040,73 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	}
 
 
-	/*
-	public void load(ResourceKey resourceKey) throws ResourceException, NoSuchResourceException, InvalidResourceKeyException {
-		beingLoaded = true;
-		//first we will recover the resource properties and initialize the resource
-		WorkflowInvocationHelperResourceProperties props = (WorkflowInvocationHelperResourceProperties)resourcePropertyPersistenceHelper.load(WorkflowInvocationHelperResourceProperties.class, resourceKey.getValue());
-		this.initialize(props, WorkflowInvocationHelperConstants.RESOURCE_PROPERTY_SET, resourceKey.getValue());
+	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
 
-		//next we will recover the resource itself
-		File file = resourcePersistenceHelper.getKeyAsFile(this.getClass(), resourceKey.getValue());
-		if (!file.exists()) {
-			beingLoaded = false;
-			throw new NoSuchResourceException();
-		}
-		FileInputStream fis = null;
-		int value = 0;
+		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)
+		.getResourcePropertyValueChangeNotification();
+
+		MessageElement actual_property = changeMessage.getNewValue().get_any()[0];
+		QName message_qname = actual_property.getQName();
+		boolean isOutputReadyReport = message_qname.equals(OutputReady.getTypeDesc().getXmlType());
+		String stageKey = null;
 		try {
-			fis = new FileInputStream(file);
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			SubscriptionPersistenceUtils.loadSubscriptionListeners(
-					this.getTopicList(), ois);
+			stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString(); 
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			e1.printStackTrace();
+		}   
 
 
-
-			// Load local variables
-
-			// Load outputType
-			this.outputType = (QName) ois.readObject();
+//		System.out.println("Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);//DEBUG
 
 
-			// Load operationDesc
-			this.operationDesc = (WorkflowInvocationHelperDescriptor) ois.readObject();
+		/// Handle output availability reports
+		if(isOutputReadyReport){
 
-
-			// Load input_desc
-			this.input_desc = (OperationInputMessageDescriptor) ois.readObject();
-
-			// Load output_desc
-			this.output_desc = (OperationOutputTransportDescriptor) ois.readObject();
-
-
-			// Load paramData
-			this.paramData = (InputParameter[]) ois.readObject();
-
-
-			// Load credentialAccess
-			this.credentialAccess = (CredentialAccess) ois.readObject();
-
-			// Load serviceOperationEPR
-			this.serviceOperationEPR = (EndpointReference) ois.readObject();			
-
-
-			// Load serviceOperationEPRString
-			this.serviceOperationEPRString = (String) ois.readObject();
-
-
-			// Load isSecure
-			this.isSecure = ois.readBoolean();
-
-		} catch (Exception e) {
-			beingLoaded = false;
-			throw new ResourceException("Failed to load resource", e);
-		} finally {
-			if (fis != null) {
-				try { fis.close(); } catch (Exception ee) {}
+			
+			if(!this.outputReadyKey.containsKey(stageKey)){
+				logger.error("Received notification from unregistered stage");
+//				System.out.println("Received notification from unregistered stage"); //DEBUG
+				return;
 			}
-		} 
-
-		beingLoaded = false;
-	}
-
-
-	public void store() throws ResourceException {
-		if(!beingLoaded){
-			//store the resource properties
-			resourcePropertyPersistenceHelper.store(this);
-
-			FileOutputStream fos = null;
-			File tmpFile = null;
-
+			
+			
+			OutputReady outputReady = null;
 			try {
-				tmpFile = File.createTempFile(
-						this.getClass().getName(), ".tmp",
-						resourcePersistenceHelper.getStorageDirectory());
-				fos = new FileOutputStream(tmpFile);
-				ObjectOutputStream oos = new ObjectOutputStream(fos);
-				SubscriptionPersistenceUtils.storeSubscriptionListeners(
-						this.getTopicList(), oos);
-
-
-				// Store local variables
-
-				// Write outputType
-				oos.writeObject(this.outputType);
-
-				// Write operationDesc
-				oos.writeObject(this.operationDesc);
-
-
-				// Write input_desc
-				oos.writeObject(this.input_desc);
-
-				// Write output_desc
-				oos.writeObject(this.output_desc);
-
-
-				// Write paramData
-				oos.writeObject(this.paramData);
-
-				// Write credentialAccess
-				oos.writeObject(this.credentialAccess);
-
-
-				// Write serviceOperationEPR
-				oos.writeObject(this.serviceOperationEPR);
-
-
-				// Write serviceOperationEPRString
-				oos.writeObject(this.serviceOperationEPRString);
-
-				// Write isSecure
-				oos.writeBoolean(this.isSecure);
-
-
-
+				outputReady = (OutputReady) actual_property.getValueAsType(message_qname, OutputReady.class);
 			} catch (Exception e) {
-				if (tmpFile != null) {
-					tmpFile.delete();
+				e.printStackTrace();
+			}
+//			System.out.println("Received new output availability report: "+ outputReady.toString()); // DEBUG
+			logger.info("Received new output availability report: "+ outputReady.toString());
+
+
+			// Signal that a notification was received
+//			System.out.println("Signaling on condition variable");//DEBUG
+			this.outputReadyKey.get(stageKey).lock();
+			try{
+
+				// Before signaling, check the sender is registered as a stage we are subscribers of
+				if(this.outputReady.containsKey(stageKey)){
+
+					this.outputReady.put(stageKey, outputReady.equals(OutputReady.TRUE));
+					this.outputReadyCondition.get(stageKey).signalAll();  // Tell waiting threads they can proceed
+//					System.out.println("Signaled");//DEBUG
 				}
-				throw new ResourceException("Failed to store resource", e);
-			} finally {
-				if (fos != null) {
-					try { fos.close();} catch (Exception ee) {}
+				else {
+					logger.info("Unidentified stage has sent a notification: "+ stageKey);
+//					System.out.println("Unidentified stage has sent a notification: "+ stageKey);//DEBUG
 				}
+				
+			} finally{
+				this.outputReadyKey.get(stageKey).unlock();
 			}
-
-			File file = resourcePersistenceHelper.getKeyAsFile(this.getClass(), getID());
-			if (file.exists()) {
-				file.delete();
-			}
-			if (!tmpFile.renameTo(file)) {
-				tmpFile.delete();
-				throw new ResourceException("Failed to store resource");
-			}
+			 
 		}
-	} 
-
-
-
-
-	@Override
-	public void initialize(Object resourceBean, QName resourceElementQName,
-			Object id) throws ResourceException {
-
-
-		logger.info("[initialize] Initializing persistency objects");
-
-		super.initialize(resourceBean, resourceElementQName, id);
-
-		try {
-			resourcePropertyPersistenceHelper = new gov.nih.nci.cagrid.introduce.servicetools.XmlPersistenceHelper(WorkflowInvocationHelperResourceProperties.class,WorkflowHelperConfiguration.getConfiguration());
-			resourcePersistenceHelper = new FilePersistenceHelper(this.getClass(),WorkflowHelperConfiguration.getConfiguration(),".resource");
-		} catch (Exception ex) {
-			logger.warn("Unable to initialize resource properties persistence helper", ex);
+		else {
+			logger.warn("Unknown notification type received");
 		}
-
-		logger.info("[initialize] END");
-	} // */
-
+	}
 }
+

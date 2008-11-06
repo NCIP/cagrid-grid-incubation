@@ -547,7 +547,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 						// resource property so it is exposed by this resource 
 						if( nextStatus.getStatus().equals(Status.FINISHED) || nextStatus.getStatus().equals(Status.ERROR) ){
 
-							System.out.println("Workflow is finished, exposing instrumentation data");  //DEBUG
+//							System.out.println("Workflow is finished, exposing instrumentation data");  //DEBUG
 
 							LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
 							localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
@@ -559,7 +559,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 							localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource 
 							this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
 
-							System.out.println("Resource property set");    //DEBUG
+//							System.out.println("Resource property set");    //DEBUG
 						}
 					}
 				}
@@ -594,7 +594,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			
 			
 			// Update the instrumentation data exposed by this resource
-			System.out.println("Updating instrumentation data"); //DEBUG
+//			System.out.println("Updating instrumentation data"); //DEBUG
 			LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
 			localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
 			InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(), 
@@ -610,7 +610,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				e.printStackTrace();
 			}
 
-			System.out.println("Resource property set");    //DEBUG
+//			System.out.println("Resource property set");    //DEBUG
 
 			
 			

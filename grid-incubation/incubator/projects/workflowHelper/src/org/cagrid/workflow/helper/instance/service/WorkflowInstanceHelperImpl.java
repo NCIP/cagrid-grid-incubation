@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.apache.axis.message.addressing.EndpointReference;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.workflow.helper.descriptor.OutputReady;
 import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
@@ -57,10 +58,11 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 			
 			
 			thisResource.setOutputIsArray(outputIsArray);
-			thisResource.setTimestampedStatus(new TimestampedStatus(Status.UNCONFIGURED, 0));
+			thisResource.setTimestampedStatus(new TimestampedStatus(Status.UNCONFIGURED, 0));  // Initialize status
 			thisResource.setCredentialAccess(getResourceHome().getAddressedResource());
 			thisResource.setWorkflowInvocationHelperDescriptor(workflowInvocationHelperDescriptor);
 			thisResource.initializeInstrumentationRecord(stageGUID);
+			thisResource.setOutputReady(OutputReady.FALSE);   // Obviously, output is not ready at this point 
 
 			// sample of setting creator only security.  This will only allow the caller that created
 			// this resource to be able to use it.
