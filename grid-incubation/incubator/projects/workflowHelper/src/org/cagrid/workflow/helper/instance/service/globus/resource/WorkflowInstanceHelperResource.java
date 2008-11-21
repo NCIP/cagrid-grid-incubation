@@ -609,10 +609,6 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				logger.error(e.getMessage(), e);
 				e.printStackTrace();
 			}
-
-//			System.out.println("Resource property set");    //DEBUG
-
-			
 			
 			
 			// Log the instrumentation data

@@ -13,14 +13,14 @@
   <Content xsi:type="agg:AggregatorContent" xmlns:agg="http://mds.globus.org/aggregator/types">
     <agg:AggregatorConfig xsi:type="agg:AggregatorConfig">
       <agg:GetMultipleResourcePropertiesPollType
-			xmlns:ns3="http://manager.workflow.cagrid.org/WorkflowManagerService/types"
-			xmlns:ns1="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"
-			xmlns:xs="http://www.w3.org/2001/XMLSchema"
-			xmlns:ns2="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"
 			xmlns:ns5="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/types"
+			xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:ns1="http://schemas.xmlsoap.org/ws/2004/03/addressing"
+			xmlns:ns3="http://manager.workflow.cagrid.org/WorkflowManagerService/types"
+			xmlns:ns6="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"
 			xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"
-			xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/03/addressing"
-			xmlns:ns6="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd">
+			xmlns:ns2="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"
+			xmlns:ns0="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService">
         <!-- Specifies that the index should refresh information
             every 300000 milliseconds (once every 5 minutes) -->
         <agg:PollIntervalMillis>INDEX_REFRESH</agg:PollIntervalMillis>

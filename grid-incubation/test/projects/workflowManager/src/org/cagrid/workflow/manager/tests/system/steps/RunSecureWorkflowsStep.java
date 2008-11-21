@@ -2,11 +2,19 @@ package org.cagrid.workflow.manager.tests.system.steps;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.xml.namespace.QName;
 
 import junit.framework.Assert;
 
+import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.addressing.Address;
 import org.apache.axis.message.addressing.AttributedURI;
 import org.apache.axis.message.addressing.EndpointReference;
@@ -23,6 +31,8 @@ import org.cagrid.workflow.helper.descriptor.InputParameterDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor;
 import org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor;
+import org.cagrid.workflow.helper.descriptor.OutputReady;
+import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TLSInvocationSecurityDescriptor;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor;
@@ -41,6 +51,7 @@ import org.cagrid.workflow.manager.instance.client.WorkflowManagerInstanceClient
 import org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference;
 import org.globus.gsi.GlobusCredential;
 import org.globus.wsrf.NotifyCallback;
+import org.globus.wsrf.container.ContainerException;
 
 public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements NotifyCallback {
 
@@ -52,19 +63,15 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 	protected EndpointReferenceType cdsEPR;
 	protected GlobusCredential userCredential; 
 
-
 	final static String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
 	final static String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
-
-
-	protected final boolean validatorEnabled = false;  // Enable/Disable the output matcher. Should be true when not debugging
 
 
 	public RunSecureWorkflowsStep(EndpointReference managerEPR, EndpointReferenceType cdsEPR, String container_base_url, 
 			GlobusCredential userCredential, String cdsURL) {
 		super(managerEPR, container_base_url);
 
-		
+
 		this.userCredential = userCredential;
 
 		try {
@@ -79,7 +86,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 		System.out.println("---- BEGIN SECURE WORKFLOW TEST ----");
 
-
+	
 		try{
 
 			String wfManagerURL = this.containerBaseURL + "/cagrid/WorkflowManagerService";
@@ -96,24 +103,11 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			logger.info("Delegation done");
 
 
-			// Set delegation parameters
-			ProxyLifetime delegationLifetime = new ProxyLifetime(4,0,0);
-			ProxyLifetime issuedCredentialLifetime = new ProxyLifetime(5,0,0);
-			int delegationPath = 1;
-			int issuedCredentialPath = 0; 
-
-
-			/*** Service that will gather all the output and match against the expected ones ***/
-			Integer outputMatcherID = this.validatorEnabled ? runOuputMatcher(wf_manager, delegatedCredentialProxy, 
-					delegationLifetime, issuedCredentialLifetime, delegationPath, issuedCredentialPath) : null;
-
-
-
 			/*** Testing arrays as services' input ***/
 
 			/** simple type arrays **/
 			System.out.println("[CreateTestSecureWorkflowsStep] Simple arrays as input");
-			runSimpleArrayTest(wf_manager, outputMatcherID, delegatedCredentialProxy);
+			runSimpleArrayTest(wf_manager, delegatedCredentialProxy);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK"); // */
 
 			/*System.out.println("[CreateTestSecureWorkflowsStep] Complex arrays as input");
@@ -121,8 +115,6 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			System.out.println("[CreateTestSecureWorkflowsStep] OK"); // */
 
 			System.out.println("[CreateTestSecureWorkflowsStep] END Testing arrays"); // */
-
-
 
 
 			/** BEGIN streaming test **/
@@ -146,7 +138,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 			/** FAN IN AND FAN OUT TEST **/
 			logger.info("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out"); 
-			runFaninFanOutTest(wf_manager, outputMatcherID, delegatedCredentialProxy);
+			runFaninFanOutTest(wf_manager, delegatedCredentialProxy);
 			logger.info("[CreateTestSecureWorkflowsStep] END Testing fan in and fan out"); // */
 
 
@@ -157,134 +149,12 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		catch(Throwable t){
 			logger.error(t.getMessage(), t);
 			Assert.fail();
-		}
+		} 
 
 		logger.info("---- END SECURE WORKFLOW TEST ----");
 
 		return;
 	}
-
-
-
-	/**
-	 * Instantiate the service that can match all the workflows' outputs against the expected ones 
-	 * 
-	 * @param manager_epr EndpointReference of the manager so each workflow stage can invoke 'setParameter' on it (not used)
-	 * @param wf_manager Client of a running WorkflowHelper service
-	 * @param delegatedCredentialProxy Credential delegated by the user to be used when calling the workflows' stages
-	 * @param delegationLifetime Lifetime of the delegation of the credential to the workflow stages
-	 * @param issuedCredentialLifetime 
-	 * @param delegationPath
-	 * @param issuedCredentialPath
-	 * 
-	 * 
-	 * @return An EPR that can be used to contact the OutputMatcher
-	 * 
-	 * */
-	private int runOuputMatcher(WorkflowManagerServiceClient wf_manager, 
-			EndpointReferenceType delegatedCredentialProxy, ProxyLifetime delegationLifetime, ProxyLifetime issuedCredentialLifetime, 
-			int delegationPath, int issuedCredentialPath) throws RemoteException {
-
-		logger.info("BEGIN runOuputMatcher");
-
-		/*	WorkflowInstanceHelperDescriptor validatorInstanceDesc = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
-		String workflowID = "Validator";
-		validatorInstanceDesc.setWorkflowID(workflowID);
-		validatorInstanceDesc.setWorkflowManagerEPR(manager_epr);
-
-		String outputMatcherURI =  "http://validateoutputsservice.test.workflow.cagrid.org/ValidateOutputsService";
-
-		WorkflowInstanceHelperClient validatorInstance = null;
-		try {
-			validatorInstance = wf_manager.createWorkflowInstanceHelper(validatorInstanceDesc);
-		} catch (MalformedURIException e) {
-			e.printStackTrace();
-		}
-
-
-		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), validatorInstance, workflowID);
-
-
-		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
-		validatorInvocationDesc.setOperationQName(
-				new QName(outputMatcherURI, "SecureValidateTestOutputRequest"));
-		validatorInvocationDesc.setServiceURL(containerBaseURL + "/wsrf/services/cagrid/ValidateOutputsService");
-
-		// Configure security
-		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(cdsEPR);
-		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
-		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-		validatorInvocationDesc.setWorkflowInvocationSecurityDescriptor(secDescriptor);
-
-
-		WorkflowInvocationHelperClient validatorInvocation1 = null;
-		try {
-			validatorInvocation1 = validatorInstance.createWorkflowInvocationHelper(validatorInvocationDesc);
-		} catch (MalformedURIException e) {
-			e.printStackTrace();
-		}
-
-
-		// Subscribe for status notifications
-		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), validatorInvocation1
-			//	, validatorInvocationDesc.getOperationQName().toString());
-
-		// Set the GlobusCredential to use on InstanceHelper
-		//logger.info("[runOutputMatcher] Delegating helper's credential to the InstanceHelper"); //DEBUG
-		EndpointReferenceType delegationEPR = null;
-		try{
-			delegationEPR = CredentialHandlingUtil.delegateCredential(delegatedCredentialProxy, wf_manager.getIdentity(), this.cdsURL, delegationLifetime, issuedCredentialLifetime, 
-					delegationPath, issuedCredentialPath);
-
-			//logger.info("Informing the InstanceHelper about the delegation"); //DEBUG
-
-			validatorInstance.addCredential(validatorInvocation1.getEndpointReference(), delegationEPR);
-			//logger.info("[runOutputMatcher] Done");
-		}
-		catch(Throwable t){
-			t.printStackTrace();
-		}
-
-
-		// Configure inputs
-		OperationInputMessageDescriptor validatorInputDesc = new OperationInputMessageDescriptor();
-		InputParameterDescriptor[] inputParam = new InputParameterDescriptor[8];
-		inputParam[0] = new InputParameterDescriptor(new QName("test1Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[1] = new InputParameterDescriptor(new QName("test1Param2"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "ComplexType[]"));
-		inputParam[2] = new InputParameterDescriptor(new QName("test1Param3"), new QName(XSD_NAMESPACE, "boolean"));
-		inputParam[3] = new InputParameterDescriptor(new QName("test2Param1"), new QName(XSD_NAMESPACE, "int"));
-		inputParam[4] = new InputParameterDescriptor(new QName("test2Param2"), new QName(XSD_NAMESPACE, "string[]"));
-		inputParam[5] = new InputParameterDescriptor(new QName("test2Param3"), new QName(XSD_NAMESPACE, "boolean"));
-		inputParam[6] = new InputParameterDescriptor(new QName("test3Param1"), new QName(XSD_NAMESPACE, "string"));
-		inputParam[7] = new InputParameterDescriptor(new QName("test3Param2"), new QName(XSD_NAMESPACE, "string")); 
-
-
-		validatorInputDesc.setInputParam(inputParam);
-		validatorInvocation1.configureInput(validatorInputDesc);
-
-
-		// Configure outputs: it has none
-		OperationOutputTransportDescriptor validatorOutput = new OperationOutputTransportDescriptor();
-		OperationOutputParameterTransportDescriptor[] paramDescriptor = new OperationOutputParameterTransportDescriptor[0];
-		validatorOutput.setParamDescriptor(paramDescriptor );
-		validatorInvocation1.configureOutput(validatorOutput);
-		validatorInvocation1.start();
-
-
-
-		// Set static parameters
-		validatorInvocation1.setParameter(new InputParameter("999", 0));
-		validatorInvocation1.setParameter(new InputParameter("true", 2));
-		validatorInvocation1.setParameter(new InputParameter("999", 3));
-		validatorInvocation1.setParameter(new InputParameter("true", 5));
-
-
-		logger.info("END runOuputMatcher");
-
-		return validatorInvocation1.getEndpointReference(); // */
-		return Integer.MAX_VALUE;
-	}
-
 
 
 
@@ -304,13 +174,13 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 		logger.info("BEGIN");
 
-		
+
 		// Create security descriptor for the stages (in this case, all of them present the same security requirements)
 		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-		
-		
+
+
 		// Create the description of the single local workflow this workflow is divided in 
 		WorkflowPortionDescriptor workflowParts = new WorkflowPortionDescriptor();
 		String workflowHelperServiceLocation = this.containerBaseURL + "/cagrid/WorkflowHelper";
@@ -417,7 +287,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 				new QName(XSD_NAMESPACE,"xsd"), new QName("http://systemtests.workflow.cagrid.org/SystemTests", "abc")});
 		outParameterDescriptor__ca[0].setLocationQuery("/ns0:SecureGetComplexArrayResponse/abc:ComplexType/abc:message");
 		outParameterDescriptor__ca[0].setDestinationGlobalUniqueIdentifier(4);
-//		outParameterDescriptor__ca[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient__4.getEndpointReference()});
+		//		outParameterDescriptor__ca[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient__4.getEndpointReference()});
 
 
 
@@ -467,8 +337,51 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 		this.managerInstances.add(managerInstanceRef.getEndpointReference());
 
-		logger.info("Starting workflow execution");
+
+
+		// Initialize synchronization variables so we can handle future notifications of execution end
+		logger.info("Initializing synchronization variables");
+		String clientID = managerInstanceClient.getEPRString();
+		this.asynchronousStartCallbackReceived.put(clientID, false);
+		Lock asynchronousCallbackLock = new ReentrantLock();
+		this.asynchronousStartLock.put(clientID, asynchronousCallbackLock);
+		this.asynchronousStartCondition.put(clientID, asynchronousCallbackLock.newCondition()); 
+
+		// Start execution
+		logger.info("Subscribing to receive notifications when workflow output is ready"); 
+		try {
+			managerInstanceClient.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), this);
+		} catch (ContainerException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		}
+		System.out.println("Starting workflow execution"); 
 		managerInstanceClient.start();
+
+
+		// Wait for workflow to finish
+		System.out.println("Waiting for asynchronous callback to be received");
+		asynchronousCallbackLock.lock();
+		try {
+
+			if(!this.asynchronousStartCallbackReceived.get(clientID)){
+
+				Condition currWorkflowCondition = this.asynchronousStartCondition.get(clientID);
+				//				System.out.println("Blocking until signal is received on condition variable");
+				currWorkflowCondition.await();  // Blocks until execution is finished
+				//				System.out.println("Condition variable was signaled");
+			}
+
+		} catch (InterruptedException e) {
+			logger.error(e.getMessage() ,e);
+			e.printStackTrace();
+		} finally {
+			asynchronousCallbackLock.unlock();
+		}
+
 
 		logger.info("END");	}
 
@@ -664,8 +577,46 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 		this.managerInstances.add(managerInstanceRef.getEndpointReference());
 
+		// Initialize synchronization variables so we can handle future notifications of execution end
+		String clientID = managerInstanceClient.getEPRString();
+		this.asynchronousStartCallbackReceived.put(clientID, false);
+		ReentrantLock asynchronousCallbackLock = new ReentrantLock();
+		this.asynchronousStartLock.put(clientID, asynchronousCallbackLock);
+		this.asynchronousStartCondition.put(clientID, asynchronousCallbackLock.newCondition()); 
+
+		// Start execution
+		logger.info("Subscribing to receive notifications when workflow output is ready"); //DEBUG
+		try {
+			managerInstanceClient.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), this);
+		} catch (ContainerException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		}
+		System.out.println("Starting workflow execution"); 
 		managerInstanceClient.start();
-//		managerInstanceClient.destroy();
+
+
+		// Wait for asynchornous method callback
+		asynchronousCallbackLock.lock();
+		try {
+
+			if(!this.asynchronousStartCallbackReceived.get(clientID)){
+
+				System.out.println("Blocking until signal is received on condition variable");
+				Condition currWorkflowCondition = this.asynchronousStartCondition.get(clientID);
+				currWorkflowCondition.await();  // Blocks until execution is finished
+				System.out.println("Condition variable was signaled");
+			}
+
+		} catch (InterruptedException e) {
+			logger.error(e.getMessage() ,e);
+			e.printStackTrace();
+		} finally {
+			asynchronousCallbackLock.unlock();
+		}
 	}
 
 
@@ -748,9 +699,6 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_ras);
 
 
-
-		//logger.info("Setting params"); //DEBUG
-
 		// Set the values of its simple-type arguments
 		inputParams.add(new WorkflowInputParameter(new InputParameter("999", 0), currStageID));
 		inputParams.add(new WorkflowInputParameter(new InputParameter("true",2), currStageID));
@@ -801,23 +749,6 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor_ca[0].setDestinationGlobalUniqueIdentifier(0);
 
 
-
-		// Second destination: Output matcher
-		if( validatorEnabled ){
-
-			//logger.info("Setting 2nd param in the output matcher: "+ outputMatcherEPR); //DEBUG
-
-			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_ca[1].setParamIndex(1); // Setting 2nd argument in the output matcher 
-			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType"));
-			outParameterDescriptor_ca[1].setExpectedTypeIsArray(true);
-			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
-					new QName(XSD_NAMESPACE,"xsd")});
-			outParameterDescriptor_ca[1].setLocationQuery("/ns0:SecureGetComplexArrayResponse");
-//			outParameterDescriptor_ca[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID });
-		}
-
-
 		// Add one output to the workflow outputs
 		WorkflowOutputParameterTransportDescriptor outputParamDesc = new WorkflowOutputParameterTransportDescriptor();
 		outputParamDesc.setSourceGUID(currStageID);
@@ -866,8 +797,49 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 		this.managerInstances.add(managerInstanceRef.getEndpointReference());
 
+		// Initialize synchronization variables so we can handle future notifications of execution end
+		logger.info("Initializing synchronization variables");
+		String clientID = managerInstanceClient.getEPRString();
+		this.asynchronousStartCallbackReceived.put(clientID, false);
+		ReentrantLock asynchronousCallbackLock = new ReentrantLock();
+		this.asynchronousStartLock.put(clientID, asynchronousCallbackLock);
+		this.asynchronousStartCondition.put(clientID, asynchronousCallbackLock.newCondition()); 
+
+		// Start execution
+		logger.info("Subscribing to receive notifications when workflow output is ready"); 
+		try {
+			managerInstanceClient.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), this);
+		} catch (ContainerException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		}
+
+
 		logger.info("Executing workflow");
 		managerInstanceClient.start();  // Start workflow execution
+
+		// Wait for asynchornous method callback
+		logger.info("Waiting for workflow to finish");
+		asynchronousCallbackLock.lock();
+		try {
+
+			if(!this.asynchronousStartCallbackReceived.get(clientID)){
+
+				Condition currWorkflowCondition = this.asynchronousStartCondition.get(clientID);
+				currWorkflowCondition.await();  // Blocks until execution is finished
+			}
+
+		} catch (InterruptedException e) {
+			logger.error(e.getMessage() ,e);
+			e.printStackTrace();
+		} finally {
+			asynchronousCallbackLock.unlock();
+		}
+
+
 		logger.info("Retrieving workflow outputs");
 		String[] wf_outputs = managerInstanceClient.getOutputValues();  // Retrieve workflow outputs
 
@@ -878,7 +850,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		}
 
 
-//		managerInstanceClient.destroy();
+		//		managerInstanceClient.destroy();
 
 		logger.info("END");
 		return;
@@ -898,16 +870,16 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runSimpleArrayTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, EndpointReferenceType delegatedCredentialProxy) throws RemoteException{
+	private void runSimpleArrayTest(WorkflowManagerServiceClient wf_manager, EndpointReferenceType delegatedCredentialProxy) throws RemoteException{
 
-		
-		
+
+
 		// Create security descriptor for the stages (in this case, all of them present the same security requirements)
 		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-	
-		
+
+
 		// Instantiate ManagerDescription
 		WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
 
@@ -1010,25 +982,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 				new QName(XSD_NAMESPACE,"xsd")});
 		outParameterDescriptor_cas[0].setLocationQuery("/ns0:SecureGetArrayResponse");
 		outParameterDescriptor_cas[0].setDestinationGlobalUniqueIdentifier(0);
-//		outParameterDescriptor_cas[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient_ram.getEndpointReference()});
-
-
-		// Second destination: Output matcher
-		if(validatorEnabled){
-
-			//logger.info("Setting 5th param in the output matcher: "+ outputMatcherEPR); //DEBUG
-
-			outParameterDescriptor_cas[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_cas[1].setParamIndex(4);
-			outParameterDescriptor_cas[1].setType(new QName( SOAPENCODING_NAMESPACE ,"string"));
-			outParameterDescriptor_cas[1].setExpectedTypeIsArray(true);
-			outParameterDescriptor_cas[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
-					new QName(XSD_NAMESPACE,"xsd")});
-			outParameterDescriptor_cas[1].setLocationQuery("/ns0:SecureGetArrayResponse");
-//			outParameterDescriptor_cas[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID});
-		}
-
-
+		//		outParameterDescriptor_cas[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient_ram.getEndpointReference()});
 
 
 		// Add one output to the worklow outputs' description
@@ -1071,12 +1025,53 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		} catch(Throwable t){
 			logger.error(t.getMessage(), t);
 		} 
-		
+
 
 		this.managerInstances.add(instanceRef.getEndpointReference());
 
-		logger.info("Starting execution");
+
+		// Initialize synchronization variables so we can handle future notifications of execution end
+		String clientID = instanceClient.getEPRString();
+		this.asynchronousStartCallbackReceived.put(clientID, false);
+		ReentrantLock asynchronousCallbackLock = new ReentrantLock();
+		this.asynchronousStartLock.put(clientID, asynchronousCallbackLock);
+		this.asynchronousStartCondition.put(clientID, asynchronousCallbackLock.newCondition()); 
+
+		// Start execution
+		logger.info("Subscribing to receive notifications when workflow output is ready"); 
+		try {
+			instanceClient.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), this);
+		} catch (ContainerException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		}
+		System.out.println("Starting workflow execution"); 
 		instanceClient.start();
+
+
+
+		// Wait for asynchornous method callback
+		logger.info("Waiting for workflow to finish");
+		asynchronousCallbackLock.lock();
+		try {
+
+			if(!this.asynchronousStartCallbackReceived.get(clientID)){
+
+				Condition currWorkflowCondition = this.asynchronousStartCondition.get(clientID);
+//				System.out.println("Blocking until signal is received on condition variable");
+				currWorkflowCondition.await();  // Blocks until execution is finished
+//				System.out.println("Condition variable was signaled");
+			}
+
+		} catch (InterruptedException e) {
+			logger.error(e.getMessage() ,e);
+			e.printStackTrace();
+		} finally {
+			asynchronousCallbackLock.unlock();
+		}
 
 		logger.info("Retrieving workflow outputs");
 		String[] outputs = instanceClient.getOutputValues();
@@ -1087,8 +1082,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		}
 
 
-//		this.waitUntilCompletion();
-//		instanceClient.destroy();
+		//		this.waitUntilCompletion();
+		//		instanceClient.destroy();
 
 		logger.info("END");
 		return;
@@ -1109,14 +1104,14 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 	 * @param issuedCredentialPath
 	 * 
 	 * */
-	private void runFaninFanOutTest(WorkflowManagerServiceClient wf_manager, Integer outputMatcherID, EndpointReferenceType delegatedCredentialProxy) throws RemoteException{
+	private void runFaninFanOutTest(WorkflowManagerServiceClient wf_manager, EndpointReferenceType delegatedCredentialProxy) throws RemoteException{
 
-	
+
 		// Create security descriptor for the stages (in this case, all of them present the same security requirements)
 		CDSAuthenticationMethod cds_auth = new CDSAuthenticationMethod(delegatedCredentialProxy);
 		TLSInvocationSecurityDescriptor tlsSecDesc = new TLSInvocationSecurityDescriptor(cds_auth , null, ChannelProtection.Privacy, null);
 		WorkflowInvocationSecurityDescriptor secDescriptor = new WorkflowInvocationSecurityDescriptor(tlsSecDesc , null, null);
-		
+
 
 		// Describe the ManagerInstance and the single local workflow it is responsible for
 		WorkflowManagerInstanceDescriptor wfDesc = new WorkflowManagerInstanceDescriptor();
@@ -1124,7 +1119,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		String workflowHelperServiceLocation = this.containerBaseURL + "/cagrid/WorkflowHelper";
 		wfPart.setWorkflowHelperServiceLocation(workflowHelperServiceLocation);
 
-		
+
 		org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor workflowDescriptor3 = new org.cagrid.workflow.helper.descriptor.WorkflowInstanceHelperDescriptor();
 		String workflowID = "WorkFlow2";
 		workflowDescriptor3.setWorkflowID(workflowID);
@@ -1213,25 +1208,8 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor2[0].setQueryNamespaces(namespaces);
 		outParameterDescriptor2[0].setLocationQuery("/ns0:SecureCapitalizeResponse");
 		outParameterDescriptor2[0].setDestinationGlobalUniqueIdentifier(4);
-//		outParameterDescriptor2[0].setDestinationEPR(new EndpointReferenceType[]{ serviceClient4.getEndpointReference()});
 
-
-		// Second destination: output matcher
-		if(this.validatorEnabled){
-
-			//logger.info("Setting 7th param in the output matcher: "+ outputMatcherEPR); //DEBUG
-
-			outParameterDescriptor2[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor2[1].setParamIndex(6);
-			outParameterDescriptor2[1].setType(new QName("string"));
-			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service2.introduce.cagrid.org/Service2", "ns0"),
-					new QName(XSD_NAMESPACE, "xsd")};
-			outParameterDescriptor2[1].setQueryNamespaces(namespaces);
-			outParameterDescriptor2[1].setLocationQuery("/ns0:SecureCapitalizeResponse");
-//			outParameterDescriptor2[1].setDestinationEPR(new EndpointReferenceType[]{ outputMatcherID});
-		}
-
-
+		
 		// Add one output to the workflow outputs
 		WorkflowOutputParameterTransportDescriptor outputParam = new WorkflowOutputParameterTransportDescriptor();
 		OperationOutputParameterTransportDescriptor paramDescription = new OperationOutputParameterTransportDescriptor();
@@ -1291,24 +1269,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor3[0].setQueryNamespaces(namespaces);
 		outParameterDescriptor3[0].setLocationQuery("/ns0:SecureGenerateXResponse"); 
 		outParameterDescriptor3[0].setDestinationGlobalUniqueIdentifier(4);
-//		outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
-
-
-		// 2nd destination: output matcher
-		if(this.validatorEnabled){
-
-			//logger.info("Setting 8th param in the output matcher: "+ outputMatcherEPR); //DEBUG
-
-			outParameterDescriptor3[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor3[1].setParamIndex(7);
-			outParameterDescriptor3[1].setType(new QName(XSD_NAMESPACE, "string"));
-			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
-					new QName(XSD_NAMESPACE, "xsd")};
-			outParameterDescriptor3[1].setQueryNamespaces(namespaces);
-			outParameterDescriptor3[1].setLocationQuery("/ns0:SecureGenerateXResponse"); 
-//			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{outputMatcherID});  // */
-		}
-
+		
 
 		// Add one output to the workflow outputs
 		outputParam = new WorkflowOutputParameterTransportDescriptor();
@@ -1404,7 +1365,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor1[0].setQueryNamespaces(namespaces);
 		outParameterDescriptor1[0].setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght/ns1:str"); 
 		outParameterDescriptor1[0].setDestinationGlobalUniqueIdentifier(2);
-//		outParameterDescriptor1[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient2.getEndpointReference()});
+		//		outParameterDescriptor1[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient2.getEndpointReference()});
 
 		// Creating the outputDescriptor of the second filter (Service3)
 		outParameterDescriptor1[1] = new OperationOutputParameterTransportDescriptor();
@@ -1413,7 +1374,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor1[1].setQueryNamespaces(namespaces);
 		outParameterDescriptor1[1].setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght/ns1:length");
 		outParameterDescriptor1[1].setDestinationGlobalUniqueIdentifier(3);
-//		outParameterDescriptor1[1].setDestinationEPR(new EndpointReferenceType[]{serviceClient3.getEndpointReference()});
+		//		outParameterDescriptor1[1].setDestinationEPR(new EndpointReferenceType[]{serviceClient3.getEndpointReference()});
 
 		// Creating the outputDescriptor of the 3rd filter (Service5)
 		outParameterDescriptor1[2] = new OperationOutputParameterTransportDescriptor();
@@ -1422,7 +1383,7 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 		outParameterDescriptor1[2].setQueryNamespaces(namespaces);
 		outParameterDescriptor1[2].setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght");
 		outParameterDescriptor1[2].setDestinationGlobalUniqueIdentifier(5);
-//		outParameterDescriptor1[2].setDestinationEPR(new EndpointReferenceType[]{serviceClient5.getEndpointReference()});
+		//		outParameterDescriptor1[2].setDestinationEPR(new EndpointReferenceType[]{serviceClient5.getEndpointReference()});
 
 
 
@@ -1479,9 +1440,48 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), instanceClient, workflowID);
 
-		logger.info("Starting execution");
+		// Initialize synchronization variables so we can handle future notifications of execution end
+		logger.info("Initializing synchronization variables");
+		String clientID = instanceClient.getEPRString();
+		this.asynchronousStartCallbackReceived.put(clientID, false);
+		ReentrantLock asynchronousCallbackLock = new ReentrantLock();
+		this.asynchronousStartLock.put(clientID, asynchronousCallbackLock);
+		this.asynchronousStartCondition.put(clientID, asynchronousCallbackLock.newCondition()); 
+
+		// Start execution
+		logger.info("Subscribing to receive notifications when workflow output is ready"); 
+		try {
+			instanceClient.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), this);
+		} catch (ContainerException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			logger.error(e1.getMessage(), e1);
+			e1.printStackTrace();
+		}
+		System.out.println("Starting workflow execution"); 
 		instanceClient.start();
-//		instanceClient.destroy();
+
+
+		// Wait for asynchornous method callback
+		System.out.println("Waiting for workflow to finish");
+		asynchronousCallbackLock.lock();
+		try {
+
+			if(!this.asynchronousStartCallbackReceived.get(clientID)){
+
+				Condition currWorkflowCondition = this.asynchronousStartCondition.get(clientID);
+//				System.out.println("Blocking until signal is received on condition variable"); //DEBUG
+				currWorkflowCondition.await();  // Blocks until execution is finished 
+//				System.out.println("Condition variable was signaled"); //DEBUG
+			}
+
+		} catch (InterruptedException e) {
+			logger.error(e.getMessage() ,e);
+			e.printStackTrace();
+		} finally {
+			asynchronousCallbackLock.unlock();
+		}
 
 		logger.info("Retrieving workflow outputs");
 		String[] outputs = instanceClient.getOutputValues();
@@ -1491,6 +1491,155 @@ public class RunSecureWorkflowsStep extends RunUnsecureWorkflowsStep implements 
 			logger.info("Output #"+ i +" is: "+ outputs[i]);
 		}
 		return;
+	}
+
+
+	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
+
+		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)
+		.getResourcePropertyValueChangeNotification();
+
+		MessageElement actual_property = changeMessage.getNewValue().get_any()[0];
+		QName message_qname = actual_property.getQName();
+		boolean isTimestampedStatusChange = message_qname.equals(TimestampedStatus.getTypeDesc().getXmlType());
+		boolean isOutputReady = message_qname.equals(OutputReady.getTypeDesc().getXmlType());
+		String stageKey = null;
+		try {
+			stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		} catch (MalformedURIException e1) {
+			e1.printStackTrace();
+		}   
+
+
+		logger.trace("[RunSecureWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
+
+
+		// Handle status change notifications
+		if(isTimestampedStatusChange){
+			TimestampedStatus status = null;;
+			try {
+				status = (TimestampedStatus) actual_property.getValueAsType(message_qname, TimestampedStatus.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+
+			logger.info("[RunSecureWorkflowsStep] Received new status value: "+ status.getStatus().toString() + ':' + status.getTimestamp());
+
+			this.isFinishedKey.lock();
+			try{
+
+				boolean statusActuallyChanged = false;
+				if( this.stageStatus.containsKey(stageKey) ){
+
+
+					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
+					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+
+					if(statusActuallyChanged){
+
+						this.stageStatus.remove(stageKey);
+						this.stageStatus.put(stageKey, status);
+					}
+
+				}
+				else logger.warn("[RunSecureWorkflowsStep] Unrecognized stage notified status change: "+ stageKey);
+
+
+				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
+
+
+					this.isFinished  = this.hasFinished(); 
+
+					if(this.isFinished){
+
+						this.isFinishedCondition.signalAll();
+						Assert.assertFalse(this.stageStatus.containsValue(Status.ERROR));
+
+						// Destroy ManagerInstance resources
+						/*Iterator<EndpointReferenceType> instances_iter = this.managerInstances.iterator();
+						while( instances_iter.hasNext() ){
+
+							EndpointReferenceType curr_managerInstance = instances_iter.next();
+							WorkflowManagerInstanceClient curr_client;
+							try {
+								curr_client = new WorkflowManagerInstanceClient(curr_managerInstance);
+								curr_client.destroy();
+
+							} catch (MalformedURIException e) {
+								logger.error(e.getMessage(), e);
+								e.printStackTrace();
+							} catch (RemoteException e) {
+								logger.error(e.getMessage(), e);
+								e.printStackTrace();
+							}
+						} // */
+					}
+				}
+			}
+			finally {
+				this.isFinishedKey.unlock();
+			}
+		}
+
+		// Handle callbacks received from just finished workflows
+		else if(isOutputReady){
+
+			stageKey = null;
+			try {
+				stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();   
+
+				if(stageKey == null){
+					logger.error("[RunSecureWorkflowsStep::deliver] Unable to retrieve stageKey");
+				}
+
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+				logger.error(e1.getMessage(), e1);
+			} catch (MalformedURIException e1) {
+				e1.printStackTrace();
+				logger.error(e1.getMessage(), e1);
+			} 
+
+
+			OutputReady callback = null;
+			try {
+				callback = (OutputReady) actual_property.getValueAsType(message_qname, OutputReady.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			Boolean notificationValue = new Boolean(callback.equals(OutputReady.TRUE));
+
+			
+			// Store/Update the value stored internally for the current InvocationHelper
+			Lock mutex = this.asynchronousStartLock.get(stageKey);
+			mutex.lock();
+			try {
+
+
+				this.asynchronousStartCallbackReceived.put(stageKey, notificationValue);
+
+				// If the execution is finished, report the user
+				boolean allCallbacksReceived = !this.asynchronousStartCallbackReceived.containsValue(Boolean.FALSE);
+				if(allCallbacksReceived){
+
+					System.out.println("[RunSecureWorkflowsStep::deliver] All callbacks received. Execution is finished."); 
+					Condition workflowFinished = this.asynchronousStartCondition.get(stageKey);
+					workflowFinished.signalAll();
+				}
+
+
+			} finally {
+				mutex.unlock();
+			}
+		}
+		else{
+			logger.error("[RunSecureWorkflowsStep::deliver] Callback received from an unknown stage: "+ stageKey);
+		}
+
 	}
 
 }

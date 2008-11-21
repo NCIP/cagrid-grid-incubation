@@ -347,5 +347,6 @@
  <ns53:ServiceProperties xmlns:ns53="gme://gov.nih.nci.cagrid.introduce/1/Property">
   <ns53:Property description="Helper identity. Temporarily added by andrecs" isFromETC="false" key="helperIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
   <ns53:Property description="Location of the credential configured to be used as container's credential. Should be removed" isFromETC="true" key="helperCredential" value="../../../../../../../../testUtils/certificates/ca/testing_ca_"/>
+  <ns53:Property description="Path to globus' location on the file system. Indispensable for notifications to work right" isFromETC="false" key="globusLocation" value="/home/andrecs/software/ws-core-4.0.3"/>
  </ns53:ServiceProperties>
 </ns1:ServiceDescription>

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -229,8 +230,6 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 	 * @return a handler to communicate with the newly created resource
 	 * 
 	 * */
-
-	
   public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
 
 		org.apache.axis.message.addressing.EndpointReferenceType managerInstanceEpr = new org.apache.axis.message.addressing.EndpointReferenceType();
@@ -249,6 +248,13 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		logger.info("homeName = " + homeName);
 		WorkflowManagerInstanceResource thisResource = null;
 		try {
+			// Add GLOBUS_LOCATION to the system properties
+			String globus_location = System.getenv("GLOBUS_LOCATION");
+			Properties sys_properties = System.getProperties();
+			sys_properties.setProperty("GLOBUS_LOCATION", globus_location);
+			System.setProperties(sys_properties);
+			
+			
 			javax.naming.Context initialContext = new javax.naming.InitialContext();
 			home = (WorkflowManagerInstanceResourceHome) initialContext
 			.lookup(homeName);
@@ -317,7 +323,8 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					WorkflowInvocationHelperDescriptor basicDesc = curr_stageDesc.getBasicDescription();
 					logger.info("Stage name ID: ("+ curr_stageDesc.getGlobalUniqueIdentifier() +", "
 							+ basicDesc.getOperationQName()+')');
-					WorkflowInvocationHelperClient currInvocationClient = instanceHelperClient.createWorkflowInvocationHelper(basicDesc);
+					WorkflowInvocationHelperClient currInvocationClient = instanceHelperClient.createWorkflowInvocationHelper(basicDesc);  // Resource creation  
+					thisResource.registerInvocationHelper(currInvocationClient.getEPRString(), basicDesc.getOperationQName());   // Create association from current stage to its operation name 
 
 					// If necessary, retrieve delegated credential for current stage and register it in the WorkflowInstanceHelper 
 					WorkflowInvocationSecurityDescriptor securityDesc = basicDesc.getWorkflowInvocationSecurityDescriptor();

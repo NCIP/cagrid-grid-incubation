@@ -124,6 +124,10 @@
           <name>helperCredential</name>
           <value>ETC-PATH/@helperCredential@</value>
         </parameter>
+        <parameter>
+          <name>globusLocation</name>
+          <value>@globusLocation@</value>
+        </parameter>
       </resourceParams>
     </resource>
     <resource name="home" type="org.cagrid.workflow.helper.service.globus.resource.WorkflowHelperResourceHome">

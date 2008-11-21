@@ -231,6 +231,19 @@ public abstract class WorkflowManagerInstanceResourceBase extends ReflectionReso
         store();
 	}
 	
+	
+	
+	public org.cagrid.workflow.helper.descriptor.OutputReady getOutputReady(){
+		return ((WorkflowManagerInstanceResourceProperties) getResourceBean()).getOutputReady();
+	}
+	
+	public void setOutputReady(org.cagrid.workflow.helper.descriptor.OutputReady outputReady ) throws ResourceException {
+        ResourceProperty prop = getResourcePropertySet().get(WorkflowManagerInstanceConstants.OUTPUTREADY);
+		prop.set(0, outputReady);
+        //call the first store to persist the resource
+        store();
+	}
+	
 
 
 	

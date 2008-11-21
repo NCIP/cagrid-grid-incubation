@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -75,16 +77,18 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private Map<String, Boolean> outputReady = new HashMap<String, Boolean>();
 
 	// Instrumentation information
-	InstrumentationRecord step_times;
-
+	private InstrumentationRecord step_times;
 
 	
+	// True when InvocationHelper execution already started
+	private boolean alreadyStarted = false;
+
 	public synchronized boolean executeIfReady() {
 
 
 		// Make sure all expected parameters have been retrieved before executing 
 		if( !allParametersSet() ){ 
-			
+
 			// Generate a callback so the caller can proceed
 			try {
 				this.setOutputReady(OutputReady.FALSE);
@@ -98,16 +102,15 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		this.changeStatus(Status.RUNNING);
 		try {
-			this.setOutputReady(OutputReady.FALSE);
+			this.setOutputReady(OutputReady.FALSE);  // Generate a callback so the caller can proceed
 		} catch (ResourceException e2) {
 			e2.printStackTrace();
 			logger.error(e2);
 		}
 
+		final Thread th = new Thread(new Runnable() {
 
-//		final Thread th = new Thread(new Runnable() {
-//
-//			public synchronized void run() {
+			public synchronized void run() {
 
 
 				logger.info("-- Thread started --");
@@ -228,9 +231,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					}
 
 				} catch (Exception e1) {
-					System.err.println("ERROR processing " + getOperationDesc().getOperationQName() + e1.getMessage());					
+					System.err.println("ERROR processing " + getOperationDesc().getOperationQName() + " : " + e1.getMessage());					
 					changeStatus(Status.ERROR);
-//					return;					
+					return;					
 				}
 
 
@@ -248,10 +251,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				logger.debug("----------------------------");  // */
 
 
-
+								
 				/* Process each response and send the outputs to the appropriate service */
 				ListIterator<Node> service_response_iterator = service_response.listIterator();
 				while( service_response_iterator.hasNext() ){
+
 
 					final Node curr_response = service_response_iterator.next();
 
@@ -267,6 +271,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 						final int num_params = (desc.getParamDescriptor() != null)? desc.getParamDescriptor().length : 0; 
 
 						for (int i = 0; i < num_params; i++) {
+							
+
 							final org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor pdesc = desc.getParamDescriptor(i);
 							try {
 								InputParameter iparam = new InputParameter();
@@ -294,13 +300,14 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 								// send the data to the next workflow helper instance
 								if( pdesc.getDestinationEPR() != null ){
-
+									
 
 									EndpointReferenceType next_destination = null;  // next destination to forward data
 
 									/* If we can't do streaming, do usual forwarding. Otherwise, forward each output element to 
 									 * a destination following a delivery policy */
 									if( !outputIsArray || nextStageInputIsArray ){    
+
 
 										// Do usual forwarding
 										logger.debug("Doing usual forwarding after getting operation's output");
@@ -313,6 +320,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									else {  // Do streaming between stages 
 
 
+
 										// Enable streaming in the output recipient
 										logger.debug("Streaming output after getting operation's output");
 										next_destination = pdesc.getDestinationEPR()[0];  //  This might change when we have multiple destinations
@@ -321,8 +329,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										logger.debug("Streaming enabled");
 
 										// Subscribe to notifications of output availability
-										this.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);  // The next method is asynchronous, so we need to register a callback
-										client.start();
+										subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);  // The next method is asynchronous, so we need to register a callback
+										//client.start(); // No longer necessary
 
 
 										// Get array elements
@@ -335,7 +343,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										ListIterator<String> array_iter = array_elements.listIterator();
 										logger.debug("Iterating over each element of the output");
 										while( array_iter.hasNext() ){
-
 
 											String curr_array_element = array_iter.next();
 
@@ -356,7 +363,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 												next_destination = destinations_iter.next();
 											}
 											else {
-												System.err.println();
+												logger.error("[executeIfReady] No destination could be retrieved");
 												break;
 											}
 
@@ -364,15 +371,22 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 											client.setParameter(iparam);
 
 
-											// Wait for the callback to be made
+											/* Wait for the callback to be made. 
+											 * NOTE: since we are streaming a set of data elements to the same stage 
+											 * AND input parameter, we are required to block until a callback is received.
+											 * However, when several data elements are sent to potentially different stages 
+											 * and/or input parameters, we MUST NOT block but proceed to send remaining 
+											 * data elements, otherwise a deadlock may occur. One such deadlock situation would
+											 * happen when one stage is responsible for giving more than one of a stage's input 
+											 * parameters.
+											 * */
 											waitForCallback(client.getEPRString());
-
-
-
+									
 										} // End of array elements										
 									}
 								}
 								else {
+									
 									logger.error("No destination assigned to current parameter (in "+ getOperationDesc().getOperationQName() +").");
 									logger.error("Value of parameter is: \n"+iparam.getData());
 									System.err.flush();
@@ -391,7 +405,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 				}
 				try {
-					// Calculate the next status and change the status of the execution. Note: when reading from a stream, the stage won't terminate until the end of the stream is reached.  
+					// Calculate the next status and change the status of the execution. Note: when 
+					// reading from a stream, the stage won't terminate until the end of the stream is reached.  
 					finishRun();						
 				} catch (ResourceException e) {
 					logger.error(e.getMessage(), e);
@@ -402,32 +417,32 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				}
 
 				logger.info("-- Thread finished --");
-//				return;
-//			}
+				return;
+			}
 
-//		});
-/////////
+		});
+
 
 		/* Start thread and wait for it to finish */
 		try {
-//
-//			th.start();
-//			th.join();
+
+			th.start();
+			th.join();
 
 			if( this.getTimestampedStatus().getStatus().equals(Status.RUNNING) ){
 
 				this.finishRun();
 			}
 		} 
-//	catch (InterruptedException e) {
-//
-//			e.printStackTrace();
-//			changeStatus(Status.ERROR);
-//
-//		} catch (ResourceException e) {
-//			e.printStackTrace();
-//			changeStatus(Status.ERROR);			
-//		}
+		catch (InterruptedException e) {
+
+			e.printStackTrace();
+			changeStatus(Status.ERROR);
+
+		} catch (ResourceException e) {
+			e.printStackTrace();
+			changeStatus(Status.ERROR);			
+		}
 		catch (Throwable e) {
 			e.printStackTrace();
 			changeStatus(Status.ERROR);
@@ -443,19 +458,22 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			WorkflowInvocationHelperClient client) {
 
 		try{
-		
-		// Register the subscription internally
-		String key = client.getEPRString();
-		this.outputReady.put(key, Boolean.FALSE);
-		Lock mutex = new ReentrantLock();
-		Condition condition = mutex.newCondition();
-		this.outputReadyKey.put(key, mutex);
-		this.outputReadyCondition.put(key, condition);
-		
-		
-		// Subscribe
-		client.subscribeWithCallback(xmlType, this);
-		
+
+			// Register the subscription internally
+			String key = client.getEPRString();
+			if(key == null){
+				System.err.println("[InvocationHElperResource::subscribeWithCallback] ERROR: Unable to retrieve EPR String");
+			}
+			this.outputReady.put(key, Boolean.FALSE);
+			Lock mutex = new ReentrantLock();
+			Condition condition = mutex.newCondition();
+			this.outputReadyKey.put(key, mutex);
+			this.outputReadyCondition.put(key, condition);
+
+
+			// Subscribe
+			client.subscribeWithCallback(xmlType, this);
+
 		} catch (RemoteException e) {
 			logger.error(e);
 			e.printStackTrace();
@@ -483,7 +501,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 			if(!this.outputReady.get(key).booleanValue()){
 
-				//System.out.println("Waiting for signal");//DEBUG
 				this.outputReadyCondition.get(key).await();
 			}
 
@@ -494,7 +511,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		}
 		logger.info("Callback received");
 	}
-	
+
 
 
 
@@ -510,7 +527,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		logger.info("[finishRun] Set status to "+ nextStatus +" ("+ getOperationDesc().getOperationQName() +")");
 
 		// Generate event that will dispatch all callbacks
-//		System.out.println("[finishRun] Generating callback");//DEBUG
+		System.out.println("[finishRun] Output is ready"); //DEBUG
 		this.setOutputReady(OutputReady.TRUE);
 	}
 
@@ -685,7 +702,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			// Warn about the overwriting that is about to be performed 
 			if(curr_status.equals(Status.READY)){
 				logger.warn("[Operation "+ this.getOperationDesc().getOperationQName() +" ; parameter index "+ param.getParamIndex() 
-						+"] All parameters were already set. Parameter "+ param.getParamIndex() +" is being overriden");
+						+"] All parameters were already set. Parameter "+ param.getParamIndex() +" is being overriden"); 
 			}
 
 
@@ -693,7 +710,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
-			logger.info("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters());
+			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationDesc.getOperationQName()); //DEBUG
 
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
@@ -706,21 +723,30 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				if( !this.waitExplicitStart ){  // Run stage. There will be a callback in the end of the execution
 
 					// If ready to run, start the stage's execution and return. The method returns before the stage's execution finishes
-//					System.out.println("[setParameter] Starting stage execution and returning");//DEBUG
 					logger.info("Starting stage execution and returning");
-//					final Thread th = new Thread(new Runnable(){
-//
-//						public synchronized void run() {
+					System.out.println("Starting stage execution and returning"); //DEBUG
+
+					final Thread th = new Thread(new Runnable(){
+
+						public synchronized void run() {
+
+
+							// BEGIN DEBUG
+							//							System.out.println("[1] BEGIN Printing environment variables");
+							//							System.out.println("GLOBUS_LOCATION = "+ System.getProperty("GLOBUS_LOCATION"));
+							//							System.out.println("[1] END Printing environment variables");
+							// END DEBUG
+
+
 							executeIfReady();   // poll to see if we can execute
-//						}
-//					});
-//
-//					th.start();
-//					System.out.println("Stage execution started"); //DEBUG
+						}
+					});
+
+					th.start();
+
 				}
 				else{  // Generate a callback so the caller can proceed, since the stage won't run right now 
-					
-//					System.out.println("[setParameter] Generating callback");//DEBUG
+
 					try {
 						this.setOutputReady(OutputReady.FALSE);
 					} catch (ResourceException e) {
@@ -730,8 +756,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				}
 			}
 			else{  // Generate a callback so the caller can proceed setting input parameters
-//				System.out.println("[setParameter] Generating callback..");//DEBUG
 				try {
+					System.out.println("Postponing execution until all inputs are set"); //DEBUG
 					this.setOutputReady(OutputReady.FALSE);
 				} catch (ResourceException e) {
 					e.printStackTrace();
@@ -744,14 +770,13 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					+"] setParameter is allowed only when state is WAITING or FINISHED. Current state: "+curr_status);
 
 			// Generate a callback so the caller can proceed setting input parameters
-//			System.out.println("[setParameter] Generating callback   .....");//DEBUG
 			try {
 				this.setOutputReady(OutputReady.FALSE);
 			} catch (ResourceException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("END setParameter");
+		logger.info("END setParameter");
 	}
 
 
@@ -910,37 +935,54 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public void start() throws RemoteException {
 
-
+		
+		// Do nothing if this method was already called once
+		if(this.alreadyStarted){
+			
+			OutputReady currValue = this.getOutputReady();
+			this.setOutputReady(currValue);  // Send back a callback so the caller can proceed
+		}
+		
+		
+		
 		logger.info("STARTING execution for "+ getOperationDesc().getOperationQName().getLocalPart());
 
 		// If all parameters were set, start execution
 		if( this.getTimestampedStatus().getStatus().equals(Status.READY)){
 
-			
-//			Thread th = new Thread(new Runnable(){
-//
-//				@Override
-//				public void run() {
-			
+
+			Thread th = new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+
+					// BEGIN DEBUG
+					//					System.out.println("[2] BEGIN Printing environment variables");
+					//					System.out.println("GLOBUS_LOCATION = "+ System.getProperty("GLOBUS_LOCATION"));
+					//					System.out.println("[2] END Printing environment variables");
+					// END DEBUG
+
+
 					executeIfReady();
-//				}
-//			});
-//			
-//			th.start();
-						
+				}
+			});
+
+			th.start();
+
 		}
 		else if( this.getTimestampedStatus().getStatus().equals(Status.WAITING) || this.getTimestampedStatus().getStatus().equals(Status.FINISHED)){
 
 			this.setOutputReady(OutputReady.FALSE);
-			
-			
+
+
 			// If the parameters are not set, prepare to start as soon as they are all set
 			logger.info("Postponing execution until all inputs are available");
+			System.out.println("Postponing execution until all inputs are available"); //DEBUG
 			this.waitExplicitStart  = false;		
 		}
 		else {
 			this.setOutputReady(OutputReady.FALSE);
-			
+
 			throw new RemoteException("Method 'start' can only be invoked when status is WAITING or FINISHED. " +
 					"Current status is "+ this.getTimestampedStatus().getStatus().toString());
 		}
@@ -1058,51 +1100,44 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		}   
 
 
-//		System.out.println("Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);//DEBUG
-
-
 		/// Handle output availability reports
 		if(isOutputReadyReport){
 
-			
+
 			if(!this.outputReadyKey.containsKey(stageKey)){
 				logger.error("Received notification from unregistered stage");
-//				System.out.println("Received notification from unregistered stage"); //DEBUG
 				return;
 			}
-			
-			
+
+
 			OutputReady outputReady = null;
 			try {
 				outputReady = (OutputReady) actual_property.getValueAsType(message_qname, OutputReady.class);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-//			System.out.println("Received new output availability report: "+ outputReady.toString()); // DEBUG
-			logger.info("Received new output availability report: "+ outputReady.toString());
+			Boolean outputReadyValue = outputReady.equals(OutputReady.TRUE);
+			logger.info("Received new output availability report: "+ outputReadyValue + " from "+ arg1);
 
 
 			// Signal that a notification was received
-//			System.out.println("Signaling on condition variable");//DEBUG
 			this.outputReadyKey.get(stageKey).lock();
 			try{
 
 				// Before signaling, check the sender is registered as a stage we are subscribers of
 				if(this.outputReady.containsKey(stageKey)){
 
-					this.outputReady.put(stageKey, outputReady.equals(OutputReady.TRUE));
+					this.outputReady.put(stageKey, outputReadyValue);
 					this.outputReadyCondition.get(stageKey).signalAll();  // Tell waiting threads they can proceed
-//					System.out.println("Signaled");//DEBUG
 				}
 				else {
 					logger.info("Unidentified stage has sent a notification: "+ stageKey);
-//					System.out.println("Unidentified stage has sent a notification: "+ stageKey);//DEBUG
 				}
-				
+
 			} finally{
 				this.outputReadyKey.get(stageKey).unlock();
 			}
-			 
+
 		}
 		else {
 			logger.warn("Unknown notification type received");

@@ -248,7 +248,7 @@ public class ServiceInvocationUtil {
 		// Print message before sending it
 		logger.debug("Printing SOAP Envelope for "+workflowDescriptor.getOperationQName().toString()
 				+":  \n________________________________________________________>\n"+message.toString()+
-		"\n<________________________________________________________\n");
+		"\n<________________________________________________________\n"); 
 	
 		
 		

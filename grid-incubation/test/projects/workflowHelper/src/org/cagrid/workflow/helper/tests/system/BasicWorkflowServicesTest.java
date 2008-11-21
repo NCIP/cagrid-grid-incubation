@@ -78,7 +78,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
 
         // Set workflow services' directories
         String tests_basedir = System.getProperty("resources.dir") + File.separator;
-        if (tests_basedir == null) {
+        if( (tests_basedir == null) || tests_basedir.trim().equals("") ){
             System.err.println("ERROR: System property 'resources.dir' not set");
             return null;
         }

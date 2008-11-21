@@ -1,6 +1,7 @@
 package org.cagrid.workflow.helper.instance.service;
 
 import java.rmi.RemoteException;
+import java.util.Properties;
 import java.util.Random;
 
 import javax.xml.namespace.QName;
@@ -13,6 +14,7 @@ import org.cagrid.workflow.helper.descriptor.Status;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource;
 import org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResource;
+import org.cagrid.workflow.helper.service.WorkflowHelperConfiguration;
 
 /** 
  * I am the service side implementation class.  IMPLEMENT AND DOCUMENT ME
@@ -39,6 +41,13 @@ public class WorkflowInstanceHelperImpl extends WorkflowInstanceHelperImplBase {
 		String homeName = org.globus.wsrf.Constants.JNDI_SERVICES_BASE_NAME + servicePath + "/" + "workflowInvocationHelperHome";
 
 		try {
+			// Add GLOBUS_LOCATION to the system properties
+			String globus_location = System.getenv("GLOBUS_LOCATION");
+			Properties sys_properties = System.getProperties();
+			sys_properties.setProperty("GLOBUS_LOCATION", globus_location);
+			System.setProperties(sys_properties);
+			
+			
 			javax.naming.Context initialContext = new javax.naming.InitialContext();
 			home = (org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResourceHome) initialContext.lookup(homeName);
 			resourceKey = home.createResource();

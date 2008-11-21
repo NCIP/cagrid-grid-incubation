@@ -49,6 +49,8 @@ public class WorkflowHelperConfiguration implements ServiceConfiguration {
 	
 	private String helperCredential;
 	
+	private String globusLocation;
+	
 	
 	public String getEtcDirectoryPath() {
 		return ContainerConfig.getBaseDirectory() + File.separator + etcDirectoryPath;
@@ -76,6 +78,16 @@ public class WorkflowHelperConfiguration implements ServiceConfiguration {
 	
 	public void setHelperCredential(String helperCredential) {
 		this.helperCredential = helperCredential;
+	}
+
+	
+	public String getGlobusLocation() {
+		return globusLocation;
+	}
+	
+	
+	public void setGlobusLocation(String globusLocation) {
+		this.globusLocation = globusLocation;
 	}
 
 	

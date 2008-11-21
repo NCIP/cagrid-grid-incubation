@@ -44,6 +44,8 @@ import org.globus.gsi.GlobusCredential;
 public class SecureWorkflowTest  extends ServiceStoryBase {
 
 
+	private static final String DORIAN_URL = "https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian";
+
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#getName()
 	 */
@@ -98,7 +100,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 			this.containerBase = containerBaseURI.getScheme() + "://" + containerIP + ':' + containerBaseURI.getPort() 
 			+ containerBaseURI.getPath();
 
-			this.dorianEPR = new EndpointReferenceType(new Address("https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian"));
+			this.dorianEPR = new EndpointReferenceType(new Address(DORIAN_URL));
 
 
 			this.cdsURL = this.containerBase + "cagrid/CredentialDelegationService";
@@ -126,7 +128,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		try {
 			this.containerBase = this.myContainer.getContainerBaseURI().getPath();
 
-			this.dorianEPR = new EndpointReferenceType(new Address("https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian"));
+			this.dorianEPR = new EndpointReferenceType(new Address(DORIAN_URL));
 			this.cdsEPR = new EndpointReferenceType(new Address(this.containerBase + "/wsrf/services/cagrid/CredentialDelegationService"));
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage() ,e);
@@ -148,6 +150,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 	@Override
 	protected Vector steps() {
 
+		
 		logger.info("Creating steps for secure workflows test");
 		Vector<Step> steps = new Vector<Step>();
 
@@ -287,8 +290,8 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 
 
 		return steps;
-//			   new Vector(); //DEBUG
-			
+//		System.out.println("SKIPPING SECURE TEST FOR DEBUGGING PURPOSES"); // DEBUG
+//		return new Vector(); //DEBUG			
 	}
 
 

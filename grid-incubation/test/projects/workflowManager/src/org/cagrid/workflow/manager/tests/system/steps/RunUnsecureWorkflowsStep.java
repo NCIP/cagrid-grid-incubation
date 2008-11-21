@@ -76,6 +76,11 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	protected boolean isFinished = false;
 	protected List<EndpointReferenceType> managerInstances = new ArrayList<EndpointReferenceType>();
 
+	// Synchronization for asynchronous calls
+	protected Map<String, Lock> asynchronousStartLock = new HashMap<String, Lock>();;
+	protected Map<String, Condition> asynchronousStartCondition = new HashMap<String, Condition>();;
+	protected Map<String, Boolean> asynchronousStartCallbackReceived = new HashMap<String, Boolean>();;
+
 
 	final static String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
 	final static String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
@@ -1558,7 +1563,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	/**
 	 * Verify whether all stages have already sent a termination notification  
 	 * */
-	private boolean hasFinished() {
+	protected boolean hasFinished() {
 
 		Set<Entry<String, TimestampedStatus>> entries = this.stageStatus.entrySet();
 		Iterator<Entry<String, TimestampedStatus>> entries_iter = entries.iterator();

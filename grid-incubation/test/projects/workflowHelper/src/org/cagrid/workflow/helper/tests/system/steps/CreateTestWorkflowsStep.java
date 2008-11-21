@@ -1356,7 +1356,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 				e.printStackTrace();
 			}
 			
-			System.out.println("Received instrumentation report from "+ instrumentation_data.getIdentifier());
+//			logger.info("Received instrumentation report from "+ instrumentation_data.getIdentifier());
 			
 			// Store data in the list of local workflows' instrumentation reports
 			this.localWorkflowsMeasurements.put(instrumentation_data.getIdentifier(), instrumentation_data);
