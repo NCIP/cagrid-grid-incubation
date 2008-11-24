@@ -65,6 +65,8 @@ public class ConfigPackageBuilder {
     public static final String CASTOR_MARSHALLING_MAPPING_FILE = "xml-mapping.xml";
     public static final String CASTOR_UNMARSHALLING_MAPPING_FILE = "unmarshaller-xml-mapping.xml";
     
+    public static final String EXT_LIB_DIR = "ext" + File.separator + "libs" + File.separator + "jars";
+    
     public static final String ENV_GLOBUS_LOCATION = "GLOBUS_LOCATION";
     
     public static final QName MAPPING_QNAME = new QName("http://gov.nih.nci.cagrid.data", "ClassMappings");
@@ -79,11 +81,11 @@ public class ConfigPackageBuilder {
         "acegi-security-1.0.4.jar"
     };
     public static final String[] REQUIRED_CAGRID_LIBS = {
-        "caGrid-CQL-cql.2.0-1.2.jar", "caGrid-core-1.2.jar",
-        "caGrid-data-common-1.2.jar", "caGrid-data-tools-1.2.jar",
-        "caGrid-data-stubs-1.2.jar", "caGrid-data-utils-1.2.jar", 
-        "caGrid-metadata-data-1.2.jar", "caGrid-metadata-common-1.2.jar", 
-        "caGrid-sdkQuery4-processor-1.2.jar", "caGrid-sdkQuery4-beans-1.2.jar", 
+        "caGrid-CQL-cql.2.0.jar", "caGrid-core.jar",
+        "caGrid-data-common.jar", "caGrid-data-tools.jar",
+        "caGrid-data-stubs-.jar", "caGrid-data-utils.jar", 
+        "caGrid-metadata-data.jar", "caGrid-metadata-common.jar", 
+        "caGrid-sdkQuery4-processor.jar", "caGrid-sdkQuery4-beans.jar", 
         "cglib-nodep-2.1_3.jar"
     };
     
@@ -377,7 +379,7 @@ public class ConfigPackageBuilder {
                 return caGridLibs.contains(path.getName());
             }
         };
-        File[] extLibs = new File("lib").listFiles(caGridLibFilter);
+        File[] extLibs = new File(EXT_LIB_DIR).listFiles(caGridLibFilter);
         for (File lib : extLibs) {
             Utils.copyFile(lib, new File(tempLibDir, lib.getName()));
         }        
@@ -386,7 +388,7 @@ public class ConfigPackageBuilder {
         File eclipseClasspath = new File(tempDir, ".classpath");
         buildClasspathFile(eclipseClasspath, tempDir);
         
-        // TODO: build an Ant <path> which can be used to build against the package
+        // build an Ant <path> which can be used to build against the package
         File antPath = new File(tempDir, "antClasspath.xml");
         buildAntPath(antPath, tempDir);
         
@@ -400,11 +402,14 @@ public class ConfigPackageBuilder {
     
     private void buildClasspathFile(File eclipseClasspath, File baseDir) throws IOException {
         Element baseElement = new Element("classpath");
+        
+        // list all libraries in the package dir
         final List<File> localLibs = Utils.recursiveListFiles(baseDir, new FileFilter() {
             public boolean accept(File path) {
                 return path.getName().toLowerCase().endsWith(".jar");
             }
         });
+        // add each library to the .classpath
         for (File lib : localLibs) {
             String path = Utils.getRelativePath(baseDir, lib);
             Element cpElement = new Element("classpathentry");
@@ -412,6 +417,8 @@ public class ConfigPackageBuilder {
             cpElement.setAttribute("path", path);
             baseElement.addContent(cpElement);
         }
+        
+        // list libraries in Globus
         File globusDir = new File(System.getenv(ENV_GLOBUS_LOCATION));
         File globusLibDir = new File(globusDir, "lib");
         File[] globusLibs = globusLibDir.listFiles(new FileFilter() {
@@ -420,6 +427,7 @@ public class ConfigPackageBuilder {
                 return (name.endsWith(".jar") && !localLibs.contains(name));
             }
         });
+        // add globus libraries to the classpath
         for (File lib : globusLibs) {
             String path = lib.getAbsolutePath();
             Element cpElement = new Element("classpathentry");
@@ -427,6 +435,13 @@ public class ConfigPackageBuilder {
             cpElement.setAttribute("path", path);
             baseElement.addContent(cpElement);
         }
+        
+        // add an entry for the Eclipse default JRE libraries
+        // <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+        Element cpElement = new Element("classpathentry");
+        cpElement.setAttribute("kind", "con");
+        cpElement.setAttribute("path", "org.eclipse.jdt.launching.JRE_CONTAINER");
+        baseElement.addContent(cpElement);
         
         String xml = null;
         try {
