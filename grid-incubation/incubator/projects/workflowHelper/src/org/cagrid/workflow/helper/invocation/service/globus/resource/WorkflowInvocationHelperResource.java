@@ -144,7 +144,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					EndpointReference enclosingInvocationHelperEPR = serviceOperationEPR;
 					WorkflowInvocationHelperClient enclosingInvocationHelperClient = new WorkflowInvocationHelperClient(enclosingInvocationHelperEPR);
 
-					System.out.println("Operation EPR: "+ operationEpr);
+//					System.out.println("Operation EPR: "+ operationEpr); // DEBUG
 
 					for(int input = 0; input < input_value.length; input++){
 
@@ -527,7 +527,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		logger.info("[finishRun] Set status to "+ nextStatus +" ("+ getOperationDesc().getOperationQName() +")");
 
 		// Generate event that will dispatch all callbacks
-		System.out.println("[finishRun] Output is ready"); //DEBUG
+//		System.out.println("[finishRun] Output is ready"); //DEBUG
 		this.setOutputReady(OutputReady.TRUE);
 	}
 
@@ -710,7 +710,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
-			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationDesc.getOperationQName()); //DEBUG
+			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationDesc.getOperationQName().getLocalPart()); //DEBUG
 
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
@@ -724,7 +724,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 					// If ready to run, start the stage's execution and return. The method returns before the stage's execution finishes
 					logger.info("Starting stage execution and returning");
-//					System.out.println("Starting stage execution and returning"); //DEBUG
 
 					final Thread th = new Thread(new Runnable(){
 
@@ -757,7 +756,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			}
 			else{  // Generate a callback so the caller can proceed setting input parameters
 				try {
-					System.out.println("Postponing execution until all inputs are set"); //DEBUG
 					this.setOutputReady(OutputReady.FALSE);
 				} catch (ResourceException e) {
 					e.printStackTrace();
@@ -977,7 +975,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 			// If the parameters are not set, prepare to start as soon as they are all set
 			logger.info("Postponing execution until all inputs are available");
-			System.out.println("Postponing execution until all inputs are available"); //DEBUG
 			this.waitExplicitStart  = false;		
 		}
 		else {

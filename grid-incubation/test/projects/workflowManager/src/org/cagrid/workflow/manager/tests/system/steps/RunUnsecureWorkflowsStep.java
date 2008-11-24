@@ -62,14 +62,14 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	protected EndpointReferenceType manager_epr = null;
 	protected String containerBaseURL = null;
 
-	// Synchronizes the access to variable 'isFinished' 
+	// Synchronizes the access to variable 'isFinished'
 	protected Lock isFinishedKey = new ReentrantLock();
 	protected Condition isFinishedCondition = isFinishedKey.newCondition();
 	protected Map<String, TimestampedStatus> stageStatus = new HashMap<String, TimestampedStatus>() ;
 	protected Map<String, List<EndpointReferenceType> > stageSubscriptions = new HashMap<String, List<EndpointReferenceType>>();
 
 
-	// Store the operation name and EPR for each service subscribed for notification 
+	// Store the operation name and EPR for each service subscribed for notification
 	protected Map<String, String> EPR2OperationName = new HashMap<String, String>();
 	protected Map<String, EndpointReferenceType> managerEPRs = new HashMap<String, EndpointReferenceType>();
 
@@ -95,20 +95,19 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	}
 
 
-	@Override
 	public void runStep() throws Throwable {
 
 
 
 		/** Instantiate each of the workflows: Fan in-Fan out, simple-type array forwarding, complex-type array forwarding,
-		 * simple-type array streaming, complex-type array streaming  
+		 * simple-type array streaming, complex-type array streaming
 		 * */
 		logger.info("-x-x-x- BEGIN NON-SECURE WORKFLOWS TESTS -x-x-x-");
 		if( this.validatorEnabled ) logger.info("Running the output matcher");
 		else logger.info("Not running the output matcher");
 
 
-		WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(this.manager_epr); 
+		WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(this.manager_epr);
 
 
 		try {
@@ -127,7 +126,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 			logger.info("Complex arrays as input");
 			runComplexArrayTest(wf_manager);
-			logger.info("OK"); 
+			logger.info("OK");
 
 			logger.info("END Testing arrays"); // */
 
@@ -135,7 +134,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			/** BEGIN streaming test **/
 			logger.info("BEGIN Testing streaming");
 
-			// Streaming simple types 
+			// Streaming simple types
 			logger.info("Streaming of simple-type arrays");
 			runSimpleArrayStreaming(wf_manager);
 			logger.info("OK");  // */
@@ -150,7 +149,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			logger.info("END Testing streaming"); // */
 
 			/** FAN IN AND FAN OUT TEST **/
-			logger.info("BEGIN Testing fan in and fan out"); 
+			logger.info("BEGIN Testing fan in and fan out");
 			runFaninFanOutTest(wf_manager);
 			logger.info("END Testing fan in and fan out"); // */
 
@@ -170,7 +169,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 	// TODO Refactor output matcher so we don't need this method anymore
-	protected int runOuputMatcher(WorkflowManagerServiceClient wf_manager) 
+	protected int runOuputMatcher(WorkflowManagerServiceClient wf_manager)
 	throws RemoteException {
 
 
@@ -254,7 +253,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		ArrayList<WorkflowInputParameter> workflowInputs = new ArrayList<WorkflowInputParameter>();
 
 
-		// BEGIN service 4				
+		// BEGIN service 4
 		logger.info("Describing service 4");
 		WorkflowStageDescriptor currStageDesc = new WorkflowStageDescriptor();
 		int currStageID = 4;
@@ -299,7 +298,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 
-		// BEGIN CreateArrayService::getComplexArray	
+		// BEGIN CreateArrayService::getComplexArray
 		logger.info("Describing CreateArrayService");
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID = 0;
@@ -349,7 +348,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor__ca);
 		stagesDescs.add(currStageDesc);
 		logger.info("Done CreateArrayService");
-		// END CreateArrayService::getComplexArray 
+		// END CreateArrayService::getComplexArray
 
 
 		// Store stages' description
@@ -385,7 +384,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 
-		} 
+		}
 
 		this.managerInstances.add(managerInstanceRef.getEndpointReference());
 		this.managerEPRs.put(managerInstanceClient.getEPRString(), managerInstanceClient.getEndpointReference());
@@ -440,7 +439,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		currStageDesc.setInputsDescription(inputMessage_4);
 		// End InputMessage Descriptor
 
-		OperationOutputTransportDescriptor outputDescriptor_4 = new OperationOutputTransportDescriptor(); 
+		OperationOutputTransportDescriptor outputDescriptor_4 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor[] outParameterDescriptor_4 = new OperationOutputParameterTransportDescriptor[0];
 
 		// Setting output descriptor
@@ -457,7 +456,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 
-		// BEGIN service 2				
+		// BEGIN service 2
 		currStageDesc = new WorkflowStageDescriptor();
 		currGUID = 2;
 		currStageDesc.setGlobalUniqueIdentifier(currGUID);
@@ -503,7 +502,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 
-		// BEGIN CreateArrayService				
+		// BEGIN CreateArrayService
 		currStageDesc = new WorkflowStageDescriptor();
 		currGUID = 0;
 		currStageDesc.setGlobalUniqueIdentifier(currGUID);
@@ -566,7 +565,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	}
 
 
-	protected void runComplexArrayTest(WorkflowManagerServiceClient wf_manager) 
+	protected void runComplexArrayTest(WorkflowManagerServiceClient wf_manager)
 	throws RemoteException{
 
 
@@ -676,7 +675,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 					"<ns3:id>2</ns3:id><ns3:message>Element 2</ns3:message></ns3:ComplexType><ns4:ComplexType xmlns:ns4=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
 					"<ns4:id>3</ns4:id><ns4:message>Element 3</ns4:message></ns4:ComplexType><ns5:ComplexType xmlns:ns5=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
 					"<ns5:id>4</ns5:id><ns5:message>Element 4</ns5:message></ns5:ComplexType><ns6:ComplexType xmlns:ns6=\"http://systemtests.workflow.cagrid.org/SystemTests\">" +
-					"<ns6:id>5</ns6:id><ns6:message>Element 5</ns6:message></ns6:ComplexType></GetComplexArrayResponse>", 1);  
+					"<ns6:id>5</ns6:id><ns6:message>Element 5</ns6:message></ns6:ComplexType></GetComplexArrayResponse>", 1);
 			WorkflowInputParameter assertInputParam = new WorkflowInputParameter(inParamDesc, currStageID);
 			inputParams.add(assertInputParam);
 
@@ -733,7 +732,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		int numDestination = this.validatorEnabled ? 2 : 1;
 		OperationOutputParameterTransportDescriptor outParameterDescriptor_ca [] = new OperationOutputParameterTransportDescriptor[numDestination];
 
-		
+
 		// First destination: ReceiveArrayService::ReceiveComplexArray
 		outParameterDescriptor_ca[0] = new OperationOutputParameterTransportDescriptor();
 		outParameterDescriptor_ca[0].setParamIndex(1);
@@ -749,7 +748,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		if( validatorEnabled ){
 
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 1st argument in the output matcher 
+			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 1st argument in the output matcher
 			outParameterDescriptor_ca[1].setType(new QName( SOAPENCODING_NAMESPACE ,"ComplexType[]"));
 			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
@@ -775,7 +774,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		outputDescriptor_ca.setParamDescriptor(outParameterDescriptor_ca);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_ca);
 		stagesDescs.add(currStageDesc);
-		// END CreateArrayService::getComplexArray 
+		// END CreateArrayService::getComplexArray
 
 
 
@@ -789,7 +788,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		workflowPart.setInvocationHelperDescs(stagesDescs.toArray(new WorkflowStageDescriptor[0]));
 		WorkflowInputParameters inputParameters = new WorkflowInputParameters(inputParams.toArray(new WorkflowInputParameter[0]));
 		wfDesc.setInputs(inputParameters );
-		wfDesc.setOutputDesc(outputDesc ); 
+		wfDesc.setOutputDesc(outputDesc );
 		wfDesc.setLocalWorkflows(new WorkflowPortionsDescriptor(new WorkflowPortionDescriptor[]{ workflowPart }));
 
 
@@ -801,7 +800,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), managerInstanceClient, workflowID);
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(), e);
-		} 
+		}
 
 		this.managerInstances.add(managerInstanceRef.getEndpointReference());
 		this.managerEPRs.put(managerInstanceClient.getEPRString(), managerInstanceClient.getEndpointReference());
@@ -826,7 +825,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 
-	protected void runSimpleArrayTest(WorkflowManagerServiceClient  wf_manager) 
+	protected void runSimpleArrayTest(WorkflowManagerServiceClient  wf_manager)
 	throws RemoteException{
 
 
@@ -968,7 +967,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor_cas);
 
 		stagesDescs.add(currStageDesc);
-		// END CreateArrayService 
+		// END CreateArrayService
 
 
 		logger.info("Configuring workflow inputs and outputs");
@@ -985,7 +984,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), instanceClient, workflowID);
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(),e );
-		} 
+		}
 
 		this.managerInstances.add(instanceRef.getEndpointReference());
 		this.managerEPRs.put(instanceClient.getEPRString(), instanceClient.getEndpointReference());
@@ -1074,7 +1073,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 
-		// BEGIN service 2		
+		// BEGIN service 2
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID = 2;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
@@ -1185,7 +1184,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor3[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse"); 
+		outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse");
 		outParameterDescriptor3[0].setDestinationGlobalUniqueIdentifier(4);
 //		outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
 
@@ -1201,7 +1200,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor3[1].setQueryNamespaces(namespaces);
-			outParameterDescriptor3[1].setLocationQuery("/ns0:GenerateXResponse"); 
+			outParameterDescriptor3[1].setLocationQuery("/ns0:GenerateXResponse");
 //			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{outputMatcherID});  // */
 		}
 
@@ -1221,7 +1220,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 		currStageDesc.setOutputTransportDescriptor(outputDescriptor3);
 		stagesDescs.add(currStageDesc);
-		// END service 3				
+		// END service 3
 
 
 
@@ -1245,7 +1244,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
-		inputParams5[0] = new InputParameterDescriptor(new QName("http://service5.introduce.cagrid.org/Service5", "stringAndItsLenght"), 
+		inputParams5[0] = new InputParameterDescriptor(new QName("http://service5.introduce.cagrid.org/Service5", "stringAndItsLenght"),
 				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"), false);
 		inputMessage5.setInputParam(inputParams5);
 		currStageDesc.setInputsDescription(inputMessage5);
@@ -1263,7 +1262,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 
-		// BEGIN service 1			
+		// BEGIN service 1
 		currStageDesc = new WorkflowStageDescriptor();
 		currStageID = 1;
 		currStageDesc.setGlobalUniqueIdentifier(currStageID);
@@ -1296,7 +1295,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service1.introduce.cagrid.org/Service1", "ns0"),
 				new QName("http://service1.workflow.cagrid.org/Service1", "ns1")};
 		outParameterDescriptor1[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor1[0].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:str"); 
+		outParameterDescriptor1[0].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:str");
 		outParameterDescriptor1[0].setDestinationGlobalUniqueIdentifier(2);
 //		outParameterDescriptor1[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient2.getEndpointReference()});
 
@@ -1343,7 +1342,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		System.out.println("Setting input for service 1: '"+workflow_input+"'");
 		InputParameter inputService1 = new InputParameter(workflow_input, 0);
 		inputParams.add(new WorkflowInputParameter(inputService1, currStageID));
-		// END service 1 
+		// END service 1
 
 
 
@@ -1403,8 +1402,8 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 				try {
 
-					boolean wasSignaled = this.isFinishedCondition.await(45, TimeUnit.SECONDS); 					
-					if(wasSignaled) System.out.println("OK. Received notification of FINISH status. Exiting"); 
+					boolean wasSignaled = this.isFinishedCondition.await(45, TimeUnit.SECONDS);
+					if(wasSignaled) System.out.println("OK. Received notification of FINISH status. Exiting");
 					else {
 						String errMsg = "Timeout exceeded without any notification of FINISH status. Exiting";
 						System.err.println(errMsg);
@@ -1435,7 +1434,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 	/** Stop monitoring status changes */
 	protected void unsubscribeAllNotifications() {
 
-		
+
 		System.out.println("Unsubscribing all notifications");
 
 		Iterator<EndpointReferenceType> epr_iter = this.managerInstances.iterator();
@@ -1450,7 +1449,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 				Iterator<EndpointReferenceType> subscriptions_iter = subscriptions.iterator();
 
 				// Unsubscribe to current workflow's status changes
-				while( subscriptions_iter.hasNext() ){   
+				while( subscriptions_iter.hasNext() ){
 
 					EndpointReferenceType curr_subcription = subscriptions_iter.next();
 					curr_workflow.unSubscribe(curr_subcription);
@@ -1483,12 +1482,12 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			e1.printStackTrace();
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
-		}   
+		}
 
 
 		logger.trace("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
 
-		
+
 		// Handle status change notifications
 		if(isTimestampedStatusChange){
 			TimestampedStatus status = null;;
@@ -1509,7 +1508,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
-					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() );
 
 					if(statusActuallyChanged){
 
@@ -1524,7 +1523,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
 
 
-					this.isFinished  = this.hasFinished(); 
+					this.isFinished  = this.hasFinished();
 
 					if(this.isFinished){
 
@@ -1561,7 +1560,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 	/**
-	 * Verify whether all stages have already sent a termination notification  
+	 * Verify whether all stages have already sent a termination notification
 	 * */
 	protected boolean hasFinished() {
 
@@ -1583,7 +1582,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 
 
 	protected void subscribe(QName notificationType, WorkflowManagerInstanceClient  toSubscribe, String stageOperationQName){
-		
+
 
 		try{
 
@@ -1596,7 +1595,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			List<EndpointReferenceType> curr_subscriptions = null;
 			String stageKey = toSubscribe.getEPRString();
 
-			
+
 			// Add current reference to a list
 			if( this.stageSubscriptions.containsKey(stageKey) ){
 				curr_subscriptions = this.stageSubscriptions.get(stageKey);
@@ -1604,7 +1603,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 			else {
 				curr_subscriptions = new ArrayList<EndpointReferenceType>();
 			}
-			
+
 			curr_subscriptions.add(subscriptionEPR);
 			this.stageSubscriptions.put(stageKey, curr_subscriptions);
 
@@ -1613,7 +1612,7 @@ public class RunUnsecureWorkflowsStep extends Step implements NotifyCallback {
 		}
 		catch(Throwable t){
 			t.printStackTrace();
-		} 
+		}
 
 		return;
 	}

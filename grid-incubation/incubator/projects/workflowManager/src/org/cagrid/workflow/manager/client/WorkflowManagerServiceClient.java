@@ -341,7 +341,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		}
 	}
 
-	@Override
+
 	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
 
 		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)

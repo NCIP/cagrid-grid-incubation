@@ -7,11 +7,11 @@ import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClie
 
 public class SetWorkflowHelperInstanceParametersStep extends Step {
 
-	
+
 	private WorkflowInvocationHelperClient stageClient = null;
 	private InputParameter[] stageInputs = null;
-	
-	
+
+
 	public SetWorkflowHelperInstanceParametersStep(
 			WorkflowInvocationHelperClient stageClient,
 			InputParameter[] stageInputs) {
@@ -23,7 +23,6 @@ public class SetWorkflowHelperInstanceParametersStep extends Step {
 
 
 
-	@Override
 	public void runStep() throws Throwable {
 
 		System.out.println("BEGIN SetWorkflowHelperInstanceParametersStep");
@@ -59,7 +58,7 @@ public class SetWorkflowHelperInstanceParametersStep extends Step {
 		this.stageInputs = stageInputs;
 	}
 
-	
-	
+
+
 
 }

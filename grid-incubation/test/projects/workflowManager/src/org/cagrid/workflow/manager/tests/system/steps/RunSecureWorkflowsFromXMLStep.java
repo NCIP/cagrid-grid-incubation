@@ -54,12 +54,11 @@ public class RunSecureWorkflowsFromXMLStep extends RunSecureWorkflowsStep {
 			GlobusCredential userCredential, String cdsURL, File sampleDescriptorsDir) {
 
 		super(managerEPR, cdsEPR, container_base_url, userCredential, cdsURL);
-		this.sampleDescriptors = sampleDescriptorsDir;		
+		this.sampleDescriptors = sampleDescriptorsDir;
 	}
 
 
 
-	@Override
 	public void runStep() throws Throwable {
 		System.out.println("---- BEGIN SECURE WORKFLOW USING XML TEST ----");
 
@@ -71,11 +70,11 @@ public class RunSecureWorkflowsFromXMLStep extends RunSecureWorkflowsStep {
 			WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(manager_epr);
 
 
-			// User role: Delegate user credential to the Manager 	
-			logger.info("Obtaining user credential"); 
+			// User role: Delegate user credential to the Manager
+			logger.info("Obtaining user credential");
 			AttributedURI cdsAddress = this.cdsEPR.getAddress();
-			String cdsURL = cdsAddress.toString(); 
-			EndpointReferenceType delegatedCredentialProxy = CredentialHandlingUtil.delegateCredential(this.userCredential, wf_manager.getIdentity(), 
+			String cdsURL = cdsAddress.toString();
+			EndpointReferenceType delegatedCredentialProxy = CredentialHandlingUtil.delegateCredential(this.userCredential, wf_manager.getIdentity(),
 					cdsURL , new ProxyLifetime(5,0,0), new ProxyLifetime(6,0,0), 3, 2);
 			logger.info("Delegation done");
 
@@ -99,7 +98,7 @@ public class RunSecureWorkflowsFromXMLStep extends RunSecureWorkflowsStep {
 			/** BEGIN streaming test **/
 			/*logger.info("[CreateTestSecureWorkflowsStep] BEGIN Testing streaming");
 
-			// Streaming simple types 
+			// Streaming simple types
 			logger.info("[CreateTestSecureWorkflowsStep] Streaming of simple-type arrays");
 			runSimpleArrayStreaming(wf_manager, delegatedCredentialProxy);
 			logger.info("[CreateTestSecureWorkflowsStep] OK");  // */
@@ -116,7 +115,7 @@ public class RunSecureWorkflowsFromXMLStep extends RunSecureWorkflowsStep {
 
 
 			/** FAN IN AND FAN OUT TEST **/
-			/*logger.info("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out"); 
+			/*logger.info("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out");
 			runFaninFanOutTest(wf_manager, delegatedCredentialProxy);
 			logger.info("[CreateTestSecureWorkflowsStep] END Testing fan in and fan out"); // */
 
@@ -204,7 +203,6 @@ public class RunSecureWorkflowsFromXMLStep extends RunSecureWorkflowsStep {
 	/* (non-Javadoc)
 	 * @see org.cagrid.workflow.manager.tests.system.steps.RunSecureWorkflowsStep#runComplexArrayStreaming(org.cagrid.workflow.manager.client.WorkflowManagerServiceClient, org.apache.axis.message.addressing.EndpointReferenceType)
 	 */
-	@Override
 	protected void runComplexArrayStreaming(
 			WorkflowManagerServiceClient wf_manager,
 			EndpointReferenceType delegatedCredentialProxy)
@@ -230,7 +228,6 @@ public class RunSecureWorkflowsFromXMLStep extends RunSecureWorkflowsStep {
 	/* (non-Javadoc)
 	 * @see org.cagrid.workflow.manager.tests.system.steps.RunSecureWorkflowsStep#runSimpleArrayStreaming(org.cagrid.workflow.manager.client.WorkflowManagerServiceClient, org.apache.axis.message.addressing.EndpointReferenceType)
 	 */
-	@Override
 	protected void runSimpleArrayStreaming(
 			WorkflowManagerServiceClient wf_manager,
 			EndpointReferenceType delegatedCredentialProxy)
@@ -286,59 +283,59 @@ public class RunSecureWorkflowsFromXMLStep extends RunSecureWorkflowsStep {
 		String wfXmlDescriptor = readFileToString(wfDescriptor);
 
 
-		// Replace the URLs in the descriptor by the actual container URL	
+		// Replace the URLs in the descriptor by the actual container URL
 		wfXmlDescriptor = wfXmlDescriptor.replaceAll(CONTAINERBASEPLACEHOLDER, this.containerBaseURL);
 
 
 		// Replace the delegated credential proxy EPRs by the delegated credential's actual proxy
 		String encodedEpr = "";
 		try {
-			
+
 			// Get a string representation of the proxy EPR
 			StringWriter writer = new StringWriter();
 			Utils.serializeObject(delegatedCredentialProxy, EndpointReferenceType.getTypeDesc().getXmlType(), writer);
 			writer.flush();
-			String eprStr = writer.toString(); 
-			
-			
+			String eprStr = writer.toString();
+
+
 			// Convert the string representation into an XML document
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(new InputSource(new StringReader(eprStr)));
-			document.normalizeDocument(); 
+			document.normalizeDocument();
 			Element rootNode = document.getDocumentElement();
-			
+
 
 			// Convert each element of the EPR to XML format
 			if(rootNode.hasChildNodes()){
-				
+
 				NodeList children = rootNode.getChildNodes();
 				for(int i=0 ; i < children.getLength() ; i++){
-					
+
 					Node curr_child = children.item(i);
 					ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 					XMLEncoder eprEncoder = new XMLEncoder(outStream);
 					eprEncoder.writeObject(curr_child);    // Convert the EPR object into an XML representation
 					eprEncoder.flush();
 					eprEncoder.close();
-					String currStr = new String(outStream.toByteArray()); 					
+					String currStr = new String(outStream.toByteArray());
 					encodedEpr += currStr;
-					
+
 					//DEBUG
 					System.out.println("CURR ELEMENT: "+ currStr);
 				}
 			}
 			else throw new Exception("EPR is expected to have child nodes, but none was found");
 //			wfXmlDescriptor.replaceAll(CREDENTIALREFERENCEPROPERTY, encodedEpr);
-			
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		
+
 		/*
 		AttributedURI address = delegatedCredentialProxy.getAddress();
-		String delegatedCredentialProxyXML = address.getScheme() + "://" + address.getHost() + ':' + address.getPort() + address.getPath();   //outStream.toString(); 
+		String delegatedCredentialProxyXML = address.getScheme() + "://" + address.getHost() + ':' + address.getPort() + address.getPath();   //outStream.toString();
 
 
 		// Add the reference property found within the EPR to the XML
@@ -396,7 +393,7 @@ public class RunSecureWorkflowsFromXMLStep extends RunSecureWorkflowsStep {
 
 		System.out.println("END runWorkflowFromXML");   //DEBUG
 
-		return;		
+		return;
 	}
 
 }

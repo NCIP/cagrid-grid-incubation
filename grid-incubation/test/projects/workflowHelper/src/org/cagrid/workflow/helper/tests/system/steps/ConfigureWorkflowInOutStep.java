@@ -11,9 +11,9 @@ public class ConfigureWorkflowInOutStep extends Step {
 	private OperationInputMessageDescriptor inputConfig = null;
 	private OperationOutputTransportDescriptor outputConfig = null;
 	private WorkflowInvocationHelperClient service_client = null;
-	
-	
-	
+
+
+
 	public ConfigureWorkflowInOutStep(
 			OperationInputMessageDescriptor inputConfig,
 			OperationOutputTransportDescriptor outputConfig,
@@ -26,7 +26,6 @@ public class ConfigureWorkflowInOutStep extends Step {
 
 
 
-	@Override
 	public void runStep() throws Throwable {
 
 		System.out.println("BEGIN ConfigureWorkflowInOutStep");
@@ -35,8 +34,8 @@ public class ConfigureWorkflowInOutStep extends Step {
 		System.out.println("END ConfigureWorkflowInOutStep");
 	}
 
-	
-	
+
+
 	private WorkflowInvocationHelperClient getService_client() {
 		return service_client;
 	}
@@ -47,8 +46,8 @@ public class ConfigureWorkflowInOutStep extends Step {
 	}
 
 
-	
-	
+
+
 	private OperationInputMessageDescriptor getInputConfig() {
 		return inputConfig;
 	}

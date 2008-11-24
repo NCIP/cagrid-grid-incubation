@@ -52,24 +52,23 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 	}
 
 
-	@Override
 	public void runStep() throws Throwable {
 
 
 		/** Create XML description for each one of the workflows: Fan in-Fan out, simple-type array forwarding, complex-type array forwarding,
-		 * simple-type array streaming, complex-type array streaming  
+		 * simple-type array streaming, complex-type array streaming
 		 * */
 		logger.info("-x-x-x- BEGIN NON-SECURE WORKFLOWS TESTS USING XML DESCRIPTORS -x-x-x-");
-		
 
-		WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(this.manager_epr); 
+
+		WorkflowManagerServiceClient wf_manager = new WorkflowManagerServiceClient(this.manager_epr);
 
 		try{
 
 			/** Test streaming ability **/
 			logger.info("Streaming tests");
 			logger.info("Complex array streaming");
-			runComplexArrayStreaming(wf_manager); 
+			runComplexArrayStreaming(wf_manager);
 			logger.info("OK"); // */
 
 			logger.info("Simple array streaming");
@@ -105,9 +104,9 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 	}
 
 
-	
+
 	private void runTestFromXML(WorkflowManagerServiceClient wf_manager, String xmlBasename) throws RemoteException{
-		
+
 		// Read descriptor into a string
 		String wfDescriptorFilename = null;
 		try {
@@ -121,7 +120,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 		String wfXmlDescriptor = readFileToString(wfDescriptor);
 
 
-		// Replace the URLs in the descriptor with the actual container URL	
+		// Replace the URLs in the descriptor with the actual container URL
 		wfXmlDescriptor = wfXmlDescriptor.replaceAll(CONTAINERBASEPLACEHOLDER, this.containerBaseURL);
 
 
@@ -144,7 +143,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 			this.asynchronousStartCallbackReceived.put(clientID, false);
 			asynchronousCallbackLock = new ReentrantLock();
 			this.asynchronousStartLock.put(clientID, asynchronousCallbackLock);
-			this.asynchronousStartCondition.put(clientID, asynchronousCallbackLock.newCondition());  
+			this.asynchronousStartCondition.put(clientID, asynchronousCallbackLock.newCondition());
 
 
 			managerInstanceClient.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), this);
@@ -158,7 +157,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 		} catch (Exception e) {
 			logger.error(e.getMessage() ,e);
 			e.printStackTrace();
-		} 
+		}
 
 
 		managerInstanceClient.start();  // Start asynchronous execution
@@ -195,12 +194,11 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 		}
 
 		return;
-		
-	}
-	
-	
 
-	@Override
+	}
+
+
+
 	protected void runComplexArrayStreaming(WorkflowManagerServiceClient wf_manager) throws RemoteException {
 
 
@@ -208,7 +206,6 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 	}
 
 
-	@Override
 	protected void runSimpleArrayStreaming(
 			WorkflowManagerServiceClient wf_manager) throws RemoteException,
 			MalformedURIException {
@@ -217,7 +214,6 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 	}
 
 
-	@Override
 	protected void runSimpleArrayTest(WorkflowManagerServiceClient wf_manager)
 	throws RemoteException {
 
@@ -228,7 +224,6 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 	/* (non-Javadoc)
 	 * @see org.cagrid.workflow.manager.tests.system.steps.RunUnsecureWorkflowsStep#runComplexArrayTest(org.cagrid.workflow.manager.client.WorkflowManagerServiceClient)
 	 */
-	@Override
 	protected void runComplexArrayTest(WorkflowManagerServiceClient wf_manager)
 	throws RemoteException {
 
@@ -239,7 +234,6 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 	/* (non-Javadoc)
 	 * @see org.cagrid.workflow.manager.tests.system.steps.RunUnsecureWorkflowsStep#runFaninFanOutTest(org.cagrid.workflow.manager.client.WorkflowManagerServiceClient, int)
 	 */
-	@Override
 	protected void runFaninFanOutTest(WorkflowManagerServiceClient wf_manager) throws RemoteException {
 
 		runTestFromXML(wf_manager, "UnsecureFanInFanOutWorkflow.xml");
@@ -283,7 +277,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 			e1.printStackTrace();
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
-		}   
+		}
 
 
 		logger.info("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
@@ -309,7 +303,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 
 
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
-					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() );
 
 					if(statusActuallyChanged){
 
@@ -324,7 +318,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
 
 
-					this.isFinished  = this.hasFinished(); 
+					this.isFinished  = this.hasFinished();
 
 					if(this.isFinished){
 
@@ -362,7 +356,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 
 			stageKey = null;
 			try {
-				stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();   
+				stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();
 
 				if(stageKey == null){
 					logger.error("[RunSecureWorkflowsStep::deliver] Unable to retrieve stageKey");
@@ -374,7 +368,7 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 			} catch (MalformedURIException e1) {
 				e1.printStackTrace();
 				logger.error(e1.getMessage(), e1);
-			} 
+			}
 
 
 			OutputReady callback = null;
@@ -385,8 +379,8 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 			}
 
 			Boolean notificationValue = new Boolean(callback.equals(OutputReady.TRUE));
-			logger.info("Received new OutputReady: "+ callback.getValue() + " from "+ stageKey); 
-			
+			logger.info("Received new OutputReady: "+ callback.getValue() + " from "+ stageKey);
+
 			// Store/Update the value stored internally for the current InvocationHelper
 			Lock mutex = this.asynchronousStartLock.get(stageKey);
 			mutex.lock();
@@ -394,13 +388,13 @@ public class RunUnsecureWorkflowStepFromXML extends RunUnsecureWorkflowsStep {
 
 
 				this.asynchronousStartCallbackReceived.put(stageKey, notificationValue);
-				
+
 
 				// If the execution is finished, report the user
 				boolean allCallbacksReceived = !this.asynchronousStartCallbackReceived.containsValue(Boolean.FALSE);
 				if(allCallbacksReceived){
 
-					System.out.println("[RunSecureWorkflowsStep::deliver] All callbacks received. Execution is finished."); 
+					System.out.println("[RunSecureWorkflowsStep::deliver] All callbacks received. Execution is finished.");
 					Condition workflowFinished = this.asynchronousStartCondition.get(stageKey);
 					workflowFinished.signalAll();
 				}

@@ -27,23 +27,23 @@ import org.cagrid.workflow.helper.tests.system.steps.CreateTestWorkflowsStep;
 
 public class BasicWorkflowServicesTest extends ServiceStoryBase {
     private EndpointReference helperEPR = null;
-	
+
    // private static final String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
     private static final String HELPER_PATH_IN_CONTAINER = "/cagrid/WorkflowHelper";
 
-    
+
     private boolean enableVerboseOutput = false;
 
     public BasicWorkflowServicesTest(ServiceContainer container) {
         super(container);
-        
+
         if( this.enableVerboseOutput ){
         	PropertyConfigurator.configure("." + File.separator + "conf" +
         			File.separator
-        			+ "log4j.properties"); 
+        			+ "log4j.properties");
         }
     }
-    
+
     public BasicWorkflowServicesTest() {
         super();
         try {
@@ -58,18 +58,16 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
         if( this.enableVerboseOutput ){
         	PropertyConfigurator.configure("." + File.separator + "conf" +
         			File.separator
-        			+ "log4j.properties"); 
+        			+ "log4j.properties");
         }
     }
 
 
-    @Override
     public String getDescription() {
         return "Basic (non-secure) Wokflows Testing";
     }
 
 
-    @Override
     protected Vector steps() {
 
         System.out.println("BEGIN DeployWorkflowServicesTest");
@@ -119,7 +117,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
         // Configure the workflows that are part of the system test
         try {
             URI helper_uri = getContainer().getContainerBaseURI();
-            String container_base_url = "http://"+ helper_uri.getHost() + ':' + helper_uri.getPort(); 
+            String container_base_url = "http://"+ helper_uri.getHost() + ':' + helper_uri.getPort();
             helper_uri.appendPath(HELPER_PATH_IN_CONTAINER);
             this.helperEPR = new EndpointReference(helper_uri);
             CreateTestWorkflowsStep create_workflows = new CreateTestWorkflowsStep(this.helperEPR, container_base_url);
@@ -134,7 +132,7 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
 
 
     public boolean storySetUp() {
-       
+
         return true;
     }
 
@@ -142,34 +140,34 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
     public void storyTearDown() {
         if (getContainer() != null) {
             try {
-            	
+
             	System.out.println("Stopping container after executing tests");
             	if( getContainer().isStarted() ){
-            	
+
             		getContainer().stopContainer();
             	}
-            	
+
             	if( getContainer().isUnpacked() ){
-            		
+
             		getContainer().deleteContainer();
             	}
             } catch (ContainerException e) {
                 e.printStackTrace();
                 Assert.fail();
-            } 
+            }
         } else
             System.err.println("getContainer returned null. Have the container been set?");
         // */
-        
+
     }
-    
+
     /**
      * Convenience method for running all the Steps in this Story.
      */
     public static void main(String args[]) {
-   
+
     	try{
-    		
+
     		TestRunner runner = new TestRunner();
     		TestResult result = runner.doRun(new TestSuite(BasicWorkflowServicesTest.class));
     		System.exit(result.errorCount() + result.failureCount());
@@ -177,16 +175,15 @@ public class BasicWorkflowServicesTest extends ServiceStoryBase {
     	catch(Throwable t){
     		t.printStackTrace();
     		Assert.fail(t.getMessage());
-    	}    	   
-    	
+    	}
+
     }
 
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#getName()
 	 */
-	@Override
 	public String getName() {
-		
+
 		return "testHelperUnsecureWorkflows";
 	}
 

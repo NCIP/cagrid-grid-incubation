@@ -33,11 +33,11 @@ import org.globus.wsrf.ResourceException;
 import org.globus.wsrf.container.ContainerException;
 
 
-/** 
+/**
  * The implementation of this WorkflowManagerInstanceResource type.
- * 
+ *
  * @created by Introduce Toolkit version 1.2
- * 
+ *
  */
 public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceResourceBase implements NotifyCallback {
 
@@ -56,11 +56,11 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	private Condition allValuesSetCondition = outputDataLock.newCondition();
 	private boolean allValuesSet = true;
 
-	
+
 	// Associate a stage's EPR to its operation name
 	private Map<String, QName> eprToOperationName = new HashMap<String, QName>();
-	
-	
+
+
 
 	// Data to be set for each InvocationHelper
 	private HashMap<String, ArrayList<InputParameter> > workflowData = new HashMap<String, ArrayList<InputParameter>>();
@@ -72,11 +72,11 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	private int timestamp = 0; // Logical time of a status notification created by this resource
 
 
-	// Store the name for each service subscribed for notification. Useful while debugging 
+	// Store the name for each service subscribed for notification. Useful while debugging
 	private Map<String, String> EPR2Name = new HashMap<String, String>();
 
 
-	// Synchronization of the access to variable 'isFinished' 
+	// Synchronization of the access to variable 'isFinished'
 	protected Lock isFinishedKey = new ReentrantLock();
 
 
@@ -85,23 +85,23 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 
 	// TODO Instrumentation data for this workflow
-	
-	
+
+
 	// Synchronization for when output is ready
 	private Map<String, Boolean>  asynchronous_callback_arrived = new HashMap<String, Boolean>();   // True when the asynchronous callback is received from an InvocationHelper
-	private Map<String, Condition>  asynchronous_call_condition = new HashMap<String, Condition>();;   // Condition variable used to signal that a callback was received 
+	private Map<String, Condition>  asynchronous_call_condition = new HashMap<String, Condition>();;   // Condition variable used to signal that a callback was received
 	private Map<String, Lock>  asynchronous_call_key = new HashMap<String, Lock>();              // Provides exclusive access to the 2 variables above
 
 
 	private boolean alreadyStarted = false;
-	
-	
+
+
 
 	/**
 	 * Receive the output of a WorkflowInvocationHelper and store it internally. The source of the received
 	 * value is identified by the paramater index, that is present in exactly one pair <integer, InvocationHelper>
 	 * within this resource.
-	 * 
+	 *
 	 * @param inputParameter Parameter one wants to send to the ManagerInstance
 	 * */
 	public void setParameter(InputParameter inputParameter) throws RemoteException {
@@ -140,15 +140,15 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	/**
 	 * Register a workflow output value to be retrieved. Creates an integer identifier for it in order
 	 * to further associate a received value with its source.
-	 * 
+	 *
 	 * @return The integer identifier of the registered parameter
-	 * 
+	 *
 	 * */
-	public int registerOutputValue(OperationOutputParameterTransportDescriptor paramDesc, EndpointReferenceType invocationHelperEPR) 
+	public int registerOutputValue(OperationOutputParameterTransportDescriptor paramDesc, EndpointReferenceType invocationHelperEPR)
 		throws RemoteException{
 
-		
-		// At this point, we now for sure that the user expects output 
+
+		// At this point, we now for sure that the user expects output
 		try{
 			outputDataLock.lock();
 			this.allValuesSet = false;  // Setting false here means we will wait until the outputs are retrieved
@@ -169,9 +169,9 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 		// Add one more expected output value and use its index in the list as its identifier
 		this.invocationHelperEPRString.add(invID);
-		int outputValueID = this.invocationHelperEPRString.size() - 1; 
+		int outputValueID = this.invocationHelperEPRString.size() - 1;
 
-		if( !(this.invocationHelperEPRString.get(outputValueID).equals(invID)) ) 
+		if( !(this.invocationHelperEPRString.get(outputValueID).equals(invID)) )
 			throw new RemoteException("Output value associated with the current ID does not match the one just added");
 
 		return outputValueID;
@@ -195,7 +195,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			}
 
 
-			// Copy all output values to an array 
+			// Copy all output values to an array
 			int numOutputs = this.outputData.size();
 			retval = new String[numOutputs];
 
@@ -227,7 +227,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	 * */
 	public void registerInstanceHelper(EndpointReferenceType epr, String instanceHelperName){
 
-		logger.info("Registering "+ instanceHelperName); 
+		logger.info("Registering "+ instanceHelperName);
 
 		WorkflowInstanceHelperClient instanceHelper;
 		try {
@@ -253,7 +253,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			e.printStackTrace();
 		}
 
-		logger.info("END"); 
+		logger.info("END");
 
 	}
 
@@ -263,7 +263,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 //		logger.info("BEGIN ManagerInstance::deliver");
 
-		
+
 		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)
 		.getResourcePropertyValueChangeNotification();
 
@@ -272,24 +272,24 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		boolean isTimestampedStatusChange = message_qname.equals(TimestampedStatus.getTypeDesc().getXmlType());
 		boolean isInstrumentationReport = message_qname.equals(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType());
 		boolean isOutputReady = message_qname.equals(OutputReady.getTypeDesc().getXmlType());
-		
 
-		logger.debug("Received message of type "+ message_qname.getLocalPart()); 
-		
+
+		logger.debug("Received message of type "+ message_qname.getLocalPart());
+
 
 		// Handle status change notifications
 		if(isTimestampedStatusChange){
-			
+
 			String stageKey = null;
 			try {
-				stageKey = new WorkflowInstanceHelperClient(arg1).getEPRString();   
+				stageKey = new WorkflowInstanceHelperClient(arg1).getEPRString();
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			} catch (MalformedURIException e1) {
 				e1.printStackTrace();
-			}   
-			
-			
+			}
+
+
 			TimestampedStatus status = null;
 			try {
 				status = (TimestampedStatus) actual_property.getValueAsType(message_qname, TimestampedStatus.class);
@@ -298,8 +298,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			}
 
 
-			logger.debug("[WorkflowManagerInstanceResource::deliver] Received new status value: "+ status.getStatus().toString() 
-					+ ':' + status.getTimestamp() +" from "+ this.EPR2Name.get(stageKey)); 
+			logger.debug("[WorkflowManagerInstanceResource::deliver] Received new status value: "+ status.getStatus().toString()
+					+ ':' + status.getTimestamp() +" from "+ this.EPR2Name.get(stageKey));
 
 			this.isFinishedKey.lock();
 			try{
@@ -309,7 +309,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
-					statusActuallyChanged = (!curr_status.getStatus().equals(status.getStatus())) && ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+					statusActuallyChanged = (!curr_status.getStatus().equals(status.getStatus())) && ( curr_status.getTimestamp() < status.getTimestamp() );
 
 					if(statusActuallyChanged){
 
@@ -333,8 +333,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 					}
 
 
-					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
-					this.setTimestampedStatus(nextStatus);		
+					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);
+					this.setTimestampedStatus(nextStatus);
 
 					logger.info("[WorkflowManagerInstanceResource] Current workflow status is "+ nextStatus.getStatus() +
 							':' + nextStatus.getTimestamp());
@@ -348,21 +348,21 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 				this.isFinishedKey.unlock();
 			}
 		}
-		
-		
+
+
 		// TODO Handle instrumentation reports
 		else if(isInstrumentationReport){
-			
-			
+
+
 			String stageKey = null;
 			try {
-				stageKey = new WorkflowInstanceHelperClient(arg1).getEPRString();   
+				stageKey = new WorkflowInstanceHelperClient(arg1).getEPRString();
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			} catch (MalformedURIException e1) {
 				e1.printStackTrace();
-			} 
-			
+			}
+
 			LocalWorkflowInstrumentationRecord intrumentation_data = null;
 			try {
 				intrumentation_data = (LocalWorkflowInstrumentationRecord) actual_property.getValueAsType(message_qname, LocalWorkflowInstrumentationRecord.class);
@@ -372,36 +372,36 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 
 			logger.debug("[WorkflowManagerInstanceResource::deliver] Received new status value: "+ intrumentation_data.getIdentifier()
-					+" from "+ this.EPR2Name.get(stageKey)); 
+					+" from "+ this.EPR2Name.get(stageKey));
 
-			
+
 			//.......
-			
+
 		}
-		
-		
+
+
 		// Handle signaling that output is ready
 		else if(isOutputReady){
-			
-			logger.debug("[WorkflowManagerInstanceResource::deliver] Received message of type "+ message_qname.getLocalPart()); 
-			
+
+			logger.debug("[WorkflowManagerInstanceResource::deliver] Received message of type "+ message_qname.getLocalPart());
+
 			String stageKey = null;
 			try {
-				stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString();   
-				
+				stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString();
+
 				if(stageKey == null){
 					logger.error("[WorkflowManagerInstanceResource::deliver] Unable to retrieve stage ID");
 				}
-				
+
 			} catch (RemoteException e1) {
 				logger.error(e1.getMessage(), e1);
 				e1.printStackTrace();
 			} catch (MalformedURIException e1) {
 				logger.error(e1.getMessage(), e1);
 				e1.printStackTrace();
-			} 
-			
-			
+			}
+
+
 			OutputReady callback = null;
 			try {
 				callback = (OutputReady) actual_property.getValueAsType(message_qname, OutputReady.class);
@@ -412,7 +412,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 			Boolean outputReady = new Boolean(callback.equals(OutputReady.TRUE));
 			if( outputReady ){
-				
+
 				try {
 					System.out.println("[WorkflowManagerInstanceResource::deliver] Execution finished for "+ this.getOperationNameForInvocationHelper(stageKey));
 				} catch (RemoteException e) {
@@ -426,14 +426,14 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 				Lock mutex = this.asynchronous_call_key.get(stageKey);
 				mutex.lock();
 				try {
-				
+
 //					System.out.println("Updating OutputReady value in internal map"); //DEBUG
 					this.asynchronous_callback_arrived.put(stageKey, outputReady);
-					
+
 					// If the execution is finished, report the user
 					boolean allCallbacksReceived = !this.asynchronous_callback_arrived.containsValue(Boolean.FALSE);
 					if(allCallbacksReceived){
-						
+
 						System.out.println("[WorkflowManagerInstanceResource::deliver] All callbacks received. Execution is finished."); //DEBUG
 						this.setOutputReady(OutputReady.TRUE);  // Report to the user that all callbacks were received
 //						System.out.println("[WorkflowManagerInstanceResource::deliver] Report regarding workflow end was sent"); //DEBUG
@@ -442,8 +442,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 //						System.out.println("OutputReady notification delivering finished"); // DEBUG
 					}
-					
-					
+
+
 				} catch (ResourceException e) {
 					logger.error(e.getMessage());
 					e.printStackTrace();
@@ -451,15 +451,15 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 				finally {
 					mutex.unlock();
 				}
-				
+
 			}
 			else{
 				logger.error("[WorkflowManagerInstanceResource::deliver] Callback received from an unknown stage: "+ stageKey);
 			}
-			
+
 		}
 
-//		System.out.println("END ManagerInstance::deliver");		
+//		System.out.println("END ManagerInstance::deliver");
 	}
 
 
@@ -474,9 +474,9 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			next_status = Status.ERROR;
 		}
 
-		// Starting here, we consider a workflow portion only reach some state 
-		// when all the stages within that portion have already done so. 
-		else if(this.stagesPresentStatus(Status.UNCONFIGURED)){			
+		// Starting here, we consider a workflow portion only reach some state
+		// when all the stages within that portion have already done so.
+		else if(this.stagesPresentStatus(Status.UNCONFIGURED)){
 			next_status = Status.UNCONFIGURED;
 		}
 		else if(this.stagesPresentStatus(Status.INPUTCONFIGURED)){
@@ -508,7 +508,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 	/**
 	 * Search for any InstanceHelper that present the wanted status
-	 * 
+	 *
 	 * @param wanted The value to search for
 	 * */
 	private boolean stagesPresentStatus(Status wanted){
@@ -525,7 +525,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			if(found) return true;
 		}
 
-		return false;		
+		return false;
 	}
 
 
@@ -536,22 +536,22 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 
 	public void setEPRString(String eprString) {
-		
+
 		this.eprString = eprString;
 	}
 
 
 
-	/** Start workflow execution 
+	/** Start workflow execution
 	 * @throws RemoteException */
 	public void start() throws RemoteException {
 
-		
+
 		if(this.alreadyStarted){
 			throw new RemoteException("[WorkflowManagerInstanceResource::start] Workflow excecution already started");
-		} 
+		}
 
-		
+
 		logger.info("STARTING stages' execution");
 
 		Set<Entry<Integer, EndpointReferenceType>> stagesEPRs = this.stageID2EPR.entrySet();
@@ -565,25 +565,25 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			try {
 				currStageClient = new WorkflowInvocationHelperClient(currStageEPR);
 				String clientID = currStageClient.getEPRString();
-			
-				
+
+
 				// Initialize the synchronization variables related to the "start" method's callback
 				this.asynchronous_callback_arrived.put(clientID, Boolean.FALSE);
 				Lock key = new ReentrantLock();
 				Condition condition = key.newCondition();
 				this.asynchronous_call_key.put(clientID, key);
 				this.asynchronous_call_condition.put(clientID, condition);
-				
+
 				// Subscribe to receive a callback generated by an asynchronous call to 'start'
 				currStageClient.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), this);
-				
+
 				// Asynchronous call to start current stage's execution
-				System.out.println("Starting workflow execution"); 
-				currStageClient.start();  
-				logger.debug("Workflow executing asynchronously"); 
-				
+				System.out.println("Starting workflow execution");
+				currStageClient.start();
+				logger.debug("Workflow executing asynchronously");
+
 				// Note: There is no need to wait for a callback here. In fact, we should *never* wait for a callback at this point because that could cause deadlock situations.
-				
+
 			} catch (MalformedURIException e) {
 				e.printStackTrace();
 				logger.error(e.getMessage());
@@ -596,9 +596,9 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			}
 
 		}
-		
+
 		this.alreadyStarted = true;
-		
+
 		logger.info("Stages' execution STARTED");
 	}
 
@@ -612,7 +612,6 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	/* (non-Javadoc)
 	 * @see org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResourceBase#remove()
 	 */
-	@Override
 	public void remove() throws ResourceException {
 
 		logger.info("Destroying ManagerInstance");
@@ -632,7 +631,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 				String instanceID = curr_client.getEPRString();
 				//this.stageStatus.remove(instanceID);  // Stop monitoring the current instance
-				//this.EPR2Name.remove(instanceID);  
+				//this.EPR2Name.remove(instanceID);
 				curr_client.destroy();  // Destroy the resource associated with the current instance
 
 			} catch (MalformedURIException e) {
@@ -652,17 +651,17 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		this.eprToOperationName.put(eprString, operationQName);
 	}
 
-	
+
 	private String getOperationNameForInvocationHelper(String epr) throws RemoteException{
-		
+
 		if(!this.eprToOperationName.containsKey(epr)){
-			
+
 			throw new RemoteException("Stage record not found for: "+ epr);
 		}
-		
+
 		return this.eprToOperationName.get(epr).toString();
 	}
-	
+
 }
 
 

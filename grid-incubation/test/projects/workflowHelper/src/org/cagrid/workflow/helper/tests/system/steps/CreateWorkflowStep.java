@@ -8,12 +8,12 @@ import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClie
 
 public class CreateWorkflowStep extends Step {
 
-	
+
 	private WorkflowInvocationHelperDescriptor servicesDesc[] = null;
 	private EndpointReference helperEPR = null;
-	
+
 	WorkflowInvocationHelperClient servicesClients[] = null;
-	
+
 
 
 	public CreateWorkflowStep(WorkflowInvocationHelperDescriptor[] servicesDesc,
@@ -26,25 +26,24 @@ public class CreateWorkflowStep extends Step {
 
 
 
-	@Override
 	public void runStep() throws Throwable {
 
 		System.out.println("BEGIN CreateWorkflowStep");
-		
+
 		// Add the steps for services' creation
 		CreateWorkflowInvocationHelperStep services_creation[] = new CreateWorkflowInvocationHelperStep[servicesDesc.length];
 		servicesClients = new WorkflowInvocationHelperClient[servicesDesc.length];
 		for(int i=0; i < servicesDesc.length; i++){
 			// Configure sub-step
 			services_creation[i] = new CreateWorkflowInvocationHelperStep(servicesDesc[i], getHelperEPR());
-			
+
 			// Run sub-step and store the stage reference
 			services_creation[i].runStep();
 			servicesClients[i] = services_creation[i].getStageClient();
 			services_creation[i].setStageClient(servicesClients[i]);
 		}
-		
-		
+
+
 		System.out.println("END CreateWorkflowStep");
 	}
 
@@ -90,5 +89,5 @@ public class CreateWorkflowStep extends Step {
 		this.servicesClients = servicesClients;
 	}
 
-	
+
 }

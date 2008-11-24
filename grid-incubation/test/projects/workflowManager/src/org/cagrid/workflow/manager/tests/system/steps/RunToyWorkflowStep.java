@@ -57,7 +57,6 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 
 
 
-	@Override
 	public void runStep() throws Throwable {
 
 
@@ -79,7 +78,7 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 		instanceHelperDesc.setWorkflowID(workflowID);
 		EndpointReferenceType managerEPR = this.managerEPR;
 		instanceHelperDesc.setWorkflowManagerEPR(managerEPR);
-		// instanceHelperDesc.setProxyEPR(proxyEPR); 
+		// instanceHelperDesc.setProxyEPR(proxyEPR);
 		workflowParts[0].setInstanceHelperDesc(instanceHelperDesc);
 
 
@@ -97,21 +96,21 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 
 
 
-		// 2nd stage 
+		// 2nd stage
 		invocationHelperDescs[1] = new WorkflowStageDescriptor();
 		invocationHelperDescs[1].setGlobalUniqueIdentifier(2);
 		WorkflowInvocationHelperDescriptor basicDescription = new WorkflowInvocationHelperDescriptor();
-		basicDescription.setOperationQName(new QName("http://second.cagrid.org/Second", "ReceiveRequest"));  // Remember this is actually the request name, not the method name 
+		basicDescription.setOperationQName(new QName("http://second.cagrid.org/Second", "ReceiveRequest"));  // Remember this is actually the request name, not the method name
 		basicDescription.setServiceURL(managerAddress.getScheme() + "://" + managerAddress.getHost() + ':' +
 				managerAddress.getPort() + "/wsrf/services/cagrid/Second");
 		basicDescription.setWorkflowID(workflowID);
 		basicDescription.setWorkflowManagerEPR(managerEPR);
-		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor); 
+		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor);
 		invocationHelperDescs[1].setBasicDescription(basicDescription);
 
 
 
-		InputParameterDescriptor[] inputDesc = new InputParameterDescriptor[1]; 
+		InputParameterDescriptor[] inputDesc = new InputParameterDescriptor[1];
 		inputDesc[0] = new InputParameterDescriptor();
 		inputDesc[0].setParamQName(new QName("input"));
 		inputDesc[0].setParamType(new QName("string"));
@@ -129,7 +128,7 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 
 
 
-		// 1st stage 
+		// 1st stage
 		invocationHelperDescs[0] = new WorkflowStageDescriptor();
 		invocationHelperDescs[0].setGlobalUniqueIdentifier(1);
 		basicDescription = new WorkflowInvocationHelperDescriptor();
@@ -139,7 +138,7 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 				managerAddress.getPort() + "/wsrf/services/cagrid/First");
 		basicDescription.setWorkflowID(workflowID);
 		basicDescription.setWorkflowManagerEPR(managerEPR);
-		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor); 
+		//basicDescription.setWorkflowInvocationSecurityDescriptor(workflowInvocationSecurityDescriptor);
 		invocationHelperDescs[0].setBasicDescription(basicDescription);
 
 
@@ -207,12 +206,12 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 
 				try {
 
-					boolean wasSignaled = this.isFinishedCondition.await(45, TimeUnit.SECONDS); 					
-					if(wasSignaled) logger.info("OK. Received notification of FINISH status. Exiting"); 
+					boolean wasSignaled = this.isFinishedCondition.await(45, TimeUnit.SECONDS);
+					if(wasSignaled) logger.info("OK. Received notification of FINISH status. Exiting");
 					else {
 						String errMsg = "Timeout exceeded without any notification of FINISH status. Exiting";
 						logger.error(errMsg);
-						logger.info("[RunToyWorkflowStep.waitUntilCompletion] Status is "+ 
+						logger.info("[RunToyWorkflowStep.waitUntilCompletion] Status is "+
 								this.workflowStatus.getStatus()+ ':' + this.workflowStatus.getTimestamp());
 						Assert.fail(errMsg);
 					}
@@ -256,13 +255,13 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 			}
 
 
-			logger.info("[RunToyWorkflowStep.deliver] Received new status value: "+ status.getStatus().toString() 
-			+ ':' + status.getTimestamp()); 
+			logger.info("[RunToyWorkflowStep.deliver] Received new status value: "+ status.getStatus().toString()
+			+ ':' + status.getTimestamp());
 
 			this.isFinishedKey.lock();
 			try{
 
-				boolean statusActuallyChanged = (status.getTimestamp() > this.workflowStatus.getTimestamp()) && 
+				boolean statusActuallyChanged = (status.getTimestamp() > this.workflowStatus.getTimestamp()) &&
 				(!status.getStatus().equals(this.workflowStatus.getStatus()));
 
 
@@ -277,11 +276,11 @@ public class RunToyWorkflowStep extends Step implements NotifyCallback {
 				}
 
 
-			} 
+			}
 			finally {
 				this.isFinishedKey.unlock();
 			}
-		}	
+		}
 	}
 
 

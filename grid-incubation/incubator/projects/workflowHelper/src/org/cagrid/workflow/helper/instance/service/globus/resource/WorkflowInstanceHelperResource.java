@@ -32,15 +32,15 @@ import org.globus.wsrf.ResourceException;
 import org.globus.wsrf.container.ContainerException;
 
 
-/** 
+/**
  * The implementation of this WorkflowInstanceHelperResource type.
- * 
+ *
  * @created by Introduce Toolkit version 1.2
- * 
+ *
  */
 public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResourceBase implements CredentialAccess, NotifyCallback {
 
-	
+
 
 	// Associations between services' EPRs and the credential to be used when invoking service-operation
 	private HashMap<String, GlobusCredential> servicesCredentials = new HashMap<String, GlobusCredential>();
@@ -61,7 +61,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	// Status of each InvocationHelper managed by this InstanceHelper
 	private Map<String, TimestampedStatus> stageStatus = new HashMap<String, TimestampedStatus>() ;
 
-	// Store the operation name for each service subscribed for notification 
+	// Store the operation name for each service subscribed for notification
 	private Map<String, String> EPR2OperationName = new HashMap<String, String>();
 	private List<EndpointReferenceType> stagesEPRs = new ArrayList<EndpointReferenceType>();
 
@@ -71,22 +71,22 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 	private String eprString;
 
-	// Logical time of a message notification 
+	// Logical time of a message notification
 	private int timestamp = 0;
 
 
 	// Times elapsed in each phase of the execution
 	private org.cagrid.workflow.helper.instrumentation.InstrumentationRecord localWorkflowInstrumentation = null;
 	private List<InstrumentationRecord> stagesInstrumentation = null;
-	
+
 
 
 	/**
 	 * Set the GlobusCredential to be used by a specific InvocationHelper
-	 * 
+	 *
 	 * @param serviceOperationEPR EPR of the InvocationHelper
 	 * @param proxyEPR EPR of the delegated credential to retrieve
-	 * 
+	 *
 	 * */
 	public void addCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
 
@@ -107,13 +107,13 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 	/**
-	 * Retrieve the GlobusCredential associated with a service-operation. 
-	 * If credential retrieval is pending, caller is blocked until the credential becomes available. 
-	 * 
+	 * Retrieve the GlobusCredential associated with a service-operation.
+	 * If credential retrieval is pending, caller is blocked until the credential becomes available.
+	 *
 	 * @param serviceOperationEPR EPR of the InvocationHelper
-	 * @return The associated GlobusCredential, or null if no such association does exist  
-	 * @throws RemoteException 
-	 * 
+	 * @return The associated GlobusCredential, or null if no such association does exist
+	 * @throws RemoteException
+	 *
 	 * */
 	public GlobusCredential getCredential(EndpointReference serviceOperationEPR) throws RemoteException{
 
@@ -129,7 +129,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			e1.printStackTrace();
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
-		} 
+		}
 
 
 
@@ -144,11 +144,11 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 		else {
 
-			logger.info("[getCredential] Service is secure"); 
+			logger.info("[getCredential] Service is secure");
 
 			// If credential is unavailable, block until it is available
 			boolean credentialIsNotSet = (!this.servicesCredentials.containsKey(eprStr));
-			
+
 
 			Lock key = this.servicelLock.get(eprStr);
 			Condition credentialAvailability = this.serviceConditionVariable.get(eprStr);
@@ -166,7 +166,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				}
 				credential = this.servicesCredentials.get(eprStr);
 
-				logger.info("[getCredential] Retrieved credential: "+ credential.getIdentity()); 
+				logger.info("[getCredential] Retrieved credential: "+ credential.getIdentity());
 
 			} catch (InterruptedException e) {
 				logger.error("[getCredential] Error retrieving credential");
@@ -184,10 +184,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 	/**
 	 * Associate an InvocationHelper with a GlobusCredential, removing previous associations if any
-	 * 
+	 *
 	 * @param serviceOperationEPR EPR of the InvocationHelper
 	 * @param proxyEPR the credential to be used by the InvocationHelper
-	 * 
+	 *
 	 * */
 	public void replaceCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
 
@@ -224,10 +224,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		}
 
 
-		this.printCredentials(); 
+		this.printCredentials();
 
 
-		// Delete old credential (if any) from the associations 
+		// Delete old credential (if any) from the associations
 		boolean serviceExists = this.servicesCredentials.containsKey(eprStr);
 		if( serviceExists ){
 
@@ -271,7 +271,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 	/**
 	 * Remove all associations between InvocationHelpers and the given GlobusCredential
-	 * 
+	 *
 	 * @param proxyEPR EPR of GlobusCredential that we want to be associated with no service anymore
 	 * */
 	public void removeCredential(EndpointReferenceType proxyEPR){
@@ -290,13 +290,13 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			Set<Entry<String, GlobusCredential>> entries = this.servicesCredentials.entrySet();
 			Iterator<Entry<String, GlobusCredential>> entries_iter = entries.iterator();
 
-			// Iterate over the associations, removing those in which the received credential is present 
+			// Iterate over the associations, removing those in which the received credential is present
 			while( entries_iter.hasNext() ){
 
 				Entry<String, GlobusCredential> curr_pair = entries_iter.next();
 				GlobusCredential curr_value = curr_pair.getValue();
 
-				if( curr_value.equals(credential)){  
+				if( curr_value.equals(credential)){
 
 					String curr_key = curr_pair.getKey();
 					this.servicesCredentials.remove(curr_key);
@@ -307,9 +307,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 	/** Register a service-operation either as secure or unsecure
-	 * 
+	 *
 	 * @param serviceOperationEPR EndpointReference for the target service-operation
-	 * @param isSecure Must be true if the service-operation is secure and false otherwise 
+	 * @param isSecure Must be true if the service-operation is secure and false otherwise
 	 *  */
 	public void setIsInvocationHelperSecure(EndpointReference serviceOperationEPR, boolean isSecure) {
 
@@ -324,13 +324,13 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			e.printStackTrace();
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		} 
+		}
 
 
 
 		if( isSecure ){
 
-			logger.info("Creating locks");  
+			logger.info("Creating locks");
 
 			// Initializes mutual exclusion key that denotes the availability of the delegated credential
 			Lock key = new ReentrantLock();
@@ -344,9 +344,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		}
 		else{
 
-			logger.info("Adding service to unsecure list"); 
+			logger.info("Adding service to unsecure list");
 
-			this.unsecureInvocations.add(EPRStr); 
+			this.unsecureInvocations.add(EPRStr);
 		}
 		logger.info("Done");
 	}
@@ -426,7 +426,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	 * */
 	public void registerInvocationHelper(EndpointReferenceType epr, QName name){
 
-		logger.info("Registering "+ name); 
+		logger.info("Registering "+ name);
 
 		WorkflowInvocationHelperClient invocationHelper;
 		try {
@@ -441,7 +441,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			this.stageStatus.put(key, new TimestampedStatus(Status.UNCONFIGURED, 0));
 			this.EPR2OperationName.put(key, name.toString());
 			this.stagesEPRs.add(epr);
-			 
+
 
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
@@ -451,10 +451,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			e.printStackTrace();
 		}
 
-		logger.info("END"); 
+		logger.info("END");
 
-	} 
-	
+	}
+
 
 
 	/**
@@ -471,17 +471,17 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		boolean isInstrumentationReport = message_qname.equals(InstrumentationRecord.getTypeDesc().getXmlType());
 		String stageKey = null;
 		try {
-			stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString(); 
+			stageKey = new WorkflowInvocationHelperClient(arg1).getEPRString();
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
-		}   
+		}
 
 
 		logger.debug("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
 
-		
+
 		/// Handle status change notifications
 		if(isTimestampedStatusChange){
 			TimestampedStatus status = null;;
@@ -492,8 +492,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			}
 
 
-			logger.info("Received new status value: "+ status.getStatus().toString() 
-					+ ':' + status.getTimestamp() +" from "+ this.EPR2OperationName.get(stageKey)); 
+			logger.info("Received new status value: "+ status.getStatus().toString()
+					+ ':' + status.getTimestamp() +" from "+ this.EPR2OperationName.get(stageKey));
 
 			this.isFinishedKey.lock();
 			try{
@@ -503,12 +503,12 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
-					timestampChanged = (!curr_status.getStatus().equals(status.getStatus())) && ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+					timestampChanged = (!curr_status.getStatus().equals(status.getStatus())) && ( curr_status.getTimestamp() < status.getTimestamp() );
 
 					if(timestampChanged){
 
 						this.stageStatus.remove(stageKey);
-						this.stageStatus.put(stageKey, status);						
+						this.stageStatus.put(stageKey, status);
 					}
 
 				}
@@ -519,44 +519,44 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				// Calculate new status value
 				if(timestampChanged){
 
-					
+
 					// Set new status
 					Status new_status = this.calculateStatus();
 					TimestampedStatus currTimestampedStatus = this.getTimestampedStatus();
 					if( currTimestampedStatus == null ){
-						
+
 						String errMsg = "Unable to retrieve current timestamped status from "+ this.getEPRString();
 						logger.error(errMsg);
 						throw new RemoteException(errMsg);
 					}
-					
+
 					boolean statusesDiffer = (!new_status.equals(currTimestampedStatus.getStatus()));
 					if(statusesDiffer) this.localWorkflowInstrumentation.eventEnd(currTimestampedStatus.getStatus().toString());
-					
-					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);					
+
+					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);
 					this.setTimestampedStatus(nextStatus);
 
 					// Get and store time for the start of the new state
 					if( statusesDiffer ){
-						
-					
+
+
 						this.localWorkflowInstrumentation.eventStart(currTimestampedStatus.getStatus().toString());
 
 
-						// If the local workflow is finished, copy all the collected instrumentation data to a 
-						// resource property so it is exposed by this resource 
+						// If the local workflow is finished, copy all the collected instrumentation data to a
+						// resource property so it is exposed by this resource
 						if( nextStatus.getStatus().equals(Status.FINISHED) || nextStatus.getStatus().equals(Status.ERROR) ){
 
 //							System.out.println("Workflow is finished, exposing instrumentation data");  //DEBUG
 
 							LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
 							localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
-							InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(), 
+							InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(),
 									this.localWorkflowInstrumentation.retrieveRecordAsArray());
 							localWorkflowInstrumentationRecord.setLocalWorkflowRecord(localWorkflowRecord);  // Info about local workflow as a whole
 
 							InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
-							localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource 
+							localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource
 							this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
 
 //							System.out.println("Resource property set");    //DEBUG
@@ -576,53 +576,53 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 				this.isFinishedKey.unlock();
 			}
 		}
-		
-		
+
+
 		/// Handle instrumentation reports
 		else if( isInstrumentationReport ){
-			
+
 			InstrumentationRecord instrumentation_data = null;;
 			try {
 				instrumentation_data = (InstrumentationRecord) actual_property.getValueAsType(message_qname, InstrumentationRecord.class);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			
-			// Store the received measurements 
+
+
+			// Store the received measurements
 			this.stagesInstrumentation.add(instrumentation_data);
-			
-			
+
+
 			// Update the instrumentation data exposed by this resource
 //			System.out.println("Updating instrumentation data"); //DEBUG
 			LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
 			localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
-			InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(), 
+			InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(),
 					this.localWorkflowInstrumentation.retrieveRecordAsArray());
 			localWorkflowInstrumentationRecord.setLocalWorkflowRecord(localWorkflowRecord);  // Info about local workflow as a whole
 
 			InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
-			localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource 
+			localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource
 			try {
 				this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
 			} catch (ResourceException e) {
 				logger.error(e.getMessage(), e);
 				e.printStackTrace();
 			}
-			
-			
+
+
 			// Log the instrumentation data
 			logger.info("Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier());
 			final int numMeasurements = instrumentation_data.getRecords().length;
 			for(int i=0; i < numMeasurements; i++){
-				
+
 				EventTimePeriod curr_measurement = instrumentation_data.getRecords(i);
-				long elapsedTimeInNanos = curr_measurement.getEndTime() - curr_measurement.getStartTime(); 
+				long elapsedTimeInNanos = curr_measurement.getEndTime() - curr_measurement.getStartTime();
 				logger.info(curr_measurement.getEvent()+ ": "+ (elapsedTimeInNanos/1000) + " microseconds");
 			}
 			logger.info("-------------------------------------------------------");
-			
-			
+
+
 		}
 
 	}
@@ -641,9 +641,9 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			next_status = Status.ERROR;
 		}
 
-		// Starting here, we consider a workflow portion only reaches a state 
-		// when all the stages within that portion have already done so. 
-		else if(this.stagesPresentStatus(Status.UNCONFIGURED)){			
+		// Starting here, we consider a workflow portion only reaches a state
+		// when all the stages within that portion have already done so.
+		else if(this.stagesPresentStatus(Status.UNCONFIGURED)){
 			next_status = Status.UNCONFIGURED;
 		}
 		else if(this.stagesPresentStatus(Status.INPUTCONFIGURED)){
@@ -671,7 +671,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 	/**
 	 * Search for any InvocationHelper that present the wanted status
-	 * 
+	 *
 	 * @param wanted The value to search for
 	 * */
 	private boolean stagesPresentStatus(Status wanted){
@@ -687,10 +687,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			if(found) return true;
 		}
 
-		return false;		
+		return false;
 	}
 
-	
+
 	protected void printMap(){
 
 
@@ -720,48 +720,47 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		this.eprString = epr.toString();
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResourceBase#remove()
 	 */
-	@Override
 	public void remove() throws ResourceException {
 
 		logger.info("Destroying InstanceHelper resource");
-		
+
 		super.remove();
-		
-		
+
+
 		// Destroy each InvocationHelper associated with this resource
 		Iterator<EndpointReferenceType> stages_iter = this.stagesEPRs.iterator();
 		while( stages_iter.hasNext() ){
-			
+
 			EndpointReferenceType curr_epr = stages_iter.next();
 			WorkflowInvocationHelperClient curr_client;
 			try {
 				curr_client = new WorkflowInvocationHelperClient(curr_epr);
-				
+
 				String stageID = curr_client.getEPRString();
 				this.stageStatus.remove(stageID);  // Stop monitoring current stage's status changes
-				
+
 				curr_client.destroy();  // Destroy the resource associated with current stage
 			} catch (MalformedURIException e) {
 				e.printStackTrace();
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
-			
+
 			logger.info("Done");
 			return;
 		}
-		
+
 	}
 
 
 	// Initialize the variable that will store the instrumentation data for each InvocationHelper under this InstanceHelper
 	public void initializeInstrumentationRecord(String workflowID) {
-		
-		this.localWorkflowInstrumentation = new org.cagrid.workflow.helper.instrumentation.InstrumentationRecord(workflowID);	
+
+		this.localWorkflowInstrumentation = new org.cagrid.workflow.helper.instrumentation.InstrumentationRecord(workflowID);
 		this.stagesInstrumentation = new ArrayList<InstrumentationRecord>();
 		try {
 			this.localWorkflowInstrumentation.eventStart(Status.UNCONFIGURED.toString());
@@ -770,5 +769,5 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			e.printStackTrace();
 		}
 	}
-		
+
 }

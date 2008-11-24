@@ -48,13 +48,13 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	protected EndpointReferenceType helper_epr = null;
 	protected String containerBaseURL = null;
 
-	// Synchronizes the access to variable 'isFinished' 
+	// Synchronizes the access to variable 'isFinished'
 	protected Lock isFinishedKey = new ReentrantLock();
 	protected Condition isFinishedCondition = isFinishedKey.newCondition();
 	protected Map<String, TimestampedStatus> stageStatus = new HashMap<String, TimestampedStatus>() ;
 
 
-	// Store the operation name for each service subscribed for notification 
+	// Store the operation name for each service subscribed for notification
 	protected Map<String, String> EPR2OperationName = new HashMap<String, String>();
 
 	protected boolean isFinished = false;
@@ -66,7 +66,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	protected final boolean validatorEnabled = true;  // Enable/Disable the output matcher. Should be true when not debugging
 
 	private Map<String, LocalWorkflowInstrumentationRecord> localWorkflowsMeasurements = new HashMap<String, LocalWorkflowInstrumentationRecord>();
-//	private org.cagrid.workflow.helper.instrumentation.InstrumentationRecord globalWorkflowMeasurements;  
+//	private org.cagrid.workflow.helper.instrumentation.InstrumentationRecord globalWorkflowMeasurements;
 
 
 	public CreateTestWorkflowsStep(EndpointReferenceType helper_epr, String containerBaseURL) {
@@ -76,19 +76,18 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	}
 
 
-	@Override
 	public void runStep() throws Throwable {
 
 
 
 		/** Instantiate each of the workflows: Fan in-Fan out, simple-type array forwarding, complex-type array forwarding,
-		 * simple-type array streaming, complex-type array streaming  
+		 * simple-type array streaming, complex-type array streaming
 		 * */
 		System.out.println("-x-x-x- BEGIN NON-SECURE WORKFLOWS TESTS -x-x-x-");
-				WorkflowHelperClient wf_helper = new WorkflowHelperClient(this.helper_epr); 
+				WorkflowHelperClient wf_helper = new WorkflowHelperClient(this.helper_epr);
 
 
-		final EndpointReference manager_epr = null; 
+		final EndpointReference manager_epr = null;
 
 
 
@@ -103,7 +102,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 			System.out.println("Complex arrays as input");
 			runComplexArrayTest(manager_epr, wf_helper);
-			System.out.println("OK"); 
+			System.out.println("OK");
 
 			System.out.println("END Testing arrays"); // */
 
@@ -112,7 +111,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			/** BEGIN streaming test **/
 			System.out.println("BEGIN Testing streaming");
 
-			// Streaming simple types FIXME This is generating errors 
+			// Streaming simple types FIXME This is generating errors
 			/*System.out.println("Streaming of simple-type arrays");
 			runSimpleArrayStreaming(manager_epr, wf_helper);
 			System.out.println("OK");  // */
@@ -127,7 +126,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			System.out.println("END Testing streaming"); // */
 
 			/** FAN IN AND FAN OUT TEST **/
-			System.out.println("BEGIN Testing fan in and fan out"); 
+			System.out.println("BEGIN Testing fan in and fan out");
 			runFaninFanOutTest(manager_epr, wf_helper);
 			System.out.println("END Testing fan in and fan out"); // */
 
@@ -166,7 +165,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		}
 
 
-		// BEGIN service 4				
+		// BEGIN service 4
 
 
 		// Creating client of service 4
@@ -209,7 +208,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		serviceClient__4.setParameter(new InputParameter("complex type's streaming", 1));
 		// END service 4
 
-		// BEGIN CreateArrayService::getComplexArray				
+		// BEGIN CreateArrayService::getComplexArray
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
@@ -219,7 +218,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation__ca.setOutputIsArray(true);
 
 
-		// create ReceiveArrayService				
+		// create ReceiveArrayService
 		WorkflowInvocationHelperClient serviceClient__ca = null;
 		try {
 			serviceClient__ca = wf_instance5.createWorkflowInvocationHelper(operation__ca);
@@ -227,7 +226,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-	
+
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__ca = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams__ca = new InputParameterDescriptor[0];
@@ -256,7 +255,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		serviceClient__ca.configureOutput(outputDescriptor__ca);
 		serviceClient__ca.start();
 
-		// END CreateArrayService::getComplexArray 
+		// END CreateArrayService::getComplexArray
 	}
 
 
@@ -305,7 +304,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		serviceClient_4.configureInput(inputMessage_4);
 		// End InputMessage Descriptor
 
-		OperationOutputTransportDescriptor outputDescriptor_4 = new OperationOutputTransportDescriptor(); 
+		OperationOutputTransportDescriptor outputDescriptor_4 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor[] outParameterDescriptor_4 = new OperationOutputParameterTransportDescriptor[0];
 
 		// Setting output descriptor
@@ -321,7 +320,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-		// BEGIN service 2				
+		// BEGIN service 2
 		// create service 2
 		WorkflowInvocationHelperDescriptor operation__2 = new WorkflowInvocationHelperDescriptor();
 		operation__2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "CapitalizeRequest"));
@@ -371,8 +370,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-		// BEGIN CreateArrayService				
-		// create CreateArrayService	
+		// BEGIN CreateArrayService
+		// create CreateArrayService
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		operation__cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation__cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "GetArrayRequest"));
@@ -386,7 +385,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		
+
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage__cas = new OperationInputMessageDescriptor();
@@ -433,12 +432,12 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		WorkflowInstanceHelperClient wf_instance1 = null;
 		try {
 			wf_instance1 = wf_helper.createWorkflowInstanceHelper(workflowDescriptor1);
-			
+
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
 		}
 
-		
+
 		// Monitor status changes and an instrumentation report
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance1, workflowID);
 		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance1, workflowID);
@@ -459,7 +458,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
 
 
-			// create ReceiveArrayService				
+			// create ReceiveArrayService
 			try {
 				client_assert = wf_instance1.createWorkflowInvocationHelper(operation_assert);
 			} catch (MalformedURIException e) {
@@ -503,7 +502,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-		// BEGIN ReceiveArrayService::ReceiveComplexArray	
+		// BEGIN ReceiveArrayService::ReceiveComplexArray
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/ReceiveArrayService";
 		WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
 		operation2.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "ReceiveComplexArrayRequest"));
@@ -555,7 +554,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-		// BEGIN CreateArrayService::getComplexArray				
+		// BEGIN CreateArrayService::getComplexArray
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation_ca.setWorkflowID("GeorgeliusWorkFlow");
@@ -565,7 +564,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation_ca.setOutputIsArray(true);
 
 
-		// create ReceiveArrayService		
+		// create ReceiveArrayService
 		WorkflowInvocationHelperClient client_ca = null;
 		try {
 			client_ca = wf_instance1.createWorkflowInvocationHelper(operation_ca);
@@ -601,7 +600,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		if( validatorEnabled ){
 
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 2nd argument in the output matcher 
+			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 2nd argument in the output matcher
 			outParameterDescriptor_ca[1].setType(new QName( "http://systemtests.workflow.cagrid.org/SystemTests" ,"ComplexType"));
 			outParameterDescriptor_ca[1].setExpectedTypeIsArray(true);
 			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
@@ -616,7 +615,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		outputDescriptor_ca.setParamDescriptor(outParameterDescriptor_ca);
 		client_ca.configureOutput(outputDescriptor_ca);
 		client_ca.start();
-		// END CreateArrayService::getComplexArray 
+		// END CreateArrayService::getComplexArray
 
 		return;
 	}
@@ -641,7 +640,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		
+
 		// Monitor status changes and an instrumentation report
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance2, workflowID);
 		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance2, workflowID);
@@ -659,7 +658,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
 
 
-			// create AssertService				
+			// create AssertService
 			try {
 				serviceClient_assert = wf_instance2.createWorkflowInvocationHelper(operation_assert);
 			} catch (MalformedURIException e) {
@@ -689,7 +688,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			// Set the expected output
 			InputParameter inputParameter = new InputParameter("<GetArrayResponse xmlns=\"http://createarrayservice.introduce.cagrid.org/CreateArrayService\">" +
 					"<response>number 0</response><response>number 1</response><response>number 2</response><response>number 3</response><response>number 4</response><response>number 5" +
-					"</response></GetArrayResponse>", 1);  
+					"</response></GetArrayResponse>", 1);
 			serviceClient_assert.setParameter(inputParameter);
 
 
@@ -710,7 +709,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		//operation_ram.setOutputType(); // Service has no output
 
 
-		// create ReceiveArrayService				
+		// create ReceiveArrayService
 		WorkflowInvocationHelperClient serviceClient_ram = null;
 		try {
 			serviceClient_ram = wf_instance2.createWorkflowInvocationHelper(operation_ram);
@@ -746,7 +745,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 
-		// BEGIN CreateArrayService				
+		// BEGIN CreateArrayService
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation_cas.setWorkflowID("GeorgeliusWorkFlow");
@@ -756,7 +755,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation_cas.setOutputIsArray(true);
 
 
-		// create ReceiveArrayService				
+		// create ReceiveArrayService
 		WorkflowInvocationHelperClient serviceClient_cas = null;
 		try {
 			serviceClient_cas = wf_instance2.createWorkflowInvocationHelper( operation_cas);
@@ -807,7 +806,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		serviceClient_cas.configureOutput(outputDescriptor_cas);
 		serviceClient_cas.start();
 
-		// END CreateArrayService 
+		// END CreateArrayService
 
 		return;
 	}
@@ -830,13 +829,13 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		
+
 		// Monitor status changes and an instrumentation report
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance3, workflowID);
 		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance3, workflowID);
 
 
-		// BEGIN service 4				
+		// BEGIN service 4
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
 		java.lang.String acess_url = containerBaseURL+"/wsrf/services/cagrid/Service4";
@@ -853,7 +852,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-		
+
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
@@ -876,7 +875,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// END service 4
 
 
-		
+
 		// Stage that verifies whether service2's output matches the expected
 		WorkflowInvocationHelperClient client_assert2 = null;
 		if(this.validatorEnabled){
@@ -888,7 +887,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
 			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
 
-	
+
 			try {
 				client_assert2 = wf_instance3.createWorkflowInvocationHelper(operation_assert);
 			} catch (MalformedURIException e) {
@@ -923,13 +922,13 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			// END AssertService::assertSimpleArrayEquals
 		}
 
-		
-		
-		
-		
-		
 
-		// BEGIN service 2				
+
+
+
+
+
+		// BEGIN service 2
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_2 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service2";
 		operation_2.setWorkflowID("GeorgeliusWorkFlow");
@@ -939,7 +938,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation_2.setOutputIsArray(false);
 
 
-		// create service 2				
+		// create service 2
 		WorkflowInvocationHelperClient serviceClient2 = null;
 		try {
 			serviceClient2 = wf_instance3.createWorkflowInvocationHelper(operation_2);
@@ -947,7 +946,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-	
+
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_2 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_2 = new InputParameterDescriptor[1];
@@ -1006,9 +1005,9 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation3.setOutputType(new QName(XSD_NAMESPACE, "string"));
 		operation3.setOutputIsArray(false);
 
-		
-		
-		
+
+
+
 		// Stage that verifies whether service3's output matches the expected
 		WorkflowInvocationHelperClient client_assert3 = null;
 		if(this.validatorEnabled){
@@ -1020,7 +1019,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
 			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
 
-	
+
 			try {
 				client_assert3 = wf_instance3.createWorkflowInvocationHelper(operation_assert);
 			} catch (MalformedURIException e) {
@@ -1054,11 +1053,11 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			client_assert3.start();
 			// END AssertService::assertSimpleArrayEquals
 		}
-		
-		
-		
 
-		// create service 3				
+
+
+
+		// create service 3
 		WorkflowInvocationHelperClient serviceClient3 = null;
 		try {
 			serviceClient3 = wf_instance3.createWorkflowInvocationHelper(operation3	);
@@ -1089,7 +1088,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor3[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse"); 
+		outParameterDescriptor3[0].setLocationQuery("/ns0:GenerateXResponse");
 		outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
 
 
@@ -1103,19 +1102,19 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor3[1].setQueryNamespaces(namespaces);
-			outParameterDescriptor3[1].setLocationQuery("/ns0:GenerateXResponse"); 
-			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{client_assert3.getEndpointReference()}); 
+			outParameterDescriptor3[1].setLocationQuery("/ns0:GenerateXResponse");
+			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{client_assert3.getEndpointReference()});
 		}
 
 		outputDescriptor3.setParamDescriptor(outParameterDescriptor3);
 		serviceClient3.configureOutput(outputDescriptor3);
 		serviceClient3.start();
-		// END service 3				
+		// END service 3
 
-		
-		
 
-		// BEGIN service 5				
+
+
+		// BEGIN service 5
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation5 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
 		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service5";
@@ -1138,13 +1137,13 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
-		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
+		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"),
 				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"), false);
 		inputMessage5.setInputParam(inputParams5);
 		serviceClient5.configureInput(inputMessage5);
 		// End InputMessage Descriptor
 
-		// Creating the outputDescriptor 
+		// Creating the outputDescriptor
 		OperationOutputTransportDescriptor outputDescriptor5 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor outParameterDescriptor5 [] = new OperationOutputParameterTransportDescriptor[0];
 		outputDescriptor5.setParamDescriptor(outParameterDescriptor5);
@@ -1152,10 +1151,10 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		serviceClient5.start();
 		// END service 5
 
-		
-		
 
-		// BEGIN service 1				
+
+
+		// BEGIN service 1
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation1 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service1";
 		operation1.setWorkflowID("GeorgeliusWorkFlow");
@@ -1165,7 +1164,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		operation1.setOutputIsArray(false);
 
 
-		// create service 1				
+		// create service 1
 		WorkflowInvocationHelperClient serviceClient1 = null;
 		try {
 			serviceClient1 = wf_instance3.createWorkflowInvocationHelper(operation1);
@@ -1173,7 +1172,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e.printStackTrace();
 		}
 
-	
+
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage1 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams1 = new InputParameterDescriptor[1];
@@ -1192,7 +1191,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service1.introduce.cagrid.org/Service1", "ns0"),
 				new QName("http://service1.workflow.cagrid.org/Service1", "ns1")};
 		outParameterDescriptor1[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor1[0].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:str"); 
+		outParameterDescriptor1[0].setLocationQuery("/ns0:GenerateDataResponse/ns1:StringAndItsLenght/ns1:str");
 		// takes the reference to the service 2
 		outParameterDescriptor1[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient2.getEndpointReference()});
 
@@ -1228,7 +1227,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		System.out.println("Setting input for service 1: '"+workflow_input+"'");
 		InputParameter inputService1 = new InputParameter(workflow_input, 0);
 		serviceClient1.setParameter(inputService1);
-		// END service 1 
+		// END service 1
 
 	}
 
@@ -1247,8 +1246,8 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 				try {
 
-					boolean wasSignaled = this.isFinishedCondition.await(45, TimeUnit.SECONDS); 					
-					if(wasSignaled) System.out.println("OK. Received notification of FINISH status. Exiting"); 
+					boolean wasSignaled = this.isFinishedCondition.await(45, TimeUnit.SECONDS);
+					if(wasSignaled) System.out.println("OK. Received notification of FINISH status. Exiting");
 					else {
 						String errMsg = "Timeout exceeded without any notification of FINISH status. Exiting";
 						System.err.println(errMsg);
@@ -1288,7 +1287,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 			e1.printStackTrace();
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
-		}   
+		}
 
 
 		// Handle status change notifications
@@ -1311,7 +1310,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 
 
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
-					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
+					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() );
 
 					if(statusActuallyChanged){
 
@@ -1326,14 +1325,14 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
 
 
-					this.isFinished  = this.hasFinished(); 
+					this.isFinished  = this.hasFinished();
 
 					if(this.isFinished){
 
 						this.isFinishedCondition.signalAll();
 						Assert.assertFalse(this.stageStatus.containsValue(Status.ERROR));
-						
-						// Print the received instrumentation reports	
+
+						// Print the received instrumentation reports
 						this.printInstrumentationReport();
 					}
 				}
@@ -1342,22 +1341,22 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 				this.isFinishedKey.unlock();
 			}
 		}
-		
-		
+
+
 		// Handle instrumentation reports
 		else if(isInstrumentationReport){
-			
-			
-			// Extract data 
+
+
+			// Extract data
 			LocalWorkflowInstrumentationRecord instrumentation_data = null;;
 			try {
 				instrumentation_data = (LocalWorkflowInstrumentationRecord) actual_property.getValueAsType(message_qname, LocalWorkflowInstrumentationRecord.class);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 //			logger.info("Received instrumentation report from "+ instrumentation_data.getIdentifier());
-			
+
 			// Store data in the list of local workflows' instrumentation reports
 			this.localWorkflowsMeasurements.put(instrumentation_data.getIdentifier(), instrumentation_data);
 		}
@@ -1365,7 +1364,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 	}
 
 
-	
+
 	// Print the instrumentation data received
 	private void printInstrumentationReport() {
 
@@ -1376,54 +1375,54 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		System.out.println("======================================================================");
 		System.out.println("Instrumentation reports");
 		while(iter.hasNext()){
-		
-			
+
+
 			Entry<String, LocalWorkflowInstrumentationRecord> curr_entry = iter.next();
 			LocalWorkflowInstrumentationRecord curr_report = curr_entry.getValue();
-			
+
 			System.out.println("Report for local workflow identified by "+ curr_report.getIdentifier());
-			
+
 			// Print data for the a local workflow as a whole
 			InstrumentationRecord localWorkflowData = curr_report.getLocalWorkflowRecord();
 			System.out.println("------------- BEGIN Local workflow -------------");
 			EventTimePeriod[] localWorkflowRecords = localWorkflowData.getRecords();
 			for(int i=0; i < localWorkflowRecords.length; i++){
-				
+
 				String stage_event = localWorkflowData.getRecords(i).getEvent();
-				long elapsedTimeInNanos = localWorkflowData.getRecords(i).getEndTime() - localWorkflowData.getRecords(i).getStartTime(); 
-				
+				long elapsedTimeInNanos = localWorkflowData.getRecords(i).getEndTime() - localWorkflowData.getRecords(i).getStartTime();
+
 				System.out.println("EVENT: "+ stage_event +" ; ELAPSED TIME: "+ (elapsedTimeInNanos/1000) + " microseconds");
 			}
 			System.out.println("------------- END Local workflow -------------");
-			
-			
+
+
 			// Print data for each component of the current local workflow
 			int num_stages_records = curr_report.getStagesRecords().length;
 			for(int i=0; i < num_stages_records; i++){
-				
-				
+
+
 				InstrumentationRecord curr_record = curr_report.getStagesRecords(i);
 				System.out.println("------------- BEGIN Local workflow stage identified by "+ curr_record.getIdentifier() +" -------------");
 				int num_events = curr_record.getRecords().length;
 				for(int j=0; j < num_events; j++){
-				
+
 					EventTimePeriod curr_event = curr_record.getRecords(j);
 					String stage_event = curr_event.getEvent();
-					long elapsedTimeInNanos = curr_event.getEndTime() - curr_event.getStartTime(); 
+					long elapsedTimeInNanos = curr_event.getEndTime() - curr_event.getStartTime();
 					System.out.println("EVENT: "+ stage_event +" ; ELAPSED TIME: "+ (elapsedTimeInNanos/1000) + " microseconds");
-					
+
 				}
 				System.out.println("------------- BEGIN Local workflow stage  -------------");
 			}
-			
-			
-		}		
+
+
+		}
 		System.out.println("======================================================================");
 	}
 
 
 	/**
-	 * Verify whether all stages have already sent a termination notification  
+	 * Verify whether all stages have already sent a termination notification
 	 * */
 	private boolean hasFinished() {
 
@@ -1456,7 +1455,7 @@ public class CreateTestWorkflowsStep extends Step implements NotifyCallback  {
 		}
 		catch(Throwable t){
 			t.printStackTrace();
-		} 
+		}
 
 		return;
 	}

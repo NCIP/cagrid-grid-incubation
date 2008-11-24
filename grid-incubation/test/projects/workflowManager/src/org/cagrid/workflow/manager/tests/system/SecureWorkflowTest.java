@@ -49,9 +49,8 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#getName()
 	 */
-	@Override
 	public String getName() {
-		
+
 		return "testManagerSecureWorkflows";
 	}
 
@@ -83,7 +82,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		// Create a secure container so the secure services can be deployed
 		try {
 
-			logger.info("Creating Secure Tomcat Container"); 
+			logger.info("Creating Secure Tomcat Container");
 
 			ServiceContainer cont = ServiceContainerFactory.createContainer(ServiceContainerType.SECURE_TOMCAT_CONTAINER);
 			setContainer(cont);
@@ -91,13 +90,13 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 			Assert.fail();
-		} 
+		}
 
 		this.myContainer = (TomcatSecureServiceContainer) getContainer();
 		try {
 			final URI containerBaseURI = this.myContainer.getContainerBaseURI();
 			String containerIP = containerBaseURI.getHost();
-			this.containerBase = containerBaseURI.getScheme() + "://" + containerIP + ':' + containerBaseURI.getPort() 
+			this.containerBase = containerBaseURI.getScheme() + "://" + containerIP + ':' + containerBaseURI.getPort()
 			+ containerBaseURI.getPath();
 
 			this.dorianEPR = new EndpointReferenceType(new Address(DORIAN_URL));
@@ -106,16 +105,16 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 			this.cdsURL = this.containerBase + "cagrid/CredentialDelegationService";
 			Address cdsAddress = new Address(this.cdsURL);
 
-			logger.info("cdsAddress is: "+ cdsAddress); 
+			logger.info("cdsAddress is: "+ cdsAddress);
 
 			this.cdsEPR = new EndpointReferenceType(cdsAddress);
 		} catch (MalformedURIException e) {
 			logger.error(e.getMessage(), e);
-		} 
+		}
 
 
 		if( this.enableVerboseOutput ){
-			PropertyConfigurator.configure(LOG4J_CONF_FILE); 
+			PropertyConfigurator.configure(LOG4J_CONF_FILE);
 		}
 	}
 
@@ -136,21 +135,19 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		}
 
 		if( this.enableVerboseOutput ){
-			PropertyConfigurator.configure(LOG4J_CONF_FILE); 
+			PropertyConfigurator.configure(LOG4J_CONF_FILE);
 		}
 
 	}
 
-	@Override
 	public String getDescription() {
 
 		return "System tests for execution of workflows whose components require secure invocation";
 	}
 
-	@Override
 	protected Vector steps() {
 
-		
+
 		logger.info("Creating steps for secure workflows test");
 		Vector<Step> steps = new Vector<Step>();
 
@@ -164,11 +161,11 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		else {
 			tests_basedir = tests_basedir + File.separator;
 		}
-		
+
 		tests_basedir = tests_basedir + File.separator;
 
 		File managerDir = new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
-				+ File.separator + "projects" + File.separator + "workflowManager"); 
+				+ File.separator + "projects" + File.separator + "workflowManager");
 
 		File helperDir = new File(".." + File.separator + ".." + File.separatorChar + ".." + File.separator + "incubator"
 				+ File.separator + "projects" + File.separator + "workflowHelper");
@@ -188,7 +185,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 				new File(helperResourcesDir + "Service2"),
 				new File(helperResourcesDir + "Service3"),
 				new File(helperResourcesDir + "Service4"),
-				new File(helperResourcesDir + "Service5"), 
+				new File(helperResourcesDir + "Service5"),
 				new File(helperResourcesDir + "ReceiveArrayService"),
 				new File(helperResourcesDir + "CreateArrayService"),
 				new File(helperResourcesDir + "AssertService"),
@@ -201,16 +198,16 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 
 		/* (1) Unpack a secure container */
 		logger.info("Unpacking container");
-		Step unpack = new UnpackContainerStep(getContainer()); 
+		Step unpack = new UnpackContainerStep(getContainer());
 		try {
-			unpack.runStep(); // We need this container unpacked for the next step 
+			unpack.runStep(); // We need this container unpacked for the next step
 		} catch (Throwable e2) {
 			logger.error(e2.getMessage() ,e2);
 		}
 
 
 
-		// Instantiate a CA identified by a credential located inside the container and trusted by it  
+		// Instantiate a CA identified by a credential located inside the container and trusted by it
 		logger.info("Creating Globus credentials");
 		CA ca = null;
 		GlobusCredential userCredential = null;
@@ -220,12 +217,12 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 
 			// Locate pair <key, certificate> in the unpacked container
 			String containerBasedir = getContainer().getProperties().getContainerDirectory().getCanonicalPath();
-			String caCertsDir = containerBasedir + File.separator + "certificates" + File.separator + "ca"; 
+			String caCertsDir = containerBasedir + File.separator + "certificates" + File.separator + "ca";
 			caCertFile = new File(caCertsDir + File.separator + "testing_ca_cert.pem");
 			caKeyFile = new File(caCertsDir + File.separator + "testing_ca_key.pem");
 
 
-			// Load the pair in order to instantiate the CA 
+			// Load the pair in order to instantiate the CA
 			PrivateKey caKey = null;
 			X509Certificate caCert = null;
 			caKey = KeyUtil.loadPrivateKey(caKeyFile, SecurityConstants.HOSTKEY_PASSWORD);
@@ -274,12 +271,12 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		/* (4) Instantiate test workflows */
 		try {
 			URI manager_uri = getContainer().getContainerBaseURI();
-			String container_base_url = "https://"+ manager_uri.getHost() + ':' + manager_uri.getPort() 
-			+ "/wsrf/services/"; 
+			String container_base_url = "https://"+ manager_uri.getHost() + ':' + manager_uri.getPort()
+			+ "/wsrf/services/";
 			manager_uri.appendPath(MANAGER_PATH_IN_CONTAINER);
 			this.managerEPR = new EndpointReference(manager_uri);
 			File sampleXMLDirectory = new File( managerResourceDir +"workflowDescriptionSamples" );
-			Step create_workflows = 
+			Step create_workflows =
 //				new RunSecureWorkflowsFromXMLStep(this.managerEPR, this.cdsEPR, container_base_url, userCredential, this.cdsURL, sampleXMLDirectory);
 				new RunSecureWorkflowsStep(this.managerEPR, this.cdsEPR, container_base_url, userCredential, this.cdsURL);
 			steps.add(create_workflows);
@@ -291,11 +288,10 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 
 		return steps;
 //		System.out.println("SKIPPING SECURE TEST FOR DEBUGGING PURPOSES"); // DEBUG
-//		return new Vector(); //DEBUG			
+//		return new Vector(); //DEBUG
 	}
 
 
-	@Override
 	protected boolean storySetUp() throws Throwable {
 		try{
 			SecurityUtil.init();
@@ -308,7 +304,6 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 	}
 
 
-	@Override
 	protected void storyTearDown() throws Throwable {
 
 		if (getContainer() != null) {
@@ -327,7 +322,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 			} catch (ContainerException e) {
 				logger.error(e.getMessage() ,e);
 				Assert.fail();
-			} 
+			}
 		} else
 			System.err.println("["+ this.getClass().getName() +"] getContainer returned null. Have the container been set?");
 
@@ -349,7 +344,7 @@ public class SecureWorkflowTest  extends ServiceStoryBase {
 		catch(Throwable t){
 			logger.error(t.getMessage() ,t);
 			Assert.fail(t.getMessage());
-		}  
+		}
 	}
 
 

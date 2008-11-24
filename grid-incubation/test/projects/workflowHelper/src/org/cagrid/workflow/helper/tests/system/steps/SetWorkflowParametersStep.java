@@ -12,8 +12,8 @@ import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClie
 public class SetWorkflowParametersStep extends Step {
 
 	private Map<WorkflowInvocationHelperClient, InputParameter[]> service2parameter = null;
-	
-	
+
+
 	public SetWorkflowParametersStep(
 			Map<WorkflowInvocationHelperClient, InputParameter[]> service2parameter) {
 		super();
@@ -22,7 +22,6 @@ public class SetWorkflowParametersStep extends Step {
 
 
 
-	@Override
 	public void runStep() throws Throwable {
 
 		System.out.println("BEGIN SetWorkflowParametersStep");
@@ -32,18 +31,18 @@ public class SetWorkflowParametersStep extends Step {
 
 		System.out.println("Setting each service's parameters");
 		while(iter.hasNext()){
-			
+
 			WorkflowInvocationHelperClient cur_service = iter.next();
 			InputParameter[] cur_params = service2parameter.get(cur_service);
-			SetWorkflowHelperInstanceParametersStep cur_step = new SetWorkflowHelperInstanceParametersStep(cur_service, cur_params); 
+			SetWorkflowHelperInstanceParametersStep cur_step = new SetWorkflowHelperInstanceParametersStep(cur_service, cur_params);
 			cur_step.runStep();
 		}
 		System.out.println("END SetWorkflowParametersStep");
-		
+
 	}
 
-	
-	
+
+
 	private Map<WorkflowInvocationHelperClient, InputParameter[]> getService2parameter() {
 		return service2parameter;
 	}

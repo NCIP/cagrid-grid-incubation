@@ -9,27 +9,26 @@ import org.cagrid.workflow.helper.invocation.client.WorkflowInvocationHelperClie
 
 public class CreateWorkflowInvocationHelperStep extends Step {
 
-	
+
 	private WorkflowInvocationHelperDescriptor stageDesc = null;
 	private EndpointReference helperEPR = null;
-	private WorkflowInvocationHelperClient stageClient = null;  
-	
-	
+	private WorkflowInvocationHelperClient stageClient = null;
+
+
 	public CreateWorkflowInvocationHelperStep(WorkflowInvocationHelperDescriptor stageDesc, EndpointReference helperEPR){
 		this.helperEPR = helperEPR;
 		this.stageDesc = stageDesc;
 	}
-	
-	
-	
-	@Override
+
+
+
 	public void runStep() throws Throwable {
 
 		System.out.println("BEGIN CreateWorkflowInvocationHelperStep");
-		
+
 		WorkflowInstanceHelperClient helper = new WorkflowInstanceHelperClient(getHelperEPR());
 		WorkflowInvocationHelperClient stage_client = helper.createWorkflowInvocationHelper(getStageDesc());
-		
+
 		setStageClient(stage_client);
 		System.out.println("END CreateWorkflowInvocationHelperStep");
 	}

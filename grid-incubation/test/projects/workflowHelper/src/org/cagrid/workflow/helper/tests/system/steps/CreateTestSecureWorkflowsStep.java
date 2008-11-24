@@ -39,7 +39,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 	private EndpointReferenceType cdsEPR;
 	private String cdsURL;
 
-	private GlobusCredential userCredential; 
+	private GlobusCredential userCredential;
 
 
 	final static String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema";
@@ -47,13 +47,13 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 	protected final boolean validatorEnabled = true;  // Enable/Disable the output matcher. Should be true when not debugging
-	
 
-	public CreateTestSecureWorkflowsStep(EndpointReference helperEPR, EndpointReferenceType cdsEPR, String container_base_url, 
+
+	public CreateTestSecureWorkflowsStep(EndpointReference helperEPR, EndpointReferenceType cdsEPR, String container_base_url,
 			GlobusCredential userCredential, String cdsURL) {
 		super(helperEPR, container_base_url);
 
-		//this.cdsEPR = cdsEPR;		
+		//this.cdsEPR = cdsEPR;
 		this.userCredential = userCredential;
 		this.cdsURL = cdsURL;
 		try {
@@ -63,23 +63,22 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		}
 	}
 
-	@Override
 	public void runStep() throws Throwable {
 
 		System.out.println("---- BEGIN SECURE WORKFLOW TEST ----");
-		
+
 
 		try{
 
-			final WorkflowHelperClient wf_helper = new WorkflowHelperClient(helper_epr); 
+			final WorkflowHelperClient wf_helper = new WorkflowHelperClient(helper_epr);
 			final EndpointReferenceType manager_epr = null;
 
 
-			// Manager role: Delegate user credential to the Manager 	
+			// Manager role: Delegate user credential to the Manager
 			//System.out.println("[CreateTestSecureWorkflowsStep] Delegating user credential to the Helper"); //DEBUG
 			AttributedURI cdsAddress = this.cdsEPR.getAddress();
-			String cdsURL = cdsAddress.toString(); 
-			EndpointReferenceType proxyEPR = CredentialHandlingUtil.delegateCredential(this.userCredential, wf_helper.getIdentity(), 
+			String cdsURL = cdsAddress.toString();
+			EndpointReferenceType proxyEPR = CredentialHandlingUtil.delegateCredential(this.userCredential, wf_helper.getIdentity(),
 					cdsURL , new ProxyLifetime(5,0,0), new ProxyLifetime(6,0,0), 3, 2);
 			System.out.println("[CreateTestSecureWorkflowsStep] Delegation done");
 
@@ -94,7 +93,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			ProxyLifetime delegationLifetime = new ProxyLifetime(4,0,0);
 			ProxyLifetime issuedCredentialLifetime = new ProxyLifetime(5,0,0);
 			int delegationPath = 1;
-			int issuedCredentialPath = 0; 
+			int issuedCredentialPath = 0;
 
 
 			/*** Testing arrays as services' input ***/
@@ -105,7 +104,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 					issuedCredentialPath, delegationPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK");
 
-			/*System.out.println("[CreateTestSecureWorkflowsStep] Complex arrays as input"); // FIXME Debug this workflow's configuration. 
+			/*System.out.println("[CreateTestSecureWorkflowsStep] Complex arrays as input"); // FIXME Debug this workflow's configuration.
 			runComplexArrayTest(manager_epr, wf_helper, issuedCredentialLifetime, delegationLifetime, myCredential,
 					issuedCredentialPath, delegationPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK"); // */
@@ -118,7 +117,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			/** BEGIN streaming test **/
 			System.out.println("[CreateTestSecureWorkflowsStep] BEGIN Testing streaming");
 
-			// Streaming simple types 
+			// Streaming simple types
 			System.out.println("[CreateTestSecureWorkflowsStep] Streaming of simple-type arrays");
 			runSimpleArrayStreaming(manager_epr, wf_helper, myCredential, issuedCredentialLifetime, delegationLifetime, issuedCredentialPath,
 					delegationPath);
@@ -128,7 +127,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 			/* Streaming complex types */
 			System.out.print("[CreateTestSecureWorkflowsStep] Streaming of complex-type arrays");
-			runComplexArrayStreaming(manager_epr, wf_helper, issuedCredentialLifetime, myCredential, delegationLifetime, 
+			runComplexArrayStreaming(manager_epr, wf_helper, issuedCredentialLifetime, myCredential, delegationLifetime,
 					issuedCredentialPath, delegationPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] OK");
 
@@ -137,7 +136,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 			/** FAN IN AND FAN OUT TEST **/
-			System.out.println("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out"); 
+			System.out.println("[CreateTestSecureWorkflowsStep] BEGIN Testing fan in and fan out");
 			runFaninFanOutTest(manager_epr, wf_helper, delegationLifetime, myCredential, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 			System.out.println("[CreateTestSecureWorkflowsStep] END Testing fan in and fan out"); // */
@@ -160,22 +159,22 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 	/**
-	 * Instantiate the service that can match all the workflows' outputs against the expected ones 
-	 * 
+	 * Instantiate the service that can match all the workflows' outputs against the expected ones
+	 *
 	 * @param manager_epr EndpointReference of the manager so each workflow stage can invoke 'setParameter' on it (not used)
 	 * @param wf_helper Client of a running WorkflowHelper service
 	 * @param myCredential Credential delegated by the user to be used when calling the workflows' stages
 	 * @param delegationLifetime Lifetime of the delegation of the credential to the workflow stages
-	 * @param issuedCredentialLifetime 
+	 * @param issuedCredentialLifetime
 	 * @param delegationPath
 	 * @param issuedCredentialPath
-	 * 
-	 * 
+	 *
+	 *
 	 * @return An EPR that can be used to contact the OutputMatcher
-	 * 
+	 *
 	 * */
-	private EndpointReferenceType runOuputMatcher(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, 
-			GlobusCredential myCredential, ProxyLifetime delegationLifetime, ProxyLifetime issuedCredentialLifetime, 
+	private EndpointReferenceType runOuputMatcher(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper,
+			GlobusCredential myCredential, ProxyLifetime delegationLifetime, ProxyLifetime issuedCredentialLifetime,
 			int delegationPath, int issuedCredentialPath) throws RemoteException {
 
 		System.out.println("BEGIN runOuputMatcher");
@@ -193,10 +192,10 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		} catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), validatorInstance, workflowID);
-		
+
 
 		WorkflowInvocationHelperDescriptor validatorInvocationDesc = new WorkflowInvocationHelperDescriptor();
 		validatorInvocationDesc.setOperationQName(
@@ -226,7 +225,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		//System.out.println("[runOutputMatcher] Delegating helper's credential to the InstanceHelper"); //DEBUG
 		EndpointReferenceType delegationEPR = null;
 		try{
-			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL, delegationLifetime, issuedCredentialLifetime, 
+			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL, delegationLifetime, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 
 			//System.out.println("Informing the InstanceHelper about the delegation"); //DEBUG
@@ -282,15 +281,15 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 	/**
 	 * Instantiate the workflow that will test complex array streaming
-	 * 
+	 *
 	 * @param manager_epr EndpointReference of the manager so each workflow stage can invoke 'setParameter' on it (not used)
 	 * @param wf_helper Client of a running WorkflowHelper service
 	 * @param myCredential Credential delegated by the user to be used when calling the workflows' stages
 	 * @param delegationLifetime Lifetime of the delegation of the credential to the workflow stages
-	 * @param issuedCredentialLifetime 
+	 * @param issuedCredentialLifetime
 	 * @param delegationPath
 	 * @param issuedCredentialPath
-	 * 
+	 *
 	 * */
 	private void runComplexArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, ProxyLifetime issuedCredentialLifetime, GlobusCredential myCredential, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath)throws RemoteException {
 
@@ -310,14 +309,14 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		
+
 		// Subscribe to receive status changes and instrumentation reports
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance5, workflowID);
 		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance5, workflowID);
-		
-		
-		
-		// BEGIN service 4				
+
+
+
+		// BEGIN service 4
 		// Creating client of service 4
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
@@ -341,22 +340,22 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends 
+		// For now, we don't register to get notifications, because we can't determine when a "streaming session" ends
 		//this.subscribe(org.cagrid.workflow.helper.descriptor.TimestampedStatus.getTypeDesc().getXmlType(), serviceClient__4);
 
 		// Set the GlobusCredential to use on InstanceHelper
 		//System.out.println("[runComplexArrayStreaming] Delegating helper's credential to the InstanceHelper"); //DEBUG
 		EndpointReferenceType delegationEPR = null;
 		try{
-			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL, delegationLifetime, issuedCredentialLifetime, 
+			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL, delegationLifetime, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 			wf_instance5.addCredential(serviceClient__4.getEndpointReference(), delegationEPR);
 		}
 		catch(Throwable t){
 			t.printStackTrace();
 		}
-		
-		
+
+
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage4 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams4 = new InputParameterDescriptor[2];
@@ -382,7 +381,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		serviceClient__4.setParameter(new InputParameter("complex type's streaming", 1));
 		// END service 4
 
-		// BEGIN CreateArrayService::getComplexArray				
+		// BEGIN CreateArrayService::getComplexArray
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation__ca.setWorkflowID("GeorgeliusWorkFlow");
@@ -396,7 +395,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// Configure security
 		operation__ca.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 
-		// create ReceiveArrayService				
+		// create ReceiveArrayService
 		WorkflowInvocationHelperClient serviceClient__ca = null;
 		try {
 			serviceClient__ca = wf_instance5.createWorkflowInvocationHelper(operation__ca);
@@ -444,7 +443,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 		System.out.println("END runComplexArrayStreaming");
-		// END CreateArrayService::getComplexArray 
+		// END CreateArrayService::getComplexArray
 
 		System.out.println("END runComplexArrayStreaming");
 	}
@@ -453,15 +452,15 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 	/**
 	 * Instantiate the workflow that will test simple array streaming
-	 * 
+	 *
 	 * @param manager_epr EndpointReference of the manager so each workflow stage can invoke 'setParameter' on it (not used)
 	 * @param wf_helper Client of a running WorkflowHelper service
 	 * @param myCredential Credential delegated by the user to be used when calling the workflows' stages
 	 * @param delegationLifetime Lifetime of the delegation of the credential to the workflow stages
-	 * @param issuedCredentialLifetime 
+	 * @param issuedCredentialLifetime
 	 * @param delegationPath
 	 * @param issuedCredentialPath
-	 * 
+	 *
 	 * */
 	private void runSimpleArrayStreaming(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, GlobusCredential myCredential, ProxyLifetime issuedCredentialLifetime, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath) throws RemoteException {
 
@@ -481,12 +480,12 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-		
+
 		// Subscribe to be notified of status change and instrumentation reports
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance5, workflowID);
 		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance5, workflowID);
-		
-		
+
+
 
 		// BEGIN service 4
 		WorkflowInvocationHelperDescriptor operation_4 = new WorkflowInvocationHelperDescriptor();
@@ -518,8 +517,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		//System.out.println("[runSimpleArrayStreaming] Delegating helper's credential to the InstanceHelper"); //DEBUG
 		EndpointReferenceType delegationEPR = null;
 		try{
-			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL, 
-					delegationLifetime, issuedCredentialLifetime, 
+			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL,
+					delegationLifetime, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 			wf_instance5.addCredential(serviceClient_4.getEndpointReference(), delegationEPR);
 		}
@@ -537,7 +536,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		serviceClient_4.configureInput(inputMessage_4);
 		// End InputMessage Descriptor
 
-		OperationOutputTransportDescriptor outputDescriptor_4 = new OperationOutputTransportDescriptor(); 
+		OperationOutputTransportDescriptor outputDescriptor_4 = new OperationOutputTransportDescriptor();
 		OperationOutputParameterTransportDescriptor[] outParameterDescriptor_4 = new OperationOutputParameterTransportDescriptor[0];
 
 		// Setting output descriptor
@@ -552,7 +551,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 
-		// BEGIN service 2				
+		// BEGIN service 2
 		// create service 2
 		WorkflowInvocationHelperDescriptor operation__2 = new WorkflowInvocationHelperDescriptor();
 		operation__2.setOperationQName(new QName("http://service2.introduce.cagrid.org/Service2", "SecureCapitalizeRequest"));
@@ -611,8 +610,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 
-		// BEGIN CreateArrayService				
-		// create CreateArrayService	
+		// BEGIN CreateArrayService
+		// create CreateArrayService
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation__cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		operation__cas.setWorkflowID("GeorgeliusWorkFlow");
 		operation__cas.setOperationQName(new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "SecureGetArrayRequest"));
@@ -672,15 +671,15 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 	/**
 	 * Instantiate the workflow that will test complex array usual handling
-	 * 
+	 *
 	 * @param manager_epr EndpointReference of the manager so each workflow stage can invoke 'setParameter' on it (not used)
 	 * @param wf_helper Client of a running WorkflowHelper service
 	 * @param myCredential Credential delegated by the user to be used when calling the workflows' stages
 	 * @param delegationLifetime Lifetime of the delegation of the credential to the workflow stages
-	 * @param issuedCredentialLifetime 
+	 * @param issuedCredentialLifetime
 	 * @param delegationPath
 	 * @param issuedCredentialPath
-	 * 
+	 *
 	 * */
 	private void runComplexArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, ProxyLifetime issuedCredentialLifetime, ProxyLifetime delegationLifetime, GlobusCredential myCredential, int issuedCredentialPath, int delegationPath) throws RemoteException{
 
@@ -705,12 +704,12 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// Subscribe to be notified of status change and instrumentation reports
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance1, workflowID);
 		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance1, workflowID);
-		
-		
-		
-		
-		
-		// BEGIN ReceiveArrayService::ReceiveComplexArray	
+
+
+
+
+
+		// BEGIN ReceiveArrayService::ReceiveComplexArray
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/ReceiveArrayService";
 		WorkflowInvocationHelperDescriptor operation2 = new WorkflowInvocationHelperDescriptor();
 		operation2.setOperationQName(new QName("http://receivearrayservice.introduce.cagrid.org/ReceiveArrayService", "SecureReceiveComplexArrayRequest"));
@@ -745,7 +744,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		EndpointReferenceType delegationEPR = null;
 		try{
 			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL
-					, delegationLifetime, issuedCredentialLifetime, 
+					, delegationLifetime, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 			wf_instance1.addCredential(client2.getEndpointReference(), delegationEPR);
 		}
@@ -753,7 +752,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			t.printStackTrace();
 		}
 
-		
+
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ras = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams_ras = new InputParameterDescriptor[3];
@@ -784,10 +783,10 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		client2.setParameter(new InputParameter("true",2));  // booleanValue
 		// END ReceiveArrayService::ReceiveComplexArray
 
-		
-		
-		
-		
+
+
+
+
 		// Stage that verifies whether the workflow output matches the expected
 		WorkflowInvocationHelperClient client_assert = null;
 		if(this.validatorEnabled){
@@ -800,7 +799,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
 
 
-			
+
 			// create ReceiveArrayService
 			try {
 				client_assert = wf_instance1.createWorkflowInvocationHelper(operation_assert);
@@ -842,11 +841,11 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			client_assert.start();
 			// END AssertService::assertSimpleArrayEquals
 		}
-		
-		
 
 
-		// BEGIN CreateArrayService::getComplexArray				
+
+
+		// BEGIN CreateArrayService::getComplexArray
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ca = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation_ca.setWorkflowID("GeorgeliusWorkFlow");
@@ -859,7 +858,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		operation_ca.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 
 
-		// create ReceiveArrayService		
+		// create ReceiveArrayService
 		WorkflowInvocationHelperClient client_ca = null;
 		try {
 			client_ca = wf_instance1.createWorkflowInvocationHelper(operation_ca);
@@ -867,7 +866,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-	
+
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance1.addCredential(client_ca.getEndpointReference(), delegationEPR);
 
@@ -901,10 +900,10 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			//System.out.println("Setting 2nd param in the output matcher: "+ outputMatcherEPR); //DEBUG
 
 			outParameterDescriptor_ca[1] = new OperationOutputParameterTransportDescriptor();
-			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 2nd argument in the output matcher 
+			outParameterDescriptor_ca[1].setParamIndex(0); // Setting 2nd argument in the output matcher
 			outParameterDescriptor_ca[1].setType(new QName( "http://systemtests.workflow.cagrid.org/SystemTests" ,"ComplexType"));
 			outParameterDescriptor_ca[1].setExpectedTypeIsArray(true);
-			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{ 
+			outParameterDescriptor_ca[1].setQueryNamespaces(new QName[]{
 					new QName("http://createarrayservice.introduce.cagrid.org/CreateArrayService", "ns0"),
 					new QName(XSD_NAMESPACE,"xsd")});
 			outParameterDescriptor_ca[1].setLocationQuery("/ns0:SecureGetComplexArrayResponse");
@@ -918,7 +917,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		client_ca.configureOutput(outputDescriptor_ca);
 		client_ca.start();
 
-		// END CreateArrayService::getComplexArray 
+		// END CreateArrayService::getComplexArray
 
 
 		System.out.println("END runComplexArrayTest");
@@ -929,15 +928,15 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 	/**
 	 * Instantiate the workflow that will test simple array usual handling
-	 * 
+	 *
 	 * @param manager_epr EndpointReference of the manager so each workflow stage can invoke 'setParameter' on it (not used)
 	 * @param wf_helper Client of a running WorkflowHelper service
 	 * @param myCredential Credential delegated by the user to be used when calling the workflows' stages
 	 * @param delegationLifetime Lifetime of the delegation of the credential to the workflow stages
-	 * @param issuedCredentialLifetime 
+	 * @param issuedCredentialLifetime
 	 * @param delegationPath
 	 * @param issuedCredentialPath
-	 * 
+	 *
 	 * */
 	private void runSimpleArrayTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, ProxyLifetime issuedCredentialLifetime, GlobusCredential myCredential, ProxyLifetime delegationLifetime, int issuedCredentialPath, int delegationPath) throws RemoteException{
 
@@ -963,9 +962,9 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// Subscribe to be notified of status change and instrumentation reports
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance2, workflowID);
 		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance2, workflowID);
-		
-		
-		
+
+
+
 
 		// BEGIN ReceiveArrayService::ReceiveArrayAndMore
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_ram = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
@@ -981,7 +980,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		operation_ram.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 
 
-		// create ReceiveArrayService				
+		// create ReceiveArrayService
 		WorkflowInvocationHelperClient serviceClient_ram = null;
 		try {
 			serviceClient_ram = wf_instance2.createWorkflowInvocationHelper(operation_ram);
@@ -989,12 +988,12 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-					
+
 		// Set the GlobusCredential to use on InstanceHelper
 		EndpointReferenceType delegationEPR = null;
 		try{
 			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL
-					, delegationLifetime, issuedCredentialLifetime, 
+					, delegationLifetime, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 			wf_instance2.addCredential(serviceClient_ram.getEndpointReference(), delegationEPR);
 			System.out.println("[runSimpleArray] Done");
@@ -1002,7 +1001,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		catch(Throwable t){
 			t.printStackTrace();
 		}
-		
+
 
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage_ram = new OperationInputMessageDescriptor();
@@ -1024,7 +1023,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		serviceClient_ram.start();
 
 
-	
+
 
 		// Set the values of the two arguments of simple type
 		serviceClient_ram.setParameter(new InputParameter("999", 0));
@@ -1033,7 +1032,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 
 
 
-		
+
 		// Stage that verifies whether the workflow output matches the expected
 		WorkflowInvocationHelperClient serviceClient_assert = null;
 		if(this.validatorEnabled){
@@ -1046,7 +1045,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
 
 
-			// create AssertService				
+			// create AssertService
 			try {
 				serviceClient_assert = wf_instance2.createWorkflowInvocationHelper(operation_assert);
 			} catch (MalformedURIException e) {
@@ -1076,18 +1075,18 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			// Set the expected output
 			InputParameter inputParameter = new InputParameter("<SecureGetArrayResponse xmlns=\"http://createarrayservice.introduce.cagrid.org/CreateArrayService\">" +
 					"<response>number 0</response><response>number 1</response><response>number 2</response><response>number 3</response><response>number 4</response><response>number 5" +
-					"</response></SecureGetArrayResponse>", 1);  
+					"</response></SecureGetArrayResponse>", 1);
 			serviceClient_assert.setParameter(inputParameter);
 
 			serviceClient_assert.start();
 			// END AssertService::assertSimpleArrayEquals
 		}
-		
-		
-		
-		
 
-		// BEGIN CreateArrayService				
+
+
+
+
+		// BEGIN CreateArrayService
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_cas = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		String access_url = containerBaseURL+"/wsrf/services/cagrid/CreateArrayService";
 		operation_cas.setWorkflowID("GeorgeliusWorkFlow");
@@ -1100,7 +1099,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		operation_cas.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 
 
-		// create ReceiveArrayService				
+		// create ReceiveArrayService
 		WorkflowInvocationHelperClient serviceClient_cas = null;
 		try {
 			serviceClient_cas = wf_instance2.createWorkflowInvocationHelper( operation_cas);
@@ -1108,7 +1107,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-	
+
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance2.addCredential(serviceClient_cas.getEndpointReference(), delegationEPR);
 
@@ -1156,7 +1155,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		outputDescriptor_cas.setParamDescriptor(outParameterDescriptor_cas);
 		serviceClient_cas.configureOutput(outputDescriptor_cas);
 		serviceClient_cas.start();
-		// END CreateArrayService 
+		// END CreateArrayService
 
 		System.out.println("END runSimpleArrayTest");
 		return;
@@ -1167,15 +1166,15 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 	/**
 	 * Instantiate the workflow that will test the mechanisms for receiving input from multiple stages and forwarding the outputs
 	 * to multiple stages.
-	 * 
+	 *
 	 * @param manager_epr EndpointReference of the manager so each workflow stage can invoke 'setParameter' on it (not used)
 	 * @param wf_helper Client of a running WorkflowHelper service
 	 * @param myCredential Credential delegated by the user to be used when calling the workflows' stages
 	 * @param delegationLifetime Lifetime of the delegation of the credential to the workflow stages
-	 * @param issuedCredentialLifetime 
+	 * @param issuedCredentialLifetime
 	 * @param delegationPath
 	 * @param issuedCredentialPath
-	 * 
+	 *
 	 * */
 	private void runFaninFanOutTest(EndpointReferenceType manager_epr, WorkflowHelperClient wf_helper, ProxyLifetime delegationLifetime, GlobusCredential myCredential, ProxyLifetime issuedCredentialLifetime, int delegationPath, int issuedCredentialPath) throws RemoteException{
 
@@ -1194,15 +1193,15 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		}  catch (MalformedURIException e) {
 			e.printStackTrace();
 		}
-		
+
 
 		// Subscribe to be notified of status change and instrumentation reports
 		this.subscribe(TimestampedStatus.getTypeDesc().getXmlType(), wf_instance3, workflowID);
 		this.subscribe(LocalWorkflowInstrumentationRecord.getTypeDesc().getXmlType(), wf_instance3, workflowID);
-		
-		
 
-		// BEGIN service 4				
+
+
+		// BEGIN service 4
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation4 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
 		java.lang.String acess_url = containerBaseURL+"/wsrf/services/cagrid/Service4";
@@ -1235,7 +1234,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		EndpointReferenceType delegationEPR = null;
 		try{
 			delegationEPR = CredentialHandlingUtil.delegateCredential(myCredential, wf_helper.getIdentity(), this.cdsURL
-					, delegationLifetime, issuedCredentialLifetime, 
+					, delegationLifetime, issuedCredentialLifetime,
 					delegationPath, issuedCredentialPath);
 			wf_instance3.addCredential(serviceClient4.getEndpointReference(), delegationEPR);
 		}
@@ -1267,8 +1266,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// END service 4
 
 
-		
-		
+
+
 		// Stage that verifies whether service2's output matches the expected
 		WorkflowInvocationHelperClient client_assert2 = null;
 		if(this.validatorEnabled){
@@ -1280,7 +1279,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
 			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
 
-	
+
 			try {
 				client_assert2 = wf_instance3.createWorkflowInvocationHelper(operation_assert);
 			} catch (MalformedURIException e) {
@@ -1315,12 +1314,12 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			// END AssertService::assertSimpleArrayEquals
 		}
 
-		
-		
-		
-		
 
-		// BEGIN service 2				
+
+
+
+
+		// BEGIN service 2
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation_2 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service2";
 		operation_2.setWorkflowID("GeorgeliusWorkFlow");
@@ -1332,7 +1331,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		operation_2.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 
 
-		// create service 2				
+		// create service 2
 		WorkflowInvocationHelperClient serviceClient2 = null;
 		try {
 			serviceClient2 = wf_instance3.createWorkflowInvocationHelper(operation_2);
@@ -1340,7 +1339,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			e.printStackTrace();
 		}
 
-	
+
 		// Set the GlobusCredential to use on InstanceHelper
 		wf_instance3.addCredential(serviceClient2.getEndpointReference(), delegationEPR);
 
@@ -1389,8 +1388,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		serviceClient2.start();
 		// END service 2
 
-		
-		
+
+
 		// Stage that verifies whether service3's output matches the expected
 		WorkflowInvocationHelperClient client_assert3 = null;
 		if(this.validatorEnabled){
@@ -1402,7 +1401,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			operation_assert.setServiceURL(containerBaseURL+"/wsrf/services/cagrid/AssertService");
 			operation_assert.setOutputType(new QName(NamespaceConstants.NSURI_SCHEMA_XSD, "boolean"));
 
-	
+
 			try {
 				client_assert3 = wf_instance3.createWorkflowInvocationHelper(operation_assert);
 			} catch (MalformedURIException e) {
@@ -1436,8 +1435,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			client_assert3.start();
 			// END AssertService::assertSimpleArrayEquals
 		}
-		
-		
+
+
 		// BEGIN service 3
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation3 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service3";
@@ -1453,7 +1452,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		operation3.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 
 
-		// create service 3				
+		// create service 3
 		WorkflowInvocationHelperClient serviceClient3 = null;
 		try {
 			serviceClient3 = wf_instance3.createWorkflowInvocationHelper(operation3	);
@@ -1490,7 +1489,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 				new QName(XSD_NAMESPACE, "xsd")};
 		outParameterDescriptor3[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor3[0].setLocationQuery("/ns0:SecureGenerateXResponse"); 
+		outParameterDescriptor3[0].setLocationQuery("/ns0:SecureGenerateXResponse");
 		outParameterDescriptor3[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient4.getEndpointReference()});
 
 
@@ -1505,8 +1504,8 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 			namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service3.introduce.cagrid.org/Service3", "ns0"),
 					new QName(XSD_NAMESPACE, "xsd")};
 			outParameterDescriptor3[1].setQueryNamespaces(namespaces);
-			outParameterDescriptor3[1].setLocationQuery("/ns0:SecureGenerateXResponse"); 
-			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{client_assert3.getEndpointReference()});  
+			outParameterDescriptor3[1].setLocationQuery("/ns0:SecureGenerateXResponse");
+			outParameterDescriptor3[1].setDestinationEPR(new EndpointReferenceType[]{client_assert3.getEndpointReference()});
 		}
 
 
@@ -1517,10 +1516,10 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		serviceClient3.configureOutput(outputDescriptor3);
 		serviceClient3.start();
 
-		// END service 3				
+		// END service 3
 
 
-		// BEGIN service 5				
+		// BEGIN service 5
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation5 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 
 		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service5";
@@ -1553,7 +1552,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// Creating Descriptor of the InputMessage
 		org.cagrid.workflow.helper.descriptor.OperationInputMessageDescriptor inputMessage5 = new OperationInputMessageDescriptor();
 		InputParameterDescriptor[] inputParams5 = new InputParameterDescriptor[1];
-		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"), 
+		inputParams5[0] = new InputParameterDescriptor(new QName("http://service1.workflow.cagrid.org/Service1", "stringAndItsLenght"),
 				new QName("http://service1.workflow.cagrid.org/Service1", "StringAndItsLength"), false);
 		inputMessage5.setInputParam(inputParams5);
 		serviceClient5.configureInput(inputMessage5);
@@ -1573,7 +1572,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		// END service 5
 
 
-		// BEGIN service 1				
+		// BEGIN service 1
 		org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor operation1 = new org.cagrid.workflow.helper.descriptor.WorkflowInvocationHelperDescriptor();
 		acess_url = containerBaseURL+"/wsrf/services/cagrid/Service1";
 		operation1.setWorkflowID("GeorgeliusWorkFlow");
@@ -1585,7 +1584,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		operation1.setWorkflowInvocationSecurityDescriptor(secDescriptor);
 
 
-		// create service 1				
+		// create service 1
 		WorkflowInvocationHelperClient serviceClient1 = null;
 		try {
 			serviceClient1 = wf_instance3.createWorkflowInvocationHelper(operation1);
@@ -1617,7 +1616,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		namespaces = new QName[]{ new QName(XSD_NAMESPACE, "xsd"), new QName("http://service1.introduce.cagrid.org/Service1", "ns0"),
 				new QName("http://service1.workflow.cagrid.org/Service1", "ns1")};
 		outParameterDescriptor1[0].setQueryNamespaces(namespaces);
-		outParameterDescriptor1[0].setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght/ns1:str"); 
+		outParameterDescriptor1[0].setLocationQuery("/ns0:SecureGenerateDataResponse/ns1:StringAndItsLenght/ns1:str");
 		// takes the reference to the service 2
 		outParameterDescriptor1[0].setDestinationEPR(new EndpointReferenceType[]{serviceClient2.getEndpointReference()});
 
@@ -1652,7 +1651,7 @@ public class CreateTestSecureWorkflowsStep extends CreateTestWorkflowsStep imple
 		System.out.println("Setting input for service 1: '"+workflow_input+"'");
 		InputParameter inputService1 = new InputParameter(workflow_input, 0);
 		serviceClient1.setParameter(inputService1);
-		// END service 1 
+		// END service 1
 
 
 		System.out.println("END runFaninFanOutTest");
