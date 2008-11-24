@@ -724,7 +724,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 					// If ready to run, start the stage's execution and return. The method returns before the stage's execution finishes
 					logger.info("Starting stage execution and returning");
-					System.out.println("Starting stage execution and returning"); //DEBUG
+//					System.out.println("Starting stage execution and returning"); //DEBUG
 
 					final Thread th = new Thread(new Runnable(){
 
@@ -994,7 +994,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	/* (non-Javadoc)
 	 * @see org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResourceBase#remove()
 	 */
-	@Override
 	public void remove() throws ResourceException {
 
 		logger.info("Destroying resource for "+ this.getOperationDesc().getOperationQName());

@@ -411,13 +411,15 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 
 			Boolean outputReady = new Boolean(callback.equals(OutputReady.TRUE));
-			try {
-				System.out.println("[WorkflowManagerInstanceResource::deliver] Received new OutputReady value: " + outputReady
-						+" from "+ this.getOperationNameForInvocationHelper(stageKey));
-			} catch (RemoteException e1) {
-				logger.error(e1.getMessage(), e1);
-				e1.printStackTrace();
-			} 
+			if( outputReady ){
+				
+				try {
+					System.out.println("[WorkflowManagerInstanceResource::deliver] Execution finished for "+ this.getOperationNameForInvocationHelper(stageKey));
+				} catch (RemoteException e) {
+					logger.error(e.getMessage(), e);
+					e.printStackTrace();
+				}
+			}
 
 			// Store/Update the value stored internally for the current InvocationHelper
 			if( this.asynchronous_call_key.containsKey(stageKey) ){
