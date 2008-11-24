@@ -83,7 +83,7 @@ public class ConfigPackageBuilder {
     public static final String[] REQUIRED_CAGRID_LIBS = {
         "caGrid-CQL-cql.2.0.jar", "caGrid-core.jar",
         "caGrid-data-common.jar", "caGrid-data-tools.jar",
-        "caGrid-data-stubs-.jar", "caGrid-data-utils.jar", 
+        "caGrid-data-stubs.jar", "caGrid-data-utils.jar", 
         "caGrid-metadata-data.jar", "caGrid-metadata-common.jar", 
         "caGrid-sdkQuery4-processor.jar", "caGrid-sdkQuery4-beans.jar", 
         "cglib-nodep-2.1_3.jar"
