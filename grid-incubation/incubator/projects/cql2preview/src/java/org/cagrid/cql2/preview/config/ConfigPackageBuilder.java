@@ -392,6 +392,11 @@ public class ConfigPackageBuilder {
         File antPath = new File(tempDir, "antClasspath.xml");
         buildAntPath(antPath, tempDir);
         
+        // copy the queries directory over to the package
+        File queriesOutDir = new File(tempDir, "queries");
+        queriesOutDir.mkdir();
+        Utils.copyDirectory(new File("queries"), queriesOutDir);
+        
         // zip up the resulting temp dir, plus libraries from the tech preview tools
         ZipUtilities.zipDirectory(tempDir, zipOutput);
         
