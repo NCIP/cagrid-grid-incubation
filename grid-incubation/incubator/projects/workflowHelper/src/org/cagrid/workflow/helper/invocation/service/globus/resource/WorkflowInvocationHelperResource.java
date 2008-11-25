@@ -60,6 +60,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private QName outputType = null;
 	private boolean outputIsArray;
 	private WorkflowInvocationHelperDescriptor operationDesc = null;
+	private QName operationName = null;
 	private OperationInputMessageDescriptor input_desc = null;
 	private OperationOutputTransportDescriptor output_desc = null;
 	private InputParameter[] paramData = new InputParameter[0];
@@ -313,8 +314,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 										logger.debug("Doing usual forwarding after getting operation's output");
 										next_destination = pdesc.getDestinationEPR()[0];  // This might change when we have multiple destinations
 										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
-										//										logger.info("Setting parameter to stage identified by "+ client.getEndpointReference());
+										System.out.println("Setting parameter to stage identified by "+ client.getEndpointReference()); //DEBUG
 										client.setParameter(iparam);
+										System.out.println("Parameter set to stage identified by "+ client.getEndpointReference()); //DEBUG
 
 									}
 									else {  // Do streaming between stages 
@@ -710,7 +712,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
-			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationDesc.getOperationQName().getLocalPart()); //DEBUG
+			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationName); //DEBUG
 
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
@@ -875,6 +877,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public void setOperationDesc(WorkflowInvocationHelperDescriptor operationDesc) {
 		this.operationDesc = operationDesc;
+		this.operationName = operationDesc.getOperationQName();
 		this.isSecure = (this.operationDesc.getWorkflowInvocationSecurityDescriptor() != null);
 	}
 
@@ -1138,6 +1141,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		else {
 			logger.warn("Unknown notification type received");
 		}
+	}
+
+
+	public QName getOperationName() {
+		return operationName;
 	}
 }
 

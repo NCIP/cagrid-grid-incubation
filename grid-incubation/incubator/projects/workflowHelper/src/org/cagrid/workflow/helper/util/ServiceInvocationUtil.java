@@ -297,6 +297,7 @@ public class ServiceInvocationUtil {
 		logger.info("Service URL: "+ call.getTargetEndpointAddress());
 
 		try {
+			call.setTimeout(Integer.MAX_VALUE);   // Configure the call with a timeout that will never expire (at least not before 60 years)
 			ret = call.invoke(message);
 		}
 		catch(Throwable t){
