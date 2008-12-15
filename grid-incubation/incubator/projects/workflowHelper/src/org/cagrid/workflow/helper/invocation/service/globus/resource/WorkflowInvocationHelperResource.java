@@ -83,7 +83,340 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	
 	// True when InvocationHelper execution already started
 	private boolean alreadyStarted = false;
+	
+	
+	class WorkerThread implements Runnable, NotifyCallback {
+		
+		
+		WorkflowInvocationHelperResource enclosing_resource = null;
+		
+		public WorkerThread(WorkflowInvocationHelperResource enclosing_resource) {
+			
+			this.enclosing_resource = enclosing_resource;
+		}
+		
+		public synchronized void run() {
 
+
+			logger.info("-- Thread started --");
+
+			// we have all the input data needed to execute so lets execute
+			// 1. make execution call with axis
+			List<Node> service_response = new ArrayList<Node>();
+			try {
+
+
+				logger.info("Operation: "+ getOperationDesc().getOperationQName()); 
+
+				final boolean invocationIsSecure = isSecure();  
+				logger.info("[RUNNABLE] Blocking until credential is provided");
+				GlobusCredential credential = invocationIsSecure ? getCredential() : null;
+
+				logger.info("[RUNNABLE] Retrieved credential: "+ credential); 
+
+				InputParameterDescriptor[] input_desc = getInput_desc().getInputParam();
+				InputParameter[] input_value = getParamData();
+
+				boolean parameterIsArray = false;
+				boolean dataIsArray = false; 
+				boolean serviceAlreadyInvoked = false;
+
+
+				/* Inspect each parameter so we can determine what we're supposed to do with the provided values */
+				EndpointReferenceType operationEpr = new EndpointReference(getOperationDesc().getServiceURL());
+				WorkflowInvocationHelperClient operationClient = new WorkflowInvocationHelperClient(operationEpr);
+
+				EndpointReference enclosingInvocationHelperEPR = serviceOperationEPR;
+				WorkflowInvocationHelperClient enclosingInvocationHelperClient = new WorkflowInvocationHelperClient(enclosingInvocationHelperEPR);
+
+//				System.out.println("Operation EPR: "+ operationEpr); // DEBUG
+
+				for(int input = 0; input < input_value.length; input++){
+
+					dataIsArray = parameterIsArray = false;
+
+					final int paramIndex = input_value[input].getParamIndex();
+					parameterIsArray = input_desc[paramIndex].getParameterIsArray();
+					final String paramData = input_value[input].getData();
+
+					// Verify whether the soap object represents an array or not
+					dataIsArray = DataIsArray(paramData);
+
+					logger.debug("Parameter is array = "+ parameterIsArray + " ; data is array = "+ dataIsArray);
+
+					// If data is array and parameter is not, we need to generate one request for each array element 
+					if( dataIsArray && !parameterIsArray ){ 
+
+
+						// Extract the array elements from the received data and forward each one to its appropriate destination
+						List<String> array_elements = getArrayElementsFromData(paramData);
+						ListIterator<String> array_elements_iter = array_elements.listIterator();
+
+
+						// Let the next stage know we will start streaming output to it 
+						enclosingInvocationHelperClient.startStreaming();
+
+
+						while( array_elements_iter.hasNext() ){ 
+
+
+							String curr_array_str = array_elements_iter.next();
+
+
+							if( !array_elements_iter.hasNext() ){
+
+								// Let the next stage know we will stop streaming output to it
+								enclosingInvocationHelperClient.endStreaming();		
+							}
+
+
+							// Create new inputs, with the original input value substituted for a new one (only the current array element as data)
+							InputParameter[] new_input_params = input_value.clone();
+							new_input_params[input].setData(curr_array_str);
+
+
+							// Invoke service according to its security configuration 
+							Node response_node = null;
+							if( invocationIsSecure ){
+
+								response_node = ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
+										new_input_params, getCredential(), enclosingInvocationHelperClient); 							
+							}
+							else {
+
+								response_node = ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
+										new_input_params, enclosingInvocationHelperClient);									
+							}
+							service_response.add(response_node);
+							serviceAlreadyInvoked = true;
+						}							
+					}
+				}
+
+
+				if( !serviceAlreadyInvoked ){  // Usual service invocation
+
+					logger.info("Streaming not applicable");
+
+					/* Invoke service according to its security configuration */
+					if( invocationIsSecure ){
+
+						logger.info("Invoking secure service");
+
+						service_response.add(ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
+								input_value, getCredential(), operationClient));
+					}
+					else {
+
+						logger.info("Invoking non-secure service"); 
+						service_response.add(ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(),
+								input_value, operationClient));
+					}
+
+				}
+
+			} catch (Exception e1) {
+				System.err.println("ERROR processing " + getOperationDesc().getOperationQName() + " : " + e1.getMessage());					
+				changeStatus(Status.ERROR);
+				return;					
+			}
+
+
+			// Invocation done: change the status to "delivering output"				 
+			changeStatus(Status.GENERATING_OUTPUT);
+
+
+			// See list contents
+			Node curr_node = null;
+			logger.debug("----------------------------");
+			for(ListIterator<Node> it = service_response.listIterator(); it.hasNext(); ){
+				curr_node = it.next();
+				logger.debug("Curr node is: "+curr_node);
+			}
+			logger.debug("----------------------------");  // */
+
+
+							
+			/* Process each response and send the outputs to the appropriate service */
+			ListIterator<Node> service_response_iterator = service_response.listIterator();
+			while( service_response_iterator.hasNext() ){
+
+
+				final Node curr_response = service_response_iterator.next();
+
+				String node_string = ""+curr_response; // Don't delete the empty string! A compile-time error will occur!!
+
+
+				// 2. get result send parts where ever the transport descriptor
+				// tells me
+				org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor desc = getOutput_desc();
+
+				if(desc != null){
+
+					final int num_params = (desc.getParamDescriptor() != null)? desc.getParamDescriptor().length : 0; 
+
+					for (int i = 0; i < num_params; i++) {
+						
+
+						final org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor pdesc = desc.getParamDescriptor(i);
+						try {
+							InputParameter iparam = new InputParameter();
+							iparam.setParamIndex(pdesc.getParamIndex());
+
+
+							// need to get that data out of the response;
+							// first, prepare all namespace mappings to the query
+							String data = null;
+							try {
+
+								data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces(), pdesc.getType());
+							} catch (Exception e) {
+								logger.error(e.getMessage(), e);
+								e.printStackTrace();
+							}
+							iparam.setData(data);
+
+
+							boolean outputIsArray = DataIsArray(data);  
+							boolean nextStageInputIsArray = pdesc.isExpectedTypeIsArray();  
+
+							logger.debug("[After getting operation's output] outputIsArray? "+ outputIsArray +". nextStageInputIsArray? "+ nextStageInputIsArray);
+							logger.debug("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'"); 
+
+							// send the data to the next workflow helper instance
+							if( pdesc.getDestinationEPR() != null ){
+								
+
+								EndpointReferenceType next_destination = null;  // next destination to forward data
+
+								/* If we can't do streaming, do usual forwarding. Otherwise, forward each output element to 
+								 * a destination following a delivery policy */
+								if( !outputIsArray || nextStageInputIsArray ){    
+									
+
+									// Do usual forwarding
+									logger.debug("Doing usual forwarding after getting operation's output");
+									next_destination = pdesc.getDestinationEPR()[0];  // This might change when we have multiple destinations
+									WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
+									final String client_key = client.getEPRString();
+									this.enclosing_resource.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);
+									
+//									System.out.println("Setting parameter to stage identified by "+ client.getEndpointReference()); //DEBUG
+									client.setParameter(iparam);  // FIXME Getting "read operation timed out" here.
+									this.enclosing_resource.waitForCallback(client_key);  // Wait for asynchronous callback to be received
+//									System.out.println("Parameter set to stage identified by "+ client.getEndpointReference());    //DEBUG
+								}
+								else {  // Do streaming between stages 
+
+
+
+									// Enable streaming in the output recipient
+									logger.debug("Streaming output after getting operation's output");
+									next_destination = pdesc.getDestinationEPR()[0];  //  This might change when we have multiple destinations
+									WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
+									client.startStreaming();
+									logger.debug("Streaming enabled");
+
+									// Subscribe to notifications of output availability
+									subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);  // The next method is asynchronous, so we need to register a callback
+									//client.start(); // No longer necessary
+
+
+									// Get array elements
+									List<String> array_elements = getArrayElementsFromData(data);
+									// Prepare for enumerate the destination of each array element
+									DeliveryEnumerator destinations_iter = new DeliveryEnumerator(pdesc.getDeliveryPolicy(), pdesc.getDestinationEPR());
+
+
+									// Iterate over the array elements' list, forwarding each one to a (possibly) different location
+									ListIterator<String> array_iter = array_elements.listIterator();
+									logger.debug("Iterating over each element of the output");
+									while( array_iter.hasNext() ){
+
+										String curr_array_element = array_iter.next();
+
+										if( !array_iter.hasNext() ){
+
+											// Disable streaming in the output recipient
+											client.endStreaming();
+
+											logger.debug("Disabling streaming"); 
+										} 
+
+										iparam.setData(curr_array_element);
+										logger.debug("Current array element sent"); 
+
+
+										// Get one of the possible destinations according to the delivery policy
+										if( destinations_iter.hasNext() ){
+											next_destination = destinations_iter.next();
+										}
+										else {
+											logger.error("[executeIfReady] No destination could be retrieved");
+											break;
+										}
+
+										// Send the data to the appropriate InvocationHelper 
+										client.setParameter(iparam);
+
+
+										/* Wait for the callback to be made. 
+										 * NOTE: since we are streaming a set of data elements to the same stage 
+										 * AND input parameter, we are required to block until a callback is received.
+										 * However, when several data elements are sent to potentially different stages 
+										 * and/or input parameters, we MUST NOT block but proceed to send remaining 
+										 * data elements, otherwise a deadlock may occur. One such deadlock situation would
+										 * happen when one stage is responsible for giving more than one of a stage's input 
+										 * parameters.
+										 * */
+										waitForCallback(client.getEPRString());
+								
+									} // End of array elements										
+								}
+							}
+							else {
+								
+								logger.error("No destination assigned to current parameter (in "+ getOperationDesc().getOperationQName() +").");
+								logger.error("Value of parameter is: \n"+iparam.getData());
+								System.err.flush();
+							}
+
+						} catch (MalformedURIException e) {
+							changeStatus(Status.ERROR);	
+							e.printStackTrace();
+
+						} catch (RemoteException e) {
+							changeStatus(Status.ERROR);
+							e.printStackTrace();
+						} 
+					}
+				}
+
+			}
+			try {
+				// Calculate the next status and change the status of the execution. Note: when 
+				// reading from a stream, the stage won't terminate until the end of the stream is reached.  
+				finishRun();						
+			} catch (ResourceException e) {
+				logger.error(e.getMessage(), e);
+				e.printStackTrace();
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+				e.printStackTrace();
+			}
+
+			logger.info("-- Thread finished --");
+			return;
+		}
+
+		
+		public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
+			this.enclosing_resource.deliver(arg0, arg1, arg2);
+		}
+		
+	}
+	
+		
 	public synchronized boolean executeIfReady() {
 
 
@@ -109,320 +442,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			logger.error(e2);
 		}
 
-		final Thread th = new Thread(new Runnable() {
-
-			public synchronized void run() {
-
-
-				logger.info("-- Thread started --");
-
-				// we have all the input data needed to execute so lets execute
-				// 1. make execution call with axis
-				List<Node> service_response = new ArrayList<Node>();
-				try {
-
-
-					logger.info("Operation: "+ getOperationDesc().getOperationQName()); 
-
-					final boolean invocationIsSecure = isSecure();  
-					logger.info("[RUNNABLE] Blocking until credential is provided");
-					GlobusCredential credential = invocationIsSecure ? getCredential() : null;
-
-					logger.info("[RUNNABLE] Retrieved credential: "+ credential); 
-
-					InputParameterDescriptor[] input_desc = getInput_desc().getInputParam();
-					InputParameter[] input_value = getParamData();
-
-					boolean parameterIsArray = false;
-					boolean dataIsArray = false; 
-					boolean serviceAlreadyInvoked = false;
-
-
-					/* Inspect each parameter so we can determine what we're supposed to do with the provided values */
-					EndpointReferenceType operationEpr = new EndpointReference(getOperationDesc().getServiceURL());
-					WorkflowInvocationHelperClient operationClient = new WorkflowInvocationHelperClient(operationEpr);
-
-					EndpointReference enclosingInvocationHelperEPR = serviceOperationEPR;
-					WorkflowInvocationHelperClient enclosingInvocationHelperClient = new WorkflowInvocationHelperClient(enclosingInvocationHelperEPR);
-
-//					System.out.println("Operation EPR: "+ operationEpr); // DEBUG
-
-					for(int input = 0; input < input_value.length; input++){
-
-						dataIsArray = parameterIsArray = false;
-
-						final int paramIndex = input_value[input].getParamIndex();
-						parameterIsArray = input_desc[paramIndex].getParameterIsArray();
-						final String paramData = input_value[input].getData();
-
-						// Verify whether the soap object represents an array or not
-						dataIsArray = DataIsArray(paramData);
-
-						logger.debug("Parameter is array = "+ parameterIsArray + " ; data is array = "+ dataIsArray);
-
-						// If data is array and parameter is not, we need to generate one request for each array element 
-						if( dataIsArray && !parameterIsArray ){ 
-
-
-							// Extract the array elements from the received data and forward each one to its appropriate destination
-							List<String> array_elements = getArrayElementsFromData(paramData);
-							ListIterator<String> array_elements_iter = array_elements.listIterator();
-
-
-							// Let the next stage know we will start streaming output to it 
-							enclosingInvocationHelperClient.startStreaming();
-
-
-							while( array_elements_iter.hasNext() ){ 
-
-
-								String curr_array_str = array_elements_iter.next();
-
-
-								if( !array_elements_iter.hasNext() ){
-
-									// Let the next stage know we will stop streaming output to it
-									enclosingInvocationHelperClient.endStreaming();		
-								}
-
-
-								// Create new inputs, with the original input value substituted for a new one (only the current array element as data)
-								InputParameter[] new_input_params = input_value.clone();
-								new_input_params[input].setData(curr_array_str);
-
-
-								// Invoke service according to its security configuration 
-								Node response_node = null;
-								if( invocationIsSecure ){
-
-									response_node = ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-											new_input_params, getCredential(), enclosingInvocationHelperClient); 							
-								}
-								else {
-
-									response_node = ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-											new_input_params, enclosingInvocationHelperClient);									
-								}
-								service_response.add(response_node);
-								serviceAlreadyInvoked = true;
-							}							
-						}
-					}
-
-
-					if( !serviceAlreadyInvoked ){  // Usual service invocation
-
-						logger.info("Streaming not applicable");
-
-						/* Invoke service according to its security configuration */
-						if( invocationIsSecure ){
-
-							logger.info("Invoking secure service");
-
-							service_response.add(ServiceInvocationUtil.generateSecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(), 
-									input_value, getCredential(), operationClient));
-						}
-						else {
-
-							logger.info("Invoking non-secure service"); 
-							service_response.add(ServiceInvocationUtil.generateUnsecureRequest(getOperationDesc(), getInput_desc(), getOutput_desc(),
-									input_value, operationClient));
-						}
-
-					}
-
-				} catch (Exception e1) {
-					System.err.println("ERROR processing " + getOperationDesc().getOperationQName() + " : " + e1.getMessage());					
-					changeStatus(Status.ERROR);
-					return;					
-				}
-
-
-				// Invocation done: change the status to "delivering output"				 
-				changeStatus(Status.GENERATING_OUTPUT);
-
-
-				// See list contents
-				Node curr_node = null;
-				logger.debug("----------------------------");
-				for(ListIterator<Node> it = service_response.listIterator(); it.hasNext(); ){
-					curr_node = it.next();
-					logger.debug("Curr node is: "+curr_node);
-				}
-				logger.debug("----------------------------");  // */
-
-
-								
-				/* Process each response and send the outputs to the appropriate service */
-				ListIterator<Node> service_response_iterator = service_response.listIterator();
-				while( service_response_iterator.hasNext() ){
-
-
-					final Node curr_response = service_response_iterator.next();
-
-					String node_string = ""+curr_response; // Don't delete the empty string! A compile-time error will occur!!
-
-
-					// 2. get result send parts where ever the transport descriptor
-					// tells me
-					org.cagrid.workflow.helper.descriptor.OperationOutputTransportDescriptor desc = getOutput_desc();
-
-					if(desc != null){
-
-						final int num_params = (desc.getParamDescriptor() != null)? desc.getParamDescriptor().length : 0; 
-
-						for (int i = 0; i < num_params; i++) {
-							
-
-							final org.cagrid.workflow.helper.descriptor.OperationOutputParameterTransportDescriptor pdesc = desc.getParamDescriptor(i);
-							try {
-								InputParameter iparam = new InputParameter();
-								iparam.setParamIndex(pdesc.getParamIndex());
-
-
-								// need to get that data out of the response;
-								// first, prepare all namespace mappings to the query
-								String data = null;
-								try {
-
-									data = ServiceInvocationUtil.applyXPathQuery(node_string, pdesc.getLocationQuery(), pdesc.getQueryNamespaces(), pdesc.getType());
-								} catch (Exception e) {
-									logger.error(e.getMessage(), e);
-									e.printStackTrace();
-								}
-								iparam.setData(data);
-
-
-								boolean outputIsArray = DataIsArray(data);  
-								boolean nextStageInputIsArray = pdesc.isExpectedTypeIsArray();  
-
-								logger.debug("[After getting operation's output] outputIsArray? "+ outputIsArray +". nextStageInputIsArray? "+ nextStageInputIsArray);
-								logger.debug("\tfor query '" + pdesc.getLocationQuery() + "' we got\t'"+ data +"'"); 
-
-								// send the data to the next workflow helper instance
-								if( pdesc.getDestinationEPR() != null ){
-									
-
-									EndpointReferenceType next_destination = null;  // next destination to forward data
-
-									/* If we can't do streaming, do usual forwarding. Otherwise, forward each output element to 
-									 * a destination following a delivery policy */
-									if( !outputIsArray || nextStageInputIsArray ){    
-
-
-										// Do usual forwarding
-										logger.debug("Doing usual forwarding after getting operation's output");
-										next_destination = pdesc.getDestinationEPR()[0];  // This might change when we have multiple destinations
-										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
-										System.out.println("Setting parameter to stage identified by "+ client.getEndpointReference()); //DEBUG
-										client.setParameter(iparam);
-										System.out.println("Parameter set to stage identified by "+ client.getEndpointReference()); //DEBUG
-
-									}
-									else {  // Do streaming between stages 
-
-
-
-										// Enable streaming in the output recipient
-										logger.debug("Streaming output after getting operation's output");
-										next_destination = pdesc.getDestinationEPR()[0];  //  This might change when we have multiple destinations
-										WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
-										client.startStreaming();
-										logger.debug("Streaming enabled");
-
-										// Subscribe to notifications of output availability
-										subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);  // The next method is asynchronous, so we need to register a callback
-										//client.start(); // No longer necessary
-
-
-										// Get array elements
-										List<String> array_elements = getArrayElementsFromData(data);
-										// Prepare for enumerate the destination of each array element
-										DeliveryEnumerator destinations_iter = new DeliveryEnumerator(pdesc.getDeliveryPolicy(), pdesc.getDestinationEPR());
-
-
-										// Iterate over the array elements' list, forwarding each one to a (possibly) different location
-										ListIterator<String> array_iter = array_elements.listIterator();
-										logger.debug("Iterating over each element of the output");
-										while( array_iter.hasNext() ){
-
-											String curr_array_element = array_iter.next();
-
-											if( !array_iter.hasNext() ){
-
-												// Disable streaming in the output recipient
-												client.endStreaming();
-
-												logger.debug("Disabling streaming"); 
-											} 
-
-											iparam.setData(curr_array_element);
-											logger.debug("Current array element sent"); 
-
-
-											// Get one of the possible destinations according to the delivery policy
-											if( destinations_iter.hasNext() ){
-												next_destination = destinations_iter.next();
-											}
-											else {
-												logger.error("[executeIfReady] No destination could be retrieved");
-												break;
-											}
-
-											// Send the data to the appropriate InvocationHelper 
-											client.setParameter(iparam);
-
-
-											/* Wait for the callback to be made. 
-											 * NOTE: since we are streaming a set of data elements to the same stage 
-											 * AND input parameter, we are required to block until a callback is received.
-											 * However, when several data elements are sent to potentially different stages 
-											 * and/or input parameters, we MUST NOT block but proceed to send remaining 
-											 * data elements, otherwise a deadlock may occur. One such deadlock situation would
-											 * happen when one stage is responsible for giving more than one of a stage's input 
-											 * parameters.
-											 * */
-											waitForCallback(client.getEPRString());
-									
-										} // End of array elements										
-									}
-								}
-								else {
-									
-									logger.error("No destination assigned to current parameter (in "+ getOperationDesc().getOperationQName() +").");
-									logger.error("Value of parameter is: \n"+iparam.getData());
-									System.err.flush();
-								}
-
-							} catch (MalformedURIException e) {
-								changeStatus(Status.ERROR);	
-								e.printStackTrace();
-
-							} catch (RemoteException e) {
-								changeStatus(Status.ERROR);
-								e.printStackTrace();
-							} 
-						}
-					}
-
-				}
-				try {
-					// Calculate the next status and change the status of the execution. Note: when 
-					// reading from a stream, the stage won't terminate until the end of the stream is reached.  
-					finishRun();						
-				} catch (ResourceException e) {
-					logger.error(e.getMessage(), e);
-					e.printStackTrace();
-				} catch (Exception e) {
-					logger.error(e.getMessage(), e);
-					e.printStackTrace();
-				}
-
-				logger.info("-- Thread finished --");
-				return;
-			}
-
-		});
+		final Thread th = new Thread(new WorkerThread(this));
 
 
 		/* Start thread and wait for it to finish */
@@ -712,7 +732,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
-			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationName); //DEBUG
+//			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationName); //DEBUG
 
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
@@ -732,18 +752,23 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 						public synchronized void run() {
 
 
-							// BEGIN DEBUG
-							//							System.out.println("[1] BEGIN Printing environment variables");
-							//							System.out.println("GLOBUS_LOCATION = "+ System.getProperty("GLOBUS_LOCATION"));
-							//							System.out.println("[1] END Printing environment variables");
-							// END DEBUG
+							
 
-
+//							try {
+//								Thread.sleep(61000);
+//							} catch (InterruptedException e) {
+//								e.printStackTrace();
+//							}
+							
+//							System.out.println("[2] Thread started ("+getOperationDesc().getOperationQName() +")"); //DEBUG
 							executeIfReady();   // poll to see if we can execute
+//							System.out.println("[3] Thread is finished ("+getOperationDesc().getOperationQName() +")"); //DEBUG
 						}
 					});
 
+					
 					th.start();
+//					System.out.println("[1] Thread is detached ("+this.getOperationDesc().getOperationQName() +")"); //DEBUG
 
 				}
 				else{  // Generate a callback so the caller can proceed, since the stage won't run right now 
@@ -753,7 +778,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 					} catch (ResourceException e) {
 						e.printStackTrace();
 					}
-
+					return;
 				}
 			}
 			else{  // Generate a callback so the caller can proceed setting input parameters
@@ -762,7 +787,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				} catch (ResourceException e) {
 					e.printStackTrace();
 				}
-
+				return;
 			}
 		}
 		else {
@@ -775,6 +800,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			} catch (ResourceException e) {
 				e.printStackTrace();
 			}
+			return;
 		}
 		logger.info("END setParameter");
 	}
@@ -945,7 +971,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		}
 		
 		
-		
 		logger.info("STARTING execution for "+ getOperationDesc().getOperationQName().getLocalPart());
 
 		// If all parameters were set, start execution
@@ -956,13 +981,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 				
 				public void run() {
-
-					// BEGIN DEBUG
-					//					System.out.println("[2] BEGIN Printing environment variables");
-					//					System.out.println("GLOBUS_LOCATION = "+ System.getProperty("GLOBUS_LOCATION"));
-					//					System.out.println("[2] END Printing environment variables");
-					// END DEBUG
-
 
 					executeIfReady();
 				}
