@@ -120,5 +120,14 @@ public class WorkflowInvocationHelperImpl extends WorkflowInvocationHelperImplBa
 	  logger.info("END");
   }
 
+  public javax.xml.namespace.QName getOperationQName() throws RemoteException {
+	  try {
+		  WorkflowInvocationHelperResource resource = getResourceHome().getAddressedResource();
+		  return resource.getOperationName();
+	  } catch (Exception e) {
+		  throw new RemoteException(e.getMessage(),e);
+	  }
+  }
+
 }
 

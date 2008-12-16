@@ -324,6 +324,11 @@
      <ns33:Output qName="void" description="" isArray="false"/>
      <ns33:Exceptions/>
     </ns33:Method>
+    <ns33:Method description="Retrieve the qualified name for the operation enclosed by this resource" isImported="false" isProvided="false" name="getOperationQName" xsi:type="ns33:MethodType">
+     <ns33:Inputs/>
+     <ns33:Output qName="xsd:QName" description="" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns33:Exceptions/>
+    </ns33:Method>
    </ns33:Methods>
    <ns43:ResourcePropertiesList xsi:type="ns43:ResourcePropertiesListType" xmlns:ns43="gme://gov.nih.nci.cagrid.introduce/1/Resources">
     <ns43:ResourceProperty qName="ns44:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns43:ResourcePropertyType" xmlns:ns44="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>

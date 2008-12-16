@@ -135,6 +135,18 @@
           <sequence />
         </complexType>
       </element>
+      <element name="GetOperationQNameRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetOperationQNameResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:QName" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="WorkflowInvocationHelperResourceProperties">
         <complexType>
           <sequence>
@@ -200,6 +212,12 @@
   <message name="EndStreamingResponse">
     <part name="parameters" element="tns:EndStreamingResponse" />
   </message>
+  <message name="GetOperationQNameRequest">
+    <part name="parameters" element="tns:GetOperationQNameRequest" />
+  </message>
+  <message name="GetOperationQNameResponse">
+    <part name="parameters" element="tns:GetOperationQNameResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -237,6 +255,10 @@
     <operation name="endStreaming">
       <input message="tns:EndStreamingRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/EndStreamingRequest" />
       <output message="tns:EndStreamingResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/EndStreamingResponse" />
+    </operation>
+    <operation name="getOperationQName">
+      <input message="tns:GetOperationQNameRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetOperationQNameRequest" />
+      <output message="tns:GetOperationQNameResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetOperationQNameResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

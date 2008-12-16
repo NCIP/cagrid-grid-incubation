@@ -137,6 +137,15 @@ WorkflowInvocationHelperClientBase implements WorkflowInvocationHelperI {
 		}
 	}
 
+  public javax.xml.namespace.QName getOperationQName() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getOperationQName");
+    org.cagrid.workflow.helper.invocation.stubs.GetOperationQNameRequest params = new org.cagrid.workflow.helper.invocation.stubs.GetOperationQNameRequest();
+    org.cagrid.workflow.helper.invocation.stubs.GetOperationQNameResponse boxedResult = portType.getOperationQName(params);
+    return boxedResult.getResponse();
+    }
+  }
+
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"destroy");

@@ -55,6 +55,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	private static Log logger = LogFactory.getLog(WorkflowInvocationHelperResource.class);
 
+	
+	// TODO Add operation that exposes this operation's name
+	
 
 
 	private QName outputType = null;
@@ -301,10 +304,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									final String client_key = client.getEPRString();
 									this.enclosing_resource.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);
 									
-//									System.out.println("Setting parameter to stage identified by "+ client.getEndpointReference()); //DEBUG
+//									System.out.println("["+ getOperationName().getLocalPart() +"] Setting parameter to stage identified by "+ client.getOperationQName()); //DEBUG
 									client.setParameter(iparam);  // FIXME Getting "read operation timed out" here.
+//									System.out.println("["+ getOperationName().getLocalPart() +"] Waiting for callback"); //DEBUG
 									this.enclosing_resource.waitForCallback(client_key);  // Wait for asynchronous callback to be received
-//									System.out.println("Parameter set to stage identified by "+ client.getEndpointReference());    //DEBUG
+//									System.out.println("["+ getOperationName().getLocalPart() +"] Callback received"); //DEBUG
 								}
 								else {  // Do streaming between stages 
 
@@ -714,7 +718,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public synchronized void setParameter(InputParameter param) {
 
-		logger.info("BEGIN setParameter");  
+		logger.info("["+ getOperationDesc().getOperationQName() +"] BEGIN setParameter");  
 
 		Status curr_status = this.getTimestampedStatus().getStatus();
 		logger.info("status is "+curr_status);
@@ -802,7 +806,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			}
 			return;
 		}
-		logger.info("END setParameter");
+		logger.info("["+ getOperationDesc().getOperationQName() +"] END setParameter");
 	}
 
 

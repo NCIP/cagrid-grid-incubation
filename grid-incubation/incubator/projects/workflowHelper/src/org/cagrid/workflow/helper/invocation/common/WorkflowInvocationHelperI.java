@@ -12,6 +12,12 @@ import java.rmi.RemoteException;
  */
 public interface WorkflowInvocationHelperI {
 
+  /**
+   * Retrieve the qualified name for the operation enclosed by this resource
+   *
+   */
+  public javax.xml.namespace.QName getOperationQName() throws RemoteException ;
+
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException ;
 
   public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException ;
