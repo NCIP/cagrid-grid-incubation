@@ -29,7 +29,7 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 	 * 
 	 * @param inputParameter Parameter one wants to send to the ManagerInstance
 	 * */
-  public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
+	public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
 
 		logger.info("Receiving parameter");
 
@@ -39,16 +39,16 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
-		
+
 		logger.info("END");
 		return;
 	}
 
-	
+
 	/**
 	 * Retrieve the current status of the workflow managed by this ManagerInstance. 
 	 * */
-  public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
+	public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
 
 		TimestampedStatus status = null;
 		try {
@@ -64,11 +64,11 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 	/**
 	 * Retrieve workflow outputs.
 	 * */
-  public java.lang.String[] getOutputValues() throws RemoteException {
+	public java.lang.String[] getOutputValues() throws RemoteException {
 
-		
+
 		logger.info("Retrieving workflow outputs");
-		
+
 		String[] outputs = null;
 		try {
 			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
@@ -81,8 +81,10 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		return outputs;
 	}
 
-	
-  public java.lang.String getEPRString() throws RemoteException {
+
+
+
+	public java.lang.String getEPRString() throws RemoteException {
 
 		String EPR = null;
 
@@ -96,11 +98,10 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		return EPR;
 	}
 
-	
 	public void registerInstanceHelper(WorkflowInstanceHelperClient thisResource, String name) throws RemoteException {
 
 		logger.info("Storing WorkflowInstanceHelper for later use");
-		
+
 		try {
 
 			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
@@ -108,18 +109,18 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		} catch (Exception e) {			
 			throw new RemoteException(e.getMessage(), e);
 		}
-		
+
 		logger.info("END");
 		return;
 	} 
 
-	
-	/** Start workflow execution */
-  public void start() throws RemoteException {
 
-		
+	/** Start workflow execution */
+	public void start() throws RemoteException {
+
+
 		logger.info("Starting workflow execution");
-		
+
 		try {
 			WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
 			resource.start();

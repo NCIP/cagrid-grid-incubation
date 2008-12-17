@@ -85,7 +85,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	protected WorkflowManagerServicePortType portType;
 	private Object portTypeMutex;
 
-
 	// Synchronizes the access to variable 'isFinished' 
 	protected Lock isFinishedKey = new ReentrantLock();
 	protected Condition isFinishedCondition = isFinishedKey.newCondition();
@@ -101,13 +100,10 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 	final static String SOAPENCODING_NAMESPACE = "http://schemas.xmlsoap.org/soap/encoding/";
 	private static final String CONTAINERBASEPLACEHOLDER = "CONTAINERBASE";
 
-
 	// Synchronization for asynchronous calls
 	Map<String, Lock> asynchronousStartLock = new HashMap<String, Lock>();
 	Map<String, Condition> asynchronousStartCondition = new HashMap<String, Condition>();
 	Map<String, Boolean> asynchronousStartCallbackReceived = new HashMap<String, Boolean>();
-
-
 
 	private static Log logger = LogFactory.getLog(WorkflowManagerServiceClient.class);
 
@@ -159,9 +155,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		System.out.println(WorkflowManagerServiceClient.class.getName() + " -url <service url>");
 	}
 
-
-
-
 	/** Store the contents of a file in a String */
 	private static String readFileToString(File wfDescriptor) {
 
@@ -181,8 +174,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 		return retval;
 	}
-
-
 
 	public static void main(String [] args){
 		System.out.println("Running the Grid Service Client");
@@ -205,12 +196,9 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					File wfDescriptor = new File(wfDescriptorFilename);
 					String wfXmlDescriptor = readFileToString(wfDescriptor);
 
-
-
 					// Replace the URLs in the descriptor with the actual container URL	
 					String containerBaseURL = "http://localhost:"+ Integer.parseInt(System.getProperty("tomcat.port")) +"/wsrf/services";
 					wfXmlDescriptor = wfXmlDescriptor.replaceAll(CONTAINERBASEPLACEHOLDER, containerBaseURL);
-
 
 					// Create and execute the workflow
 					WorkflowManagerInstanceClient managerInstanceClient = null;
@@ -223,9 +211,8 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 						WorkflowManagerInstanceReference managerInstanceRef = client.createWorkflowManagerInstanceFromObjectDescriptor(wfDesc);
 						managerInstanceClient = new WorkflowManagerInstanceClient(managerInstanceRef.getEndpointReference());
 
-
 						// Initialize synchronization variables so we can handle future notifications of execution end
-						clientID = managerInstanceClient.getEPRString();
+						clientID = managerInstanceClient.getEPRString(); 
 						if(clientID == null){
 							throw new RemoteException("Unable to retrieve EPR String");
 						}
@@ -233,8 +220,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 //						asynchronousCallbackLock = new ReentrantLock();
 //						receiveNotifications.asynchronousStartLock.put(clientID, asynchronousCallbackLock);
 //						receiveNotifications.asynchronousStartCondition.put(clientID, asynchronousCallbackLock.newCondition());  
-
-
 
 //						managerInstanceClient.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), receiveNotifications);
 
@@ -248,7 +233,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 						logger.error(e.getMessage() ,e);
 						e.printStackTrace();
 					} 
-
 
 					managerInstanceClient.start();  // Start asynchronous execution
 
@@ -283,7 +267,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 						logger.info("End outputs");
 					}
 
-
 				} else {
 					usage();
 					System.exit(1);
@@ -298,50 +281,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		}
 	}
 
-
-	public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
-			return portType.getMultipleResourceProperties(params);
-		}
-	}
-
-	public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getResourceProperty");
-			return portType.getResourceProperty(params);
-		}
-	}
-
-	public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"queryResourceProperties");
-			return portType.queryResourceProperties(params);
-		}
-	}
-
-	public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"createWorkflowManagerInstanceFromObjectDescriptor");
-			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest();
-			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc workflowDescContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc();
-			workflowDescContainer.setWorkflowManagerInstanceDescriptor(workflowDesc);
-			params.setWorkflowDesc(workflowDescContainer);
-			org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = portType.createWorkflowManagerInstanceFromObjectDescriptor(params);
-			return boxedResult.getWorkflowManagerInstanceReference();
-		}
-	}
-
-	public java.lang.String getIdentity() throws RemoteException {
-		synchronized(portTypeMutex){
-			configureStubSecurity((Stub)portType,"getIdentity");
-			org.cagrid.workflow.manager.stubs.GetIdentityRequest params = new org.cagrid.workflow.manager.stubs.GetIdentityRequest();
-			org.cagrid.workflow.manager.stubs.GetIdentityResponse boxedResult = portType.getIdentity(params);
-			return boxedResult.getResponse();
-		}
-	}
-
-
 	public void deliver(List arg0, EndpointReferenceType arg1, Object arg2) {
 
 		org.oasis.wsrf.properties.ResourcePropertyValueChangeNotificationType changeMessage = ((org.globus.wsrf.core.notification.ResourcePropertyValueChangeNotificationElementType) arg2)
@@ -353,16 +292,14 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		boolean isOutputReady = message_qname.equals(OutputReady.getTypeDesc().getXmlType());
 		String stageKey = null;
 		try {
-			stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();
+			stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();  
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
 		}   
 
-
 		logger.info("[CreateTestWorkflowsStep] Received message of type "+ message_qname.getLocalPart() +" from "+ stageKey);
-
 
 		// Handle status change notifications
 		if(isTimestampedStatusChange){
@@ -373,7 +310,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 				e.printStackTrace();
 			}
 
-
 			logger.info("Received new status value: "+ status.getStatus().toString() + ':' + status.getTimestamp());
 
 			this.isFinishedKey.lock();
@@ -381,7 +317,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 				boolean statusActuallyChanged = false;
 				if( this.stageStatus.containsKey(stageKey) ){
-
 
 					TimestampedStatus curr_status = this.stageStatus.get(stageKey);
 					statusActuallyChanged = ( curr_status.getTimestamp() < status.getTimestamp() ); 										
@@ -395,9 +330,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 				}
 				else logger.warn("Unrecognized stage notified status change: "+ stageKey);
 
-
 				if( statusActuallyChanged && (status.getStatus().equals(Status.FINISHED) || status.getStatus().equals(Status.ERROR)) ){
-
 
 					this.isFinished  = this.hasFinished(); 
 
@@ -419,7 +352,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 			stageKey = null;
 			try {
-				stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();   
+				stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();    
 
 				if(stageKey == null){
 					logger.error("[RunSecureWorkflowsStep::deliver] Unable to retrieve stageKey");
@@ -432,7 +365,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 				e1.printStackTrace();
 				logger.error(e1.getMessage(), e1);
 			} 
-
 
 			OutputReady callback = null;
 			try {
@@ -449,9 +381,7 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 			mutex.lock();
 			try {
 
-
 				this.asynchronousStartCallbackReceived.put(stageKey, notificationValue);
-
 
 				// If the execution is finished, report the user
 				boolean allCallbacksReceived = !this.asynchronousStartCallbackReceived.containsValue(Boolean.FALSE);
@@ -462,7 +392,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 					workflowFinished.signalAll();
 				}
 
-
 			} finally {
 				mutex.unlock();
 			}
@@ -472,7 +401,6 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 		}
 
 	}
-
 
 	/**
 	 * Verify whether all stages have already sent a termination notification  
@@ -494,5 +422,47 @@ public class WorkflowManagerServiceClient extends ServiceSecurityClient implemen
 
 		return true;
 	}
+
+  public org.oasis.wsrf.properties.GetMultipleResourcePropertiesResponse getMultipleResourceProperties(org.oasis.wsrf.properties.GetMultipleResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getMultipleResourceProperties");
+    return portType.getMultipleResourceProperties(params);
+    }
+  }
+
+  public org.oasis.wsrf.properties.GetResourcePropertyResponse getResourceProperty(javax.xml.namespace.QName params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getResourceProperty");
+    return portType.getResourceProperty(params);
+    }
+  }
+
+  public org.oasis.wsrf.properties.QueryResourcePropertiesResponse queryResourceProperties(org.oasis.wsrf.properties.QueryResourceProperties_Element params) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"queryResourceProperties");
+    return portType.queryResourceProperties(params);
+    }
+  }
+
+  public org.cagrid.workflow.manager.instance.stubs.types.WorkflowManagerInstanceReference createWorkflowManagerInstanceFromObjectDescriptor(org.cagrid.workflow.manager.descriptor.WorkflowManagerInstanceDescriptor workflowDesc) throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"createWorkflowManagerInstanceFromObjectDescriptor");
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest params = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequest();
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc workflowDescContainer = new org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorRequestWorkflowDesc();
+    workflowDescContainer.setWorkflowManagerInstanceDescriptor(workflowDesc);
+    params.setWorkflowDesc(workflowDescContainer);
+    org.cagrid.workflow.manager.stubs.CreateWorkflowManagerInstanceFromObjectDescriptorResponse boxedResult = portType.createWorkflowManagerInstanceFromObjectDescriptor(params);
+    return boxedResult.getWorkflowManagerInstanceReference();
+    }
+  }
+
+  public java.lang.String getIdentity() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getIdentity");
+    org.cagrid.workflow.manager.stubs.GetIdentityRequest params = new org.cagrid.workflow.manager.stubs.GetIdentityRequest();
+    org.cagrid.workflow.manager.stubs.GetIdentityResponse boxedResult = portType.getIdentity(params);
+    return boxedResult.getResponse();
+    }
+  }
 
 }

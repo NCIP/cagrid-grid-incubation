@@ -108,6 +108,15 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
 		}
 	}
 
+  public java.lang.String getEPRString() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getEPRString");
+    org.cagrid.workflow.helper.invocation.GetEPRStringRequest params = new org.cagrid.workflow.helper.invocation.GetEPRStringRequest();
+    org.cagrid.workflow.helper.invocation.GetEPRStringResponse boxedResult = portType.getEPRString(params);
+    return boxedResult.getResponse();
+    }
+  }
+
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"destroy");
@@ -155,15 +164,6 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"subscribe");
     return portType.subscribe(params);
-    }
-  }
-
-  public java.lang.String getEPRString() throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getEPRString");
-    org.cagrid.workflow.manager.instance.stubs.GetEPRStringRequest params = new org.cagrid.workflow.manager.instance.stubs.GetEPRStringRequest();
-    org.cagrid.workflow.manager.instance.stubs.GetEPRStringResponse boxedResult = portType.getEPRString(params);
-    return boxedResult.getResponse();
     }
   }
 

@@ -83,7 +83,7 @@ public class NotificationProxy implements NotifyCallback {
 		boolean isOutputReady = message_qname.equals(OutputReady.getTypeDesc().getXmlType());
 		String stageKey = null;
 		try {
-			stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString();
+			stageKey = new WorkflowManagerInstanceClient(arg1).getEPRString(); 
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		} catch (MalformedURIException e1) {
@@ -132,9 +132,8 @@ public class NotificationProxy implements NotifyCallback {
 				boolean allCallbacksReceived = !this.asynchronousStartCallbackReceived.containsValue(Boolean.FALSE);
 				if(allCallbacksReceived){
 
-					System.out.println("[NotificationProxy::deliver] All callbacks received. Execution is finished."); 
-					Condition allNotificationsReceived = this.allNotificationsReceivedCondition;
-					allNotificationsReceived.signalAll();
+					System.out.println("[NotificationProxy::deliver] All callbacks received. Execution is finished.");   //DEBUG
+					this.allNotificationsReceivedCondition.signalAll();
 				}
 
 

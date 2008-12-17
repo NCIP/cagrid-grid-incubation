@@ -13,6 +13,7 @@ http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.w
 http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl=org.oasis.wsrf.lifetime
 http\://helper.workflow.cagrid.org/WorkflowHelper/Invocation=org.cagrid.workflow.helper.invocation
 http\://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl=org.oasis.wsn
+http\://helper.workflow.cagrid.org/WorkflowHelper/Invocation=org.cagrid.workflow.helper.invocation
 
 http\://manager.workflow.cagrid.org/WorkflowManagerService/Context/types=org.cagrid.workflow.manager.instance.stubs.types
 http\://manager.workflow.cagrid.org/WorkflowManagerService/types=org.cagrid.workflow.manager.stubs.types

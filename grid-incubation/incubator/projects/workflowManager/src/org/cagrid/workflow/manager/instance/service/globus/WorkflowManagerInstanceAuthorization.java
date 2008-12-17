@@ -93,12 +93,12 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 		
 	}
 					
-	public static void authorizeGetEPRString() throws RemoteException {
+	public static void authorizeStart() throws RemoteException {
 		
 		
 	}
 					
-	public static void authorizeStart() throws RemoteException {
+	public static void authorizeGetEPRString() throws RemoteException {
 		
 		
 	}
@@ -166,17 +166,17 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 				e.printStackTrace();
 				return false;
 			}
-		} else if(operation.getLocalPart().equals("getEPRString")){
+		} else if(operation.getLocalPart().equals("start")){
 			try{
-				authorizeGetEPRString();
+				authorizeStart();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();
 				return false;
 			}
-		} else if(operation.getLocalPart().equals("start")){
+		} else if(operation.getLocalPart().equals("getEPRString")){
 			try{
-				authorizeStart();
+				authorizeGetEPRString();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

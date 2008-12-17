@@ -46,18 +46,6 @@
           </sequence>
         </complexType>
       </element>
-      <element name="GetEPRStringRequest">
-        <complexType>
-          <sequence />
-        </complexType>
-      </element>
-      <element name="GetEPRStringResponse">
-        <complexType>
-          <sequence>
-            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
-          </sequence>
-        </complexType>
-      </element>
       <element name="StartRequest">
         <complexType>
           <sequence />
@@ -95,12 +83,6 @@
   <message name="GetOutputValuesResponse">
     <part name="parameters" element="tns:GetOutputValuesResponse" />
   </message>
-  <message name="GetEPRStringRequest">
-    <part name="parameters" element="tns:GetEPRStringRequest" />
-  </message>
-  <message name="GetEPRStringResponse">
-    <part name="parameters" element="tns:GetEPRStringResponse" />
-  </message>
   <message name="StartRequest">
     <part name="parameters" element="tns:StartRequest" />
   </message>
@@ -120,10 +102,6 @@
     <operation name="getOutputValues">
       <input message="tns:GetOutputValuesRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/GetOutputValuesRequest" />
       <output message="tns:GetOutputValuesResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/GetOutputValuesResponse" />
-    </operation>
-    <operation name="getEPRString">
-      <input message="tns:GetEPRStringRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/GetEPRStringRequest" />
-      <output message="tns:GetEPRStringResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/GetEPRStringResponse" />
     </operation>
     <operation name="start">
       <input message="tns:StartRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/StartRequest" />
@@ -159,6 +137,10 @@
       <wsdl:fault name="InvalidTopicExpressionFault" message="wsntw:InvalidTopicExpressionFault" />
       <wsdl:fault name="TopicNotSupportedFault" message="wsntw:TopicNotSupportedFault" />
     </wsdl:operation>
+    <operation name="getEPRString">
+      <input message="wns2:GetEPRStringRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRStringRequest" />
+      <output message="wns2:GetEPRStringResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/GetEPRStringResponse" />
+    </operation>
   </portType>
 </definitions>
 

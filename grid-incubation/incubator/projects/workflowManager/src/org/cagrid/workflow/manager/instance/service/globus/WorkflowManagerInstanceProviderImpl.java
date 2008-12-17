@@ -26,6 +26,12 @@ public class WorkflowManagerInstanceProviderImpl{
 	}
 	
 
+    public org.cagrid.workflow.helper.invocation.GetEPRStringResponse getEPRString(org.cagrid.workflow.helper.invocation.GetEPRStringRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.invocation.GetEPRStringResponse boxedResult = new org.cagrid.workflow.helper.invocation.GetEPRStringResponse();
+    boxedResult.setResponse(impl.getEPRString());
+    return boxedResult;
+  }
+
     public org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse getTimestampedStatus(org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusRequest params) throws RemoteException {
     org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse();
     boxedResult.setTimestampedStatus(impl.getTimestampedStatus());
@@ -41,12 +47,6 @@ public class WorkflowManagerInstanceProviderImpl{
     public org.cagrid.workflow.manager.instance.stubs.GetOutputValuesResponse getOutputValues(org.cagrid.workflow.manager.instance.stubs.GetOutputValuesRequest params) throws RemoteException {
     org.cagrid.workflow.manager.instance.stubs.GetOutputValuesResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.GetOutputValuesResponse();
     boxedResult.setResponse(impl.getOutputValues());
-    return boxedResult;
-  }
-
-    public org.cagrid.workflow.manager.instance.stubs.GetEPRStringResponse getEPRString(org.cagrid.workflow.manager.instance.stubs.GetEPRStringRequest params) throws RemoteException {
-    org.cagrid.workflow.manager.instance.stubs.GetEPRStringResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.GetEPRStringResponse();
-    boxedResult.setResponse(impl.getEPRString());
     return boxedResult;
   }
 
