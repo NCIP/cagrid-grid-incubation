@@ -300,11 +300,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									final String client_key = client.getEPRString();
 									this.enclosing_resource.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);
 									
-//									System.out.println("["+ getOperationName().getLocalPart() +"] Setting parameter to stage identified by "+ client.getOperationQName()); //DEBUG
+									//System.out.println("["+ getOperationName().getLocalPart() +"] Setting parameter to stage identified by "+ client_key); //DEBUG
 									client.setParameter(iparam);  // FIXME Getting "read operation timed out" here.
-//									System.out.println("["+ getOperationName().getLocalPart() +"] Waiting for callback from "+ client.getOperationQName()); //DEBUG
+									//System.out.println("["+ getOperationName().getLocalPart() +"] Waiting for callback from "+ client_key); //DEBUG
 									this.enclosing_resource.waitForCallback(client_key);  // Wait for asynchronous callback to be received
-//									System.out.println("["+ getOperationName().getLocalPart() +"] Callback received  from "+ client.getOperationQName()); //DEBUG
+									//System.out.println("["+ getOperationName().getLocalPart() +"] Callback received  from "+ client_key); //DEBUG
 								}
 								else {  // Do streaming between stages 
 
@@ -532,7 +532,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			this.outputReadyKey.get(key).unlock();
 		}
 		logger.info("Callback received");
-//		System.err.println("Callback received");   //DEBUG
+		//System.err.println("Callback received");   //DEBUG
 	}
 
 
@@ -733,7 +733,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
-//			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationName); //DEBUG
+			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationName); 
 
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
@@ -753,23 +753,15 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 						public synchronized void run() {
 
 
-							
-
-//							try {
-//								Thread.sleep(61000);
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
-							
-//							System.out.println("[2] Thread started ("+getOperationDesc().getOperationQName() +")"); //DEBUG
+							//System.out.println("[2] Thread started ("+getOperationDesc().getOperationQName() +")"); //DEBUG
 							executeIfReady();   // poll to see if we can execute
-//							System.out.println("[3] Thread is finished ("+getOperationDesc().getOperationQName() +")"); //DEBUG
+							//System.out.println("[3] Thread is finished ("+getOperationDesc().getOperationQName() +")"); //DEBUG
 						}
 					});
 
 					
 					th.start();
-//					System.out.println("[1] Thread is detached ("+this.getOperationDesc().getOperationQName() +")"); //DEBUG
+					//System.out.println("[1] Thread is detached ("+this.getOperationDesc().getOperationQName() +")"); //DEBUG
 
 				}
 				else{  // Generate a callback so the caller can proceed, since the stage won't run right now 
