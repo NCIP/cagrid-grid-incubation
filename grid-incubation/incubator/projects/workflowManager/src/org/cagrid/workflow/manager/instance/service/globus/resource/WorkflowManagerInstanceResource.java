@@ -109,6 +109,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		int paramIndex = inputParameter.getParamIndex();
 
 		logger.info("Manager receiving "+ paramIndex +"th parameter ");
+		//System.out.println("Manager receiving "+ paramIndex +"th parameter "); //DEBUG
 
 
 
@@ -133,7 +134,11 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			this.outputDataLock.unlock();
 		}
 
+		// Since the caller expects this method to be asynchronous, send a callback to it
+		this.setOutputReady(OutputReady.TRUE);
+		
 		logger.info("END SetParameter");
+		//System.out.println("END SetParameter"); //DEBUG
 	}
 
 
@@ -434,7 +439,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 					boolean allCallbacksReceived = !this.asynchronous_callback_arrived.containsValue(Boolean.FALSE);
 					if(allCallbacksReceived){
 
-						System.out.println("[WorkflowManagerInstanceResource::deliver] All callbacks received. Execution is finished."); //DEBUG
+//						System.out.println("[WorkflowManagerInstanceResource::deliver] All callbacks received. Execution is finished."); //DEBUG
 						this.setOutputReady(OutputReady.TRUE);  // Report to the user that all callbacks were received
 //						System.out.println("[WorkflowManagerInstanceResource::deliver] Report regarding workflow end was sent"); //DEBUG
 					}
