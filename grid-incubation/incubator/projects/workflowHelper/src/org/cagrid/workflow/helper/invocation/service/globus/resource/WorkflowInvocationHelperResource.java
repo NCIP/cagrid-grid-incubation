@@ -56,10 +56,6 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 	private static Log logger = LogFactory.getLog(WorkflowInvocationHelperResource.class);
 
 	
-	// TODO Add operation that exposes this operation's name
-	
-
-
 	private QName outputType = null;
 	private boolean outputIsArray;
 	private WorkflowInvocationHelperDescriptor operationDesc = null;
@@ -306,9 +302,9 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									
 //									System.out.println("["+ getOperationName().getLocalPart() +"] Setting parameter to stage identified by "+ client.getOperationQName()); //DEBUG
 									client.setParameter(iparam);  // FIXME Getting "read operation timed out" here.
-//									System.out.println("["+ getOperationName().getLocalPart() +"] Waiting for callback"); //DEBUG
+//									System.out.println("["+ getOperationName().getLocalPart() +"] Waiting for callback from "+ client.getOperationQName()); //DEBUG
 									this.enclosing_resource.waitForCallback(client_key);  // Wait for asynchronous callback to be received
-//									System.out.println("["+ getOperationName().getLocalPart() +"] Callback received"); //DEBUG
+//									System.out.println("["+ getOperationName().getLocalPart() +"] Callback received  from "+ client.getOperationQName()); //DEBUG
 								}
 								else {  // Do streaming between stages 
 
@@ -439,12 +435,12 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 		logger.info("Execution started for "+ getOperationDesc().getOperationQName().getLocalPart()); 
 
 		this.changeStatus(Status.RUNNING);
-		try {
-			this.setOutputReady(OutputReady.FALSE);  // Generate a callback so the caller can proceed
-		} catch (ResourceException e2) {
-			e2.printStackTrace();
-			logger.error(e2);
-		}
+		//try {
+		//	this.setOutputReady(OutputReady.FALSE);  // Generate a callback so the caller can proceed
+		//} catch (ResourceException e2) {
+		//	e2.printStackTrace();
+		//	logger.error(e2);
+		//}
 
 		final Thread th = new Thread(new WorkerThread(this));
 
@@ -518,10 +514,10 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 		if( !this.outputReadyKey.containsKey(key) ){
 			logger.error("Unknown key received: "+ key);
-			return;
 		}
 
 		logger.info("Waiting for callback");
+		//System.err.println("Waiting for callback");  //DEBUG
 		this.outputReadyKey.get(key).lock();
 		try{
 
@@ -536,6 +532,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			this.outputReadyKey.get(key).unlock();
 		}
 		logger.info("Callback received");
+//		System.err.println("Callback received");   //DEBUG
 	}
 
 
