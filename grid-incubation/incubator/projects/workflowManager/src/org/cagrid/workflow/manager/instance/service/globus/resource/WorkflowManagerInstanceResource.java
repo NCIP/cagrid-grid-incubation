@@ -19,6 +19,7 @@ import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ws.security.util.StringUtil;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InstrumentationRecord;
 import org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord;
@@ -48,7 +49,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	private String eprString; // GUID for this resource
 
 	private List<String> invocationHelperEPRString = new ArrayList<String>();   // Associate parameter indices and its corresponding sources
-	private HashMap<Integer, String> outputData = new HashMap<Integer, String>();  // Associate parameter indices and its value
+	private HashMap<Integer, ArrayList<String> > outputData = new HashMap<Integer, ArrayList<String> >();  // Associate parameter indices and its value
 
 
 	// Synchronization of the access to the output values
@@ -112,8 +113,6 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		//System.out.println("Manager receiving "+ paramIndex +"th parameter "); //DEBUG
 
 
-
-
 		if(paramIndex >= this.invocationHelperEPRString.size()){
 			throw new RemoteException("Parameter index ("+ paramIndex +") is greater than the " +
 					"number of expected parameters ("+ this.invocationHelperEPRString.size() +").");
@@ -122,8 +121,10 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		try{
 			this.outputDataLock.lock();
 
-
-			this.outputData.put(paramIndex, inputParameter.getData());
+			ArrayList<String> paramData = (this.outputData.containsKey(paramIndex)) ? this.outputData.get(paramIndex) : new ArrayList<String>();
+			paramData.add(inputParameter.getData());
+			
+			this.outputData.put(paramIndex, paramData);
 			this.allValuesSet = (this.outputData.size() == this.invocationHelperEPRString.size());
 
 			if(this.allValuesSet){
@@ -135,7 +136,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		}
 
 		// Since the caller expects this method to be asynchronous, send a callback to it
-		this.setOutputReady(OutputReady.TRUE);
+		OutputReady ready = (this.outputData.size() >= this.invocationHelperEPRString.size()) ? OutputReady.TRUE : OutputReady.FALSE; 
+		this.setOutputReady(ready);
 		
 		logger.info("END SetParameter");
 		//System.out.println("END SetParameter"); //DEBUG
@@ -204,16 +206,15 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			int numOutputs = this.outputData.size();
 			retval = new String[numOutputs];
 
-			Set<Entry<Integer, String>> entrySet = this.outputData.entrySet();
-			Iterator<Entry<Integer, String>> iter = entrySet.iterator();
+			Set<Entry<Integer, ArrayList<String>>> entrySet = this.outputData.entrySet();
+			Iterator<Entry<Integer, ArrayList<String>>> iter = entrySet.iterator();
 			while( iter.hasNext() ){
 
-				Entry<Integer, String> curr_entry = iter.next();
-				retval[curr_entry.getKey().intValue()] = curr_entry.getValue();
+				Entry<Integer, ArrayList<String>> curr_entry = iter.next();
+				ArrayList<String> curr_value = curr_entry.getValue();
+				String[] curr_value_array = curr_value.toArray(new String[0]);
+				retval[curr_entry.getKey().intValue()] = joinStrArray(curr_value_array); 
 			}
-
-
-
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -225,6 +226,24 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		return retval;
 	}
 
+
+
+	private String joinStrArray(String[] strArray) {
+		
+		StringBuffer strBuf = new StringBuffer();
+		
+		if(strArray != null){
+			
+			for(int i=0; i < strArray.length; i++){
+				if(i > 0){
+					strBuf.append('\t');
+				}
+				strBuf.append(strArray[i]);
+			}
+		}
+		
+		return strBuf.toString();
+	}
 
 
 	/**

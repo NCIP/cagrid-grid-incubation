@@ -733,7 +733,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 				paramData[param.getParamIndex()] = param;
 			}
 
-			System.out.println("[setParameter] Received parameter "+ this.numSetParameters() +" of "+ this.numParameters() + " for "+ this.operationName); 
+			System.out.println("[setParameter] Received "+ (param.getParamIndex() + 1) +"-th parameter ("+ this.numSetParameters() +" of "+ this.numParameters() + " received so far) for "+ this.operationName); 
 
 			// If all parameters are already set, new status is READY do execute
 			if(  this.allParametersSet() ){
