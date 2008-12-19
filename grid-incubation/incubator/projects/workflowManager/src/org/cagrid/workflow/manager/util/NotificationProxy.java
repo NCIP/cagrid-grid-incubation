@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -36,6 +37,24 @@ public class NotificationProxy implements NotifyCallback {
 
 	
 	
+	public NotificationProxy() {
+		super();
+		
+		this.allNotificationsKey = new ReentrantLock();
+		this.allNotificationsReceivedCondition = allNotificationsKey.newCondition();
+		this.allNotificationsReceived = false;
+		
+		// Add GLOBUS_LOCATION to the system properties
+		String globus_location = System.getenv("GLOBUS_LOCATION");
+		if(globus_location == null){
+			logger.error("GLOBUS_LOCATION is not defined in the environment");
+		}
+		Properties sys_properties = System.getProperties();
+		sys_properties.setProperty("GLOBUS_LOCATION", globus_location);
+		System.setProperties(sys_properties);
+	}
+	
+	
 	/**
 	 * Wait for all registered notifications to be received 
 	 *  */
@@ -58,16 +77,18 @@ public class NotificationProxy implements NotifyCallback {
 		
 	}
 	
-	
+
+
 	/** Add the ID of an entity that is supposed to send a notification
 	 * */
-	public void registerNotifierEPR(String notifierEPR){
+	public void registerNotifierEPR(String client_dot_getEPRString){
 		
-		if( !this.asynchronousStartLock.containsKey(notifierEPR) ){
+		
+		if( !this.asynchronousStartLock.containsKey(client_dot_getEPRString) ){
 						
 			Lock key = new ReentrantLock();
-			this.asynchronousStartCallbackReceived.put(notifierEPR, Boolean.FALSE);
-			this.asynchronousStartLock.put(notifierEPR, key);
+			this.asynchronousStartCallbackReceived.put(client_dot_getEPRString, Boolean.FALSE);
+			this.asynchronousStartLock.put(client_dot_getEPRString, key);
 		}		
 	}
 	
@@ -100,7 +121,7 @@ public class NotificationProxy implements NotifyCallback {
 				if(stageKey == null){
 					logger.error("[NotificationProxy::deliver] Unable to retrieve stageKey");
 				}
-
+				
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 				logger.error(e1.getMessage(), e1);
@@ -117,7 +138,7 @@ public class NotificationProxy implements NotifyCallback {
 				e.printStackTrace();
 			}
 
-			Boolean notificationValue = new Boolean(callback.equals(OutputReady.TRUE));
+			Boolean notificationValue = callback.equals(OutputReady.TRUE) ? Boolean.TRUE : Boolean.FALSE;
 
 
 			// Store/Update the value stored internally for the current InvocationHelper
@@ -125,15 +146,25 @@ public class NotificationProxy implements NotifyCallback {
 			mutex.lock();
 			try {
 
+				if(this.asynchronousStartCallbackReceived.containsKey(stageKey)){
 
-				this.asynchronousStartCallbackReceived.put(stageKey, notificationValue);
+					this.asynchronousStartCallbackReceived.put(stageKey, notificationValue);
 
-				// If the execution is finished, report the user
-				boolean allCallbacksReceived = !this.asynchronousStartCallbackReceived.containsValue(Boolean.FALSE);
-				if(allCallbacksReceived){
+					// If the execution is finished, report the user
+					boolean allCallbacksReceived = !this.asynchronousStartCallbackReceived.containsValue(Boolean.FALSE);
+					if(allCallbacksReceived){
 
-					System.out.println("[NotificationProxy::deliver] All callbacks received. Execution is finished.");   //DEBUG
-					this.allNotificationsReceivedCondition.signalAll();
+						this.allNotificationsKey.lock();
+						try{
+							this.allNotificationsReceivedCondition.signalAll();
+						}
+						finally {
+							this.allNotificationsKey.unlock();
+						}
+					}
+				}
+				else {
+					logger.error("[NotificationProxy::deliver] Callback received from an unknown stage: "+ stageKey);
 				}
 
 
@@ -142,7 +173,7 @@ public class NotificationProxy implements NotifyCallback {
 			}
 		}
 		else{
-			logger.error("[NotificationProxy::deliver] Callback received from an unknown stage: "+ stageKey);
+			logger.error("[NotificationProxy::deliver] Topic is not OutputReady");
 		}
 	}
 }
