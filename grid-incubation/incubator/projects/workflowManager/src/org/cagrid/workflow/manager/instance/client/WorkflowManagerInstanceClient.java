@@ -108,15 +108,6 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
 		}
 	}
 
-  public java.lang.String getEPRString() throws RemoteException {
-    synchronized(portTypeMutex){
-      configureStubSecurity((Stub)portType,"getEPRString");
-    org.cagrid.workflow.helper.invocation.GetEPRStringRequest params = new org.cagrid.workflow.helper.invocation.GetEPRStringRequest();
-    org.cagrid.workflow.helper.invocation.GetEPRStringResponse boxedResult = portType.getEPRString(params);
-    return boxedResult.getResponse();
-    }
-  }
-
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException {
     synchronized(portTypeMutex){
       configureStubSecurity((Stub)portType,"destroy");
@@ -172,6 +163,24 @@ public class WorkflowManagerInstanceClient extends WorkflowManagerInstanceClient
       configureStubSecurity((Stub)portType,"start");
     org.cagrid.workflow.manager.instance.stubs.StartRequest params = new org.cagrid.workflow.manager.instance.stubs.StartRequest();
     org.cagrid.workflow.manager.instance.stubs.StartResponse boxedResult = portType.start(params);
+    }
+  }
+
+  public java.lang.String getEPRString() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getEPRString");
+    org.cagrid.workflow.helper.invocation.GetEPRStringRequest params = new org.cagrid.workflow.helper.invocation.GetEPRStringRequest();
+    org.cagrid.workflow.helper.invocation.GetEPRStringResponse boxedResult = portType.getEPRString(params);
+    return boxedResult.getResponse();
+    }
+  }
+
+  public org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord getStagesInstrumentationRecords() throws RemoteException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"getStagesInstrumentationRecords");
+    org.cagrid.workflow.manager.instance.stubs.GetStagesInstrumentationRecordsRequest params = new org.cagrid.workflow.manager.instance.stubs.GetStagesInstrumentationRecordsRequest();
+    org.cagrid.workflow.manager.instance.stubs.GetStagesInstrumentationRecordsResponse boxedResult = portType.getStagesInstrumentationRecords(params);
+    return boxedResult.getLocalWorkflowInstrumentationRecord();
     }
   }
 

@@ -56,6 +56,18 @@
           <sequence />
         </complexType>
       </element>
+      <element name="GetStagesInstrumentationRecordsRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetStagesInstrumentationRecordsResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:LocalWorkflowInstrumentationRecord" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
       <element name="WorkflowManagerInstanceResourceProperties">
         <complexType>
           <sequence>
@@ -65,6 +77,7 @@
             <element ref="ns0:TimestampedStatus" />
             <element ref="ns0:InstrumentationRecord" />
             <element ref="ns0:OutputReady" />
+            <element ref="ns0:LocalWorkflowInstrumentationRecord" />
           </sequence>
         </complexType>
       </element>
@@ -89,6 +102,12 @@
   <message name="StartResponse">
     <part name="parameters" element="tns:StartResponse" />
   </message>
+  <message name="GetStagesInstrumentationRecordsRequest">
+    <part name="parameters" element="tns:GetStagesInstrumentationRecordsRequest" />
+  </message>
+  <message name="GetStagesInstrumentationRecordsResponse">
+    <part name="parameters" element="tns:GetStagesInstrumentationRecordsResponse" />
+  </message>
   <!--============================================================
 
                        P O R T T Y P E
@@ -106,6 +125,10 @@
     <operation name="start">
       <input message="tns:StartRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/StartRequest" />
       <output message="tns:StartResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/StartResponse" />
+    </operation>
+    <operation name="getStagesInstrumentationRecords">
+      <input message="tns:GetStagesInstrumentationRecordsRequest" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/GetStagesInstrumentationRecordsRequest" />
+      <output message="tns:GetStagesInstrumentationRecordsResponse" wsa:Action="http://manager.workflow.cagrid.org/WorkflowManagerService/Context/GetStagesInstrumentationRecordsResponse" />
     </operation>
     <operation name="getServiceSecurityMetadata">
       <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />

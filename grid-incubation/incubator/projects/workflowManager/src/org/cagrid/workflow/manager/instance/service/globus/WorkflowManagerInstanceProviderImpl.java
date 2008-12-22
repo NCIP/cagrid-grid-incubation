@@ -26,12 +26,6 @@ public class WorkflowManagerInstanceProviderImpl{
 	}
 	
 
-    public org.cagrid.workflow.helper.invocation.GetEPRStringResponse getEPRString(org.cagrid.workflow.helper.invocation.GetEPRStringRequest params) throws RemoteException {
-    org.cagrid.workflow.helper.invocation.GetEPRStringResponse boxedResult = new org.cagrid.workflow.helper.invocation.GetEPRStringResponse();
-    boxedResult.setResponse(impl.getEPRString());
-    return boxedResult;
-  }
-
     public org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse getTimestampedStatus(org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusRequest params) throws RemoteException {
     org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.GetTimestampedStatusResponse();
     boxedResult.setTimestampedStatus(impl.getTimestampedStatus());
@@ -53,6 +47,18 @@ public class WorkflowManagerInstanceProviderImpl{
     public org.cagrid.workflow.manager.instance.stubs.StartResponse start(org.cagrid.workflow.manager.instance.stubs.StartRequest params) throws RemoteException {
     org.cagrid.workflow.manager.instance.stubs.StartResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.StartResponse();
     impl.start();
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.helper.invocation.GetEPRStringResponse getEPRString(org.cagrid.workflow.helper.invocation.GetEPRStringRequest params) throws RemoteException {
+    org.cagrid.workflow.helper.invocation.GetEPRStringResponse boxedResult = new org.cagrid.workflow.helper.invocation.GetEPRStringResponse();
+    boxedResult.setResponse(impl.getEPRString());
+    return boxedResult;
+  }
+
+    public org.cagrid.workflow.manager.instance.stubs.GetStagesInstrumentationRecordsResponse getStagesInstrumentationRecords(org.cagrid.workflow.manager.instance.stubs.GetStagesInstrumentationRecordsRequest params) throws RemoteException {
+    org.cagrid.workflow.manager.instance.stubs.GetStagesInstrumentationRecordsResponse boxedResult = new org.cagrid.workflow.manager.instance.stubs.GetStagesInstrumentationRecordsResponse();
+    boxedResult.setLocalWorkflowInstrumentationRecord(impl.getStagesInstrumentationRecords());
     return boxedResult;
   }
 

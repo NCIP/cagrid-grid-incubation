@@ -12,8 +12,6 @@ import java.rmi.RemoteException;
  */
 public interface WorkflowManagerInstanceI {
 
-  public java.lang.String getEPRString() throws RemoteException ;
-
   public org.oasis.wsrf.lifetime.DestroyResponse destroy(org.oasis.wsrf.lifetime.Destroy params) throws RemoteException ;
 
   public org.oasis.wsrf.lifetime.SetTerminationTimeResponse setTerminationTime(org.oasis.wsrf.lifetime.SetTerminationTime params) throws RemoteException ;
@@ -27,6 +25,10 @@ public interface WorkflowManagerInstanceI {
   public org.oasis.wsn.SubscribeResponse subscribe(org.oasis.wsn.Subscribe params) throws RemoteException ;
 
   public void start() throws RemoteException ;
+
+  public java.lang.String getEPRString() throws RemoteException ;
+
+  public org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord getStagesInstrumentationRecords() throws RemoteException ;
 
 }
 

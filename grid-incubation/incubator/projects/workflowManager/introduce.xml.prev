@@ -217,15 +217,21 @@
      <ns12:Exceptions/>
      <ns12:ImportInformation inputMessage="ns21:GetEPRStringRequest" namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation" outputMessage="ns21:GetEPRStringResponse" packageName="org.cagrid.workflow.helper.invocation" portTypeName="WorkflowInvocationHelperPortType" wsdlFile="WorkflowInvocationHelper.wsdl" xmlns:ns21="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation"/>
     </ns12:Method>
+    <ns12:Method description="" isImported="false" isProvided="false" name="getStagesInstrumentationRecords" xsi:type="ns12:MethodType">
+     <ns12:Inputs/>
+     <ns12:Output qName="ns22:LocalWorkflowInstrumentationRecord" description="" isArray="false" xmlns:ns22="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+     <ns12:Exceptions/>
+    </ns12:Method>
    </ns12:Methods>
-   <ns22:ResourcePropertiesList xsi:type="ns22:ResourcePropertiesListType" xmlns:ns22="gme://gov.nih.nci.cagrid.introduce/1/Resources">
-    <ns22:ResourceProperty qName="ns23:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns22:ResourcePropertyType" xmlns:ns23="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns22:ResourceProperty qName="ns24:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns22:ResourcePropertyType" xmlns:ns24="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
-    <ns22:ResourceProperty qName="ns25:WorkflowManagerInstanceDescriptor" description="" fileLocation="WorkflowManagerInstance_workflowManagerInstanceDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns22:ResourcePropertyType" xmlns:ns25="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"/>
-    <ns22:ResourceProperty qName="ns26:TimestampedStatus" description="" fileLocation="WorkflowManagerInstance_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns22:ResourcePropertyType" xmlns:ns26="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns22:ResourceProperty qName="ns27:InstrumentationRecord" description="" fileLocation="WorkflowManagerInstance_instrumentationRecord.xml" populateFromFile="false" register="false" xsi:type="ns22:ResourcePropertyType" xmlns:ns27="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-    <ns22:ResourceProperty qName="ns28:OutputReady" description="" fileLocation="WorkflowManagerInstance_outputReady.xml" populateFromFile="false" register="false" xsi:type="ns22:ResourcePropertyType" xmlns:ns28="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
-   </ns22:ResourcePropertiesList>
+   <ns23:ResourcePropertiesList xsi:type="ns23:ResourcePropertiesListType" xmlns:ns23="gme://gov.nih.nci.cagrid.introduce/1/Resources">
+    <ns23:ResourceProperty qName="ns24:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns23:ResourcePropertyType" xmlns:ns24="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns23:ResourceProperty qName="ns25:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns23:ResourcePropertyType" xmlns:ns25="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns23:ResourceProperty qName="ns26:WorkflowManagerInstanceDescriptor" description="" fileLocation="WorkflowManagerInstance_workflowManagerInstanceDescriptor.xml" populateFromFile="false" register="false" xsi:type="ns23:ResourcePropertyType" xmlns:ns26="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"/>
+    <ns23:ResourceProperty qName="ns27:TimestampedStatus" description="" fileLocation="WorkflowManagerInstance_timestampedStatus.xml" populateFromFile="false" register="false" xsi:type="ns23:ResourcePropertyType" xmlns:ns27="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns23:ResourceProperty qName="ns28:InstrumentationRecord" description="" fileLocation="WorkflowManagerInstance_instrumentationRecord.xml" populateFromFile="false" register="false" xsi:type="ns23:ResourcePropertyType" xmlns:ns28="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns23:ResourceProperty qName="ns29:OutputReady" description="" fileLocation="WorkflowManagerInstance_outputReady.xml" populateFromFile="false" register="false" xsi:type="ns23:ResourcePropertyType" xmlns:ns29="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+    <ns23:ResourceProperty qName="ns30:LocalWorkflowInstrumentationRecord" description="" fileLocation="WorkflowManagerInstance_localWorkflowInstrumentationRecord.xml" populateFromFile="false" register="false" xsi:type="ns23:ResourcePropertyType" xmlns:ns30="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService"/>
+   </ns23:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Lifetime xsi:type="ns3:Lifetime"/>
@@ -236,8 +242,8 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns29:Extensions xsi:type="ns29:ExtensionsType" xmlns:ns29="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
- <ns30:ServiceProperties xmlns:ns30="gme://gov.nih.nci.cagrid.introduce/1/Property">
-  <ns30:Property description="WorkflowManager's DN, Temporarily added by andrecs. Shouldn't be necessary" isFromETC="false" key="managerIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
- </ns30:ServiceProperties>
+ <ns31:Extensions xsi:type="ns31:ExtensionsType" xmlns:ns31="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns32:ServiceProperties xmlns:ns32="gme://gov.nih.nci.cagrid.introduce/1/Property">
+  <ns32:Property description="WorkflowManager's DN, Temporarily added by andrecs. Shouldn't be necessary" isFromETC="false" key="managerIdentity" value="/O=osu/OU=bmi=CN=Testing CA"/>
+ </ns32:ServiceProperties>
 </ns1:ServiceDescription>

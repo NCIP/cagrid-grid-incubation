@@ -15,5 +15,6 @@ public interface WorkflowManagerInstanceConstants {
 	public static final QName TIMESTAMPEDSTATUS = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "TimestampedStatus");
 	public static final QName INSTRUMENTATIONRECORD = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "InstrumentationRecord");
 	public static final QName OUTPUTREADY = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "OutputReady");
+	public static final QName LOCALWORKFLOWINSTRUMENTATIONRECORD = new QName("http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService", "LocalWorkflowInstrumentationRecord");
 	
 }

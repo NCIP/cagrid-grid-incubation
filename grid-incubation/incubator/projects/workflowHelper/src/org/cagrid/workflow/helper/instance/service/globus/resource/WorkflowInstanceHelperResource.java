@@ -547,8 +547,6 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 						// resource property so it is exposed by this resource
 						if( nextStatus.getStatus().equals(Status.FINISHED) || nextStatus.getStatus().equals(Status.ERROR) ){
 
-//							System.out.println("Workflow is finished, exposing instrumentation data");  //DEBUG
-
 							LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
 							localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
 							InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(),
@@ -558,8 +556,6 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 							InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
 							localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource
 							this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
-
-//							System.out.println("Resource property set");    //DEBUG
 						}
 					}
 				}
@@ -581,7 +577,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		/// Handle instrumentation reports
 		else if( isInstrumentationReport ){
 
-			InstrumentationRecord instrumentation_data = null;;
+			InstrumentationRecord instrumentation_data = null;
 			try {
 				instrumentation_data = (InstrumentationRecord) actual_property.getValueAsType(message_qname, InstrumentationRecord.class);
 			} catch (Exception e) {
@@ -594,7 +590,6 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 			// Update the instrumentation data exposed by this resource
-//			System.out.println("Updating instrumentation data"); //DEBUG
 			LocalWorkflowInstrumentationRecord localWorkflowInstrumentationRecord = new LocalWorkflowInstrumentationRecord();
 			localWorkflowInstrumentationRecord.setIdentifier(this.getEPRString());
 			InstrumentationRecord localWorkflowRecord = new InstrumentationRecord(this.localWorkflowInstrumentation.getIdentifier(),
@@ -613,14 +608,18 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 			// Log the instrumentation data
 			logger.info("Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier());
+			System.out.println("[deliver] "+ stagesRecords.length +" reports stored so far"); //DEBUG
+			System.out.println("Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier()); //DEBUG
 			final int numMeasurements = instrumentation_data.getRecords().length;
 			for(int i=0; i < numMeasurements; i++){
 
 				EventTimePeriod curr_measurement = instrumentation_data.getRecords(i);
 				long elapsedTimeInNanos = curr_measurement.getEndTime() - curr_measurement.getStartTime();
-				logger.info(curr_measurement.getEvent()+ ": "+ (elapsedTimeInNanos/1000) + " microseconds");
+				logger.info(curr_measurement.getEvent()+ ": "+ (elapsedTimeInNanos/1000000) + " miliseconds");
+				System.out.println(curr_measurement.getEvent()+ ": "+ (elapsedTimeInNanos/1000000) + " miliseconds"); //DEBUG
 			}
 			logger.info("-------------------------------------------------------");
+			System.out.println("-------------------------------------------------------"); //DEBUG
 
 
 		}

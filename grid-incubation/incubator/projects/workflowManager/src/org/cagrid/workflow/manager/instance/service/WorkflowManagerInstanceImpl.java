@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord;
 import org.cagrid.workflow.helper.descriptor.TimestampedStatus;
 import org.cagrid.workflow.helper.instance.client.WorkflowInstanceHelperClient;
 import org.cagrid.workflow.manager.instance.service.globus.resource.WorkflowManagerInstanceResource;
@@ -29,7 +30,7 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 	 * 
 	 * @param inputParameter Parameter one wants to send to the ManagerInstance
 	 * */
-	public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
+  public void setParameter(org.cagrid.workflow.helper.descriptor.InputParameter inputParameter) throws RemoteException {
 
 		logger.info("Receiving parameter");
 
@@ -44,11 +45,10 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		return;
 	}
 
-
 	/**
 	 * Retrieve the current status of the workflow managed by this ManagerInstance. 
 	 * */
-	public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
+  public org.cagrid.workflow.helper.descriptor.TimestampedStatus getTimestampedStatus() throws RemoteException {
 
 		TimestampedStatus status = null;
 		try {
@@ -64,8 +64,7 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 	/**
 	 * Retrieve workflow outputs.
 	 * */
-	public java.lang.String[] getOutputValues() throws RemoteException {
-
+  public java.lang.String[] getOutputValues() throws RemoteException {
 
 		logger.info("Retrieving workflow outputs");
 
@@ -81,10 +80,7 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		return outputs;
 	}
 
-
-
-
-	public java.lang.String getEPRString() throws RemoteException {
+  public java.lang.String getEPRString() throws RemoteException {
 
 		String EPR = null;
 
@@ -114,10 +110,8 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		return;
 	} 
 
-
 	/** Start workflow execution */
-	public void start() throws RemoteException {
-
+  public void start() throws RemoteException {
 
 		logger.info("Starting workflow execution");
 
@@ -130,6 +124,21 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 		logger.info("END");
 		return;
 	}
+
+  
+  /** Retrieve measurements taken during execution */
+  public org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord getStagesInstrumentationRecords() throws RemoteException {
+
+	  LocalWorkflowInstrumentationRecord record = null;
+	  try {
+		  WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
+		  record  = resource.getLocalWorkflowInstrumentationRecord();
+	  } catch (Exception e) {
+		  throw new RemoteException(e.getMessage(), e);
+	  }
+
+	  return record;
+  }
 
 } 
 

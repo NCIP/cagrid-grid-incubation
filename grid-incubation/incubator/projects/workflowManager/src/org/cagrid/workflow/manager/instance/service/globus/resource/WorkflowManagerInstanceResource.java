@@ -19,7 +19,6 @@ import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ws.security.util.StringUtil;
 import org.cagrid.workflow.helper.descriptor.InputParameter;
 import org.cagrid.workflow.helper.descriptor.InstrumentationRecord;
 import org.cagrid.workflow.helper.descriptor.LocalWorkflowInstrumentationRecord;
@@ -62,12 +61,6 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	private Map<String, QName> eprToOperationName = new HashMap<String, QName>();
 
 
-
-	// Data to be set for each InvocationHelper
-	private HashMap<String, ArrayList<InputParameter> > workflowData = new HashMap<String, ArrayList<InputParameter>>();
-	private HashMap<String, EndpointReferenceType> string2EPR = new HashMap<String, EndpointReferenceType>(); // Map the keys from 'workflowData' to EPR
-
-
 	// Status of each InstanceHelper managed by this ManagerInstance
 	private Map<String, TimestampedStatus> stageStatus = new HashMap<String, TimestampedStatus>() ;
 	private int timestamp = 0; // Logical time of a status notification created by this resource
@@ -85,7 +78,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	private List<EndpointReferenceType> instanceHelperEPRs = new ArrayList<EndpointReferenceType>();    // EPR of each InstanceHelper associated with this resource
 
 
-	// TODO Instrumentation data for this workflow
+	// Instrumentation data for this workflow, grouped by local workflow
+	private Map<String, LocalWorkflowInstrumentationRecord> instrumentationReports = new HashMap<String, LocalWorkflowInstrumentationRecord>();
 
 
 	// Synchronization for when output is ready
@@ -353,7 +347,6 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 					if( new_status.equals(Status.FINISHED) || new_status.equals(Status.ERROR)){
 
 						logger.info("[WorkflowManagerInstanceResource.deliver] EXECUTION HAS FINISHED");
-						//this.isFinished = true;
 					}
 
 
@@ -374,7 +367,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		}
 
 
-		// TODO Handle instrumentation reports
+		// Handle instrumentation reports
 		else if(isInstrumentationReport){
 
 
@@ -387,20 +380,20 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 				e1.printStackTrace();
 			}
 
-			LocalWorkflowInstrumentationRecord intrumentation_data = null;
+			LocalWorkflowInstrumentationRecord instrumentation_data = null;
 			try {
-				intrumentation_data = (LocalWorkflowInstrumentationRecord) actual_property.getValueAsType(message_qname, LocalWorkflowInstrumentationRecord.class);
+				instrumentation_data = (LocalWorkflowInstrumentationRecord) actual_property.getValueAsType(message_qname, LocalWorkflowInstrumentationRecord.class);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 
-			logger.debug("[WorkflowManagerInstanceResource::deliver] Received new status value: "+ intrumentation_data.getIdentifier()
+			logger.debug("[WorkflowManagerInstanceResource::deliver] Received new instrumentation report: "+ instrumentation_data.getIdentifier()
 					+" from "+ this.EPR2Name.get(stageKey));
 
 
-			//.......
-
+			// Store instrumentation data from received report
+			this.instrumentationReports.put(instrumentation_data.getIdentifier(), instrumentation_data);
 		}
 
 
@@ -451,22 +444,39 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 				mutex.lock();
 				try {
 
-//					System.out.println("Updating OutputReady value in internal map"); //DEBUG
 					this.asynchronous_callback_arrived.put(stageKey, outputReady);
 
 					// If the execution is finished, report the user
 					boolean allCallbacksReceived = !this.asynchronous_callback_arrived.containsValue(Boolean.FALSE);
 					if(allCallbacksReceived){
 
-//						System.out.println("[WorkflowManagerInstanceResource::deliver] All callbacks received. Execution is finished."); //DEBUG
 						this.setOutputReady(OutputReady.TRUE);  // Report to the user that all callbacks were received
-//						System.out.println("[WorkflowManagerInstanceResource::deliver] Report regarding workflow end was sent"); //DEBUG
+						
+						
+						// Export all instrumentation reports as a resource property
+						LocalWorkflowInstrumentationRecord allStagesRecord = new LocalWorkflowInstrumentationRecord();
+						allStagesRecord.setIdentifier(this.getEPRString());
+						
+						// Make an array containing all received instrumentation records
+						ArrayList<InstrumentationRecord> recordsArray = new ArrayList<InstrumentationRecord>();
+						Set<Entry<String, LocalWorkflowInstrumentationRecord>> entrySet = this.instrumentationReports.entrySet();
+						Iterator<Entry<String, LocalWorkflowInstrumentationRecord>> iter = entrySet.iterator();
+						while(iter.hasNext()){
+						
+							Entry<String, LocalWorkflowInstrumentationRecord> currEntry = iter.next();
+							LocalWorkflowInstrumentationRecord currLocalReport = currEntry.getValue();
+							InstrumentationRecord[] stageRecordsArray = currLocalReport.getStagesRecords();
+							for(int i=0; i < stageRecordsArray.length; i++){
+								
+								recordsArray.add(stageRecordsArray[i]);
+							}
+							
+						}
+						InstrumentationRecord[] stagesRecords = recordsArray.toArray(new InstrumentationRecord[0]);
+						allStagesRecord.setStagesRecords(stagesRecords);
+						this.setLocalWorkflowInstrumentationRecord(allStagesRecord);
+//						this.setInstrumentationRecord(record); // TODO
 					}
-					else {
-
-//						System.out.println("OutputReady notification delivering finished"); // DEBUG
-					}
-
 
 				} catch (ResourceException e) {
 					logger.error(e.getMessage());
@@ -475,15 +485,11 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 				finally {
 					mutex.unlock();
 				}
-
 			}
 			else{
 				logger.error("[WorkflowManagerInstanceResource::deliver] Callback received from an unknown stage: "+ stageKey);
 			}
-
 		}
-
-//		System.out.println("END ManagerInstance::deliver");
 	}
 
 
@@ -653,7 +659,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			try {
 				curr_client = new WorkflowInstanceHelperClient(curr_epr);
 
-				String instanceID = curr_client.getEPRString();
+//				String instanceID = curr_client.getEPRString();
 				//this.stageStatus.remove(instanceID);  // Stop monitoring the current instance
 				//this.EPR2Name.remove(instanceID);
 				curr_client.destroy();  // Destroy the resource associated with the current instance

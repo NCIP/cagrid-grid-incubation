@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -301,7 +299,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									this.enclosing_resource.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);
 									
 									//System.out.println("["+ getOperationName().getLocalPart() +"] Setting parameter to stage identified by "+ client_key); //DEBUG
-									client.setParameter(iparam);  // FIXME Getting "read operation timed out" here.
+									client.setParameter(iparam);  // FIXME Getting "read operation timed out" here when the execution lasts longet than a couple of hours
 									//System.out.println("["+ getOperationName().getLocalPart() +"] Waiting for callback from "+ client_key); //DEBUG
 									this.enclosing_resource.waitForCallback(client_key);  // Wait for asynchronous callback to be received
 									//System.out.println("["+ getOperationName().getLocalPart() +"] Callback received  from "+ client_key); //DEBUG

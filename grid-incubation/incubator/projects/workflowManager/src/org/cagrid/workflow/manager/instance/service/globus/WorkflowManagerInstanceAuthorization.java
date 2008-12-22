@@ -102,6 +102,11 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeGetStagesInstrumentationRecords() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -177,6 +182,14 @@ public class WorkflowManagerInstanceAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("getEPRString")){
 			try{
 				authorizeGetEPRString();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("getStagesInstrumentationRecords")){
+			try{
+				authorizeGetStagesInstrumentationRecords();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();
