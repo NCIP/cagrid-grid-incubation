@@ -80,6 +80,8 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 
 	// Instrumentation data for this workflow, grouped by local workflow
 	private Map<String, LocalWorkflowInstrumentationRecord> instrumentationReports = new HashMap<String, LocalWorkflowInstrumentationRecord>();
+	private int num_reports_total = 0;  // Sum of number of reports received from each container
+	private LocalWorkflowInstrumentationRecord global_instrumentation = new LocalWorkflowInstrumentationRecord();
 
 
 	// Synchronization for when output is ready
@@ -388,12 +390,27 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 			}
 
 
-			logger.debug("[WorkflowManagerInstanceResource::deliver] Received new instrumentation report: "+ instrumentation_data.getIdentifier()
+			final String reportID = instrumentation_data.getIdentifier();
+			logger.debug("[WorkflowManagerInstanceResource::deliver] Received new instrumentation report: "+ reportID
 					+" from "+ this.EPR2Name.get(stageKey));
 
 
 			// Store instrumentation data from received report
-			this.instrumentationReports.put(instrumentation_data.getIdentifier(), instrumentation_data);
+			InstrumentationRecord[] stagesRecords = instrumentation_data.getStagesRecords();
+			final int num_reports = (stagesRecords != null) ? stagesRecords.length : 0;
+			
+			
+			// Update total number of received reports
+			if( this.instrumentationReports.containsKey(reportID) ){
+				LocalWorkflowInstrumentationRecord old_report = this.instrumentationReports.get(reportID);
+				InstrumentationRecord[] old_records = old_report.getStagesRecords();
+				final int num_old_records = (old_records != null) ? old_records.length : 0;
+				this.num_reports_total -= num_old_records;
+			}
+			this.instrumentationReports.put(reportID, instrumentation_data);
+			this.num_reports_total += num_reports;
+			System.out.println("[ManagerInstanceResource::deliver] "+ num_reports +" InstrumentationReports just received ("
+					+ this.num_reports_total +" total reports received so far)"); //DEBUG
 		}
 
 
@@ -475,6 +492,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 						InstrumentationRecord[] stagesRecords = recordsArray.toArray(new InstrumentationRecord[0]);
 						allStagesRecord.setStagesRecords(stagesRecords);
 						this.setLocalWorkflowInstrumentationRecord(allStagesRecord);
+						this.global_instrumentation = allStagesRecord;
 //						this.setInstrumentationRecord(record); // TODO
 					}
 
@@ -690,6 +708,12 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		}
 
 		return this.eprToOperationName.get(epr).toString();
+	}
+
+
+	public LocalWorkflowInstrumentationRecord getStagesInstrumentationRecords() {
+		
+		return this.global_instrumentation;
 	}
 
 }

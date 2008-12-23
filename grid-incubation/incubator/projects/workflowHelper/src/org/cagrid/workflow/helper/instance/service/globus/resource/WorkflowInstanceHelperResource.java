@@ -556,6 +556,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 							InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
 							localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource
 							this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
+							System.out.println("[InstanceHelperResource::deliver] Sending "+ stagesRecords.length +" instrumentation reports to Manager"); //DEBUG
 						}
 					}
 				}
@@ -598,18 +599,18 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 			InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
 			localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource
-			try {
-				this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
-			} catch (ResourceException e) {
-				logger.error(e.getMessage(), e);
-				e.printStackTrace();
-			}
+//			try {
+//				this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
+//			} catch (ResourceException e) {
+//				logger.error(e.getMessage(), e);
+//				e.printStackTrace();
+//			}
 
 
 			// Log the instrumentation data
 			logger.info("Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier());
-			System.out.println("[deliver] "+ stagesRecords.length +" reports stored so far"); //DEBUG
-			System.out.println("Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier()); //DEBUG
+			System.out.println("[InstanceHelperResource::deliver] "+ stagesRecords.length +" reports stored so far"); //DEBUG
+			System.out.println("[InstanceHelperResource::deliver] Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier()); //DEBUG
 			final int numMeasurements = instrumentation_data.getRecords().length;
 			for(int i=0; i < numMeasurements; i++){
 

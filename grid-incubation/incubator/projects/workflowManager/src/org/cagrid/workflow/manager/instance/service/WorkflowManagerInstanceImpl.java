@@ -132,7 +132,7 @@ public class WorkflowManagerInstanceImpl extends WorkflowManagerInstanceImplBase
 	  LocalWorkflowInstrumentationRecord record = null;
 	  try {
 		  WorkflowManagerInstanceResource resource = getResourceHome().getAddressedResource();
-		  record  = resource.getLocalWorkflowInstrumentationRecord();
+		  record  = resource.getStagesInstrumentationRecords();
 	  } catch (Exception e) {
 		  throw new RemoteException(e.getMessage(), e);
 	  }
