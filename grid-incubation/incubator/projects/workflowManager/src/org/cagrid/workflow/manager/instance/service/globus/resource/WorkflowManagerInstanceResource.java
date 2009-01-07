@@ -93,6 +93,15 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 	private boolean alreadyStarted = false;
 
 
+	private int workflowID;
+
+
+	private long wallTimeStart;
+
+
+	private long wallTimeEnd;
+
+
 
 	/**
 	 * Receive the output of a WorkflowInvocationHelper and store it internally. The source of the received
@@ -348,7 +357,11 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 					Status new_status = this.calculateStatus();
 					if( new_status.equals(Status.FINISHED) || new_status.equals(Status.ERROR)){
 
+						this.endWallTimeMeasurement();
 						logger.info("[WorkflowManagerInstanceResource.deliver] EXECUTION HAS FINISHED");
+						logger.info("[WorkflowManagerInstanceResource.deliver] Wall time: "+ (this.getWallTimeInMillis()/1000.0) +" seconds");
+						System.out.println("[WorkflowManagerInstanceResource.deliver] Wall time: "+ (this.getWallTimeInMillis()/1000.0) +" seconds"); //DEBUG
+						
 					}
 
 
@@ -467,8 +480,6 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 					boolean allCallbacksReceived = !this.asynchronous_callback_arrived.containsValue(Boolean.FALSE);
 					if(allCallbacksReceived){
 
-						this.setOutputReady(OutputReady.TRUE);  // Report to the user that all callbacks were received
-						
 						
 						// Export all instrumentation reports as a resource property
 						LocalWorkflowInstrumentationRecord allStagesRecord = new LocalWorkflowInstrumentationRecord();
@@ -478,11 +489,13 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 						ArrayList<InstrumentationRecord> recordsArray = new ArrayList<InstrumentationRecord>();
 						Set<Entry<String, LocalWorkflowInstrumentationRecord>> entrySet = this.instrumentationReports.entrySet();
 						Iterator<Entry<String, LocalWorkflowInstrumentationRecord>> iter = entrySet.iterator();
+						System.out.println("[ManagerInstanceResource::deliver] Number of local workflow reports: "+ entrySet.size()); //DEBUG
 						while(iter.hasNext()){
 						
 							Entry<String, LocalWorkflowInstrumentationRecord> currEntry = iter.next();
 							LocalWorkflowInstrumentationRecord currLocalReport = currEntry.getValue();
 							InstrumentationRecord[] stageRecordsArray = currLocalReport.getStagesRecords();
+							System.out.println("[ManagerInstanceResource::deliver] Adding "+ stageRecordsArray.length +" records to the global set"); //DEBUG
 							for(int i=0; i < stageRecordsArray.length; i++){
 								
 								recordsArray.add(stageRecordsArray[i]);
@@ -490,10 +503,15 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 							
 						}
 						InstrumentationRecord[] stagesRecords = recordsArray.toArray(new InstrumentationRecord[0]);
+						final int numStagesRecords = (stagesRecords != null) ? stagesRecords.length : -1;
+						System.out.println("[ManagerInstanceResource::deliver] Exposing instrumentation report containing "+ numStagesRecords +" records"); //DEBUG
 						allStagesRecord.setStagesRecords(stagesRecords);
 						this.setLocalWorkflowInstrumentationRecord(allStagesRecord);
 						this.global_instrumentation = allStagesRecord;
 //						this.setInstrumentationRecord(record); // TODO
+						
+						
+						this.setOutputReady(OutputReady.TRUE);  // Report to the user that all callbacks were received
 					}
 
 				} catch (ResourceException e) {
@@ -716,6 +734,26 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 		return this.global_instrumentation;
 	}
 
+
+	public void setWorkflowID(int workflowID) {
+		
+		this.workflowID = workflowID;
+	}
+
+
+	public void startWallTimeMeasurement() {
+		
+		this.wallTimeStart = System.currentTimeMillis();		
+	}
+
+	private void endWallTimeMeasurement(){
+		this.wallTimeEnd = System.currentTimeMillis();
+	}
+	
+	public long getWallTimeInMillis(){
+		return (this.wallTimeEnd - this.wallTimeStart);
+	}
+	
 }
 
 

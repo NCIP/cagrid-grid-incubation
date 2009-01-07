@@ -265,6 +265,8 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 			thisResource = (WorkflowManagerInstanceResource) home.find(resourceKey);
 
 			// set the workflow descriptor on the helper instance
+			thisResource.setWorkflowID(workflowID);
+			thisResource.startWallTimeMeasurement();
 			thisResource.setWorkflowManagerInstanceDescriptor(workflowDesc);
 
 			String transportURL = (String) ctx
