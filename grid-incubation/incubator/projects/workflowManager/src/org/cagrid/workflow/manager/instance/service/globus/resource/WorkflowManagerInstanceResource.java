@@ -357,10 +357,13 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 					Status new_status = this.calculateStatus();
 					if( new_status.equals(Status.FINISHED) || new_status.equals(Status.ERROR)){
 
+						
 						this.endWallTimeMeasurement();
+						this.setOutputReady(OutputReady.TRUE);  // Report the workflow has finished and the output is ready to retrieve
 						logger.info("[WorkflowManagerInstanceResource.deliver] EXECUTION HAS FINISHED");
 						logger.info("[WorkflowManagerInstanceResource.deliver] Wall time: "+ (this.getWallTimeInMillis()/1000.0) +" seconds");
 						System.out.println("[WorkflowManagerInstanceResource.deliver] Wall time: "+ (this.getWallTimeInMillis()/1000.0) +" seconds"); //DEBUG
+						
 						
 					}
 
@@ -511,7 +514,7 @@ public class WorkflowManagerInstanceResource extends WorkflowManagerInstanceReso
 //						this.setInstrumentationRecord(record); // TODO
 						
 						
-						this.setOutputReady(OutputReady.TRUE);  // Report to the user that all callbacks were received
+//						this.setOutputReady(OutputReady.TRUE);  // Report to the user that all callbacks were received // TODO Is it right not to execute this command?
 					}
 
 				} catch (ResourceException e) {

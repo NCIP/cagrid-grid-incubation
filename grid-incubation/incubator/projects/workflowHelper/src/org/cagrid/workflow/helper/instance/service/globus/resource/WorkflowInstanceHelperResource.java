@@ -534,7 +534,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 					if(statusesDiffer) this.localWorkflowInstrumentation.eventEnd(currTimestampedStatus.getStatus().toString());
 
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);
-					this.setTimestampedStatus(nextStatus);
+					
 
 					// Get and store time for the start of the new state
 					if( statusesDiffer ){
@@ -559,6 +559,8 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 							System.out.println("[InstanceHelperResource::deliver] Sending "+ stagesRecords.length +" instrumentation reports to Manager"); //DEBUG
 						}
 					}
+					
+					this.setTimestampedStatus(nextStatus);
 				}
 
 

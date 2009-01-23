@@ -1026,7 +1026,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 			// Update current status
 			int nextTimestamp = this.getTimestampedStatus().getTimestamp() + 1;
 
-			this.setTimestampedStatus(new TimestampedStatus(new_status, nextTimestamp));
+			
 			this.step_times.eventStart(new_status.toString());
 
 
@@ -1040,6 +1040,8 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 						InstrumentationRecord(getOperationDesc().getOperationQName().toString(), instrumentaion_data));
 
 			}
+			
+			this.setTimestampedStatus(new TimestampedStatus(new_status, nextTimestamp));
 
 		} catch (ResourceException e) {
 			logger.error(e.getMessage(), e);
