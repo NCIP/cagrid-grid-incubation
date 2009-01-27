@@ -220,7 +220,7 @@ public class ServiceInvocationUtil {
 								// Then 'elem' belongs to a complex type, and it is already in a suitable format to add to the request
 								curr_param.addChildElement(elem);
 
-								logger.debug("Adding struct: "+elem);
+								logger.info("Adding struct: "+elem);
 								break;
 
 							}

@@ -292,28 +292,28 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 									
 
 									// Do usual forwarding
-									logger.debug("Doing usual forwarding after getting operation's output");
+									logger.info("Doing usual forwarding after getting operation's output");
 									next_destination = pdesc.getDestinationEPR()[0];  // This might change when we have multiple destinations
 									WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
 									final String client_key = client.getEPRString();
 									this.enclosing_resource.subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);
 									
-									//System.out.println("["+ getOperationName().getLocalPart() +"] Setting parameter to stage identified by "+ client_key); //DEBUG
+									logger.info("["+ getOperationName().getLocalPart() +"] Setting parameter to stage identified by "+ client_key); //DEBUG
 									client.setParameter(iparam);  // FIXME Getting "read operation timed out" here when the execution lasts longet than a couple of hours
 									//System.out.println("["+ getOperationName().getLocalPart() +"] Waiting for callback from "+ client_key); //DEBUG
 									this.enclosing_resource.waitForCallback(client_key);  // Wait for asynchronous callback to be received
-									//System.out.println("["+ getOperationName().getLocalPart() +"] Callback received  from "+ client_key); //DEBUG
+									logger.info("["+ getOperationName().getLocalPart() +"] Callback received  from "+ client_key); //DEBUG
 								}
 								else {  // Do streaming between stages 
 
 
 
 									// Enable streaming in the output recipient
-									logger.debug("Streaming output after getting operation's output");
+									logger.info("Streaming output after getting operation's output");
 									next_destination = pdesc.getDestinationEPR()[0];  //  This might change when we have multiple destinations
 									WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(next_destination);
 									client.startStreaming();
-									logger.debug("Streaming enabled");
+									logger.info("Streaming enabled");
 
 									// Subscribe to notifications of output availability
 									subscribeWithCallback(OutputReady.getTypeDesc().getXmlType(), client);  // The next method is asynchronous, so we need to register a callback
@@ -328,7 +328,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 									// Iterate over the array elements' list, forwarding each one to a (possibly) different location
 									ListIterator<String> array_iter = array_elements.listIterator();
-									logger.debug("Iterating over each element of the output");
+									logger.info("Iterating over each element of the output");
 									while( array_iter.hasNext() ){
 
 										String curr_array_element = array_iter.next();
@@ -338,11 +338,11 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 											// Disable streaming in the output recipient
 											client.endStreaming();
 
-											logger.debug("Disabling streaming"); 
+											logger.info("Disabling streaming"); 
 										} 
 
 										iparam.setData(curr_array_element);
-										logger.debug("Current array element sent"); 
+										logger.info("Current array element sent"); 
 
 
 										// Get one of the possible destinations according to the delivery policy
