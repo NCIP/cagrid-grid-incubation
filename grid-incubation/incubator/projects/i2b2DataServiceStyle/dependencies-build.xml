@@ -6,7 +6,7 @@
 	<!-- OVERLOADED-->
 	<property name="ivy.generated.artifacts.pattern" value="${ivy.generated.artifacts.dir}/lib/[artifact]-[revision].[ext]" />
 
-	<property name="ivy-shared-targets.file" location="${basedir}/../../antfiles/ivy/ivy-shared-targets-13.xml" />
+	<property name="ivy-shared-targets.file" location="${basedir}/../../antfiles/ivy/ivy-shared-targets-${repository.version}.xml" />
 	<import file="${ivy-shared-targets.file}" />
 
 	<target name="do.resolve-dependencies" depends="pre.resolve-dependencies">

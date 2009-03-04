@@ -23,12 +23,12 @@
 
   <dependencies>
     <!-- cagrid data service and extensions -->
-    <dependency rev="${repository.version}" org="caGrid" name="dataExtensions" conf="style->styleRequirements"/>
-    <dependency rev="${repository.version}" org="caGrid" name="data"
+    <dependency rev="latest.integration" org="caGrid" name="dataExtensions" conf="style->styleRequirements"/>
+    <dependency rev="latest.integration" org="caGrid" name="data"
       conf="processor->service"/>
       
     <!-- Introduce for extension related stuff -->
-    <dependency rev="${repository.version}" org="caGrid" name="introduce" conf="style->core" />
+    <dependency rev="latest.integration" org="caGrid" name="introduce" conf="style->core" />
 
     <!-- external dependencies -->
     <dependency rev="2.0.0" org="jgoodies" name="validation" conf="style->default"/>
