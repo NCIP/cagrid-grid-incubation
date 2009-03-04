@@ -10,8 +10,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /** 
- *  SDK4QueryProcessor
- *  Processes CQL against a caCORE SDK 4.0 data source
+ *  I2B2QueryProcessor
+ *  Processes CQL against a I2B2 data source
  * 
  * @author Shannon Hastings
  * 

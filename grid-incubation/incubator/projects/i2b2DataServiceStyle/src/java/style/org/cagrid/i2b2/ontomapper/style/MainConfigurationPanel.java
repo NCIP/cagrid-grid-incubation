@@ -14,15 +14,13 @@ public class MainConfigurationPanel extends gov.nih.nci.cagrid.data.ui.wizard.Ab
 
     @Override
     public String getPanelShortName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "I2B2 Data Service";
     }
 
 
     @Override
     public String getPanelTitle() {
-        // TODO Auto-generated method stub
-        return null;
+        return "I2B2 data service configuration";
     }
 
 
