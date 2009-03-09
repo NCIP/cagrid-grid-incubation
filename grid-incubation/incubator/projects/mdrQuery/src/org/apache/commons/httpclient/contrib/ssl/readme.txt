@@ -1,0 +1,1 @@
+This package contains Java classes from Apache Commons HttpClient contrib which allows the HttpClient to accept servers that uses self-signed certificate.
