@@ -55,7 +55,7 @@ public class MDRQueryClient extends MDRQueryClientBase implements MDRQueryI {
                     // test....
 
                     Query query = new Query();
-                    query.setTerm("CL307586");
+                    query.setTerm("Cancer");
                     query.setResource("caDSR");
                     query.setNumResults(100);
                     ResultSet results = client.query(query);
