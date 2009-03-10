@@ -6,6 +6,16 @@
     <condition property="is.windows">
         <os family="windows"/>
     </condition>
+	
+	<!-- Classpaths -->
+	<path id="lib.classpath">
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${exist.dir}/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
     
 
     <taskdef name="codegen" classname="org.apache.axis2.tool.ant.AntCodegenTask" classpathref="lib.classpath"/>
