@@ -281,9 +281,9 @@ public class QueryServiceManager {
     public static void main(String[] args) {
         try {
             QueryServiceManager manager = new QueryServiceManager(new File("etc/stylesheets"),new File("etc/config.xml"));
-            Query_service info = manager.getQueryServiceInfo("EVS-DescLogicConcept");
+            Query_service info = manager.getQueryServiceInfo("cgMDR");
             Query query = new Query();
-            query.setTerm("Patient");
+            query.setTerm("ShannonHastings");
             query.setResource(info.getName());
             query.setServiceUrl(new org.apache.axis.types.URI(info.getServiceUrl()));
             ResultSet rs = manager.query(query);
