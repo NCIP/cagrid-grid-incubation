@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://cancergrid.org/schema/query" xmlns:cfg="http://cancergrid.org/schema/config"
+    targetNamespace="http://cancergrid.org/schema/query" elementFormDefault="qualified"> 
+    
+    <xs:import namespace="http://cancergrid.org/schema/config" schemaLocation="config.xsd"/>
+
+    <xs:element name="query" type="query"/>
+    <xs:complexType name="query">
+        <xs:sequence>
+            <xs:element name="serviceUrl" type="xs:anyURI" nillable="true" minOccurs="0"/>
+            <xs:element name="resource" type="xs:string"/>
+            <xs:element name="src" type="xs:string" nillable="true" minOccurs="0"/>
+            <xs:element name="term" type="xs:string"/>
+            <xs:element name="startIndex" type="xs:int" minOccurs="0" default="0"/>
+            <xs:element name="numResults" type="xs:int" minOccurs="0" default="10"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="resources" type="resources"/>
+    <xs:complexType name="resources">
+        <xs:sequence>
+            <xs:element name="query_service" type="query_service" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="query_service" type="query_service"/>
+    <xs:complexType name="query_service">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="webUrl" type="xs:anyURI"/>
+        </xs:sequence>
+        <xs:attribute name="category" type="cfg:category"/>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+    
+</xs:schema>

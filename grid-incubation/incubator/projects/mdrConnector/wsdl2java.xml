@@ -1,0 +1,49 @@
+<project name="wsdl2java" basedir=".">
+    
+    <!--property name="lib" value="../../../lib"/-->
+    <property name="wsdl2java.home" value="generated"/>
+    
+    <condition property="is.windows">
+        <os family="windows"/>
+    </condition>
+    
+
+    <taskdef name="codegen" classname="org.apache.axis2.tool.ant.AntCodegenTask" classpathref="lib.classpath"/>
+    
+    <target name="check.wsdl2java.package.exist">
+        <condition property="wsdl2java.package.exist">
+            <available file="${wsdl2java.home}/dist/${wsdl2java.name}"/>
+        </condition>
+    </target>
+    
+    <target name="wsdl2java" depends="check.wsdl2java.package.exist" unless="wsdl2java.package.exist">
+        <mkdir dir="${wsdl2java.home}"/>
+        <mkdir dir="${wsdl2java.home}/build/classes"/>
+        <mkdir dir="${wsdl2java.home}/dist"/>
+        
+        <codegen
+            wsdlfilename="${resources}/${wsdl.name}"
+            output="${wsdl2java.home}"
+            serverSide="true"
+            generateServiceXml="true"
+            serverSideInterface="true"
+            databindingName="xmlbeans"/>
+        
+        <move todir="${wsdl2java.home}/build/classes" overwrite="true">
+            <fileset dir="${wsdl2java.home}/resources">
+                <include name="**/*schema*/**/*.class"/>
+                <include name="**/*schema*/**/*.xsb"/>
+            </fileset>
+        </move>
+        <javac srcdir="${wsdl2java.home}/src" destdir="${wsdl2java.home}/build/classes" source="1.5" target="1.5">
+            <classpath refid="lib.classpath"/>
+            <classpath path="${wsdl2java.home}/build/classes"/>
+        </javac>
+        
+        <jar destfile="${wsdl2java.home}/dist/${wsdl2java.name}" basedir="${wsdl2java.home}/build/classes"/>
+    </target>
+    
+    <target name="clean-wsdl2java-artifacts">
+        <delete dir="${wsdl2java.home}"/>
+    </target>
+</project>

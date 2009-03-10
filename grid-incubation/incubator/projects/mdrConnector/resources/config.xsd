@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://cancergrid.org/schema/config"
+    targetNamespace="http://cancergrid.org/schema/config" elementFormDefault="qualified">
+    
+    <xs:element name="config" type="config"/>
+    <xs:complexType name="config">
+        <xs:sequence>
+            <xs:element ref="resources"/>
+            <xs:element ref="cache_config"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="resources" type="resources"/>
+    <xs:complexType name="resources">
+        <xs:sequence>
+            <xs:element ref="query_service" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="query_service" type="query_service"/>
+    <xs:complexType name="query_service">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="webUrl" type="xs:anyURI"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="category" type="category"/>
+        <xs:attribute name="class" type="xs:string"/>
+        <xs:attribute name="serviceUrl" type="xs:string"/>
+        <xs:attribute name="connection_type" type="xs:string"/>
+        <xs:attribute name="requestSequence" type="xs:string"/>
+        <xs:attribute name="digestSequence" type="xs:string"/>
+        <xs:attribute name="cache_collection_id" type="xs:string"/>
+        <xs:attribute name="cache_provider" type="xs:string"/>
+        <xs:attribute name="cache" type="xs:boolean"/>
+    </xs:complexType>
+    
+    <xs:element name="cache_config" type="cache_config"/>
+    <xs:complexType name="cache_config">
+        <xs:sequence>
+            <xs:element ref="cache_provider" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="cache_provider" type="cache_provider"/>
+    <xs:complexType name="cache_provider">
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="class" type="xs:string"/>
+        <xs:attribute name="username" type="xs:string"/>
+        <xs:attribute name="userpassword" type="xs:string"/>
+        <xs:attribute name="resource" type="xs:string"/>
+        <xs:attribute name="cache_period" type="xs:long"/>
+    </xs:complexType>
+    
+    <xs:simpleType name="category">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="CONCEPT"/>
+            <xs:enumeration value="CDE"/>
+            <xs:enumeration value="CLASSIFICATION_SCHEME"/>
+            <xs:enumeration value="UNKNOWN"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

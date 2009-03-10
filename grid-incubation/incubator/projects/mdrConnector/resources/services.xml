@@ -1,0 +1,29 @@
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.3  Built on : Aug 10, 2007 (04:45:47 LKT) -->
+<serviceGroup>
+    <service name="QueryServiceManager">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out"
+                class="org.cancergrid.services.query.QueryServiceManagerMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">org.cancergrid.ws.query.QueryServiceManager</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="listResourcesAsXml" mep="http://www.w3.org/ns/wsdl/in-out">
+            <actionMapping>urn:listResourcesAsXml</actionMapping>
+            <outputActionMapping>urn:listResourcesAsXmlResponse</outputActionMapping>
+        </operation>
+        <operation name="query" mep="http://www.w3.org/ns/wsdl/in-out">
+            <actionMapping>urn:query</actionMapping>
+            <outputActionMapping>urn:queryResponse</outputActionMapping>
+        </operation>
+        <operation name="queryString" mep="http://www.w3.org/ns/wsdl/in-out">
+            <actionMapping>urn:queryString</actionMapping>
+            <outputActionMapping>urn:queryStringResponse</outputActionMapping>
+        </operation>
+        <operation name="listResources" mep="http://www.w3.org/ns/wsdl/in-out">
+            <actionMapping>urn:listResources</actionMapping>
+            <outputActionMapping>urn:listResourcesResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

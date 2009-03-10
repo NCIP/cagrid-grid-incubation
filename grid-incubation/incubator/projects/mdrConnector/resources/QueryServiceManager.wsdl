@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:axis2xsd="http://org.apache.axis2/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+   xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:query="http://cancergrid.org/services/query"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+   targetNamespace="http://cancergrid.org/services/query">
+   <wsdl:documentation>QueryServiceManager</wsdl:documentation>
+   <wsdl:types>
+      <xs:schema xmlns="http://cancergrid.org/services/query" attributeFormDefault="qualified"
+         elementFormDefault="qualified" targetNamespace="http://cancergrid.org/services/query"
+         xmlns:qr="http://cancergrid.org/schema/query"
+         xmlns:rs="http://cancergrid.org/schema/result-set">
+         <xs:import namespace="http://cancergrid.org/schema/query" schemaLocation="query.xsd"/>
+         <xs:import namespace="http://cancergrid.org/schema/result-set" schemaLocation="result-set.xsd"/>
+         <xs:element name="listResourcesAsXmlResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="returnResources"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:complexType name="returnResources">
+            <xs:sequence>
+               <xs:element ref="qr:resources"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="query">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="qr:query"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="queryResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="return"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:complexType name="return">
+            <xs:sequence>
+               <xs:element ref="rs:result-set"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="queryString">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="qr:query"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="queryStringResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="listResourcesResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true"
+                     type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="listResourcesAsXmlRequest"/>
+   <wsdl:message name="listResourcesAsXmlResponse">
+      <wsdl:part name="parameters" element="query:listResourcesAsXmlResponse"/>
+   </wsdl:message>
+   <wsdl:message name="queryRequest">
+      <wsdl:part name="parameters" element="query:query"/>
+   </wsdl:message>
+   <wsdl:message name="queryResponse">
+      <wsdl:part name="parameters" element="query:queryResponse"/>
+   </wsdl:message>
+   <wsdl:message name="queryStringRequest">
+      <wsdl:part name="parameters" element="query:queryString"/>
+   </wsdl:message>
+   <wsdl:message name="queryStringResponse">
+      <wsdl:part name="parameters" element="query:queryStringResponse"/>
+   </wsdl:message>
+   <wsdl:message name="listResourcesRequest"/>
+   <wsdl:message name="listResourcesResponse">
+      <wsdl:part name="parameters" element="query:listResourcesResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="QueryServiceManagerPortType">
+      <wsdl:operation name="listResourcesAsXml">
+         <wsdl:input message="query:listResourcesAsXmlRequest" wsaw:Action="urn:listResourcesAsXml"/>
+         <wsdl:output message="query:listResourcesAsXmlResponse"
+            wsaw:Action="urn:listResourcesAsXmlResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="query">
+         <wsdl:input message="query:queryRequest" wsaw:Action="urn:query"/>
+         <wsdl:output message="query:queryResponse" wsaw:Action="urn:queryResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="queryString">
+         <wsdl:input message="query:queryStringRequest" wsaw:Action="urn:queryString"/>
+         <wsdl:output message="query:queryStringResponse" wsaw:Action="urn:queryStringResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="listResources">
+         <wsdl:input message="query:listResourcesRequest" wsaw:Action="urn:listResources"/>
+         <wsdl:output message="query:listResourcesResponse" wsaw:Action="urn:listResourcesResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="QueryServiceManagerSOAP11Binding" type="query:QueryServiceManagerPortType">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="listResourcesAsXml">
+         <soap:operation soapAction="urn:listResourcesAsXml" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="query">
+         <soap:operation soapAction="urn:query" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="queryString">
+         <soap:operation soapAction="urn:queryString" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="listResources">
+         <soap:operation soapAction="urn:listResources" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="QueryServiceManagerSOAP12Binding" type="query:QueryServiceManagerPortType">
+      <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="listResourcesAsXml">
+         <soap12:operation soapAction="urn:listResourcesAsXml" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="query">
+         <soap12:operation soapAction="urn:query" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="queryString">
+         <soap12:operation soapAction="urn:queryString" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="listResources">
+         <soap12:operation soapAction="urn:listResources" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="QueryServiceManagerHttpBinding" type="query:QueryServiceManagerPortType">
+      <http:binding verb="POST"/>
+      <wsdl:operation name="listResourcesAsXml">
+         <http:operation location="QueryServiceManager/listResourcesAsXml"/>
+         <wsdl:input>
+            <mime:content type="text/xml" part="listResourcesAsXml"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="text/xml" part="listResourcesAsXml"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="query">
+         <http:operation location="QueryServiceManager/query"/>
+         <wsdl:input>
+            <mime:content type="text/xml" part="query"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="text/xml" part="query"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="queryString">
+         <http:operation location="QueryServiceManager/queryString"/>
+         <wsdl:input>
+            <mime:content type="text/xml" part="queryString"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="text/xml" part="queryString"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="listResources">
+         <http:operation location="QueryServiceManager/listResources"/>
+         <wsdl:input>
+            <mime:content type="text/xml" part="listResources"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="text/xml" part="listResources"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="QueryServiceManager">
+      <wsdl:port name="QueryServiceManagerSOAP11port_http"
+         binding="query:QueryServiceManagerSOAP11Binding">
+         <soap:address location="http://129.67.150.57:2080/axis2/services/QueryServiceManager"/>
+      </wsdl:port>
+      <wsdl:port name="QueryServiceManagerSOAP12port_http"
+         binding="query:QueryServiceManagerSOAP12Binding">
+         <soap12:address location="http://129.67.150.57:2080/axis2/services/QueryServiceManager"/>
+      </wsdl:port>
+      <wsdl:port name="QueryServiceManagerHttpport" binding="query:QueryServiceManagerHttpBinding">
+         <http:address location="http://129.67.150.57:2080/axis2/services/QueryServiceManager"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
