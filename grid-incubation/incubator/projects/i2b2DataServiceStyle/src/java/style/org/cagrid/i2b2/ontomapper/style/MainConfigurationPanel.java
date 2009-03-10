@@ -20,7 +20,7 @@ public class MainConfigurationPanel extends gov.nih.nci.cagrid.data.ui.wizard.Ab
 
     @Override
     public String getPanelTitle() {
-        return "I2B2 data service configuration";
+        return "Configuration Panel";
     }
 
 
