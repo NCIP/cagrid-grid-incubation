@@ -128,8 +128,12 @@
 		<mkdir dir="${tests.reports}" />
 	</target>
 
+	<target name="checkExist" unless="exist.dir">
+		<fail message="Exist must be installed and EXIST_HOME must be set"/>
+	</target>
+
 	<!-- initialise build -->
-	<target name="init">
+	<target name="init" depends="checkExist">
 		<mkdir dir="${build}" />
 		<mkdir dir="${build}/classes" />
 		<mkdir dir="${dist}" />
