@@ -137,4 +137,13 @@
 
 	<target name="all" depends="clean-all,dist-aar">
 	</target>
+	
+	<target name="deploy" depends="all">
+		<copy file="${aar.name}" tofile="${exist.dir}/webapp/WEB-INF/services/${aar.name}"></copy>
+		<copy todir="${exist.dir}/webapp/WEB-INF/data">
+			<fileset dir="data"/>
+		</copy>
+		<copy file="conf.xml" tofile="${exist.dir}/webapp/WEB-INF/conf.xml"></copy>
+		<copy file="config.xml" tofile="${exist.dir}/webapp/WEB-INF/classes/config.xml"></copy>
+	</target>
 </project>
