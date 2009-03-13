@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cgRegression:mdr-tests xmlns:cgRegression="http://www.cancergrid.org/schema/cgRegression" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../regression-test/regression-tests.xsd">
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>lib-util path tests</cgRegression:test-name>
+        <cgRegression:test-desc>API exerciser for lib-util path functions</cgRegression:test-desc>
+        <cgRegression:script>lib-util-path-tests.xquery</cgRegression:script>
+        <cgRegression:comparison>test/lib-util-path-tests.xml</cgRegression:comparison>
+        <cgRegression:module>library</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>lib-util tests</cgRegression:test-name>
+        <cgRegression:test-desc>API exerciser for lib-util functions</cgRegression:test-desc>
+        <cgRegression:script>lib-util-test.xquery</cgRegression:script>
+        <cgRegression:comparison>test/lib-util-test.xml</cgRegression:comparison>
+        <cgRegression:module>library</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>administered-item tests</cgRegression:test-name>
+        <cgRegression:test-desc>API exerciser for administered-item functions</cgRegression:test-desc>
+        <cgRegression:script>administered-item-test.xquery</cgRegression:script>
+        <cgRegression:comparison>test/administered-item-test.xml</cgRegression:comparison>
+        <cgRegression:module>library</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>permissible-value tests</cgRegression:test-name>
+        <cgRegression:test-desc>API exerciser for permissible-value functions</cgRegression:test-desc>
+        <cgRegression:script>permissible-value-test.xquery</cgRegression:script>
+        <cgRegression:comparison>test/permissible-value-test.xml</cgRegression:comparison>
+        <cgRegression:module>library</cgRegression:module>
+    </cgRegression:mdr-test>
+</cgRegression:mdr-tests>

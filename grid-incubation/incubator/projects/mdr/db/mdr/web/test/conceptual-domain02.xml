@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
+        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
+        <title>Conceptual Domain: Non-enumerated conceptual domain for unique study subject identifiers</title>
+    </head>
+    <body>
+        <div>
+            <img alt="cancer grid header" src="../web/images/james_logo_life.gif"/>
+            <br clear="none"/>
+            <h2 class="title">metadata registry</h2>
+            <br clear="none"/>
+            <table>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/homepage.xquery" shape="rect">
+                                <img alt="registry home" src="../web/images/greybutton.bmp"/>
+                                <span>registry home</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/contents.xquery" shape="rect">
+                                <img alt="contents" src="../web/images/greybutton.bmp"/>
+                                <span>contents</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/search.xquery" shape="rect">
+                                <img alt="search" src="../web/images/greybutton.bmp"/>
+                                <span>search</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../model/index.htm" shape="rect">
+                                <img alt="model" src="../web/images/greybutton.bmp"/>
+                                <span>model</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/documentation.xquery" shape="rect">
+                                <img alt="documentation" src="../web/images/greybutton.bmp"/>
+                                <span>documentation</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/login.xquery" shape="rect">
+                                <img alt="login" src="../web/images/greybutton.bmp"/>
+                                <span>login</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                </tr>
+            </table>
+            <br clear="none"/>
+            <div class="welcome">welcome: guest</div>
+        </div>
+        <br clear="none"/>
+        <div class="admin_item_header">Conceptual Domain: Non-enumerated conceptual domain for unique study subject identifiers</div>
+        <br clear="none"/>
+        <table>
+            <tr>
+                <td rowspan="1" colspan="1">
+                    <div class="cssnav">
+                        <a target="_top" href="conceptual_domain.xquery?compound_id=GB-CANCERGRID-D1E592583-0.11&amp;as-xml=true" shape="rect">
+                            <img alt="as XML" src="../web/images/greybutton.bmp"/>
+                            <span>as XML</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div>
+            <div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <h3>Administered Item - Preferred Name: Non-enumerated conceptual domain for unique study subject identifiers</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administered Item Identifier</td>
+                            <td rowspan="1" colspan="1">GB-CANCERGRID-D1E592583-0.11</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Registered By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Dr. Peter Macallum</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, CancerGrid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">01223 765348</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <div class="admin_item_section_header">Designation</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="section">
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
+                            <td rowspan="1" colspan="1">
+                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Name</td>
+                            <td rowspan="1" colspan="1">Non-enumerated conceptual domain for unique study subject identifiers (preferred designation)</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition</td>
+                            <td rowspan="1" colspan="1">Assigned by the randomisation office</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Language</td>
+                            <td rowspan="1" colspan="1">GB-eng</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition Source Reference</td>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr class="light-rule">
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell_last" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <div class="admin_item_section_header">Administration</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administrative Status</td>
+                            <td rowspan="1" colspan="1">scheduledForReview</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administered By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Peter MacCallum</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, CancerGrid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1"/>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Creation On</td>
+                            <td rowspan="1" colspan="1">2006-08-08+01:00</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Effective From</td>
+                            <td rowspan="1" colspan="1">2006-08-08+01:00</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Last Changed On</td>
+                            <td rowspan="1" colspan="1">2007-01-05Z</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Effective until</td>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Submitted By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Steve Harris</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Researcher, CancerGrid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1"/>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Explanatory Comments</td>
+                            <td rowspan="1" colspan="1">(none)</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="4" rowspan="1">
+                                <div class="admin_item_section_header">Reference Documents</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%" rowspan="1" colspan="1">
+                                <div class="admin_item_table_header">id</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                                <div class="admin_item_table_header">language</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                                <div class="admin_item_table_header">title</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                                <div class="admin_item_table_header">type</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">
+                                <a href="http://canmed-onc3469.medsch.ucl.ac.uk:80/exist111/rest/db/mdr/data/reference_document/Breast Cancer Phase III Reporting standards.pdf" shape="rect">KNCSJG1HE</a>
+                            </td>
+                            <td rowspan="1" colspan="1">eng</td>
+                            <td rowspan="1" colspan="1">Breast Cancer Phase III Reporting standards.pdf</td>
+                            <td rowspan="1" colspan="1">commissioning</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">
+                                <a href="http://canmed-onc3469.medsch.ucl.ac.uk:80/exist111/rest/db/mdr/data/reference_document/tAnGo_clinic_randomisation_form_version_3.pdf" shape="rect">tango_rand_form</a>
+                            </td>
+                            <td rowspan="1" colspan="1">eng</td>
+                            <td rowspan="1" colspan="1">Tango Clinic Randomisation Form version 3</td>
+                            <td rowspan="1" colspan="1">Example usage</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="section">
+                <table class="section">
+                    <tr>
+                        <td colspan="2" rowspan="1">
+                            <div class="admin_item_section_header">Conceptual Domain Specific Properties</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Type</td>
+                        <td rowspan="1" colspan="1">
+                            <div>non enumerated conceptual domain</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Dimensionality</td>
+                        <td rowspan="1" colspan="1">pure number</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section">
+                <div class="admin_item_section_header">Related conceptual domains</div>
+                <table class="section">
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Cited by this conceptual domain</td>
+                        <td rowspan="1" colspan="1">
+                            <div>no outgoing relationships specified</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Cited by other conceptual domains</td>
+                        <td rowspan="1" colspan="1">
+                            <div>no incoming relationships detected</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p align="right">
+            <a href="http://validator.w3.org/check?uri=referer" shape="rect">
+                <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
+            </a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer" shape="rect">
+                <img alt="Valid CSS!" src="../web/images/vcss.png" style="border:0;width:88px;height:31px"/>
+            </a>
+        </p>
+    </body>
+</html>

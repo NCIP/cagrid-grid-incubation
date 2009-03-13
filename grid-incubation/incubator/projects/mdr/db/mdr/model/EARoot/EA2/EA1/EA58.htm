@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ISO11179::Item_Identifier</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Item_Identifier  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">15/12/2005 10:48:01</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">15/12/2005 15:36:41</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{08B4F09D-96AC-4255-A6D2-08E28A7F858E}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA14.htm">ISO11179 - Administration and identification (figures 4 and 5)</a>, <a href="../../EA5/EA2/EA18/EA425.htm">cgMDR_resources</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">The&nbsp;<WBR>composite&nbsp;<WBR>datatype&nbsp;<WBR>Item&nbsp;<WBR>Identifier&nbsp;<WBR>is&nbsp;<WBR>used&nbsp;<WBR>to&nbsp;<WBR>specify&nbsp;<WBR>the&nbsp;<WBR>unique&nbsp;<WBR>identifier&nbsp;<WBR>for&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item.&nbsp;<WBR>The&nbsp;<WBR>Item&nbsp;<WBR>Identifier&nbsp;<WBR>is&nbsp;<WBR>composed&nbsp;<WBR>of&nbsp;<WBR>three&nbsp;<WBR>parts&nbsp;<WBR>as&nbsp;<WBR>shown&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>following&nbsp;<WBR>attribute&nbsp;<WBR>list.&nbsp;<WBR>The&nbsp;<WBR>item&nbsp;<WBR>registration&nbsp;<WBR>authority&nbsp;<WBR>identifier&nbsp;<WBR>identifies&nbsp;<WBR>the&nbsp;<WBR>owning&nbsp;<WBR>Registration&nbsp;<WBR>Authority.&nbsp;<WBR>The&nbsp;<WBR>data&nbsp;<WBR>identifier&nbsp;<WBR>uniquely&nbsp;<WBR>identifies&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>within&nbsp;<WBR>a&nbsp;<WBR>Registration&nbsp;<WBR>Authority.&nbsp;<WBR>Data&nbsp;<WBR>identifiers&nbsp;<WBR>shall&nbsp;<WBR>be&nbsp;<WBR>unique&nbsp;<WBR>within&nbsp;<WBR>a&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>for&nbsp;<WBR>each&nbsp;<WBR>occurrence&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item.&nbsp;<WBR>The&nbsp;<WBR>version&nbsp;<WBR>is&nbsp;<WBR>used&nbsp;<WBR>to&nbsp;<WBR>distinguish&nbsp;<WBR>multiple&nbsp;<WBR>instances&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>same<br />Administered&nbsp;<WBR>Item&nbsp;<WBR>as&nbsp;<WBR>it&nbsp;<WBR>undergoes&nbsp;<WBR>changes.</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="EA73.htm">Registration_Authority_Identifier</a></i><br /><strong>&nbsp;&nbsp;item_registration_authority_identifier</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>identifier&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>registration&nbsp;<WBR>authority&nbsp;<WBR>registering&nbsp;<WBR>the&nbsp;<WBR>item&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;The&nbsp;<WBR>structure&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>identification&nbsp;<WBR>of&nbsp;<WBR>organizations&nbsp;<WBR>and&nbsp;<WBR>organization&nbsp;<WBR>parts&nbsp;<WBR>consists&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>following&nbsp;<WBR>four&nbsp;<WBR>components:&lt;br&nbsp;<WBR>/&gt;a)&nbsp;<WBR>the&nbsp;<WBR>International&nbsp;<WBR>Code&nbsp;<WBR>Designator&nbsp;<WBR>(ICD);&lt;br&nbsp;<WBR>/&gt;b)&nbsp;<WBR>the&nbsp;<WBR>identification&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>organization&nbsp;<WBR>within&nbsp;<WBR>an&nbsp;<WBR>identification&nbsp;<WBR>scheme:&nbsp;<WBR>a&nbsp;<WBR>data&lt;br&nbsp;<WBR>/&gt;element&nbsp;<WBR>containing&nbsp;<WBR>an&nbsp;<WBR>organization&nbsp;<WBR>identifier;&lt;br&nbsp;<WBR>/&gt;c)&nbsp;<WBR>the&nbsp;<WBR>identification&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>organization&nbsp;<WBR>part:&nbsp;<WBR>a&nbsp;<WBR>data&nbsp;<WBR>element&nbsp;<WBR>containing&nbsp;<WBR>an&lt;br&nbsp;<WBR>/&gt;organization&nbsp;<WBR>part&nbsp;<WBR>identifier&nbsp;<WBR>(OPI);&lt;br&nbsp;<WBR>/&gt;d)&nbsp;<WBR>the&nbsp;<WBR>OPI&nbsp;<WBR>source&nbsp;<WBR>indicator&nbsp;<WBR>(OPIS):&nbsp;<WBR>a&nbsp;<WBR>data&nbsp;<WBR>element&nbsp;<WBR>containing&nbsp;<WBR>a&nbsp;<WBR>code&nbsp;<WBR>value&lt;br&nbsp;<WBR>/&gt;indicating&nbsp;<WBR>the&nbsp;<WBR>source&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>OPI.&lt;br&nbsp;<WBR>/&gt;The&nbsp;<WBR>third&nbsp;<WBR>component,&nbsp;<WBR>identification&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>organization&nbsp;<WBR>part,&nbsp;<WBR>is&nbsp;<WBR>optional.&nbsp;<WBR>It&nbsp;<WBR>is&nbsp;<WBR>used&nbsp;<WBR>when&nbsp;<WBR>and&nbsp;<WBR>only&nbsp;<WBR>when&nbsp;<WBR>one&nbsp;<WBR>wants&nbsp;<WBR>to&nbsp;<WBR>designate&nbsp;<WBR>a&nbsp;<WBR>specific&nbsp;<WBR>part&nbsp;<WBR>within&nbsp;<WBR>an&nbsp;<WBR>organization.&lt;br&nbsp;<WBR>/&gt;The&nbsp;<WBR>fourth&nbsp;<WBR>component,&nbsp;<WBR>the&nbsp;<WBR>OPI&nbsp;<WBR>source&nbsp;<WBR>indicator&nbsp;<WBR>(OPIS),&nbsp;<WBR>shall&nbsp;<WBR>not&nbsp;<WBR>be&nbsp;<WBR>used&nbsp;<WBR>if&nbsp;<WBR>the&nbsp;<WBR>third&lt;br&nbsp;<WBR>/&gt;component&nbsp;<WBR>is&nbsp;<WBR>not&nbsp;<WBR>used;&nbsp;<WBR>it&nbsp;<WBR>is&nbsp;<WBR>optional&nbsp;<WBR>when&nbsp;<WBR>the&nbsp;<WBR>OPI&nbsp;<WBR>is&nbsp;<WBR>used.&lt;br&nbsp;<WBR>/&gt;The&nbsp;<WBR>format&nbsp;<WBR>of&nbsp;<WBR>these&nbsp;<WBR>data&nbsp;<WBR>elements&nbsp;<WBR>is&nbsp;<WBR>the&nbsp;<WBR>following:&lt;br&nbsp;<WBR>/&gt;-&nbsp;<WBR>ICD:&nbsp;<WBR>integer,&nbsp;<WBR>variable&nbsp;<WBR>length,&nbsp;<WBR>up&nbsp;<WBR>to&nbsp;<WBR>4&nbsp;<WBR>digits;&lt;br&nbsp;<WBR>/&gt;-&nbsp;<WBR>Identification&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>organization:&nbsp;<WBR>variable&nbsp;<WBR>length,&nbsp;<WBR>up&nbsp;<WBR>to&nbsp;<WBR>35&nbsp;<WBR>characters;&lt;br&nbsp;<WBR>/&gt;-&nbsp;<WBR>OPI:&nbsp;<WBR>variable&nbsp;<WBR>length,&nbsp;<WBR>up&nbsp;<WBR>to&nbsp;<WBR>35&nbsp;<WBR>characters;&lt;br&nbsp;<WBR>/&gt;-&nbsp;<WBR>OPIS:&nbsp;<WBR>1&nbsp;<WBR>character.&lt;br&nbsp;<WBR>/&gt;No&nbsp;<WBR>particular&nbsp;<WBR>sequence&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>four&nbsp;<WBR>components&nbsp;<WBR>is&nbsp;<WBR>specified&nbsp;<WBR>in&nbsp;<WBR>this&nbsp;<WBR>International&nbsp;<WBR>Standard.”
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;data_identifier</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			A.3.3&nbsp;<WBR>Assignment&nbsp;<WBR>of&nbsp;<WBR>Data&nbsp;<WBR>Identifier&nbsp;<WBR>(DI)&lt;br&nbsp;<WBR>/&gt;Each&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>accepted&nbsp;<WBR>into&nbsp;<WBR>the&nbsp;<WBR>metadata&nbsp;<WBR>register&nbsp;<WBR>shall&nbsp;<WBR>be&nbsp;<WBR>assigned&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier.&nbsp;<WBR>A&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier&nbsp;<WBR>shall&nbsp;<WBR>also&nbsp;<WBR>be&nbsp;<WBR>assigned&nbsp;<WBR>to&nbsp;<WBR>an&nbsp;<WBR>existing&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>when&nbsp;<WBR>it&nbsp;<WBR>is&nbsp;<WBR>modified&nbsp;<WBR>in&nbsp;<WBR>such&nbsp;<WBR>a&nbsp;<WBR>way&nbsp;<WBR>as&nbsp;<WBR>to&nbsp;<WBR>change&nbsp;<WBR>the&nbsp;<WBR>meaning&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>or&nbsp;<WBR>the&nbsp;<WBR>representation&nbsp;<WBR>form&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>potential&nbsp;<WBR>values&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item.&nbsp;<WBR>For&nbsp;<WBR>example,&nbsp;<WBR>changes&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>mandatory&nbsp;<WBR>attributes,&nbsp;<WBR>Definition&nbsp;<WBR>and/or&nbsp;<WBR>Form&nbsp;<WBR>of&nbsp;<WBR>Representation&nbsp;<WBR>would&nbsp;<WBR>require&nbsp;<WBR>the&nbsp;<WBR>assignment&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier.&nbsp;<WBR>Editorial&nbsp;<WBR>changes&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>definition,&nbsp;<WBR>however,&nbsp;<WBR>would&nbsp;<WBR>not&nbsp;<WBR>cause&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item,&nbsp;<WBR>as&nbsp;<WBR>long&nbsp;<WBR>as&nbsp;<WBR>the&nbsp;<WBR>essential&nbsp;<WBR>meaning&nbsp;<WBR>expressed&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>definition&nbsp;<WBR>remains&nbsp;<WBR>the&nbsp;<WBR>same.&nbsp;<WBR>For&nbsp;<WBR>example,&nbsp;<WBR>the&nbsp;<WBR>value&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>administrative&nbsp;<WBR>attributes&nbsp;<WBR>listed&nbsp;<WBR>in&nbsp;<WBR>Annex&nbsp;<WBR>B&nbsp;<WBR>may&nbsp;<WBR>change&nbsp;<WBR>without&nbsp;<WBR>causing&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;Based&nbsp;<WBR>on&nbsp;<WBR>the&nbsp;<WBR>requirements&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>subject&nbsp;<WBR>matter&nbsp;<WBR>included&nbsp;<WBR>in&nbsp;<WBR>its&nbsp;<WBR>metadata&nbsp;<WBR>register,&nbsp;<WBR>each&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>shall&nbsp;<WBR>establish&nbsp;<WBR>and&nbsp;<WBR>publish&nbsp;<WBR>as&nbsp;<WBR>appropriate,&nbsp;<WBR>specific&nbsp;<WBR>guidelines&nbsp;<WBR>for&nbsp;<WBR>any&nbsp;<WBR>additional&nbsp;<WBR>conditions&nbsp;<WBR>requiring&nbsp;<WBR>assignment&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier&nbsp;<WBR>(i.e.,&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item),&nbsp;<WBR>due&nbsp;<WBR>to&nbsp;<WBR>changes&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>values&nbsp;<WBR>of&nbsp;<WBR>mandatory&nbsp;<WBR>attributes&nbsp;<WBR>established&nbsp;<WBR>for&nbsp;<WBR>its&nbsp;<WBR>metadata&nbsp;<WBR>register.&nbsp;<WBR>&nbsp;<WBR>Each&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>shall&nbsp;<WBR>establish&nbsp;<WBR>and&nbsp;<WBR>publish&nbsp;<WBR>specific&nbsp;<WBR>guidelines&nbsp;<WBR>on&nbsp;<WBR>the&nbsp;<WBR>format,&nbsp;<WBR>presentation,&nbsp;<WBR>and&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>Data&nbsp;<WBR>Identifiers&nbsp;<WBR>that&nbsp;<WBR>are&nbsp;<WBR>used&nbsp;<WBR>within&nbsp;<WBR>the&nbsp;<WBR>metadata&nbsp;<WBR>register.
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;version</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			In&nbsp;<WBR>general,&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Version&nbsp;<WBR>Identifier&nbsp;<WBR>may&nbsp;<WBR>be&nbsp;<WBR>generated&nbsp;<WBR>when&nbsp;<WBR>any&nbsp;<WBR>attribute&nbsp;<WBR>value&nbsp;<WBR>(other&nbsp;<WBR>than&nbsp;<WBR>one&nbsp;<WBR>requiring&nbsp;<WBR>a&lt;br&nbsp;<WBR>/&gt;new&nbsp;<WBR>Data&nbsp;<WBR>Identifier)&nbsp;<WBR>changes.&nbsp;<WBR>Each&nbsp;<WBR>Administered&nbsp;<WBR>Item,&nbsp;<WBR>however,&nbsp;<WBR>may&nbsp;<WBR>require&nbsp;<WBR>a&nbsp;<WBR>different&nbsp;<WBR>versioning&nbsp;<WBR>treatment.&lt;br&nbsp;<WBR>/&gt;For&nbsp;<WBR>example,&nbsp;<WBR>a&nbsp;<WBR>change&nbsp;<WBR>in&nbsp;<WBR>Permissible&nbsp;<WBR>Data&nbsp;<WBR>Element&nbsp;<WBR>Values&nbsp;<WBR>for&nbsp;<WBR>an&nbsp;<WBR>Employee&nbsp;<WBR>Name&nbsp;<WBR>may&nbsp;<WBR>not&nbsp;<WBR>require&nbsp;<WBR>a&nbsp;<WBR>new&lt;br&nbsp;<WBR>/&gt;version&nbsp;<WBR>identifier,&nbsp;<WBR>while&nbsp;<WBR>a&nbsp;<WBR>change&nbsp;<WBR>of&nbsp;<WBR>Permissible&nbsp;<WBR>Values&nbsp;<WBR>for&nbsp;<WBR>Account&nbsp;<WBR>Type&nbsp;<WBR>will&nbsp;<WBR>likely&nbsp;<WBR>require&nbsp;<WBR>a&nbsp;<WBR>version&nbsp;<WBR>identifier&lt;br&nbsp;<WBR>/&gt;change.&nbsp;<WBR>Each&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>shall&nbsp;<WBR>establish&nbsp;<WBR>specific&nbsp;<WBR>guidelines&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>subject&nbsp;<WBR>matters&nbsp;<WBR>in&nbsp;<WBR>which&nbsp;<WBR>it&lt;br&nbsp;<WBR>/&gt;specializes&nbsp;<WBR>and&nbsp;<WBR>for&nbsp;<WBR>which&nbsp;<WBR>it&nbsp;<WBR>is&nbsp;<WBR>responsible.&lt;br&nbsp;<WBR>/&gt;Each&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>shall&nbsp;<WBR>establish&nbsp;<WBR>and&nbsp;<WBR>publish&nbsp;<WBR>specific&nbsp;<WBR>guidelines&nbsp;<WBR>on&nbsp;<WBR>the&nbsp;<WBR>format,&nbsp;<WBR>presentation,&nbsp;<WBR>and&lt;br&nbsp;<WBR>/&gt;generation&nbsp;<WBR>of&nbsp;<WBR>version&nbsp;<WBR>identifiers&nbsp;<WBR>that&nbsp;<WBR>are&nbsp;<WBR>used&nbsp;<WBR>within&nbsp;<WBR>the&nbsp;<WBR>metadata&nbsp;<WBR>register.
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div>		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="15%" class="TableHeading">Type</td>
+					<td width="15%" class="TableHeading">Connection</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="../../EA5/EA2/EA18/EA436.htm">«XSDsimpleType» administered_item_identifier</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Dependency</td>
+					<td width="40%" class="TableRow" valign="top">The administered_item_identifier simple type is the concatenated string of an ISO11179:Item_Identifier</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>

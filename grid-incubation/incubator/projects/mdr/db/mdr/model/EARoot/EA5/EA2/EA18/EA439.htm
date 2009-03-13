@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>cgMDR_resources::cgAdministration_Record</title>
+<link href="../../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">cgAdministration_Record  : public   &lt;&lt;XSDcomplexType&gt;&gt; class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">06/12/2005 11:22:40</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">24/02/2006 13:40:39</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{8F214A3A-9C80-4afd-A5D4-5A76E1DFF805}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA425.htm">cgMDR_resources</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">An&nbsp;<WBR>instance&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>Administration&nbsp;<WBR>Record&nbsp;<WBR>records&nbsp;<WBR>information&nbsp;<WBR>about&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>registry.&nbsp;<WBR>The&nbsp;<WBR>Administration&nbsp;<WBR>Record&nbsp;<WBR>instance&nbsp;<WBR>provides&nbsp;<WBR>a&nbsp;<WBR>basis&nbsp;<WBR>for&nbsp;<WBR>identifying,&nbsp;<WBR>naming,&nbsp;<WBR>defining,&nbsp;<WBR>classifying&nbsp;<WBR>and&nbsp;<WBR>recording&nbsp;<WBR>administrative&nbsp;<WBR>information&nbsp;<WBR>about&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>registry.<br /><br />When&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>is&nbsp;<WBR>modified,&nbsp;<WBR>it&nbsp;<WBR>becomes&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>version&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>and&nbsp;<WBR>it&nbsp;<WBR>thus&nbsp;<WBR>requires&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>version&nbsp;<WBR>of&nbsp;<WBR>its&nbsp;<WBR>Administration&nbsp;<WBR>Record.&nbsp;<WBR>The&nbsp;<WBR>administration&nbsp;<WBR>record&nbsp;<WBR>-&nbsp;<WBR>creation&nbsp;<WBR>date,&nbsp;<WBR>the&nbsp;<WBR>reason&nbsp;<WBR>for&nbsp;<WBR>change&nbsp;<WBR>(administration&nbsp;<WBR>record&nbsp;<WBR>-&nbsp;<WBR>change),&nbsp;<WBR>the&nbsp;<WBR>contact&nbsp;<WBR>persons&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>responsible&nbsp;<WBR>and&nbsp;<WBR>submitting&nbsp;<WBR>organizations,&nbsp;<WBR>Registration&nbsp;<WBR>Authority,&nbsp;<WBR>and&nbsp;<WBR>the&nbsp;<WBR>Registrar&nbsp;<WBR>shall&nbsp;<WBR>be&nbsp;<WBR>provided&nbsp;<WBR>for&nbsp;<WBR>this&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item.&nbsp;<WBR>The&nbsp;<WBR>Registrar&nbsp;<WBR>may&nbsp;<WBR>collect&nbsp;<WBR>history&nbsp;<WBR>by&nbsp;<WBR>retaining&nbsp;<WBR>the&nbsp;<WBR>old&nbsp;<WBR>Administration&nbsp;<WBR>Record.</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('AssociationsFrom');" id="AssociationsFromTitle">Associations From</li>
+			<li onClick="parent.toggleItem('TaggedVal');" id="TaggedValTitle">Tagged Values</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA300.htm">string</a></i><br /><strong>&nbsp;&nbsp;administrative_note</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../EA19/EA481.htm">Administrative_Status</a></i><br /><strong>&nbsp;&nbsp;administrative_status</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA300.htm">string</a></i><br /><strong>&nbsp;&nbsp;change_description</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA267.htm">date</a></i><br /><strong>&nbsp;&nbsp;creation_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA267.htm">date</a></i><br /><strong>&nbsp;&nbsp;effective_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA300.htm">string</a></i><br /><strong>&nbsp;&nbsp;explanatory_comment</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA267.htm">date</a></i><br /><strong>&nbsp;&nbsp;last_change_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA300.htm">string</a></i><br /><strong>&nbsp;&nbsp;origin</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../EA19/EA483.htm">Registration_Status</a></i><br /><strong>&nbsp;&nbsp;registration_status</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA300.htm">string</a></i><br /><strong>&nbsp;&nbsp;unresolved_issue</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i>&nbsp;</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="../../EA1/EA267.htm">date</a></i><br /><strong>&nbsp;&nbsp;until_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i>&nbsp;</td>
+			</tr>
+		</table>
+</div>		<div class="ItemBody" id="AssociationsFromTable">
+			<table border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="20%" class="TableHeading">Element</td>
+					<td width="25%" class="TableHeading">Source Role</td>
+					<td width="25%" class="TableHeading">Target Role</td>
+					<td width="30%" class="TableHeading">Details</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA435.htm">admin_record_transform: xslt</a><br />
+						Object &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> &nbsp;<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> &nbsp;<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+<div class="ItemBody" id="TaggedValTable">
+	<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+	<tr>
+			<td width="30%" class="TableHeading">Tag</td>
+			<td width="30%" class="TableHeading">Value</td>
+			<td width="40%" class="TableHeading">Details</td>
+	</tr>
+					<tr>
+				<td width="30%" class="TableRow" valign="top">mixed</td>
+				<td width="30%" class="TableRow" valign="top">false</td>
+				<td width="30%" class="TableRow" valign="top"><div class="ObjectDetailsNotes">Values:&nbsp;<WBR>true&nbsp;<WBR>|&nbsp;<WBR>false<br />Default:&nbsp;<WBR>false<br />Description:&nbsp;<WBR>Determines&nbsp;<WBR>whether&nbsp;<WBR>this&nbsp;<WBR>element&nbsp;<WBR>may&nbsp;<WBR>contain&nbsp;<WBR>mixed&nbsp;<WBR>element&nbsp;<WBR>and&nbsp;<WBR>character&nbsp;<WBR>content.&nbsp;<WBR>&nbsp;<WBR>Refer&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>W3C&nbsp;<WBR>XML&nbsp;<WBR>Schema&nbsp;<WBR>recommendation<br /></div>
+</td>
+			</tr>			<tr>
+				<td width="30%" class="TableRow" valign="top">modelGroup</td>
+				<td width="30%" class="TableRow" valign="top">sequence</td>
+				<td width="30%" class="TableRow" valign="top"><div class="ObjectDetailsNotes">Values:&nbsp;<WBR>all&nbsp;<WBR>|&nbsp;<WBR>sequence&nbsp;<WBR>|&nbsp;<WBR>choice<br />Default:&nbsp;<WBR>sequence<br />Description:&nbsp;<WBR>Overrides&nbsp;<WBR>the&nbsp;<WBR>package-level&nbsp;<WBR>default&nbsp;<WBR>model&nbsp;<WBR>group<br /></div>
+</td>
+			</tr>
+</table>
+</div>	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>

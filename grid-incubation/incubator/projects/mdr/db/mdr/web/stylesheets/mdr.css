@@ -1,0 +1,323 @@
+#main_title {
+float:right
+}
+
+th {
+vertical-align:text-top;
+text-align: left;
+border-bottom: 1px solid #000000;
+}
+
+tr.light-rule {
+        background-color: #dddddd;
+}
+      
+td.left_header_cell {
+    width: 25%;
+    vertical-align:text-top;
+    background-color: #dddddd;
+    }
+    
+td.row-header-cell {
+    width: 25%;
+    vertical-align:text-top;
+    background-color: #dddddd;
+    text-align: right;
+    font-weight: bold;
+    }
+
+td.left_spacer_cell {
+       width: 1%;
+
+    }
+
+td.left_header_cell_last {
+    width: 25%;
+    vertical-align:text-top;
+    background-color: #dddddd;
+    }
+    
+h3.admin_item {
+        text-align: right
+        }
+
+h2.admin_item {
+        text-align:center
+        }
+
+h1.admin_item {
+        text-align:center
+        }
+
+div.admin_item_header {
+        text-align:center;
+        font-size: x-large;
+        font-weight: bold;        
+        }
+        
+div.admin_item_section_header {
+        font-size: large;
+        font-weight: bold;
+        text-align: right;
+        border-bottom: 1px solid #000000;
+        }
+
+div.admin_item_table_header {
+        font-size: medium;
+        font-weight: bold;
+        text-align: left;
+        border-bottom: 1px solid #000000;
+        background-color: white;
+        vertical-align:text-bottom;
+        }
+        
+div.welcome {
+         text-align: right;
+         position:relative;
+         top:-190px;
+         background-color:transparent;
+         }     
+         
+div.light-rule {
+         width: 25%;
+         border-bottom: 1px solid #000000;
+         background-color: white;
+}
+
+td.light-rule {
+         border-bottom: 1px solid #000000;
+         background-color: white;
+}
+
+
+
+        
+table.invisible {
+      width:100%;
+      border:0px;
+      padding:0px;
+      border-collapse:collapse;      
+        }
+        
+td.invisible, th.invisible {
+      border-left:0px;
+      padding:0px;
+      margin:0px;
+      background-color: #dddddd;
+      }
+      
+    
+      
+    
+div.centre_block
+{
+    text-align:center
+}
+table.sub-table {
+    width:    100%;
+}
+
+div.section {
+    width:    100%;
+}
+
+
+table.section {
+    width:    100%;
+}
+
+table.header {
+    width: 90%;}
+
+table.alphabet{
+}
+
+h2.title {
+    font-family: verdana, sans-serif;
+    font-weight: normal;
+    margin: 0px 0 0 0px;
+}
+
+div.treeroot {
+   height: 500px;
+   overflow: auto;
+
+}
+
+
+td.tree-container {
+ width: 30%;
+    vertical-align: top;
+}
+
+table.layout {
+    width:100%;
+    }
+    
+table.toolbar {
+    float:right;
+    width:100%;
+    }
+    
+td.layout {
+    width:25%;
+    }
+    
+    
+
+
+form.cancergridForm {
+   border-style: solid;    
+   border-color: 	#A9A9A9;
+   border-width: 1pt;
+}
+
+p.copyright{
+background-color:#dddddd;
+clear:left;
+position:relative;
+font-size: 10px;
+top:10px;
+}
+
+input.cgButton
+{
+    font-size: 10px;
+    font-family: arial, helvetica, sans-serif;
+    width: 110px;
+    height: 24px;
+    margin: 1px;
+    vertical-align:text-top;    
+}
+
+div.cssnav
+{
+position: relative;
+float:right;
+font-family: arial, helvetica, sans-serif;
+background: url(../images/redbutton.bmp) no-repeat;
+white-space: nowrap;
+display: block;
+width: 149px;
+height: 18px;
+margin: 1px;
+padding: 0px;
+}
+
+.cssnav a
+{
+display: block;
+font-size: 10px;
+width: 149px;
+height: 18px;
+display: block;
+float: left;
+color: white;
+text-decoration: none;
+}
+
+.cssnav img
+{
+width: 149px;
+height: 18px;
+border: 0px;
+}
+
+.cssnav a:hover
+{
+    color: white;
+    visibility:visible;
+    text-decoration: none;    
+}
+
+
+.cssnav a:hover img
+{
+visibility:hidden
+}
+
+.cssnav span
+{
+    position: absolute;
+    left: 1px;
+    top: 2px;
+    width: 148px;
+    height: 14px;    
+    margin: 0px;
+    padding: 0px;
+    cursor: pointer;
+    color:white;
+    text-align: center;
+        font-weight:bold;
+} 
+
+
+
+
+.cssnav_small
+{
+position: relative;
+font-family: arial, helvetica, sans-serif;
+background: url(../images/redletterbutton.bmp) no-repeat;
+white-space: nowrap;
+display: block;
+width: 20px;
+height: 18px;
+margin: 0px;
+padding: 0px;
+}
+
+.cssnav_small a
+{
+display: block;
+font-size: 10px;
+width: 20px;
+height: 18px;
+display: block;
+float: left;
+color: white;
+text-decoration: none;
+}
+
+.cssnav_small img
+{
+width: 20px;
+height: 18px;
+border: 0px;
+}
+
+.cssnav_small a:hover
+{
+    color: white;
+    visibility:visible;
+    text-decoration: none;
+
+}
+
+.cssnav_small a:hover img
+{
+visibility:hidden
+}
+
+.cssnav_small span
+{
+    position: absolute;
+    left: 3px;
+    top: 2px;
+    width: 14px;
+    height: 14px;    
+    margin: 0px;
+    padding: 0px;
+    cursor: pointer;
+    color:white;
+    text-align: center;
+} 
+
+body {
+   height: 100%;
+}
+
+a.term-link {
+   margin-left: 5px;
+   text-align: left;
+}

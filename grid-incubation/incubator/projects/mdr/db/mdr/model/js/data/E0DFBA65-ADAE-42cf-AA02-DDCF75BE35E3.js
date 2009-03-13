@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("5.2.17:1", "", "data-element-rating", "EARoot/EA5/EA2/EA17/EA416.htm", "175.png", "514", "0", "", "Logical diagram0","{59D8AAF4-070B-4679-806C-77329A0843C4}");
+tocTab[tocTab.length] = new Array("5.2.17:2", "", "«XSDtopLevelElement» data-element-rating", "EARoot/EA5/EA2/EA17/EA418.htm", "5.png", "2779", "0", "", "Class0","{E2F60F8E-6AE2-4d1b-8B6A-009278F90476}");

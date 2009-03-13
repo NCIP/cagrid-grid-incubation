@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
+        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
+        <title>lib-util tests</title>
+    </head>
+    <body>
+        <div>
+            <img alt="cancer grid header" src="../web/images/james_logo_life.gif"/>
+            <br clear="none"/>
+            <h2 class="title">metadata registry</h2>
+            <br clear="none"/>
+            <table>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/homepage.xquery" shape="rect">
+                                <img alt="registry home" src="../web/images/greybutton.bmp"/>
+                                <span>registry home</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/contents.xquery" shape="rect">
+                                <img alt="contents" src="../web/images/greybutton.bmp"/>
+                                <span>contents</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/search.xquery" shape="rect">
+                                <img alt="search" src="../web/images/greybutton.bmp"/>
+                                <span>search</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../model/index.htm" shape="rect">
+                                <img alt="model" src="../web/images/greybutton.bmp"/>
+                                <span>model</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/documentation.xquery" shape="rect">
+                                <img alt="documentation" src="../web/images/greybutton.bmp"/>
+                                <span>documentation</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/login.xquery" shape="rect">
+                                <img alt="login" src="../web/images/greybutton.bmp"/>
+                                <span>login</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                </tr>
+            </table>
+            <br clear="none"/>
+            <div class="welcome">welcome: guest</div>
+        </div>
+        <br clear="none"/>
+        <div class="admin_item_header">lib-util tests</div>
+        <br clear="none"/>
+        <table class="layout">
+            <tr>
+                <th rowspan="1" colspan="1">function-name/arity</th>
+                <th rowspan="1" colspan="1">invocation</th>
+                <th rowspan="1" colspan="1">result</th>
+                <th rowspan="1" colspan="1">passed</th>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:classification-scheme-item-1AD30C1B7)</td>
+                <td rowspan="1" colspan="1">1AD30C1B7</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:organization-GB-CANCERGRID-000002-1)</td>
+                <td rowspan="1" colspan="1">GB-CANCERGRID-000002-1</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:reference-document-06E6647D0)</td>
+                <td rowspan="1" colspan="1">06E6647D0</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:data-type-0D6579A48)</td>
+                <td rowspan="1" colspan="1">0D6579A48</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:unit-of-measure-0EABB5D21)</td>
+                <td rowspan="1" colspan="1">0EABB5D21</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:data-element-rating-87CA6EB31)</td>
+                <td rowspan="1" colspan="1">87CA6EB31</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:context-GB-CANCERGRID-000001-1)</td>
+                <td rowspan="1" colspan="1">GB-CANCERGRID-000001-1</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:conceptual-domain-GB-CANCERGRID-0E57DB56A-0.1)</td>
+                <td rowspan="1" colspan="1">conceptual_domain</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:value-domain-GB-CANCERGRID-006BB338C-0.1)</td>
+                <td rowspan="1" colspan="1">value_domain</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:object-class-GB-CANCERGRID-3E5B7BE69-0.1)</td>
+                <td rowspan="1" colspan="1">object_class</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:data-type-0D6579A48)</td>
+                <td rowspan="1" colspan="1">data_type</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:classification-scheme-GB-CANCERGRID-000026-1.0)</td>
+                <td rowspan="1" colspan="1">classification_scheme</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:context-GB-CANCERGRID-000001-1)</td>
+                <td rowspan="1" colspan="1">context</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:data-element-GB-CANCERGRID-0A296A56A-0.1)</td>
+                <td rowspan="1" colspan="1">data_element</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:data-element-concept-GB-CANCERGRID-3B90B6D4C-0.1)</td>
+                <td rowspan="1" colspan="1">data_element_concept</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:data-element-rating-87CA6EB31)</td>
+                <td rowspan="1" colspan="1">data-element-rating</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:organization-GB-CANCERGRID-000002-1)</td>
+                <td rowspan="1" colspan="1">organization</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:property-GB-CANCERGRID-4A4B57291-0.1)</td>
+                <td rowspan="1" colspan="1">property</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:reference-document-06E6647D0)</td>
+                <td rowspan="1" colspan="1">reference_document</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:registration-authority-GB-CANCERGRID-CA)</td>
+                <td rowspan="1" colspan="1">registration_authority</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:representation-class-GB-CANCERGRID-000010-1)</td>
+                <td rowspan="1" colspan="1">representation_class</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:unit-of-measure-0EABB5D21)</td>
+                <td rowspan="1" colspan="1">unit_of_measure</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('conceptual_domain'))) and (every $e in lib-util:mdrElements('conceptual_domain') satisfies (lib-util:mdrElementType($e) eq 'conceptual_domain'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('value_domain'))) and (every $e in lib-util:mdrElements('value_domain') satisfies (lib-util:mdrElementType($e) eq 'value_domain'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('object_class'))) and (every $e in lib-util:mdrElements('object_class') satisfies (lib-util:mdrElementType($e) eq 'object_class'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('data_type'))) and (every $e in lib-util:mdrElements('data_type') satisfies (lib-util:mdrElementType($e) eq 'data_type'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('classification_scheme'))) and (every $e in lib-util:mdrElements('classification_scheme') satisfies (lib-util:mdrElementType($e) eq 'classification_scheme'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('context'))) and (every $e in lib-util:mdrElements('context') satisfies (lib-util:mdrElementType($e) eq 'context'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('data_element'))) and (every $e in lib-util:mdrElements('data_element') satisfies (lib-util:mdrElementType($e) eq 'data_element'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('data_element_concept'))) and (every $e in lib-util:mdrElements('data_element_concept') satisfies (lib-util:mdrElementType($e) eq 'data_element_concept'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('data-element-rating'))) and (every $e in lib-util:mdrElements('data-element-rating') satisfies (lib-util:mdrElementType($e) eq 'data-element-rating'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('organization'))) and (every $e in lib-util:mdrElements('organization') satisfies (lib-util:mdrElementType($e) eq 'organization'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('property'))) and (every $e in lib-util:mdrElements('property') satisfies (lib-util:mdrElementType($e) eq 'property'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('reference_document'))) and (every $e in lib-util:mdrElements('reference_document') satisfies (lib-util:mdrElementType($e) eq 'reference_document'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('registration_authority'))) and (every $e in lib-util:mdrElements('registration_authority') satisfies (lib-util:mdrElementType($e) eq 'registration_authority'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('representation_class'))) and (every $e in lib-util:mdrElements('representation_class') satisfies (lib-util:mdrElementType($e) eq 'representation_class'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">not(empty(lib-util:mdrElements('unit_of_measure'))) and (every $e in lib-util:mdrElements('unit_of_measure') satisfies (lib-util:mdrElementType($e) eq 'unit_of_measure'))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('conceptual_domain'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('value_domain'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('object_class'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('data_type'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('classification_scheme'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('context'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('data_element'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('data_element_concept'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('data-element-rating'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('organization'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('property'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('reference_document'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('registration_authority'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('representation_class'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">let $ids := for $e in lib-util:mdrElements('unit_of_measure'), $id in lib-util:mdrElementId($e) order by $id return $id return (count($ids) eq count(distinct-values($ids)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/0 and lib-util:mdrElementType/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements() satisfies (count(lib-util:mdrElementType($e)) eq 1)</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/0 and lib-util:mdrElementId/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements() satisfies (count(lib-util:mdrElementId($e)) eq 1)</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('conceptual_domain') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('value_domain') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('object_class') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_type') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('classification_scheme') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('context') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_element') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_element_concept') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data-element-rating') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('organization') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('property') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('reference_document') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('registration_authority') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('representation_class') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1 and lib-util:mdrElements/0</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('unit_of_measure') satisfies (lib-util:mdrElements()[. is $e])</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/0, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements() satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('conceptual_domain') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('value_domain') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('object_class') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_type') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('classification_scheme') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('context') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_element') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_element_concept') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data-element-rating') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('organization') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('property') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('reference_document') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('registration_authority') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('representation_class') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementType/1, lib-util:mdrElementId/1, and lib-util:mdrElement/2</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('unit_of_measure') satisfies ($e is lib-util:mdrElement(lib-util:mdrElementType($e), lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('conceptual_domain')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('value_domain')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('object_class')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_type')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('classification_scheme')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('context')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_element')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data_element_concept')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('data-element-rating')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('organization')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('property')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('reference_document')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('registration_authority')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('representation_class')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:mdrElements/1, lib-util:mdrElementId/1, and lib-util:mdrElement/1</td>
+                <td rowspan="1" colspan="1">every $e in lib-util:mdrElements('unit_of_measure')[1] satisfies ($e is lib-util:mdrElement(lib-util:mdrElementId($e)))</td>
+                <td rowspan="1" colspan="1">true</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+        </table>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p align="right">
+            <a href="http://validator.w3.org/check?uri=referer" shape="rect">
+                <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
+            </a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer" shape="rect">
+                <img alt="Valid CSS!" src="../web/images/vcss.png" style="border:0;width:88px;height:31px"/>
+            </a>
+        </p>
+    </body>
+</html>

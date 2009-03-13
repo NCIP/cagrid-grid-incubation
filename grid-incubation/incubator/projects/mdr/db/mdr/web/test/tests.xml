@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cgRegression:mdr-tests xmlns:cgRegression="http://www.cancergrid.org/schema/cgRegression" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../regression-test/regression-tests.xsd">
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>homepage01</cgRegression:test-name>
+        <cgRegression:test-desc>basic homepage checking</cgRegression:test-desc>
+        <cgRegression:script>homepage.xquery</cgRegression:script>
+        <cgRegression:comparison>test/homepage01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>contents01</cgRegression:test-name>
+        <cgRegression:test-desc>empty contents page check</cgRegression:test-desc>
+        <cgRegression:script>contents.xquery</cgRegression:script>
+        <cgRegression:comparison>test/contents01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>search01</cgRegression:test-name>
+        <cgRegression:test-desc>empty search page check</cgRegression:test-desc>
+        <cgRegression:script>search.xquery</cgRegression:script>
+        <cgRegression:comparison>test/search01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>contents02</cgRegression:test-name>
+        <cgRegression:test-desc>contents page where data elements whose preferred name begins with 'a'</cgRegression:test-desc>
+        <cgRegression:script>contents.xquery?letter=a</cgRegression:script>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>simple type documentation</cgRegression:test-name>
+        <cgRegression:test-desc>tests the simple type documentation x-query</cgRegression:test-desc>
+        <cgRegression:script>simple-type-documentation.xquery?type-name=Administrative_Status</cgRegression:script>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>data element webpage</cgRegression:test-name>
+        <cgRegression:test-desc>tests a data element webpage against expected output</cgRegression:test-desc>
+        <cgRegression:script>data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.21</cgRegression:script>
+        <cgRegression:comparison>test/data-element01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>enumerated value domain webpage</cgRegression:test-name>
+        <cgRegression:test-desc>tests an enumerated value domain webpage against expected output</cgRegression:test-desc>
+        <cgRegression:script>value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.17</cgRegression:script>
+        <cgRegression:comparison>test/value-domain01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>non-enumerated value domain webpage</cgRegression:test-name>
+        <cgRegression:test-desc>tests a non-enumerated value domain webpage against expected output</cgRegression:test-desc>
+        <cgRegression:script>value_domain.xquery?compound_id=GB-CANCERGRID-D1E592584-0.14</cgRegression:script>
+        <cgRegression:comparison>test/value-domain02.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>data element concept webpage</cgRegression:test-name>
+        <cgRegression:test-desc>tests a data element concept webpage against expexted output</cgRegression:test-desc>
+        <cgRegression:script>data_element_concept.xquery?compound_id=GB-CANCERGRID-D1E592582-0.12</cgRegression:script>
+        <cgRegression:comparison>test/data-element-concept01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>object class web page</cgRegression:test-name>
+        <cgRegression:test-desc>test an object class against expected output</cgRegression:test-desc>
+        <cgRegression:script>object_class.xquery?compound_id=GB-CANCERGRID-0974EB3C3-0.1</cgRegression:script>
+        <cgRegression:comparison>test/object-class01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>property web page</cgRegression:test-name>
+        <cgRegression:test-desc>tests a property against expected output</cgRegression:test-desc>
+        <cgRegression:script>property.xquery?compound_id=GB-CANCERGRID-4124BD837-0.1</cgRegression:script>
+        <cgRegression:comparison>test/property01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>representation class webpage</cgRegression:test-name>
+        <cgRegression:test-desc>test a representation class against expected output</cgRegression:test-desc>
+        <cgRegression:script>representation_class.xquery?compound_id=GB-CANCERGRID-000100-1</cgRegression:script>
+        <cgRegression:comparison>test/representation-class01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>non-enumerated conceptual domain webpage</cgRegression:test-name>
+        <cgRegression:test-desc>tests a non-enumerated conceptual domain against expected output</cgRegression:test-desc>
+        <cgRegression:script>conceptual_domain.xquery?compound_id=GB-CANCERGRID-D1E592583-0.11</cgRegression:script>
+        <cgRegression:comparison>test/conceptual-domain02.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>enumerated conceptual domain webpage</cgRegression:test-name>
+        <cgRegression:test-desc>tests an enumerated conceptual domain against expected output</cgRegression:test-desc>
+        <cgRegression:script>conceptual_domain.xquery?compound_id=GB-CANCERGRID-D1E682343-0.17</cgRegression:script>
+        <cgRegression:comparison>test/conceptual-domain01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>data element summary for enumerated data element</cgRegression:test-name>
+        <cgRegression:test-desc>tests expected return from a data element summary webpage</cgRegression:test-desc>
+        <cgRegression:script>data_element_summary.xquery?compound_id=GB-CANCERGRID-D1E682341-0.21</cgRegression:script>
+        <cgRegression:comparison>test/data-element-summary01.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>data element summary for non-enumerated data element</cgRegression:test-name>
+        <cgRegression:test-desc>tests expected return from a data element summary webpage</cgRegression:test-desc>
+        <cgRegression:script>data_element_summary.xquery?compound_id=GB-CANCERGRID-D1E849721-0.13</cgRegression:script>
+        <cgRegression:comparison>test/data-element-summary02.xml</cgRegression:comparison>
+        <cgRegression:module>web</cgRegression:module>
+    </cgRegression:mdr-test>
+</cgRegression:mdr-tests>

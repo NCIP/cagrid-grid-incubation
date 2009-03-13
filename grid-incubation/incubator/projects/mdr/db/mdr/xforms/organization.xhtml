@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xhtml:html xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xhtml:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="stylesheet" href="../web/stylesheets/main.css" type="text/css"/>
+        <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
+        <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="stylesheet" href="../web/stylesheets/cancergrid-style.css" type="text/css"/>
+        <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="stylesheet" href="../classification/stylesheets/treeview.css" type="text/css"/>
+        <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="search" type="application/opensearchdescription+xml" title="CancerGrid Data Element Search" href="../web/cde_search.xquery"/>
+        <xhtml:script xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" type="text/javascript" src="xforms.js"/>
+        <xhtml:title>Organization</xhtml:title>
+        <xforms:model id="myModel">
+            <xforms:instance id="main">
+                <cgMDR:Organization organization_identifier="">
+                    <cgMDR:organization_name/>
+                    <cgMDR:organization_mail_address/>
+                    <cgMDR:Contact contact_identifier="">
+                        <cgMDR:contact_information/>
+                        <cgMDR:contact_name/>
+                        <cgMDR:contact_title/>
+                    </cgMDR:Contact>
+                </cgMDR:Organization>
+            </xforms:instance>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:until_date" type="xs:date" xsi:nil="true"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:last_change_date" type="xs:date"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:effective_date" type="xs:date"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:creation_date" type="xs:date"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//ISO11179:value_meaning_begin_date" type="xs:date"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//ISO11179:value_meaning_end_date" type="xs:date" xsi:nil="true"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:permissible_value_begin_date" type="xs:date"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:permissible_value_end_date" type="xs:date" xsi:nil="true"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//@item_registration_authority_identifier" type="xs:string" required="true()"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:reference_document_content" type="xs:base64Binary"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//@version" type="xs:string" required="true()"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//@data_identifier" type="xs:string" required="true()" readonly="true()"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//@reference_document_identifier" type="xs:string" required="true()" readonly="true()"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:file_name" type="xs:string" required="true()"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//cgMDR:file_type" type="xs:string" required="true()"/>
+            <xforms:bind xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" nodeset="//ISO11179:value_meaning_identifier" type="xs:string" required="true()" readonly="true()"/>
+            <xforms:action xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" ev:observer="myModel" ev:event="xforms-submit-done">
+                <xforms:message level="modal">Submission complete</xforms:message>
+                <xforms:load resource="javascript:showPage('myModel','main')"/>
+            </xforms:action>
+            <xforms:action xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" ev:observer="myModel" ev:event="xforms-submit-error">
+                <xforms:message level="modal">Cannot submit!</xforms:message>
+            </xforms:action>
+            <xforms:submission xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" id="write-instance" action="https://129.67.150.47:8443/exist/webdav/db/mdr/xforms/test.xml" method="put" replace="all" instance="main"/>
+        </xforms:model>
+        <xhtml:link href="default.css" rel="stylesheet"/>
+    </xhtml:head>
+    <xhtml:body>
+        <div xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" class="admin_item_header">Organization </div>
+        <xforms:input ref="/cgMDR:Organization/@organization_identifier">
+            <xforms:label>Organization Identifier </xforms:label>
+        </xforms:input>
+        <xforms:input ref="/cgMDR:Organization/cgMDR:organization_name">
+            <xforms:label>Organization Name </xforms:label>
+        </xforms:input>
+        <xforms:input ref="/cgMDR:Organization/cgMDR:organization_mail_address">
+            <xforms:label>Organization Mail Address </xforms:label>
+        </xforms:input>
+        <xforms:group xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" xforms:appearance="full">
+            <xforms:repeat id="repeat1" nodeset="/cgMDR:Organization/cgMDR:Contact">
+                <div class="admin_item_section_header">Contact </div>
+                <xforms:input ref="./@contact_identifier">
+                    <xforms:label>Contact Identifier </xforms:label>
+                </xforms:input>
+                <xforms:input ref="./cgMDR:contact_information">
+                    <xforms:label>Contact Information </xforms:label>
+                </xforms:input>
+                <xforms:input ref="./cgMDR:contact_name">
+                    <xforms:label>Contact Name </xforms:label>
+                </xforms:input>
+                <xforms:input ref="./cgMDR:contact_title">
+                    <xforms:label>Contact Title </xforms:label>
+                </xforms:input>
+            </xforms:repeat>
+        </xforms:group>
+        <xforms:group>
+            <xforms:trigger>
+                <xforms:label>Add Contact </xforms:label>
+                <xforms:insert ev:event="DOMActivate" at="index('repeat1')" position="after" nodeset="/cgMDR:Organization/cgMDR:Contact"/>
+            </xforms:trigger>
+            <xforms:trigger>
+                <xforms:label>Delete Contact </xforms:label>
+                <xforms:delete ev:event="DOMActivate" at="index('repeat1')" nodeset="/cgMDR:Organization/cgMDR:Contact"/>
+            </xforms:trigger>
+        </xforms:group>
+        <xhtml:section xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179">
+            <xforms:submit submission="write-instance">
+                <xforms:label>Save</xforms:label>
+            </xforms:submit>
+            <xforms:trigger>
+                <xforms:label>Cancel</xforms:label>
+                <xforms:load ev:event="DOMActivate" resource="javascript:history.go(-1);"/>
+            </xforms:trigger>
+        </xhtml:section>
+    </xhtml:body>
+</xhtml:html>

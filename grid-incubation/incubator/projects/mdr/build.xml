@@ -1,0 +1,161 @@
+<?xml version="1.0" ?>
+<project name="Query Service Manager 1.0.2" default="dist-aar" basedir=".">
+	<description> Ant build file for CancerGrid metadata connector </description>
+
+	<property environment="env" />
+	<property file="dist.properties" />
+	<property name="build" value="build" />
+	<property name="resources" value="resources" />
+	<property name="src" value="src" />
+	<property name="tests.src" value="tests/src" />
+	<property name="tests.reports" value="tests/reports" />
+	<property name="tests.logs" value="tests/logs" />
+	<property name="dist" value="dist" />
+	<property name="exist.dir" location="${env.EXIST_HOME}" />
+	<property name="lib" value="lib" />
+	<property name="endorsed.lib" value="endorsed" />
+
+	<import file="wsdl2java.xml" />
+
+	<!-- Classpaths -->
+	<path id="lib.classpath">
+		<fileset dir="${endorsed.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${exist.dir}/lib">
+			<include name="**/*.jar" />
+			<exclude name="*xalan*.jar" />
+		</fileset>
+		<fileset dir="${wsdl2java.home}/dist">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Generate API document -->
+	<target name="javadoc" depends="compile" description="Generate Javadoc">
+		<delete dir="javadoc" />
+		<javadoc access="private" author="true" classpathref="lib.classpath" destdir="javadoc" doctitle="${javadoc.title}" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="${javadoc.packages}" source="1.5" sourcepath="${src}" splitindex="true" use="true" version="true" />
+	</target>
+
+	<target name="dist-aar" depends="clean-all, compile" description="Create an Axis2 Archive (aar) build">
+		<mkdir dir="${build}/aar" />
+		<mkdir dir="${build}/aar/lib" />
+		<mkdir dir="${build}/aar/stylesheets" />
+		<mkdir dir="${build}/aar/META-INF" />
+
+		<jar destfile="${dist}/${jar.name}" basedir="${build}/classes" />
+
+		<copy todir="${build}/aar/lib" overwrite="true" flatten="true" includeemptydirs="no">
+			<fileset dir="${dist}" />
+			<fileset dir="${wsdl2java.home}/dist" />
+		</copy>
+
+		<copy todir="${build}/aar/META-INF" overwrite="true" flatten="true" includeemptydirs="no">
+			<fileset dir="${resources}">
+				<include name="services.xml" />
+				<include name="${wsdl.name}" />
+				<include name="*.xsd" />
+			</fileset>
+		</copy>
+
+		<xslt in="${build}/aar/META-INF/${wsdl.name}" out="${build}/aar/META-INF/flat_${wsdl.name}" style="${resources}/flatten_xsd_imports.xsl" extension="wsdl" force="yes">
+			<classpath refid="lib.classpath">
+			</classpath>
+		</xslt>
+
+		<move file="${build}/aar/META-INF/flat_${wsdl.name}" overwrite="yes" tofile="${build}/aar/META-INF/${wsdl.name}" />
+
+		<copy todir="${build}/aar/stylesheets" overwrite="true" flatten="true" includeemptydirs="no">
+			<fileset dir="stylesheets" />
+		</copy>
+
+		<jar destfile="${aar.name}" basedir="${build}/aar" />
+	</target>
+
+	<!-- Compile the web service using packages from lib -->
+	<target name="compile" depends="init, wsdl2java">
+		<javac srcdir="${src}" destdir="${build}/classes" source="1.5" target="1.5">
+			<classpath refid="lib.classpath" />
+		</javac>
+	</target>
+
+	<target name="compile-test" depends="compile, init-tests">
+		<javac srcdir="${tests.src}" destdir="${build}/tests" source="1.5" target="1.5">
+			<classpath path="${build}/classes" />
+			<classpath refid="lib.classpath" />
+		</javac>
+	</target>
+
+	<target name="test" depends="clean-tests, compile-test">
+		<junit haltonfailure="no" printsummary="yes" showoutput="true">
+			<classpath>
+				<!--pathelement location="config.xml"/-->
+				<pathelement path="${build}/tests" />
+				<pathelement path="${build}/classes" />
+			</classpath>
+			<classpath refid="lib.classpath" />
+			<formatter type="plain" usefile="true" extension=".txt" />
+			<!--test name="org.cancergrid.ws.query.QueryServiceManagerTest"/-->
+			<batchtest fork="no" todir="${tests.reports}">
+				<fileset dir="${tests.src}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+	<!-- Clean up build and dist directory for new build -->
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+
+	<target name="clean-dist">
+		<delete file="${aar.name}" />
+		<delete file="${war.name}" />
+	</target>
+
+	<target name="clean-tests" depends="clean">
+		<delete dir="${tests.reports}" />
+		<delete dir="${tests.logs}" />
+	</target>
+
+	<target name="clean-all" depends="clean, clean-dist, clean-wsdl2java-artifacts" />
+
+	<target name="init-tests">
+		<mkdir dir="${build}/tests" />
+		<mkdir dir="${tests.reports}" />
+	</target>
+
+	<!-- initialise build -->
+	<target name="init">
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/classes" />
+		<mkdir dir="${dist}" />
+	</target>
+
+	<target name="all" depends="clean-all,dist-aar">
+	</target>
+
+	<target name="deploy" depends="all">
+		<copy overwrite="true" file="${aar.name}" tofile="${exist.dir}/webapp/WEB-INF/services/${aar.name}">
+		</copy>
+		<copy overwrite="true" todir="${exist.dir}/webapp/WEB-INF/data">
+			<fileset dir="data" />
+		</copy>
+		<copy overwrite="true" todir="${exist.dir}/lib/user">
+			<fileset dir="${lib}" />
+		</copy>
+		<copy overwrite="true" todir="${exist.dir}/lib/endorsed">
+			<fileset dir="${endorsed.lib}" />
+		</copy>
+		<copy overwrite="true" file="conf.xml" tofile="${exist.dir}/conf.xml">
+		</copy>
+		<copy overwrite="true" file="config.xml" tofile="${exist.dir}/webapp/WEB-INF/classes/config.xml">
+		</copy>
+	</target>
+
+</project>

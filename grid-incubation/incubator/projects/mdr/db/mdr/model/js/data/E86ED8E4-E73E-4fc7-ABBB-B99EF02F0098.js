@@ -1,0 +1,6 @@
+tocTab[tocTab.length] = new Array("5.2.14:1", "", "cgMDR_registrationAuthority", "EARoot/EA5/EA2/EA14/EA400.htm", "175.png", "511", "0", "", "Logical diagram0","{418E06A2-BC8C-43fb-8D15-5FAFD5B8CFFB}");
+tocTab[tocTab.length] = new Array("5.2.14:2", "", "reg_auth_organization_transform: xslt", "EARoot/EA5/EA2/EA14/EA403.htm", "25.png", "2769", "0", "", "Object0","{22F1F49C-6484-4654-8D11-032F8C38FFAA}");
+tocTab[tocTab.length] = new Array("5.2.14:3", "", "«XSDcomplexType» Registrar", "EARoot/EA5/EA2/EA14/EA404.htm", "5.png", "2768", "0", "", "Class0","{DC4ECF32-71A9-4abd-83D5-DB0BB2D215F6}");
+tocTab[tocTab.length] = new Array("5.2.14:4", "", "registrar transform: xslt", "EARoot/EA5/EA2/EA14/EA405.htm", "25.png", "2771", "0", "", "Object0","{5EE202F3-D592-4410-B458-FFE582DCD1C5}");
+tocTab[tocTab.length] = new Array("5.2.14:5", "", "«XSDcomplexType» Registration_Authority", "EARoot/EA5/EA2/EA14/EA406.htm", "5.png", "2767", "0", "", "Class0","{9D9C0E2D-61F6-44bb-BE05-F8624D137348}");
+tocTab[tocTab.length] = new Array("5.2.14:6", "", "registration_authority_transform: xslt", "EARoot/EA5/EA2/EA14/EA407.htm", "25.png", "2772", "0", "", "Object0","{C540D462-DF15-4f4c-85F0-B19613D92641}");

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
+        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
+        <title>Property: Identifier</title>
+    </head>
+    <body>
+        <div>
+            <img alt="cancer grid header" src="../web/images/james_logo_life.gif"/>
+            <br clear="none"/>
+            <h2 class="title">metadata registry</h2>
+            <br clear="none"/>
+            <table>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/homepage.xquery" shape="rect">
+                                <img alt="registry home" src="../web/images/greybutton.bmp"/>
+                                <span>registry home</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/contents.xquery" shape="rect">
+                                <img alt="contents" src="../web/images/greybutton.bmp"/>
+                                <span>contents</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/search.xquery" shape="rect">
+                                <img alt="search" src="../web/images/greybutton.bmp"/>
+                                <span>search</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../model/index.htm" shape="rect">
+                                <img alt="model" src="../web/images/greybutton.bmp"/>
+                                <span>model</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/documentation.xquery" shape="rect">
+                                <img alt="documentation" src="../web/images/greybutton.bmp"/>
+                                <span>documentation</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/login.xquery" shape="rect">
+                                <img alt="login" src="../web/images/greybutton.bmp"/>
+                                <span>login</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                </tr>
+            </table>
+            <br clear="none"/>
+            <div class="welcome">welcome: guest</div>
+        </div>
+        <br clear="none"/>
+        <div class="admin_item_header">Property: Identifier</div>
+        <br clear="none"/>
+        <table>
+            <tr>
+                <td rowspan="1" colspan="1">
+                    <div class="cssnav">
+                        <a target="_top" href="property.xquery?compound_id=GB-CANCERGRID-4124BD837-0.1&amp;as-xml=true" shape="rect">
+                            <img alt="as XML" src="../web/images/greybutton.bmp"/>
+                            <span>as XML</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div>
+            <div class="section">
+                <table class="section">
+                    <tr>
+                        <td colspan="2" rowspan="1">
+                            <div class="admin_item_section_header">Property Specific Attributes</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Reference URI</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="http://cesctest1.escience.cam.ac.uk:8080/terminology/term.jsp?id=C25364" shape="rect">urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:C25364</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <h3>Administered Item - Preferred Name: Identifier</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administered Item Identifier</td>
+                            <td rowspan="1" colspan="1">GB-CANCERGRID-4124BD837-0.1</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Registered By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Dr. Peter Macallum</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, CancerGrid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">01223 765348</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <div class="admin_item_section_header">Designation</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="section">
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
+                            <td rowspan="1" colspan="1">
+                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Name</td>
+                            <td rowspan="1" colspan="1">Identifier (preferred designation)</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition</td>
+                            <td rowspan="1" colspan="1">One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing.</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Language</td>
+                            <td rowspan="1" colspan="1">US-eng</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition Source Reference</td>
+                            <td rowspan="1" colspan="1">NCI Thesaurus</td>
+                        </tr>
+                        <tr class="light-rule">
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell_last" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <div class="admin_item_section_header">Administration</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administrative Status</td>
+                            <td rowspan="1" colspan="1">scheduledForReview</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administered By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Paul Mason</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">IT Manager, Institute for Cancer Studies</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1"/>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Creation On</td>
+                            <td rowspan="1" colspan="1">2007-01-04Z</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Effective From</td>
+                            <td rowspan="1" colspan="1">2007-01-04Z</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Last Changed On</td>
+                            <td rowspan="1" colspan="1">2007-01-04Z</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Effective until</td>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Submitted By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Steve Harris</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Researcher, CancerGrid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1"/>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Explanatory Comments</td>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="4" rowspan="1">
+                                <div class="admin_item_section_header">Reference Documents</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">No reference documents defined</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p align="right">
+            <a href="http://validator.w3.org/check?uri=referer" shape="rect">
+                <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
+            </a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer" shape="rect">
+                <img alt="Valid CSS!" src="../web/images/vcss.png" style="border:0;width:88px;height:31px"/>
+            </a>
+        </p>
+    </body>
+</html>

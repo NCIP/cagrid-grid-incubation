@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cgResolver="http://www.cancergrid.org/schema/cgResolver" elementFormDefault="qualified" targetNamespace="http://www.cancergrid.org/schema/cgResolver" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:element name="resolver" nillable="false" abstract="false">
+        <xs:complexType mixed="false">
+            <xs:sequence minOccurs="1" maxOccurs="1">
+                <xs:element maxOccurs="unbounded" ref="cgResolver:resource" minOccurs="1" nillable="false"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="resource" nillable="false" abstract="false">
+        <xs:complexType mixed="false">
+            <xs:sequence minOccurs="1" maxOccurs="1">
+                <xs:element maxOccurs="unbounded" ref="cgResolver:uri" minOccurs="1" nillable="false"/>
+            </xs:sequence>
+            <xs:attribute name="urn" use="required" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="uri" nillable="false" abstract="false">
+        <xs:complexType mixed="false">
+            <xs:simpleContent>
+                <xs:extension base="xs:anyURI">
+                    <xs:attribute name="return" type="cgResolver:return" use="optional"/>
+                    <xs:attribute name="rank" type="xs:integer" use="optional"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="return">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="html"/>
+            <xs:enumeration value="xml"/>
+            <xs:enumeration value="xhtml"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

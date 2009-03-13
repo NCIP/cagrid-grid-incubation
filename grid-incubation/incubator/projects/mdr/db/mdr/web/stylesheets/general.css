@@ -1,0 +1,48 @@
+body {
+    width: 1024px;
+    min-height: 768px;
+    font-family:arial, helvetica, sans-serif;
+}
+
+body.popup
+{
+    width: 800px;
+    height: 200px;
+    font-family:arial, helvetica, sans-serif;
+}
+
+
+h2 {
+    margin-bottom: 0;
+    
+    text-align:right;
+    border-bottom: 2px solid #cccccc;
+    background-color: #ffffff
+}
+
+#summary font div strong {
+    font-weight:bold;
+}
+
+#summary {
+    text-align:justify;
+}
+
+#general table tr {
+}
+
+#general table tr td {
+    padding-left: 5px;
+}
+
+#trial_item_lable {
+    width:15%;
+    vertical-align:top;   
+    font-weight:bold;
+    border-right:1px solid #cccccc;
+    background-color:#cccccc
+}
+
+ #trial_item_value {
+     vertical-align:top;
+ }

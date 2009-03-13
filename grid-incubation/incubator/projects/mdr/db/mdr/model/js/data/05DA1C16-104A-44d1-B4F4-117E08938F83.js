@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("5.2.8:1", "", "cgMDR_non_enum_concept_domain", "EARoot/EA5/EA2/EA8/EA373.htm", "175.png", "505", "0", "", "Logical diagram0","{6C866EE3-F853-40fd-B3EB-CD9BD6437B28}");
+tocTab[tocTab.length] = new Array("5.2.8:2", "", "«XSDcomplexType» Non_Enumerated_Conceptual_Domain", "EARoot/EA5/EA2/EA8/EA376.htm", "5.png", "2752", "0", "", "Class0","{1F52299C-5D86-4e18-97D5-9C36BD85A6E2}");

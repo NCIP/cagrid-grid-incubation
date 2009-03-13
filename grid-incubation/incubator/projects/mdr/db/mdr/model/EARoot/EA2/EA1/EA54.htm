@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ISO11179::Derivation_Rule</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Derivation_Rule  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">06/12/2005 09:50:03</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">22/02/2006 13:32:50</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{F8F30D1D-4BF6-4371-982D-7D7B74E7866E}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA26.htm">ISO11179 - Consolidated Metamodel (figure 11)</a>, <a href="EA24.htm">ISO11179 - Data Element (figure 10)</a>, <a href="EA12.htm">ISO11179 - Types of Administered Items (figure 2)</a>, <a href="../../EA5/EA2/EA4/EA343.htm">cgMDR_data_element</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">The&nbsp;<WBR>logical,&nbsp;<WBR>mathematical,&nbsp;<WBR>and/or&nbsp;<WBR>other&nbsp;<WBR>operations&nbsp;<WBR>specifying&nbsp;<WBR>derivation<br /><br />A&nbsp;<WBR>Data&nbsp;<WBR>Element&nbsp;<WBR>may&nbsp;<WBR>have&nbsp;<WBR>a&nbsp;<WBR>Derivation&nbsp;<WBR>Rule&nbsp;<WBR>that&nbsp;<WBR>is&nbsp;<WBR>a&nbsp;<WBR>specification&nbsp;<WBR>of&nbsp;<WBR>derivation&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>data&nbsp;<WBR>element.&nbsp;<WBR>The&nbsp;<WBR>derivation&nbsp;<WBR>rule&nbsp;<WBR>may&nbsp;<WBR>range&nbsp;<WBR>from&nbsp;<WBR>a&nbsp;<WBR>simple&nbsp;<WBR>operation&nbsp;<WBR>such&nbsp;<WBR>as&nbsp;<WBR>subtraction&nbsp;<WBR>to&nbsp;<WBR>a&nbsp;<WBR>very&nbsp;<WBR>complex&nbsp;<WBR>set&nbsp;<WBR>of&nbsp;<WBR>derivations&nbsp;<WBR>(derivation&nbsp;<WBR>being&nbsp;<WBR>defined&nbsp;<WBR>as&nbsp;<WBR>a&nbsp;<WBR>relationship&nbsp;<WBR>between&nbsp;<WBR>a&nbsp;<WBR>derivation&nbsp;<WBR>rule&nbsp;<WBR>and&nbsp;<WBR>an&nbsp;<WBR>input&nbsp;<WBR>set&nbsp;<WBR>upon&nbsp;<WBR>which&nbsp;<WBR>it&nbsp;<WBR>acts).<br /><br />Derivation&nbsp;<WBR>rules&nbsp;<WBR>are&nbsp;<WBR>not&nbsp;<WBR>limited&nbsp;<WBR>to&nbsp;<WBR>arithmetic&nbsp;<WBR>and&nbsp;<WBR>logical&nbsp;<WBR>operations.&nbsp;<WBR>As&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item,&nbsp;<WBR>a&nbsp;<WBR>Derivation&nbsp;<WBR>Rule&nbsp;<WBR>carries&nbsp;<WBR>its&nbsp;<WBR>own&nbsp;<WBR>Administration&nbsp;<WBR>Record&nbsp;<WBR>information,&nbsp;<WBR>allowing&nbsp;<WBR>it&nbsp;<WBR>to&nbsp;<WBR>be&nbsp;<WBR>identified,&nbsp;<WBR>named,&nbsp;<WBR>defined&nbsp;<WBR>and&nbsp;<WBR>optionally&nbsp;<WBR>classified&nbsp;<WBR>in&nbsp;<WBR>a&nbsp;<WBR>Classification&nbsp;<WBR>Scheme.<br /><br />A&nbsp;<WBR>Derivation&nbsp;<WBR>Rule&nbsp;<WBR>may&nbsp;<WBR>be&nbsp;<WBR>registered&nbsp;<WBR>as&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>without&nbsp;<WBR>necessarily&nbsp;<WBR>being&nbsp;<WBR>associated&nbsp;<WBR>with&nbsp;<WBR>any&nbsp;<WBR>Data&nbsp;<WBR>Element&nbsp;<WBR>Derivation.<br /><br />The&nbsp;<WBR>derivation&nbsp;<WBR>rule&nbsp;<WBR>administered&nbsp;<WBR>item&nbsp;<WBR>identifier&nbsp;<WBR>has&nbsp;<WBR>been&nbsp;<WBR>removed&nbsp;<WBR>as&nbsp;<WBR>the&nbsp;<WBR>rule&nbsp;<WBR>has&nbsp;<WBR>been&nbsp;<WBR>properly&nbsp;<WBR>subtyped.</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('AssociationsTo');" id="AssociationsToTitle">Associations To</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;derivation_rule_specification</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>text&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>specification&nbsp;<WBR>of&nbsp;<WBR>Data&nbsp;<WBR>Element&nbsp;<WBR>Derivation
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div>		<div class="ItemBody" id="AssociationsToTable">
+			<table border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="20%" class="TableHeading">Element</td>
+					<td width="25%" class="TableHeading">Source Role</td>
+					<td width="25%" class="TableHeading">Target Role</td>
+					<td width="30%" class="TableHeading">Details</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA50.htm">Data_Element_Derivation</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> applying<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> applied_to<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="15%" class="TableHeading">Type</td>
+					<td width="15%" class="TableHeading">Connection</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA36.htm">Administered_Item</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">derivation is specified in text as being an administered item, has an administration record, but does not appear in the 'types of administered item' class
+
+A derivation between data elements is an important element of the semantics of the resource and requires full administrative item status and thus the class has been subtype to administered item</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="../../EA5/EA2/EA4/EA350.htm">data_element_derivation_transform</a></td>
+					<td width="15%" class="TableRow" valign="top">Object</td>
+					<td width="15%" class="TableRow" valign="top">Realisation</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>

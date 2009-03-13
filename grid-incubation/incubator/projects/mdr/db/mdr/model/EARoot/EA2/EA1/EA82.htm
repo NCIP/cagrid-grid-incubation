@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ISO11179::Value_Meaning</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Value_Meaning  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">06/12/2005 09:43:33</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">16/12/2005 12:25:36</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{F8B245E2-D312-4f09-AC97-33C4EBD417FF}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA26.htm">ISO11179 - Consolidated Metamodel (figure 11)</a>, <a href="EA22.htm">ISO11179 - Conceptual and Value Domain (figure 9)</a>, <a href="../../EA5/EA2/EA6/EA361.htm">cgMDR_enum_concept_domain</a>, <a href="../../EA5/EA2/EA7/EA367.htm">cgMDR_enum_value_domain</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">Each&nbsp;<WBR>member&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>Enumerated&nbsp;<WBR>Conceptual&nbsp;<WBR>Domain&nbsp;<WBR>has&nbsp;<WBR>a&nbsp;<WBR>Value&nbsp;<WBR>Meaning&nbsp;<WBR>that&nbsp;<WBR>provides&nbsp;<WBR>its&nbsp;<WBR>distinction&nbsp;<WBR>from&nbsp;<WBR>other&nbsp;<WBR>members.&nbsp;<WBR>In&nbsp;<WBR>the&nbsp;<WBR>example&nbsp;<WBR>of&nbsp;<WBR>ISO&nbsp;<WBR>3166,&nbsp;<WBR>the&nbsp;<WBR>notion&nbsp;<WBR>of&nbsp;<WBR>each&nbsp;<WBR>country&nbsp;<WBR>as&nbsp;<WBR>specified&nbsp;<WBR>would&nbsp;<WBR>be&nbsp;<WBR>the&nbsp;<WBR>Value&nbsp;<WBR>Meanings.&nbsp;<WBR>The&nbsp;<WBR>representation&nbsp;<WBR>of&nbsp;<WBR>Value&nbsp;<WBR>Meanings&nbsp;<WBR>in&nbsp;<WBR>a&nbsp;<WBR>registry&nbsp;<WBR>shall&nbsp;<WBR>be&nbsp;<WBR>independent&nbsp;<WBR>of&nbsp;<WBR>(and&nbsp;<WBR>shall&nbsp;<WBR>not&nbsp;<WBR>constrain)&nbsp;<WBR>their&nbsp;<WBR>representation&nbsp;<WBR>in&nbsp;<WBR>any&nbsp;<WBR>corresponding&nbsp;<WBR>Value&nbsp;<WBR>Domain.&nbsp;<WBR>A&nbsp;<WBR>particular&nbsp;<WBR>Value&nbsp;<WBR>Meaning&nbsp;<WBR>may&nbsp;<WBR>have&nbsp;<WBR>more&nbsp;<WBR>than&nbsp;<WBR>one&nbsp;<WBR>means&nbsp;<WBR>of&nbsp;<WBR>representation&nbsp;<WBR>by&nbsp;<WBR>Permissible&nbsp;<WBR>Values&nbsp;<WBR>-&nbsp;<WBR>each&nbsp;<WBR>from&nbsp;<WBR>a&nbsp;<WBR>distinct&nbsp;<WBR>Enumerated&nbsp;<WBR>Value&nbsp;<WBR>Domain.</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('AssociationsTo');" id="AssociationsToTitle">Associations To</li>
+			<li onClick="parent.toggleItem('AssociationsFrom');" id="AssociationsFromTitle">Associations From</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;value_meaning_identifier</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>unique&nbsp;<WBR>identifier&nbsp;<WBR>for&nbsp;<WBR>a&nbsp;<WBR>Value&nbsp;<WBR>Meaning
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;value_meaning_description</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			a&nbsp;<WBR>description&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>Value&nbsp;<WBR>Meaning
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public date</i><br /><strong>&nbsp;&nbsp;value_meaning_begin_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			The&nbsp;<WBR>effective&nbsp;<WBR>date&nbsp;<WBR>of&nbsp;<WBR>this&nbsp;<WBR>Value&nbsp;<WBR>Meaning&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>Conceptual&nbsp;<WBR>Domain&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;A&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>may&nbsp;<WBR>determine&nbsp;<WBR>whether&nbsp;<WBR>this&nbsp;<WBR>date&nbsp;<WBR>is&nbsp;<WBR>the&nbsp;<WBR>date&nbsp;<WBR>the&nbsp;<WBR>Value&nbsp;<WBR>Meaning&nbsp;<WBR>becomes&nbsp;<WBR>valid&nbsp;<WBR>in&nbsp;<WBR>a&nbsp;<WBR>registry&nbsp;<WBR>or&nbsp;<WBR>the&nbsp;<WBR>date&nbsp;<WBR>the&nbsp;<WBR>Value&nbsp;<WBR>Meaning&nbsp;<WBR>becomes&nbsp;<WBR>part&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>source&nbsp;<WBR>domain&nbsp;<WBR>or&nbsp;<WBR>some&nbsp;<WBR>other&nbsp;<WBR>date.
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public date</i><br /><strong>&nbsp;&nbsp;value_meaning_end_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>date&nbsp;<WBR>this&nbsp;<WBR>Value&nbsp;<WBR>Meaning&nbsp;<WBR>became/becomes&nbsp;<WBR>invalid
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div>		<div class="ItemBody" id="AssociationsToTable">
+			<table border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="20%" class="TableHeading">Element</td>
+					<td width="25%" class="TableHeading">Source Role</td>
+					<td width="25%" class="TableHeading">Target Role</td>
+					<td width="30%" class="TableHeading">Details</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA68.htm">Permissible_Value</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> has<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> used_in<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="ItemBody" id="AssociationsFromTable">
+			<table border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="20%" class="TableHeading">Element</td>
+					<td width="25%" class="TableHeading">Source Role</td>
+					<td width="25%" class="TableHeading">Target Role</td>
+					<td width="30%" class="TableHeading">Details</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA56.htm">Enumerated_Conceptual_Domain</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> contained_in<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> containing<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="15%" class="TableHeading">Type</td>
+					<td width="15%" class="TableHeading">Connection</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="../../EA5/EA2/EA7/EA369.htm">enum_value_domain_trfm</a></td>
+					<td width="15%" class="TableRow" valign="top">Object</td>
+					<td width="15%" class="TableRow" valign="top">Realisation</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="../../EA5/EA2/EA6/EA366.htm">«XSDcomplexType» Value_Meaning</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>

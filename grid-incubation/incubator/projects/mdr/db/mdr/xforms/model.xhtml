@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cgModel="www.cancergid.org/schemas/cgModel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>model</title>
+        <xforms:model id="myModel">
+            <xforms:instance id="main">
+                <cgModel:model version="1.0" identifier="">
+                    <cgModel:metadata>
+                        <cgModel:name/>
+                        <cgModel:description/>
+                        <cgModel:contributor/>
+                        <cgModel:creator>admin</cgModel:creator>
+                        <cgModel:creation-date xsi:type="xsd:date">2008-01-11</cgModel:creation-date>
+                        <cgModel:last-edit-by>admin</cgModel:last-edit-by>
+                        <cgModel:last-edit-date xsi:type="xsd:date">2008-01-11</cgModel:last-edit-date>
+                    </cgModel:metadata>
+                    <cgModel:resource>
+                        <cgModel:uri/>
+                        <cgModel:type/>
+                        <cgModel:comment/>
+                        <cgModel:content xsi:type="xsd:base64Binary"/>
+                    </cgModel:resource>
+                </cgModel:model>
+            </xforms:instance>
+            <xforms:action ev:observer="myModel" ev:event="xforms-submit-done">
+                <xforms:message level="modal">Submission 
+                    complete</xforms:message>
+            </xforms:action>
+            <xforms:action ev:observer="myModel" ev:event="xforms-submit-error">
+                <xforms:message level="modal">Cannot submit!</xforms:message>
+            </xforms:action>
+            <xforms:bind nodeset="/cgModel:model/cgModel:resource/cgModel:content" type="xs:anyURI"/>
+            <xforms:submission id="form1" action="https://129.67.150.47:8443/exist/webdav/db/model/data/test.xml" method="put" replace="all" instance="main"/>
+            <xforms:submission id="get-instance" action="https://129.67.150.47:8443/exist/rest/db/model/data/test.xml" method="get" replace="instance" instance="main"/>
+        </xforms:model>
+        <script type="text/javascript">
+            function findAdminItem(element, type) { var uri =
+            "popup-search-relationship.xquery?element=" + element + "&amp;type=" + type; var
+            windowName = "pop-up search"; var windowFeatures =
+            "resizable=no,width=750,height=350,menubar=no,left=100,top=100"; window.open (uri,
+            windowName, windowFeatures); } 
+        </script>
+        <link href="default.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <h1>Model</h1>
+        <xforms:group ref="/cgModel:model">
+            <xforms:input ref="@identifier">
+                <xforms:label>Identifier</xforms:label>
+            </xforms:input>
+            <xforms:input ref="@version">
+                <xforms:label>Version</xforms:label>
+            </xforms:input>
+            <h2>Metadata</h2>
+            <xforms:group ref="cgModel:metadata">
+                <xforms:input ref="cgModel:name">
+                    <xforms:label>Name</xforms:label>
+                    <xforms:trigger>
+                        <xforms:label>Find</xforms:label>
+                        <xforms:load resource="javascript:findAdminItem('cgModel:name', 'data_element_concept')" ev:event="DOMActivate"/>
+                    </xforms:trigger>
+                </xforms:input>
+                <xforms:textarea ref="cgModel:description">
+                    <xforms:label>Description</xforms:label>
+                </xforms:textarea>
+                <xforms:input ref="cgModel:contributor">
+                    <xforms:label>Contributor</xforms:label>
+                </xforms:input>
+                <xforms:input ref="cgModel:creator">
+                    <xforms:label>Creator</xforms:label>
+                </xforms:input>
+                <xforms:input ref="cgModel:creation-date">
+                    <xforms:label>Creation-date</xforms:label>
+                </xforms:input>
+                <xforms:input ref="cgModel:last-edit-by">
+                    <xforms:label>Last-edit-by</xforms:label>
+                </xforms:input>
+                <xforms:input ref="cgModel:last-edit-date">
+                    <xforms:label>Last-edit-date</xforms:label>
+                </xforms:input>
+            </xforms:group>
+            <xforms:repeat id="repeat1" nodeset="cgModel:resource">
+                <h2>Resource</h2>
+                <xforms:input ref="./cgModel:uri">
+                    <xforms:label>Uri</xforms:label>
+                </xforms:input>
+                <xforms:select1 ref="./cgModel:type">
+                    <xforms:label>Type :</xforms:label>
+                    <xforms:item>
+                        <xforms:label>Select...</xforms:label>
+                        <xforms:value/>
+                    </xforms:item>
+                    <xforms:item>
+                        <xforms:label>Xf-model</xforms:label>
+                        <xforms:value>xf-model</xforms:value>
+                    </xforms:item>
+                    <xforms:item>
+                        <xforms:label>Xf-control-or-group</xforms:label>
+                        <xforms:value>xf-control-or-group</xforms:value>
+                    </xforms:item>
+                    <xforms:item>
+                        <xforms:label>Jena-rule-block</xforms:label>
+                        <xforms:value>jena-rule-block</xforms:value>
+                    </xforms:item>
+                    <xforms:item>
+                        <xforms:label>W3c-xml-schema</xforms:label>
+                        <xforms:value>w3c-xml-schema</xforms:value>
+                    </xforms:item>
+                    <xforms:item>
+                        <xforms:label>Xmi-model</xforms:label>
+                        <xforms:value>xmi-model</xforms:value>
+                    </xforms:item>
+                </xforms:select1>
+                <xforms:textarea ref="cgModel:comment">
+                    <xforms:label>Comment</xforms:label>
+                </xforms:textarea>
+                <xforms:upload ref="./cgModel:content" mediatype="text/xml">
+                    <xforms:label>Select file:</xforms:label>
+                </xforms:upload>
+            </xforms:repeat>
+            <xforms:group>
+                <xforms:trigger>
+                    <xforms:label>Add Resource</xforms:label>
+                    <xforms:insert ev:event="DOMActivate" at="index('repeat1')" position="after" nodeset="/cgModel:model/cgModel:resource"/>
+                </xforms:trigger>
+                <xforms:trigger>
+                    <xforms:label>Delete Resource</xforms:label>
+                    <xforms:delete ev:event="DOMActivate" at="index('repeat1')" nodeset="/cgModel:model/cgModel:resource"/>
+                </xforms:trigger>
+            </xforms:group>
+        </xforms:group>
+        <section>
+            <xforms:submit submission="form1">
+                <xforms:label>Submit</xforms:label>
+            </xforms:submit>
+            <xforms:submit submission="get-instance">
+                <xforms:label>Get</xforms:label>
+            </xforms:submit>
+        </section>
+    </body>
+</html>

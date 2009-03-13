@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ISO11179::Datatype</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Datatype  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">15/12/2005 12:54:03</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">16/12/2005 12:29:52</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{86302C92-1D80-4072-A9A8-E8E05562F212}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA22.htm">ISO11179 - Conceptual and Value Domain (figure 9)</a>, <a href="../../EA5/EA2/EA18/EA421.htm">cgMDR_datatype</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">A&nbsp;<WBR>Value&nbsp;<WBR>Domain&nbsp;<WBR>is&nbsp;<WBR>associated&nbsp;<WBR>with&nbsp;<WBR>a&nbsp;<WBR>Datatype&nbsp;<WBR>-&nbsp;<WBR>a&nbsp;<WBR>set&nbsp;<WBR>of&nbsp;<WBR>distinct&nbsp;<WBR>values,&nbsp;<WBR>characterized&nbsp;<WBR>by&nbsp;<WBR>properties&nbsp;<WBR>of&nbsp;<WBR>those&nbsp;<WBR>values&nbsp;<WBR>and&nbsp;<WBR>by&nbsp;<WBR>operations&nbsp;<WBR>on&nbsp;<WBR>those&nbsp;<WBR>values,&nbsp;<WBR>for&nbsp;<WBR>example&nbsp;<WBR>the&nbsp;<WBR>category&nbsp;<WBR>used&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>collection&nbsp;<WBR>of&nbsp;<WBR>letters,&nbsp;<WBR>digits,&nbsp;<WBR>and/or&nbsp;<WBR>symbols&nbsp;<WBR>to&nbsp;<WBR>depict&nbsp;<WBR>values&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>Data&nbsp;<WBR>Element&nbsp;<WBR>determined&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>operations&nbsp;<WBR>that&nbsp;<WBR>may&nbsp;<WBR>be&nbsp;<WBR>performed&nbsp;<WBR>on&nbsp;<WBR>the&nbsp;<WBR>Data&nbsp;<WBR>Element.<br /><br />A&nbsp;<WBR>Datatype&nbsp;<WBR>is&nbsp;<WBR>designated&nbsp;<WBR>by&nbsp;<WBR>a&nbsp;<WBR>data&nbsp;<WBR>type&nbsp;<WBR>name,&nbsp;<WBR>and&nbsp;<WBR>described&nbsp;<WBR>by&nbsp;<WBR>a&nbsp;<WBR>datatype&nbsp;<WBR>description.&nbsp;<WBR>The&nbsp;<WBR>datatype&nbsp;<WBR>name&nbsp;<WBR>is&nbsp;<WBR>usually&nbsp;<WBR>drawn&nbsp;<WBR>from&nbsp;<WBR>some&nbsp;<WBR>external&nbsp;<WBR>source,&nbsp;<WBR>which&nbsp;<WBR>is&nbsp;<WBR>designated&nbsp;<WBR>by&nbsp;<WBR>a&nbsp;<WBR>datatype&nbsp;<WBR>scheme&nbsp;<WBR>reference.&nbsp;<WBR>Additional&nbsp;<WBR>information&nbsp;<WBR>may&nbsp;<WBR>optionally&nbsp;<WBR>be&nbsp;<WBR>provided&nbsp;<WBR>using&nbsp;<WBR>the&nbsp;<WBR>datatype&nbsp;<WBR>annotation.</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;datatype_annotation</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			specifying&nbsp;<WBR>information&nbsp;<WBR>to&nbsp;<WBR>further&nbsp;<WBR>define&nbsp;<WBR>the&nbsp;<WBR>Datatype
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;datatype_description</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			descriptive&nbsp;<WBR>information&nbsp;<WBR>to&nbsp;<WBR>further&nbsp;<WBR>clarify&nbsp;<WBR>the&nbsp;<WBR>Datatype
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;datatype_name</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			a&nbsp;<WBR>designation&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>Datatype
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;datatype_scheme_reference</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			a&nbsp;<WBR>reference&nbsp;<WBR>identifying&nbsp;<WBR>the&nbsp;<WBR>source&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Datatype&nbsp;<WBR>specification
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div>		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="15%" class="TableHeading">Type</td>
+					<td width="15%" class="TableHeading">Connection</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="../../EA5/EA2/EA18/EA450.htm">«XSDcomplexType» Datatype</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Realisation</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>
