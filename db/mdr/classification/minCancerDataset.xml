@@ -1,0 +1,3470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protegekb xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://protege.stanford.edu/plugins/xmlbackend/protege_xml_backend.xsd">
+    <slots>
+        <slot>
+            <own-slot slot-name=":NAME">
+                <entry type="String">
+                    <value>data-identifier</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":SLOT-MAXIMUM-CARDINALITY">
+                <entry type="Integer">
+                    <value>1</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":SLOT-MINIMUM-CARDINALITY">
+                <entry type="Integer">
+                    <value>1</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":SLOT-DEFAULTS">
+                <entry type="String">
+                    <value>default</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":DIRECT-DOMAIN">
+                <entry type="Class">
+                    <value>:STEVE-STANDARD-CLASS</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":SLOT-VALUE-TYPE">
+                <entry type="String">
+                    <value>String</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":DIRECT-TYPE">
+                <entry type="Class">
+                    <value>:STANDARD-SLOT</value>
+                </entry>
+            </own-slot>
+        </slot>
+        <slot>
+            <own-slot slot-name=":NAME">
+                <entry type="String">
+                    <value>identifier</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":SLOT-MAXIMUM-CARDINALITY">
+                <entry type="Integer">
+                    <value>1</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":SLOT-MINIMUM-CARDINALITY">
+                <entry type="Integer">
+                    <value>1</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":SLOT-DEFAULTS">
+                <entry type="String">
+                    <value>default</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":SLOT-VALUE-TYPE">
+                <entry type="String">
+                    <value>String</value>
+                </entry>
+            </own-slot>
+            <own-slot slot-name=":DIRECT-TYPE">
+                <entry type="Class">
+                    <value>:STANDARD-SLOT</value>
+                </entry>
+            </own-slot>
+        </slot>
+    </slots>
+    <classes>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>:STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TEMPLATE-SLOTS">
+                    <entry type="Instance">
+                        <value>data-identifier</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>CancerGrid Classification Scheme</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>root</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>:THING</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Minimum Cancer Dataset</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>06D67D8B6</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>CancerGrid Classification Scheme</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>2ED5C8689</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Minimum Cancer Dataset</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Trials</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>0B35A4BB5</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Waiting Times</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>CA8C58088</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Demographics</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>79B19EBBD</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Referrals</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>52B4E4B29</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Imaging</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>B9DD53578</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Diagnosis</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>E59573ABE</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>B-Cell And T-Cell Lymphomas</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>8A8E6482C</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Diagnosis</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Cancer Care Plan</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>36ECB4576</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Staging</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>AC9C86218</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Surgery And Other Procedures</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>EE65AC736</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Pathology</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>655143A48</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Chemotherapy And Other Drugs</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>88ACB970E</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Radiotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>82A35791B</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Teletherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>36C86D51B</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Radiotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Brachytherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>6A9354126</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Radiotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Palliative Care</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>905CAE9C9</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Status Assessment</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>49028393A</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Death Details</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>144B849A3</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Waiting Times Details</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>36A5DDB4E</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>General</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>3</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Minimum Cancer Dataset</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Breast</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>70A58D705</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Colorectal</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>E456A6A12</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Head and Neck</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>991CE307B</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Lung</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>ACE6D4CD8</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Urological</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>4795D62AB</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Upper GI</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>46971C716</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Gynaecological</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D3E35DDC9</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Sarcoma</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>039EE4B9B</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Skin Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>8A0A1C573</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Site Specific Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Surgery And Other Procedures(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>22E951AC0</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Skin Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Skin Cancer Pathology(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>ABED0DB3D</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Skin Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Chemotherapy And Other Drugs(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>B8B524072</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Skin Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Diagnosis(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>29D9314E3</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Skin Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Basal Cell Carcinoma</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>DD06E898B</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Diagnosis(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Malignant Melanoma</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>B98AB2AC4</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Diagnosis(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Kaposis Sarcoma</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>DA85778ED</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Diagnosis(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Cancer Care Plan(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>33E957A5D</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Skin Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Radiotherapy(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>9726E5830</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Skin Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Teletherapy(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>66785E957</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Radiotherapy(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Brachytherapy(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>578DC842D</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Radiotherapy(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Status Assessment(SK)</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>EC55ADDDD</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Skin Cancer</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Trial Classification</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E8570</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>CancerGrid Classification Scheme</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Tissue Microarray Classification</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>68222698E</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>CancerGrid Classification Scheme</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Patient Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>ECA1227CD</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Trial Classification</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Consent</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E8746</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Patient Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Demographic</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E8834</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Patient Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>PatientMilestones</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E8922</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Patient Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>PhysicalCharacteristic</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E9011</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Patient Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Trial Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>3E3E38BB8</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Trial Classification</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>TrialMilestone</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E10333</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Randomised Treatment Allocation</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>901A8D29C</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>TrialMilestone</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Registration</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E10421</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>TrialMilestone</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>On Study</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>1BAC7275D</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>TrialMilestone</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Off Study</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>3A4682DAD</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>TrialMilestone</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Trial Metadata</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D2AA37844</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Trial Eligibility</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E12802</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Required Eligibility</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E12890</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Eligibility</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Required Male Eligibility</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>1BD3DE83D</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Required Eligibility</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Required Female Eligibility</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13066</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Required Eligibility</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Trial Data Management</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13154</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13243</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Trial Classification</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Decisions</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13331</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Intention To Treat</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13419</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Decisions</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Diagnosis</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13507</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Decisions</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Assessments</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13683</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Performance Status</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13772</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Assessments</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Pathology Assessment</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13860</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Assessments</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Disease Stage</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14036</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Assessments</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Measurements</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14124</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Body Surface Area</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14212</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Measurements</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Interventions</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14301</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Chemotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14389</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Interventions</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Primary</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14653</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Chemotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Adjuvant</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14477</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Chemotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>NeoAdjuvant</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14565</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Chemotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Concomitant</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14741</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Interventions</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Pain Relief</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E14830</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Concomitant</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Analgesic</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>796418D71</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Pain Relief</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Opiod</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>26AA1C02B</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Pain Relief</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Milestones</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E15359</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Institution Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>044D768A7</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Trial Classification</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Institution Demographics</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E15623</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Institution Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinician Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>1E2964A9D</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Trial Classification</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinician Demographics</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E15799</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinician Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Trial Identifiers</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E10862</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Metadata</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Histopathology</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E13948</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Pathology Assessment</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Tumour Grading</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E19052</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Pathology Assessment</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Chemistry</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E17034</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Measurements</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Drug Dose</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E17210</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Measurements</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Irradiation</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E15094</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Interventions</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>RadiotherapyIntervention</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E15182</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Irradiation</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Surgery</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E15270</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Interventions</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>FirstInterventionOfTypeh</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E15447</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Milestones</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Serious Adverse Event</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E19563</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Milestones</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Metadata</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E19387</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Clinical Metadata Identifiers</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E19475</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Clinical Metadata</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Trial Identification Numbers</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E10950</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Identifiers</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Trial Names</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E11391</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Identifiers</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Trial Investigator</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E11832</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Metadata</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>B9DADEE53</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Trial Context</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>PeriodicFollowup</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E10069</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>QualityOfLife</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>7022B677A</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>SurgeryCRF</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>815818876</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>PathologyCRF</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>CC3C34C18</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Eligibility</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E19299</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>SeriousAdverseEvent</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>165CEB79C</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>RegistrationCRF</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E9363</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>OnStudy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>1AD30C1B7</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>OffStudy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>44B16EA2A</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>Treatment</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>25A2C913A</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Common CRF Contents</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>TreatmentChemotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>D1E9804</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Treatment</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>TreatmentRadiotherapy</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>48D28A9B4</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Treatment</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+        <class>
+            <own-slots>
+                <own-slot slot-name=":NAME">
+                    <entry type="String">
+                        <value>TreatmentSurgery</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name="data-identifier">
+                    <entry type="String">
+                        <value>CB2592384</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":ROLE">
+                    <entry type="String">
+                        <value>Concrete</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-SUPERCLASSES">
+                    <entry type="Class">
+                        <value>Treatment</value>
+                    </entry>
+                </own-slot>
+                <own-slot slot-name=":DIRECT-TYPE">
+                    <entry type="Class">
+                        <value>:STEVE-STANDARD-CLASS</value>
+                    </entry>
+                </own-slot>
+            </own-slots>
+        </class>
+    </classes>
+    <instances/>
+</protegekb>

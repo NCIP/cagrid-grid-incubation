@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ISO11179::Administered_Item</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Administered_Item  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">06/12/2005 10:36:39</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">20/07/2006 09:38:30</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{DE7FFB64-3371-429f-81BA-32E53C4C1649}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA14.htm">ISO11179 - Administration and identification (figures 4 and 5)</a>, <a href="EA18.htm">ISO11179 - Classification Region (figure 7)</a>, <a href="EA16.htm">ISO11179 - Naming and Definition (figure 6)</a>, <a href="EA12.htm">ISO11179 - Types of Administered Items (figure 2)</a>, <a href="../../EA5/EA2/EA18/EA427.htm">cgMDR_resources_admin_item</a>, <a href="../../EA5/EA2/EA1/EA327.htm">cgMDR_classification</a>, <a href="../../EA5/EA2/EA2/EA332.htm">cgMDR_classification_scheme_item</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>may&nbsp;<WBR>be&nbsp;<WBR>any&nbsp;<WBR>one&nbsp;<WBR>of&nbsp;<WBR>those&nbsp;<WBR>types&nbsp;<WBR>listed&nbsp;<WBR>in&nbsp;<WBR>Figure&nbsp;<WBR>2.&nbsp;<WBR>&nbsp;<WBR>Each&nbsp;<WBR>instance&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>encapsulates&nbsp;<WBR>its&nbsp;<WBR>own&nbsp;<WBR>Administration&nbsp;<WBR>Record.&nbsp;<WBR>An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>is&nbsp;<WBR>submitted&nbsp;<WBR>by&nbsp;<WBR>an&nbsp;<WBR>Organization&nbsp;<WBR>represented&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>relationship&nbsp;<WBR>submission&nbsp;<WBR>in&nbsp;<WBR>Figure&nbsp;<WBR>4.&nbsp;<WBR>An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>is&nbsp;<WBR>registered&nbsp;<WBR>by&nbsp;<WBR>a&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>represented&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>relationship&nbsp;<WBR>registration&nbsp;<WBR>in&nbsp;<WBR>Figure&nbsp;<WBR>4.&nbsp;<WBR>An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>is&nbsp;<WBR>administered&nbsp;<WBR>by&nbsp;<WBR>an&nbsp;<WBR>Organization&nbsp;<WBR>represented&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>relationship&nbsp;<WBR>stewardship&nbsp;<WBR>in&nbsp;<WBR>Figure&nbsp;<WBR>4.&nbsp;<WBR>An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>may&nbsp;<WBR>be&nbsp;<WBR>described&nbsp;<WBR>by&nbsp;<WBR>zero&nbsp;<WBR>or&nbsp;<WBR>more&nbsp;<WBR>Reference&nbsp;<WBR>Documents&nbsp;<WBR>as&nbsp;<WBR>represented&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>relationship&nbsp;<WBR>reference&nbsp;<WBR>in&nbsp;<WBR>Figure&nbsp;<WBR>4.<br /><br />Each&nbsp;<WBR>instance&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>through&nbsp;<WBR>its&nbsp;<WBR>Administration&nbsp;<WBR>Record&nbsp;<WBR>shall&nbsp;<WBR>have&nbsp;<WBR>a&nbsp;<WBR>unique&nbsp;<WBR>administered&nbsp;<WBR>item&nbsp;<WBR>identifier&nbsp;<WBR>used&nbsp;<WBR>to&nbsp;<WBR>identify&nbsp;<WBR>it&nbsp;<WBR>and&nbsp;<WBR>that&nbsp;<WBR>distinguishes&nbsp;<WBR>it&nbsp;<WBR>from&nbsp;<WBR>any&nbsp;<WBR>other&nbsp;<WBR>Administered&nbsp;<WBR>Item.&nbsp;<WBR>Each&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>owner&#39;s&nbsp;<WBR>metadata&nbsp;<WBR>registry&nbsp;<WBR>shall&nbsp;<WBR>have&nbsp;<WBR>(as&nbsp;<WBR>part&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administration&nbsp;<WBR>Record):<br />*&nbsp;<WBR>a&nbsp;<WBR>registration&nbsp;<WBR>status&nbsp;<WBR>indicating&nbsp;<WBR>the&nbsp;<WBR>point&nbsp;<WBR>in&nbsp;<WBR>a&nbsp;<WBR>registration&nbsp;<WBR>life&nbsp;<WBR>cycle&nbsp;<WBR>applying&nbsp;<WBR>to&nbsp;<WBR>it<br />*&nbsp;<WBR>an&nbsp;<WBR>administrative&nbsp;<WBR>status&nbsp;<WBR>indicating&nbsp;<WBR>the&nbsp;<WBR>point&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>Registration&nbsp;<WBR>Authority&#39;s&nbsp;<WBR>registration&nbsp;<WBR>process.</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('AssociationsTo');" id="AssociationsToTitle">Associations To</li>
+			<li onClick="parent.toggleItem('AssociationsFrom');" id="AssociationsFromTitle">Associations From</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="EA37.htm">Administration_Record</a></i><br /><strong>&nbsp;&nbsp;administered_item_administration_record</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Note&nbsp;<WBR>that&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>original&nbsp;<WBR>diagrams&nbsp;<WBR>for&nbsp;<WBR>ISO11179,&nbsp;<WBR>each&nbsp;<WBR>&#39;administered&nbsp;<WBR>item&#39;&nbsp;<WBR>has&nbsp;<WBR>in&nbsp;<WBR>fact&nbsp;<WBR>-two-&nbsp;<WBR>administration&nbsp;<WBR>records:&nbsp;<WBR>one&nbsp;<WBR>specific&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>class,&nbsp;<WBR>and&nbsp;<WBR>one&nbsp;<WBR>inherited&nbsp;<WBR>from&nbsp;<WBR>the&nbsp;<WBR>administered&nbsp;<WBR>item&nbsp;<WBR>class.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;We&nbsp;<WBR>have&nbsp;<WBR>examined&nbsp;<WBR>this&nbsp;<WBR>and&nbsp;<WBR>have&nbsp;<WBR>decided&nbsp;<WBR>this&nbsp;<WBR>should&nbsp;<WBR>not&nbsp;<WBR>be&nbsp;<WBR>implemented&nbsp;<WBR>in&nbsp;<WBR>cancergrid:&nbsp;<WBR>the&nbsp;<WBR>records&nbsp;<WBR>are&nbsp;<WBR>defined&nbsp;<WBR>to&nbsp;<WBR>be&nbsp;<WBR>identical&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>purposes&nbsp;<WBR>of&nbsp;<WBR>our&nbsp;<WBR>implementation.
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div>		<div class="ItemBody" id="AssociationsToTable">
+			<table border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="20%" class="TableHeading">Element</td>
+					<td width="25%" class="TableHeading">Source Role</td>
+					<td width="25%" class="TableHeading">Target Role</td>
+					<td width="30%" class="TableHeading">Details</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA40.htm">Classification_Scheme_Item</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> classifying<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> classified_by<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top"><div class="ObjectDetailsNotes">An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>may&nbsp;<WBR>be&nbsp;<WBR>classified&nbsp;<WBR>in&nbsp;<WBR>zero&nbsp;<WBR>or&nbsp;<WBR>more&nbsp;<WBR>Classification&nbsp;<WBR>Schemes,&nbsp;<WBR>by&nbsp;<WBR>associating&nbsp;<WBR>it&nbsp;<WBR>with&nbsp;<WBR>one&nbsp;<WBR>or&nbsp;<WBR>more&nbsp;<WBR>Classification&nbsp;<WBR>Scheme&nbsp;<WBR>Items&nbsp;<WBR>as&nbsp;<WBR>represented&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>relationship&nbsp;<WBR>administered&nbsp;<WBR>item&nbsp;<WBR>classification&nbsp;<WBR>in&nbsp;<WBR>Figure&nbsp;<WBR>7.&nbsp;<WBR>Such&nbsp;<WBR>classification&nbsp;<WBR>is&nbsp;<WBR>optional.</div>
+</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA77.htm">Submission</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> submitting<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> submitted_by<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA76.htm">Stewardship</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> administering<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> administered_by<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA29.htm">Terminological_Entry</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> grouping<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> having<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="ItemBody" id="AssociationsFromTable">
+			<table border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="20%" class="TableHeading">Element</td>
+					<td width="25%" class="TableHeading">Source Role</td>
+					<td width="25%" class="TableHeading">Target Role</td>
+					<td width="30%" class="TableHeading">Details</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA72.htm">Registration_Authority</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> registered_by<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> registering<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="20%" class="TableRow" valign="top">
+						<a href="EA70.htm">Reference_Document</a><br />
+						Class &nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> described_by<br />
+						&nbsp;
+					</td>
+					<td width="20%" class="TableRow" valign="top">
+						<strong>Name:</strong> describing<br />
+						&nbsp;	
+					</td>
+					<td width="30%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="15%" class="TableHeading">Type</td>
+					<td width="15%" class="TableHeading">Connection</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA39.htm">Classification_Scheme</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA43.htm">Conceptual_Domain</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA47.htm">Data_Element</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA48.htm">Data_Element_Concept</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA66.htm">Object_Class</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA69.htm">Property</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA75.htm">Representation_Class</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA80.htm">Value_Domain</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA46.htm">Context</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="../../EA5/EA2/EA18/EA437.htm">adminItem_transform</a></td>
+					<td width="15%" class="TableRow" valign="top">Object</td>
+					<td width="15%" class="TableRow" valign="top">Realisation</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA54.htm">Derivation_Rule</a></td>
+					<td width="15%" class="TableRow" valign="top">Class</td>
+					<td width="15%" class="TableRow" valign="top">Generalization</td>
+					<td width="40%" class="TableRow" valign="top">derivation is specified in text as being an administered item, has an administration record, but does not appear in the 'types of administered item' class
+
+A derivation between data elements is an important element of the semantics of the resource and requires full administrative item status and thus the class has been subtype to administered item</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:iso11179="http://www.cancergrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.cancergrid.org/schema/ISO11179" schemaLocation="../schemas/iso11179.xsd"/>
+    <xs:include schemaLocation="../schemas/cgMDR_resources.xsd"/>
+    <xs:element name="Data_Element_Derivation" type="Data_Element_Derivation" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element_Derivation" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>Derivation rules can be unidirectional as not all mathematical operators are commutative</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="derivation_rule_specification" type="relationship_type_name" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+        <xs:attribute name="deriving" use="required" type="administered_item_identifier">
+            <xs:annotation>
+                <xs:documentation>foreignKey: Data_Element@administered_item_id</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="Data_Element" type="Data_Element" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="cgAdministered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="data_element_precision" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element name="representation_class_qualifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element name="representing" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>foreignKey:Value_Domain@administered_item_id
+
+replaces association data_element_representation</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="typed_by" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>foreignKey: Representation_Class@administered_item_id
+
+replaces the association data_element_representation_class</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="expressing" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>foreignKey: Data_Element_Concept@administered_item_id
+
+replaces association data_element_concept_expression</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="exemplified_by" type="Data_Element_Example" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                    <xs:element name="input_to" type="Data_Element_Derivation" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                    <xs:element name="field_name" minOccurs="0" maxOccurs="unbounded" nillable="false">
+                        <xs:complexType mixed="false">
+                            <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                    <xs:attribute name="preferred" type="xs:boolean" use="optional"/>
+                                </xs:extension>
+                            </xs:simpleContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="question_text" minOccurs="0" maxOccurs="unbounded" nillable="false">
+                        <xs:complexType mixed="false">
+                            <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                    <xs:attribute name="preferred" type="xs:boolean" use="optional"/>
+                                </xs:extension>
+                            </xs:simpleContent>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Data_Element_Example" type="Data_Element_Example" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element_Example" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Data Element may have Data Element Examples that are used to provide
+                representative samples of the Data Element.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="data_element_example_item" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>actual illustrative case of the Data
+                        Element</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

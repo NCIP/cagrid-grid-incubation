@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<treeview>
+    <folder title="CancerGrid Classification Scheme" img="images/white_circle.gif" expanded="true">
+        <folder title="Minimum Cancer Dataset" img="images/white_circle.gif" expanded="true" code="06D67D8B6">
+            <folder title="General" img="images/white_circle.gif" expanded="true" code="2ED5C8689">
+                <folder title="Demographics" img="images/white_circle.gif" expanded="true" code="79B19EBBD"/>
+                <folder title="Diagnosis" img="images/white_circle.gif" expanded="true" code="E59573ABE">
+                    <folder title="B-Cell And T-Cell Lymphomas" img="images/white_circle.gif" expanded="true" code="8A8E6482C"/>
+                </folder>
+                <folder title="Clinical Status Assessment" img="images/white_circle.gif" expanded="true" code="49028393A"/>
+                <folder title="Clinical Trials" img="images/white_circle.gif" expanded="true" code="0B35A4BB5"/>
+                <folder title="Waiting Times" img="images/white_circle.gif" expanded="true" code="CA8C58088"/>
+                <folder title="Referrals" img="images/white_circle.gif" expanded="true" code="52B4E4B29"/>
+                <folder title="Cancer Care Plan" img="images/white_circle.gif" expanded="true" code="36ECB4576"/>
+                <folder title="Staging" img="images/white_circle.gif" expanded="true" code="AC9C86218"/>
+                <folder title="Surgery And Other Procedures" img="images/white_circle.gif" expanded="true" code="EE65AC736"/>
+                <folder title="Pathology" img="images/white_circle.gif" expanded="true" code="655143A48"/>
+                <folder title="Chemotherapy And Other Drugs" img="images/white_circle.gif" expanded="true" code="88ACB970E"/>
+                <folder title="Radiotherapy" img="images/white_circle.gif" expanded="true" code="82A35791B">
+                    <folder title="Teletherapy" img="images/white_circle.gif" expanded="true" code="36C86D51B"/>
+                    <folder title="Brachytherapy" img="images/white_circle.gif" expanded="true" code="6A9354126"/>
+                </folder>
+                <folder title="Palliative Care" img="images/white_circle.gif" expanded="true" code="905CAE9C9"/>
+                <folder title="Death Details" img="images/white_circle.gif" expanded="true" code="144B849A3"/>
+                <folder title="Waiting Times Details" img="images/white_circle.gif" expanded="true" code="36A5DDB4E"/>
+                <folder title="Imaging" img="images/white_circle.gif" expanded="true" code="B9DD53578"/>
+            </folder>
+            <folder title="Site Specific Cancer" img="images/white_circle.gif" expanded="true" code="3">
+                <folder title="Gynaecological" img="images/white_circle.gif" expanded="true" code="D3E35DDC9"/>
+                <folder title="Lung" img="images/white_circle.gif" expanded="true" code="ACE6D4CD8"/>
+                <folder title="Upper GI" img="images/white_circle.gif" expanded="true" code="46971C716"/>
+                <folder title="Sarcoma" img="images/white_circle.gif" expanded="true" code="039EE4B9B"/>
+                <folder title="Skin Cancer" img="images/white_circle.gif" expanded="true" code="8A0A1C573">
+                    <folder title="Radiotherapy(SK)" img="images/white_circle.gif" expanded="true" code="9726E5830">
+                        <folder title="Teletherapy(SK)" img="images/white_circle.gif" expanded="true" code="66785E957"/>
+                        <folder title="Brachytherapy(SK)" img="images/white_circle.gif" expanded="true" code="578DC842D"/>
+                    </folder>
+                    <folder title="Clinical Status Assessment(SK)" img="images/white_circle.gif" expanded="true" code="EC55ADDDD"/>
+                    <folder title="Surgery And Other Procedures(SK)" img="images/white_circle.gif" expanded="true" code="22E951AC0"/>
+                    <folder title="Chemotherapy And Other Drugs(SK)" img="images/white_circle.gif" expanded="true" code="B8B524072"/>
+                    <folder title="Skin Cancer Pathology(SK)" img="images/white_circle.gif" expanded="true" code="ABED0DB3D"/>
+                    <folder title="Diagnosis(SK)" img="images/white_circle.gif" expanded="true" code="29D9314E3">
+                        <folder title="Basal Cell Carcinoma" img="images/white_circle.gif" expanded="true" code="DD06E898B"/>
+                        <folder title="Malignant Melanoma" img="images/white_circle.gif" expanded="true" code="B98AB2AC4"/>
+                        <folder title="Kaposis Sarcoma" img="images/white_circle.gif" expanded="true" code="DA85778ED"/>
+                    </folder>
+                    <folder title="Cancer Care Plan(SK)" img="images/white_circle.gif" expanded="true" code="33E957A5D"/>
+                </folder>
+                <folder title="Breast" img="images/white_circle.gif" expanded="true" code="70A58D705"/>
+                <folder title="Colorectal" img="images/white_circle.gif" expanded="true" code="E456A6A12"/>
+                <folder title="Urological" img="images/white_circle.gif" expanded="true" code="4795D62AB"/>
+                <folder title="Head and Neck" img="images/white_circle.gif" expanded="true" code="991CE307B"/>
+            </folder>
+        </folder>
+        <folder title="Clinical Trial Classification" img="images/white_circle.gif" expanded="true" code="D1E8570">
+            <folder title="Clinician Context" img="images/white_circle.gif" expanded="true" code="1E2964A9D">
+                <folder title="Clinician Demographics" img="images/white_circle.gif" expanded="true" code="D1E15799"/>
+            </folder>
+            <folder title="Trial Context" img="images/white_circle.gif" expanded="true" code="3E3E38BB8">
+                <folder title="Trial Data Management" img="images/white_circle.gif" expanded="true" code="D1E13154"/>
+                <folder title="Trial Metadata" img="images/white_circle.gif" expanded="true" code="D2AA37844">
+                    <folder title="Trial Investigator" img="images/white_circle.gif" expanded="true" code="D1E11832"/>
+                    <folder title="Trial Identifiers" img="images/white_circle.gif" expanded="true" code="D1E10862">
+                        <folder title="Trial Identification Numbers" img="images/white_circle.gif" expanded="true" code="D1E10950"/>
+                        <folder title="Trial Names" img="images/white_circle.gif" expanded="true" code="D1E11391"/>
+                    </folder>
+                </folder>
+                <folder title="Common CRF Contents" img="images/white_circle.gif" expanded="true" code="B9DADEE53">
+                    <folder title="PeriodicFollowup" img="images/white_circle.gif" expanded="true" code="D1E10069"/>
+                    <folder title="SurgeryCRF" img="images/white_circle.gif" expanded="true" code="815818876"/>
+                    <folder title="PathologyCRF" img="images/white_circle.gif" expanded="true" code="CC3C34C18"/>
+                    <folder title="Eligibility" img="images/white_circle.gif" expanded="true" code="D1E19299"/>
+                    <folder title="SeriousAdverseEvent" img="images/white_circle.gif" expanded="true" code="165CEB79C"/>
+                    <folder title="OnStudy" img="images/white_circle.gif" expanded="true" code="1AD30C1B7"/>
+                    <folder title="OffStudy" img="images/white_circle.gif" expanded="true" code="44B16EA2A"/>
+                    <folder title="Treatment" img="images/white_circle.gif" expanded="true" code="25A2C913A">
+                        <folder title="TreatmentChemotherapy" img="images/white_circle.gif" expanded="true" code="D1E9804"/>
+                        <folder title="TreatmentRadiotherapy" img="images/white_circle.gif" expanded="true" code="48D28A9B4"/>
+                        <folder title="TreatmentSurgery" img="images/white_circle.gif" expanded="true" code="CB2592384"/>
+                    </folder>
+                    <folder title="QualityOfLife" img="images/white_circle.gif" expanded="true" code="7022B677A"/>
+                    <folder title="RegistrationCRF" img="images/white_circle.gif" expanded="true" code="D1E9363"/>
+                </folder>
+                <folder title="TrialMilestone" img="images/white_circle.gif" expanded="true" code="D1E10333">
+                    <folder title="Off Study" img="images/white_circle.gif" expanded="true" code="3A4682DAD"/>
+                    <folder title="Randomised Treatment Allocation" img="images/white_circle.gif" expanded="true" code="901A8D29C"/>
+                    <folder title="On Study" img="images/white_circle.gif" expanded="true" code="1BAC7275D"/>
+                    <folder title="Registration" img="images/white_circle.gif" expanded="true" code="D1E10421"/>
+                </folder>
+                <folder title="Trial Eligibility" img="images/white_circle.gif" expanded="true" code="D1E12802">
+                    <folder title="Required Eligibility" img="images/white_circle.gif" expanded="true" code="D1E12890">
+                        <folder title="Required Male Eligibility" img="images/white_circle.gif" expanded="true" code="1BD3DE83D"/>
+                        <folder title="Required Female Eligibility" img="images/white_circle.gif" expanded="true" code="D1E13066"/>
+                    </folder>
+                </folder>
+            </folder>
+            <folder title="Clinical Context" img="images/white_circle.gif" expanded="true" code="D1E13243">
+                <folder title="Clinical Interventions" img="images/white_circle.gif" expanded="true" code="D1E14301">
+                    <folder title="Concomitant" img="images/white_circle.gif" expanded="true" code="D1E14741">
+                        <folder title="Pain Relief" img="images/white_circle.gif" expanded="true" code="D1E14830">
+                            <folder title="Analgesic" img="images/white_circle.gif" expanded="true" code="796418D71"/>
+                            <folder title="Opiod" img="images/white_circle.gif" expanded="true" code="26AA1C02B"/>
+                        </folder>
+                    </folder>
+                    <folder title="Surgery" img="images/white_circle.gif" expanded="true" code="D1E15270"/>
+                    <folder title="Chemotherapy" img="images/white_circle.gif" expanded="true" code="D1E14389">
+                        <folder title="NeoAdjuvant" img="images/white_circle.gif" expanded="true" code="D1E14565"/>
+                        <folder title="Primary" img="images/white_circle.gif" expanded="true" code="D1E14653"/>
+                        <folder title="Adjuvant" img="images/white_circle.gif" expanded="true" code="D1E14477"/>
+                    </folder>
+                    <folder title="Irradiation" img="images/white_circle.gif" expanded="true" code="D1E15094">
+                        <folder title="RadiotherapyIntervention" img="images/white_circle.gif" expanded="true" code="D1E15182"/>
+                    </folder>
+                </folder>
+                <folder title="Clinical Metadata" img="images/white_circle.gif" expanded="true" code="D1E19387">
+                    <folder title="Clinical Metadata Identifiers" img="images/white_circle.gif" expanded="true" code="D1E19475"/>
+                </folder>
+                <folder title="Clinical Decisions" img="images/white_circle.gif" expanded="true" code="D1E13331">
+                    <folder title="Intention To Treat" img="images/white_circle.gif" expanded="true" code="D1E13419"/>
+                    <folder title="Clinical Diagnosis" img="images/white_circle.gif" expanded="true" code="D1E13507"/>
+                </folder>
+                <folder title="Clinical Assessments" img="images/white_circle.gif" expanded="true" code="D1E13683">
+                    <folder title="Performance Status" img="images/white_circle.gif" expanded="true" code="D1E13772"/>
+                    <folder title="Disease Stage" img="images/white_circle.gif" expanded="true" code="D1E14036"/>
+                    <folder title="Pathology Assessment" img="images/white_circle.gif" expanded="true" code="D1E13860">
+                        <folder title="Histopathology" img="images/white_circle.gif" expanded="true" code="D1E13948"/>
+                        <folder title="Tumour Grading" img="images/white_circle.gif" expanded="true" code="D1E19052"/>
+                    </folder>
+                </folder>
+                <folder title="Clinical Measurements" img="images/white_circle.gif" expanded="true" code="D1E14124">
+                    <folder title="Drug Dose" img="images/white_circle.gif" expanded="true" code="D1E17210"/>
+                    <folder title="Body Surface Area" img="images/white_circle.gif" expanded="true" code="D1E14212"/>
+                    <folder title="Clinical Chemistry" img="images/white_circle.gif" expanded="true" code="D1E17034"/>
+                </folder>
+                <folder title="Clinical Milestones" img="images/white_circle.gif" expanded="true" code="D1E15359">
+                    <folder title="FirstInterventionOfTypeh" img="images/white_circle.gif" expanded="true" code="D1E15447"/>
+                    <folder title="Serious Adverse Event" img="images/white_circle.gif" expanded="true" code="D1E19563"/>
+                </folder>
+            </folder>
+            <folder title="Institution Context" img="images/white_circle.gif" expanded="true" code="044D768A7">
+                <folder title="Institution Demographics" img="images/white_circle.gif" expanded="true" code="D1E15623"/>
+            </folder>
+            <folder title="Patient Context" img="images/white_circle.gif" expanded="true" code="ECA1227CD">
+                <folder title="Demographic" img="images/white_circle.gif" expanded="true" code="D1E8834"/>
+                <folder title="PhysicalCharacteristic" img="images/white_circle.gif" expanded="true" code="D1E9011"/>
+                <folder title="PatientMilestones" img="images/white_circle.gif" expanded="true" code="D1E8922"/>
+                <folder title="Consent" img="images/white_circle.gif" expanded="true" code="D1E8746"/>
+            </folder>
+        </folder>
+        <folder title="Tissue Microarray Classification" img="images/white_circle.gif" expanded="true" code="68222698E"/>
+    </folder>
+</treeview>

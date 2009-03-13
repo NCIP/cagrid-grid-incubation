@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns="http://exist-db.org/collection-config/1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179">
+    <index>
+        <fulltext default="all" attributes="true" alphanum="true"/>
+        <create qname="@data_identifier" type="xs:string"/>
+        <create qname="@version" type="xs:double"/>
+        <create qname="@item_registration_authority_identifier" type="xs:string"/>
+        <create qname="cgMDR:registration_status" type="xs:string"/>
+        <create qname="cgMDR:administrative_status" type="xs:string"/>
+        <create qname="cgMDR:administered_by" type="xs:string"/>
+        <create qname="cgMDR:registered_by" type="xs:string"/>
+        <create qname="cgMDR:submitted_by" type="xs:string"/>
+        <create qname="cgMDR:described_by" type="xs:string"/>
+        <create qname="cgMDR:classified_by" type="xs:string"/>
+        <create qname="cgMDR:context_identifier" type="xs:string"/>
+        <create qname="cgMDR:preferred_designation" type="xs:string"/>
+        <create qname="cgMDR:name" type="xs:string"/>
+        <create qname="ISO11179:value_meaning_identifier" type="xs:string"/>
+        <create qname="cgMDR:data_element_concept_conceptual_domain" type="xs:string"/>
+        <create qname="cgMDR:data_element_concept_object_class" type="xs:string"/>
+        <create qname="cgMDR:data_element_concept_property" type="xs:string"/>
+        <create qname="cgMDR:typed_by" type="xs:string"/>
+        <create qname="cgMDR:value_domain_datatype" type="xs:string"/>
+        <create qname="cgMDR:value_domain_unit_of_measure" type="xs:string"/>
+        <create qname="cgMDR:representing" type="xs:string"/>
+        <create qname="cgMDR:value_domain_datatype" type="xs:string"/>
+        <create qname="cgMDR:value_domain_maximum_character_quantity" type="xs:string"/>
+        <create qname="cgMDR:value_domain_unit_of_measure" type="xs:string"/>
+        <create qname="@permissible_value_identifier" type="xs:string"/>
+        <create qname="cgMDR:related_to" type="xs:string"/>
+        <create qname="cgMDR:value_domain_relationship_type_description" type="xs:string"/>
+        <create qname="cgMDR:conceptual_domain_relationship_type_description" type="xs:string"/>
+        <create qname="cgMDR:data_element_concept_relationship_type_description" type="xs:string"/>
+        <create qname="cgMDR:contained_in" type="xs:string"/>
+        <create qname="cgMDR:expressing" type="xs:string"/>
+        <create qname="@deriving" type="xs:string"/>
+        <create qname="cgMDR:derivation_rule_specification" type="xs:string"/>
+        <create qname="@unit_of_measure_identifier" type="xs:string"/>
+        <create qname="@organization_identifier" type="xs:string"/>
+        <create qname="@reference_document_identifier" type="xs:string"/>
+        <create qname="cgMDR:reference_document_type_description" type="xs:string"/>
+        <create qname="@contact_identifier" type="xs:string"/>
+        <create qname="@datatype_identifier" type="xs:string"/>
+        <create qname="@classification_scheme_item_identifier" type="xs:string"/>
+        <create qname="@contained_in" type="xs:string"/>
+        <create qname="@associationTarget" type="xs:string"/>
+        <create qname="cgMDR:classification_scheme_item_relationship_type_description" type="xs:string"/>
+        <create qname="@skos:prefLabel" type="xs:string"/>
+        <create qname="@skos:altLabel" type="xs:string"/>
+        <create qname="@skos:hiddenLabel" type="xs:string"/>
+        <create qname="@skos:altLabel" type="xs:string"/>
+        <create qname="skos:hiddenLabel" type="xs:string"/>
+        <create qname="skos:altLabel" type="xs:string"/>
+    </index>
+    <triggers>
+        <triggers>
+            <trigger event="update,remove" class="org.exist.collections.triggers.HistoryTrigger"/>
+        </triggers>
+        <trigger class="org.exist.collections.triggers.XQueryTrigger" event="store">
+            <parameter name="query" value="util:log('debug', concat('Supersede trigger fired at ', current-dateTime()))"/>
+        </trigger>
+        <trigger class="org.exist.collections.triggers.XQueryTrigger" event="store">
+            <parameter name="url" value="xmldb:exist://localhost/db/mdr/trigger/trigger-supersede.xquery"/>
+        </trigger>
+    </triggers>
+</collection>

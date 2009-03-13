@@ -1,0 +1,169 @@
+<!--
+Copyright 2004 ThoughtWorks, Inc
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<html  xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"/>
+        <title>Test Suite</title>
+        <script language="JavaScript" type="text/javascript" src="../core/scripts/selenium-browserdetect.js"/>
+        <script language="JavaScript" type="text/javascript">
+    <![CDATA[
+    var DISABLED = true; // used to flag failing tests
+
+    function filterTestsForBrowser() {
+        var suiteTable = document.getElementById("suiteTable");
+        var skippedTests = document.getElementById("skippedTests");
+
+        for(rowNum = suiteTable.rows.length - 1; rowNum >= 0; rowNum--)
+        {
+            var row = suiteTable.rows[rowNum];
+            var filterString = row.getAttribute("unless");
+            if (filterString && eval(filterString))
+            {
+              var cellHTML = row.cells[0].innerHTML;
+              suiteTable.deleteRow(rowNum);
+
+              var newRow = skippedTests.insertRow(1);
+              var newCell = newRow.insertCell(0)
+              newCell.innerHTML = cellHTML;
+            }
+        }
+    }
+    
+    function isFileURL() {
+        var p = window.location.protocol;
+        var result = ("file:" == p);
+        return result;
+    }
+    ]]></script>
+    </head>
+    <body onload="filterTestsForBrowser()">
+        <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium">
+            <tbody>
+                <tr>
+                    <td>
+                        <b>Test Suite</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-path-functions.html">Test path functions</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-homepage.html">Test that we can get the homepage and setup</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-cgmdr-main-menu.html">Test main menu present on any page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-data-element-listing.html">Test data element listing page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-cgmdr-main-menu.html">Test main menu present on any page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-letterlink.html">Test letter-links present</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-cgmdr-main-menu.html">Test main menu present on any page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-contents-full.html">Test full contents functions</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-searchpage.html">Test search page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-cgmdr-main-menu.html">Test main menu present on any page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-paging-links.html">Test paging links on a page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-classification.html">Test classification page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-cgmdr-main-menu.html">Test main menu present on any page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-paging-links.html">Test paging links on a page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-terminologies.html">Test terminologies page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-cgmdr-main-menu.html">Test main menu present on any page</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-new-simple-data-element.html">Test that you can create a simple non-enumerated data element</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-login-logout.html">Test that you can login and out</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="test-popup-search-admin-item.html">Test the popup search for admin items</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+        <em>Not supported in this browser</em>
+        <table id="skippedTests" cellpadding="1" cellspacing="1" border="1" class="selenium">
+            <tbody>
+                <tr>
+                    <td>
+                        <b>Skipped Tests</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

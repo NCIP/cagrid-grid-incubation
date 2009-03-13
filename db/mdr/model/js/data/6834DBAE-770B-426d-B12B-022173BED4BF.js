@@ -1,0 +1,2 @@
+tocTab[tocTab.length] = new Array("5.2.13:1", "", "cgMDR_reference_document", "EARoot/EA5/EA2/EA13/EA397.htm", "175.png", "510", "0", "", "Logical diagram0","{F1E96986-8939-4631-ABB5-2B4330B0DCC6}");
+tocTab[tocTab.length] = new Array("5.2.13:2", "", "«XSDcomplexType» Reference_Document", "EARoot/EA5/EA2/EA13/EA399.htm", "5.png", "2766", "0", "", "Class0","{4CC8A91F-EDBF-413c-8BB9-8C5284C7E03E}");

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>test-classification</title>
+    </head>
+    <body>
+        <table cellpadding="1" cellspacing="1" border="1">
+            <thead>
+                <tr>
+                    <td rowspan="1" colspan="3">test-classification</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>open</td>
+                    <td>../web/classification.xquery</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyTextPresent</td>
+                    <td>Data Elements by Classifier</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyText</td>
+                    <td>link=(clear filter)</td>
+                    <td>(clear filter)</td>
+                </tr>
+                <tr>
+                    <td>verifyTextPresent</td>
+                    <td>Metadata Registry Classification Scheme</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyElementPresent</td>
+                    <td>//td[@class="tree-container"]</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>link=Patient Context</td>
+                    <td>Patient Context</td>
+                </tr>
+                <tr>
+                    <td>verifyTextPresent</td>
+                    <td>records 1 to 5 of 22</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>link=Clinical Context</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyTextPresent</td>
+                    <td>records 1 to 5 of 78</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

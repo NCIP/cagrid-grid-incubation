@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Note</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Note  : public   note</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">03/01/2006 11:24:16</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">12/06/2006 11:18:25</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{1B55E772-487B-4463-91A9-9DFE10EE457C}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA12.htm">ISO11179 - Types of Administered Items (figure 2)</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">There&nbsp;<WBR>has&nbsp;<WBR>been&nbsp;<WBR>some&nbsp;<WBR>debate&nbsp;<WBR>within&nbsp;<WBR>cancergrid&nbsp;<WBR>work&nbsp;<WBR>package&nbsp;<WBR>1&nbsp;<WBR>about&nbsp;<WBR>administered&nbsp;<WBR>item&nbsp;<WBR>administration&nbsp;<WBR>records.<br /><br />Literal&nbsp;<WBR>interpretation&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>standard&nbsp;<WBR>results&nbsp;<WBR>in&nbsp;<WBR>two&nbsp;<WBR>administered_item_administration_records&nbsp;<WBR>per&nbsp;<WBR>class:&nbsp;<WBR>one&nbsp;<WBR>inherited&nbsp;<WBR>from&nbsp;<WBR>the&nbsp;<WBR>administered_item&nbsp;<WBR>class&nbsp;<WBR>and&nbsp;<WBR>another&nbsp;<WBR>named&nbsp;<WBR>specifically&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>class&nbsp;<WBR>itself&nbsp;<WBR>(such&nbsp;<WBR>as&nbsp;<WBR>classification_scheme_administration_record).&nbsp;<WBR>&nbsp;<WBR>We&nbsp;<WBR>can&nbsp;<WBR>see&nbsp;<WBR>no&nbsp;<WBR>need&nbsp;<WBR>for&nbsp;<WBR>this,&nbsp;<WBR>and&nbsp;<WBR>have&nbsp;<WBR>chosen&nbsp;<WBR>to&nbsp;<WBR>omit&nbsp;<WBR>the&nbsp;<WBR>directly&nbsp;<WBR>named&nbsp;<WBR>administration&nbsp;<WBR>record&nbsp;<WBR>and&nbsp;<WBR>inherit&nbsp;<WBR>the&nbsp;<WBR>administration&nbsp;<WBR>records&nbsp;<WBR>for&nbsp;<WBR>modelling&nbsp;<WBR>simplicity&nbsp;<WBR>and&nbsp;<WBR>to&nbsp;<WBR>retain&nbsp;<WBR>the&nbsp;<WBR>greatest&nbsp;<WBR>correspondence&nbsp;<WBR>between&nbsp;<WBR>the&nbsp;<WBR>representation&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>ISO11179&nbsp;<WBR>model&nbsp;<WBR>and&nbsp;<WBR>the&nbsp;<WBR>published&nbsp;<WBR>standard.<br /><br />If&nbsp;<WBR>you&nbsp;<WBR>have&nbsp;<WBR>comments&nbsp;<WBR>on&nbsp;<WBR>this&nbsp;<WBR>issue,&nbsp;<WBR>I&nbsp;<WBR>would&nbsp;<WBR>be&nbsp;<WBR>grateful&nbsp;<WBR>to&nbsp;<WBR>discuss.&nbsp;<WBR>&nbsp;<WBR>Please&nbsp;<WBR>send&nbsp;<WBR>them&nbsp;<WBR>to&nbsp;<WBR>steve.no.spam.harris@comlab.ox.ac.uk&nbsp;<WBR>ommitting&nbsp;<WBR>no.spam</div>
+
+<div class="pageFooter"></div>
+ 
+</body>
+</html>

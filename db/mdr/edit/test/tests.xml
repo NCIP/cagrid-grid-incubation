@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cgRegression:mdr-tests xmlns:cgRegression="http://www.cancergrid.org/schema/cgRegression" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../regression-test/regression-tests.xsd">
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>supported object class listing</cgRegression:test-name>
+        <cgRegression:test-desc>tests the object class listing page against expected output</cgRegression:test-desc>
+        <cgRegression:script>supported_object_classes.xquery</cgRegression:script>
+        <cgRegression:comparison>test/object-class-listing02.xml</cgRegression:comparison>
+        <cgRegression:module>edit</cgRegression:module>
+    </cgRegression:mdr-test>
+    <cgRegression:mdr-test type="web-page-comparison">
+        <cgRegression:test-name>supported object class with parameter</cgRegression:test-name>
+        <cgRegression:test-desc>tests the object class listing page with a parameter against expected output</cgRegression:test-desc>
+        <cgRegression:script>supported_object_classes.xquery?letter=d</cgRegression:script>
+        <cgRegression:comparison>test/object-class-listing01.xml</cgRegression:comparison>
+        <cgRegression:module>edit</cgRegression:module>
+    </cgRegression:mdr-test>
+</cgRegression:mdr-tests>

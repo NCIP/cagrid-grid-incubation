@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
+        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
+        <title>permissible-value tests</title>
+    </head>
+    <body>
+        <div>
+            <img alt="cancer grid header" src="../web/images/james_logo_life.gif"/>
+            <br clear="none"/>
+            <h2 class="title">metadata registry</h2>
+            <br clear="none"/>
+            <table>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/homepage.xquery" shape="rect">
+                                <img alt="registry home" src="../web/images/greybutton.bmp"/>
+                                <span>registry home</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/contents.xquery" shape="rect">
+                                <img alt="contents" src="../web/images/greybutton.bmp"/>
+                                <span>contents</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/search.xquery" shape="rect">
+                                <img alt="search" src="../web/images/greybutton.bmp"/>
+                                <span>search</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../model/index.htm" shape="rect">
+                                <img alt="model" src="../web/images/greybutton.bmp"/>
+                                <span>model</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/documentation.xquery" shape="rect">
+                                <img alt="documentation" src="../web/images/greybutton.bmp"/>
+                                <span>documentation</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/login.xquery" shape="rect">
+                                <img alt="login" src="../web/images/greybutton.bmp"/>
+                                <span>login</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                </tr>
+            </table>
+            <br clear="none"/>
+            <div class="welcome">welcome: guest</div>
+        </div>
+        <br clear="none"/>
+        <div class="admin_item_header">permissible-value tests</div>
+        <br clear="none"/>
+        <table class="layout">
+            <tr>
+                <th rowspan="1" colspan="1">function-name/arity</th>
+                <th rowspan="1" colspan="1">invocation</th>
+                <th rowspan="1" colspan="1">result</th>
+                <th rowspan="1" colspan="1">passed</th>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">permissible-value:contained_in/1 and permissible-value:begin_date/1</td>
+                <td rowspan="1" colspan="1">
+            for $v in
+                permissible-value:contained_in(
+                    lib-util:mdrElement('value_domain', 'GB-CANCERGRID-6EB677D37-0.1')
+                )
+            return permissible-value:begin_date($v)
+            </td>
+                <td rowspan="1" colspan="1">2007-01-09Z 2007-01-09Z 2007-01-09Z</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+        </table>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p align="right">
+            <a href="http://validator.w3.org/check?uri=referer" shape="rect">
+                <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
+            </a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer" shape="rect">
+                <img alt="Valid CSS!" src="../web/images/vcss.png" style="border:0;width:88px;height:31px"/>
+            </a>
+        </p>
+    </body>
+</html>

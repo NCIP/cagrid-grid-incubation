@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ISO11179::Administration_Record</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Administration_Record  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">06/12/2005 11:22:40</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">15/12/2005 15:36:59</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{4FD3B2D1-732D-4d16-BF70-397C166C61D1}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA14.htm">ISO11179 - Administration and identification (figures 4 and 5)</a>, <a href="../../EA5/EA2/EA18/EA425.htm">cgMDR_resources</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">An&nbsp;<WBR>instance&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>Administration&nbsp;<WBR>Record&nbsp;<WBR>records&nbsp;<WBR>information&nbsp;<WBR>about&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>registry.&nbsp;<WBR>The&nbsp;<WBR>Administration&nbsp;<WBR>Record&nbsp;<WBR>instance&nbsp;<WBR>provides&nbsp;<WBR>a&nbsp;<WBR>basis&nbsp;<WBR>for&nbsp;<WBR>identifying,&nbsp;<WBR>naming,&nbsp;<WBR>defining,&nbsp;<WBR>classifying&nbsp;<WBR>and&nbsp;<WBR>recording&nbsp;<WBR>administrative&nbsp;<WBR>information&nbsp;<WBR>about&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>registry.<br /><br />When&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>is&nbsp;<WBR>modified,&nbsp;<WBR>it&nbsp;<WBR>becomes&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>version&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>and&nbsp;<WBR>it&nbsp;<WBR>thus&nbsp;<WBR>requires&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>version&nbsp;<WBR>of&nbsp;<WBR>its&nbsp;<WBR>Administration&nbsp;<WBR>Record.&nbsp;<WBR>The&nbsp;<WBR>administration&nbsp;<WBR>record&nbsp;<WBR>-&nbsp;<WBR>creation&nbsp;<WBR>date,&nbsp;<WBR>the&nbsp;<WBR>reason&nbsp;<WBR>for&nbsp;<WBR>change&nbsp;<WBR>(administration&nbsp;<WBR>record&nbsp;<WBR>-&nbsp;<WBR>change),&nbsp;<WBR>the&nbsp;<WBR>contact&nbsp;<WBR>persons&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>responsible&nbsp;<WBR>and&nbsp;<WBR>submitting&nbsp;<WBR>organizations,&nbsp;<WBR>Registration&nbsp;<WBR>Authority,&nbsp;<WBR>and&nbsp;<WBR>the&nbsp;<WBR>Registrar&nbsp;<WBR>shall&nbsp;<WBR>be&nbsp;<WBR>provided&nbsp;<WBR>for&nbsp;<WBR>this&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item.&nbsp;<WBR>The&nbsp;<WBR>Registrar&nbsp;<WBR>may&nbsp;<WBR>collect&nbsp;<WBR>history&nbsp;<WBR>by&nbsp;<WBR>retaining&nbsp;<WBR>the&nbsp;<WBR>old&nbsp;<WBR>Administration&nbsp;<WBR>Record.</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="EA58.htm">Item_Identifier</a></i><br /><strong>&nbsp;&nbsp;administered_item_identifier</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			An&nbsp;<WBR>identifier&nbsp;<WBR>for&nbsp;<WBR>an&nbsp;<WBR>administered&nbsp;<WBR>item&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;An&nbsp;<WBR>administered&nbsp;<WBR>item&nbsp;<WBR>identifier&nbsp;<WBR>is&nbsp;<WBR>formed&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>combination&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>RA&nbsp;<WBR>Identifier,&nbsp;<WBR>the&nbsp;<WBR>unique&nbsp;<WBR>identifier&nbsp;<WBR>assigned&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>administered&nbsp;<WBR>item&nbsp;<WBR>within&nbsp;<WBR>an&nbsp;<WBR>RA,&nbsp;<WBR>and&nbsp;<WBR>the&nbsp;<WBR>version.&nbsp;<WBR>Each&nbsp;<WBR>registry&nbsp;<WBR>is&nbsp;<WBR>maintained&nbsp;<WBR>by&nbsp;<WBR>an&nbsp;<WBR>RA,&nbsp;<WBR>to&nbsp;<WBR>which&nbsp;<WBR>data&nbsp;<WBR>constructs&nbsp;<WBR>logically&nbsp;<WBR>and&nbsp;<WBR>functionally&nbsp;<WBR>belong.&nbsp;<WBR>For&nbsp;<WBR>example,&nbsp;<WBR>data&nbsp;<WBR>constructs&nbsp;<WBR>related&nbsp;<WBR>to&nbsp;<WBR>chemical&nbsp;<WBR>matter&nbsp;<WBR>would&nbsp;<WBR>likely&nbsp;<WBR>be&nbsp;<WBR>registered&nbsp;<WBR>under&nbsp;<WBR>a&nbsp;<WBR>Chemical&nbsp;<WBR>Manufacturer&nbsp;<WBR>Registration&nbsp;<WBR>Authority.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;A.3.3&nbsp;<WBR>Assignment&nbsp;<WBR>of&nbsp;<WBR>Data&nbsp;<WBR>Identifier&nbsp;<WBR>(DI)&lt;br&nbsp;<WBR>/&gt;Each&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>accepted&nbsp;<WBR>into&nbsp;<WBR>the&nbsp;<WBR>metadata&nbsp;<WBR>register&nbsp;<WBR>shall&nbsp;<WBR>be&nbsp;<WBR>assigned&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier.&nbsp;<WBR>A&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier&nbsp;<WBR>shall&nbsp;<WBR>also&nbsp;<WBR>be&nbsp;<WBR>assigned&nbsp;<WBR>to&nbsp;<WBR>an&nbsp;<WBR>existing&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>when&nbsp;<WBR>it&nbsp;<WBR>is&nbsp;<WBR>modified&nbsp;<WBR>in&nbsp;<WBR>such&nbsp;<WBR>a&nbsp;<WBR>way&nbsp;<WBR>as&nbsp;<WBR>to&nbsp;<WBR>change&nbsp;<WBR>the&nbsp;<WBR>meaning&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>or&nbsp;<WBR>the&nbsp;<WBR>representation&nbsp;<WBR>form&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>potential&nbsp;<WBR>values&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item.&nbsp;<WBR>For&nbsp;<WBR>example,&nbsp;<WBR>changes&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>mandatory&nbsp;<WBR>attributes,&nbsp;<WBR>Definition&nbsp;<WBR>and/or&nbsp;<WBR>Form&nbsp;<WBR>of&nbsp;<WBR>Representation&nbsp;<WBR>would&nbsp;<WBR>require&nbsp;<WBR>the&nbsp;<WBR>assignment&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier.&nbsp;<WBR>Editorial&nbsp;<WBR>changes&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>definition,&nbsp;<WBR>however,&nbsp;<WBR>would&nbsp;<WBR>not&nbsp;<WBR>cause&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item,&nbsp;<WBR>as&nbsp;<WBR>long&nbsp;<WBR>as&nbsp;<WBR>the&nbsp;<WBR>essential&nbsp;<WBR>meaning&nbsp;<WBR>expressed&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>definition&nbsp;<WBR>remains&nbsp;<WBR>the&nbsp;<WBR>same.&nbsp;<WBR>For&nbsp;<WBR>example,&nbsp;<WBR>the&nbsp;<WBR>value&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>administrative&nbsp;<WBR>attributes&nbsp;<WBR>listed&nbsp;<WBR>in&nbsp;<WBR>Annex&nbsp;<WBR>B&nbsp;<WBR>may&nbsp;<WBR>change&nbsp;<WBR>without&nbsp;<WBR>causing&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;Based&nbsp;<WBR>on&nbsp;<WBR>the&nbsp;<WBR>requirements&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>subject&nbsp;<WBR>matter&nbsp;<WBR>included&nbsp;<WBR>in&nbsp;<WBR>its&nbsp;<WBR>metadata&nbsp;<WBR>register,&nbsp;<WBR>each&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>shall&nbsp;<WBR>establish&nbsp;<WBR>and&nbsp;<WBR>publish&nbsp;<WBR>as&nbsp;<WBR>appropriate,&nbsp;<WBR>specific&nbsp;<WBR>guidelines&nbsp;<WBR>for&nbsp;<WBR>any&nbsp;<WBR>additional&nbsp;<WBR>conditions&nbsp;<WBR>requiring&nbsp;<WBR>assignment&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier&nbsp;<WBR>(i.e.,&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item),&nbsp;<WBR>due&nbsp;<WBR>to&nbsp;<WBR>changes&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>values&nbsp;<WBR>of&nbsp;<WBR>mandatory&nbsp;<WBR>attributes&nbsp;<WBR>established&nbsp;<WBR>for&nbsp;<WBR>its&nbsp;<WBR>metadata&nbsp;<WBR>register.&nbsp;<WBR>&nbsp;<WBR>Each&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>shall&nbsp;<WBR>establish&nbsp;<WBR>and&nbsp;<WBR>publish&nbsp;<WBR>specific&nbsp;<WBR>guidelines&nbsp;<WBR>on&nbsp;<WBR>the&nbsp;<WBR>format,&nbsp;<WBR>presentation,&nbsp;<WBR>and&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>Data&nbsp;<WBR>Identifiers&nbsp;<WBR>that&nbsp;<WBR>are&nbsp;<WBR>used&nbsp;<WBR>within&nbsp;<WBR>the&nbsp;<WBR>metadata&nbsp;<WBR>register.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;A.3.4&nbsp;<WBR>Assignment&nbsp;<WBR>of&nbsp;<WBR>Version&nbsp;<WBR>Identifier&nbsp;<WBR>(VI)&lt;br&nbsp;<WBR>/&gt;In&nbsp;<WBR>general,&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Version&nbsp;<WBR>Identifier&nbsp;<WBR>may&nbsp;<WBR>be&nbsp;<WBR>generated&nbsp;<WBR>when&nbsp;<WBR>any&nbsp;<WBR>attribute&nbsp;<WBR>value&nbsp;<WBR>(other&nbsp;<WBR>than&nbsp;<WBR>one&nbsp;<WBR>requiring&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>Data&nbsp;<WBR>Identifier)&nbsp;<WBR>changes.&nbsp;<WBR>Each&nbsp;<WBR>Administered&nbsp;<WBR>Item,&nbsp;<WBR>however,&nbsp;<WBR>may&nbsp;<WBR>require&nbsp;<WBR>a&nbsp;<WBR>different&nbsp;<WBR>versioning&nbsp;<WBR>treatment.&nbsp;<WBR>&nbsp;<WBR>For&nbsp;<WBR>example,&nbsp;<WBR>a&nbsp;<WBR>change&nbsp;<WBR>in&nbsp;<WBR>Permissible&nbsp;<WBR>Data&nbsp;<WBR>Element&nbsp;<WBR>Values&nbsp;<WBR>for&nbsp;<WBR>an&nbsp;<WBR>Employee&nbsp;<WBR>Name&nbsp;<WBR>may&nbsp;<WBR>not&nbsp;<WBR>require&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>version&nbsp;<WBR>identifier,&nbsp;<WBR>while&nbsp;<WBR>a&nbsp;<WBR>change&nbsp;<WBR>of&nbsp;<WBR>Permissible&nbsp;<WBR>Values&nbsp;<WBR>for&nbsp;<WBR>Account&nbsp;<WBR>Type&nbsp;<WBR>will&nbsp;<WBR>likely&nbsp;<WBR>require&nbsp;<WBR>a&nbsp;<WBR>version&nbsp;<WBR>identifier&nbsp;<WBR>change.&nbsp;<WBR>Each&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>shall&nbsp;<WBR>establish&nbsp;<WBR>specific&nbsp;<WBR>guidelines&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>subject&nbsp;<WBR>matters&nbsp;<WBR>in&nbsp;<WBR>which&nbsp;<WBR>it&nbsp;<WBR>specializes&nbsp;<WBR>and&nbsp;<WBR>for&nbsp;<WBR>which&nbsp;<WBR>it&nbsp;<WBR>is&nbsp;<WBR>responsible.&nbsp;<WBR>&nbsp;<WBR>Each&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>shall&nbsp;<WBR>establish&nbsp;<WBR>and&nbsp;<WBR>publish&nbsp;<WBR>specific&nbsp;<WBR>guidelines&nbsp;<WBR>on&nbsp;<WBR>the&nbsp;<WBR>format,&nbsp;<WBR>presentation,&nbsp;<WBR>and&nbsp;<WBR>generation&nbsp;<WBR>of&nbsp;<WBR>version&nbsp;<WBR>identifiers&nbsp;<WBR>that&nbsp;<WBR>are&nbsp;<WBR>used&nbsp;<WBR>within&nbsp;<WBR>the&nbsp;<WBR>metadata&nbsp;<WBR>register.
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="EA74.htm">Registration_Status</a></i><br /><strong>&nbsp;&nbsp;registration_status</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			a&nbsp;<WBR>designation&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>status&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>registration&nbsp;<WBR>life-cycle&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item.
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public <a href="EA38.htm">Administrative_Status</a></i><br /><strong>&nbsp;&nbsp;administrative_status</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			A&nbsp;<WBR>designation&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>status&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>administrative&nbsp;<WBR>process&nbsp;<WBR>of&nbsp;<WBR>a&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>for&nbsp;<WBR>handling&nbsp;<WBR>registration&nbsp;<WBR>requests.&nbsp;<WBR>&nbsp;<WBR>The&nbsp;<WBR>values&nbsp;<WBR>and&nbsp;<WBR>associated&nbsp;<WBR>meanings&nbsp;<WBR>of&nbsp;<WBR>administrative&nbsp;<WBR>status&nbsp;<WBR>are&nbsp;<WBR>determined&nbsp;<WBR>by&nbsp;<WBR>each&nbsp;<WBR>Registration&nbsp;<WBR>Authority.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;There&nbsp;<WBR>should&nbsp;<WBR>be&nbsp;<WBR>administrative&nbsp;<WBR>statuses&nbsp;<WBR>that&nbsp;<WBR>denote&nbsp;<WBR>the&nbsp;<WBR>pending&nbsp;<WBR>changes&nbsp;<WBR>that&nbsp;<WBR>are&nbsp;<WBR>important&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>community&nbsp;<WBR>that&nbsp;<WBR>uses&nbsp;<WBR>this&nbsp;<WBR>metadata&nbsp;<WBR>register.&nbsp;<WBR>These&nbsp;<WBR>status&nbsp;<WBR>levels&nbsp;<WBR>forewarn&nbsp;<WBR>the&nbsp;<WBR>community&nbsp;<WBR>that&nbsp;<WBR>uses&nbsp;<WBR>this&nbsp;<WBR>metadata&nbsp;<WBR>register&nbsp;<WBR>of&nbsp;<WBR>changes&nbsp;<WBR>that&nbsp;<WBR>may&nbsp;<WBR>have&nbsp;<WBR>an&nbsp;<WBR>impact&nbsp;<WBR>on&nbsp;<WBR>their&nbsp;<WBR>area&nbsp;<WBR>of&nbsp;<WBR>interest.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;It&nbsp;<WBR>is&nbsp;<WBR>very&nbsp;<WBR>probable&nbsp;<WBR>that&nbsp;<WBR>the&nbsp;<WBR>permissible&nbsp;<WBR>administrative&nbsp;<WBR>status&nbsp;<WBR>values&nbsp;<WBR>will&nbsp;<WBR>be&nbsp;<WBR>dependent&nbsp;<WBR>upon&nbsp;<WBR>the&nbsp;<WBR>current&nbsp;<WBR>registration&nbsp;<WBR>status&nbsp;<WBR>that&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>possesses.&nbsp;<WBR>A&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>will&nbsp;<WBR>establish&nbsp;<WBR>the&nbsp;<WBR>focus&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>use&nbsp;<WBR>of&nbsp;<WBR>administrative&nbsp;<WBR>status.&nbsp;<WBR>A&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>determines&nbsp;<WBR>the&nbsp;<WBR>allowed&nbsp;<WBR>values&nbsp;<WBR>of&nbsp;<WBR>this&nbsp;<WBR>attribute.&nbsp;<WBR>It&nbsp;<WBR>is&nbsp;<WBR>the&nbsp;<WBR>responsibility&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Registration&nbsp;<WBR>Authority&nbsp;<WBR>to&nbsp;<WBR>refine,&nbsp;<WBR>publish,&nbsp;<WBR>and&nbsp;<WBR>implement&nbsp;<WBR>this&nbsp;<WBR>administrative&nbsp;<WBR>feature.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;The&nbsp;<WBR>responsibility&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Registrar&nbsp;<WBR>is&nbsp;<WBR>to&nbsp;<WBR>coordinate&nbsp;<WBR>the&nbsp;<WBR>Metadata&nbsp;<WBR>Registry&nbsp;<WBR>environment&nbsp;<WBR>and&nbsp;<WBR>manage&nbsp;<WBR>the&nbsp;<WBR>Metadata&nbsp;<WBR>Registry,&nbsp;<WBR>making&nbsp;<WBR>its&nbsp;<WBR>contents&nbsp;<WBR>as&nbsp;<WBR>widely&nbsp;<WBR>accessible&nbsp;<WBR>as&nbsp;<WBR>feasible.&nbsp;<WBR>Administrative&nbsp;<WBR>levels&nbsp;<WBR>may&nbsp;<WBR>be&nbsp;<WBR>established&nbsp;<WBR>to&nbsp;<WBR>track&nbsp;<WBR>the&nbsp;<WBR>progression&nbsp;<WBR>of&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>transition&nbsp;<WBR>from&nbsp;<WBR>one&nbsp;<WBR>status&nbsp;<WBR>level&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>next.&nbsp;<WBR>&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;Some&nbsp;<WBR>potential&nbsp;<WBR>examples&nbsp;<WBR>are:&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;a)&nbsp;<WBR>Provisionally&nbsp;<WBR>Qualified&nbsp;<WBR>&lt;br&nbsp;<WBR>/&gt;An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>with&nbsp;<WBR>the&nbsp;<WBR>Provisionally&nbsp;<WBR>Qualified&nbsp;<WBR>status&nbsp;<WBR>means&nbsp;<WBR>that&nbsp;<WBR>a&nbsp;<WBR>Steward&nbsp;<WBR>has&nbsp;<WBR>confirmed&nbsp;<WBR>that&nbsp;<WBR>the&nbsp;<WBR>mandatory&nbsp;<WBR>metadata&nbsp;<WBR>attributes&nbsp;<WBR>are&nbsp;<WBR>complete&nbsp;<WBR>and&nbsp;<WBR>conform&nbsp;<WBR>to&nbsp;<WBR>applicable&nbsp;<WBR>metadata&nbsp;<WBR>attribute&nbsp;<WBR>quality&nbsp;<WBR>requirements.&nbsp;<WBR>The&nbsp;<WBR>Steward&nbsp;<WBR>is&nbsp;<WBR>authorized&nbsp;<WBR>to&nbsp;<WBR>promote&nbsp;<WBR>Administered&nbsp;<WBR>Items&nbsp;<WBR>at&nbsp;<WBR>the&nbsp;<WBR>Recorded&nbsp;<WBR>status&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>administrative&nbsp;<WBR>status&nbsp;<WBR>of&nbsp;<WBR>Provisionally&nbsp;<WBR>Qualified&nbsp;<WBR>at&nbsp;<WBR>such&nbsp;<WBR>time&nbsp;<WBR>as&nbsp;<WBR>the&nbsp;<WBR>Steward&nbsp;<WBR>believes&nbsp;<WBR>that&nbsp;<WBR>all&nbsp;<WBR>quality&nbsp;<WBR>requirements&nbsp;<WBR>have&nbsp;<WBR>been&nbsp;<WBR>achieved.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;b)&nbsp;<WBR>Provisionally&nbsp;<WBR>Standard&lt;br&nbsp;<WBR>/&gt;An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>with&nbsp;<WBR>the&nbsp;<WBR>Provisionally&nbsp;<WBR>Standard&nbsp;<WBR>status&nbsp;<WBR>means&nbsp;<WBR>that&nbsp;<WBR>a&nbsp;<WBR>Steward&nbsp;<WBR>proposes&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>as&nbsp;<WBR>Standard&nbsp;<WBR>for&nbsp;<WBR>general&nbsp;<WBR>use&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>registry&nbsp;<WBR>community;&nbsp;<WBR>however,&nbsp;<WBR>certification&nbsp;<WBR>of&nbsp;<WBR>Standard&nbsp;<WBR>status&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>Control&nbsp;<WBR>Committee&nbsp;<WBR>is&nbsp;<WBR>not&nbsp;<WBR>yet&nbsp;<WBR>complete.&nbsp;<WBR>The&nbsp;<WBR>Steward&nbsp;<WBR>is&nbsp;<WBR>authorized&nbsp;<WBR>to&nbsp;<WBR>promote&nbsp;<WBR>Administered&nbsp;<WBR>Items&nbsp;<WBR>from&nbsp;<WBR>the&nbsp;<WBR>Qualified&nbsp;<WBR>level&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>Provisionally&nbsp;<WBR>Standard&nbsp;<WBR>at&nbsp;<WBR>such&nbsp;<WBR>time&nbsp;<WBR>as&nbsp;<WBR>the&nbsp;<WBR>Steward&nbsp;<WBR>believes&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>should&nbsp;<WBR>be&nbsp;<WBR>a&nbsp;<WBR>Standard&nbsp;<WBR>Administered&nbsp;<WBR>Item.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;c)&nbsp;<WBR>Provisionally&nbsp;<WBR>Preferred&nbsp;<WBR>&lt;br&nbsp;<WBR>/&gt;An&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>with&nbsp;<WBR>the&nbsp;<WBR>Provisionally&nbsp;<WBR>Preferred&nbsp;<WBR>status&nbsp;<WBR>means&nbsp;<WBR>that&nbsp;<WBR>a&nbsp;<WBR>Steward&nbsp;<WBR>proposes&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>as&nbsp;<WBR>Preferred&nbsp;<WBR>Standard&nbsp;<WBR>for&nbsp;<WBR>preferred&nbsp;<WBR>use&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>registry&nbsp;<WBR>community;&nbsp;<WBR>however,&nbsp;<WBR>certification&nbsp;<WBR>of&nbsp;<WBR>Preferred&nbsp;<WBR>Standard&nbsp;<WBR>status&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>Control&nbsp;<WBR>Committee&nbsp;<WBR>is&nbsp;<WBR>not&nbsp;<WBR>yet&nbsp;<WBR>complete.&nbsp;<WBR>The&nbsp;<WBR>Steward&nbsp;<WBR>is&nbsp;<WBR>authorized&nbsp;<WBR>to&nbsp;<WBR>promote&nbsp;<WBR>Administered&nbsp;<WBR>Items&nbsp;<WBR>from&nbsp;<WBR>the&nbsp;<WBR>Standard&nbsp;<WBR>level&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>Provisionally&nbsp;<WBR>Preferred&nbsp;<WBR>at&nbsp;<WBR>such&nbsp;<WBR>time&nbsp;<WBR>as&nbsp;<WBR>the&nbsp;<WBR>Steward&nbsp;<WBR>believes&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>should&nbsp;<WBR>be&nbsp;<WBR>a&nbsp;<WBR>Preferred&nbsp;<WBR>Standard&nbsp;<WBR>Administered&nbsp;<WBR>Item.&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;d)&nbsp;<WBR>Provisionally&nbsp;<WBR>Retired&lt;br&nbsp;<WBR>/&gt;Registrars&nbsp;<WBR>and&nbsp;<WBR>Stewards&nbsp;<WBR>will&nbsp;<WBR>review&nbsp;<WBR>Superseded&nbsp;<WBR>registration&nbsp;<WBR>status&nbsp;<WBR>level&nbsp;<WBR>Administered&nbsp;<WBR>Items&nbsp;<WBR>periodically&nbsp;<WBR>with&nbsp;<WBR>the&nbsp;<WBR>view&nbsp;<WBR>of&nbsp;<WBR>possibly&nbsp;<WBR>progressing&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>registration&nbsp;<WBR>status&nbsp;<WBR>level&nbsp;<WBR>of&lt;br&nbsp;<WBR>/&gt;Retired.&nbsp;<WBR>For&nbsp;<WBR>any&nbsp;<WBR>Administered&nbsp;<WBR>Items&nbsp;<WBR>so&nbsp;<WBR>identified,&nbsp;<WBR>the&nbsp;<WBR>Registrar&nbsp;<WBR>may&nbsp;<WBR>update&nbsp;<WBR>the&nbsp;<WBR>administrative&nbsp;<WBR>status&nbsp;<WBR>level&nbsp;<WBR>to&nbsp;<WBR>something&nbsp;<WBR>like&nbsp;<WBR>Provisionally&nbsp;<WBR>Retired&nbsp;<WBR>and&nbsp;<WBR>the&nbsp;<WBR>Steward&nbsp;<WBR>provides&nbsp;<WBR>the&nbsp;<WBR>Registrar&nbsp;<WBR>with&nbsp;<WBR>a&nbsp;<WBR>short&nbsp;<WBR>statement&nbsp;<WBR>as&nbsp;<WBR>to&nbsp;<WBR>why&nbsp;<WBR>such&nbsp;<WBR>Administered&nbsp;<WBR>Items&nbsp;<WBR>should&nbsp;<WBR>be&nbsp;<WBR>progressed&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>Retired&nbsp;<WBR>registration&nbsp;<WBR>status&nbsp;<WBR>level.&nbsp;<WBR>If&nbsp;<WBR>Provisionally&nbsp;<WBR>Retired&nbsp;<WBR>Administered&nbsp;<WBR>Items&nbsp;<WBR>are&nbsp;<WBR>not&nbsp;<WBR>approved&nbsp;<WBR>by&nbsp;<WBR>the&nbsp;<WBR>Control&nbsp;<WBR>Committee&nbsp;<WBR>to&nbsp;<WBR>the&nbsp;<WBR>Retired&nbsp;<WBR>registration&nbsp;<WBR>status&nbsp;<WBR>level,&nbsp;<WBR>they&nbsp;<WBR>retain&nbsp;<WBR>the&nbsp;<WBR>Superseded&nbsp;<WBR>registration&nbsp;<WBR>status.&lt;br&nbsp;<WBR>/&gt;
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public date</i><br /><strong>&nbsp;&nbsp;creation_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>date&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>was&nbsp;<WBR>created&lt;br&nbsp;<WBR>/&gt;&lt;br&nbsp;<WBR>/&gt;When&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>is&nbsp;<WBR>modified,&nbsp;<WBR>it&nbsp;<WBR>becomes&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>version&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>and&nbsp;<WBR>it&nbsp;<WBR>thus&nbsp;<WBR>requires&nbsp;<WBR>a&nbsp;<WBR>new&nbsp;<WBR>version&nbsp;<WBR>of&nbsp;<WBR>its&nbsp;<WBR>Administration&nbsp;<WBR>Record.&nbsp;<WBR>The&nbsp;<WBR>administration&nbsp;<WBR>record&nbsp;<WBR>-&nbsp;<WBR>creation&nbsp;<WBR>date,&nbsp;<WBR>the&nbsp;<WBR>reason&nbsp;<WBR>for&nbsp;<WBR>change&nbsp;<WBR>(administration&nbsp;<WBR>record&nbsp;<WBR>-&nbsp;<WBR>change),&nbsp;<WBR>the&nbsp;<WBR>contact&nbsp;<WBR>persons&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>responsible&nbsp;<WBR>and&nbsp;<WBR>submitting&nbsp;<WBR>organizations,&nbsp;<WBR>Registration&nbsp;<WBR>Authority,&nbsp;<WBR>and&nbsp;<WBR>the&nbsp;<WBR>Registrar&nbsp;<WBR>shall&nbsp;<WBR>be&nbsp;<WBR>provided&nbsp;<WBR>for&nbsp;<WBR>this&nbsp;<WBR>new&nbsp;<WBR>Administered&nbsp;<WBR>Item.&nbsp;<WBR>The&nbsp;<WBR>Registrar&nbsp;<WBR>may&nbsp;<WBR>collect&nbsp;<WBR>history&nbsp;<WBR>by&nbsp;<WBR>retaining&nbsp;<WBR>the&nbsp;<WBR>old&nbsp;<WBR>Administration&nbsp;<WBR>Record.
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public date</i><br /><strong>&nbsp;&nbsp;last_change_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>date&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>was&nbsp;<WBR>last&nbsp;<WBR>changed
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public date</i><br /><strong>&nbsp;&nbsp;effective_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>date&nbsp;<WBR>an&nbsp;<WBR>administered&nbsp;<WBR>tem&nbsp;<WBR>became/becomes&nbsp;<WBR>available&nbsp;<WBR>to&nbsp;<WBR>registry&nbsp;<WBR>users
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public date</i><br /><strong>&nbsp;&nbsp;until_date</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>date&nbsp;<WBR>an&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>is&nbsp;<WBR>no&nbsp;<WBR>longer&nbsp;<WBR>effective&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>registry
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;change_description</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>description&nbsp;<WBR>of&nbsp;<WBR>what&nbsp;<WBR>has&nbsp;<WBR>changed&nbsp;<WBR>in&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item&nbsp;<WBR>since&nbsp;<WBR>the&nbsp;<WBR>prior&nbsp;<WBR>version&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;administrative_note</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			any&nbsp;<WBR>general&nbsp;<WBR>note&nbsp;<WBR>about&nbsp;<WBR>the&lt;br&nbsp;<WBR>/&gt;Administered&nbsp;<WBR>Item
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;explanatory_comment</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			descriptive&nbsp;<WBR>comments&nbsp;<WBR>about&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;unresolved_issue</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			any&nbsp;<WBR>problem&nbsp;<WBR>that&nbsp;<WBR>remains&nbsp;<WBR>unresolved&nbsp;<WBR>regarding&nbsp;<WBR>proper&nbsp;<WBR>documentation&nbsp;<WBR>of&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public string</i><br /><strong>&nbsp;&nbsp;origin</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i>Range:0 to 1</i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			the&nbsp;<WBR>source&nbsp;<WBR>(document,&nbsp;<WBR>project,&nbsp;<WBR>discipline&nbsp;<WBR>or&nbsp;<WBR>model)&nbsp;<WBR>for&nbsp;<WBR>the&nbsp;<WBR>Administered&nbsp;<WBR>Item
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div>		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="15%" class="TableHeading">Type</td>
+					<td width="15%" class="TableHeading">Connection</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="../../EA5/EA2/EA18/EA435.htm">admin_record_transform</a></td>
+					<td width="15%" class="TableRow" valign="top">Object</td>
+					<td width="15%" class="TableRow" valign="top">Realisation</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>
