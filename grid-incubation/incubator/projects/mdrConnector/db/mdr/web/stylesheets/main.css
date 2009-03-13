@@ -1,0 +1,40 @@
+body {
+    font-family:verdana, arial, helvetica, sans-serif;
+    width:1024px;
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+}
+h1 {
+    margin: 0;
+    font-size: 25px;
+}
+h1 img {
+    float:left
+}
+h2 {
+    margin: 5px;
+}
+
+h3 {
+    margin: 5px;
+    font-weight:bold;
+    }
+    
+#message {
+    background-color:#bbbbbb;
+    color:white;
+    font-style:oblique;
+    font-weight:bold;
+}
+#layout {
+    width: 1024px;
+}
+
+tr.odd_row {
+    background-color: #ddd;
+}
+tr.even_row {
+}
+
+

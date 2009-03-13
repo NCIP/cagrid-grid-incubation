@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
+        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
+        <title>Value Domain: ECOG Performance Status</title>
+    </head>
+    <body>
+        <div>
+            <img alt="cancer grid header" src="../web/images/james_logo_life.gif"/>
+            <br clear="none"/>
+            <h2 class="title">metadata registry</h2>
+            <br clear="none"/>
+            <table>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/homepage.xquery" shape="rect">
+                                <img alt="registry home" src="../web/images/greybutton.bmp"/>
+                                <span>registry home</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/contents.xquery" shape="rect">
+                                <img alt="contents" src="../web/images/greybutton.bmp"/>
+                                <span>contents</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/search.xquery" shape="rect">
+                                <img alt="search" src="../web/images/greybutton.bmp"/>
+                                <span>search</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../model/index.htm" shape="rect">
+                                <img alt="model" src="../web/images/greybutton.bmp"/>
+                                <span>model</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/documentation.xquery" shape="rect">
+                                <img alt="documentation" src="../web/images/greybutton.bmp"/>
+                                <span>documentation</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/login.xquery" shape="rect">
+                                <img alt="login" src="../web/images/greybutton.bmp"/>
+                                <span>login</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                </tr>
+            </table>
+            <br clear="none"/>
+            <div class="welcome">welcome: guest</div>
+        </div>
+        <br clear="none"/>
+        <div class="admin_item_header">Value Domain: ECOG Performance Status</div>
+        <br clear="none"/>
+        <table>
+            <tr>
+                <td rowspan="1" colspan="1">
+                    <div class="cssnav">
+                        <a target="_top" href="value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.17&amp;as-xml=true" shape="rect">
+                            <img alt="as XML" src="../web/images/greybutton.bmp"/>
+                            <span>as XML</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div>
+            <div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <h3>Administered Item - Preferred Name: ECOG Performance Status</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administered Item Identifier</td>
+                            <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682344-0.17</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Registered By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Dr. Peter Macallum</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, CancerGrid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">01223 765348</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <div class="admin_item_section_header">Designation</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="section">
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
+                            <td rowspan="1" colspan="1">
+                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Name</td>
+                            <td rowspan="1" colspan="1">ECOG Performance Status (preferred designation)</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition</td>
+                            <td rowspan="1" colspan="1">Value domain for the Eastern Cooperative Oncology Group Performance Status measure.</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Language</td>
+                            <td rowspan="1" colspan="1">GB-eng</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition Source Reference</td>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr class="light-rule">
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell_last" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                    <table class="section">
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
+                            <td rowspan="1" colspan="1">
+                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Name</td>
+                            <td rowspan="1" colspan="1">WHO Performance Status Value Domain</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition</td>
+                            <td rowspan="1" colspan="1">Value domain for the WHO Performance Status measure</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Language</td>
+                            <td rowspan="1" colspan="1">GB-eng</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition Source Reference</td>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr class="light-rule">
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell_last" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                    <table class="section">
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
+                            <td rowspan="1" colspan="1">
+                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Name</td>
+                            <td rowspan="1" colspan="1">Zubrod Score Value Domain</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition</td>
+                            <td rowspan="1" colspan="1">Value domain for the Zubrod performance status score</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Language</td>
+                            <td rowspan="1" colspan="1">GB-eng</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Definition Source Reference</td>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr class="light-rule">
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell_last" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="2" rowspan="1">
+                                <div class="admin_item_section_header">Administration</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administrative Status</td>
+                            <td rowspan="1" colspan="1">scheduledForReview</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Administered By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Steve Harris</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Researcher, CancerGrid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1"/>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Creation On</td>
+                            <td rowspan="1" colspan="1">2005-03-15</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Effective From</td>
+                            <td rowspan="1" colspan="1">2006-06-15+01:00</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Last Changed On</td>
+                            <td rowspan="1" colspan="1">2006-11-29Z</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Effective until</td>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Submitted By</td>
+                            <td rowspan="1" colspan="1">
+                                <table class="invisible">
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Sui L lin</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1">Researcher, CancerGrid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="invisible" rowspan="1" colspan="1"/>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1">Explanatory Comments</td>
+                            <td rowspan="1" colspan="1">Auto generated from Protege</td>
+                        </tr>
+                        <tr>
+                            <td class="left_header_cell" rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <table class="section">
+                        <tr>
+                            <td colspan="4" rowspan="1">
+                                <div class="admin_item_section_header">Reference Documents</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%" rowspan="1" colspan="1">
+                                <div class="admin_item_table_header">id</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                                <div class="admin_item_table_header">language</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                                <div class="admin_item_table_header">title</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                                <div class="admin_item_table_header">type</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">
+                                <a href="http://canmed-onc3469.medsch.ucl.ac.uk:80/exist111/rest/db/mdr/data/reference_document/Breast Cancer Phase III Reporting standards.pdf" shape="rect">KNCSJG1HE</a>
+                            </td>
+                            <td rowspan="1" colspan="1">eng</td>
+                            <td rowspan="1" colspan="1">Breast Cancer Phase III Reporting standards.pdf</td>
+                            <td rowspan="1" colspan="1">commissioning</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">
+                                <a href="http://www.ecog.org/general/perf_stat.html" shape="rect">ecog_perf_status</a>
+                            </td>
+                            <td rowspan="1" colspan="1">eng</td>
+                            <td rowspan="1" colspan="1">ECOG Performance Status</td>
+                            <td rowspan="1" colspan="1">web page</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">
+                                <a href="http://www.amjclinicaloncology.com/" shape="rect">ecog_amjclinoncol</a>
+                            </td>
+                            <td rowspan="1" colspan="1">eng</td>
+                            <td rowspan="1" colspan="1">Oken, M.M., Creech, R.H., Tormey, D.C., Horton, J., Davis, T.E.,
+      McFadden, E.T., Carbone, P.P.: Toxicity And Response Criteria Of The Eastern Cooperative
+      Oncology Group. Am J Clin Oncol 5:649-655, 1982.</td>
+                            <td rowspan="1" colspan="1">Journal paper</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">
+                                <a href="http://canmed-onc3469.medsch.ucl.ac.uk:80/exist111/rest/db/mdr/data/reference_document/" shape="rect"/>
+                            </td>
+                            <td rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                            <td rowspan="1" colspan="1"/>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="section">
+                <table class="section">
+                    <tr>
+                        <td colspan="2" rowspan="1">
+                            <div class="admin_item_section_header">Permissible values</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Taken from the conceptual domain:</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/conceptual_domain.xquery?compound_id=GB-CANCERGRID-D1E682343-0.17" shape="rect">ECOG Performance Status enumerated conceptual domain</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" rowspan="1">
+                            <table class="section">
+                                <tr>
+                                    <td class="left_header_cell" rowspan="1" colspan="1">
+                                        <div class="admin_item_table_header">permissible value</div>
+                                    </td>
+                                    <td rowspan="1" colspan="1">
+                                        <div class="admin_item_table_header">value meaning</div>
+                                    </td>
+                                    <td rowspan="1" colspan="1">
+                                        <div class="admin_item_table_header">begin date</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="left_header_cell" rowspan="1" colspan="1">0</td>
+                                    <td rowspan="1" colspan="1">Normal</td>
+                                    <td rowspan="1" colspan="1">2006-06-15+01:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="left_header_cell" rowspan="1" colspan="1">1</td>
+                                    <td rowspan="1" colspan="1">Symptomatic: fully ambulatory</td>
+                                    <td rowspan="1" colspan="1">2006-06-15+01:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="left_header_cell" rowspan="1" colspan="1">2</td>
+                                    <td rowspan="1" colspan="1">Symptomatic: in bed less than 50% of the time</td>
+                                    <td rowspan="1" colspan="1">2006-06-15+01:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="left_header_cell" rowspan="1" colspan="1">3</td>
+                                    <td rowspan="1" colspan="1">Symptomatic: in bed greater than 50% of the time</td>
+                                    <td rowspan="1" colspan="1">2006-06-15+01:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="left_header_cell" rowspan="1" colspan="1">4</td>
+                                    <td rowspan="1" colspan="1">100% bedridden</td>
+                                    <td rowspan="1" colspan="1">2006-06-15+01:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="left_header_cell" rowspan="1" colspan="1">5</td>
+                                    <td rowspan="1" colspan="1">dead</td>
+                                    <td rowspan="1" colspan="1">2006-11-29</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section">
+                <table class="section">
+                    <tr>
+                        <td colspan="2" rowspan="1">
+                            <div class="admin_item_section_header">Value Domain Specific Properties</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Value Domain Type</td>
+                        <td rowspan="1" colspan="1">enumerated value domain</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Typed by representation class</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/representation_class.xquery?compound_id=GB-CANCERGRID-000010-1" shape="rect">Code</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Datatype</td>
+                        <td rowspan="1" colspan="1">xs:string</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Unit of Measure</td>
+                        <td rowspan="1" colspan="1">unspecified</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Maximum Character Quantity</td>
+                        <td rowspan="1" colspan="1">unspecified</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Format</td>
+                        <td rowspan="1" colspan="1">unspecified</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section">
+                <div class="admin_item_section_header">Related value domains</div>
+                <table class="section">
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Cited by this value domain</td>
+                        <td rowspan="1" colspan="1">
+                            <div>no outgoing relationships specified</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">Cited by other value domains</td>
+                        <td rowspan="1" colspan="1">
+                            <table class="sub-table">
+                                <tr>
+                                    <td rowspan="1" colspan="1">
+                                        <div class="admin_item_table_header">id</div>
+                                    </td>
+                                    <td rowspan="1" colspan="1">
+                                        <div class="admin_item_table_header">name</div>
+                                    </td>
+                                    <td rowspan="1" colspan="1">
+                                        <div class="admin_item_table_header">incoming relation</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682344-0.11</td>
+                                    <td rowspan="1" colspan="1">
+                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.11" shape="rect">ECOG Performance Status</a>
+                                    </td>
+                                    <td rowspan="1" colspan="1">useInstead</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682344-0.12</td>
+                                    <td rowspan="1" colspan="1">
+                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.12" shape="rect">ECOG Performance Status</a>
+                                    </td>
+                                    <td rowspan="1" colspan="1">useInstead</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682344-0.13</td>
+                                    <td rowspan="1" colspan="1">
+                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.13" shape="rect">ECOG Performance Status</a>
+                                    </td>
+                                    <td rowspan="1" colspan="1">useInstead</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682344-0.14</td>
+                                    <td rowspan="1" colspan="1">
+                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.14" shape="rect">ECOG Performance Status</a>
+                                    </td>
+                                    <td rowspan="1" colspan="1">useInstead</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682344-0.15</td>
+                                    <td rowspan="1" colspan="1">
+                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.15" shape="rect">ECOG Performance Status</a>
+                                    </td>
+                                    <td rowspan="1" colspan="1">useInstead</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682344-0.16</td>
+                                    <td rowspan="1" colspan="1">
+                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.16" shape="rect">ECOG Performance Status</a>
+                                    </td>
+                                    <td rowspan="1" colspan="1">useInstead</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section">
+                <div class="admin_item_section_header">Represented by data elements</div>
+                <table class="section">
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.1</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.1" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.2</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.2" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.19</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.19" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.18</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.18" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.17</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.17" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.16</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.16" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.15</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.15" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.14</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.14" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.13</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.13" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.12</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.12" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.11</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.11" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Superseded</td>
+                    </tr>
+                    <tr>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.21</td>
+                        <td rowspan="1" colspan="1">
+                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.21" shape="rect">ECOG Performance Status</a>
+                        </td>
+                        <td rowspan="1" colspan="1">Recorded</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p align="right">
+            <a href="http://validator.w3.org/check?uri=referer" shape="rect">
+                <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
+            </a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer" shape="rect">
+                <img alt="Valid CSS!" src="../web/images/vcss.png" style="border:0;width:88px;height:31px"/>
+            </a>
+        </p>
+    </body>
+</html>

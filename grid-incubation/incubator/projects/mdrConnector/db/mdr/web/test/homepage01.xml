@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
+        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
+        <title>CancerGrid Metadata Registry</title>
+    </head>
+    <body>
+        <div>
+            <img alt="cancer grid header" src="../web/images/james_logo_life.gif"/>
+            <br clear="none"/>
+            <h2 class="title">metadata registry</h2>
+            <br clear="none"/>
+            <table>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/homepage.xquery" shape="rect">
+                                <img alt="registry home" src="../web/images/greybutton.bmp"/>
+                                <span>registry home</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/contents.xquery" shape="rect">
+                                <img alt="contents" src="../web/images/greybutton.bmp"/>
+                                <span>contents</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/search.xquery" shape="rect">
+                                <img alt="search" src="../web/images/greybutton.bmp"/>
+                                <span>search</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../model/index.htm" shape="rect">
+                                <img alt="model" src="../web/images/greybutton.bmp"/>
+                                <span>model</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/documentation.xquery" shape="rect">
+                                <img alt="documentation" src="../web/images/greybutton.bmp"/>
+                                <span>documentation</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/login.xquery" shape="rect">
+                                <img alt="login" src="../web/images/greybutton.bmp"/>
+                                <span>login</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                </tr>
+            </table>
+            <br clear="none"/>
+            <div class="welcome">welcome: guest</div>
+        </div>
+        <br clear="none"/>
+        <div class="admin_item_header">CancerGrid Metadata Registry</div>
+        <br clear="none"/>
+        <div>
+            <div class="content_one_pane">
+                <p>Welcome to the cancergrid ISO/IEC11179 compliant metadata repository.</p>
+                <p>An ISO/IEC11179 metadata repository is a resource where the meaning and allowed values of
+            measurements are declared by linking terms in controlled vocabularies - such as SNOMED
+            CT - to value domains restricting the values that may be assigned through the
+            declaration of <i>data elements</i> - reusable definitions of measurement or declaration
+            of clinical variables. This is the place where the meaning and derivation of the
+            elements of National Minimum Dataset for Cancer can be properly declared and maintained.</p>
+                <p>By reusing these measurement you guarantee that the data you collect is interoperable
+            with other people who collect the same type of data. In conjunction of models of
+            experiments - such as the CONSORT model for clinical trials - it facilitates the type of
+            meta-analysis previously only achieved by a few groups such as the Early Breast Cancer
+            Triallists' Collaborative Group.</p>
+                <p>Here you will find the definitions of clinical and bioinformatic measurements of interest
+            to clinicians and bioinformaticians in the cancergrid project. You can <a href="contents.xquery" shape="rect">browse them alphabetically</a>, <a href="search.xquery" shape="rect">search for text</a> within the names and definitions, inspect the underlying <a href="../model/index.htm" shape="rect">data model of the repository</a>, or read some <a href="documentation.xquery" shape="rect">useful documents</a> that describe how this resource is
+            maintained. </p>
+                <table>
+                    <tr>
+                        <td colspan="2" rowspan="1">
+                            <h2 align="center">mdr search plug-in</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" rowspan="1">
+                            <p>This page contains a CancerGrid CDE search plug-in that can be installed
+                            into the Search Engine bar of Firefox 2 and Internet Explorer 7. Click
+                            on the drop-down icon of the search bar of your browser to add the
+                            plug-in.</p>
+                            <p>If no search term is entered, you will be re-directed to the search page
+                            on the metadata repository.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center" rowspan="1">
+                            <h3>Installation</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <h4>Firefox 2</h4>
+                            <ul>
+                                <li>Click on the drop-down icon in the search bar</li>
+                                <li>Choose <strong>Add "CancerGrid CDE Search"</strong>
+                                </li>
+                            </ul>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                            <h3/>
+                            <h4>Internet Explorer 7</h4>
+                            <ul>
+                                <li>Click on the drop-down icon in the search bar</li>
+                                <li>Choose <strong>Add Search Providers -&gt; CancerGrid CDE
+                            Search</strong> (install)</li>
+                                <li>OR, Choose <strong>CancerGrid CDE Search</strong> (temporaly use)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p align="right">
+            <a href="http://validator.w3.org/check?uri=referer" shape="rect">
+                <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
+            </a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer" shape="rect">
+                <img alt="Valid CSS!" src="../web/images/vcss.png" style="border:0;width:88px;height:31px"/>
+            </a>
+        </p>
+    </body>
+</html>

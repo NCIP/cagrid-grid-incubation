@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
+        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
+        <title>administered-item tests</title>
+    </head>
+    <body>
+        <div>
+            <img alt="cancer grid header" src="../web/images/james_logo_life.gif"/>
+            <br clear="none"/>
+            <h2 class="title">metadata registry</h2>
+            <br clear="none"/>
+            <table>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/homepage.xquery" shape="rect">
+                                <img alt="registry home" src="../web/images/greybutton.bmp"/>
+                                <span>registry home</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/contents.xquery" shape="rect">
+                                <img alt="contents" src="../web/images/greybutton.bmp"/>
+                                <span>contents</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/search.xquery" shape="rect">
+                                <img alt="search" src="../web/images/greybutton.bmp"/>
+                                <span>search</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../model/index.htm" shape="rect">
+                                <img alt="model" src="../web/images/greybutton.bmp"/>
+                                <span>model</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/documentation.xquery" shape="rect">
+                                <img alt="documentation" src="../web/images/greybutton.bmp"/>
+                                <span>documentation</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/login.xquery" shape="rect">
+                                <img alt="login" src="../web/images/greybutton.bmp"/>
+                                <span>login</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                </tr>
+            </table>
+            <br clear="none"/>
+            <div class="welcome">welcome: guest</div>
+        </div>
+        <br clear="none"/>
+        <div class="admin_item_header">administered-item tests</div>
+        <br clear="none"/>
+        <table class="layout">
+            <tr>
+                <th rowspan="1" colspan="1">function-name/arity</th>
+                <th rowspan="1" colspan="1">invocation</th>
+                <th rowspan="1" colspan="1">result</th>
+                <th rowspan="1" colspan="1">passed</th>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:context-GB-CANCERGRID-000001-1)</td>
+                <td rowspan="1" colspan="1">Clinical Trials</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:conceptual-domain-GB-CANCERGRID-0E57DB56A-0.1)</td>
+                <td rowspan="1" colspan="1">Study Subject First Tamoxifen Prescription Date</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:value-domain-GB-CANCERGRID-006BB338C-0.1)</td>
+                <td rowspan="1" colspan="1">Date of first locoregional recurrence</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:object-class-GB-CANCERGRID-3E5B7BE69-0.1)</td>
+                <td rowspan="1" colspan="1">Study subject first distant recurrence observation date</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:classification-scheme-GB-CANCERGRID-000026-1.0)</td>
+                <td rowspan="1" colspan="1">CancerGrid Classification Scheme</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:data-element-GB-CANCERGRID-0A296A56A-0.1)</td>
+                <td rowspan="1" colspan="1">Patient Full Name</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:data-element-concept-GB-CANCERGRID-3B90B6D4C-0.1)</td>
+                <td rowspan="1" colspan="1">Patient Full Name</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:property-GB-CANCERGRID-4A4B57291-0.1)</td>
+                <td rowspan="1" colspan="1">Date of Birth</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-name/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-name($test:representation-class-GB-CANCERGRID-000010-1)</td>
+                <td rowspan="1" colspan="1">Code</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:context-GB-CANCERGRID-000001-1)</td>
+                <td rowspan="1" colspan="1">ISO11179 context entry</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:conceptual-domain-GB-CANCERGRID-0E57DB56A-0.1)</td>
+                <td rowspan="1" colspan="1">The date the study subject was first prescribed tamoxifen</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:value-domain-GB-CANCERGRID-006BB338C-0.1)</td>
+                <td rowspan="1" colspan="1">The date upon which the first locoregional recurrence of the disease was observed</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:object-class-GB-CANCERGRID-3E5B7BE69-0.1)</td>
+                <td rowspan="1" colspan="1">The date of observation of the first distant recurrence of the study subject's primary tumour</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:classification-scheme-GB-CANCERGRID-000026-1.0)</td>
+                <td rowspan="1" colspan="1">Default classification scheme for cgMDR exported from the protege
+            classification scheme in the demo follows a SKOS-like controlled vocabulary schema</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:data-element-GB-CANCERGRID-0A296A56A-0.1)</td>
+                <td rowspan="1" colspan="1">Full name of patient as normally written by subject.  Order of given and family names is that normally written by the subject.</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:data-element-concept-GB-CANCERGRID-3B90B6D4C-0.1)</td>
+                <td rowspan="1" colspan="1">Full name of patient as normally written by subject.  Order of given and family names is that normally written by the subject.</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:property-GB-CANCERGRID-4A4B57291-0.1)</td>
+                <td rowspan="1" colspan="1">The calendar date on which a person was born.</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition/1</td>
+                <td rowspan="1" colspan="1">administered-item:preferred-definition($test:representation-class-GB-CANCERGRID-000010-1)</td>
+                <td rowspan="1" colspan="1">A system of valid symbols that substitute for specified values e.g. alpha, numeric, symbols and/or combinations</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+        </table>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p align="right">
+            <a href="http://validator.w3.org/check?uri=referer" shape="rect">
+                <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
+            </a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer" shape="rect">
+                <img alt="Valid CSS!" src="../web/images/vcss.png" style="border:0;width:88px;height:31px"/>
+            </a>
+        </p>
+    </body>
+</html>

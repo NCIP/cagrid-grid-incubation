@@ -1,0 +1,15 @@
+tocTab[tocTab.length] = new Array("3.2.3:1", "", "Progression from Candidate", "EARoot/EA3/EA2/EA3/EA169.htm", "189.png", "73", "0", "", "Analysis diagram0","{6D84F082-0CF6-41b1-AC1E-A57957978E4A}");
+tocTab[tocTab.length] = new Array("3.2.3:2", "", "«process» complete mandatory metadata items", "EARoot/EA3/EA2/EA3/EA171.htm", "21.png", "347", "0", "", "Activity0","{21F93025-2859-4a28-A401-701B61CF9751}");
+tocTab[tocTab.length] = new Array("3.2.3:3", "", "«goal» complete meatadata item", "EARoot/EA3/EA2/EA3/EA172.htm", "25.png", "356", "0", "", "Object0","{FCCFA103-5D75-4566-82DB-9A4F294D5E63}");
+tocTab[tocTab.length] = new Array("3.2.3:4", "", "complete?", "EARoot/EA3/EA2/EA3/EA173.htm", "193.png", "352", "0", "", "MergeNode0","{AD3052CF-0888-4a36-B751-7A9F89C38F64}");
+tocTab[tocTab.length] = new Array("3.2.3:5", "", "«object system» metadata repository", "EARoot/EA3/EA2/EA3/EA174.htm", "25.png", "345", "0", "", "Object0","{694BED1D-3A1A-4d34-BA8F-7DB278EDB462}");
+tocTab[tocTab.length] = new Array("3.2.3:6", "", "progress to recorded status required", "EARoot/EA3/EA2/EA3/EA175.htm", "56.png", "346", "0", "", "Decision0","{4483ABBB-F8BB-4e27-BC50-4BDA2838B4FA}");
+tocTab[tocTab.length] = new Array("3.2.3:7", "", "«goal» recorded status", "EARoot/EA3/EA2/EA3/EA176.htm", "25.png", "342", "0", "", "Object0","{6FB3BE66-7DF4-4805-B555-C48E53B758C1}");
+tocTab[tocTab.length] = new Array("3.2.3:8", "", "«information» recorded status metadata item", "EARoot/EA3/EA2/EA3/EA177.htm", "25.png", "353", "0", "", "Object0","{A17EBA6F-4A05-4fb0-9AA0-7DC2E597547C}");
+tocTab[tocTab.length] = new Array("3.2.3:9", "", "«process» registrar review", "EARoot/EA3/EA2/EA3/EA178.htm", "21.png", "349", "0", "", "Activity0","{A0A63DD5-5249-4bf8-BEFE-2FEC0F5FB4D4}");
+tocTab[tocTab.length] = new Array("3.2.3:10", "", "«information» request for status change", "EARoot/EA3/EA2/EA3/EA179.htm", "25.png", "344", "0", "", "Object0","{9224A9DC-E5AB-40df-982D-E5DDA64A19EB}");
+tocTab[tocTab.length] = new Array("3.2.3:11", "", "request review", "EARoot/EA3/EA2/EA3/EA180.htm", "24.png", "350", "0", "", "Event0","{C37FE1CD-1D7B-415b-8EF9-1BB3BDDA7D15}");
+tocTab[tocTab.length] = new Array("3.2.3:12", "", "request review", "EARoot/EA3/EA2/EA3/EA181.htm", "24.png", "348", "0", "", "Event0","{CA7AB012-DFF9-46b1-B593-45D053D6A366}");
+tocTab[tocTab.length] = new Array("3.2.3:13", "", "«goal» reviewed metadata item", "EARoot/EA3/EA2/EA3/EA182.htm", "25.png", "357", "0", "", "Object0","{A45A7639-7B4D-4d17-A4CE-F3EC8BAC9BBB}");
+tocTab[tocTab.length] = new Array("3.2.3:14", "", "«process» state change", "EARoot/EA3/EA2/EA3/EA183.htm", "21.png", "351", "0", "", "Activity0","{57E880E9-E2D7-4f44-82DA-AC0F9C81B254}");
+tocTab[tocTab.length] = new Array("3.2.3:15", "", "«process» steward review", "EARoot/EA3/EA2/EA3/EA184.htm", "21.png", "341", "0", "", "Activity0","{28FDE775-85AC-4959-919E-9A92408F1D54}");

@@ -1,0 +1,4 @@
+tocTab[tocTab.length] = new Array("5.2.2:1", "", "cgMDR_classification_scheme_item", "EARoot/EA5/EA2/EA2/EA332.htm", "175.png", "498", "0", "", "Logical diagram0","{346959F2-254C-489c-8236-C77D8F4129C1}");
+tocTab[tocTab.length] = new Array("5.2.2:2", "", "«XSDcomplexType» Classification_Scheme_Item", "EARoot/EA5/EA2/EA2/EA334.htm", "5.png", "2725", "0", "", "Class0","{24C1F22D-03BF-494b-8824-315D9E597B2A}");
+tocTab[tocTab.length] = new Array("5.2.2:3", "", "«XSDcomplexType» Classification_Scheme_Item_Relationship", "EARoot/EA5/EA2/EA2/EA335.htm", "5.png", "2726", "0", "", "Class0","{52CFA6FE-09E6-4d65-8B6F-D3698A7C429C}");
+tocTab[tocTab.length] = new Array("5.2.2:4", "", "classification_scheme_item_transform: xslt", "EARoot/EA5/EA2/EA2/EA336.htm", "25.png", "2727", "0", "", "Object0","{240E537B-25D1-4c74-8EB0-A456F3A1C849}");

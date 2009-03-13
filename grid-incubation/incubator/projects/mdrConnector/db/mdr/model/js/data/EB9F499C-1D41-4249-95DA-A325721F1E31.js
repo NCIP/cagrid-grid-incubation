@@ -1,0 +1,11 @@
+tocTab[tocTab.length] = new Array("3.2:1", "", "«information» application status metadata item", "EARoot/EA3/EA2/EA122.htm", "25.png", "339", "0", "", "Object0","{0C1DF00F-2AE4-47d7-A363-8445519F1EB4}");
+tocTab[tocTab.length] = new Array("3.2:2", "", "«information» candidate metadata item", "EARoot/EA3/EA2/EA123.htm", "25.png", "335", "0", "", "Object0","{503BC7B2-EC49-40a4-8F72-81EF1717DB62}");
+tocTab[tocTab.length] = new Array("3.2:3", "", "«business entity» Control Committee", "EARoot/EA3/EA2/EA124.htm", "25.png", "379", "0", "", "Object0","{22FCA324-99C0-4cb5-A473-186DAAE884C8}");
+tocTab[tocTab.length] = new Array("3.2:4", "", "«information» Historical status metadata item", "EARoot/EA3/EA2/EA125.htm", "25.png", "338", "0", "", "Object0","{A91686F8-4E79-4c20-85F3-EAC618D781B7}");
+tocTab[tocTab.length] = new Array("3.2:5", "", "«information» incomplete metadata item", "EARoot/EA3/EA2/EA126.htm", "25.png", "355", "0", "", "Object0","{04724840-B8D1-462a-B2EC-9700C068415E}");
+tocTab[tocTab.length] = new Array("3.2:6", "", "«business worker» registrar", "EARoot/EA3/EA2/EA130.htm", "25.png", "334", "0", "", "Object0","{71485115-86EE-4b51-9E0F-745FFE176B14}");
+tocTab[tocTab.length] = new Array("3.2:7", "", "«business worker» steward", "EARoot/EA3/EA2/EA131.htm", "25.png", "331", "0", "", "Object0","{6FE6A24E-1F36-4b5b-882F-B716BF8752A2}");
+tocTab[tocTab.length] = new Array("3.2:8", "", "«business worker» submitter", "EARoot/EA3/EA2/EA132.htm", "25.png", "325", "0", "", "Object0","{B9C4087D-D0C0-47ba-8B17-B81AC3CFA37C}");
+tocTab[tocTab.length] = new Array("3.2.1", "1", "Initial Submission", "EARoot/EA3/EA2/EA127.htm", "4.png", "", "", "{D8E3CDC9-71E3-414e-BC2F-CC099591E99F}", "Package");
+tocTab[tocTab.length] = new Array("3.2.2", "1", "Progress from Recorded", "EARoot/EA3/EA2/EA128.htm", "4.png", "", "", "{8F26D53D-D01A-4b50-8C26-AD012CAAD005}", "Package");
+tocTab[tocTab.length] = new Array("3.2.3", "1", "Progression from Candidate", "EARoot/EA3/EA2/EA129.htm", "4.png", "", "", "{69033C38-54CC-470c-AD41-278F342EFADE}", "Package");

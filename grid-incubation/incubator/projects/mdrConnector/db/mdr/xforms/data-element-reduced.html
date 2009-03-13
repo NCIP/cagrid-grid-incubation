@@ -1,0 +1,152 @@
+<!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR"
+   xmlns:ev="http://www.w3.org/2001/xml-events" 
+   mlns:xforms="http://www.w3.org/2002/xforms" 
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <head>
+       <title>Creating a Data Element</title>
+       
+       <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="stylesheet"
+          href="../web/stylesheets/main.css" type="text/css"/>
+       <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="stylesheet"
+          href="../web/stylesheets/mdr.css" type="text/css"/>
+       <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="stylesheet"
+          href="../web/stylesheets/cancergrid-style.css" type="text/css"/>
+       <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="stylesheet"
+          href="../classification/stylesheets/treeview.css" type="text/css"/>
+       <xhtml:link xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" rel="search"
+          type="application/opensearchdescription+xml" title="CancerGrid Data Element Search"
+          href="../web/cde_search.xquery"/>
+       <xhtml:script xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179"
+          type="text/javascript" src="xforms.js"/>
+          
+       <xforms:model id="myModel">
+          <xforms:instance id="data_element">
+             <cgMDR:Data_Element 
+                item_registration_authority_identifier="" 
+                data_identifier=""
+                version="0.1">
+                <cgMDR:administered_item_administration_record>
+                   <cgMDR:administrative_note/>
+                   <cgMDR:administrative_status/>
+                   <cgMDR:change_description/>
+                   <cgMDR:creation_date></cgMDR:creation_date>
+                   <cgMDR:effective_date></cgMDR:effective_date>
+                   <cgMDR:explanatory_comment/>
+                   <cgMDR:last_change_date></cgMDR:last_change_date>
+                   <cgMDR:origin/>
+                   <cgMDR:registration_status/>
+                   <cgMDR:unresolved_issue/>
+                   <cgMDR:until_date>2020-01-01</cgMDR:until_date>
+                </cgMDR:administered_item_administration_record>
+                <cgMDR:administered_by/>
+                <cgMDR:registered_by/>
+                <cgMDR:submitted_by/>
+                <cgMDR:described_by/>
+                <cgMDR:classified_by/>
+                <cgMDR:having>
+                   <cgMDR:context_identifier/>
+                   <cgMDR:containing>
+                      <cgMDR:language_section_language_identifier>
+                         <cgMDR:country_identifier/>
+                         <cgMDR:language_identifier/>
+                      </cgMDR:language_section_language_identifier>
+                      <cgMDR:name/>
+                      <cgMDR:definition_text/>
+                      <cgMDR:preferred_designation/>
+                      <cgMDR:definition_source_reference/>
+                   </cgMDR:containing>
+                </cgMDR:having>
+                <cgMDR:data_element_precision/>
+                <cgMDR:representation_class_qualifier/>
+                <cgMDR:representing/>
+                <cgMDR:typed_by/>
+                <cgMDR:expressing/>
+                <cgMDR:exemplified_by>
+                   <cgMDR:data_element_example_item/>
+                </cgMDR:exemplified_by>
+                <cgMDR:input_to deriving="">
+                   <cgMDR:derivation_rule_specification/>
+                </cgMDR:input_to>
+             </cgMDR:Data_Element>
+          </xforms:instance>
+          <xforms:instance id="non_enumerated_value_domain">
+             <cgMDR:Non_Enumerated_Value_Domain item_registration_authority_identifier="" data_identifier="" version="0.1">
+                <cgMDR:administered_item_administration_record>
+                   <cgMDR:administrative_note/>
+                   <cgMDR:administrative_status/>
+                   <cgMDR:change_description/>
+                   <cgMDR:creation_date></cgMDR:creation_date>
+                   <cgMDR:effective_date></cgMDR:effective_date>
+                   <cgMDR:explanatory_comment/>
+                   <cgMDR:last_change_date></cgMDR:last_change_date>
+                   <cgMDR:origin/>
+                   <cgMDR:registration_status/>
+                   <cgMDR:unresolved_issue/>
+                   <cgMDR:until_date>2020-01-01</cgMDR:until_date>
+                </cgMDR:administered_item_administration_record>
+                <cgMDR:administered_by/>
+                <cgMDR:registered_by/>
+                <cgMDR:submitted_by/>
+                <cgMDR:described_by/>
+                <cgMDR:classified_by/>
+                <cgMDR:having>
+                   <cgMDR:context_identifier/>
+                   <cgMDR:containing>
+                      <cgMDR:language_section_language_identifier>
+                         <cgMDR:country_identifier/>
+                         <cgMDR:language_identifier/>
+                      </cgMDR:language_section_language_identifier>
+                      <cgMDR:name/>
+                      <cgMDR:definition_text/>
+                      <cgMDR:preferred_designation/>
+                      <cgMDR:definition_source_reference/>
+                   </cgMDR:containing>
+                </cgMDR:having>
+                <cgMDR:typed_by/>
+                <cgMDR:value_domain_datatype/>
+                <cgMDR:value_domain_format/>
+                <cgMDR:value_domain_maximum_character_quantity/>
+                <cgMDR:value_domain_unit_of_measure/>
+                <cgMDR:related_to>
+                   <cgMDR:value_domain_relationship_type_description/>
+                   <cgMDR:related_to/>
+                </cgMDR:related_to>
+                <cgMDR:representing/>
+             </cgMDR:Non_Enumerated_Value_Domain>
+             
+          </xforms:instance>
+          
+          
+          <xforms:action xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179"
+             ev:observer="myModel" ev:event="xforms-submit-done">
+             <xforms:message level="modal">Submission complete</xforms:message>
+             <!-- show results page -->
+          </xforms:action>
+          
+          <xforms:action xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179"
+             ev:observer="myModel" ev:event="xforms-submit-error">
+             <xforms:message level="modal">Cannot submit!</xforms:message>
+          </xforms:action>
+          
+          <xforms:submission xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179"
+             id="write-data-element"
+             action="https://129.67.150.47:8443/exist/webdav/db/mdr/xforms/test.xml" method="put"
+             replace="all" instance="data_element"/>
+          
+          <xforms:submission xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179"
+             id="write-value-domain"
+             action="https://129.67.150.47:8443/exist/webdav/db/mdr/xforms/test.xml" method="put"
+             replace="all" instance="value_domain"/>
+          
+       </xforms:model>
+       
+       
+       
+    </head>
+    <body>
+       
+    </body>
+</html>

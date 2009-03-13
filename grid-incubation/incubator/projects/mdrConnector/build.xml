@@ -13,16 +13,21 @@
 	<property name="dist" value="dist" />
 	<property name="exist.dir" location="${env.EXIST_HOME}" />
 	<property name="lib" value="lib" />
+	<property name="endorsed.lib" value="endorsed" />
 
 	<import file="wsdl2java.xml" />
 
 	<!-- Classpaths -->
 	<path id="lib.classpath">
+		<fileset dir="${endorsed.lib}">
+			<include name="**/*.jar" />
+		</fileset>
 		<fileset dir="${lib}">
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="${exist.dir}/lib">
 			<include name="**/*.jar" />
+			<exclude name="*xalan*.jar" />
 		</fileset>
 		<fileset dir="${wsdl2java.home}/dist">
 			<include name="**/*.jar" />
@@ -57,10 +62,7 @@
 		</copy>
 
 		<xslt in="${build}/aar/META-INF/${wsdl.name}" out="${build}/aar/META-INF/flat_${wsdl.name}" style="${resources}/flatten_xsd_imports.xsl" extension="wsdl" force="yes">
-			<classpath>
-				<fileset dir="${lib}">
-					<include name="saxon*.jar" />
-				</fileset>
+			<classpath refid="lib.classpath">
 			</classpath>
 		</xslt>
 
@@ -137,13 +139,23 @@
 
 	<target name="all" depends="clean-all,dist-aar">
 	</target>
-	
+
 	<target name="deploy" depends="all">
-		<copy file="${aar.name}" tofile="${exist.dir}/webapp/WEB-INF/services/${aar.name}"></copy>
-		<copy todir="${exist.dir}/webapp/WEB-INF/data">
-			<fileset dir="data"/>
+		<copy overwrite="true" file="${aar.name}" tofile="${exist.dir}/webapp/WEB-INF/services/${aar.name}">
 		</copy>
-		<copy file="conf.xml" tofile="${exist.dir}/webapp/WEB-INF/conf.xml"></copy>
-		<copy file="config.xml" tofile="${exist.dir}/webapp/WEB-INF/classes/config.xml"></copy>
+		<copy overwrite="true" todir="${exist.dir}/webapp/WEB-INF/data">
+			<fileset dir="data" />
+		</copy>
+		<copy overwrite="true" todir="${exist.dir}/lib/user">
+			<fileset dir="${lib}" />
+		</copy>
+		<copy overwrite="true" todir="${exist.dir}/lib/endorsed">
+			<fileset dir="${endorsed.lib}" />
+		</copy>
+		<copy overwrite="true" file="conf.xml" tofile="${exist.dir}/conf.xml">
+		</copy>
+		<copy overwrite="true" file="config.xml" tofile="${exist.dir}/webapp/WEB-INF/classes/config.xml">
+		</copy>
 	</target>
+
 </project>

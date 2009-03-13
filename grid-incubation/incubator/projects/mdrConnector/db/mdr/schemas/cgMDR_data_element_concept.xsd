@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:include schemaLocation="../schemas/cgMDR_resources.xsd"/>
+    <xs:element name="Data_Element_Concept" type="Data_Element_Concept" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element_Concept" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="cgAdministered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="data_element_concept_conceptual_domain" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>foreignKey@Conceptual_Domain@administered_item_id is 'has' in
+                        schema</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="data_element_concept_object_class" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>foreignKey:
+                     Object_Class@administered_item_id</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="data_element_concept_property" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>foreignKey: Property@administered_item_id</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="object_class_qualifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element name="property_qualifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element name="related_to" type="Data_Element_Concept_Relationship" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Data_Element_Concept_Relationship" type="Data_Element_Concept_Relationship" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element_Concept_Relationship" mixed="false" abstract="false">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="data_element_concept_relationship_type_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="related_to" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>foreignKey:
+               Data_Element_Concept@administered_item_id</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

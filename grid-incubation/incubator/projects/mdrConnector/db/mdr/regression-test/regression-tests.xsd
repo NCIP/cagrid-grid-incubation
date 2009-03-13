@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cgRegression="http://www.cancergrid.org/schema/cgRegression" elementFormDefault="qualified" targetNamespace="http://www.cancergrid.org/schema/cgRegression" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:element name="mdr-tests" nillable="false" abstract="false">
+        <xs:complexType mixed="false">
+            <xs:sequence minOccurs="1" maxOccurs="1">
+                <xs:element maxOccurs="unbounded" ref="cgRegression:mdr-test" minOccurs="1" nillable="false"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="mdr-test" nillable="false" abstract="false">
+        <xs:complexType mixed="false">
+            <xs:sequence minOccurs="1" maxOccurs="1">
+                <xs:element ref="cgRegression:test-name" minOccurs="1" maxOccurs="1" nillable="false"/>
+                <xs:element ref="cgRegression:test-desc" minOccurs="1" maxOccurs="1" nillable="false"/>
+                <xs:element ref="cgRegression:script" minOccurs="1" maxOccurs="1" nillable="false"/>
+                <xs:element ref="cgRegression:comparison" minOccurs="0" maxOccurs="1" nillable="false"/>
+                <xs:element ref="cgRegression:module" minOccurs="1" maxOccurs="1" nillable="false"/>
+            </xs:sequence>
+            <xs:attribute name="skip" type="xs:boolean" use="optional"/>
+            <xs:attribute name="type" type="cgRegression:testType" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="test-name" type="xs:string" nillable="false" abstract="false"/>
+    <xs:element name="test-desc" type="xs:string" nillable="false" abstract="false"/>
+    <xs:element name="script" type="xs:string" nillable="false" abstract="false"/>
+    <xs:element name="comparison" type="xs:string" nillable="false" abstract="false"/>
+    <xs:element name="module" type="xs:string" nillable="false" abstract="false"/>
+    <xs:simpleType name="testType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="web-page-comparison"/>
+            <xs:enumeration value="function-test"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

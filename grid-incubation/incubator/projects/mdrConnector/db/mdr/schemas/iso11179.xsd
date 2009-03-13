@@ -1,0 +1,1456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.cancergrid.org/schema/ISO11179" xmlns:iso11179="http://www.cancergrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/ISO11179" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:annotation>
+        <xs:documentation>The model shows constraints on minimum and maximum occurrences of
+			attributes. The constraints on maximum occurrences are to be enforced at all times. The
+			constraints on minimum occurrences are to be enforced when the registration status for
+			the metadata item is "recorded" or higher. In other words, a registration status of
+			"recorded" indicates that all mandatory attributes have been
+		documented.</xs:documentation>
+    </xs:annotation>
+    <xs:element name="Data_Element_Concept" type="Data_Element_Concept" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element_Concept" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Data Element Concept is a concept that can be represented in the
+				form of a data element, described independently of any particular representation. A
+				Data Element Concept may have zero or one Object Class and zero or one Property. The
+				union of a Property and an Object Class provides significance beyond either that of
+				the Property or the Object Class. A Data Element Concept thus has a Definition
+				independent from the Definition of the Object Class or the Property. As an
+				Administered Item, a Data Element Concept carries its own Administration Record
+				information, allowing it to be identified, named, defined and optionally classified
+				within a Classification Scheme. A Data Element Concept may be associated with other
+				Data Element Concepts, via the Data Element Concept Relationship. The nature of the
+				relationship is described using the data element concept relationship type
+				description. A Data Element Concept may be registered as an Administered Item
+				without necessarily being associated with any Data Element, but a Data Element
+				Concept shall be associated with exactly one Conceptual Domain, as represented by
+				the "data element concept-conceptual domain relationship" in Figure 8. The
+				Conceptual Domain specifies all valid Value Meanings of a Data Element Concept. The
+				Conceptual Domain is described in 4.12.1.1. A Data Element Concept may be associated
+				with several Value Domains resulting in a different Data Element for each
+				association.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="data_element_concept_object_class" type="Object_Class" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>The designation of an Object Class for a Data Element
+								Concept</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="data_element_concept_property" type="Property" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the designation of a Property for a Data Element
+								Concept</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="object_class_qualifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>a qualifier of the Data Element Concept Object
+							Class</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="property_qualifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>a qualifier of the Data Element Concept
+							Property</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="expressed_by" type="Data_Element" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                    <xs:element name="has" type="Conceptual_Domain" minOccurs="1" maxOccurs="1" nillable="false"/>
+                    <xs:element name="related_to" type="Data_Element_Concept_Relationship" minOccurs="1" maxOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Conceptual_Domain" type="Conceptual_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Conceptual_Domain" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Conceptual Domain is a set of Value Meanings, which may either be
+				enumerated or expressed via a description. As an Administered Item, a Conceptual
+				Domain carries its own Administration Record information, allowing it to be
+				identified, named, defined and optionally classified within a Classification Scheme.
+				A Conceptual Domain may be associated with other Conceptual Domains, via the
+				Conceptual Domain Relationship in Figure 9. The nature of the relationship is
+				described using the conceptual domain relationship type description. Through the
+				Conceptual Domain Relationship, a Conceptual Domain may be composed of other
+				Conceptual Domains or may be a member (component) of a larger Conceptual Domain. A
+				Conceptual Domain may specify a constraint such as “linear
+				measure” as its dimensionality. When a dimensionality is specified, any
+				Value Domain that is based on this Conceptual Domain shall specify a Unit of Measure
+				that is consistent with this dimensionality.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="dimensionality" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>an expression of measurement without units A
+								Conceptual Domain may specify a constraint such as linear measure as
+								its dimensionality. When a dimensionality is specified, any Value
+								Domain that is based on this Conceptual Domain shall specify a Unit
+								of Measure that is consistent with this dimensionality. NOTE A
+								quantity is a value with an associated unit of measure. 32º
+								Fahrenheit, 0º Celsius, $100 USD, and 10 reams (of paper) are
+								quantities. Equivalence between two units of measure is determined
+								by the existence of a quantity preserving one-to-one correspondence
+								between values measured in one unit of measure and values measured
+								in the other unit of measure, independent of context, and where
+								characterizing operations are the same. Equivalent units of measure
+								in this sense have the same dimensionality. The equivalence defined
+								here forms an equivalence relation on the set of all units of
+								measure. Each equivalence class corresponds to a dimensionality. The
+								units of measure "temperature in degrees Fahrenheit" and
+								"temperature in degrees Celsius" have the same dimensionality,
+								because for each value measured in degrees Fahrenheit there is a
+								value measured in degrees Celsius with the same quantity, and
+								vice-versa. The same operations may be performed on quantities in
+								each unit of measure. Quantity preserving one-to-one correspondences
+								are the well-known equations Cº = (5/9)*(Fº - 32) and Fº =
+								(9/5)*(Cº) + 32.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="related_to" type="Conceptual_Domain_Relationship" minOccurs="1" maxOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Data_Element" type="Data_Element" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Data Element is considered to be a basic unit of data of interest to
+				an organization. It is a unit of data for which the definition, identification,
+				representation, and permissible values are specified by means of a set of
+				attributes. NOTE In general usage, the term data element and data element type are
+				used interchangeably. In this document, the shorter term data element is used. As an
+				Administered Item, a Data Element carries its own Administration Record information,
+				allowing it to be identified, named, defined and optionally classified in a
+				Classification Scheme. A Data Element is formed when a Data Element Concept is
+				assigned a representation. One of the key components of a representation is the
+				Value Domain, i.e., restricted valid values. A Data Element is the association among
+				a Data Element Concept, a Value Domain and optionally a Representation Class. The
+				association of a Data Element with a Representation Class may be either direct (as
+				shown by the relationship data element representation class in Figure 10), or via
+				the Value Domain (as shown by the relationship value domain representation class in
+				Figure 10). A Data Element cannot be registered as an Administered Item without
+				being associated with a Data Element Concept and a Value Domain. A representation
+				class qualifier may be specified, that is used to qualify the name of the data
+				element. A data element precision may be used to specify the number of decimal
+				places permitted in any associated data element values. If not specified, the unit
+				of measure precision from the associated Value Domain shall
+			apply.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="representation_class_qualifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>A qualifier to the Representation Class used in naming
+								Data Elements and Value Domains</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="data_element_precision" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>The degree of specificity for a Data Element A data
+								element precision may be used to specify the number of decimal
+								places permitted in any associated data element values. If not
+								specified, the unit of measure precision from the associated Value
+								Domain shall apply.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="representing" type="Value_Domain" minOccurs="1" maxOccurs="1" nillable="false"/>
+                    <xs:element name="exemplified_by" type="Data_Element_Example" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                    <xs:element name="input_to" type="Data_Element_Derivation" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                    <xs:element name="typed_by" type="Representation_Class" minOccurs="0" maxOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Value_Domain" type="Value_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Value_Domain" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>One of the key components of a representation is the Value Domain. A
+				Value Domain provides representation, but has no implication as to what Data Element
+				Concept the values are associated nor what the values mean. A Value Domain is
+				associated with a Conceptual Domain. A Value Domain provides a representation for
+				the Conceptual Domain. An example of a Conceptual Domain and a set of Value Domains
+				is ISO 3166, Codes for the representation of names of countries. For instance, ISO
+				3166 describes the set of seven Value Domains: short name in English, official name
+				in English, short name in French, official name in French, alpha-2 code, alpha-3
+				code, and numeric code. As an Administered Item, a Value Domain carries its own
+				Administration Record information, allowing it to be identified, named, defined and
+				optionally classified in a Classification Scheme. A Value Domain may be associated
+				with other Value Domains, via the Value Domain Relationship. The nature of the
+				relationship is described using the value domain relationship type description.
+				Through the Value Domain Relationship, a Value Domain may be composed of other Value
+				Domains or may be a member (component) of a larger Value Domain. A Value Domain
+				provides representation, but has no implication as to what Data Element Concept the
+				values are associated with, nor what the values mean. A Value Domain may be
+				associated with multiple Data Elements.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="value_domain_datatype" type="Datatype" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the Datatype used in a Value Domain</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_format" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>a template for the structure of the presentation of
+								the Value(s) EXAMPLE - YYYY-MM-DD for a date.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_maximum_character_quantity" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the maximum number of characters to represent the Data
+								Element value</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_unit_of_measure" type="Unit_of_Measure" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the unit of measure used in a Value
+							Domain</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="related_to" type="Value_Domain_Relationship" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Non_Enumerated_Conceptual_Domain" type="Non_Enumerated_Conceptual_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Non_Enumerated_Conceptual_Domain" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Conceptual Domain that cannot be expressed as a finite set of Value
+				Meanings is called a Non-enumerated Conceptual Domain. It may be expressed via a
+				description or specification, such as a rule, a procedure, or a range (i.e.,
+				interval). As a sub-type of Conceptual Domain, a Non-enumerated Conceptual Domain
+				inherits the attributes and relationships of the former. The value meanings for a
+				non-enumerated conceptual domain are expressed using a rule, called a non-enumerated
+				conceptual domain description. Thus, the value meanings are listed implicitly. This
+				rule describes the meaning of permissible values in a nonenumerated value
+			domain.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Conceptual_Domain">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="non_enumerated_conceptual_domain_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>a description or specification of a rule, reference,
+								or range for a set of all Value Meanings for the Conceptual
+							Domain</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="represented_by" type="Non_Enumerated_Value_Domain" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Enumerated_Conceptual_Domain" type="Enumerated_Conceptual_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Enumerated_Conceptual_Domain" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Conceptual Domain sometimes contains a finite allowed inventory of
+				notions that can be enumerated. Such a Conceptual Domain is referred to as an
+				Enumerated Conceptual Domain. An example of an Enumerated Conceptual Domain is the
+				notion of countries that is specified in ISO 3166, Codes for the representation of
+				names of countries. As a sub-type of Conceptual Domain, an Enumerated Conceptual
+				Domain inherits the attributes and relationships of the former.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Conceptual_Domain">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="containing" type="Value_Meaning" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Non_Enumerated_Value_Domain" type="Non_Enumerated_Value_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Non_Enumerated_Value_Domain" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Value Domain may be expressed via a description or specification,
+				such as a rule, a procedure, or a range (i.e., interval), rather than as an explicit
+				set of Permissible Values. Such a Value Domain is call a Nonenumerated Value Domain.
+				As a sub-type of Value Domain, a Non-enumerated Value Domain inherits the attributes
+				and relationships of the former.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Value_Domain">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="non_enumerated_value_domain_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>A description or specification of a rule, reference,
+								or range for a set of all Permissible Values for the Value Domain A
+								non-enumerated value domain is specified by a description. The
+								non-enumerated value domain description describes precisely which
+								permissible values belong and which do not belong to the value
+								domain. An example of a description is the phrase "Every real number
+								greater than 0 and less than 1".</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Enumerated_Value_Domain" type="Enumerated_Value_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Enumerated_Value_Domain" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>An Enumerated Value Domain is one where the Value Domain is expressed
+				as an explicit set of two or more Permissible Values. As a sub-type of Value Domain,
+				an Enumerated Value Domain inherits the attributes and relationships of the
+			former.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Value_Domain">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="containing" type="Permissible_Value" minOccurs="2" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Value_Meaning" type="Value_Meaning" nillable="false" abstract="false"/>
+    <xs:complexType name="Value_Meaning" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>Each member of an Enumerated Conceptual Domain has a Value Meaning
+				that provides its distinction from other members. In the example of ISO 3166, the
+				notion of each country as specified would be the Value Meanings. The representation
+				of Value Meanings in a registry shall be independent of (and shall not constrain)
+				their representation in any corresponding Value Domain. A particular Value Meaning
+				may have more than one means of representation by Permissible Values - each from a
+				distinct Enumerated Value Domain.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="value_meaning_begin_date" type="xs:date" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>The effective date of this Value Meaning in the Conceptual
+						Domain A Registration Authority may determine whether this date is the date
+						the Value Meaning becomes valid in a registry or the date the Value Meaning
+						becomes part of the source domain or some other date.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="value_meaning_description" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>a description of a Value Meaning</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="value_meaning_identifier" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the unique identifier for a Value Meaning</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="value_meaning_end_date" type="xs:date" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the date this Value Meaning became/becomes
+					invalid</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Permissible_Value" type="Permissible_Value" nillable="false" abstract="false"/>
+    <xs:complexType name="Permissible_Value" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Permissible Value is an expression of a Value Meaning within an
+				Enumerated Value Domain. It is one of a set of such values that comprises an
+				Enumerated Value Domain. Each Permissible Value is associated with a Value
+			Meaning.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="permissible_value_begin_date" type="xs:date" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>The date this value became/becomes allowed in the Value Domain
+						A Registration Authority may determine whether this date is the date the
+						value becomes valid in a registry or the date the value becomes part of the
+						source domain or some other date.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="permissible_value_end_date" type="xs:date" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>The date this value became/becomes no longer allowed in the
+						Value Domain A Registration Authority may determine whether this date is the
+						date the value becomes no longer valid in a registry or the date the value
+						becomes no longer part of the source domain or some other
+					date.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="containing" type="Value_Meaning" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="has" type="Value" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Value" type="Value" nillable="false" abstract="false"/>
+    <xs:complexType name="Value" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>This is the actual value associated with a Permissible Value in an
+				Enumerated Value Domain.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="value_item" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>a representation of a Value Meaning in a specific Value Domain
+						- the actual Value</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Data_Element_Example" type="Data_Element_Example" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element_Example" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Data Element may have Data Element Examples that are used to provide
+				representative samples of the Data Element.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="data_element_example_item" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>actual illustrative case of the Data
+					Element</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Data_Element_Derivation" type="Data_Element_Derivation" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element_Derivation" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Data Element Derivation is the application of a Derivation Rule to
+				one or more input Data Elements, to derive one or more output Data
+			Elements.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="deriving" type="Data_Element" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+            <xs:element name="applying" type="Derivation_Rule" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Derivation_Rule" type="Derivation_Rule" nillable="false" abstract="false"/>
+    <xs:complexType name="Derivation_Rule" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>The logical, mathematical, and/or other operations specifying
+				derivation A Data Element may have a Derivation Rule that is a specification of
+				derivation for the data element. The derivation rule may range from a simple
+				operation such as subtraction to a very complex set of derivations (derivation being
+				defined as a relationship between a derivation rule and an input set upon which it
+				acts). Derivation rules are not limited to arithmetic and logical operations. As an
+				Administered Item, a Derivation Rule carries its own Administration Record
+				information, allowing it to be identified, named, defined and optionally classified
+				in a Classification Scheme. A Derivation Rule may be registered as an Administered
+				Item without necessarily being associated with any Data Element Derivation. The
+				derivation rule administered item identifier has been removed as the rule has been
+				properly subtyped.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="derivation_rule_specification" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the text of a specification of Data Element
+							Derivation</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Registration_Authority" type="Registration_Authority" nillable="false" abstract="false"/>
+    <xs:complexType name="Registration_Authority" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Registration Authority is any Organization authorized to register
+				metadata. A Registration Authority is a subtype of Organization and inherits all of
+				its attributes and relationships. An Administered Item has a Registration Authority
+				that is its owner, shown by the relationship registration in Figure 4. A
+				Registration Authority may register many Administered Items. INFERENCE: This part of
+				the standard will be boilerplate for any abstracted components of the repository.
+				However, we might wish to persist NCI data elements</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Organization">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="documentation_language_identifier" type="Language_Identification" maxOccurs="unbounded" minOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the identifier of the language used for documentation
+								by the Registration Authority</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="registration_authority_identifier" type="Registration_Authority_Identifier" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>An identifier assigned to a Registration
+							Authority</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="represented_by" type="Registrar" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Organization" type="Organization" nillable="false" abstract="false"/>
+    <xs:complexType name="Organization" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>An Organization can play one or more roles with respect to a Metadata
+				Registry. The roles currently recognized in this part of ISO/IEC 11179 are:
+				Registration Authority, reference organization, steward (of an Administered Item) -
+				represented by the relationship stewardship - and submitter (of an Administered
+				Item) - represented by the relationship submission.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="organization_name" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>A designation for the Organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organization_mail_address" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>The physical, postal or delivery address of the Organization.
+						Includes civic street address as well as "P.O.Box" types of mailing
+						addresses</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Registrar" type="Registrar" nillable="false" abstract="false"/>
+    <xs:complexType name="Registrar" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Registration Authority is represented by one or more Registrars as
+				shown by the relationship reference authority registrar in Figure 4. Registrars are
+				the persons who perform the administrative steps to register Administered Items in a
+				Metadata Registry.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="registrar_contact" type="Contact" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the contact information associated with a
+					Registrar</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="registrar_identifier" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>an identifier for the Registrar</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Administered_Item" type="Administered_Item" nillable="false" abstract="false"/>
+    <xs:complexType name="Administered_Item" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>An Administered Item may be any one of those types listed in Figure 2.
+				Each instance of an Administered Item encapsulates its own Administration Record. An
+				Administered Item is submitted by an Organization represented by the relationship
+				submission in Figure 4. An Administered Item is registered by a Registration
+				Authority represented by the relationship registration in Figure 4. An Administered
+				Item is administered by an Organization represented by the relationship stewardship
+				in Figure 4. An Administered Item may be described by zero or more Reference
+				Documents as represented by the relationship reference in Figure 4. Each instance of
+				an Administered Item through its Administration Record shall have a unique
+				administered item identifier used to identify it and that distinguishes it from any
+				other Administered Item. Each Administered Item in the owner's metadata registry
+				shall have (as part of the Administration Record): * a registration status
+				indicating the point in a registration life cycle applying to it * an administrative
+				status indicating the point in the Registration Authority's registration
+			process.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="administered_item_administration_record" type="Administration_Record" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>Note that in the original diagrams for ISO11179, each
+						'administered item' has in fact -two- administration records: one specific
+						to the class, and one inherited from the administered item class. We have
+						examined this and have decided this should not be implemented in cancergrid:
+						the records are defined to be identical for the purposes of our
+						implementation.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="registered_by" type="Registration_Authority" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="described_by" type="Reference_Document" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+            <xs:element name="classified_by" type="Classification_Scheme_Item" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+            <xs:element name="submitted_by" type="Submission" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="administered_by" type="Stewardship" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="having" type="Terminological_Entry" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Reference_Document" type="Reference_Document" nillable="false" abstract="false"/>
+    <xs:complexType name="Reference_Document" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>An Administered Item may be described by one or more Reference
+				Documents as shown by the relationship reference in Figure 4. For each Reference
+				Document, the Organization that originated the Reference Document must be
+				identified, as shown by the relationship reference organization in Figure
+			4.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="reference_document_identifier" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>an identifier for the Reference Document</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reference_document_language_identifier" type="Language_Identification" minOccurs="0" maxOccurs="unbounded" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>absence of a language indicates use of the same language as
+						specified by Registration Authority documentation language
+					identifier</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reference_document_title" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>The title of the Reference Document</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reference_document_type_description" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>a description of the type of Reference
+					Document</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="provided_by" type="Organization" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Classification_Scheme" type="Classification_Scheme" nillable="false" abstract="false"/>
+    <xs:complexType name="Classification_Scheme" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Classification Scheme may be a taxonomy, a network, an ontology, or
+				any other terminological system. The classification may also be just a list of
+				controlled vocabulary of property words (or terms). The list might be taken from the
+				"leaf level" of a taxonomy. A Classification Scheme is a sub-type of Administered
+				Item, inheriting its attributes and relationships, which allows it to be identified,
+				named, defined and optionally classified. An Administered Item is named within a
+				specific Context, and may have different names in different Contexts. As an
+				Administered Item itself, a Classification Scheme is also named within one or more
+				Contexts. For an Administered Item to be considered to have a name within a
+				Classification Scheme, the Administered Item and the Classification Scheme must
+				share a common Context. For example: Classified component id = identifier for object
+				class (e.g., CC0001) Classified component name = object class (e.g., fruit fly)
+				Classification scheme type = Taxonomy Classification scheme name = International
+				Taxonomic Information System (Biological Taxonomy) Classification scheme version =
+				2.1 Classification scheme item type = taxon identifier Classification scheme item
+				value = 5411 or Classification scheme item type = taxon term Classification scheme
+				item value = Drosophila</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="classification_scheme_type_name" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>The name of the type of Classification Scheme.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="classification_scheme_name" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>This is not specified in the UML models but in part 2
+								page 4 of the standard</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="classification_scheme_version" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>This is not specified in the UML models but in part 2
+								page 4 of the standard</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="containing" type="Classification_Scheme_Item" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Classification_Scheme_Item" type="Classification_Scheme_Item" nillable="false" abstract="false"/>
+    <xs:complexType name="Classification_Scheme_Item" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Classification Scheme Item represents an individual item within a
+				Classification Scheme, as represented by the relationship classification scheme
+				membership in Figure 7. The Classification Scheme Item may have either a
+				classification scheme item type name, a classification scheme item value, or both.
+				This may be a node in a taxonomy or ontology, a term in a thesaurus,
+			etc.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="classification_scheme_item_type_name" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the name of the type of the Classification Scheme
+					Item</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="classification_scheme_item_value" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>An instance of the name, or identifier, or definition, etc. of
+						a classification scheme item</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="association" type="Classification_Scheme_Item_Relationship" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Administration_Record" type="Administration_Record" nillable="false" abstract="false"/>
+    <xs:complexType name="Administration_Record" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>An instance of an Administration Record records information about an
+				Administered Item in the registry. The Administration Record instance provides a
+				basis for identifying, naming, defining, classifying and recording administrative
+				information about the Administered Item in the registry. When an Administered Item
+				is modified, it becomes a new version of the Administered Item and it thus requires
+				a new version of its Administration Record. The administration record - creation
+				date, the reason for change (administration record - change), the contact persons
+				for the responsible and submitting organizations, Registration Authority, and the
+				Registrar shall be provided for this new Administered Item. The Registrar may
+				collect history by retaining the old Administration Record.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="administered_item_identifier" type="Item_Identifier" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>An identifier for an administered item An administered item
+						identifier is formed by the combination of the RA Identifier, the unique
+						identifier assigned to the administered item within an RA, and the version.
+						Each registry is maintained by an RA, to which data constructs logically and
+						functionally belong. For example, data constructs related to chemical matter
+						would likely be registered under a Chemical Manufacturer Registration
+						Authority. A.3.3 Assignment of Data Identifier (DI) Each new Administered
+						Item accepted into the metadata register shall be assigned a new Data
+						Identifier. A new Data Identifier shall also be assigned to an existing
+						Administered Item when it is modified in such a way as to change the meaning
+						of the Administered Item or the representation form of the potential values
+						of the Administered Item. For example, changes to the mandatory attributes,
+						Definition and/or Form of Representation would require the assignment of a
+						new Data Identifier. Editorial changes to the definition, however, would not
+						cause generation of a new Administered Item, as long as the essential
+						meaning expressed by the definition remains the same. For example, the value
+						of the administrative attributes listed in Annex B may change without
+						causing generation of a new Data Identifier. Based on the requirements of
+						the subject matter included in its metadata register, each Registration
+						Authority shall establish and publish as appropriate, specific guidelines
+						for any additional conditions requiring assignment of a new Data Identifier
+						(i.e., generation of a new Administered Item), due to changes in the values
+						of mandatory attributes established for its metadata register. Each
+						Registration Authority shall establish and publish specific guidelines on
+						the format, presentation, and generation of Data Identifiers that are used
+						within the metadata register. A.3.4 Assignment of Version Identifier (VI) In
+						general, a new Version Identifier may be generated when any attribute value
+						(other than one requiring a new Data Identifier) changes. Each Administered
+						Item, however, may require a different versioning treatment. For example, a
+						change in Permissible Data Element Values for an Employee Name may not
+						require a new version identifier, while a change of Permissible Values for
+						Account Type will likely require a version identifier change. Each
+						Registration Authority shall establish specific guidelines for the subject
+						matters in which it specializes and for which it is responsible. Each
+						Registration Authority shall establish and publish specific guidelines on
+						the format, presentation, and generation of version identifiers that are
+						used within the metadata register.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="administrative_note" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>any general note about the Administered
+					Item</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="administrative_status" type="Administrative_Status" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>A designation of the status in the administrative process of a
+						Registration Authority for handling registration requests. The values and
+						associated meanings of administrative status are determined by each
+						Registration Authority. There should be administrative statuses that denote
+						the pending changes that are important to the community that uses this
+						metadata register. These status levels forewarn the community that uses this
+						metadata register of changes that may have an impact on their area of
+						interest. It is very probable that the permissible administrative status
+						values will be dependent upon the current registration status that an
+						Administered Item possesses. A Registration Authority will establish the
+						focus of the use of administrative status. A Registration Authority
+						determines the allowed values of this attribute. It is the responsibility of
+						the Registration Authority to refine, publish, and implement this
+						administrative feature. The responsibility of the Registrar is to coordinate
+						the Metadata Registry environment and manage the Metadata Registry, making
+						its contents as widely accessible as feasible. Administrative levels may be
+						established to track the progression of an Administered Item in the
+						transition from one status level to the next. Some potential examples are:
+						a) Provisionally Qualified An Administered Item with the Provisionally
+						Qualified status means that a Steward has confirmed that the mandatory
+						metadata attributes are complete and conform to applicable metadata
+						attribute quality requirements. The Steward is authorized to promote
+						Administered Items at the Recorded status to the administrative status of
+						Provisionally Qualified at such time as the Steward believes that all
+						quality requirements have been achieved. b) Provisionally Standard An
+						Administered Item with the Provisionally Standard status means that a
+						Steward proposes the Administered Item as Standard for general use in the
+						registry community; however, certification of Standard status of the
+						Administered Item by the Control Committee is not yet complete. The Steward
+						is authorized to promote Administered Items from the Qualified level to the
+						Provisionally Standard at such time as the Steward believes the Administered
+						Item should be a Standard Administered Item. c) Provisionally Preferred An
+						Administered Item with the Provisionally Preferred status means that a
+						Steward proposes the Administered Item as Preferred Standard for preferred
+						use in the registry community; however, certification of Preferred Standard
+						status of the Administered Item by the Control Committee is not yet
+						complete. The Steward is authorized to promote Administered Items from the
+						Standard level to the Provisionally Preferred at such time as the Steward
+						believes the Administered Item should be a Preferred Standard Administered
+						Item. d) Provisionally Retired Registrars and Stewards will review
+						Superseded registration status level Administered Items periodically with
+						the view of possibly progressing an Administered Item to the registration
+						status level of Retired. For any Administered Items so identified, the
+						Registrar may update the administrative status level to something like
+						Provisionally Retired and the Steward provides the Registrar with a short
+						statement as to why such Administered Items should be progressed to the
+						Retired registration status level. If Provisionally Retired Administered
+						Items are not approved by the Control Committee to the Retired registration
+						status level, they retain the Superseded registration status.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="change_description" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the description of what has changed in the Administered Item
+						since the prior version of the Administered Item</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="creation_date" type="xs:date" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the date the Administered Item was created When an
+						Administered Item is modified, it becomes a new version of the Administered
+						Item and it thus requires a new version of its Administration Record. The
+						administration record - creation date, the reason for change (administration
+						record - change), the contact persons for the responsible and submitting
+						organizations, Registration Authority, and the Registrar shall be provided
+						for this new Administered Item. The Registrar may collect history by
+						retaining the old Administration Record.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="effective_date" type="xs:date" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the date an administered tem became/becomes available to
+						registry users</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="explanatory_comment" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>descriptive comments about the Administered
+					Item</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="last_change_date" type="xs:date" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the date the Administered Item was last
+					changed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="origin" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the source (document, project, discipline or model) for the
+						Administered Item</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="registration_status" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>a designation of the status in the registration life-cycle of
+						an Administered Item.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="unresolved_issue" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>any problem that remains unresolved regarding proper
+						documentation of the Administered Item</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="until_date" type="xs:date" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the date an Administered Item is no longer effective in the
+						registry</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Item_Identifier" type="Item_Identifier" nillable="false" abstract="false"/>
+    <xs:complexType name="Item_Identifier" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>The composite datatype Item Identifier is used to specify the unique
+				identifier for an Administered Item. The Item Identifier is composed of three parts
+				as shown in the following attribute list. The item registration authority identifier
+				identifies the owning Registration Authority. The data identifier uniquely
+				identifies an Administered Item within a Registration Authority. Data identifiers
+				shall be unique within a Registration Authority for each occurrence of an
+				Administered Item. The version is used to distinguish multiple instances of the same
+				Administered Item as it undergoes changes.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="data_identifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>A.3.3 Assignment of Data Identifier (DI) Each new Administered
+						Item accepted into the metadata register shall be assigned a new Data
+						Identifier. A new Data Identifier shall also be assigned to an existing
+						Administered Item when it is modified in such a way as to change the meaning
+						of the Administered Item or the representation form of the potential values
+						of the Administered Item. For example, changes to the mandatory attributes,
+						Definition and/or Form of Representation would require the assignment of a
+						new Data Identifier. Editorial changes to the definition, however, would not
+						cause generation of a new Administered Item, as long as the essential
+						meaning expressed by the definition remains the same. For example, the value
+						of the administrative attributes listed in Annex B may change without
+						causing generation of a new Data Identifier. Based on the requirements of
+						the subject matter included in its metadata register, each Registration
+						Authority shall establish and publish as appropriate, specific guidelines
+						for any additional conditions requiring assignment of a new Data Identifier
+						(i.e., generation of a new Administered Item), due to changes in the values
+						of mandatory attributes established for its metadata register. Each
+						Registration Authority shall establish and publish specific guidelines on
+						the format, presentation, and generation of Data Identifiers that are used
+						within the metadata register.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="item_registration_authority_identifier" type="Registration_Authority_Identifier" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the identifier of the registration authority registering the
+						item The structure for the identification of organizations and organization
+						parts consists of the following four components: a) the International Code
+						Designator (ICD); b) the identification of an organization within an
+						identification scheme: a data element containing an organization identifier;
+						c) the identification of an organization part: a data element containing an
+						organization part identifier (OPI); d) the OPI source indicator (OPIS): a
+						data element containing a code value indicating the source of the OPI. The
+						third component, identification of an organization part, is optional. It is
+						used when and only when one wants to designate a specific part within an
+						organization. The fourth component, the OPI source indicator (OPIS), shall
+						not be used if the third component is not used; it is optional when the OPI
+						is used. The format of these data elements is the following: - ICD: integer,
+						variable length, up to 4 digits; - Identification of an organization:
+						variable length, up to 35 characters; - OPI: variable length, up to 35
+						characters; - OPIS: 1 character. No particular sequence of the four
+						components is specified in this International
+					Standard.”</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="version" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>In general, a new Version Identifier may be generated when any
+						attribute value (other than one requiring a new Data Identifier) changes.
+						Each Administered Item, however, may require a different versioning
+						treatment. For example, a change in Permissible Data Element Values for an
+						Employee Name may not require a new version identifier, while a change of
+						Permissible Values for Account Type will likely require a version identifier
+						change. Each Registration Authority shall establish specific guidelines for
+						the subject matters in which it specializes and for which it is responsible.
+						Each Registration Authority shall establish and publish specific guidelines
+						on the format, presentation, and generation of version identifiers that are
+						used within the metadata register.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Contact" type="Contact" nillable="false" abstract="false"/>
+    <xs:complexType name="Contact" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>An instance of a role of an individual or an organization (or
+				organization part or organization person) to whom an information item(s), a material
+				object(s) and/or person(s) can be sent to or from in a specified context. The
+				composite datatype Contact is used to specify the contact information for registrar
+				contact, stewardship contact and submission contact.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="contact_information" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>Information to enable a Contact to be located or communicated
+						with</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="contact_name" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="contact_title" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the name of the position held by the
+					Contact</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Language_Identification" type="Language_Identification" nillable="false" abstract="false"/>
+    <xs:complexType name="Language_Identification" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>The composite datatype Language Identification serves as an identifier
+				for a language. It is used in: * the Registration Authority class to identify the
+				default language(s) of the registration authority * the Reference Document class to
+				identify the language(s) used within the document * the Language Section class of
+				the Naming and Definition region to identify the language used for names and
+				definitions within that section. The identifier comprises a mandatory language
+				identifier and an optional country identifier, the latter being used to distinguish
+				variations in language use in different countries.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="country_identifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>A country identifier further specifying the geopolitical area
+						associated with the language NOTE 1 Metamodel construct is: Attribute of
+						Language Identification. NOTE 2 Use the three digit numeric codes from ISO
+						3166-1, with extensions if required.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="language_identifier" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>information in a Terminological Entry which indicates the name
+						of a language NOTE 1 Use the three character alphabetic codes and names from
+						ISO 639-2/Terminology, with extensions if required. NOTE 2 Metamodel
+						construct is: Attribute of Language Identification.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Registration_Authority_Identifier" type="Registration_Authority_Identifier" nillable="false" abstract="false"/>
+    <xs:complexType name="Registration_Authority_Identifier" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>The composite datatype Registration Authority Identifier is used to
+				uniquely identify a Registration Authority. The sources of values for each part of
+				the identifier are specified in ISO/IEC 11179-6.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="international_code_designator" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>The identifier of an organization identification scheme NOTE 1
+						Metamodel construct is: Attribute of Registration Authority Identifier. NOTE
+						2 Based on ISO/IEC 6523-1:1998, 3.8. NOTE 3 See also ISO/IEC 11179-6. Based
+						on D&amp;B for initial implemmentation. In the long term ISO/BSI would
+						issue a number to the NCRI who could issue Organisation Part Identifiers to
+						the individual cancer centres</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OPI_Source" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>data element used to specify the source for the organization
+						part identifier [ISO/IEC 6523-1:1998, definition 3.12]</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organization_identifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>D&amp;B numbers are 8 digits followed by a 9th digit
+						checksum</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organization_part_identifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Context" type="Context" nillable="false" abstract="false"/>
+    <xs:complexType name="Context" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A universe of discourse in which a name or definition is used. Each
+				Administered Item is named and defined within one or more Contexts. A Context
+				defines the scope within which the subject data has meaning. A Context may be a
+				business domain, an information subject area, an information system, a database,
+				file, data model, standard document, or any other environment determined by the
+				owner of the registry. Each Context is itself managed as an Administered Item within
+				the registry and is given a name and a definition. NOTE The Context within which a
+				Context is named and defined will probably be the registry itself, but could be
+				broader, and could simply be specified as being this International Standard. For
+				each Context with which an Administered Item is associated through a Terminological
+				Entry, the Administered Item must have at least one Designation (name) and at least
+				one Definition.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="context_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the textual description of the
+							Context</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="context_description_language_identifier" type="Language_Identification" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the identifier of the language used in the context
+								description</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Language_Section" type="Language_Section" nillable="false" abstract="false"/>
+    <xs:complexType name="Language_Section" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>If a registry supports multiple languages, the language(s) associated
+				with particular names and definitions need to be identified. A Language Section
+				partitions a Terminological Entry by Language, as represented by the relationship
+				terminological entry languages in Figure 6. A language section language identifier
+				identifies the Language associated with a particular Language Section. A Language
+				Section contains zero or more Designations as represented by the relationship name
+				entry in Figure 6. A Language Section contains zero or more Definitions as
+				represented by the relationship definition entry in Figure 6.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="language_section_language_identifier" type="Language_Identification" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the identifier of the language used to group a set of
+						designations and Definitions</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="naming_entry_of" type="Designation" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+            <xs:element name="defining_entry_of" type="Definition" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Designation" type="Designation" nillable="false" abstract="false"/>
+    <xs:complexType name="Designation" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>The Designation class provides the naming entry of a Language Section
+				in the Terminological Entry for an Administered Item in a particular Context. In
+				other words, it is where the name for an Administered Item is specified in a
+				particular language for a particular Context. Where multiple Designations are
+				provided within the same Language Section, one of them may be specified as the
+				preferred designation.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>A name by which an Administered Item is designated within a
+						specific Context</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="preferred_designation" type="xs:boolean" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>an indicator that the name is a preferred term for an
+						Administered Item within a language</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specifically_referencing" type="Definition" minOccurs="0" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Definition" type="Definition" nillable="false" abstract="false"/>
+    <xs:complexType name="Definition" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>The Definition class provides the defining entry of a Language Section
+				in the Terminological Entry for an Administered Item in a particular Context. In
+				other words, it is where the definition for an Administered Item is specified in a
+				particular language for a particular Context. Where multiple Definitions are
+				provided within the same Language Section, one of them may be specified as the
+				preferred definition.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="definition_text" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the text of the Definition</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="preferred_definition" type="xs:boolean" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>an indicator that the definition text is a preferred
+						definition for an Administered Item within a language</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="definition_source_reference" type="Reference_Document" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>a reference to the source from which the Definition is
+					taken</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Object_Class" type="Object_Class" nillable="false" abstract="false"/>
+    <xs:complexType name="Object_Class" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>An Object Class is a set of ideas, abstractions, or things in the real
+				world that can be identified with explicit boundaries and meaning and whose
+				properties and behavior follow the same rules. It may be either a single or a group
+				of associated concepts, abstractions, or things. An Object Class may be a single
+				unit of thought (i.e., Concept) or a set of Concepts in a relationship with each
+				other to form a more complex concept (i.e., Concept Relationship). A Concept and a
+				Concept Relationship are subtypes of an Object Class. Each Concept Relationship
+				carries a concept relationship type description that describes the nature of the
+				relationship. As an Administered Item, an Object Class carries its own
+				Administration Record information, allowing it to be identified, named, defined and
+				optionally classified within a Classification Scheme. An Object Class may be
+				registered as an Administered Item without necessarily being associated with a Data
+				Element Concept or, through the latter, a Property.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Property" type="Property" nillable="false" abstract="false"/>
+    <xs:complexType name="Property" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Property is a characteristic common to all members of an Object
+				Class. It may be any feature that humans naturally use to distinguish one individual
+				object from another. It is the human perception of a single characteristic of an
+				Object Class in the real world. It is conceptual and thus has no particular
+				associated means of representation by which the Property can be communicated. As an
+				Administered Item, a Property carries its own Administration Record information,
+				allowing it to be identified, named, defined and optionally classified within a
+				Classification Scheme. A Property may be registered as an Administered Item without
+				necessarily being associated with a Data Element Concept or, through the latter, an
+				Object Class. Generally, an example of a property could be 'volume' and concept
+				could be 'car boot'. The unification of the property and the concept provides the
+				basis for a data_element of name 'car boot volume' Within the cancer grid domain, a
+				property could be 'common toxicity classification', used by the discrete concepts
+				'Adverse Event' and 'Auto Immune Reaction'</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Concept" type="Concept" nillable="false" abstract="false"/>
+    <xs:complexType name="Concept" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>unit of knowledge created by a unique combination of
+			characteristics</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Object_Class">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="used_in" type="Concept_Relationship" minOccurs="1" maxOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Datatype" type="Datatype" nillable="false" abstract="false"/>
+    <xs:complexType name="Datatype" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Value Domain is associated with a Datatype - a set of distinct
+				values, characterized by properties of those values and by operations on those
+				values, for example the category used for the collection of letters, digits, and/or
+				symbols to depict values of a Data Element determined by the operations that may be
+				performed on the Data Element. A Datatype is designated by a data type name, and
+				described by a datatype description. The datatype name is usually drawn from some
+				external source, which is designated by a datatype scheme reference. Additional
+				information may optionally be provided using the datatype
+			annotation.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="datatype_annotation" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>specifying information to further define the
+					Datatype</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datatype_description" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>descriptive information to further clarify the
+					Datatype</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datatype_name" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>a designation for the Datatype</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datatype_scheme_reference" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>a reference identifying the source of the Datatype
+						specification</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Unit_of_Measure" type="Unit_of_Measure" nillable="false" abstract="false"/>
+    <xs:complexType name="Unit_of_Measure" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>If meaningful, a Value Domain may be associated with a Unit of Measure
+				- the unit in which any associated Data Element values are specified. When
+				specified, the unit must be consistent with the dimensionality specified in the
+				corresponding Conceptual Domain.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="unit_of_measure_name" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>The unit is designated by a unit of measure name.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="unit_of_measure_precision" type="xs:int" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>Optionally, a unit of measure precision may be specified, as
+						the number of decimal places to be supported in the associated Data Element
+						values. This precision shall be considered a default that may be overridden
+						for any particular Data Element.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Representation_Class" type="Representation_Class" nillable="false" abstract="false"/>
+    <xs:complexType name="Representation_Class" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>Representation Class is the Classification Scheme for representation.
+				The set of classes make it easy to distinguish among the elements in the registry.
+				For instance, a data element categorized with the representation class 'amount' is
+				different from an element categorized as 'number'. It probably won't make sense to
+				compare the contents of these elements, or perform calculations using them together.
+				As an Administered Item, a Representation Class carries its own Administration
+				Record information, allowing it to be identified, named, defined and optionally
+				classified in a Classification Scheme. The major intent of Representation class is
+				to provide a discrete and complete set of high-level (coarse granularity)
+				definitions for data element/value domain categorization. This is an aid to the user
+				in terms of application of business rules. Representation Class is a mechanism by
+				which the functional and/or presentational category of an item may be conveyed to a
+				user. An informational list of representation class terms is provided in ISO/IEC
+				11179-5. The list below has been expanded to provide a more comprehensive list of
+				examples. Code - A system of valid symbols that substitute for specified values e.g.
+				alpha, numeric, symbols and/or combinations. Count - Non-monetary numeric value
+				arrived at by counting. Currency - Monetary representation Date - Calendar
+				representation e.g. YYYY-MM-DD Graphic - Diagrams, graphs, mathematical curves, or
+				the like - usually a vector image. Icon - A sign or representation that stands for
+				its object by virtue of a resemblance or analogy to it Picture - A visual
+				representation of a person, object, or scene - usually a raster image. Quantity - A
+				continuous number such as the linear dimensions, capacity/amount (non-monetary) of
+				an object Text - A text field that is usually unformatted. Time - Time of day or
+				duration eg HH:MM:SS.SSSS. None of the terms in this list is required in any
+				specific implementation of representation class. By using representation class,
+				enhanced semantic control over the contents of value domains can be maintained.
+				Rules can be drawn against representation classes that allow enforcement of content
+				within and among value domains. For example: * A number-class data element cannot be
+				used in a calculation. * A date-class data element must be in the format YYYY-MM-DD.
+				* A relationship must exist between a code representation and the specific form of
+				the value meanings which the code represents.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Administered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="typed_by" type="Value_Domain" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Submission" type="Submission" nillable="false" abstract="false"/>
+    <xs:complexType name="Submission" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>For each Administered Item, an Organization shall be identified as the
+				submitter as represented by the relationship Submission in Figure 4. This
+				relationship identifies a submission contact for the Administered Item Note this is
+				an implementation of the original association class. XML Schema does not recognise
+				association classes so the change was necessary to ensure that a complete schema was
+				generated.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="submission_contact" type="Contact" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the contact information associated with a
+					Submission</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Organization" type="Organization" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Stewardship" type="Stewardship" nillable="false" abstract="false"/>
+    <xs:complexType name="Stewardship" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>An Organization shall be identified as the steward responsible for
+				administering each Administered Item, as represented by the relationship Stewardship
+				in Figure 4. This relationship identifies a stewardship contact for the Administered
+				Item.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="stewardship_contact" type="Contact" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the contact information associated with a
+					Stewardship</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Organization" type="Organization" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Classification_Scheme_Item_Relationship" type="Classification_Scheme_Item_Relationship" nillable="false" abstract="false"/>
+    <xs:complexType name="Classification_Scheme_Item_Relationship" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Classification Scheme Item Relationship associates two or more
+				Classification Scheme Items within a Classification Scheme. Such relationships serve
+				to assist navigation through a large number of Classification Scheme
+			Items.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="classification_scheme_item_relationship_type_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>a description of the type of relationship between a
+						Classification Scheme Item and one or more other Classification Scheme Items
+						in a Classification Scheme</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="association" type="Classification_Scheme_Item" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Conceptual_Domain_Relationship" type="Conceptual_Domain_Relationship" nillable="false" abstract="false"/>
+    <xs:complexType name="Conceptual_Domain_Relationship" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>a relationship among two or more Conceptual Domains. A Conceptual
+				Domain may be associated with other Conceptual Domains, via the Conceptual Domain
+				Relationship in Figure 9. The nature of the relationship is described using the
+				conceptual domain relationship type description. Through the Conceptual Domain
+				Relationship, a Conceptual Domain may be composed of other Conceptual Domains or may
+				be a member (component) of a larger Conceptual Domain.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="conceptual_domain_relationship_type_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>A description of the type of relationship among two or more
+						Conceptual Domains.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="related_to" type="Conceptual_Domain" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Value_Domain_Relationship" type="Value_Domain_Relationship" nillable="false" abstract="false"/>
+    <xs:complexType name="Value_Domain_Relationship" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A relationship among two or more Value Domains A Value Domain may be
+				associated with other Value Domains, via the Value Domain Relationship. The nature
+				of the relationship is described using the value domain relationship type
+				description. Through the Value Domain Relationship, a Value Domain may be composed
+				of other Value Domains or may be a member (component) of a larger Value
+			Domain.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="value_domain_reletionship_type_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>the description of the type of relationship among two or more
+						Value Domains</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="related_to" type="Value_Domain" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Data_Element_Concept_Relationship" type="Data_Element_Concept_Relationship" nillable="false" abstract="false"/>
+    <xs:complexType name="Data_Element_Concept_Relationship" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>The Data Element metamodel region, illustrated in Figure 10, is used
+				to address the administration of Data Elements. Data Elements provide the formal
+				representations for some information (such as a fact, a proposition, an observation,
+				etc.) about some concrete or abstract thing. Data Elements are reusable and
+				shareable representations of Data Element Concepts. Note that the association class
+				has been replaced by a concrete class</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="data_element_concept_relationship_type_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                    <xs:documentation>The description of the type of relationship among two or more
+						Data Element Concepts A Data Element Concept may be associated with other
+						Data Element Concepts, via the Data Element Concept Relationship. The nature
+						of the relationship is described using the data element concept relationship
+						type description.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="related_to" type="Data_Element_Concept" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Concept_Relationship" type="Concept_Relationship" nillable="false" abstract="false"/>
+    <xs:complexType name="Concept_Relationship" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>a semantic link among two or more Concepts</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Object_Class">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="concept_relationship_type_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>a description of the type of relationship among two or
+								more Concepts</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="used_in" type="Concept" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Terminological_Entry" type="Terminological_Entry" nillable="false" abstract="false"/>
+    <xs:complexType name="Terminological_Entry" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>A Terminological Entry applies to an Administered Item in a particular
+				Context. It provides a grouping of Designations and Definitions partitioned into
+				Language Sections, allowing the Administered Item to be named and defined within the
+				Context in multiple languages. An Administered Item may have one or more
+				Terminological Entries, each in a particular Context. Each Terminological Entry
+				contains one or more Language Sections as represented by the relationship
+				terminological entry languages in Figure 6.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="partitioning" type="Language_Section" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+            <xs:element name="Context" type="Context" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="Administrative_Status">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+</xs:schema>

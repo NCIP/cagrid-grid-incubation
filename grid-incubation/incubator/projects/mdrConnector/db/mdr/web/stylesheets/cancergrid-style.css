@@ -1,0 +1,93 @@
+body {
+    font-family: arial, helvetica, sans-serif;
+    text-align: justify;
+    background-color: white;
+    color:black;
+}
+
+div {
+    background-color: white;
+    color: black;
+}
+
+img {
+    border: 0;
+}
+
+h1 {
+    font-family: verdana, sans-serif;
+    font-weight: normal; 
+    margin: 20px 0 0 0;
+}
+
+h2 {
+    font-family: verdana, sans-serif;
+    font-weight: normal;
+    margin: 20px 0 0 10px;
+}
+
+h3 {
+    font-family: verdana, sans-serif;
+    font-weight: normal;
+    margin: 20px 0 0 20px;
+}
+
+h4 {
+    font-family: verdana, sans-serif;
+    font-weight: normal;
+    margin: 20px 0 0 20px;
+}
+p {
+    padding-left: 20px;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+.header {
+    /* background-color: #dddddd; */
+    font-family: verdana, sans-serif;
+    font-weight: bold;
+    font-size: 10pt;
+    padding-left: 0;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
+
+.info {
+    font-family: verdana, sans-serif;
+    font-size: 8pt;
+    padding-left: 0;
+    text-align: right;
+}
+
+a:link {
+    color: #444444; 
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #888888; 
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff0000;
+    background-color: transparent;    
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:active {
+    color: #ff0000; 
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    

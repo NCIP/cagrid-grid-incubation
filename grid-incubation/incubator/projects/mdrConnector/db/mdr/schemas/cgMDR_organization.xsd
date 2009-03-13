@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:iso11179="http://www.cancergrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.cancergrid.org/schema/ISO11179" schemaLocation="../schemas/iso11179.xsd"/>
+    <xs:include schemaLocation="../schemas/cgMDR_resources.xsd"/>
+    <xs:element name="Organization" type="Organization" nillable="false" abstract="false"/>
+    <xs:complexType name="Organization" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="cgMDR:Organization">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="Contact" type="Contact" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+                </xs:sequence>
+                <xs:attribute name="organization_identifier" use="required" type="organization_identifier"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Contact" type="Contact" nillable="false" abstract="false"/>
+    <xs:complexType name="Contact" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="cgMDR:Contact">
+                <xs:sequence minOccurs="1" maxOccurs="1"/>
+                <xs:attribute name="contact_identifier" use="required" type="contact_identifier"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>

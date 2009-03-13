@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<treeview>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="CancerGrid Classification Scheme" img="images/white_circle.gif" expanded="false">
+        <folder title="Minimum Cancer Dataset" img="images/white_circle.gif" expanded="false" code="06D67D8B6">
+            <folder title="General" img="images/white_circle.gif" expanded="false" code="2ED5C8689">
+                <folder title="Clinical Trials" img="images/white_circle.gif" expanded="false" code="0B35A4BB5">
+                    <leaf title="CANCER CLINICAL TRIAL TREATMENT TYPE" img="images/red_circle.gif" code="GB-NHS-32C92DA60-3.0.0"/>
+                    <leaf title="PATIENT TRIAL STATUS (CANCER)" img="images/red_circle.gif" code="GB-NHS-44709A956-3.0.0"/>
+                </folder>
+                <folder title="Death Details" img="images/white_circle.gif" expanded="false" code="144B849A3">
+                    <leaf title="DEATH CAUSE CANCER" img="images/red_circle.gif" code="GB-NHS-7762C5385-3.0.0"/>
+                    <leaf title="DEATH CAUSE CODE (CONDITION)" img="images/red_circle.gif" code="GB-NHS-7BA18A187-3.0.0"/>
+                    <leaf title="DEATH CAUSE CODE (IMMEDIATE)" img="images/red_circle.gif" code="GB-NHS-C441C277E-3.0.0"/>
+                    <leaf title="DEATH CAUSE CODE (SIGNIFICANT)" img="images/red_circle.gif" code="GB-NHS-CD7454D57-3.0.0"/>
+                    <leaf title="DEATH CAUSE CODE (UNDERLYING)" img="images/red_circle.gif" code="GB-NHS-DD7BD7310-3.0.0"/>
+                    <leaf title="DEATH CAUSE IDENTIFICATION METHOD" img="images/red_circle.gif" code="GB-NHS-68019E63B-3.0.0"/>
+                    <leaf title="DEATH CODE DISCREPANCY ORIGINATOR" img="images/red_circle.gif" code="GB-NHS-23E1974D6-3.0.0"/>
+                    <leaf title="DEATH LOCATION TYPE" img="images/red_circle.gif" code="GB-NHS-7670E952C-3.0.0"/>
+                    <leaf title="PERSON DEATH DATE" img="images/red_circle.gif" code="GB-NHS-871EB83C1-3.0.0"/>
+                </folder>
+                <folder title="Waiting Times Details" img="images/white_circle.gif" expanded="false" code="36A5DDB4E"/>
+                <folder title="Cancer Care Plan" img="images/white_circle.gif" expanded="false" code="36ECB4576">
+                    <leaf title="CANCER CARE PLAN INTENT" img="images/red_circle.gif" code="GB-NHS-86B8CE62C-3.0.0"/>
+                    <leaf title="CARE PLAN AGREED DATE" img="images/red_circle.gif" code="GB-NHS-832EC63A4-3.0.0"/>
+                    <leaf title="MDT DISCUSSION INDICATOR" img="images/red_circle.gif" code="GB-NHS-5EDB452A4-3.0.0"/>
+                    <leaf title="MULTIDISCIPLINARY TEAM DISCUSSION DATE" img="images/red_circle.gif" code="GB-NHS-166292CDA-3.0.0"/>
+                    <leaf title="NO CANCER TREATMENT REASON" img="images/red_circle.gif" code="GB-NHS-8D5342B63-3.0.0"/>
+                    <leaf title="PERFORMANCE STATUS (ADULT)" img="images/red_circle.gif" code="GB-NHS-A923E71DB-3.0.0"/>
+                    <leaf title="PLANNED CANCER TREATMENT TYPE" img="images/red_circle.gif" code="GB-NHS-DB819620D-3.0.0"/>
+                    <leaf title="RECURRENCE INDICATOR" img="images/red_circle.gif" code="GB-NHS-E86703E88-3.0.0"/>
+                    <leaf title="TREATMENT TYPE SEQUENCE" img="images/red_circle.gif" code="GB-NHS-453B81D8A-3.0.0"/>
+                </folder>
+                <folder title="Clinical Status Assessment" img="images/white_circle.gif" expanded="false" code="49028393A">
+                    <leaf title="CLINICAL STATUS ASSESSMENT DATE (CANCER)" img="images/red_circle.gif" code="GB-NHS-9D2C115AC-3.0.0"/>
+                    <leaf title="MARKER RESPONSE STATUS" img="images/red_circle.gif" code="GB-NHS-AC8259719-3.0.0"/>
+                    <leaf title="METASTATIC STATUS" img="images/red_circle.gif" code="GB-NHS-5CAA76E74-3.0.0"/>
+                    <leaf title="MORBIDITY CODE (CANCER SURGERY)" img="images/red_circle.gif" code="GB-NHS-AC77ED9A2-3.0.0"/>
+                    <leaf title="MORBIDITY CODE (CHEMOTHERAPY)" img="images/red_circle.gif" code="GB-NHS-BA74C6A65-3.0.0"/>
+                    <leaf title="MORBIDITY CODE (COMBINATION)" img="images/red_circle.gif" code="GB-NHS-08809D695-3.0.0"/>
+                    <leaf title="MORBIDITY CODE (RADIOTHERAPY)" img="images/red_circle.gif" code="GB-NHS-833866E5C-3.0.0"/>
+                    <leaf title="NODAL STATUS" img="images/red_circle.gif" code="GB-NHS-1EA5DAA4D-3.0.0"/>
+                    <leaf title="PATIENT FOLLOW-UP STATUS (CANCER)" img="images/red_circle.gif" code="GB-NHS-2CC998019-3.0.0"/>
+                    <leaf title="PERFORMANCE STATUS (ADULT)" img="images/red_circle.gif" code="GB-NHS-A923E71DB-3.0.0"/>
+                    <leaf title="PRIMARY TUMOUR STATUS" img="images/red_circle.gif" code="GB-NHS-BDD6EC04E-3.0.0"/>
+                    <leaf title="TREATMENT TYPE (CANCER MORBIDITY)" img="images/red_circle.gif" code="GB-NHS-1A729A3B4-3.0.0"/>
+                </folder>
+                <folder title="Referrals" img="images/white_circle.gif" expanded="false" code="52B4E4B29">
+                    <leaf title="CANCER REFERRAL DECISION DATE" img="images/red_circle.gif" code="GB-NHS-2CAE7BC81-3.0.0"/>
+                    <leaf title="CANCER REFERRAL PRIORITY TYPE" img="images/red_circle.gif" code="GB-NHS-21DC30E84-3.0.0"/>
+                    <leaf title="CANCER STATUS" img="images/red_circle.gif" code="GB-NHS-87247C9A4-3.0.0"/>
+                    <leaf title="CONSULTANT CODE" img="images/red_circle.gif" code="GB-NHS-1DA63B295-3.2.0"/>
+                    <leaf title="DATE FIRST SEEN" img="images/red_circle.gif" code="GB-NHS-6C83C537B-3.0.0"/>
+                    <leaf title="DELAY REASON COMMENT (FIRST SEEN)" img="images/red_circle.gif" code="GB-NHS-CDBB42E82-3.0.0"/>
+                    <leaf title="DELAY REASON REFERRAL TO FIRST SEEN&#xA;                            (CANCER)" img="images/red_circle.gif" code="GB-NHS-D72E682CB-3.0.0"/>
+                    <leaf title="MAIN SPECIALTY CODE" img="images/red_circle.gif" code="GB-NHS-D439B5D7A-3.0.0"/>
+                    <leaf title="REFERRAL REQUEST RECEIVED DATE" img="images/red_circle.gif" code="GB-NHS-5671EB811-3.2.0"/>
+                    <leaf title="REFERRER CODE" img="images/red_circle.gif" code="GB-NHS-8523C72E8-3.0.0"/>
+                    <leaf title="REFERRING ORGANISATION CODE" img="images/red_circle.gif" code="GB-NHS-E185DA72E-3.0.0"/>
+                    <leaf title="SOURCE OF REFERRAL FOR CANCER" img="images/red_circle.gif" code="GB-NHS-E9A791196-3.0.0"/>
+                    <leaf title="SOURCE OF REFERRAL FOR OUT-PATIENTS" img="images/red_circle.gif" code="GB-NHS-6685D682B-3.0.0"/>
+                    <leaf title="URGENT CANCER REFERRAL TYPE" img="images/red_circle.gif" code="GB-NHS-5B5CCB0B4-3.0.0"/>
+                    <leaf title="WAITING TIME ADJUSTMENT (FIRST SEEN)" img="images/red_circle.gif" code="GB-NHS-C1D944E11-3.0.0"/>
+                    <leaf title="WAITING TIME ADJUSTMENT REASON (FIRST SEEN)" img="images/red_circle.gif" code="GB-NHS-241092AA4-3.0.0"/>
+                </folder>
+                <folder title="Pathology" img="images/white_circle.gif" expanded="false" code="655143A48">
+                    <leaf title="CANCER VASCULAR OR LYMPHATIC INVASION" img="images/red_circle.gif" code="GB-NHS-BC46B9392-3.0.0"/>
+                    <leaf title="CARE PROFESSIONAL CODE (REQUESTED BY)" img="images/red_circle.gif" code="GB-NHS-4CB34C653-3.0.0"/>
+                    <leaf title="CONSULTANT CODE (PATHOLOGIST)" img="images/red_circle.gif" code="GB-NHS-B431886E7-3.0.0"/>
+                    <leaf title="EXCISION MARGIN" img="images/red_circle.gif" code="GB-NHS-917822B31-3.0.0"/>
+                    <leaf title="GRADE OF DIFFERENTIATION" img="images/red_circle.gif" code="GB-NHS-77630D7E9-3.0.0"/>
+                    <leaf title="HISTOLOGY (SNOMED)" img="images/red_circle.gif" code="GB-NHS-6663AB6EA-3.0.0"/>
+                    <leaf title="INVASIVE LESION SIZE" img="images/red_circle.gif" code="GB-NHS-661CA4E2A-3.0.0"/>
+                    <leaf title="INVESTIGATION RESULT DATE" img="images/red_circle.gif" code="GB-NHS-A666EC557-3.0.0"/>
+                    <leaf title="M CATEGORY (PATHOLOGICAL)" img="images/red_circle.gif" code="GB-NHS-E0B3B4E74-3.0.0"/>
+                    <leaf title="M CATEGORY EXTENDED (PATHOLOGICAL)" img="images/red_circle.gif" code="GB-NHS-76DA67092-3.0.0"/>
+                    <leaf title="N CATEGORY (PATHOLOGICAL)" img="images/red_circle.gif" code="GB-NHS-34A51AA4D-3.0.0"/>
+                    <leaf title="NODES EXAMINED NUMBER" img="images/red_circle.gif" code="GB-NHS-561ECA9DD-3.0.0"/>
+                    <leaf title="NODES POSITIVE NUMBER" img="images/red_circle.gif" code="GB-NHS-DAEC90388-3.0.0"/>
+                    <leaf title="ORGANISATION CODE (OF REPORTING PATHOLOGY)" img="images/red_circle.gif" code="GB-NHS-8771E72D6-3.0.0"/>
+                    <leaf title="ORGANISATION CODE (REQUESTED BY)" img="images/red_circle.gif" code="GB-NHS-1B4BB63C4-3.0.0"/>
+                    <leaf title="PATHOLOGY INVESTIGATION TYPE" img="images/red_circle.gif" code="GB-NHS-0DC559286-3.0.0"/>
+                    <leaf title="PRIMARY DIAGNOSIS (ICD)" img="images/red_circle.gif" code="GB-NHS-ABA5EE822-3.0.0"/>
+                    <leaf title="SAMPLE RECEIPT DATE" img="images/red_circle.gif" code="GB-NHS-22C51D792-3.0.0"/>
+                    <leaf title="SERVICE REPORT IDENTIFIER" img="images/red_circle.gif" code="GB-NHS-4940196B9-3.0.0"/>
+                    <leaf title="SERVICE REPORT STATUS" img="images/red_circle.gif" code="GB-NHS-591E761C5-3.0.0"/>
+                    <leaf title="SPECIMEN NATURE" img="images/red_circle.gif" code="GB-NHS-4B78C9161-3.0.0"/>
+                    <leaf title="SYNCHRONOUS TUMOUR INDICATOR" img="images/red_circle.gif" code="GB-NHS-E35A73C5E-3.0.0"/>
+                    <leaf title="T CATEGORY (PATHOLOGICAL)" img="images/red_circle.gif" code="GB-NHS-02D529445-3.0.0"/>
+                    <leaf title="T CATEGORY EXTENDED (PATHOLOGICAL)" img="images/red_circle.gif" code="GB-NHS-5723B9A4D-3.0.0"/>
+                    <leaf title="TNM CATEGORY (PATHOLOGICAL)" img="images/red_circle.gif" code="GB-NHS-1DA4CE909-3.0.0"/>
+                    <leaf title="TUMOUR LATERALITY" img="images/red_circle.gif" code="GB-NHS-575BE92E7-3.0.0"/>
+                </folder>
+                <folder title="Demographics" img="images/white_circle.gif" expanded="false" code="79B19EBBD">
+                    <leaf title="BIRTH DATE" img="images/red_circle.gif" code="GB-NHS-AB921E60B-3.0.0"/>
+                    <leaf title="CARE SPELL IDENTIFIER" img="images/red_circle.gif" code="GB-NHS-5116ED87E-3.0.0"/>
+                    <leaf title="CODE OF GP PRACTICE (REGISTERED GMP)" img="images/red_circle.gif" code="GB-NHS-2CB81196D-3.0.0"/>
+                    <leaf title="ETHNIC CATEGORY" img="images/red_circle.gif" code="GB-NHS-B2856DBB4-3.0.1"/>
+                    <leaf title="GMP (CODE OF REGISTERED OR REFERRING GMP)" img="images/red_circle.gif" code="GB-NHS-0EA554633-3.0.0"/>
+                    <leaf title="LOCAL PATIENT IDENTIFIER" img="images/red_circle.gif" code="GB-NHS-C864D7E71-3.0.0"/>
+                    <leaf title="NHS NUMBER" img="images/red_circle.gif" code="GB-NHS-26491D1E0-3.0.1"/>
+                    <leaf title="ORGANISATION CODE (CODE OF PROVIDER)" img="images/red_circle.gif" code="GB-NHS-DA85EC781-3.0.0"/>
+                    <leaf title="ORGANISATION CODE (RESPONSIBLE PCT)" img="images/red_circle.gif" code="GB-NHS-AECA7235D-3.0.0"/>
+                    <leaf title="PATIENT USUAL ADDRESS (AT DIAGNOSIS)" img="images/red_circle.gif" code="GB-NHS-8840084E7-3.0.0"/>
+                    <leaf title="PERSON FAMILY NAME" img="images/red_circle.gif" code="GB-NHS-EACAE4DB5-3.0.0"/>
+                    <leaf title="PERSON FAMILY NAME (AT BIRTH)" img="images/red_circle.gif" code="GB-NHS-AE1BDAA34-3.0.0"/>
+                    <leaf title="PERSON GIVEN NAME" img="images/red_circle.gif" code="GB-NHS-28EBB6DAB-3.0.0"/>
+                    <leaf title="POSTCODE OF USUAL ADDRESS (AT DIAGNOSIS)" img="images/red_circle.gif" code="GB-NHS-15DE1E91A-3.0.0"/>
+                    <leaf title="SEX" img="images/red_circle.gif" code="GB-NHS-219862C43-3.0.0"/>
+                </folder>
+                <folder title="Radiotherapy" img="images/white_circle.gif" expanded="false" code="82A35791B">
+                    <folder title="Teletherapy" img="images/white_circle.gif" expanded="false" code="36C86D51B">
+                        <leaf title="CANCER TREATMENT INTENT" img="images/red_circle.gif" code="GB-NHS-694D86182-3.0.0"/>
+                        <leaf title="CONSULTANT CODE" img="images/red_circle.gif" code="GB-NHS-1DA63B295-3.2.0"/>
+                        <leaf title="DECISION TO TREAT DATE (TELETHERAPY&#xA;                            TREATMENT COURSE)" img="images/red_circle.gif" code="GB-NHS-343E822B5-3.0.0"/>
+                        <leaf title="DURATION OF TELETHERAPY TREATMENT COURSE" img="images/red_circle.gif" code="GB-NHS-95C9D6195-3.0.0"/>
+                        <leaf title="END DATE (TELETHERAPY TREATMENT COURSE)" img="images/red_circle.gif" code="GB-NHS-4E0B814B7-3.0.0"/>
+                        <leaf title="HEALTHCARE RESOURCE GROUP CODE" img="images/red_circle.gif" code="GB-NHS-CE793AB5E-3.0.0"/>
+                        <leaf title="RADIOTHERAPY ACTUAL DOSE" img="images/red_circle.gif" code="GB-NHS-A38A8A5D8-3.0.0"/>
+                        <leaf title="RADIOTHERAPY ANAESTHETIC" img="images/red_circle.gif" code="GB-NHS-1CB8284C3-3.0.0"/>
+                        <leaf title="RADIOTHERAPY PRESCRIBED DOSE" img="images/red_circle.gif" code="GB-NHS-4B3E02B6E-3.0.0"/>
+                        <leaf title="RADIOTHERAPY PRESCRIBED DURATION" img="images/red_circle.gif" code="GB-NHS-E10D570D7-3.0.0"/>
+                        <leaf title="SITE CODE (OF TELETHERAPY)" img="images/red_circle.gif" code="GB-NHS-3EC813CA3-3.0.0"/>
+                        <leaf title="START DATE (TELETHERAPY TREATMENT COURSE)" img="images/red_circle.gif" code="GB-NHS-C99592B53-3.0.0"/>
+                        <leaf title="TELETHERAPY ACTUAL FRACTIONS" img="images/red_circle.gif" code="GB-NHS-E46DCD44E-3.0.0"/>
+                        <leaf title="TELETHERAPY BEAM ENERGY" img="images/red_circle.gif" code="GB-NHS-E716B4710-3.0.0"/>
+                        <leaf title="TELETHERAPY BEAM TYPE" img="images/red_circle.gif" code="GB-NHS-5B84509C6-3.0.0"/>
+                        <leaf title="TELETHERAPY COMPLEXITY GROUP" img="images/red_circle.gif" code="GB-NHS-161C6C52B-3.0.0"/>
+                        <leaf title="TELETHERAPY FIELDS" img="images/red_circle.gif" code="GB-NHS-36399E562-3.0.0"/>
+                        <leaf title="TELETHERAPY MULTIPLE PLANNING" img="images/red_circle.gif" code="GB-NHS-EBC52CA92-3.0.0"/>
+                        <leaf title="TELETHERAPY PRESCRIBED FRACTIONS" img="images/red_circle.gif" code="GB-NHS-132DE9109-3.0.0"/>
+                        <leaf title="TREATMENT COURSE STATUS" img="images/red_circle.gif" code="GB-NHS-331A8CB2E-3.0.0"/>
+                    </folder>
+                    <folder title="Brachytherapy" img="images/white_circle.gif" expanded="false" code="6A9354126">
+                        <leaf title="BRACHYTHERAPY DELIVERY TYPE" img="images/red_circle.gif" code="GB-NHS-8A8143D7E-3.0.0"/>
+                        <leaf title="BRACHYTHERAPY DOSE RATE" img="images/red_circle.gif" code="GB-NHS-844288379-3.0.0"/>
+                        <leaf title="BRACHYTHERAPY ISOTOPE TYPE" img="images/red_circle.gif" code="GB-NHS-49551AB61-3.0.0"/>
+                        <leaf title="BRACHYTHERAPY PRESCRIBED FRACTIONS" img="images/red_circle.gif" code="GB-NHS-6EA3C67E7-3.0.0"/>
+                        <leaf title="BRACHYTHERAPY TYPE" img="images/red_circle.gif" code="GB-NHS-4228B8DE7-3.0.0"/>
+                        <leaf title="CANCER TREATMENT INTENT" img="images/red_circle.gif" code="GB-NHS-694D86182-3.0.0"/>
+                        <leaf title="CONSULTANT CODE" img="images/red_circle.gif" code="GB-NHS-1DA63B295-3.2.0"/>
+                        <leaf title="DECISION TO TREAT DATE (BRACHYTHERAPY&#xA;                            TREATMENT COURSE)" img="images/red_circle.gif" code="GB-NHS-E3A7153B0-3.0.0"/>
+                        <leaf title="DURATION OF BRACHYTHERAPY TREATMENT COURSE" img="images/red_circle.gif" code="GB-NHS-929249C97-3.0.0"/>
+                        <leaf title="END DATE (BRACHYTHERAPY TREATMENT COURSE)" img="images/red_circle.gif" code="GB-NHS-8B54CC0AB-3.0.0"/>
+                        <leaf title="HEALTHCARE RESOURCE GROUP CODE" img="images/red_circle.gif" code="GB-NHS-CE793AB5E-3.0.0"/>
+                        <leaf title="RADIOTHERAPY ACTUAL DOSE" img="images/red_circle.gif" code="GB-NHS-A38A8A5D8-3.0.0"/>
+                        <leaf title="RADIOTHERAPY ANAESTHETIC" img="images/red_circle.gif" code="GB-NHS-1CB8284C3-3.0.0"/>
+                        <leaf title="RADIOTHERAPY PRESCRIBED DOSE" img="images/red_circle.gif" code="GB-NHS-4B3E02B6E-3.0.0"/>
+                        <leaf title="RADIOTHERAPY PRESCRIBED DURATION" img="images/red_circle.gif" code="GB-NHS-E10D570D7-3.0.0"/>
+                        <leaf title="SITE CODE (OF BRACHYTHERAPY)" img="images/red_circle.gif" code="GB-NHS-B0E654B31-3.0.0"/>
+                        <leaf title="START DATE (BRACHYTHERAPY TREATMENT COURSE)" img="images/red_circle.gif" code="GB-NHS-240DC1528-3.0.0"/>
+                        <leaf title="TREATMENT COURSE STATUS" img="images/red_circle.gif" code="GB-NHS-331A8CB2E-3.0.0"/>
+                        <leaf title="UNSEALED SOURCE PATIENT TYPE" img="images/red_circle.gif" code="GB-NHS-1B99162C5-3.0.0"/>
+                    </folder>
+                </folder>
+                <folder title="Chemotherapy And Other Drugs" img="images/white_circle.gif" expanded="false" code="88ACB970E">
+                    <leaf title="ANTI-CANCER DRUG CYCLE IDENTIFIER" img="images/red_circle.gif" code="GB-NHS-3C2E93CD6-3.0.0"/>
+                    <leaf title="CONSULTANT CODE" img="images/red_circle.gif" code="GB-NHS-1DA63B295-3.2.0"/>
+                    <leaf title="CREATININE CLEARANCE" img="images/red_circle.gif" code="GB-NHS-465C26DE7-3.0.0"/>
+                    <leaf title="DAY NUMBER (ANTI-CANCER DRUG CYCLE)" img="images/red_circle.gif" code="GB-NHS-D875D8808-3.0.0"/>
+                    <leaf title="DECISION TO TREAT DATE (ANTI-CANCER DRUG&#xA;                            REGIMEN)" img="images/red_circle.gif" code="GB-NHS-DEDA2E74C-3.0.0"/>
+                    <leaf title="DRUG PROGRAMME RESPONSE" img="images/red_circle.gif" code="GB-NHS-872CDA36E-3.0.0"/>
+                    <leaf title="DRUG REGIMEN ACRONYM" img="images/red_circle.gif" code="GB-NHS-6633B41C6-3.0.0"/>
+                    <leaf title="DRUG THERAPY TYPE" img="images/red_circle.gif" code="GB-NHS-EEDA4C455-3.0.0"/>
+                    <leaf title="DRUG TREATMENT INTENT" img="images/red_circle.gif" code="GB-NHS-592E82645-3.0.0"/>
+                    <leaf title="DURATION OF ANTI-CANCER DRUG CYCLE" img="images/red_circle.gif" code="GB-NHS-3663C1B4D-3.0.0"/>
+                    <leaf title="HEALTHCARE RESOURCE GROUP CODE" img="images/red_circle.gif" code="GB-NHS-CE793AB5E-3.0.0"/>
+                    <leaf title="MAIN SPECIALTY CODE" img="images/red_circle.gif" code="GB-NHS-D439B5D7A-3.0.0"/>
+                    <leaf title="PERSON BODY SURFACE AREA (PRETREATMENT)" img="images/red_circle.gif" code="GB-NHS-298ED92B8-3.0.0"/>
+                    <leaf title="PLANNED TREATMENT CHANGE REASON" img="images/red_circle.gif" code="GB-NHS-C86ED85B3-3.0.0"/>
+                    <leaf title="RECORDED HEIGHT (CANCER DRUG TREATMENT)" img="images/red_circle.gif" code="GB-NHS-16C672C24-3.0.0"/>
+                    <leaf title="RECORDED WEIGHT (CANCER DRUG TREATMENT)" img="images/red_circle.gif" code="GB-NHS-283DC12A4-3.0.0"/>
+                    <leaf title="SITE CODE (OF CANCER DRUG TREATMENT)" img="images/red_circle.gif" code="GB-NHS-AED91C442-3.0.0"/>
+                    <leaf title="START DATE (ANTI-CANCER DRUG FRACTION)" img="images/red_circle.gif" code="GB-NHS-7C86DB850-3.0.0"/>
+                    <leaf title="START DATE (ANTI-CANCER DRUG REGIMEN)" img="images/red_circle.gif" code="GB-NHS-426946BB1-3.0.0"/>
+                </folder>
+                <folder title="Palliative Care" img="images/white_circle.gif" expanded="false" code="905CAE9C9">
+                    <leaf title="DECISION TO TREAT DATE (SPECIALIST&#xA;                            PALLIATIVE TREATMENT COURSE)" img="images/red_circle.gif" code="GB-NHS-596C7D5EC-3.0.0"/>
+                    <leaf title="START DATE (SPECIALIST PALLIATIVE TREATMENT&#xA;                            COURSE)" img="images/red_circle.gif" code="GB-NHS-BD643C62C-3.0.0"/>
+                </folder>
+                <folder title="Staging" img="images/white_circle.gif" expanded="false" code="AC9C86218">
+                    <leaf title="M CATEGORY (FINAL PRETREATMENT)" img="images/red_circle.gif" code="GB-NHS-300B44A92-3.0.0"/>
+                    <leaf title="M CATEGORY (INTEGRATED STAGE)" img="images/red_circle.gif" code="GB-NHS-341C6E756-3.0.0"/>
+                    <leaf title="N CATEGORY (FINAL PRETREATMENT)" img="images/red_circle.gif" code="GB-NHS-DE523C509-3.0.0"/>
+                    <leaf title="N CATEGORY (INTEGRATED STAGE)" img="images/red_circle.gif" code="GB-NHS-9CBC6DA5E-3.0.0"/>
+                    <leaf title="SITE SPECIFIC STAGING CLASSIFICATION" img="images/red_circle.gif" code="GB-NHS-A6B23BB3E-3.0.0"/>
+                    <leaf title="STAGING CERTAINTY FACTOR (M CATEGORY)" img="images/red_circle.gif" code="GB-NHS-8974B48BA-3.0.0"/>
+                    <leaf title="STAGING CERTAINTY FACTOR (N CATEGORY)" img="images/red_circle.gif" code="GB-NHS-1D73BC492-3.0.0"/>
+                    <leaf title="STAGING CERTAINTY FACTOR (T CATEGORY)" img="images/red_circle.gif" code="GB-NHS-07A7CA4CB-3.0.0"/>
+                    <leaf title="STAGING CERTAINTY FACTOR (TNM CATEGORY)" img="images/red_circle.gif" code="GB-NHS-32A544DA3-3.0.0"/>
+                    <leaf title="T CATEGORY (FINAL PRETREATMENT)" img="images/red_circle.gif" code="GB-NHS-25C7D6E75-3.0.0"/>
+                    <leaf title="T CATEGORY (INTEGRATED STAGE)" img="images/red_circle.gif" code="GB-NHS-D1EEC1E72-3.0.0"/>
+                    <leaf title="TNM CATEGORY (FINAL PRETREATMENT)" img="images/red_circle.gif" code="GB-NHS-6A83DA3CE-3.0.0"/>
+                    <leaf title="TNM CATEGORY (INTEGRATED)" img="images/red_circle.gif" code="GB-NHS-7419A89E9-3.0.0"/>
+                </folder>
+                <folder title="Imaging" img="images/white_circle.gif" expanded="false" code="B9DD53578">
+                    <leaf title="ANATOMICAL EXAMINATION SITE" img="images/red_circle.gif" code="GB-NHS-9B2D6EA8E-3.0.0"/>
+                    <leaf title="CANCER IMAGING MODALITY" img="images/red_circle.gif" code="GB-NHS-081CC8C6B-3.0.0"/>
+                    <leaf title="CLINICAL INTERVENTION DATE (CANCER IMAGING)" img="images/red_circle.gif" code="GB-NHS-1ECAB4C71-3.0.0"/>
+                    <leaf title="INVASIVE LESION SIZE (RADIOLOGICAL&#xA;                            DETERMINATION)" img="images/red_circle.gif" code="GB-NHS-C32E76D7E-3.0.0"/>
+                    <leaf title="SITE CODE (OF IMAGING)" img="images/red_circle.gif" code="GB-NHS-54A4E88D7-3.0.0"/>
+                </folder>
+                <folder title="Waiting Times" img="images/white_circle.gif" expanded="false" code="CA8C58088"/>
+                <folder title="Diagnosis" img="images/white_circle.gif" expanded="false" code="E59573ABE">
+                    <leaf title="BASIS OF DIAGNOSIS (CANCER)" img="images/red_circle.gif" code="GB-NHS-CE854AB4D-3.0.0"/>
+                    <leaf title="DIAGNOSIS DATE (CANCER)" img="images/red_circle.gif" code="GB-NHS-784419715-3.0.0"/>
+                    <leaf title="GRADE OF DIFFERENTIATION (AT DIAGNOSIS)" img="images/red_circle.gif" code="GB-NHS-11EB34DA4-3.0.0"/>
+                    <leaf title="HISTOLOGY (SNOMED)" img="images/red_circle.gif" code="GB-NHS-6663AB6EA-3.0.0"/>
+                    <leaf title="PRIMARY DIAGNOSIS (ICD)" img="images/red_circle.gif" code="GB-NHS-ABA5EE822-3.0.0"/>
+                    <leaf title="TUMOUR LATERALITY" img="images/red_circle.gif" code="GB-NHS-575BE92E7-3.0.0"/>
+                    <folder title="B-Cell And T-Cell Lymphomas" img="images/white_circle.gif" expanded="false" code="8A8E6482C"/>
+                </folder>
+                <folder title="Surgery And Other Procedures" img="images/white_circle.gif" expanded="false" code="EE65AC736">
+                    <leaf title="CANCER TREATMENT INTENT" img="images/red_circle.gif" code="GB-NHS-694D86182-3.0.0"/>
+                    <leaf title="CONSULTANT CODE" img="images/red_circle.gif" code="GB-NHS-1DA63B295-3.2.0"/>
+                    <leaf title="DECISION TO TREAT DATE (SURGERY)" img="images/red_circle.gif" code="GB-NHS-31BE80C72-3.0.0"/>
+                    <leaf title="DISCHARGE DATE (HOSPITAL PROVIDER SPELL)" img="images/red_circle.gif" code="GB-NHS-C1833C61E-3.0.0"/>
+                    <leaf title="DISCHARGE DESTINATION (HOSPITAL PROVIDER&#xA;                            SPELL)" img="images/red_circle.gif" code="GB-NHS-EA74535EC-3.0.0"/>
+                    <leaf title="MAIN SPECIALTY CODE" img="images/red_circle.gif" code="GB-NHS-D439B5D7A-3.0.0"/>
+                    <leaf title="PRIMARY PROCEDURE (OPCS)" img="images/red_circle.gif" code="GB-NHS-0EDA7398A-3.0.0"/>
+                    <leaf title="PROCEDURE (OPCS)" img="images/red_circle.gif" code="GB-NHS-665C72263-3.0.0"/>
+                    <leaf title="PROCEDURE DATE" img="images/red_circle.gif" code="GB-NHS-780EED562-3.0.0"/>
+                    <leaf title="SITE CODE (OF SURGERY)" img="images/red_circle.gif" code="GB-NHS-5DD7371A2-3.0.0"/>
+                    <leaf title="START DATE (SURGERY HOSPITAL PROVIDER&#xA;                            SPELL)" img="images/red_circle.gif" code="GB-NHS-9C64D716A-3.0.0"/>
+                </folder>
+            </folder>
+            <folder title="Site Specific Cancer" img="images/white_circle.gif" expanded="false" code="3">
+                <folder title="Sarcoma" img="images/white_circle.gif" expanded="false" code="039EE4B9B"/>
+                <folder title="Upper GI" img="images/white_circle.gif" expanded="false" code="46971C716"/>
+                <folder title="Urological" img="images/white_circle.gif" expanded="false" code="4795D62AB"/>
+                <folder title="Breast" img="images/white_circle.gif" expanded="false" code="70A58D705"/>
+                <folder title="Skin Cancer" img="images/white_circle.gif" expanded="false" code="8A0A1C573">
+                    <folder title="Surgery And Other Procedures(SK)" img="images/white_circle.gif" expanded="false" code="22E951AC0"/>
+                    <folder title="Diagnosis(SK)" img="images/white_circle.gif" expanded="false" code="29D9314E3">
+                        <folder title="Malignant Melanoma" img="images/white_circle.gif" expanded="false" code="B98AB2AC4"/>
+                        <folder title="Kaposis Sarcoma" img="images/white_circle.gif" expanded="false" code="DA85778ED"/>
+                        <folder title="Basal Cell Carcinoma" img="images/white_circle.gif" expanded="false" code="DD06E898B"/>
+                    </folder>
+                    <folder title="Cancer Care Plan(SK)" img="images/white_circle.gif" expanded="false" code="33E957A5D"/>
+                    <folder title="Radiotherapy(SK)" img="images/white_circle.gif" expanded="false" code="9726E5830">
+                        <folder title="Brachytherapy(SK)" img="images/white_circle.gif" expanded="false" code="578DC842D"/>
+                        <folder title="Teletherapy(SK)" img="images/white_circle.gif" expanded="false" code="66785E957"/>
+                    </folder>
+                    <folder title="Skin Cancer Pathology(SK)" img="images/white_circle.gif" expanded="false" code="ABED0DB3D"/>
+                    <folder title="Chemotherapy And Other Drugs(SK)" img="images/white_circle.gif" expanded="false" code="B8B524072"/>
+                    <folder title="Clinical Status Assessment(SK)" img="images/white_circle.gif" expanded="false" code="EC55ADDDD"/>
+                </folder>
+                <folder title="Head and Neck" img="images/white_circle.gif" expanded="false" code="991CE307B"/>
+                <folder title="Lung" img="images/white_circle.gif" expanded="false" code="ACE6D4CD8"/>
+                <folder title="Gynaecological" img="images/white_circle.gif" expanded="false" code="D3E35DDC9"/>
+                <folder title="Colorectal" img="images/white_circle.gif" expanded="false" code="E456A6A12"/>
+            </folder>
+        </folder>
+        <folder title="Tissue Microarray Classification" img="images/white_circle.gif" expanded="false" code="68222698E"/>
+        <folder title="Clinical Trial Classification" img="images/white_circle.gif" expanded="false" code="D1E8570">
+            <folder title="Clinical Context" img="images/white_circle.gif" expanded="false" code="D1E13243">
+                <folder title="Clinical Decisions" img="images/white_circle.gif" expanded="false" code="D1E13331">
+                    <folder title="Intention To Treat" img="images/white_circle.gif" expanded="false" code="D1E13419">
+                        <leaf title="Chemotherapy intention to treat is known  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E800691-0.1"/>
+                        <leaf title="Chemotherapy will be given to the patient  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E604701-0.1"/>
+                        <leaf title="Definite indication for chemotherapy, in the opinion of the responsible" img="images/red_circle.gif" code="GB-CANCERGRID-D1E501901-0.11"/>
+                        <leaf title="Radiotherapy intention to treat is known  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E484061-0.11"/>
+                        <leaf title="Radiotherapy to be given" img="images/red_circle.gif" code="GB-CANCERGRID-D1E291211-0.13"/>
+                    </folder>
+                    <folder title="Clinical Diagnosis" img="images/white_circle.gif" expanded="false" code="D1E13507">
+                        <leaf title="Histological diagnosis of invasive breast cancer  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E628551-0.13"/>
+                        <leaf title="No previous malignancy except basal cell carcinoma or cervical carcinoma insitu" img="images/red_circle.gif" code="GB-CANCERGRID-D1E807411-0.12"/>
+                        <leaf title="Patient date of first diagnosis  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E659451-0.1"/>
+                    </folder>
+                </folder>
+                <folder title="Clinical Assessments" img="images/white_circle.gif" expanded="false" code="D1E13683">
+                    <leaf title="Abnormal bone chemistry  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E636161-0.12"/>
+                    <leaf title="Abnormal liver biochemistry" img="images/red_circle.gif" code="GB-CANCERGRID-D1E720791-0.12"/>
+                    <leaf title="Adequate bone marrow hepatic and renal function  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E425431-0.11"/>
+                    <leaf title="Breast Tumor Location  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E313581-0.1"/>
+                    <leaf title="Breast Tumour Location" img="images/red_circle.gif" code="GB-CANCERGRID-D1E848021-0.12"/>
+                    <leaf title="Definite indication for Adjuvant Chemotherapy" img="images/red_circle.gif" code="GB-CANCERGRID-D1E773891-0.12"/>
+                    <leaf title="Definite indication for Neo-Adjuvant Chemotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E491231-0.13"/>
+                    <leaf title="Epirubicin  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E576971-0.1"/>
+                    <leaf title="Menopausal Status  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E829791-0.11"/>
+                    <leaf title="Nodal Status  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E286851-0.12"/>
+                    <leaf title="Patient Date of Cyclophosphamide given  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E881311-0.1"/>
+                    <leaf title="Patient is fit to receive treatment according to any of the study" img="images/red_circle.gif" code="GB-CANCERGRID-D1E751031-0.11"/>
+                    <leaf title="Resection  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E401361-0.12"/>
+                    <leaf title="SAE CTC Grade  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E403271-0.1"/>
+                    <leaf title="SAE Event Description  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E906221-0.1"/>
+                    <leaf title="SAE Event Symptom  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E620051-0.1"/>
+                    <leaf title="SAE NCI CTCAE Category  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E355071-0.1"/>
+                    <leaf title="SAE Reporting Reason  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E702871-0.1"/>
+                    <leaf title="Site of first locoregional recurrence (free text)" img="images/red_circle.gif" code="GB-CANCERGRID-CB3E52244-0.11"/>
+                    <leaf title="Study Subject Date Last Seen Alive" img="images/red_circle.gif" code="GB-CANCERGRID-2BBE82DBA-0.15"/>
+                    <leaf title="Study Subject Date of Death data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E852591-0.11"/>
+                    <leaf title="Study Subject Free-text Cause of Death" img="images/red_circle.gif" code="GB-CANCERGRID-B61AC5036-0.16"/>
+                    <leaf title="Study Subject Second Primary Tumour Discovery Date" img="images/red_circle.gif" code="GB-CANCERGRID-0397B6344-0.11"/>
+                    <leaf title="Study Subject Second Primary Tumour Site" img="images/red_circle.gif" code="GB-CANCERGRID-8128EA88B-0.11"/>
+                    <leaf title="Study Subject Site of First Distant Recurrence (free text)" img="images/red_circle.gif" code="GB-CANCERGRID-60E4C5343-0.11"/>
+                    <leaf title="Study Subject Thromboembolic Event Occurrence" img="images/red_circle.gif" code="GB-CANCERGRID-4EAB6BB64-0.12"/>
+                    <leaf title="Tumour size" img="images/red_circle.gif" code="GB-CANCERGRID-W1KET4HHF-0.27"/>
+                    <folder title="Performance Status" img="images/white_circle.gif" expanded="false" code="D1E13772">
+                        <leaf title="ECOG Performance Status" img="images/red_circle.gif" code="GB-CANCERGRID-D1E682341-0.21"/>
+                        <leaf title="ECOG performance status is 0, 1 or 2" img="images/red_circle.gif" code="GB-CANCERGRID-D1E573861-0.19"/>
+                        <leaf title="TNM Staging System  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E854351-0.1"/>
+                    </folder>
+                    <folder title="Pathology Assessment" img="images/white_circle.gif" expanded="false" code="D1E13860">
+                        <leaf title="ER Status" img="images/red_circle.gif" code="GB-CANCERGRID-D1E679521-0.18"/>
+                        <leaf title="HER2 status  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E328101-0.11"/>
+                        <leaf title="Progesterone receptor status  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E374171-0.11"/>
+                        <folder title="Histopathology" img="images/white_circle.gif" expanded="false" code="D1E13948"/>
+                        <folder title="Tumour Grading" img="images/white_circle.gif" expanded="false" code="D1E19052">
+                            <leaf title="Tumor Grade  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E528911-0.11"/>
+                        </folder>
+                    </folder>
+                    <folder title="Disease Stage" img="images/white_circle.gif" expanded="false" code="D1E14036">
+                        <leaf title="Disease Stage  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E943121-0.12"/>
+                    </folder>
+                </folder>
+                <folder title="Clinical Measurements" img="images/white_circle.gif" expanded="false" code="D1E14124">
+                    <leaf title="Patient Height  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E550441-0.1"/>
+                    <leaf title="Patient Weight  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E315371-0.1"/>
+                    <folder title="Body Surface Area" img="images/white_circle.gif" expanded="false" code="D1E14212">
+                        <leaf title="Patient Body Surface Area (DuBois)" img="images/red_circle.gif" code="GB-CANCERGRID-D1E544501-0.13"/>
+                        <leaf title="Patient Body Surface Area (Haycock)  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E882251-0.1"/>
+                        <leaf title="Patient Body Surface Area (Mostella)  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E837921-0.1"/>
+                    </folder>
+                    <folder title="Clinical Chemistry" img="images/white_circle.gif" expanded="false" code="D1E17034">
+                        <leaf title="ALT" img="images/red_circle.gif" code="GB-CANCERGRID-D1E849721-0.13"/>
+                        <leaf title="ER Status" img="images/red_circle.gif" code="GB-CANCERGRID-D1E679521-0.18"/>
+                    </folder>
+                    <folder title="Drug Dose" img="images/white_circle.gif" expanded="false" code="D1E17210">
+                        <leaf title="concomitant Medication Dose/Units/Route  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E534351-0.1"/>
+                    </folder>
+                </folder>
+                <folder title="Clinical Interventions" img="images/white_circle.gif" expanded="false" code="D1E14301">
+                    <leaf title="Chemotherapy agent route data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E689781-0.1"/>
+                    <leaf title="ER Status" img="images/red_circle.gif" code="GB-CANCERGRID-D1E679521-0.18"/>
+                    <leaf title="Study Subject Date of Last Study Intervention before death" img="images/red_circle.gif" code="GB-CANCERGRID-9BE703B50-0.11"/>
+                    <leaf title="Study Subject Date of Randomised Treatment Allocation" img="images/red_circle.gif" code="GB-CANCERGRID-D1E471441-0.16"/>
+                    <leaf title="Study Subject Tamoxifen Dose" img="images/red_circle.gif" code="GB-CANCERGRID-8179E6298-0.11"/>
+                    <leaf title="Study subject received herceptin status" img="images/red_circle.gif" code="GB-CANCERGRID-5E44E789B-0.14"/>
+                    <folder title="Chemotherapy" img="images/white_circle.gif" expanded="false" code="D1E14389">
+                        <leaf title="Chemotherapy intention to treat is known  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E800691-0.1"/>
+                        <leaf title="Chemotherapy will be given to the patient  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E604701-0.1"/>
+                        <leaf title="Patient Date of First Chemotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E932471-0.1"/>
+                        <leaf title="Patient date of chemotherapy cycle  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E730251-0.1"/>
+                        <leaf title="Patient has not received previous radiotherapy or chemotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E231131-0.12"/>
+                        <leaf title="Reason code for delayed chemotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E969621-0.1"/>
+                        <leaf title="Reason code for reduced drug  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E952911-0.1"/>
+                        <leaf title="Reason for less than 8 cycles - Other  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E842181-0.1"/>
+                        <folder title="Adjuvant" img="images/white_circle.gif" expanded="false" code="D1E14477">
+                            <leaf title="Definite indication for Adjuvant Chemotherapy" img="images/red_circle.gif" code="GB-CANCERGRID-D1E773891-0.12"/>
+                        </folder>
+                        <folder title="NeoAdjuvant" img="images/white_circle.gif" expanded="false" code="D1E14565">
+                            <leaf title="Definite indication for Neo-Adjuvant Chemotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E491231-0.13"/>
+                        </folder>
+                        <folder title="Primary" img="images/white_circle.gif" expanded="false" code="D1E14653"/>
+                    </folder>
+                    <folder title="Concomitant" img="images/white_circle.gif" expanded="false" code="D1E14741">
+                        <leaf title="Concomitant Medication Start Date  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E344761-0.1"/>
+                        <leaf title="Concomitant Medication Stop Date  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E715091-0.1"/>
+                        <leaf title="Concomitant medication name  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E380921-0.1"/>
+                        <leaf title="concomitant Medication Dose/Units/Route  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E534351-0.1"/>
+                        <leaf title="concomitant medication indication  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E629411-0.1"/>
+                        <folder title="Pain Relief" img="images/white_circle.gif" expanded="false" code="D1E14830">
+                            <folder title="Opiod" img="images/white_circle.gif" expanded="false" code="26AA1C02B"/>
+                            <folder title="Analgesic" img="images/white_circle.gif" expanded="false" code="796418D71"/>
+                        </folder>
+                    </folder>
+                    <folder title="Irradiation" img="images/white_circle.gif" expanded="false" code="D1E15094">
+                        <folder title="RadiotherapyIntervention" img="images/white_circle.gif" expanded="false" code="D1E15182">
+                            <leaf title="Patient Date of First Radiotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E957591-0.1"/>
+                            <leaf title="Patient Date of Radiotherapy Cycle  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E701961-0.1"/>
+                            <leaf title="Patient has not received previous radiotherapy or chemotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E231131-0.12"/>
+                            <leaf title="Radiotherapy intention to treat is known  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E484061-0.11"/>
+                            <leaf title="Radiotherapy to be given" img="images/red_circle.gif" code="GB-CANCERGRID-D1E291211-0.13"/>
+                            <leaf title="Reason code for modifications to radiotherapy - Other  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E812011-0.1"/>
+                        </folder>
+                    </folder>
+                    <folder title="Surgery" img="images/white_circle.gif" expanded="false" code="D1E15270">
+                        <leaf title="Breast Surgery Type  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E410991-0.1"/>
+                        <leaf title="Patient Date of First Surgery  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E591671-0.1"/>
+                        <leaf title="Patient Date of Surgery  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E485031-0.1"/>
+                        <leaf title="Resection  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E401361-0.12"/>
+                    </folder>
+                </folder>
+                <folder title="Clinical Milestones" img="images/white_circle.gif" expanded="false" code="D1E15359">
+                    <leaf title="Patient Date of Diagnostic biopsy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E654311-0.11"/>
+                    <leaf title="Patient Date of First Chemotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E932471-0.1"/>
+                    <leaf title="Patient Date of First Radiotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E957591-0.1"/>
+                    <leaf title="Patient Date of First Surgery  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E591671-0.1"/>
+                    <leaf title="Patient Date of MRI Scan  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E873081-0.1"/>
+                    <leaf title="Patient Date of Mammogram  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E463101-0.1"/>
+                    <leaf title="Patient Date of Radiotherapy Cycle  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E701961-0.1"/>
+                    <leaf title="Patient Date of Surgery  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E485031-0.1"/>
+                    <leaf title="Patient SAE onset date  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E783591-0.1"/>
+                    <leaf title="Patient SAE resolved date  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E593801-0.1"/>
+                    <leaf title="Patient date of chemotherapy cycle  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E730251-0.1"/>
+                    <leaf title="Patient date of first diagnosis  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E659451-0.1"/>
+                    <leaf title="Study Subject First Tamoxifen Prescription Date" img="images/red_circle.gif" code="GB-CANCERGRID-AA404C3DC-0.11"/>
+                    <folder title="FirstInterventionOfTypeh" img="images/white_circle.gif" expanded="false" code="D1E15447"/>
+                    <folder title="Serious Adverse Event" img="images/white_circle.gif" expanded="false" code="D1E19563">
+                        <leaf title="Patient SAE ref number  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E572951-0.1"/>
+                        <leaf title="SAE Reporting Reason other  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E204141-0.1"/>
+                    </folder>
+                </folder>
+                <folder title="Clinical Metadata" img="images/white_circle.gif" expanded="false" code="D1E19387">
+                    <folder title="Clinical Metadata Identifiers" img="images/white_circle.gif" expanded="false" code="D1E19475">
+                        <leaf title="Patient SAE ref number  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E572951-0.1"/>
+                    </folder>
+                </folder>
+            </folder>
+            <folder title="Institution Context" img="images/white_circle.gif" expanded="false" code="044D768A7">
+                <folder title="Institution Demographics" img="images/white_circle.gif" expanded="false" code="D1E15623">
+                    <leaf title="Hospital where surgery occurred  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E382651-0.1"/>
+                </folder>
+            </folder>
+            <folder title="Clinician Context" img="images/white_circle.gif" expanded="false" code="1E2964A9D">
+                <folder title="Clinician Demographics" img="images/white_circle.gif" expanded="false" code="D1E15799">
+                    <leaf title="Fax of completing clinician  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E240631-0.1"/>
+                    <leaf title="GP First Name  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E622471-0.1"/>
+                    <leaf title="GP First Name  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E622471-0.11"/>
+                    <leaf title="GP Practice Address  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E915321-0.1"/>
+                    <leaf title="GP Practice Postcode  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E950321-0.1"/>
+                    <leaf title="GP Surname  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E735811-0.1"/>
+                    <leaf title="GP Title  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E638621-0.1"/>
+                    <leaf title="Name of Surgeon  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E518871-0.1"/>
+                    <leaf title="Name of completing clinician" img="images/red_circle.gif" code="GB-CANCERGRID-D1E607471-0.12"/>
+                    <leaf title="Telephone of completing clinician  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E698581-0.1"/>
+                </folder>
+            </folder>
+            <folder title="Trial Context" img="images/white_circle.gif" expanded="false" code="3E3E38BB8">
+                <folder title="Trial Eligibility" img="images/white_circle.gif" expanded="false" code="D1E12802">
+                    <leaf title="Chemotherapy intention to treat is known  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E800691-0.1"/>
+                    <leaf title="Chemotherapy will be given to the patient  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E604701-0.1"/>
+                    <leaf title="Consent for tissue substudy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E768721-0.11"/>
+                    <leaf title="Definite indication for Adjuvant Chemotherapy" img="images/red_circle.gif" code="GB-CANCERGRID-D1E773891-0.12"/>
+                    <leaf title="Definite indication for Neo-Adjuvant Chemotherapy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E491231-0.13"/>
+                    <leaf title="Definite indication for chemotherapy, in the opinion of the responsible" img="images/red_circle.gif" code="GB-CANCERGRID-D1E501901-0.11"/>
+                    <leaf title="No previous malignancy except basal cell carcinoma or cervical carcinoma insitu" img="images/red_circle.gif" code="GB-CANCERGRID-D1E807411-0.12"/>
+                    <leaf title="Patient is fit to receive treatment according to any of the study" img="images/red_circle.gif" code="GB-CANCERGRID-D1E751031-0.11"/>
+                    <leaf title="Radiotherapy intention to treat is known  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E484061-0.11"/>
+                    <folder title="Required Eligibility" img="images/white_circle.gif" expanded="false" code="D1E12890">
+                        <leaf title="No concomitant medical or social problems likely to impede followup  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E749241-0.13"/>
+                        <leaf title="Patient has given written informed consent  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E620991-0.13"/>
+                        <folder title="Required Female Eligibility" img="images/white_circle.gif" expanded="false" code="D1E13066">
+                            <leaf title="Non-pregnant non-lactating and no risk of pregnancy during chemotherapy data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E341711-0.13"/>
+                        </folder>
+                        <folder title="Required Male Eligibility" img="images/white_circle.gif" expanded="false" code="1BD3DE83D"/>
+                    </folder>
+                </folder>
+                <folder title="Trial Data Management" img="images/white_circle.gif" expanded="false" code="D1E13154">
+                    <leaf title="Fax of completing clinician  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E240631-0.1"/>
+                </folder>
+                <folder title="Common CRF Contents" img="images/white_circle.gif" expanded="false" code="B9DADEE53">
+                    <folder title="SeriousAdverseEvent" img="images/white_circle.gif" expanded="false" code="165CEB79C"/>
+                    <folder title="OnStudy" img="images/white_circle.gif" expanded="false" code="1AD30C1B7"/>
+                    <folder title="Treatment" img="images/white_circle.gif" expanded="false" code="25A2C913A">
+                        <folder title="TreatmentRadiotherapy" img="images/white_circle.gif" expanded="false" code="48D28A9B4"/>
+                        <folder title="TreatmentSurgery" img="images/white_circle.gif" expanded="false" code="CB2592384"/>
+                        <folder title="TreatmentChemotherapy" img="images/white_circle.gif" expanded="false" code="D1E9804">
+                            <leaf title="Study Subject Chemotherapy Cycle Number of Last Treatment before Death" img="images/red_circle.gif" code="GB-CANCERGRID-1ADAA6834-0.11"/>
+                        </folder>
+                    </folder>
+                    <folder title="OffStudy" img="images/white_circle.gif" expanded="false" code="44B16EA2A"/>
+                    <folder title="QualityOfLife" img="images/white_circle.gif" expanded="false" code="7022B677A"/>
+                    <folder title="SurgeryCRF" img="images/white_circle.gif" expanded="false" code="815818876"/>
+                    <folder title="PathologyCRF" img="images/white_circle.gif" expanded="false" code="CC3C34C18"/>
+                    <folder title="PeriodicFollowup" img="images/white_circle.gif" expanded="false" code="D1E10069">
+                        <leaf title="Study Subject Date Last Seen Alive" img="images/red_circle.gif" code="GB-CANCERGRID-2BBE82DBA-0.15"/>
+                    </folder>
+                    <folder title="Eligibility" img="images/white_circle.gif" expanded="false" code="D1E19299">
+                        <leaf title="ECOG performance status is 0, 1 or 2" img="images/red_circle.gif" code="GB-CANCERGRID-D1E573861-0.19"/>
+                    </folder>
+                    <folder title="RegistrationCRF" img="images/white_circle.gif" expanded="false" code="D1E9363"/>
+                </folder>
+                <folder title="TrialMilestone" img="images/white_circle.gif" expanded="false" code="D1E10333">
+                    <leaf title="Current system date  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E399571-0.1"/>
+                    <folder title="Registration" img="images/white_circle.gif" expanded="false" code="D1E10421">
+                        <leaf title="Does the patient wish to be informed of any findings from genetic research which may affect family members" img="images/red_circle.gif" code="GB-CANCERGRID-D1E317311-0.14"/>
+                        <leaf title="Patient Trial Number (CRUK Trials Unit, Birmingham)" img="images/red_circle.gif" code="GB-CANCERGRID-D1E592581-0.16"/>
+                    </folder>
+                    <folder title="On Study" img="images/white_circle.gif" expanded="false" code="1BAC7275D"/>
+                    <folder title="Off Study" img="images/white_circle.gif" expanded="false" code="3A4682DAD"/>
+                    <folder title="Randomised Treatment Allocation" img="images/white_circle.gif" expanded="false" code="901A8D29C"/>
+                </folder>
+                <folder title="Trial Metadata" img="images/white_circle.gif" expanded="false" code="D2AA37844">
+                    <folder title="Trial Identifiers" img="images/white_circle.gif" expanded="false" code="D1E10862">
+                        <folder title="Trial Identification Numbers" img="images/white_circle.gif" expanded="false" code="D1E10950"/>
+                        <folder title="Trial Names" img="images/white_circle.gif" expanded="false" code="D1E11391"/>
+                    </folder>
+                    <folder title="Trial Investigator" img="images/white_circle.gif" expanded="false" code="D1E11832"/>
+                </folder>
+            </folder>
+            <folder title="Patient Context" img="images/white_circle.gif" expanded="false" code="ECA1227CD">
+                <folder title="Consent" img="images/white_circle.gif" expanded="false" code="D1E8746">
+                    <leaf title="Consent for tissue substudy  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E768721-0.11"/>
+                    <leaf title="Patient has given written informed consent  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E620991-0.13"/>
+                    <leaf title="Quality of Life Participation Consent" img="images/red_circle.gif" code="GB-CANCERGRID-D1E611761-0.15"/>
+                </folder>
+                <folder title="Demographic" img="images/white_circle.gif" expanded="false" code="D1E8834">
+                    <leaf title="Name of Consultant currently in charge of study subject data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E742671-0.15"/>
+                    <leaf title="Patient NHS Number  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E924901-0.11"/>
+                    <leaf title="Patient first given name and family name initials  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E812861-0.1"/>
+                    <leaf title="Study Subject Full Name" img="images/red_circle.gif" code="GB-CANCERGRID-0A296A56A-0.14"/>
+                    <leaf title="Study Subject Hospital or Clinic Identifier" img="images/red_circle.gif" code="GB-CANCERGRID-D1E452571-0.14"/>
+                </folder>
+                <folder title="PatientMilestones" img="images/white_circle.gif" expanded="false" code="D1E8922">
+                    <leaf title="Date of first locoregional recurrence" img="images/red_circle.gif" code="GB-CANCERGRID-8D69D0152-0.14"/>
+                    <leaf title="Patient Date of onset of menopause  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E214401-0.1"/>
+                    <leaf title="Patient date of birth data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E238351-0.13"/>
+                    <leaf title="SAE Relevant Medical History  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E589021-0.1"/>
+                    <leaf title="Study Subject Date of Death data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E852591-0.11"/>
+                    <leaf title="Study Subject Date of Randomised Treatment Allocation" img="images/red_circle.gif" code="GB-CANCERGRID-D1E471441-0.16"/>
+                    <leaf title="Study subject first distant recurrence observation date" img="images/red_circle.gif" code="GB-CANCERGRID-5BD6B467B-0.11"/>
+                </folder>
+                <folder title="PhysicalCharacteristic" img="images/white_circle.gif" expanded="false" code="D1E9011">
+                    <leaf title="ECOG Performance Status" img="images/red_circle.gif" code="GB-CANCERGRID-D1E682341-0.21"/>
+                    <leaf title="Patient Body Surface Area (DuBois)" img="images/red_circle.gif" code="GB-CANCERGRID-D1E544501-0.13"/>
+                    <leaf title="Patient Body Surface Area (Haycock)  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E882251-0.1"/>
+                    <leaf title="Patient Body Surface Area (Mostella)  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E837921-0.1"/>
+                    <leaf title="Patient Height  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E550441-0.1"/>
+                    <leaf title="Patient Sex  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E580531-0.1"/>
+                    <leaf title="Patient Weight  data element" img="images/red_circle.gif" code="GB-CANCERGRID-D1E315371-0.1"/>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+    <folder title="" img="images/white_circle.gif" expanded="false"/>
+</treeview>

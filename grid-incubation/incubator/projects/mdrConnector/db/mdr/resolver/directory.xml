@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cgResolver:resolver xmlns:cgResolver="http://www.cancergrid.org/schema/cgResolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="directory.xsd">
+    <cgResolver:resource urn="urn:lsid:ebi.embl.org:embl:">
+        <cgResolver:uri return="html" rank="1">http://www.ebi.ac.uk/cgi-bin/dbfetch?db=embl&amp;format=embl&amp;style=html&amp;id=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:">
+        <cgResolver:uri return="html" rank="1">http://nciterms.nci.nih.gov/NCIBrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&amp;code=</cgResolver:uri>
+        <cgResolver:uri return="html" rank="2">http://cesctest1.escience.cam.ac.uk:8080/terminology/term.jsp?id=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:lsid:nci.nih.gov:nci-thesaurus:">
+        <cgResolver:uri return="html" rank="2">http://nciterms.nci.nih.gov/NCIBrowser/GetRoleAndProperty.do?conceptid=</cgResolver:uri>
+        <cgResolver:uri return="html" rank="1">http://cesctest1.escience.cam.ac.uk:8080/terminology/term.jsp?id=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:lsid:cancergrid.org:metadata-registry:">
+        <cgResolver:uri return="html" rank="1">http://129.67.150.47:8080/exist/rest/db/mdr/web/data_element_summary.xquery?compound_id=</cgResolver:uri>
+        <cgResolver:uri return="xml" rank="1">http://129.67.150.47:8080/exist/rest/db/mdr/web/data_element_summary.xquery?use-stylesheet=false&amp;compound_id=</cgResolver:uri>
+        <cgResolver:uri return="html" rank="2">http://canmed-onc3469.medsch.ucl.ac.uk/exist111/rest/db/mdr7/resources/xquery/data_element_summary.xquery?compound_id=</cgResolver:uri>
+        <cgResolver:uri return="xml" rank="2">http://canmed-onc3469.medsch.ucl.ac.uk/exist111/rest/db/mdr7/resources/xquery/data_element_summary.xquery?use-stylesheet=false&amp;compound_id=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:lsid:ncicb.nci.nih.gov:nci-metathesaurus:">
+        <cgResolver:uri rank="1" return="html">http://ncimeta.nci.nih.gov/MetaServlet/ResultServlet2?conceptID=</cgResolver:uri>
+    </cgResolver:resource>
+</cgResolver:resolver>

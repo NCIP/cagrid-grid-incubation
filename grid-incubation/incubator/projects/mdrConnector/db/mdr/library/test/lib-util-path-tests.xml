@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
+        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
+        <title>lib-util path tests</title>
+    </head>
+    <body>
+        <div>
+            <img alt="cancer grid header" src="../web/images/james_logo_life.gif"/>
+            <br clear="none"/>
+            <h2 class="title">metadata registry</h2>
+            <br clear="none"/>
+            <table>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/homepage.xquery" shape="rect">
+                                <img alt="registry home" src="../web/images/greybutton.bmp"/>
+                                <span>registry home</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/contents.xquery" shape="rect">
+                                <img alt="contents" src="../web/images/greybutton.bmp"/>
+                                <span>contents</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/search.xquery" shape="rect">
+                                <img alt="search" src="../web/images/greybutton.bmp"/>
+                                <span>search</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../model/index.htm" shape="rect">
+                                <img alt="model" src="../web/images/greybutton.bmp"/>
+                                <span>model</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/documentation.xquery" shape="rect">
+                                <img alt="documentation" src="../web/images/greybutton.bmp"/>
+                                <span>documentation</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="1" colspan="1">
+                        <div class="cssnav">
+                            <a target="_top" href="../web/login.xquery" shape="rect">
+                                <img alt="login" src="../web/images/greybutton.bmp"/>
+                                <span>login</span>
+                            </a>
+                        </div>
+                    </td>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                    <td rowspan="1" colspan="1"/>
+                </tr>
+            </table>
+            <br clear="none"/>
+            <div class="welcome">welcome: guest</div>
+        </div>
+        <br clear="none"/>
+        <div class="admin_item_header">lib-util path tests</div>
+        <br clear="none"/>
+        <table class="layout">
+            <tr>
+                <th rowspan="1" colspan="1">function-name/arity</th>
+                <th rowspan="1" colspan="1">invocation</th>
+                <th rowspan="1" colspan="1">result</th>
+                <th rowspan="1" colspan="1">passed</th>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(classification_scheme)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/classification_scheme</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(classification_scheme_item)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/classification_scheme_item</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(conceptual_domain)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/conceptual_domain</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(context)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/context</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(data_element)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/data_element</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(data_element_concept)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/data_element_concept</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(data_type)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/data_type</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(data-element-rating)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/data-element-rating</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(object_class)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/object_class</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(organization)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/organization</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(property)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/property</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(reference_document)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/reference_document</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(registration_authority)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/registration_authority</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(representation_class)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/representation_class</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(unit_of_measure)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/unit_of_measure</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath</td>
+                <td rowspan="1" colspan="1">lib-util:getCollectionPath(value_domain)</td>
+                <td rowspan="1" colspan="1">/db/mdr/data/value_domain</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(classification)</td>
+                <td rowspan="1" colspan="1">/db/mdr/classification/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(edit)</td>
+                <td rowspan="1" colspan="1">/db/mdr/edit/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(library)</td>
+                <td rowspan="1" colspan="1">/db/mdr/library/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(model)</td>
+                <td rowspan="1" colspan="1">/db/mdr/model/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(regression-test)</td>
+                <td rowspan="1" colspan="1">/db/mdr/regression-test/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(resolver)</td>
+                <td rowspan="1" colspan="1">/db/mdr/resolver/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(review)</td>
+                <td rowspan="1" colspan="1">/db/mdr/review/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(schemas)</td>
+                <td rowspan="1" colspan="1">/db/mdr/schemas/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(services)</td>
+                <td rowspan="1" colspan="1">/db/mdr/services/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(web)</td>
+                <td rowspan="1" colspan="1">/db/mdr/web/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath</td>
+                <td rowspan="1" colspan="1">lib-util:getResourcePath(treeview)</td>
+                <td rowspan="1" colspan="1">/db/mdr/web/treeview/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:webPath</td>
+                <td rowspan="1" colspan="1">lib-util:webPath()</td>
+                <td rowspan="1" colspan="1">/db/mdr/web/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:schemaPath</td>
+                <td rowspan="1" colspan="1">lib-util:schemaPath()</td>
+                <td rowspan="1" colspan="1">/db/mdr/schemas/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+            <tr>
+                <td rowspan="1" colspan="1">lib-util:classificationPath</td>
+                <td rowspan="1" colspan="1">lib-util:classificationPath()</td>
+                <td rowspan="1" colspan="1">/db/mdr/classification/</td>
+                <td rowspan="1" colspan="1">true</td>
+            </tr>
+        </table>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p align="right">
+            <a href="http://validator.w3.org/check?uri=referer" shape="rect">
+                <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
+            </a>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer" shape="rect">
+                <img alt="Valid CSS!" src="../web/images/vcss.png" style="border:0;width:88px;height:31px"/>
+            </a>
+        </p>
+    </body>
+</html>
