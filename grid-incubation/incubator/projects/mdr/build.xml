@@ -4,7 +4,6 @@
 
 	<property environment="env" />
 	<property name="exist.dir" location="${env.EXIST_HOME}" />
-	<property name="lib" value="lib" />
 	<property name="endorsed.lib" value="endorsed" />
 
 	<path id="classpath.core">  
