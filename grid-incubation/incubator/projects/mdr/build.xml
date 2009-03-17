@@ -61,7 +61,7 @@
 		<copy overwrite="true" file="config.xml" tofile="${exist.dir}/webapp/WEB-INF/classes/config.xml">
 		</copy>
 
-		<copy overwrite="true" file="index.html" tofile="${exist.dir}/webapp/index.html">
+		<copy overwrite="true" file="index.html" tofile="${exist.dir}/index.html">
 		</copy>
 
 		<copy overwrite="true" file="jetty.xml" tofile="${exist.dir}/tools/jetty/etc/jetty.xml">
