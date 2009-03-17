@@ -128,6 +128,15 @@
     <Arg><SystemProperty name="jetty.home" default="."/>/etc/webdefault.xml</Arg>
     <Arg type="boolean">true</Arg>
   </Call-->
+  
+      <Call name="addWebApplication">
+        <Arg>/</Arg>
+        <Arg>
+            <SystemProperty name="exist.home" default="../.."/>/</Arg>
+        <Set name="defaultsDescriptor">
+            <SystemProperty name="jetty.home" default="."/>/etc/webdefault.xml</Set>
+        <Set name="displayName">exist</Set>
+    </Call>
 
     <Call name="addWebApplication">
         <Arg>/exist</Arg>
