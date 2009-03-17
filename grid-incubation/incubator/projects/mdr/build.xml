@@ -4,7 +4,7 @@
 
 	<property environment="env" />
 	<property name="exist.dir" location="${env.EXIST_HOME}" />
-	<property name="endorsed.lib" value="endorsed" />
+	<property name="lib.dir" value="lib" />
 
 	<path id="classpath.core">
 		<fileset dir="${exist.dir}/lib/core">
@@ -51,8 +51,8 @@
 	</target>
 
 	<target name="install" depends="getDBHost, getDBPort, getDBUserName, getDBPassword">
-		<copy overwrite="true" todir="${exist.dir}/lib/endorsed">
-			<fileset dir="${endorsed.lib}" />
+		<copy overwrite="true" todir="${exist.dir}/lib/user">
+			<fileset dir="${lib.dir}" />
 		</copy>
 		
 		<copy overwrite="true" file="conf.xml" tofile="${exist.dir}/conf.xml">
