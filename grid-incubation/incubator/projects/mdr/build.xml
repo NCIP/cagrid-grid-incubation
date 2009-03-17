@@ -6,80 +6,99 @@
 	<property name="exist.dir" location="${env.EXIST_HOME}" />
 	<property name="endorsed.lib" value="endorsed" />
 
-	<path id="classpath.core">  
-	    <fileset dir="${exist.dir}/lib/core">  
-	        <include name="*.jar"/>  
-	    </fileset>  
-	    <pathelement path="${exist.dir}/exist.jar"/>  
-	    <pathelement path="${exist.dir}/exist-optional.jar"/>  
-	</path>  
-	
-	<typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">  
-	    <classpath refid="classpath.core"/>  
-	</typedef> 
-	
+	<path id="classpath.core">
+		<fileset dir="${exist.dir}/lib/core">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement path="${exist.dir}/exist.jar" />
+		<pathelement path="${exist.dir}/exist-optional.jar" />
+	</path>
+
+	<typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
+		<classpath refid="classpath.core" />
+	</typedef>
+
 	<target name="getDBHost" unless="dbhost">
-		<input message="Database Host" defaultvalue="localhost" addproperty="dbhost"></input>
+		<input message="Database Host" defaultvalue="localhost" addproperty="dbhost">
+		</input>
 	</target>
-	
+
 	<target name="getDBPort" unless="dbport">
-		<input message="Database Port" defaultvalue="8080" addproperty="dbport"></input>
+		<input message="Database Port" defaultvalue="8080" addproperty="dbport">
+		</input>
 	</target>
-	
+
 	<target name="getDBUserName" unless="dbusername">
-		<input message="Database Admin User Name" defaultvalue="admin" addproperty="dbusername"></input>
+		<input message="Database Admin User Name" defaultvalue="admin" addproperty="dbusername">
+		</input>
 	</target>
-	
+
 	<target name="getDBPassword" unless="dbpassword">
-		<input message="Database Admin Password" addproperty="dbpassword"></input>
-	</target>	
-	
-	
+		<input message="Database Admin Password" addproperty="dbpassword">
+		</input>
+	</target>
+
+
+	<target name="generateKey" unless="keyexists">
+		<genkey alias="jetty" storepass="secret" keystore="${exist.dir}/tools/jetty/etc/demokeystore" validity="100000">
+			<dname>
+				<param name="CN" value="MDR" />
+				<param name="OU" value="Anonymous" />
+				<param name="O" value="cabig.org" />
+				<param name="C" value="US" />
+			</dname>
+		</genkey>
+	</target>
+
 	<target name="install" depends="getDBHost, getDBPort, getDBUserName, getDBPassword">
-		<copy overwrite="true" todir="${exist.dir}/lib/user">
-			<fileset dir="${lib}" />
-		</copy>
 		<copy overwrite="true" todir="${exist.dir}/lib/endorsed">
 			<fileset dir="${endorsed.lib}" />
 		</copy>
+		
 		<copy overwrite="true" file="conf.xml" tofile="${exist.dir}/conf.xml">
 		</copy>
+		
 		<copy overwrite="true" file="config.xml" tofile="${exist.dir}/webapp/WEB-INF/classes/config.xml">
 		</copy>
-		
 
-		<xdb:store xmlns:xdb="http://exist-db.org/ant"  
-		    uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr"  
-		    createcollection="true"
-			createsubcollections="true" user="${dbusername}" password="${dbpassword}">  
-		    <fileset dir="db/mdr">   
-		        <include name="**/*"/>  
-		    	<exclude name="model/**/*"/>
-		    	<exclude name="tests/**/*"/>
-		    	<exclude name="xforms/**/*"/>
-		    </fileset>  
-		</xdb:store>  
+		<copy overwrite="true" file="index.html" tofile="${exist.dir}/webapp/index.html">
+		</copy>
+
+		<copy overwrite="true" file="jetty.xml" tofile="${exist.dir}/tools/jetty/etc/jetty.xml">
+		</copy>
 		
-		<xdb:store xmlns:xdb="http://exist-db.org/ant"  
-		    uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr"  
-		    createcollection="true"
-			createsubcollections="true"
-			type="binary" user="${dbusername}" password="${dbpassword}">  
-		    <fileset dir="db/mdr">   
-		    	<include name="model/**/*"/>
-		    	<include name="tests/**/*"/>
-		    	<include name="xforms/**/*"/>
-		    </fileset>  
-		</xdb:store>  
-		
-		<xdb:store xmlns:xdb="http://exist-db.org/ant"  
-		    uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/system"  
-		    createcollection="true"
-			createsubcollections="true" user="${dbusername}" password="${dbpassword}">  
-		    <fileset dir="db/system">   
-		    	<include name="config/**/*"/>
-		    </fileset>  
-		</xdb:store> 
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="application/xquery" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/mdr">
+				<include name="**/*.xquery" />
+			</fileset>
+		</xdb:store>
+
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="xml" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/mdr">
+				<include name="**/*.xml" />
+				<include name="**/*.xsd" />
+				<include name="**/*.xsl" />
+				<include name="**/*.xhtml" />
+				<exclude name="**/*.xquery" />
+			</fileset>
+		</xdb:store>
+
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="binary" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/mdr">
+				<include name="**/*" />
+				<exclude name="**/*.xml" />
+				<exclude name="**/*.xsd" />
+				<exclude name="**/*.xsl" />
+				<exclude name="**/*.xhtml" />
+				<exclude name="**/*.xquery" />
+			</fileset>
+		</xdb:store>
+
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/system" createcollection="true" createsubcollections="true" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/system">
+				<include name="config/**/*" />
+			</fileset>
+		</xdb:store>
 	</target>
 
 </project>
