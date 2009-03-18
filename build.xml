@@ -57,9 +57,6 @@
 		
 		<copy overwrite="true" file="conf.xml" tofile="${exist.dir}/conf.xml">
 		</copy>
-		
-		<copy overwrite="true" file="config.xml" tofile="${exist.dir}/webapp/WEB-INF/classes/config.xml">
-		</copy>
 
 		<copy overwrite="true" file="index.html" tofile="${exist.dir}/index.html">
 		</copy>
