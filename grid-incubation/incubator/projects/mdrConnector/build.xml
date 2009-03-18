@@ -13,15 +13,11 @@
 	<property name="dist" value="dist" />
 	<property name="exist.dir" location="${env.EXIST_HOME}" />
 	<property name="lib" value="lib" />
-	<property name="endorsed.lib" value="endorsed" />
 
 	<import file="wsdl2java.xml" />
 
 	<!-- Classpaths -->
 	<path id="lib.classpath">
-		<fileset dir="${endorsed.lib}">
-			<include name="**/*.jar" />
-		</fileset>
 		<fileset dir="${lib}">
 			<include name="**/*.jar" />
 		</fileset>
@@ -143,18 +139,8 @@
 	<target name="deploy" depends="all">
 		<copy overwrite="true" file="${aar.name}" tofile="${exist.dir}/webapp/WEB-INF/services/${aar.name}">
 		</copy>
-		<copy overwrite="true" todir="${exist.dir}/webapp/WEB-INF/data">
-			<fileset dir="data" />
-		</copy>
 		<copy overwrite="true" todir="${exist.dir}/lib/user">
 			<fileset dir="${lib}" />
-		</copy>
-		<copy overwrite="true" todir="${exist.dir}/lib/endorsed">
-			<fileset dir="${endorsed.lib}" />
-		</copy>
-		<copy overwrite="true" file="conf.xml" tofile="${exist.dir}/conf.xml">
-		</copy>
-		<copy overwrite="true" file="config.xml" tofile="${exist.dir}/webapp/WEB-INF/classes/config.xml">
 		</copy>
 	</target>
 
