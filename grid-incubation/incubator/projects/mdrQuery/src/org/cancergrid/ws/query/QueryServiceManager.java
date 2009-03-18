@@ -281,11 +281,10 @@ public class QueryServiceManager {
     public static void main(String[] args) {
         try {
             QueryServiceManager manager = new QueryServiceManager(new File("etc/stylesheets"),new File("etc/config.xml"));
-            Query_service info = manager.getQueryServiceInfo("cgMDR");
+            Query_service info = manager.getQueryServiceInfo("caDSR");
             Query query = new Query();
-            query.setTerm("ShannonHastings");
+            query.setTerm("*cancer*");
             query.setResource(info.getName());
-            query.setServiceUrl(new org.apache.axis.types.URI(info.getServiceUrl()));
             ResultSet rs = manager.query(query);
 
         } catch (Exception e) {
