@@ -283,7 +283,7 @@ public class QueryServiceManager {
             QueryServiceManager manager = new QueryServiceManager(new File("etc/stylesheets"),new File("etc/config.xml"));
             Query_service info = manager.getQueryServiceInfo("caDSR");
             Query query = new Query();
-            query.setTerm("*cancer*");
+            query.setId("2415458");
             query.setResource(info.getName());
             ResultSet rs = manager.query(query);
 

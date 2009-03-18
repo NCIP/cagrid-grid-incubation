@@ -10,7 +10,8 @@
             <xs:element name="serviceUrl" type="xs:anyURI" nillable="true" minOccurs="0"/>
             <xs:element name="resource" type="xs:string"/>
             <xs:element name="src" type="xs:string" nillable="true" minOccurs="0"/>
-            <xs:element name="term" type="xs:string"/>
+            <xs:element name="term" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="id" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="startIndex" type="xs:int" minOccurs="0" default="0"/>
             <xs:element name="numResults" type="xs:int" minOccurs="0" default="10"/>
         </xs:sequence>
