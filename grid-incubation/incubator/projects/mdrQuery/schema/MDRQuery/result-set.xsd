@@ -117,7 +117,7 @@
 	<xs:complexType name="properties">
 		<xs:sequence>
 			
-								<xs:element name="property">
+								<xs:element name="property" minOccurs="0" maxOccurs="unbounded">
 									<xs:complexType>
 										<xs:sequence>
 											<xs:element name="name" type="xs:string"/>
