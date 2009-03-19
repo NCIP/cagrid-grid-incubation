@@ -50,7 +50,7 @@
 		</genkey>
 	</target>
 
-	<target name="install" depends="getDBHost, getDBPort, getDBUserName, getDBPassword">
+	<target name="uploadDatabase" depends="getDBHost, getDBPort, getDBUserName, getDBPassword">
 		<copy overwrite="true" todir="${exist.dir}/lib/user">
 			<fileset dir="${lib.dir}" />
 		</copy>
@@ -97,5 +97,7 @@
 			</fileset>
 		</xdb:store>
 	</target>
+	
+	<target name="install" depends="generateKey,uploadDatabase" />
 
 </project>
