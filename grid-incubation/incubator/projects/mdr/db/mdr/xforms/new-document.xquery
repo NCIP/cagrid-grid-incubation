@@ -13,10 +13,6 @@ import module namespace
    lib-forms="http://www.cancergrid.org/xquery/library/forms"
    at "../edit/m-lib-forms.xquery";   
 
-(:declare option exist:serialize "media-type=application/xhtml+xml indent=yes method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";:)
-
-declare option exist:serialize "media-type=application/xhtml+xml indent=yes method=xhtml"; 
-
 
 session:create(),
 let $user:=session:get-attribute("username")

@@ -20,9 +20,6 @@ import module namespace
    administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
    
-declare namespace functx = "http://www.functx.com"; 
-   
-   
 declare variable $lib-forms:action-update-body as xs:string := 'update';   
 declare variable $lib-forms:action-de-associate as xs:string := 'associate data element';
 declare variable $lib-forms:action-de-dissociate as xs:string := 'dissociate data element';
@@ -54,29 +51,29 @@ declare variable $lib-forms:action-update-relationship as xs:string :='find rela
   recursive - adds a letter until length achieved
 ~:)
 
-declare function functx:substring-before-last 
+declare function lib-forms:substring-before-last 
   ( $arg as xs:string? ,
     $delim as xs:string )  as xs:string {
        
-   if (matches($arg, functx:escape-for-regex($delim)))
+   if (matches($arg, lib-forms:escape-for-regex($delim)))
    then replace($arg,
-            concat('^(.*)', functx:escape-for-regex($delim),'.*'),
+            concat('^(.*)', lib-forms:escape-for-regex($delim),'.*'),
             '$1')
    else ''
  } ;
  
-declare function functx:escape-for-regex 
+declare function lib-forms:escape-for-regex 
   ( $arg as xs:string? )  as xs:string {
        
    replace($arg,
            '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')
  } ;
  
-declare function functx:substring-after-last 
+declare function lib-forms:substring-after-last 
   ( $arg as xs:string? ,
     $delim as xs:string )  as xs:string {
        
-   replace ($arg,concat('^.*',functx:escape-for-regex($delim)),'')
+   replace ($arg,concat('^.*',lib-forms:escape-for-regex($delim)),'')
  } ;   
 
 (: simpler random id function :)
@@ -904,7 +901,7 @@ declare function lib-forms:store-document($document as node()) as element()
             element message {'Could not confirm collection - please report to the developers'},
             element location {$resource_location}}
          , element error {
-            element message{concat("Document not stored: ", $util:exception-message)},
+            element message{concat("Document not stored: ", "")},
             element resource-location {$resource_location}, 
             element user {$user},
             element doc-name {$doc-name},
@@ -952,7 +949,7 @@ let $resource_location := concat("xmldb:exist://", lib-util:getResourcePath($col
    element message {'Could not confirm collection - please report to the developers'},
    element location {$resource_location}}
    , element error {
-   element message{concat("Document not stored: ", $util:exception-message)},
+   element message{concat("Document not stored: ", "")},
    element resource-location {$resource_location}, 
    element user {$user},
    element doc-name {$doc-name},
@@ -1097,7 +1094,7 @@ declare function lib-forms:treeview-document() as node()
 
 declare function lib-forms:increment-version($admin-item-identifier as xs:string) as xs:string
 {
-    let $version as xs:string := functx:substring-after-last($admin-item-identifier, '-')
+    let $version as xs:string := lib-forms:substring-after-last($admin-item-identifier, '-')
     let $new-version as xs:string :=
        if (matches($version,'.\..\..'))
        then (       
@@ -1107,5 +1104,5 @@ declare function lib-forms:increment-version($admin-item-identifier as xs:string
        else xs:string(floor(xs:double($version)*100 + 1) div 100) 
              
     return
-        concat(functx:substring-before-last($admin-item-identifier, '-'), '-', $new-version)
+        concat(lib-forms:substring-before-last($admin-item-identifier, '-'), '-', $new-version)
 };

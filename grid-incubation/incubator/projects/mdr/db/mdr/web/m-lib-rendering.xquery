@@ -7,6 +7,10 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace response="http://exist-db.org/xquery/response";
 
+import module namespace
+    funct="http://www.functx.com"
+    at "../library/lib-functx.xquery";
+
 import module namespace 
    lib-util="http://www.cancergrid.org/xquery/library/util"
    at "../library/m-lib-util.xquery";
@@ -505,7 +509,7 @@ declare function lib-rendering:administrator($administrator as node()?) as node(
       </table>
 };
 
-declare function lib-rendering:language($containing as node()) as xdt:anyAtomicType
+declare function lib-rendering:language($containing as node()) as xs:anyAtomicType
 {
    let $a := concat(data($containing//cgMDR:country_identifier),"-",data($containing//cgMDR:language_identifier))
    return $a

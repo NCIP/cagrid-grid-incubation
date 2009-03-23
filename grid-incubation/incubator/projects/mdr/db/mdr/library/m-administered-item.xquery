@@ -39,15 +39,6 @@ declare function administered-item:preferred-name($administered-item-type as xs:
   return administered-item:preferred-name($elem)
 };
 
-(: --- handy anchor functions --- :)
-declare function administered-item:data-element-summary-anchor($id as xs:string) as element(a)?
-{
-    let $uri as xs:anyURI := session:encode-url(xs:anyURI(concat("../web/data_element_summary.xquery?compound_id=", $id)))
-    return
-        <a xmlns="http://www.w3.org/1999/xhtml" href="{$uri}">
-            {administered-item:preferred-name("data_element", $id)}
-        </a>
-};
 
 declare function administered-item:data-element-summary-anchor($data-element as element(cgMDR:Data_Element)) as element(a)?
 {
