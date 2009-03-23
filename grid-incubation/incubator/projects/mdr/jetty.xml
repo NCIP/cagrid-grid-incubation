@@ -129,7 +129,7 @@
     <Arg type="boolean">true</Arg>
   </Call-->
   
-      <Call name="addWebApplication">
+   <Call name="addWebApplication">
         <Arg>/</Arg>
         <Arg>
             <SystemProperty name="exist.home" default="../.."/>/</Arg>
