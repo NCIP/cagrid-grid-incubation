@@ -36,6 +36,7 @@ xquery version "1.0";
   at "../web/m-lib-rendering.xquery";   
     
 declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+declare namespace xdt = "http://xdt.gate2.net/v1.0";
 declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
@@ -154,8 +155,7 @@ declare function local:input-page(
    let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
 
    return
-   <div>
-   
+   <div xmlns="http://www.w3.org/1999/xhtml">
       <table class="layout">
           <tr>
              <td>
@@ -166,7 +166,7 @@ declare function local:input-page(
           <form name="new_object_class" action="newObjectClass.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
              <div class="section">
                 <table class="section">
-                {
+                    {
                     for $name at $pos in $names
                     where $pos != $skip-name-index and $name > ""
                     return
@@ -213,7 +213,7 @@ declare function local:input-page(
                        <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
                     </tr>,
                     
-                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$pos), 'action' ,0)}</td></tr>
+                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$pos), 'action' ,'')}</td></tr>
                     ),
                      
                     <tr><td class="row-header-cell" colspan="6">New naming entry</td></tr>,
@@ -258,24 +258,24 @@ declare function local:input-page(
                     </tr>
                   }
 
-               <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add new name', 'action' ,0)}</td></tr>
+               <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add new name', 'action' ,'')}</td></tr>
 
                     <tr>
                        <td class="row-header-cell" colspan="6">Object class specific properties</td>
                     </tr>
                     
                     
-                    {
-                         (
+                    {   
                          for $u at $pos in $object_class_uri
                          where $pos != $skip-uri-index and $u > ""
                          return
+                         (
                             <tr>
                                <td class="left_header_cell">uri {$pos}</td>
                                <td colspan="5">
                                   {
                                      lib-forms:input-element('object_class_uri',70, $u),
-                                     lib-forms:action-button(concat('delete uri entry ',$pos), 'action' ,0)
+                                     lib-forms:action-button(concat('delete uri entry ',$pos), 'action' ,'')
                                   }
                                </td>
                             </tr>
@@ -321,11 +321,10 @@ declare function local:success-page()
 
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
-
+   
 session:create(),
 
    let $title as xs:string := "Creating a New Object Class"
-   
    let $reg-auth := request:get-parameter('registration-authority',())
    let $administrative-note := request:get-parameter('administrative-note',())
    let $administrative-status := request:get-parameter('administrative-status','')

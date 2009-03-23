@@ -74,11 +74,6 @@ declare function lib-util:mdrElementType($mdr-element as element()) as xs:string
                
 };
 
-declare function lib-util:mdrElementTypeFriendly($mdr-element as element()) as xs:string
-{
-   replace(lib-util:mdrElementType($mdr-element),'_',' ')
-};
-
 declare function lib-util:mdrElementTypeFriendly($mdr-element-type as xs:string) as xs:string
 {
    lib-util:sentence-case(replace($mdr-element-type,'_',' '))
@@ -162,7 +157,7 @@ declare function lib-util:getResourceLocation($resource-name as xs:string, $file
 
 declare function lib-util:search($mdr-element-type as xs:string, $phrase as xs:string) as element()* 
 {
-   for $doc in lib-util:mdrElements($mdr-element-type)[.//cgMDR:registration_status/text() != 'Superseded'][.&=concat('*', $phrase, '*')] 
+   for $doc in lib-util:mdrElements($mdr-element-type)[.//cgMDR:registration_status/text() != 'Superseded'][.=concat('*', $phrase, '*')] 
    return $doc      
 };
 
@@ -170,7 +165,7 @@ declare function lib-util:searchWithClassification($mdr-element-type as xs:strin
 {
    for $doc in collection(lib-util:getCollectionPath($mdr-element-type))/*[cgMDR:classified_by=$classified-by]
    where not ($doc//cgMDR:registration_status = 'Superseded')
-               and $doc&=$phrase
+               and $doc=$phrase
    return $doc
 };
 

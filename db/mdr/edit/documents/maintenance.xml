@@ -27,7 +27,7 @@
         <title>Create data element concept and supporting classes</title>
         <description>Create a data element copncept, class, and property 
             and associate it with a conceptual domain</description>
-        <uri>../xforms/new-document.xquery?type=data_element_concept</uri>
+        <uri>../edit/newDataElementConcept.xquery</uri>
     </function>
     <function>
         <title>Maintain units of measure</title>
@@ -47,20 +47,20 @@
         <description>Create a new object class - a concept or concept expression - describing
          an real world object whose properties can be measured by data elements
          within this metadata repository</description>
-        <uri>../xforms/new-document.xquery?type=object_class</uri>
+        <uri>../edit/newObjectClass.xquery</uri>
     </function>
     <function>
         <title>Create a new property</title>
         <description>Create a new property describing attributes or properties 
             of real world objects that can be measured 
             by data elements within this metadata repository</description>
-        <uri>../xforms/new-document.xquery?type=property</uri>
+        <uri>../edit/newProperty.xquery</uri>
     </function>
     <function>
         <title>Create a new context</title>
         <description>Create a new context a partition in the registry in which
         data elements may be named differently</description>
-        <uri>../xforms/new-document.xquery?type=context</uri>
+        <uri>../edit/newContext.xquery</uri>
     </function>
     <function>
         <title>Maintain Datatypes</title>
@@ -105,10 +105,5 @@
         <title>Schema</title>
         <description>Generate and XML Schema of the registry</description>
         <uri>../MDG/registry-schema.xquery</uri>
-    </function>
-    <function>
-        <title>Delete steve's test elements</title>
-        <description>Delete test generated documents</description>
-        <uri>../edit/delete-steves-test.xquery</uri>
     </function>
 </functions>
