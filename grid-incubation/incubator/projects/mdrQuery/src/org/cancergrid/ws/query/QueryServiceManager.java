@@ -281,10 +281,10 @@ public class QueryServiceManager {
     public static void main(String[] args) {
         try {
             QueryServiceManager manager = new QueryServiceManager(new File("etc/stylesheets"),new File("etc/config.xml"));
-            Query_service info = manager.getQueryServiceInfo("cgMDR");
+            Query_service info = manager.getQueryServiceInfo("caDSR-ObjectClass");
             Query query = new Query();
-            query.setTerm("cancer");
-            query.setId("CL047630");
+            query.setTerm("protein");
+            //query.setId("CL047630");
             query.setResource(info.getName());
             ResultSet rs = manager.query(query);
 
