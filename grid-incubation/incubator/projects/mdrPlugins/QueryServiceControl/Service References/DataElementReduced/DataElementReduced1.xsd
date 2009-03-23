@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://cancergrid.org/schema/DataElementReduced" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://cancergrid.org/schema/DataElementReduced" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="new-data-element-reduced" type="new-data-element-reduced" />
+  <xs:complexType name="new-data-element-reduced">
+    <xs:sequence>
+      <xs:element name="preferred-name" type="xs:string" />
+      <xs:element ref="other-names" />
+      <xs:element name="definition" type="xs:string" />
+      <xs:element ref="values" />
+      <xs:element name="registrar" type="xs:string" />
+      <xs:element name="administrator" type="xs:string" />
+      <xs:element name="submitter" type="xs:string" />
+      <xs:element default="" name="reg-auth" type="xs:string" />
+      <xs:element default="" name="data-element-data-identifier" type="xs:string" />
+      <xs:element default="" name="dec-data-identifier" type="xs:string" />
+      <xs:element default="" name="conceptual-domain-data-identifier" type="xs:string" />
+      <xs:element default="" name="value-domain-data-identifier" type="xs:string" />
+      <xs:element default="0.1" name="version" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="other-names" type="other-names" />
+  <xs:complexType name="other-names">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="name" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="values" type="values" />
+  <xs:complexType name="values">
+    <xs:choice>
+      <xs:element ref="enumerated" />
+      <xs:element ref="non-enumerated" />
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="enumerated" type="enumerated" />
+  <xs:complexType name="enumerated">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="value" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="value" type="value" />
+  <xs:complexType name="value">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string" />
+      <xs:element name="meaning" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="value-identifier" type="xs:string" use="required" />
+    <xs:attribute name="meaning-identifier" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:element name="non-enumerated" type="non-enumerated" />
+  <xs:complexType name="non-enumerated">
+    <xs:sequence>
+      <xs:element name="data-type" type="xs:string" />
+      <xs:element name="uom" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
