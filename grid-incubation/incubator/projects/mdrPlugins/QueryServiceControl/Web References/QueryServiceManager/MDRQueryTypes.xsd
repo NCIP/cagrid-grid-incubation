@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://mdrq.cagrid.org/MDRQuery/types" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://mdrq.cagrid.org/MDRQuery/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="../ws/addressing/WS-Addressing.xsd" namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" />
+  <xs:import schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" />
+  <xs:element name="MDRQueryReference">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="wsa:EndpointReference" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

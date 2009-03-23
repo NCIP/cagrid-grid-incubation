@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsrl="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" xmlns="http://schemas.xmlsoap.org/wsdl/" name="WS-ResourceLifetime" targetNamespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd">
+      <xsd:include schemaLocation="./WS-ResourceLifetime.xsd" />
+      <xsd:import schemaLocation="../../ws/addressing/WS-Addressing.xsd" namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" />
+      <xsd:import schemaLocation="../faults/WS-BaseFaults.xsd" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" />
+      <xsd:element name="ScheduledResourceTerminationRP">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="wsrl:CurrentTime" />
+            <xsd:element minOccurs="1" maxOccurs="1" ref="wsrl:TerminationTime" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Destroy">
+        <xsd:complexType />
+      </xsd:element>
+      <xsd:element name="DestroyResponse">
+        <xsd:complexType />
+      </xsd:element>
+      <xsd:complexType name="ResourceUnknownFaultType">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="wsbf:BaseFaultType" />
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="ResourceUnknownFault" type="wsrl:ResourceUnknownFaultType" />
+      <xsd:complexType name="ResourceNotDestroyedFaultType">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="wsbf:BaseFaultType" />
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="ResourceNotDestroyedFault" type="wsrl:ResourceNotDestroyedFaultType" />
+      <xsd:element name="SetTerminationTime">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="RequestedTerminationTime" nillable="true" type="xsd:dateTime" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SetTerminationTimeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="NewTerminationTime" nillable="true" type="xsd:dateTime" />
+            <xsd:element name="CurrentTime" type="xsd:dateTime" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="UnableToSetTerminationTimeFaultType">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="wsbf:BaseFaultType" />
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="UnableToSetTerminationTimeFault" type="wsrl:UnableToSetTerminationTimeFaultType" />
+      <xsd:complexType name="TerminationTimeChangeRejectedFaultType">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="wsbf:BaseFaultType" />
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="TerminationTimeChangeRejectedFault" type="wsrl:TerminationTimeChangeRejectedFaultType" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="DestroyResponse">
+    <wsdl:part name="DestroyResponse" element="wsrl:DestroyResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetTerminationTimeRequest">
+    <wsdl:part name="SetTerminationTimeRequest" element="wsrl:SetTerminationTime" />
+  </wsdl:message>
+  <wsdl:message name="ResourceUnknownFault">
+    <wsdl:part name="ResourceUnknownFault" element="wsrl:ResourceUnknownFault" />
+  </wsdl:message>
+  <wsdl:message name="DestroyRequest">
+    <wsdl:part name="DestroyRequest" element="wsrl:Destroy" />
+  </wsdl:message>
+  <wsdl:message name="UnableToSetTerminationTimeFault">
+    <wsdl:part name="UnableToSetTerminationTimeFault" element="wsrl:UnableToSetTerminationTimeFault" />
+  </wsdl:message>
+  <wsdl:message name="SetTerminationTimeResponse">
+    <wsdl:part name="SetTerminationTimeResponse" element="wsrl:SetTerminationTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResourceNotDestroyedFault">
+    <wsdl:part name="ResourceNotDestroyedFault" element="wsrl:ResourceNotDestroyedFault" />
+  </wsdl:message>
+  <wsdl:message name="TerminationTimeChangeRejectedFault">
+    <wsdl:part name="TerminationTimeChangeRejectedFault" element="wsrl:TerminationTimeChangeRejectedFault" />
+  </wsdl:message>
+  <wsdl:portType wsrp:ResourceProperties="wsrl:ScheduledResourceTerminationRP" name="ScheduledResourceTermination">
+    <wsdl:operation name="SetTerminationTime">
+      <wsdl:input wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime/SetTerminationTime" message="wsrlw:SetTerminationTimeRequest" />
+      <wsdl:output wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime/SetTerminationTimeResponse" message="wsrlw:SetTerminationTimeResponse" />
+      <wsdl:fault name="UnableToSetTerminationTimeFault" message="wsrlw:UnableToSetTerminationTimeFault" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrlw:ResourceUnknownFault" />
+      <wsdl:fault name="TerminationTimeChangeRejectedFault" message="wsrlw:TerminationTimeChangeRejectedFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ImmediateResourceTermination">
+    <wsdl:operation name="Destroy">
+      <wsdl:input wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime/Destroy" message="wsrlw:DestroyRequest" />
+      <wsdl:output wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime/DestroyResponse" message="wsrlw:DestroyResponse" />
+      <wsdl:fault name="ResourceNotDestroyedFault" message="wsrlw:ResourceNotDestroyedFault" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrlw:ResourceUnknownFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>
