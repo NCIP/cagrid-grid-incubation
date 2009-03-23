@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="Ribbon_Load">
+  <ribbon>
+    <tabs>
+      <tab idMso="TabAddIns" label="CancerGrid">
+        <group id="QueryServiceGroup" label="Query Service">
+          <toggleButton id="QueryTaskPaneToggle" label="Query Taskpane" size="large" imageMso="HappyFace" onAction="QueryTaskPaneToggle_Toggle"/>
+        </group>
+        <group id="CDECreationGroup" label="CDE Service">
+          <button id="CDECreationFormBtn" label="Create CDE" size="large" imageMso="HappyFace" onAction="CDECreationFormBtn_Clicked"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
+
