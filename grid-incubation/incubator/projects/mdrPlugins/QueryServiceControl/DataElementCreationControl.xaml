@@ -1,0 +1,351 @@
+﻿<StackPanel x:Class="QueryServiceControl.DataElementCreationControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:compModel="clr-namespace:System.ComponentModel;assembly=System"
+    xmlns:qsc="clr-namespace:QueryServiceControl">
+    <StackPanel.Resources>
+        <compModel:BackgroundWorker 
+            x:Key="bgWorker" x:Name="bgWorker" WorkerReportsProgress="True"
+            WorkerSupportsCancellation="True" RunWorkerCompleted="bgWorker_RunWorkerCompleted"
+            DoWork="bgWorker_DoWork" ProgressChanged="bgWorker_ProgressChanged"/>
+        
+        <Style x:Key="FormHeader" TargetType="Label">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="FormBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#cccccc"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="LastRowFormBorderLeft" TargetType="Border">
+            <Setter Property="CornerRadius" Value="0,0,0,10"/>
+            <Setter Property="BorderBrush" Value="#cccccc"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="LastRowFormBorderRight" TargetType="Border">
+            <Setter Property="CornerRadius" Value="0,0,10,0"/>
+            <Setter Property="BorderBrush" Value="#cccccc"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="SectionHeaderBorder" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10,10,0,0"/>
+            <Setter Property="Background" Value="#cccccc"/>
+            <Setter Property="BorderBrush" Value="#cccccc"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="SectionHeader" TargetType="Label">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+
+        <Style x:Key="FormLabel" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="FormItem" TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="PasswordFormItem" TargetType="PasswordBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="SelectionFormItem" TargetType="ComboBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="ListBoxFormItem" TargetType="ListBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="RichTextFormItem" TargetType="RichTextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="MinHeight" Value="10"/>
+            <!--Setter Property="MinWidth" Value="600"/-->
+        </Style>
+
+        <Style x:Key="CustomButton" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </StackPanel.Resources>
+        <Label Content="New Data Element" Style="{StaticResource FormHeader}"/>
+    
+    <Border BorderBrush="#555555" BorderThickness="0.3" Margin="0,0,0,0"/>
+    
+        <Grid Grid.ColumnSpan="2" Grid.RowSpan="15" x:Name="loadingPane">
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Grid.Loaded">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                    <Storyboard>
+                            <DoubleAnimation 
+                            Storyboard.TargetName="loadingStatus" 
+                            Storyboard.TargetProperty="Opacity"
+                            From="0" To="0.7"
+                            Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever"/>
+                        </Storyboard>
+                </BeginStoryboard>
+                        </EventTrigger.Actions>
+            </EventTrigger>
+            </Grid.Triggers>
+            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.7" Fill="#FFBBBBBB"/>
+            <Label x:Name="loadingStatus" Content="Initializing form..." FontSize="20" Foreground="#FFFFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+    
+    <ScrollViewer x:Name="scrollView" VerticalScrollBarVisibility="Auto">
+        <Grid Margin="5" x:Name="formContent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource SectionHeaderBorder}" Grid.ColumnSpan="3" Grid.Row="0">
+                <Label Content="Data element details" Style="{StaticResource SectionHeader}"/>
+            </Border>
+
+            <Border Style="{StaticResource FormBorder}" Grid.Row="1" Grid.Column="0">
+                <TextBlock Text="Preferred Name" Style="{StaticResource FormLabel}"/>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="1" Grid.Column="1">
+                <RichTextBox x:Name="preferredName" ScrollViewer.CanContentScroll="True" SpellCheck.IsEnabled="True" VerticalScrollBarVisibility="Auto" MaxHeight="50" Style="{StaticResource RichTextFormItem}">
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </Border>
+
+            <Border Style="{StaticResource FormBorder}" Grid.Row="2" Grid.Column="0">
+                <TextBlock Text="Other Names" Style="{StaticResource FormLabel}"/>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="2" Grid.Column="1">
+                <StackPanel Margin="5">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,5,5">
+                        <TextBox x:Name="txtNewAltName" Width="300" FontSize="14" Margin="0,5,5,5"/>
+                        <Button x:Name="btnNewAltName" Content="Add" FontSize="14" Margin="5" Width="100" Click="btnNewAltName_Click"/>
+                    </StackPanel>
+                    <ListBox x:Name="otherNames" Style="{StaticResource ListBoxFormItem}" Margin="0,5,0,5" MinHeight="100" MaxHeight="100" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                    
+                    <Button x:Name="btnRemoveAltName" Content="Remove Selected Name" FontSize="14" Click="btnRemoveAltName_Click"/>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource FormBorder}" Grid.Row="3">
+                <TextBlock Text="Definition" Style="{StaticResource FormLabel}"/>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="3" Grid.Column="1">
+                <RichTextBox x:Name="definition" ScrollViewer.CanContentScroll="True" SpellCheck.IsEnabled="True" VerticalScrollBarVisibility="Auto" MinHeight="100" MaxHeight="100" Style="{StaticResource RichTextFormItem}">
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </Border>
+
+            <Border Style="{StaticResource LastRowFormBorderLeft}" Grid.Row="4">
+                <StackPanel>
+                    <TextBlock Text="Values" Style="{StaticResource FormLabel}"/>    
+                    <RadioButton x:Name="enumeratedValue" Content="Enumerated" GroupName="vdType" Margin="10, 0, 5, 5" Checked="enumeratedValue_Checked"/>
+                    <RadioButton x:Name="nonEnumeratedValue" Content="Non enumerated" GroupName="vdType" Margin="10, 0, 5, 5" Checked="nonEnumeratedValue_Checked" IsChecked="True"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource LastRowFormBorderRight}" Padding="5" Grid.Row="4" Grid.Column="1">
+                <StackPanel>
+                    <Grid x:Name="nonEumeratedValueControl">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="data type" FontSize="14" Margin="5" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <ComboBox x:Name="dataTypesList" FontSize="14" Margin="5" Grid.Column="1" Grid.Row="0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="QueryServiceControl.DERItem">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                        <TextBlock Text=" ("/>
+                        <TextBlock Text="{Binding Path=Scheme}"/>
+                        <TextBlock Text=")"/>
+                    </StackPanel> 
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <TextBlock Text="unit of measure" FontSize="14" Margin="5" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+        <ComboBox x:Name="uomList" FontSize="14" Margin="5" Grid.Column="1" Grid.Row="1">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="QueryServiceControl.DERItem">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                    </StackPanel> 
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+                    <StackPanel Margin="5" x:Name="enumeratedValueControl" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Code: " FontSize="14" Margin="0,5,0,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtNewCode" Width="150" FontSize="14" Margin="0,5,5,5"/>
+                            <TextBlock Text="Meaning: " FontSize="14" Margin="5" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtNewMeaning" Width="180" FontSize="14" Margin="0,5,5,5"/>
+                            <Button x:Name="btnNewValidValue" Content="Add" FontSize="14" Margin="0,5,5,5" Width="100" Click="btnNewValidValue_Click"/>
+                        </StackPanel>
+                        <ListBox x:Name="validValueList" Style="{StaticResource ListBoxFormItem}" Margin="0,5,0,5" MinHeight="100" MaxHeight="100" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <ListBox.ItemTemplate>
+                            <DataTemplate DataType="QueryServiceControl.ValidValue">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{Binding Path=Code}" FontWeight="Bold" FontSize="14" Margin="5" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>
+                                        <TextBlock Text="{Binding Path=Meaning}" FontSize="14" Margin="5" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0"/>
+                                        <Separator Grid.Row="1" Grid.ColumnSpan="2"/>
+                                    </Grid>
+                                
+                                        <!--StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=Code}"/>
+                                    <TextBlock Text=" ("/>
+                                    <TextBlock Text="{Binding Path=Meaning}"/>
+                                    <TextBlock Text=")"/>
+                                </StackPanel-->
+                            </DataTemplate>
+                                </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Button x:Name="btnRemoveValidValue" Content="Remove Selected Item" FontSize="14" Click="btnRemoveValidValue_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Grid.Row="5"/>
+            
+            <Border Style="{StaticResource SectionHeaderBorder}" Grid.ColumnSpan="2" Grid.Row="6">
+                <Label Content="Submitter details" Style="{StaticResource SectionHeader}"/>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="7">
+                <TextBlock Text="I am" Style="{StaticResource FormLabel}"/>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="7" Grid.Column="1">
+                <ComboBox x:Name="submitter" Style="{StaticResource SelectionFormItem}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="QueryServiceControl.Contact">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Name}"/>
+                                <TextBlock Text=" ("/>
+                                <TextBlock Text="{Binding Path=Title}"/>    
+                                <TextBlock Text=")"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="8">
+                <TextBlock Text="Who is working for" Style="{StaticResource FormLabel}"/>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="8" Grid.Column="1">
+                <ComboBox x:Name="administrator" Style="{StaticResource SelectionFormItem}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="QueryServiceControl.Contact">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Name}"/>
+                                <TextBlock Text=" ("/>
+                                <TextBlock Text="{Binding Path=Title}"/>
+                                <TextBlock Text=")"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Border>
+            <Border Style="{StaticResource LastRowFormBorderLeft}" Grid.Row="9">
+                <TextBlock Text="Creating data elements on behalf of" Style="{StaticResource FormLabel}"/>
+            </Border>
+            <Border Style="{StaticResource LastRowFormBorderRight}" Grid.Row="9" Grid.Column="1">
+                <ComboBox x:Name="registrar" Style="{StaticResource SelectionFormItem}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="QueryServiceControl.Contact">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Name}"/>
+                                <TextBlock Text=" ("/>
+                                <TextBlock Text="{Binding Path=Organization}"/>    
+                                <TextBlock Text=")"/>
+                            </StackPanel> 
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Border>
+            
+            <TextBlock Grid.Row="10"/>
+            
+            <Border Style="{StaticResource SectionHeaderBorder}" Grid.ColumnSpan="2" Grid.Row="11">
+                <Label Content="Login details" Style="{StaticResource SectionHeader}"/>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="12">
+                <TextBlock Text="User name" Style="{StaticResource FormLabel}"/>
+            </Border>
+            <Border Style="{StaticResource FormBorder}" Grid.Row="12" Grid.Column="1">
+                <TextBox x:Name="txtUsername" Style="{StaticResource FormItem}"/>
+            </Border>
+            <Border Style="{StaticResource LastRowFormBorderLeft}" Grid.Row="13">
+                <TextBlock Text="Password" Style="{StaticResource FormLabel}"/>
+            </Border>
+            <Border Style="{StaticResource LastRowFormBorderRight}" Grid.Row="13" Grid.Column="1">
+                <PasswordBox x:Name="txtPassword" Style="{StaticResource PasswordFormItem}"/>
+            </Border>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="14" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                <Button x:Name="btnSubmit" Content="Submit" Click="btnSubmit_Click" Style="{StaticResource CustomButton}"/>
+                <Button x:Name="btnCancel" Content="Cancel" Click="btnCancel_Click" Style="{StaticResource CustomButton}"/>
+                <Button x:Name="btnReset" Content="Reset" Click="btnReset_Click" Style="{StaticResource CustomButton}"/>
+            </StackPanel>
+            
+        </Grid>
+    </ScrollViewer>
+</StackPanel>
+
