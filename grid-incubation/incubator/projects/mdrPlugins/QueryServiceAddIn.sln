@@ -9,6 +9,10 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EnterpriseArchitectAddInInstaller", "EnterpriseArchitectAddInInstaller\EnterpriseArchitectAddInInstaller.vdproj", "{42850A1B-05BF-41A5-A712-517530924F40}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
