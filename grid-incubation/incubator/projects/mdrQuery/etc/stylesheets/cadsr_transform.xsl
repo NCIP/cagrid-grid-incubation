@@ -134,7 +134,9 @@
 				</all-names>
 			</names>
 			<definition>
+			  <value>
 				<xsl:value-of select="preferredDefinition"/>
+			  </value>
 			</definition>
 			<workflow-status>
 				<xsl:value-of select="workflowStatusName"/>
