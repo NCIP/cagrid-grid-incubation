@@ -872,7 +872,7 @@ public class WorkflowInvocationHelperResource extends WorkflowInvocationHelperRe
 
 	public GlobusCredential getCredential() throws RemoteException {
 
-		GlobusCredential retval = this.getCredentialAccess().getCredential(this.serviceOperationEPR);
+		GlobusCredential retval = this.getCredentialAccess().getCredential(this.getServiceOperationEPR());
 		return retval;
 	}
 

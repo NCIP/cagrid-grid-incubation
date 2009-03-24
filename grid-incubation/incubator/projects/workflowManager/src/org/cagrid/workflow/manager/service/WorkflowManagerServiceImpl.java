@@ -285,6 +285,8 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 					+ e.getMessage(), e);
 		}
 
+		
+		/** Creation and configuration **/
 		HashMap<Integer, EndpointReferenceType> stageID2EPR = new HashMap<Integer, EndpointReferenceType>(); // Stages' EPR are stored here
 		HashMap<Integer, OperationOutputTransportDescriptor> stageID2OutputDesc = new HashMap<Integer, OperationOutputTransportDescriptor>();   // Partial output description for stages of the workflow
 
@@ -294,11 +296,17 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		logger.info("Start creating local workflows");
 		final WorkflowPortionsDescriptor localWorkflows = workflowDesc.getLocalWorkflows();
 		WorkflowPortionDescriptor[] workflowParts = localWorkflows.getLocalWorkflowDesc();
-
+		  
+		
 		for(int i=0; i < workflowParts.length; i++){
 
 			try {
 
+				// Association between a received proxy and the address obtained by delegating it further. 
+				// Necessary when multiple stages from the same local workflow use the same credential.
+				HashMap<String, EndpointReferenceType> proxy2delegatedCredential = new HashMap<String, EndpointReferenceType>();  
+				
+				
 				logger.info("Creating local workflow "+ (i+1) +" of " + workflowParts.length);
 				WorkflowPortionDescriptor currPart = workflowParts[i];  
 
@@ -314,17 +322,21 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 				instanceHelperClient = helperClient.createWorkflowInstanceHelper(instanceDesc);
 				String helperDN = helperClient.getIdentity();
 
+				
+				
 				// Instantiate each one of the stages that are supposed to execute in the same container 
 				logger.info("Creating stages");
 				WorkflowStageDescriptor[] stagesDesc = currPart.getInvocationHelperDescs();
 				for(int j=0; j < stagesDesc.length; j++){
-
+					
+					
 					// Instantiate current stage
 					logger.info("Creating stage "+ (j+1) +" of "+ stagesDesc.length);
 					WorkflowStageDescriptor curr_stageDesc = stagesDesc[j];
 					WorkflowInvocationHelperDescriptor basicDesc = curr_stageDesc.getBasicDescription();
 					logger.info("Stage name ID: ("+ curr_stageDesc.getGlobalUniqueIdentifier() +", "
 							+ basicDesc.getOperationQName()+')');
+					
 					WorkflowInvocationHelperClient currInvocationClient = instanceHelperClient.createWorkflowInvocationHelper(basicDesc);  // Resource creation  
 					thisResource.registerInvocationHelper(currInvocationClient.getEPRString(), basicDesc.getOperationQName());   // Create association from current stage to its operation name 
 
@@ -355,21 +367,35 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 						}
 						else throw new RemoteException("Secure conversation scheme found, but no CDS Authentication method found");
 
+						
 						// Retrieve delegated credential if there's any to be retrieved
 						if( proxyEPR != null ){
 
 							// Tell the instance helper to manage this credential and associate it with the current stage
-							instanceHelperClient.addCredential(currInvocationClient.getEndpointReference(), proxyEPR);
+							//instanceHelperClient.addCredential(currInvocationClient.getEndpointReference(), proxyEPR); 
 
+							
 							// Verify whether the credential wasn't already retrieved
 							boolean alreadyRetrieved = alreadyRetrievedCredentials.contains(proxyEPR.toString());
+							if(alreadyRetrieved){   
+								
+								// Associate stage with previously delegated credential
+								EndpointReferenceType delegatedCredentialEPR = proxy2delegatedCredential.get(proxyEPR.toString());								
+								
+								if( delegatedCredentialEPR == null ){
+									throw new RemoteException("Error retrieving previously delegated credential for stage "+ basicDesc.getOperationQName());
+								}
+								else {
+									instanceHelperClient.addCredential(currInvocationClient.getEndpointReference(), delegatedCredentialEPR);
+								}
+							}
+							else{  
 
-							if( !alreadyRetrieved ){
-
-								// Retrieve delegated credential
+								// Retrieve delegated credential  
 								GlobusCredential credential = null;
 								String cdsURL = "this address was not initialized";
 								try {
+									
 									credential = CredentialHandlingUtil.getDelegatedCredential(new EndpointReference(proxyEPR));
 									AttributedURI cdsAddress = proxyEPR.getAddress(); 
 									cdsURL = cdsAddress.getScheme() + "://" + cdsAddress.getHost() + ':' + cdsAddress.getPort()
@@ -395,12 +421,17 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 								int issuedCredentialPathLenght = 0;
 								ProxyLifetime delegationLifetime = new ProxyLifetime(hoursLeft, minsLeft, 0);
 								ProxyLifetime issuedCredentialLifetime = delegationLifetime;
-								CredentialHandlingUtil.delegateCredential(credential, helperDN, cdsURL, delegationLifetime, 
+								EndpointReferenceType new_proxy_EPR = CredentialHandlingUtil.delegateCredential(credential, helperDN, cdsURL, delegationLifetime, 
 										issuedCredentialLifetime, delegationPathLength, issuedCredentialPathLenght);
+								proxy2delegatedCredential.put(proxyEPR.toString(), new_proxy_EPR);  // Store EPR of delegated credential to use later
 
+								
 								// Register the delegated credential's EPR to avoid retrieving it multiple times
+								instanceHelperClient.addCredential(currInvocationClient.getEndpointReference(), new_proxy_EPR);
 								alreadyRetrievedCredentials.add(proxyEPR.toString());
-							}
+								
+								
+							}							
 						}
 
 					}
@@ -532,7 +563,7 @@ public class WorkflowManagerServiceImpl extends WorkflowManagerServiceImplBase {
 		// Get static input values and send them to the associated InvocationHelper
 		logger.info("Setting stages' static input parameter values");
 		WorkflowInputParameters workflowInput = workflowDesc.getInputs();
-		WorkflowInputParameter[] inputValues = workflowInput.getParameter();;
+		WorkflowInputParameter[] inputValues = workflowInput.getParameter();
 		for(int i=0; i < inputValues.length; i++){
 
 			WorkflowInputParameter currInputValue = inputValues[i];

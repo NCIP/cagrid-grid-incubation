@@ -132,7 +132,6 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 		}
 
 
-
 		GlobusCredential credential = null;
 		boolean serviceIsUnsecure = this.unsecureInvocations.contains(eprStr);
 
@@ -144,11 +143,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 		else {
 
-			logger.info("[getCredential] Service is secure");
-
-			// If credential is unavailable, block until it is available
-			boolean credentialIsNotSet = (!this.servicesCredentials.containsKey(eprStr));
-
+			logger.info("[WorkflowInstanceHelperResource.getCredential] Service is secure");
 
 			Lock key = this.servicelLock.get(eprStr);
 			Condition credentialAvailability = this.serviceConditionVariable.get(eprStr);
@@ -159,10 +154,17 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			key.lock();
 			try{
 
-				if( credentialIsNotSet ){
+				printCredentials();
+				
+				// If credential is unavailable, block until it is available
+				boolean credentialIsNotSet = (!this.servicesCredentials.containsKey(eprStr));
+
+				if( credentialIsNotSet ){				
+
+
 					boolean explicitlyAwaken = credentialAvailability.await(60, TimeUnit.SECONDS);
-					if( !explicitlyAwaken )  throw new RemoteException("Couldn't retrieve credential. " +
-							"Was it registered into the InstanceHelper? Is the EndpointReference for the credential proxy valid?");
+					if( !explicitlyAwaken )  throw new RemoteException("[WorkflowInstanceHelperResource.getCredential] Couldn't retrieve credential. " +
+					"Was it registered into the InstanceHelper? Is the EndpointReference for the credential proxy valid?");
 				}
 				credential = this.servicesCredentials.get(eprStr);
 
@@ -189,15 +191,15 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	 * @param proxyEPR the credential to be used by the InvocationHelper
 	 *
 	 * */
-	public void replaceCredential(EndpointReference serviceOperationEPR , EndpointReference proxyEPR){
+	public void replaceCredential(EndpointReference serviceOperationEPR, EndpointReference proxyEPR){
 
 
 		logger.info("BEGIN");
 
-		String eprStr = null;
+		String serviceOperationEPR_str = null;
 		try {
 			WorkflowInvocationHelperClient client = new WorkflowInvocationHelperClient(serviceOperationEPR);
-			eprStr = client.getEPRString();
+			serviceOperationEPR_str = client.getEPRString();
 
 		} catch (MalformedURIException e1) {
 			e1.printStackTrace();
@@ -205,59 +207,60 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			e1.printStackTrace();
 		}
 
-
-
+		
 		// Initializes mutual exclusion key that denotes the availability of the delegated credential
 		Lock key;
 		Condition credentialAvailability;
-		if( this.serviceConditionVariable.containsKey(eprStr) ){
+		if( this.serviceConditionVariable.containsKey(serviceOperationEPR_str) ){
 
-			key = this.servicelLock.get(eprStr);
-			credentialAvailability = this.serviceConditionVariable.get(eprStr);
+			key = this.servicelLock.get(serviceOperationEPR_str);
+			credentialAvailability = this.serviceConditionVariable.get(serviceOperationEPR_str);
 		}
 		else {
 
 			key = new ReentrantLock();
 			credentialAvailability = key.newCondition();
-			this.servicelLock.put(eprStr, key);
-			this.serviceConditionVariable.put(eprStr, credentialAvailability);
+			this.servicelLock.put(serviceOperationEPR_str, key);
+			this.serviceConditionVariable.put(serviceOperationEPR_str, credentialAvailability);
 		}
 
 
-		this.printCredentials();
-
-
-		// Delete old credential (if any) from the associations
-		boolean serviceExists = this.servicesCredentials.containsKey(eprStr);
-		if( serviceExists ){
-
-			this.servicesCredentials.remove(eprStr);
-			this.eprCredential.remove(proxyEPR);
-		}
-
-
-		// Retrieve the delegated credential
-		GlobusCredential credential = null;
-
-		if( proxyEPR != null ){
-			try {
-				credential = CredentialHandlingUtil.getDelegatedCredential(proxyEPR);
-			} catch (Exception e) {
-				System.err.println("Error retrieving delegated credential");
-				e.printStackTrace();
-			}
-		}
-
-
-		// Add the new credential
-		this.servicesCredentials.put(eprStr, credential);
-		this.eprCredential.put(proxyEPR, credential);
-
-
-		// Signal any waiting threads that the credential is available
 		key.lock();
 		try{
+
+
+			// Delete old credential (if any) from the associations
+			boolean serviceExists = this.servicesCredentials.containsKey(serviceOperationEPR_str);
+			if( serviceExists ){
+
+				this.servicesCredentials.remove(serviceOperationEPR_str);
+				this.eprCredential.remove(proxyEPR);
+			}
+
+
+			// Retrieve the delegated credential
+			GlobusCredential credential = null;
+
+			if( proxyEPR != null ){
+				try {
+
+					credential = CredentialHandlingUtil.getDelegatedCredential(proxyEPR);
+
+				} catch (Exception e) {
+					System.err.println("Error retrieving delegated credential");
+					e.printStackTrace();
+				}
+			}
+
+
+			// Add the new credential
+			this.servicesCredentials.put(serviceOperationEPR_str, credential);
+			this.eprCredential.put(proxyEPR, credential);
+			
+			
+			// Signal any waiting threads that the credential is available		
 			credentialAvailability.signalAll();
+
 		}
 		finally {
 			key.unlock();
@@ -352,7 +355,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 	}
 
 
-	/** Print the associations found in each map. Useful for infoging  */
+	/** Print the associations found in each map. Useful for debugging  */
 	private void printCredentials() {
 
 		logger.trace("\n");
@@ -373,7 +376,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 
 
-		/** Credentials' condition variables **/
+		/** Locks **/
 		Set<Entry<String, Lock>> entries2 = this.servicelLock.entrySet();
 		Iterator<Entry<String, Lock>> entries_iter2 = entries2.iterator();
 
@@ -413,7 +416,6 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 			logger.trace("\t["+ curr_entry.getKey() +", "+ curr_entry.getValue() +"]");
 		}
 		logger.trace("END services' credentials");
-
 
 		logger.trace("-------------------------------------------------------------------------");
 		return;
@@ -534,7 +536,7 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 					if(statusesDiffer) this.localWorkflowInstrumentation.eventEnd(currTimestampedStatus.getStatus().toString());
 
 					TimestampedStatus nextStatus = new TimestampedStatus(new_status, ++this.timestamp);
-					
+
 
 					// Get and store time for the start of the new state
 					if( statusesDiffer ){
@@ -556,10 +558,10 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 							InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
 							localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource
 							this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
-							System.out.println("[InstanceHelperResource::deliver] Sending "+ stagesRecords.length +" instrumentation reports to Manager"); //DEBUG
+//							System.out.println("[InstanceHelperResource::deliver] Sending "+ stagesRecords.length +" instrumentation reports to Manager"); //DEBUG
 						}
 					}
-					
+
 					this.setTimestampedStatus(nextStatus);
 				}
 
@@ -601,28 +603,28 @@ public class WorkflowInstanceHelperResource extends WorkflowInstanceHelperResour
 
 			InstrumentationRecord[] stagesRecords = this.stagesInstrumentation.toArray(new InstrumentationRecord[0]);
 			localWorkflowInstrumentationRecord.setStagesRecords(stagesRecords);   // Info about the InvocationHelpers under this resource
-//			try {
-//				this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
-//			} catch (ResourceException e) {
-//				logger.error(e.getMessage(), e);
-//				e.printStackTrace();
-//			}
+			//			try {
+			//				this.setLocalWorkflowInstrumentationRecord(localWorkflowInstrumentationRecord);
+			//			} catch (ResourceException e) {
+			//				logger.error(e.getMessage(), e);
+			//				e.printStackTrace();
+			//			}
 
 
 			// Log the instrumentation data
 			logger.info("Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier());
-			System.out.println("[InstanceHelperResource::deliver] "+ stagesRecords.length +" reports stored so far"); //DEBUG
-			System.out.println("[InstanceHelperResource::deliver] Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier()); //DEBUG
+//			System.out.println("[InstanceHelperResource::deliver] "+ stagesRecords.length +" reports stored so far"); //DEBUG
+//			System.out.println("[InstanceHelperResource::deliver] Instrumentation data for InvocationHelper identified by "+ instrumentation_data.getIdentifier()); //DEBUG
 			final int numMeasurements = instrumentation_data.getRecords().length;
 			for(int i=0; i < numMeasurements; i++){
 
 				EventTimePeriod curr_measurement = instrumentation_data.getRecords(i);
 				long elapsedTimeInNanos = curr_measurement.getEndTime() - curr_measurement.getStartTime();
 				logger.info(curr_measurement.getEvent()+ ": "+ (elapsedTimeInNanos/1000000) + " miliseconds");
-				System.out.println(curr_measurement.getEvent()+ ": "+ (elapsedTimeInNanos/1000000) + " miliseconds"); //DEBUG
+//				System.out.println(curr_measurement.getEvent()+ ": "+ (elapsedTimeInNanos/1000000) + " miliseconds"); //DEBUG
 			}
 			logger.info("-------------------------------------------------------");
-			System.out.println("-------------------------------------------------------"); //DEBUG
+//			System.out.println("-------------------------------------------------------"); //DEBUG
 
 
 		}
