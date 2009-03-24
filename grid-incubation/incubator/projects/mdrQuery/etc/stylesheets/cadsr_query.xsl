@@ -6,8 +6,14 @@
 	<xsl:template match="/">
 
 		<xsl:if test="/q:query/q:id">
-			<xsl:value-of
-				select="concat(/q:query/q:serviceUrl, '?query=DataElement&amp;DataElement[publicID=', replace(/q:query/q:id, ' ', '%20'),']&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)" />
+			<xsl:if test="/q:query/q:version">
+				<xsl:value-of
+					select="concat(/q:query/q:serviceUrl, '?query=DataElement&amp;DataElement[publicID=', replace(/q:query/q:id, ' ', '%20'),'][version=', replace(/q:query/q:version, ' ', '%20'), ']&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)" />
+			</xsl:if>
+			<xsl:if test="not(/q:query/q:version)">
+				<xsl:value-of
+					select="concat(/q:query/q:serviceUrl, '?query=DataElement&amp;DataElement[publicID=', replace(/q:query/q:id, ' ', '%20'),']&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)" />
+			</xsl:if>
 		</xsl:if>
 
 		<xsl:if test="/q:query/q:term">
