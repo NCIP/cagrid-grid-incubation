@@ -42,8 +42,10 @@
 				<xsl:value-of select="registrationStatus"/>
 			</registration-status>
 			<xsl:apply-templates select="valueDomain"/>
+			<xsl:apply-templates select="dataElementConcept/DataElementConcept/property/Property/conceptDerivationRule/ConceptDerivationRule/componentConceptCollection"/>
 		</data-element>
 	</xsl:template>
+	
 	<xsl:template match="valueDomain">
 		<xsl:apply-templates/>
 	</xsl:template>
@@ -156,12 +158,20 @@
 	
 	<xsl:template match="ComponentConcept">
 		<conceptRef>
-			<name>
+			<id>
 				<xsl:value-of select="concept/Concept/preferredName"/>
+			</id>
+			<source>
+				<xsl:value-of select="concept/Concept/origin"/>
+			</source>
+			<name>
+				<xsl:value-of select="concept/Concept/longName"/>
 			</name>
+			<definition>
+				<xsl:value-of select="concept/Concept/preferredDefinition"/>
+			</definition>
 		</conceptRef>
 	</xsl:template>
-	
 	
 	<!-- Filter out extra nodes -->
 	<xsl:template match="questionCollection|workflowStatusDescription|unresolvedIssue|registrationStatus|publicID|concept|origin|modifiedBy|latestVersionIndicator|endDate|deletedIndicator|dateModified|dateCreated|createdBy|changeNote|beginDate|version|prequestionCollection|dataElementDerivationCollection|parentDataElementRelationshipsCollection|dataElementConcept|derivedDataElement|childDataElementRelationshipsCollection|context|administeredComponentClassSchemeItemCollection|designationCollection|referenceDocumentCollection|administeredComponentContactCollection|definitionCollection|validValueCollection|parentValueDomainRelationshipCollection|dataElementCollection|childValueDomainRelationshipCollection|represention|conceptualDomain"/>

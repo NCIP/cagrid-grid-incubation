@@ -37,10 +37,10 @@ import org.cancergrid.ws.util.HttpContentReader;
  * @author <a href="mailto:Andrew.Tsui@comlab.ox.ac.uk">Andrew Tsui</a> (<a href="http://www.cancergrid.org">CancerGrid Consortium</a>)
  * @version 1.0
  * 
- * @see org.cancergrid.ws.query.QueryService
+ * @see org.cancergrid.ws.query.XSLTransformQueryService
  */
 
-public class RestQueryService extends QueryService
+public class RestQueryService extends XSLTransformQueryService
 {
 	/**
 	 * Log4J Logger

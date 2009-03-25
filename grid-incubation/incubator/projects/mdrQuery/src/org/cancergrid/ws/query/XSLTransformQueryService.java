@@ -43,7 +43,7 @@ import org.cancergrid.ws.util.ChainTransformer;
  * @see org.cancergrid.ws.query.QueryOperation
  */
 
-public abstract class QueryService implements QueryOperation {
+public abstract class XSLTransformQueryService implements QueryOperation {
     public enum QueryMode {
         /**
          * Concept query mode
@@ -64,7 +64,7 @@ public abstract class QueryService implements QueryOperation {
     /**
      * Log4J Logger
      */
-    private static Logger LOG = Logger.getLogger(QueryService.class);
+    private static Logger LOG = Logger.getLogger(XSLTransformQueryService.class);
     /**
      * Selecting which information, Concept or CDE, to query and return
      */
@@ -100,13 +100,13 @@ public abstract class QueryService implements QueryOperation {
     protected File transformTemplatesDir;
 
 
-    public QueryService(File transformTemplatesDir) {
+    public XSLTransformQueryService(File transformTemplatesDir) {
         this.transformTemplatesDir = transformTemplatesDir;
         transform = new ChainTransformer();
     }
 
 
-    public QueryService(File transformTemplatesDir, QueryMode mode) {
+    public XSLTransformQueryService(File transformTemplatesDir, QueryMode mode) {
         this.transformTemplatesDir = transformTemplatesDir;
         qMode = mode;
         transform = new ChainTransformer();

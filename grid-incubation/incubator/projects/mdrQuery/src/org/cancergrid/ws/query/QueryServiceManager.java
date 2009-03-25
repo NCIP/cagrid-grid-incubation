@@ -41,7 +41,7 @@ import org.cancergrid.ws.config.QueryServiceConfig;
  * CancerGrid query services.
  * 
  * @see org.cancergrid.ws.query.QueryOperation
- * @see org.cancergrid.ws.query.QueryService
+ * @see org.cancergrid.ws.query.XSLTransformQueryService
  */
 
 public class QueryServiceManager {
@@ -223,7 +223,7 @@ public class QueryServiceManager {
             if (!queryServices.containsKey(resource)) {
                 Class<?> c = Class.forName(qsInfo.get_class());
                 Constructor con = c.getConstructor(new Class[] {File.class});
-                QueryService qs = (QueryService)con.newInstance(new Object [] {this.transformTemplatesDir});
+                XSLTransformQueryService qs = (XSLTransformQueryService)con.newInstance(new Object [] {this.transformTemplatesDir});
 
                 if (qsInfo.getServiceUrl() != null) {
                     qs.setServiceUrl(new java.net.URL(qsInfo.getServiceUrl()));
@@ -233,9 +233,9 @@ public class QueryServiceManager {
                 if (qsInfo.getCategory() != null) {
                     org.cancergrid.schema.config.Category qMode = qsInfo.getCategory();
                     if (qMode.equals("CONCEPT"))
-                        qs.setQueryMode(QueryService.QueryMode.CONCEPT);
+                        qs.setQueryMode(XSLTransformQueryService.QueryMode.CONCEPT);
                     else if (qMode.equals("CDE"))
-                        qs.setQueryMode(QueryService.QueryMode.CDE);
+                        qs.setQueryMode(XSLTransformQueryService.QueryMode.CDE);
                 }
 
                 if (qsInfo.getRequestSequence() != null) {
@@ -281,10 +281,10 @@ public class QueryServiceManager {
     public static void main(String[] args) {
         try {
             QueryServiceManager manager = new QueryServiceManager(new File("etc/stylesheets"),new File("etc/config.xml"));
-            Query_service info = manager.getQueryServiceInfo("caDSR-ObjectClass");
+            Query_service info = manager.getQueryServiceInfo("caDSR");
             Query query = new Query();
             //query.setTerm("protein");
-            query.setId("2206938");
+            query.setId("2436860");
             query.setVersion("1.0");
             query.setResource(info.getName());
             ResultSet rs = manager.query(query);
