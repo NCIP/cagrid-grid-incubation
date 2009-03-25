@@ -283,9 +283,9 @@ public class QueryServiceManager {
             QueryServiceManager manager = new QueryServiceManager(new File("etc/stylesheets"),new File("etc/config.xml"));
             Query_service info = manager.getQueryServiceInfo("caDSR");
             Query query = new Query();
-            //query.setTerm("protein");
-            query.setId("2436860");
-            query.setVersion("1.0");
+            query.setTerm("protein");
+            //query.setId("2436860");
+            //query.setVersion("1.0");
             query.setResource(info.getName());
             ResultSet rs = manager.query(query);
 
