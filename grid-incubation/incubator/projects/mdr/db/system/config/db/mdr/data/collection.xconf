@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<collection xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns="http://exist-db.org/collection-config/1.0" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179">
-    <index>
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179">
         <fulltext default="all" attributes="true" alphanum="true"/>
         <create qname="@data_identifier" type="xs:string"/>
         <create qname="@version" type="xs:double"/>
