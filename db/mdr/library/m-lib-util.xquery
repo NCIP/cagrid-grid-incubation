@@ -157,7 +157,7 @@ declare function lib-util:getResourceLocation($resource-name as xs:string, $file
 
 declare function lib-util:search($mdr-element-type as xs:string, $phrase as xs:string) as element()* 
 {
-   for $doc in lib-util:mdrElements($mdr-element-type)[.//cgMDR:registration_status/text() != 'Superseded'][.=concat('*', $phrase, '*')] 
+   for $doc in lib-util:mdrElements($mdr-element-type)[.//cgMDR:registration_status/text() != 'Superseded'][.//cgMDR:name[contains(.,$phrase)]] 
    return $doc      
 };
 
