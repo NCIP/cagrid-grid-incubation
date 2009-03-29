@@ -170,7 +170,7 @@ declare function local:input-page(
                     <tr>
                        <td class="left_header_cell">Context</td>
                        <td colspan="5">
-                          {lib-forms:make-select-admin-item('context','contexts',$context-ids[$pos])}
+                          {lib-forms:select-from-contexts-enum('context-ids',$context-ids[$pos])}
                        </td>
                     </tr>,
                     
@@ -184,7 +184,7 @@ declare function local:input-page(
                     <tr>
                        <td class="left_header_cell">Preferred</td>
                        <td>
-                          {lib-forms:radio('preferred', $pos, ($preferred = $pos))}
+                           {lib-forms:radio('preferred', xs:string($pos), xs:string(($preferred = xs:string($pos))))}
                        </td>
                     </tr>,
          
@@ -215,7 +215,7 @@ declare function local:input-page(
                     <tr>
                        <td class="left_header_cell">Context</td>
                        <td colspan="5">
-                          {lib-forms:make-select-admin-item('context','contexts','')}
+                          {lib-forms:select-from-contexts-enum('context-ids','')}
                        </td>
                     </tr>,
                     
@@ -311,7 +311,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-   let $context-ids := request:get-parameter('contexts',())
+   let $context-ids := request:get-parameter('context-ids',())
    let $country-identifiers := request:get-parameter('country-identifiers','')
    let $language-identifiers := request:get-parameter('language-identifiers','')
    let $names := request:get-parameter('names',())

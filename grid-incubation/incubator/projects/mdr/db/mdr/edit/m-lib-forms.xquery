@@ -145,7 +145,19 @@ declare function lib-forms:find-concept-id(
 (: atomic functions for producing form elements :)
 
 
+declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$received-value as xs:string) as node()
+{
+   element select {
+      attribute name {$select-name},
+      lib-forms:blank-filler(),
+     for $item in lib-util:mdrElements('context')
+      let $name:= data($item//cgMDR:name/text())
+      let $id:= data($item//cgMDR:context_identifier/text())
+      order by $name
+      return lib-forms:select-filler($id, $name, $received-value)
+   }
 
+};
 
 
 declare function lib-forms:select-from-simpleType-enum($simple-type-name as xs:string, $select-name as xs:string, $useDocumentation as xs:boolean, $received-value as xs:string) as node()
@@ -226,15 +238,13 @@ declare function lib-forms:make-select-admin-item($collection as xs:string, $sel
       attribute name {$select-name},
       attribute id {$select-name},
       attribute value {$received-value},
-      attribute size {'97%'},
-      attribute disabled {'disabled'}
+      attribute size {'97%'}
       },
       element div {
          attribute id {concat($select-name,'-div')},
          administered-item:preferred-name($collection,$received-value)
       },
       lib-forms:popup-search($collection, $select-name)
-   
 };
 
 declare function lib-forms:make-select-refdoc($control-name as xs:string, $received-value as xs:string) as node()
