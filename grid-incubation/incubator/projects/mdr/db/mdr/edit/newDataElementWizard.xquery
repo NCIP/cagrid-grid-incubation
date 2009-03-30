@@ -153,7 +153,7 @@ declare function local:data-element-details($message as xs:string) as node()
          <tr><td class="left_header_cell"/><td width="40%">{local:page-button("page 1")}</td><td>{local:page-button("page 3")}</td></tr>
          <tr><td class="left_header_cell">Preferred Name</td><td colspan="2">{lib-forms:input-element('name', 70, request:get-parameter('name',''))}</td></tr>
          <tr><td class="left_header_cell">Preferred Definition</td><td colspan="2">{lib-forms:text-area-element('definition', 5, 70, request:get-parameter('definition',''))}</td></tr>
-         <tr><td class="left_header_cell">Context of preferred name</td><td colspan="5"> {lib-forms:make-select-admin-item('context','preferred_name_context',request:get-parameter('preferred_name_context',''))} </td></tr>
+         <tr><td class="left_header_cell">Context of preferred name</td><td colspan="5">  {lib-forms:select-from-contexts-enum('prefered_name_context',request:get-parameter('prefered_name_context',''))} </td></tr>
          <tr>
             <td class="left_header_cell">Language Identifier for preferred name</td><td colspan="2">
                {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifier', false(), request:get-parameter('country-identifier',''))}
@@ -161,7 +161,7 @@ declare function local:data-element-details($message as xs:string) as node()
              </td>
          </tr>         
          <tr><td class="left_header_cell">Alternate Name</td><td colspan="2">{lib-forms:input-element('alt-name', 70,request:get-parameter('alt-name',''))}</td></tr>
-         <tr><td class="left_header_cell">Context of alternate name</td><td colspan="5"> {lib-forms:make-select-admin-item('context','alt_name_context',request:get-parameter('alt_name_context',''))} </td></tr>
+         <tr><td class="left_header_cell">Context of alternate name</td><td colspan="5"> {lib-forms:select-from-contexts-enum('alt_name_context',request:get-parameter('alt_name_context',''))} </td></tr>
          <tr>
             <td class="left_header_cell">Language Identifier for alternate name</td><td colspan="2">
                {lib-forms:select-from-simpleType-enum('Country_Identifier','alt-country-identifier', false(), request:get-parameter('alt-country-identifier',''))}

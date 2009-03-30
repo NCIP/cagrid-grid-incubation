@@ -192,6 +192,7 @@ declare function local:edit-document($reduced-document as element(), $action as 
             }
             </td>
          </tr>
+         <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority('')} </td></tr>
          <tr>
             <td>I am:</td>
             <td>{lib-forms:make-select-submitted_by($reduced-document/submitter)}</td>

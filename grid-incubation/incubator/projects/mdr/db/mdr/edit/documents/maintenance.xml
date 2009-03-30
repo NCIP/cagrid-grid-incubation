@@ -11,11 +11,13 @@
         <description>Runs the selenium test suite for the registry</description>
         <uri>../selenium/core/TestRunner.html?test=../../tests/TestSuite.html&amp;resultsUrl=../postResults</uri>
     </function>
+    <!--
     <function>
         <title>Create data element</title>
         <description>Simple form for recording a data element and value domain for later curation</description>
         <uri>../edit/newDataElementReduced.xquery</uri>
     </function>
+    -->
     <function>
         <title>Create data element and supporting classes</title>
         <description>Create a detailed data element, data element concept,
@@ -103,7 +105,7 @@
     </function>
     <function>
         <title>Schema</title>
-        <description>Generate and XML Schema of the registry</description>
+        <description>Generate an XML Schema of the registry</description>
         <uri>../MDG/registry-schema.xquery</uri>
     </function>
 </functions>
