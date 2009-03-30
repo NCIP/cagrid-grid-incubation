@@ -62,7 +62,6 @@ declare function local:context(
    $administered-by as xs:string,
    $submitted-by as xs:string,
    $registered-by as xs:string,
-   $context-ids as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
    $names as xs:string*,
@@ -92,7 +91,7 @@ declare function local:context(
                for $name at $pos in $names
                return
                   element cgMDR:having {
-                     element cgMDR:context_identifier {$context-ids[$pos]},
+                     element cgMDR:context_identifier {$new-identifier},
                      element cgMDR:containing {
                         element cgMDR:language_section_language_identifier {
                            element cgMDR:country_identifier {$country-identifiers[$pos]},
@@ -134,7 +133,6 @@ declare function local:input-page(
    $administered-by  as xs:string?,
    $submitted-by  as xs:string?,
    $registered-by  as xs:string?,
-   $context-ids  as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
    $names as xs:string*,
@@ -160,74 +158,13 @@ declare function local:input-page(
              <div class="section">
                 <table class="section">
                 {
-                    for $name at $pos in $names
-                    where $pos != $skip-name-index and $name > ""
-                    return
-                    (
-                    <tr><td class="row-header-cell" colspan="6">Naming entry {$pos}</td></tr>,
-                    <tr>
-                       <td class="left_header_cell">Context</td>
-                       <td colspan="5">
-                          {lib-forms:make-select-admin-item('context','contexts',$context-ids[$pos])}
-                       </td>
-                    </tr>,
                     
-                    <tr>
-                       <td class="left_header_cell">Name</td>
-                       <td colspan="5">
-                          {lib-forms:input-element('names',70,$name)}
-                       </td>
-                    </tr>,
-
-                    <tr>
-                       <td class="left_header_cell">Preferred</td>
-                       <td>
-                          {lib-forms:radio('preferred', $pos, ($preferred = $pos))}
-                       </td>
-                    </tr>,
-         
-         
-                    <tr>
-                       <td class="left_header_cell">Definition</td>
-                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, $definitions[$pos])}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Language Identifier</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(), $country-identifiers[$pos])}
-                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), $language-identifiers[$pos])}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Source</td>
-                       <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
-                    </tr>,
-                    
-                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$pos), 'action' ,'')}</td></tr>
-                    ),
-                     
                     <tr><td class="row-header-cell" colspan="6">New naming entry</td></tr>,
-                    <tr>
-                       <td class="left_header_cell">Context</td>
-                       <td colspan="5">
-                          {lib-forms:make-select-admin-item('context','contexts','')}
-                       </td>
-                    </tr>,
                     
                     <tr>
                        <td class="left_header_cell">Name</td>
                        <td colspan="5">
                           {lib-forms:input-element('names',70,'')}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Preferred</td>
-                       <td>
-                          {lib-forms:radio('preferred', '0', '')}
                        </td>
                     </tr>,
 
@@ -250,9 +187,6 @@ declare function local:input-page(
                        <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
                     </tr>
                   }
-
-               <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add new name', 'action' ,'')}</td></tr>
-
                     
                     <tr><td class="row-header-cell" colspan="6">Context metadata</td></tr>
                       <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority('')} </td></tr>
@@ -292,7 +226,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-   let $context-ids := request:get-parameter('contexts',())
    let $country-identifiers := request:get-parameter('country-identifiers','')
    let $language-identifiers := request:get-parameter('language-identifiers','')
    let $names := request:get-parameter('names',())
@@ -317,7 +250,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $context-ids,
                      $country-identifiers,
                      $language-identifiers,
                      $names,
@@ -335,7 +267,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $context-ids,
                      $country-identifiers,
                      $language-identifiers,
                      $names,
@@ -355,7 +286,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $administered-by,
                $submitted-by,
                $registered-by,
-               $context-ids,
                $country-identifiers,
                $language-identifiers,
                $names,
