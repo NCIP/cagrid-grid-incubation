@@ -122,7 +122,7 @@ declare function local:form($message as xs:string?) as element(table)
          <tr><td class="left_header_cell">Administrative Note</td><td colspan="2">{lib-forms:text-area-element('administrative-note', 5, 70, request:get-parameter('administrative-note',''))}</td></tr>
          <tr><td class="left_header_cell">Preferred Name</td><td colspan="2">{lib-forms:input-element('name', 70, request:get-parameter('name',''))}</td></tr>
          <tr><td class="left_header_cell">Preferred Definition</td><td colspan="2">{lib-forms:text-area-element('definition', 5, 70, request:get-parameter('definition',''))}</td></tr>
-         <tr><td class="left_header_cell">Context of preferred name</td><td colspan="5"> {lib-forms:make-select-admin-item('context','preferred-name-context',request:get-parameter('preferred-name-context',''))} </td></tr>
+         <tr><td class="left_header_cell">Context of preferred name</td><td colspan="5"> {lib-forms:select-from-contexts-enum('prefered_name_context',request:get-parameter('prefered_name_context',''))}</td></tr>
          <tr>
             <td class="left_header_cell">Language Identifier for preferred name</td><td colspan="2">
                {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifier', false(), request:get-parameter('country-identifier',''))}
