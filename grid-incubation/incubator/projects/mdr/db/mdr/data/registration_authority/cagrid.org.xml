@@ -1,4 +1,4 @@
-<cgMDR:Registration_Authority xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" organization_identifier="mdr.cagrid.org">
+<cgMDR:Registration_Authority xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" organization_identifier="cagrid.org">
     <cgMDR:organization_name>caGrid</cgMDR:organization_name>
     <cgMDR:organization_mail_address/>
     <cgMDR:documentation_language_identifier>
