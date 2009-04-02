@@ -40,21 +40,6 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 
-declare function local:find-concept-id(
-         $control-name as xs:string, 
-         $form-name as xs:string,
-         $return-value-to as xs:string,
-         $button-label as xs:string
-         ) as element()*
-{
-      lib-forms:hidden-element('destination-page',$return-value-to),
-      lib-forms:hidden-element('return-parameter',$control-name),
-      <input type="submit" 
-         class="cgButton" 
-         value="{$button-label}"
-         onclick="document.{$form-name}.action='LexBIG-form.xquery'"/>   
-};
-
 declare function local:context(
    $reg-auth as xs:string,
    $administrative-note as xs:string,

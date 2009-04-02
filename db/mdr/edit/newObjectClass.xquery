@@ -42,21 +42,6 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
 
-declare function local:find-concept-id(
-         $control-name as xs:string, 
-         $form-name as xs:string,
-         $return-value-to as xs:string,
-         $button-label as xs:string
-         ) as element()*
-{
-      lib-forms:hidden-element('destination-page',$return-value-to),
-      lib-forms:hidden-element('return-parameter',$control-name),
-      <input type="submit" 
-         class="cgButton" 
-         value="{$button-label}"
-         onclick="document.{$form-name}.action='LexBIG-form.xquery'"/>   
-};
-
 declare function local:object-class(
    $reg-auth as xs:string,
    $administrative-note as xs:string,
@@ -284,7 +269,7 @@ declare function local:input-page(
                                <td class="left_header_cell">new uri</td>
                                <td colspan="5">
                                   {
-                                  local:find-concept-id('object_class_uri','new_object_class','newObjectClass.xquery','get concept')
+                                  lib-forms:find-concept-id('object_class_uri','get concept')
                                   }
                                </td>
                             </tr>

@@ -57,26 +57,6 @@ declare function local:page-button($button-text as xs:string) as element(input)
 
 
 
-declare function local:find-concept-id(
-         $control-name as xs:string,
-         $button-label as xs:string
-         ) as element()*
-{
-    let $javascript as xs:string := 
-        concat("window.open('popup-search-reference-uri.xquery?element=", $control-name, 
-            "','Popup_Window','resizable=yes,width=1100,height=400,menubar=no,left=100,top=100')")
-    return
-        (lib-forms:input-element($control-name, 70, request:get-parameter($control-name,'')),
-            element div { attribute id {concat($control-name, '-div')} },
-            element input {
-                attribute type {'button'},
-                attribute value {$button-label},
-                attribute class {'cgButton'},
-                attribute onclick {$javascript}            
-            })
-      
-};
-
 declare function local:associated-refdocs($message as xs:string) as node()
 {
    let $title as xs:string := "New Data Element Wizard: page 6 - reference documents"
@@ -217,7 +197,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                <tr>
                   <td class="left_header_cell">Object Class URI</td>
                   <td colspan="2">
-                     {local:find-concept-id('object_class_uri','get object class concept')}
+                     {lib-forms:find-concept-id('object_class_uri','get object class concept')}
                   </td>
               </tr>
               <tr>
@@ -228,7 +208,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                <tr>
                   <td class="left_header_cell">Property URI</td>
                   <td colspan="2">
-                     {local:find-concept-id('property_uri','get property concept')}
+                     {lib-forms:find-concept-id('property_uri','get property concept')}
                   </td>
               </tr>
               <tr>

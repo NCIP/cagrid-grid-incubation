@@ -40,20 +40,6 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 
-declare function local:find-concept-id(
-         $control-name as xs:string, 
-         $form-name as xs:string,
-         $return-value-to as xs:string,
-         $button-label as xs:string
-         ) as element()*
-{
-      lib-forms:hidden-element('destination-page',$return-value-to),
-      lib-forms:hidden-element('return-parameter',$control-name),
-      <input type="submit" 
-         class="cgButton" 
-         value="{$button-label}"
-         onclick="document.{$form-name}.action='LexBIG-form.xquery'"/>   
-};
 
 declare function local:property(
    $reg-auth as xs:string,
@@ -266,8 +252,7 @@ declare function local:input-page(
                                <td class="left_header_cell">uri</td>
                                <td colspan="5">
                                   {
-                                     lib-forms:input-element('property_uri',70, request:get-parameter('property_uri','')),
-                                     local:find-concept-id('property_uri','new_property','newProperty.xquery','get concept')
+                                     lib-forms:find-concept-id('property_uri','get concept')
                                   }
                                </td>
                             </tr>
