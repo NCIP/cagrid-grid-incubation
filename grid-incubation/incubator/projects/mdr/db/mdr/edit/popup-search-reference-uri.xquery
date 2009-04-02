@@ -22,7 +22,7 @@ declare namespace rs="http://cancergrid.org/schema/result-set";
     
 import module namespace 
       lib-qs="http://www.cancergrid.org/xquery/library/query_service" 
-      at "../connector/m-lib-qs.xqm";  
+      at "../connector/m-lib-qs.xquery";  
   
 declare function local:action-button($value as xs:string, $control as xs:string, $text as xs:string, $name as xs:string) as node()
 {
@@ -39,7 +39,7 @@ declare function local:action-button($value as xs:string, $control as xs:string,
    
 }; 
 
-declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
+declare option exist:serialize "media-type=text/html";
 
 session:create(),
 let $resource as xs:string := xs:string(request:get-parameter("resource", "EVS-DescLogicConcept"))
@@ -61,29 +61,26 @@ return
           <link rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
           <link rel="stylesheet" href="../web/stylesheets/cancergrid-style.css" type="text/css"/>
           <link rel="stylesheet" href="../classification/stylesheets/treeview.css" type="text/css"/>
-          <link rel="search" type="application/opensearchdescription+xml" title="CancerGrid Data Element Search" href="../web/cde_search.xquery"/>
-          
-          <script type="text/javascript" src="popup.js"/>
-
       </head>
       <body>
          <form name='select-item' class='cancergridForm' action='popup-search-reference-uri.xquery'>
             <input type='hidden' name='element' value='{$element}'/>
             <table class="layout">
                <tr>
-                  <td>Search Phrase</td>
+                  <td>Search</td>
                   <td>
                       <input type='text' name='phrase' value='{$phrase}'/>
                       <select name="resource">
-                          <option value="cgMDR-Local-Terminology" selected="selected">Local Terminology</option>
-                          <option value="EVS-DescLogicConcept">EVS</option>
+                           {lib-qs:selectResource-form('CONCEPT')}
                       </select>
                   </td>
                   <td><input type="submit" value="Submit query" class="cgButton"/></td>
                </tr>
             </table>
-            <table class="layout" style="margin: 5px;">
-               {
+         </form>
+         
+          <table class="layout">
+            {
                   for $concept in $concepts
                   let $id := 
                       if (starts-with($concept/rs:names/rs:id, 'US-NCICB-CACORE-EVS-DESCLOGICCONCEPT'))
@@ -91,13 +88,12 @@ return
                       else $concept/rs:names/rs:id
                   let $name := $concept/rs:names/rs:preferred
                   return
-                      <tr>
+                  <tr class="light-rule">
                           <td style="vertical-align:top;width:350px;padding:5px;">{$id}</td>
                           <td style="vertical-align:top;width:400px;padding:5px;">{$name}</td>
                           <td style="vertical-align:top;">{local:action-button($id, $element, "use this term", $name)}</td>
-                     </tr>
-               }
+                  </tr>
+             }
             </table>
-         </form>
       </body>
    </html>

@@ -127,24 +127,28 @@ declare function lib-forms:generate-id() as xs:string
 
 
 (:finders for relationships:)
-
 declare function lib-forms:find-concept-id(
-         $control-name as xs:string, 
-         $form-name as xs:string,
-         $return-value-to as xs:string,
-         $button-label as xs:string,
-         $default-value as xs:string?
+         $control-name as xs:string,
+         $button-label as xs:string
          ) as element()*
 {
-      lib-forms:input-element($control-name, 70, request:get-parameter($control-name,$default-value)),
-      <input type="submit" class="cgButton" value="{$button-label}"
-      onclick="document.{$form-name}.action='LexBIG-form.xquery?destination-page={$return-value-to}&amp;return-parameter={$control-name}'"/>   
+    let $javascript as xs:string := 
+        concat("window.open('popup-search-reference-uri.xquery?element=", $control-name, 
+            "','Popup_Window','resizable=yes,width=1100,height=400,scrollbars=1,menubar=no,left=100,top=100')")
+    return
+        (lib-forms:input-element($control-name, 70, request:get-parameter($control-name,'')),
+            element div { attribute id {concat($control-name, '-div')} },
+            element input {
+                attribute type {'button'},
+                attribute value {$button-label},
+                attribute class {'cgButton'},
+                attribute onclick {$javascript}            
+            })
+      
 };
 
 
 (: atomic functions for producing form elements :)
-
-
 declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$received-value as xs:string) as node()
 {
    element select {

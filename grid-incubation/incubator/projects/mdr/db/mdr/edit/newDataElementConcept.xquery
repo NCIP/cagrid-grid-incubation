@@ -50,20 +50,6 @@ declare function local:admin-item-identifier(
    concat($registration-authority, '-', $data-identifier, '-', $local:default-version)
 };
 
-declare function local:find-concept-id(
-         $control-name as xs:string, 
-         $form-name as xs:string,
-         $return-value-to as xs:string,
-         $button-label as xs:string
-         ) as element()*
-{
-      lib-forms:input-element($control-name, 70, request:get-parameter($control-name,'')),
-      <input type="submit" 
-         class="cgButton" 
-         value="{$button-label}"
-         onclick="document.{$form-name}.action='LexBIG-form.xquery?destination-page={$return-value-to}&amp;return-parameter={$control-name}'"/>   
-};
-
 declare function local:find-admin-item($control-name as xs:string, 
          $form-name as xs:string,
          $return-value-to as xs:string,
@@ -134,7 +120,7 @@ declare function local:form($message as xs:string?) as element(table)
             <td class="left_header_cell">Object Class</td>
             <td>
                {
-               local:find-concept-id('object_class_uri','edit_admin_item','newDataElementConcept.xquery','get object class concept'),
+               lib-forms:find-concept-id('object_class_uri','get object class concept'),
                lib-forms:input-element('oc_name', 70, request:get-parameter('oc_name','')),
                lib-forms:text-area-element('oc_definition', 5, 70, request:get-parameter('oc_definition',''))
                }
@@ -150,7 +136,7 @@ declare function local:form($message as xs:string?) as element(table)
             <td class="left_header_cell">Property</td>
             <td>
                {
-               local:find-concept-id('property_uri','edit_admin_item','newDataElementConcept.xquery','get property concept'),
+               lib-forms:find-concept-id('property_uri','get property concept'),
                lib-forms:input-element('prop_name', 70, request:get-parameter('prop_name','')),
                lib-forms:text-area-element('prop_definition', 5, 70, request:get-parameter('prop_definition',''))
                }
