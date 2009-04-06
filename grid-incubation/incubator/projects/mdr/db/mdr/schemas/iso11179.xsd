@@ -60,7 +60,7 @@
                     </xs:element>
                     <xs:element name="expressed_by" type="Data_Element" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
                     <xs:element name="has" type="Conceptual_Domain" minOccurs="1" maxOccurs="1" nillable="false"/>
-                    <xs:element name="related_to" type="Data_Element_Concept_Relationship" minOccurs="1" maxOccurs="1" nillable="false"/>
+                    <xs:element name="related_to" type="Data_Element_Concept_Relationship" minOccurs="0" maxOccurs="1" nillable="false"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
