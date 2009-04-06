@@ -98,7 +98,7 @@ declare function local:administration-record (
 declare function local:form($message as xs:string?) as element(table)
 {
 
-   <table class="layout" xmlns="http://www.w3.org/1999/xhtml">
+   <table class="layout">
          <tr><td class="left_header_cell">Registration Authority</td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
          <tr><td class="left_header_cell">Registered by</td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
          <tr><td class="left_header_cell">Administered by</td><td colspan="2"> {lib-forms:make-select-administered_by(request:get-parameter('administered-by',''))} </td></tr>
@@ -119,40 +119,51 @@ declare function local:form($message as xs:string?) as element(table)
          <tr>
             <td class="left_header_cell">Object Class</td>
             <td>
-               {
-               lib-forms:find-concept-id('object_class_uri','get object class concept'),
-               lib-forms:input-element('oc_name', 70, request:get-parameter('oc_name','')),
-               lib-forms:text-area-element('oc_definition', 5, 70, request:get-parameter('oc_definition',''))
-               }
-            </td>
+            <table>
+            <tr>
+              <td>
+               <table>
+               <tr><td>conceptId: {lib-forms:find-concept-id('object_class_uri','get object class concept')}</td></tr>
+               <tr><td>name: {lib-forms:input-element('oc_name', 70, request:get-parameter('oc_name',''))}</td></tr>
+               <tr><td>definition: {lib-forms:text-area-element('oc_definition', 5, 70, request:get-parameter('oc_definition',''))}</td></tr>
+               </table>
+              </td>
             </tr>
             <tr>
-            <td></td>
-            <td colspan="2"><i> or select existing </i> 
-               {local:find-admin-item('object_class_id','edit_admin_item','newDataElementConcept.xquery','object_class', 'find object class')}
+            <td><i> or select existing object class </i> 
+                {lib-forms:make-select-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''))}
+            </td>
+            </tr>
+            </table>
             </td>
          </tr>
+         
          <tr>
             <td class="left_header_cell">Property</td>
             <td>
-               {
-               lib-forms:find-concept-id('property_uri','get property concept'),
-               lib-forms:input-element('prop_name', 70, request:get-parameter('prop_name','')),
-               lib-forms:text-area-element('prop_definition', 5, 70, request:get-parameter('prop_definition',''))
-               }
+            <table>
+            <tr>
+              <td>
+               <table>
+               <tr><td>propertytId: {lib-forms:find-concept-id('property_uri','get property concept')}</td></tr>
+               <tr><td>name: {lib-forms:input-element('prop_name', 70, request:get-parameter('prop_name',''))}</td></tr>
+               <tr><td>definition: {lib-forms:text-area-element('prop_definition', 5, 70, request:get-parameter('prop_definition',''))}</td></tr>
+               </table>
+               </td>
+            </tr>
+            <tr>
+            <td><i> or select existing property</i>
+                {lib-forms:make-select-admin-item('property','property_id', request:get-parameter('property_id',''))}
             </td>
-        </tr>
-        <tr>
-            <td  class="left_header_cell"><i> or select existing </i></td>
-            <td colspan="2">
-                {local:find-admin-item('property_id','edit_admin_item','newDataElementConcept.xquery','property', 'find property')}
+            </tr>
+            </table>
             </td>
         </tr>
 
          <tr>
             <td class="left_header_cell">Conceptual Domain</td>
             <td colspan="2"> 
-               {local:find-admin-item('conceptual_domain_id','edit_admin_item','newDataElementConcept.xquery','conceptual_domain', 'find conceptual domain')}
+                {lib-forms:make-select-admin-item('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))}
             </td>
          </tr>
 

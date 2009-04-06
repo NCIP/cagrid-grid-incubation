@@ -133,7 +133,7 @@ declare function local:data-element-details($message as xs:string) as node()
          <tr><td class="left_header_cell"/><td width="40%">{local:page-button("page 1")}</td><td>{local:page-button("page 3")}</td></tr>
          <tr><td class="left_header_cell">Preferred Name</td><td colspan="2">{lib-forms:input-element('name', 70, request:get-parameter('name',''))}</td></tr>
          <tr><td class="left_header_cell">Preferred Definition</td><td colspan="2">{lib-forms:text-area-element('definition', 5, 70, request:get-parameter('definition',''))}</td></tr>
-         <tr><td class="left_header_cell">Context of preferred name</td><td colspan="5">  {lib-forms:select-from-contexts-enum('prefered_name_context',request:get-parameter('prefered_name_context',''))} </td></tr>
+         <tr><td class="left_header_cell">Context of preferred name</td><td colspan="5">  {lib-forms:select-from-contexts-enum('preferred_name_context',request:get-parameter('preferred_name_context',''))} </td></tr>
          <tr>
             <td class="left_header_cell">Language Identifier for preferred name</td><td colspan="2">
                {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifier', false(), request:get-parameter('country-identifier',''))}
@@ -170,7 +170,7 @@ declare function local:hidden-controls-page2()
 {
 lib-forms:hidden-element('name', request:get-parameter('name','')),
 lib-forms:hidden-element('definition', request:get-parameter('definition','')),
-lib-forms:hidden-element('preferred_name_context',request:get-parameter('referred_name_context','')),
+lib-forms:hidden-element('preferred_name_context',request:get-parameter('preferred_name_context','')),
 lib-forms:hidden-element('country-identifier', request:get-parameter('country-identifier','')),
 lib-forms:hidden-element('language-identifier', request:get-parameter('language-identifier','')),
 lib-forms:hidden-element('alt-name', request:get-parameter('alt-name','')),
@@ -313,49 +313,35 @@ lib-forms:hidden-element('uom',request:get-parameter('uom',''))
 
 declare function local:value-domain-enum($message as xs:string) as node()
 {
+   let $values := request:get-parameter('values',())
+   let $meanings := request:get-parameter('meanings',())
+   let $action := request:get-parameter('update','')
+   let $skip-name := substring-after($action,'delete value entry')
+   let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
    let $title as xs:string := "New Data Element Wizard: page 5 - enumerated value domain details"
    let $content as node()* := 
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("page 4")}</td><td>{local:page-button("page 6")}</td></tr>
-               <tr><td class="left_header_cell">Enumerations</td><td width="40%">value</td><td>meaning</td></tr>
-               <tr>
-                  <td class="left_header_cell"/>
-                  <td>{lib-forms:input-element('value-1', 70, request:get-parameter('value-1',''))}</td>
-                  <td>{lib-forms:input-element('meaning-1', 70, request:get-parameter('meaning-1',''))}</td>
-               </tr>
-               <tr>
-                  <td class="left_header_cell"/>
-                  <td>{lib-forms:input-element('value-2', 70, request:get-parameter('value-2',''))}</td>
-                  <td>{lib-forms:input-element('meaning-2', 70, request:get-parameter('meaning-2',''))}</td>
-               </tr>
-               <tr>
-                  <td class="left_header_cell"/>
-                  <td>{lib-forms:input-element('value-3', 70, request:get-parameter('value-3',''))}</td>
-                  <td>{lib-forms:input-element('meaning-3', 70, request:get-parameter('meaning-3',''))}</td>
-               </tr>
-               <tr>
-                  <td class="left_header_cell"/>
-                  <td>{lib-forms:input-element('value-4', 70, request:get-parameter('value-4',''))}</td>
-                  <td>{lib-forms:input-element('meaning-4', 70, request:get-parameter('meaning-4',''))}</td>
-               </tr>               
-               <tr>
-                  <td class="left_header_cell"/>
-                  <td>{lib-forms:input-element('value-5', 70, request:get-parameter('value-5',''))}</td>
-                  <td>{lib-forms:input-element('meaning-5', 70, request:get-parameter('meaning-5',''))}</td>
-               </tr>               
-               <tr>
-                  <td class="left_header_cell"/>
-                  <td>{lib-forms:input-element('value-6', 70, request:get-parameter('value-6',''))}</td>
-                  <td>{lib-forms:input-element('meaning-6', 70, request:get-parameter('meaning-6',''))}</td>
-               </tr>                     
-               <tr>
-                  <td class="left_header_cell"/>
-                  <td>{lib-forms:input-element('value-7', 70, request:get-parameter('value-7',''))}</td>
-                  <td>{lib-forms:input-element('meaning-7', 70, request:get-parameter('meaning-7',''))}</td>
-               </tr>                     
-               
+               <tr><td class="left_header_cell"/><td width="20%">{local:page-button("page 4")}</td><td/><td>{local:page-button("page 6")}</td></tr>
+               <tr><td class="left_header_cell">Enumerations</td><td width="20%">value</td><td>meaning</td><td/></tr>
+               {
+                    for $value at $pos in $values
+                    where $pos != $skip-name-index and $value > ""
+                    return (
+                       <tr>
+                          <td class="left_header_cell">Permissable Value</td>
+                          <td width="20%">{lib-forms:input-element('values', 20, $value)}</td><td>{lib-forms:input-element('meanings', 60, $meanings[$pos])}</td>
+                          <td>{lib-forms:action-button(concat('delete value entry ',$pos), 'action' ,'' ,'enum-value-update')}</td>
+                       </tr>
+                       ),
+                       <tr>
+                          <td class="left_header_cell">New Permissable Value</td>
+                          <td width="20%">{lib-forms:input-element('values', 20, '')}</td>
+                          <td>{lib-forms:input-element('meanings', 60, '')}</td>
+                          <td>{lib-forms:action-button('add new value', 'action' ,'', 'enum-value-update')}</td>
+                       </tr>
+               }
             </table>
             {local:hidden-controls-page1(),
             local:hidden-controls-page2(),
@@ -369,6 +355,8 @@ declare function local:value-domain-enum($message as xs:string) as node()
 
 declare function local:hidden-controls-page5e()
 {
+lib-forms:hidden-array-element('values', request:get-parameter('values',())),
+lib-forms:hidden-array-element('meanings', request:get-parameter('meanings',())),
 lib-forms:hidden-element('value-1', request:get-parameter('value-1','')),
 lib-forms:hidden-element('meaning-1', request:get-parameter('meaning-1','')),
 lib-forms:hidden-element('value-2', request:get-parameter('value-2','')),
@@ -410,6 +398,8 @@ let $property_uri := request:get-parameter('property_uri','')
 let $object_class_id := request:get-parameter('object_class_id','') 
 let $property_id := request:get-parameter('property_id','')
 let $value-domain-type :=request:get-parameter('value-domain-type','')
+let $values := request:get-parameter('values',())
+let $meanings := request:get-parameter('meanings',())
 let $value-1 := request:get-parameter('value-1','')
 let $meaning-1 := request:get-parameter('meaning-1','')
 let $value-2 := request:get-parameter('value-2','')
@@ -508,9 +498,9 @@ let $property :=
    
    let $enumerations :=
       (
-      for $i in (1 to 7)
-      let $vmd :=util:eval(concat("$meaning-",string($i)))
-      let $pv := util:eval(concat("$value-",string($i)))
+      for $value at $pos in $values
+      let $vmd := $meanings[$pos]
+      let $pv := $value
       let $vmi := lib-forms:generate-id()
       let $pvi := lib-forms:generate-id()
       return
@@ -731,16 +721,21 @@ declare function local:confirm($message as xs:string) as node()
 };
 
 
+
+
+
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
 
 session:create(),
 let $test as xs:string := "test"
-let $next-page := request:get-parameter('move','')
 let $relation :=  request:get-parameter('get-admin-item-id', ())
+let $next-page := request:get-parameter('move','')
+let $enum-value-update := request:get-parameter('enum-value-update','')
 
 return
 
-
+if ($enum-value-update > '') then local:value-domain-enum('')
+    else (
 if ($next-page = 'page 1') then local:admin-item-details('')
    else(
       if ($next-page = 'page 2') then local:data-element-details('')
@@ -768,4 +763,5 @@ if ($next-page = 'page 1') then local:admin-item-details('')
                )
             )
          )
+      )
       )
