@@ -137,7 +137,6 @@ declare function lib-forms:find-concept-id(
             "','Popup_Window','resizable=yes,width=1100,height=400,scrollbars=1,menubar=no,left=100,top=100')")
     return
         (lib-forms:input-element($control-name, 70, request:get-parameter($control-name,'')),
-            element div { attribute id {concat($control-name, '-div')} },
             element input {
                 attribute type {'button'},
                 attribute value {$button-label},
@@ -296,6 +295,13 @@ declare function lib-forms:input-element($name as xs:string, $size as xs:integer
 declare function lib-forms:hidden-element($name as xs:string, $value as xs:string?) as node()
 {
    <input type="hidden" name="{$name}" value="{$value}"/>
+};
+
+declare function lib-forms:hidden-array-element($name as xs:string, $values as xs:string*) as node()*
+{
+    for $value in $values
+    return
+       <input type="hidden" name="{$name}" value="{$value}"/>
 };
 
 declare function lib-forms:hidden-element($name as xs:string, $htmlID as xs:string, $value as xs:string?) as node()

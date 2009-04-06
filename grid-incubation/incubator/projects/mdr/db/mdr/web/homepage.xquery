@@ -42,7 +42,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
 
 
 session:create(),
-let $title as xs:string :='CancerGrid Metadata Registry'
+let $title as xs:string :='Metadata Registry'
 return lib-rendering:txfrm-webpage(
    $title, 
    doc(concat(lib-util:webPath(),'documents/homepage.xml')))
