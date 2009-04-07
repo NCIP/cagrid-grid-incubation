@@ -238,6 +238,7 @@ declare function lib-forms:make-select-admin-item($collection as xs:string, $sel
 {
    element input {
       attribute type {'text'},
+      attribute disabled {'disabled'},
       attribute name {$select-name},
       attribute id {$select-name},
       attribute value {$received-value},
@@ -347,8 +348,13 @@ declare function lib-forms:make-select-classified-by($received-value as xs:strin
 
 declare function lib-forms:make-select-datatype($received-value as xs:string?) as node()
 {
+   lib-forms:make-select-datatype('datatype',$received-value)
+};
+
+declare function lib-forms:make-select-datatype($control as xs:string?, $received-value as xs:string?) as node()
+{
    element select {
-      attribute name {"datatype"},
+      attribute name {$control},
       lib-forms:blank-filler(),
       for $item in lib-util:mdrElements('data_type')
       let $id:= data($item//@datatype_identifier)
@@ -360,8 +366,13 @@ declare function lib-forms:make-select-datatype($received-value as xs:string?) a
 
 declare function lib-forms:make-select-uom($received-value as xs:string?) as node()
 {
+    lib-forms:make-select-uom("uom",$received-value)
+};
+
+declare function lib-forms:make-select-uom($control as xs:string?, $received-value as xs:string?) as node()
+{
    element select {
-      attribute name {"uom"},
+      attribute name {"control"},
       lib-forms:blank-filler(),
       for $item in lib-util:mdrElements('unit_of_measure')
       let $id:= data($item//@unit_of_measure_identifier)

@@ -196,24 +196,25 @@ declare function local:data-element-concept($message as xs:string) as node()
                </tr>
                <tr>
                   <td class="left_header_cell">Object Class URI</td>
-                  <td colspan="2">
+                  <td align="left" colspan="2">
                      {lib-forms:find-concept-id('object_class_uri','get object class concept')}
                   </td>
               </tr>
               <tr>
                   <td class="left_header_cell"> </td>
-                  <td colspan="2"><i> or select existing </i> {lib-forms:make-select-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''))}
+                  <td align="left" colspan="2"><i> or select existing </i> 
+                  {lib-forms:make-select-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''))}
                   </td>
                </tr>
                <tr>
                   <td class="left_header_cell">Property URI</td>
-                  <td colspan="2">
+                  <td align="left" colspan="2">
                      {lib-forms:find-concept-id('property_uri','get property concept')}
                   </td>
               </tr>
               <tr>
                   <td class="left_header_cell"> </td>
-                  <td colspan="2"><i> or select existing </i> 
+                  <td align="left" colspan="2"><i> or select existing </i> 
                      {lib-forms:make-select-admin-item('property','property_id', request:get-parameter('property_id',''))}
                   </td>
                </tr>
@@ -315,6 +316,8 @@ declare function local:value-domain-enum($message as xs:string) as node()
 {
    let $values := request:get-parameter('values',())
    let $meanings := request:get-parameter('meanings',())
+   let $enum_datatype := request:get-parameter('enum_datatype',())
+   let $enum_uom := request:get-parameter('enum_uom',())
    let $action := request:get-parameter('update','')
    let $skip-name := substring-after($action,'delete value entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -324,7 +327,17 @@ declare function local:value-domain-enum($message as xs:string) as node()
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
                <tr><td class="left_header_cell"/><td width="20%">{local:page-button("page 4")}</td><td/><td>{local:page-button("page 6")}</td></tr>
-               <tr><td class="left_header_cell">Enumerations</td><td width="20%">value</td><td>meaning</td><td/></tr>
+               <tr>
+               <td class="left_header_cell">Value Domain Data Type</td>
+               <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
+               </tr>
+               <tr>
+               <td class="left_header_cell">Value Domain Unit of Measure</td>
+               <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
+               </tr>
+               <tr>
+               <td class="left_header_cell">Possible Values</td><td width="20%">value</td><td>meaning</td><td/>
+               </tr>
                {
                     for $value at $pos in $values
                     where $pos != $skip-name-index and $value > ""
@@ -357,20 +370,8 @@ declare function local:hidden-controls-page5e()
 {
 lib-forms:hidden-array-element('values', request:get-parameter('values',())),
 lib-forms:hidden-array-element('meanings', request:get-parameter('meanings',())),
-lib-forms:hidden-element('value-1', request:get-parameter('value-1','')),
-lib-forms:hidden-element('meaning-1', request:get-parameter('meaning-1','')),
-lib-forms:hidden-element('value-2', request:get-parameter('value-2','')),
-lib-forms:hidden-element('meaning-2', request:get-parameter('meaning-2','')),
-lib-forms:hidden-element('value-3', request:get-parameter('value-3','')),
-lib-forms:hidden-element('meaning-3', request:get-parameter('meaning-3','')),
-lib-forms:hidden-element('value-4', request:get-parameter('value-4','')),
-lib-forms:hidden-element('meaning-4', request:get-parameter('meaning-4','')),
-lib-forms:hidden-element('value-5', request:get-parameter('value-5','')),
-lib-forms:hidden-element('meaning-5', request:get-parameter('meaning-5','')),
-lib-forms:hidden-element('value-6', request:get-parameter('value-6','')),
-lib-forms:hidden-element('meaning-6', request:get-parameter('meaning-6','')),
-lib-forms:hidden-element('value-7', request:get-parameter('value-7','')),
-lib-forms:hidden-element('meaning-7', request:get-parameter('meaning-7',''))
+lib-forms:hidden-element('enum_datatype',request:get-parameter('enum_datatype','')),
+lib-forms:hidden-element('enum_uom',request:get-parameter('enum_uom',''))
 };
 
 declare function local:execute() as node()
@@ -400,22 +401,10 @@ let $property_id := request:get-parameter('property_id','')
 let $value-domain-type :=request:get-parameter('value-domain-type','')
 let $values := request:get-parameter('values',())
 let $meanings := request:get-parameter('meanings',())
-let $value-1 := request:get-parameter('value-1','')
-let $meaning-1 := request:get-parameter('meaning-1','')
-let $value-2 := request:get-parameter('value-2','')
-let $meaning-2 := request:get-parameter('meaning-2','')
-let $value-3 := request:get-parameter('value-3','')
-let $meaning-3 := request:get-parameter('meaning-3','')
-let $value-4 := request:get-parameter('value-4','')
-let $meaning-4 := request:get-parameter('meaning-4','')
-let $value-5 := request:get-parameter('value-5','')
-let $meaning-5 := request:get-parameter('meaning-5','')
-let $value-6 := request:get-parameter('value-6','')
-let $meaning-6 := request:get-parameter('meaning-6','')
-let $value-7 := request:get-parameter('value-7','')
-let $meaning-7 := request:get-parameter('meaning-7','')
 let $datatype := request:get-parameter('datatype','')
 let $uom := request:get-parameter('uom','')     
+let $enum_datatype := request:get-parameter('enum_datatype','')
+let $enum_uom := request:get-parameter('enum_uom','')   
 let $precision := request:get-parameter('precision','0')
 let $refdoc1 := request:get-parameter('refdoc1','')
 let $refdoc2 := request:get-parameter('refdoc2','')
@@ -555,7 +544,12 @@ let $conceptual-domain :=
          $described-by,
          $having-preferred,
          element cgMDR:typed_by {$representation-class},
-         element cgMDR:value_domain_datatype{$datatype},
+         if ($enum_datatype > "")
+         then (element cgMDR:value_domain_datatype{$enum_datatype})
+         else(),
+         if ($enum_uom > "")
+         then (element cgMDR:value_domain_unit_of_measure{$enum_uom})
+         else(),
          for $e in $enumerations
          return 
          (
