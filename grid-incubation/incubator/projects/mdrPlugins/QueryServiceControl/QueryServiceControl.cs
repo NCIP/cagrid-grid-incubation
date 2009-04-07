@@ -46,6 +46,9 @@ namespace QueryServiceControl
             searchCLSWorker.WorkerSupportsCancellation = true;
             searchCLSWorker.DoWork += new DoWorkEventHandler(searchCLSWorker_DoWork);
             searchCLSWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(searchCLSWorker_RunWorkerCompleted);
+
+            //OSUMC: hide classification tab. Not used.
+            tabControl.Controls.Remove(tabClassified);
         }
 
         void searchCLSWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -110,7 +113,8 @@ namespace QueryServiceControl
         void bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             InitResources();
-            InitClassificationSchemes();
+            //OSUMC - commented out - not supported
+            //InitClassificationSchemes();
         }
 
         private void QueryServiceControl_Load(object sender, EventArgs e)
@@ -129,7 +133,9 @@ namespace QueryServiceControl
             try
             {
                 resources = qsm.getQueryResources().ToList<QueryServiceManager.query_service>();
-                resources.RemoveAll(NotDataElementAndNotConcept);
+                //OSUMC - don't display concept (EVS) resources
+                //resources.RemoveAll(NotDataElementAndNotConcept);
+                resources.RemoveAll(NotDataElement);
             }
             catch (Exception)
             {
@@ -140,6 +146,11 @@ namespace QueryServiceControl
         private static bool NotDataElementAndNotConcept(QueryServiceManager.query_service qs)
         {
             return (qs.category != QueryServiceManager.category.CDE && qs.category != QueryServiceManager.category.CONCEPT);
+        }
+
+        private static bool NotDataElement(QueryServiceManager.query_service qs)
+        {
+            return (qs.category != QueryServiceManager.category.CDE);
         }
 
         private void InitClassificationSchemes()

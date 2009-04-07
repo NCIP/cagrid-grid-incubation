@@ -60,7 +60,7 @@ namespace EnterpriseArchitectAddIn
         public void EA_MenuClick(EA.Repository Repository, string Location, string MenuName, string ItemName)
         {
             EAQueryServiceForm eaq;
-            DataElementCreationForm der;
+            //DataElementCreationForm der;
             switch (ItemName)
             {
                 case ROOT_MENU:
