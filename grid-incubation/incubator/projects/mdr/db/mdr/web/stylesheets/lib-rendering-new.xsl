@@ -20,7 +20,7 @@
                 <link rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
                 <link rel="stylesheet" href="../web/stylesheets/cancergrid-style.css" type="text/css"/>
                 <link rel="stylesheet" href="../classification/stylesheets/treeview.css" type="text/css"/>
-                <link rel="search" type="application/opensearchdescription+xml" title="CancerGrid Data Element Search" href="../web/cde_search.xquery"/>
+                <link rel="search" type="application/opensearchdescription+xml" title="Data Element Search" href="../web/cde_search.xquery"/>
                 <script src="../classification/stylesheets/treeview.js" type="text/javascript"/>
                 <script src="../web/stylesheets/web.js" type="text/javascript"/>
                 <title>
@@ -51,7 +51,7 @@
                 <img src="../web/images/main_logo.gif" alt="cancer grid header"/>
             </a>
             <br/>
-            <h2 class="title">cancergrid metadata registry</h2>
+            <h2 class="title">metadata registry</h2>
             <br/>
             <table>
                 <tr>
@@ -180,7 +180,7 @@
     
     <!-- renders the copyright notice on the bottom of the page-->
     <xsl:template name="copyright">
-        <p class="copyright"> Copyright (C) 2008 The CancerGrid Consortium (<a href="http://www.cancergrid.org">http://www.cancergrid.org</a>) </p>
+        <p class="copyright">  </p>
     </xsl:template>
     <xsl:template name="css-rollover-button">
         <xsl:param name="link"/>
@@ -228,7 +228,7 @@
                             <xsl:with-param name="text">edit</xsl:with-param>
                             <xsl:with-param name="alt">edit</xsl:with-param>
                             <xsl:with-param name="link">
-                                <xsl:value-of select="concat('../xforms/edit-document-new.xquery?type=', substring-before($as-xml-link,'.'), '&amp;id=', $id)"/>
+                                <xsl:value-of select="concat('../edit/editObjectClass.xquery?id=', $id)"/>
                             </xsl:with-param>
                         </xsl:call-template>
                     </td>

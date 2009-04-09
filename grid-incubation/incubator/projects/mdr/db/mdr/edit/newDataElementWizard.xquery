@@ -197,7 +197,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                <tr>
                   <td class="left_header_cell">Object Class URI</td>
                   <td align="left" colspan="2">
-                     {lib-forms:find-concept-id('object_class_uri','get object class concept')}
+                     {lib-forms:find-concept-id('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
                   </td>
               </tr>
               <tr>
@@ -209,7 +209,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                <tr>
                   <td class="left_header_cell">Property URI</td>
                   <td align="left" colspan="2">
-                     {lib-forms:find-concept-id('property_uri','get property concept')}
+                     {lib-forms:find-concept-id('property_uri','get property concept',request:get-parameter('property_uri',''))}
                   </td>
               </tr>
               <tr>
@@ -663,12 +663,6 @@ return
                               lib-forms:hidden-element('preferred_name_context',request:get-parameter('preferred_name_context','')),
                               lib-forms:hidden-element('country-identifier', request:get-parameter('country-identifier','')),
                               lib-forms:hidden-element('language-identifier', request:get-parameter('language-identifier','')),
-                              if (request:get-parameter('property_id','') = 'GB-CANCERGRID-000024-0.1')
-                              then lib-forms:hidden-element('property_id', 'GB-CANCERGRID-000024-0.1')
-                              else (),
-                              if (request:get-parameter('object_class_id','') = 'GB-CANCERGRID-000025-1')
-                              then lib-forms:hidden-element('object_class_id', 'GB-CANCERGRID-000025-1')
-                              else(),
                               local:hidden-controls-page6()
                           }
                           </div>

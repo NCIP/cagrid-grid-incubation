@@ -77,7 +77,7 @@ declare function local:property(
                element cgMDR:submitted_by {$submitted-by},
                
                for $name at $pos in $names
-               return 
+               return
                   element cgMDR:having {
                      element cgMDR:context_identifier {$context-ids[$pos]},
                      element cgMDR:containing {
@@ -87,20 +87,12 @@ declare function local:property(
                            },
                         element cgMDR:name {$name},
                         element cgMDR:definition_text {$definitions[$pos]}, 
-                        if($preferred > '') then (
-                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))})
-                        else (),
+                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))},
                         element cgMDR:definition_source_reference {$sources[$pos]}
                         }
                   },
-                  
-                  if($uri > '') 
-                  then (
+
                   element cgMDR:reference_uri {$uri})
-                  else ()
-                  
-                  
-                  )
 
 
    
@@ -118,7 +110,7 @@ declare function local:property(
    return
       if ($message='stored')
       then true()
-      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newProperty.xquery&amp;",$message)))
+      else response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newProperty.xquery&amp;",$message)))
 };
 
 declare function local:input-page(
@@ -223,7 +215,7 @@ declare function local:input-page(
                     <tr>
                        <td class="left_header_cell">Preferred</td>
                        <td>
-                          {lib-forms:radio('preferred', '1', '')}
+                          {lib-forms:radio('preferred', '0', '')}
                        </td>
                     </tr>,
 
@@ -260,16 +252,16 @@ declare function local:input-page(
                                <td class="left_header_cell">uri</td>
                                <td colspan="5">
                                   {
-                                     lib-forms:find-concept-id('property_uri','get concept',$property_uri)
+                                     lib-forms:find-concept-id('property_uri','get concept')
                                   }
                                </td>
                             </tr>
                       
                      }
-                      <tr><td class="row-header-cell" colspan="6">Property metadata</td></tr>
-                      <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
-                      <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
-                      <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
+                    <tr><td class="row-header-cell" colspan="6">Property metadata</td></tr>
+                      <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority('')} </td></tr>
+                      <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by('')} </td></tr>
+                      <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by('')} </td></tr>
                       <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
                       <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
                       <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
@@ -298,20 +290,20 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
  
    session:create(),
    let $title as xs:string := "Creating a New Property"
-   let $reg-auth := request:get-parameter('registration-authority','')
-   let $administrative-note := request:get-parameter('administrative-note','')
+   let $reg-auth := request:get-parameter('registration-authority',())
+   let $administrative-note := request:get-parameter('administrative-note',())
    let $administrative-status := request:get-parameter('administrative-status','')
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
    let $context-ids := request:get-parameter('context-ids',())
-   let $country-identifiers := request:get-parameter('country-identifiers',())
-   let $language-identifiers := request:get-parameter('language-identifiers',())
+   let $country-identifiers := request:get-parameter('country-identifiers','')
+   let $language-identifiers := request:get-parameter('language-identifiers','')
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
-   let $property_uri := request:get-parameter('property_uri','')
-   let $preferred := request:get-parameter('preferred','')
+   let $property_uri := request:get-parameter('property_uri',())
+   let $preferred := request:get-parameter('preferred',())
    let $action := request:get-parameter('update','')
    
    return

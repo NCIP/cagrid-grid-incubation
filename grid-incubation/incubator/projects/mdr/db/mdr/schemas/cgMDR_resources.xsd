@@ -28,7 +28,7 @@
     <xs:element name="Unit_of_Measure" type="Unit_of_Measure" nillable="false" abstract="false"/>
     <xs:complexType name="Unit_of_Measure" mixed="false" abstract="false">
         <xs:complexContent>
-            <xs:extension base="cgMDR:Unit_of_Measure">
+            <xs:extension base="iso11179:Unit_of_Measure">
                 <xs:sequence minOccurs="1" maxOccurs="1"/>
                 <xs:attribute name="unit_of_measure_identifier" use="required" type="unit_of_measure_identifier"/>
             </xs:extension>

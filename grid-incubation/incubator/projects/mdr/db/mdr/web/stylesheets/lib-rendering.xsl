@@ -161,7 +161,7 @@
         </tr>
     </xsl:template>
     <!--create a table row for each data element -->
-    <xsl:template match="data_element|value_domain" mode="result-set-body">
+    <xsl:template match="data_element" mode="result-set-body">
         <xsl:variable name="class" select="@class"/>
         <tr valign="top" class="{$class}">
             <td>
@@ -193,6 +193,40 @@
             </td>
         </tr>
     </xsl:template>
+    
+    <xsl:template match="value_domain" mode="result-set-body">
+        <xsl:variable name="class" select="@class"/>
+        <tr valign="top" class="{$class}">
+            <td>
+                <!-- ID -->
+                <!-- NAME -->
+                <xsl:call-template name="value-domain-summary-anchor">
+                    <xsl:with-param name="id">
+                        <xsl:value-of select="names/id"/>
+                    </xsl:with-param>
+                    <xsl:with-param name="preferred-name">
+                        <xsl:value-of select="names/preferred"/>
+                    </xsl:with-param>
+                </xsl:call-template>
+                <br/>
+                <font size="1">
+                    <xsl:value-of select="names/id"/>
+                </font>
+                <br/>
+                <xsl:apply-templates select="names/all-names/name"/>
+            </td>
+            <td>
+                <!-- DESCRIPTION -->
+                <xsl:value-of select="definition"/>
+            </td>
+            <td width="40%">
+                <!-- VALUE DOMAIN -->
+                <!--create a table to contain either 'Data Type' and 'Units' or 'Code and 'Meaning' -->
+                <xsl:apply-templates select="values" mode="tabular-data-element-display"/>
+            </td>
+        </tr>
+    </xsl:template>
+    
     <xsl:template match="values" mode="tabular-data-element-display">
         <xsl:choose>
             <xsl:when test="data-type">
@@ -410,6 +444,13 @@
         <xsl:param name="id"/>
         <xsl:param name="preferred-name"/>
         <a href="{concat('../web/data_element_summary.xquery?compound_id=',$id)}">
+            <xsl:value-of select="$preferred-name"/>
+        </a>
+    </xsl:template>
+    <xsl:template name="value-domain-summary-anchor">
+        <xsl:param name="id"/>
+        <xsl:param name="preferred-name"/>
+        <a href="{concat('../web/value_domain.xquery?compound_id=',$id)}">
             <xsl:value-of select="$preferred-name"/>
         </a>
     </xsl:template>

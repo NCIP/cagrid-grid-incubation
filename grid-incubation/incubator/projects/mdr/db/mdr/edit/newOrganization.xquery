@@ -1,15 +1,15 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new property webpage and XQuery
+ : Module Name:             new context webpage and XQuery
  :
  : Module Version           2.0
  :
- : Date                     31st July 2007
+ : Date                     25 March 2009
  :
- : Copyright                The cancergrid consortium
+ : Copyright                caGrid
  :
- : Module overview          Creates and property and displays list
+ : Module overview          Creates a new context
  :
  :)
  
@@ -40,21 +40,18 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 
-
-declare function local:property(
+declare function local:context(
    $reg-auth as xs:string,
    $administrative-note as xs:string,
    $administrative-status as xs:string,
    $administered-by as xs:string,
    $submitted-by as xs:string,
    $registered-by as xs:string,
-   $context-ids as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $uri as xs:string?,
    $preferred as xs:string?
    ) as xs:boolean
 {
@@ -77,9 +74,9 @@ declare function local:property(
                element cgMDR:submitted_by {$submitted-by},
                
                for $name at $pos in $names
-               return 
+               return
                   element cgMDR:having {
-                     element cgMDR:context_identifier {$context-ids[$pos]},
+                     element cgMDR:context_identifier {$new-identifier},
                      element cgMDR:containing {
                         element cgMDR:language_section_language_identifier {
                            element cgMDR:country_identifier {$country-identifiers[$pos]},
@@ -87,38 +84,30 @@ declare function local:property(
                            },
                         element cgMDR:name {$name},
                         element cgMDR:definition_text {$definitions[$pos]}, 
-                        if($preferred > '') then (
-                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))})
-                        else (),
+                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))},
                         element cgMDR:definition_source_reference {$sources[$pos]}
                         }
-                  },
+                  }
                   
-                  if($uri > '') 
-                  then (
-                  element cgMDR:reference_uri {$uri})
-                  else ()
-                  
-                  
-                  )
+    )
 
 
    
    (: compose the document :)
    let $document :=
-      element cgMDR:Property {
+      element cgMDR:Context {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
             $content
            }
       
-   let $collection := 'property'
+   let $collection := 'context'
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
       then true()
-      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newProperty.xquery&amp;",$message)))
+      else response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newContext.xquery&amp;",$message)))
 };
 
 declare function local:input-page(
@@ -129,13 +118,11 @@ declare function local:input-page(
    $administered-by  as xs:string?,
    $submitted-by  as xs:string?,
    $registered-by  as xs:string?,
-   $context-ids  as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $property_uri as xs:string?,
    $action as xs:string?,
    $preferred as xs:string?
    ) {
@@ -148,82 +135,21 @@ declare function local:input-page(
       <table class="layout">
           <tr>
              <td>
-                This form will allow you to create a new property in the metadata repository
+                This form will allow you to create a new context in the metadata repository
              </td>
           </tr>
           <tr><td>
-          <form name="new_property" action="newProperty.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
+          <form name="new_context" action="newContext.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
              <div class="section">
                 <table class="section">
                 {
-                    for $name at $pos in $names
-                    where $pos != $skip-name-index and $name > ""
-                    return
-                    (
-                    <tr><td class="row-header-cell" colspan="6">Naming entry {$pos}</td></tr>,
-                    <tr>
-                       <td class="left_header_cell">Context</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-contexts-enum('context-ids',$context-ids[$pos])}
-                       </td>
-                    </tr>,
                     
-                    <tr>
-                       <td class="left_header_cell">Name</td>
-                       <td colspan="5">
-                          {lib-forms:input-element('names',70,$name)}
-                       </td>
-                    </tr>,
-
-                    <tr>
-                       <td class="left_header_cell">Preferred</td>
-                       <td>
-                           {lib-forms:radio('preferred', xs:string($pos), xs:string(($preferred = xs:string($pos))))}
-                       </td>
-                    </tr>,
-         
-         
-                    <tr>
-                       <td class="left_header_cell">Definition</td>
-                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, $definitions[$pos])}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Language Identifier</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(), $country-identifiers[$pos])}
-                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), $language-identifiers[$pos])}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Source</td>
-                       <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
-                    </tr>,
-                    
-                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$pos), 'action' ,'')}</td></tr>
-                    ),
-                     
                     <tr><td class="row-header-cell" colspan="6">New naming entry</td></tr>,
-                    <tr>
-                       <td class="left_header_cell">Context</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-contexts-enum('context-ids','')}
-                       </td>
-                    </tr>,
                     
                     <tr>
                        <td class="left_header_cell">Name</td>
                        <td colspan="5">
                           {lib-forms:input-element('names',70,'')}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Preferred</td>
-                       <td>
-                          {lib-forms:radio('preferred', '1', '')}
                        </td>
                     </tr>,
 
@@ -246,30 +172,11 @@ declare function local:input-page(
                        <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
                     </tr>
                   }
-
-               <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add new name', 'action' ,'')}</td></tr>
-
-                    <tr>
-                       <td class="row-header-cell" colspan="6">Property class specific properties</td>
-                    </tr>
                     
-                    
-                    {
-                         
-                            <tr>
-                               <td class="left_header_cell">uri</td>
-                               <td colspan="5">
-                                  {
-                                     lib-forms:find-concept-id('property_uri','get concept',$property_uri)
-                                  }
-                               </td>
-                            </tr>
-                      
-                     }
-                      <tr><td class="row-header-cell" colspan="6">Property metadata</td></tr>
-                      <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
-                      <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
-                      <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
+                    <tr><td class="row-header-cell" colspan="6">Context metadata</td></tr>
+                      <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority('')} </td></tr>
+                      <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by('')} </td></tr>
+                      <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by('')} </td></tr>
                       <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
                       <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
                       <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
@@ -288,30 +195,28 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div>
-         <p>Property class created</p>
+         <p>Context class created</p>
          <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newProperty.xquery">Create another property class</a></p>    
+         <p><a href="../xquery/newContext.xquery">Create another context</a></p>    
       </div>
 };
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
  
    session:create(),
-   let $title as xs:string := "Creating a New Property"
-   let $reg-auth := request:get-parameter('registration-authority','')
-   let $administrative-note := request:get-parameter('administrative-note','')
+   let $title as xs:string := "Creating a New Context"
+   let $reg-auth := request:get-parameter('registration-authority',())
+   let $administrative-note := request:get-parameter('administrative-note',())
    let $administrative-status := request:get-parameter('administrative-status','')
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-   let $context-ids := request:get-parameter('context-ids',())
-   let $country-identifiers := request:get-parameter('country-identifiers',())
-   let $language-identifiers := request:get-parameter('language-identifiers',())
+   let $country-identifiers := request:get-parameter('country-identifiers','')
+   let $language-identifiers := request:get-parameter('language-identifiers','')
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
-   let $property_uri := request:get-parameter('property_uri','')
-   let $preferred := request:get-parameter('preferred','')
+   let $preferred := request:get-parameter('preferred',())
    let $action := request:get-parameter('update','')
    
    return
@@ -322,7 +227,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
       then 
          (
          if (
-               local:property
+               local:context
                   (
                      $reg-auth,
                      $administrative-note,
@@ -330,13 +235,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $context-ids,
                      $country-identifiers,
                      $language-identifiers,
                      $names,
                      $definitions,
                      $sources,
-                     $property_uri,
                      $preferred
                   )
             ) 
@@ -349,13 +252,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $context-ids,
                      $country-identifiers,
                      $language-identifiers,
                      $names,
                      $definitions,
                      $sources,
-                     $property_uri,
                      $action,
                      $preferred
                   )
@@ -370,13 +271,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $administered-by,
                $submitted-by,
                $registered-by,
-               $context-ids,
                $country-identifiers,
                $language-identifiers,
                $names,
                $definitions,
                $sources,
-               $property_uri,
                $action,
                $preferred
                )

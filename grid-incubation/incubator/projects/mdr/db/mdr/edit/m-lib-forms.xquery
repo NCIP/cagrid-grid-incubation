@@ -129,14 +129,16 @@ declare function lib-forms:generate-id() as xs:string
 (:finders for relationships:)
 declare function lib-forms:find-concept-id(
          $control-name as xs:string,
-         $button-label as xs:string
+         $button-label as xs:string,
+         $recieved_value as xs:string
          ) as element()*
 {
+    let $id := lib-forms:generate-id()
     let $javascript as xs:string := 
-        concat("window.open('popup-search-reference-uri.xquery?element=", $control-name, 
+        concat("window.open('popup-search-reference-uri.xquery?element=", $id,
             "','Popup_Window','resizable=yes,width=1100,height=400,scrollbars=1,menubar=no,left=100,top=100')")
     return
-        (lib-forms:input-element($control-name, 70, request:get-parameter($control-name,'')),
+        (<input type="text" name="{$control-name}" id="{$id}" size="70" value="{$recieved_value}"/>,
             element input {
                 attribute type {'button'},
                 attribute value {$button-label},

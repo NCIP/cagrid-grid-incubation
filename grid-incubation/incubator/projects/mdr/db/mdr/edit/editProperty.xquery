@@ -42,6 +42,7 @@ declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 
 
 declare function local:property(
+   $id as xs:string,
    $reg-auth as xs:string,
    $administrative-note as xs:string,
    $administrative-status as xs:string,
@@ -58,10 +59,9 @@ declare function local:property(
    $preferred as xs:string?
    ) as xs:boolean
 {
-   let $version := '0.1'
-   let $data-identifier := lib-forms:generate-id()
-   let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
-   let $doc-name := concat($new-identifier,'.xml')
+   let $version := lib-forms:substring-after-last($id,'-')
+   let $data-identifier := lib-forms:substring-after-last(lib-forms:substring-before-last($id,'-'),'-')
+   let $doc-name := concat($id,'.xml')
 
    let $content := (
             element cgMDR:administered_item_administration_record {
@@ -77,7 +77,7 @@ declare function local:property(
                element cgMDR:submitted_by {$submitted-by},
                
                for $name at $pos in $names
-               return 
+               return
                   element cgMDR:having {
                      element cgMDR:context_identifier {$context-ids[$pos]},
                      element cgMDR:containing {
@@ -93,14 +93,8 @@ declare function local:property(
                         element cgMDR:definition_source_reference {$sources[$pos]}
                         }
                   },
-                  
-                  if($uri > '') 
-                  then (
+
                   element cgMDR:reference_uri {$uri})
-                  else ()
-                  
-                  
-                  )
 
 
    
@@ -118,11 +112,12 @@ declare function local:property(
    return
       if ($message='stored')
       then true()
-      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newProperty.xquery&amp;",$message)))
+      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=editProperty.xquery&amp;",$message)))
 };
 
 declare function local:input-page(
    $message as xs:string?,
+   $id as xs:string?,
    $reg-auth as xs:string?,
    $administrative-note  as xs:string?,
    $administrative-status  as xs:string?,
@@ -148,12 +143,14 @@ declare function local:input-page(
       <table class="layout">
           <tr>
              <td>
-                This form will allow you to create a new property in the metadata repository
+                This form will allow you to edit a property in the metadata repository
              </td>
           </tr>
           <tr><td>
-          <form name="new_property" action="newProperty.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
+          <form name="edit_property" action="editProperty.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
              <div class="section">
+                {lib-forms:hidden-element('id',$id)}
+                {lib-forms:hidden-element('updating','updating')}
                 <table class="section">
                 {
                     for $name at $pos in $names
@@ -205,6 +202,9 @@ declare function local:input-page(
                     <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$pos), 'action' ,'')}</td></tr>
                     ),
                      
+                    if($action = 'add new name')
+                    then (
+                    
                     <tr><td class="row-header-cell" colspan="6">New naming entry</td></tr>,
                     <tr>
                        <td class="left_header_cell">Context</td>
@@ -223,7 +223,7 @@ declare function local:input-page(
                     <tr>
                        <td class="left_header_cell">Preferred</td>
                        <td>
-                          {lib-forms:radio('preferred', '1', '')}
+                          {lib-forms:radio('preferred', '0', '')}
                        </td>
                     </tr>,
 
@@ -245,17 +245,15 @@ declare function local:input-page(
                        <td class="left_header_cell">Source</td>
                        <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
                     </tr>
+                    ) else ()
                   }
 
-               <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add new name', 'action' ,'')}</td></tr>
+               <tr><td class="left_header_cell">New naming entry</td><td colspan="5">{lib-forms:action-button('add new name', 'action' ,'')}</td></tr>
 
                     <tr>
-                       <td class="row-header-cell" colspan="6">Property class specific properties</td>
+                       <td class="row-header-cell" colspan="6">Property specific properties</td>
                     </tr>
-                    
-                    
-                    {
-                         
+                    { 
                             <tr>
                                <td class="left_header_cell">uri</td>
                                <td colspan="5">
@@ -264,16 +262,15 @@ declare function local:input-page(
                                   }
                                </td>
                             </tr>
-                      
                      }
-                      <tr><td class="row-header-cell" colspan="6">Property metadata</td></tr>
+                    <tr><td class="row-header-cell" colspan="6">Property metadata</td></tr>
                       <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
                       <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
                       <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
                       <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
                       <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
                       <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
                  </table>
               </div>
           </form>
@@ -288,7 +285,7 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div>
-         <p>Property class created</p>
+         <p>Property modified</p>
          <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
          <p><a href="../xquery/newProperty.xquery">Create another property class</a></p>    
       </div>
@@ -297,7 +294,27 @@ declare function local:success-page()
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
  
    session:create(),
-   let $title as xs:string := "Creating a New Property"
+   let $id := request:get-parameter('id','')
+   let $updating := request:get-parameter('updating','')
+   let $title as xs:string := concat("Editing Property ", $id)
+   let $document := lib-util:mdrElement("property",$id)
+   
+   let $ireg-auth := string($document/@item_registration_authority_identifier)
+   let $iadministrative-note := string($document//cgMDR:administrative_note)
+   let $iadministrative-status := string($document//cgMDR:administrative_status)
+   let $iadministered-by := string($document//cgMDR:administered_by)
+   let $isubmitted-by := string($document//cgMDR:submitted_by)
+   let $iregistered-by := string($document//cgMDR:registered_by)
+   let $icontext-ids := $document//cgMDR:context_identifier
+   let $icountry-identifiers := $document//cgMDR:country_identifier
+   let $ilanguage-identifiers := $document//cgMDR:language_identifier
+   let $inames := $document//cgMDR:name
+   let $idefinitions := $document//cgMDR:definition_text
+   let $isources := $document//cgMDR:definition_source_reference
+   let $iproperty_uri := string($document//cgMDR:reference_uri)
+   let $ipreferred := fn:index-of($document//cgMDR:preferred_designation,'true')
+   let $iaction := request:get-parameter('update','')
+
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
@@ -314,16 +331,18 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
    
+   
    return
    
       lib-rendering:txfrm-webpage(
       $title,
-      if ($action='Store')
+      if ($action='Store Changes')
       then 
          (
          if (
                local:property
                   (
+                     $id,
                      $reg-auth,
                      $administrative-note,
                      $administrative-status,
@@ -340,9 +359,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $preferred
                   )
             ) 
-         then local:success-page()  
+         then (local:success-page()  )
          else (local:input-page(
             'could not store document',
+                     $id,
                      $reg-auth,
                      $administrative-note,
                      $administrative-status,
@@ -361,9 +381,13 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                   )
                )
          )
-      else local:input-page
+      else (
+         if ($updating ='updating')
+         then (
+      local:input-page
                (
                '',
+               $id,
                $reg-auth,
                $administrative-note,
                $administrative-status,
@@ -380,5 +404,30 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $preferred
                )
+         ) else (
+               local:input-page
+               (
+               '',
+               $id,
+               $ireg-auth,
+               $iadministrative-note,
+               $iadministrative-status,
+               $iadministered-by,
+               $isubmitted-by,
+               $iregistered-by,
+               $icontext-ids,
+               $icountry-identifiers,
+               $ilanguage-identifiers,
+               $inames,
+               $idefinitions,
+               $isources,
+               $iproperty_uri,
+               $action,
+               $ipreferred
+               )
          )
+       )
+       
+    )
+       
 
