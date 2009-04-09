@@ -87,8 +87,10 @@ declare function local:object-class(
                            element cgMDR:language_identifier {$language-identifiers[$pos]}
                            },
                         element cgMDR:name {$name},
-                        element cgMDR:definition_text {$definitions[$pos]}, 
-                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))},
+                        element cgMDR:definition_text {$definitions[$pos]},
+                        if($preferred > '') then (
+                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))})
+                        else (),
                         element cgMDR:definition_source_reference {$sources[$pos]}
                         }
                   },
@@ -100,7 +102,7 @@ declare function local:object-class(
    
    (: compose the document :)
    let $document :=
-      element cgMDR:Concept_Relationship {
+      element cgMDR:Object_Class {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
@@ -112,7 +114,7 @@ declare function local:object-class(
    return
       if ($message='stored')
       then true()
-      else response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newObjectClass.xquery&amp;",$message)))
+      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newObjectClass.xquery&amp;",$message)))
 };
 
 declare function local:input-page(
@@ -219,7 +221,7 @@ declare function local:input-page(
                     <tr>
                        <td class="left_header_cell">Preferred</td>
                        <td>
-                          {lib-forms:radio('preferred', '0', '')}
+                          {lib-forms:radio('preferred', '1', '')}
                        </td>
                     </tr>,
 
@@ -234,7 +236,7 @@ declare function local:input-page(
                        <td colspan="5">
                           {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(),'')}
                           {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), '')}
-                       </td>
+                      </td>
                     </tr>,
                     
                     <tr>
@@ -253,33 +255,47 @@ declare function local:input-page(
                     {   
                          for $u at $pos in $object_class_uri
                          where $pos != $skip-uri-index and $u > ""
-                         return
+                         return 
                          (
+                         if($pos > $skip-uri-index and $skip-uri-index > 0) 
+                         then (
                             <tr>
-                               <td class="left_header_cell">uri {$pos}</td>
+                               <td class="left_header_cell">Concept Reference {util:eval($pos - 1)}</td>
                                <td colspan="5">
                                   {
-                                     lib-forms:input-element('object_class_uri',70, $u),
+                                     lib-forms:find-concept-id('object_class_uri','get concept',$u),
+                                     lib-forms:action-button(concat('delete uri entry ',util:eval($pos - 1)), 'action' ,'')
+                                  }
+                               </td>
+                            </tr>
+                         ) else (
+                            <tr>
+                               <td class="left_header_cell">Concept Reference {$pos}</td>
+                               <td colspan="5">
+                                  {
+                                     lib-forms:find-concept-id('object_class_uri','get concept',$u),
                                      lib-forms:action-button(concat('delete uri entry ',$pos), 'action' ,'')
                                   }
                                </td>
                             </tr>
-                            ),
+                         )
+                          
+                         )
+                     }
+                           
                             <tr>
-                               <td class="left_header_cell">new uri</td>
+                               <td class="left_header_cell">New Concept Reference</td>
                                <td colspan="5">
-                                  {
-                                  lib-forms:find-concept-id('object_class_uri','get concept')
-                                  }
+                                  {lib-forms:find-concept-id('object_class_uri','get concept','')}
+                                  <br></br>
+                                  {lib-forms:action-button('add another concept', 'action' ,'')}
                                </td>
                             </tr>
-                           
-                      
-                     }
+                 
                     <tr><td class="row-header-cell" colspan="6">Object class metadata</td></tr>
-                      <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority('')} </td></tr>
-                      <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by('')} </td></tr>
-                      <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by('')} </td></tr>
+                      <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+                      <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
+                      <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
                       <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
                       <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
                       <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
@@ -310,20 +326,20 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
 session:create(),
 
    let $title as xs:string := "Creating a New Object Class"
-   let $reg-auth := request:get-parameter('registration-authority',())
-   let $administrative-note := request:get-parameter('administrative-note',())
+   let $reg-auth := request:get-parameter('registration-authority','')
+   let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
    let $context-ids := request:get-parameter('context-ids',())
-   let $country-identifiers := request:get-parameter('country-identifiers','')
-   let $language-identifiers := request:get-parameter('language-identifiers','')
+   let $country-identifiers := request:get-parameter('country-identifiers',())
+   let $language-identifiers := request:get-parameter('language-identifiers',())
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
    let $object_class_uri := request:get-parameter('object_class_uri',())
-   let $preferred := request:get-parameter('preferred',())
+   let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
    
    return

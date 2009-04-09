@@ -5,7 +5,7 @@
     <xs:element name="Organization" type="Organization" nillable="false" abstract="false"/>
     <xs:complexType name="Organization" mixed="false" abstract="false">
         <xs:complexContent>
-            <xs:extension base="cgMDR:Organization">
+            <xs:extension base="iso11179:Organization">
                 <xs:sequence minOccurs="1" maxOccurs="1">
                     <xs:element name="Contact" type="Contact" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
                 </xs:sequence>
@@ -16,7 +16,7 @@
     <xs:element name="Contact" type="Contact" nillable="false" abstract="false"/>
     <xs:complexType name="Contact" mixed="false" abstract="false">
         <xs:complexContent>
-            <xs:extension base="cgMDR:Contact">
+            <xs:extension base="iso11179:Contact">
                 <xs:sequence minOccurs="1" maxOccurs="1"/>
                 <xs:attribute name="contact_identifier" use="required" type="contact_identifier"/>
             </xs:extension>

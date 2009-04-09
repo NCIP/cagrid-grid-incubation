@@ -110,12 +110,6 @@ return
                                                    order by $meaning ascending
                                                    return $meaning, (: The sorting gives deterministic behaviour that is good for regression testing :)
                                                    " | "
-                                               ),
-                                               string-join(
-                                                   for $meaning in string(value-meaning:value-meaning(string($permissible_value/cgMDR:contained_in))/cgMDR:value_meaning_description)
-                                                   order by $meaning ascending
-                                                   return $meaning, (: The sorting gives deterministic behaviour that is good for regression testing :)
-                                                   " | "
                                                )
                                              }
                                            </td>
