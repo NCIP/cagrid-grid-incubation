@@ -189,10 +189,10 @@
     <None Include="Web References\QueryServiceManager\xml.xsd" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://172.16.1.18:8080/wsrf/services/cagrid/MDRQuery%3fwsdl">
+    <WebReferenceUrl Include="http://cgmdr:8080/wsrf/services/cagrid/MDRQuery%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\QueryServiceManager\</RelPath>
-      <UpdateFromURL>http://172.16.1.18:8080/wsrf/services/cagrid/MDRQuery%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://cgmdr:8080/wsrf/services/cagrid/MDRQuery%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
