@@ -4,7 +4,7 @@
   <wsdl:types />
   <wsdl:service name="MDRQueryService">
     <wsdl:port name="MDRQueryPortTypePort" binding="binding:MDRQueryPortTypeSOAPBinding">
-      <soap:address location="http://172.16.1.18:8080/wsrf/services/cagrid/MDRQuery" />
+      <soap:address location="http://cgmdr:8080/wsrf/services/cagrid/MDRQuery" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

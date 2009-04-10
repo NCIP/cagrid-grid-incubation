@@ -26,7 +26,7 @@ namespace QueryServiceControl.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://172.16.1.18:8080/wsrf/services/cagrid/MDRQuery")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://cgmdr:8080/wsrf/services/cagrid/MDRQuery")]
         public string QueryServiceControl_QueryServiceManager_MDRQueryService {
             get {
                 return ((string)(this["QueryServiceControl_QueryServiceManager_MDRQueryService"]));
