@@ -251,7 +251,7 @@ namespace QueryServiceControl
                 req.query.numResults = pageSize + 1;
                 
                 lastResult = qsm.query(req);
-                if (lastResult.Items.Length <= 0)
+                if (lastResult == null || lastResult.Items == null || lastResult.Items.Length <= 0)
                 {
                     SetStatus("No result");
                     this.Cursor = Cursors.Default;
