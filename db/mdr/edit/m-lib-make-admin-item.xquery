@@ -52,6 +52,33 @@ declare function lib-make-admin-item:custodians(
     element cgMDR:submitted_by {$submitted-by}
 };
 
+declare function lib-make-admin-item:havings(
+    $context-ids as xs:string*,
+    $country-identifiers as xs:string*,
+    $language-identifiers as xs:string*,
+    $names as xs:string*,
+    $definitions as xs:string*,
+    $preferred as xs:string,
+    $sources as xs:string*) as node()*
+    {
+    
+    for $name at $pos in $names
+    where $name > ''
+               return (
+                     lib-make-admin-item:having($context-ids[$pos],
+                        $country-identifiers[$pos],
+                        $language-identifiers[$pos],
+                        $name,
+                        $definitions[$pos],
+                        if($preferred > '') then (
+                        xs:boolean((xs:int($preferred) = xs:int($pos))))
+                        else (xs:boolean('false')),
+                        $sources[$pos]
+                        )
+                      )
+    
+    };
+
 declare function lib-make-admin-item:having(
     $context-identifier as xs:string,
     $country-identifier as xs:string,
