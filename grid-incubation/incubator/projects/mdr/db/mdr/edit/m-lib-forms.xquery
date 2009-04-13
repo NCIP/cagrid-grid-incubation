@@ -444,33 +444,177 @@ declare function lib-forms:classification($admin-item as node()) as node()*
    <br/>
 };
 
-declare function lib-forms:admin-item-common($admin-item as node()) as node()*
-{
-   lib-forms:hidden-element('registration-authority', request:get-parameter('registration-authority',data($admin-item//@item_registration_authority_identifier))),
-   lib-forms:hidden-element('data-identifier', request:get-parameter('data-identifier',data($admin-item//@data_identifier))),
-   lib-forms:hidden-element('version', request:get-parameter('version',lib-forms:increment-version($admin-item//@version))),
-   lib-forms:hidden-element('old-version',request:get-parameter('old-version',$admin-item//@version)),
-   lib-forms:hidden-element('root-element',request:get-parameter('root-element',local-name($admin-item))),
-   <table class="layout">
-      <tr><td class="left_header_cell" colspan="3">administration record</td></tr>
-      <tr><td class="left_spacer_cell"/><td class="left_header_cell">creation date {lib-forms:hidden-element('creation-date',data($admin-item//cgMDR:creation_date))}</td><td>{data($admin-item//cgMDR:creation_date)}</td></tr>
-      <tr><td/><td class="left_header_cell">last changed date</td><td>{lib-forms:hidden-element('last-change-date',current-date())}{data(current-date())} - set to today's date</td></tr>
-      <tr><td/><td class="left_header_cell">change description</td><td>{lib-forms:text-area-element('change-description',5,60,request:get-parameter('change_description',data($admin-item//cgMDR:change_description)))}</td></tr>
-      <tr><td/><td class="left_header_cell">effective date</td><td>{lib-forms:input-element('effective-date',97,request:get-parameter('effective_date',data($admin-item//cgMDR:effective_date)))}</td></tr>
-      <tr><td/><td class="left_header_cell">registratration status</td><td>{lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',data($admin-item//cgMDR:registration_status)))}</td></tr>
-      <tr><td/><td class="left_header_cell">administrative status</td><td>{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',data($admin-item//cgMDR:administrative_status)))}</td></tr>
-      <tr><td/><td class="left_header_cell">administrative note</td><td>{lib-forms:text-area-element('administrative-note',5,60,request:get-parameter('administrative-note',data($admin-item//cgMDR:administrative_note)))}</td></tr>
-      <tr><td/><td class="left_header_cell">explanatory-comment</td><td>{lib-forms:text-area-element('explanatory-comment',5,60,request:get-parameter('explanatory-comment',data($admin-item//cgMDR:explanatory_comment)))}</td></tr>
-      <tr><td/><td class="left_header_cell">unresolved issue</td><td>{lib-forms:text-area-element('unresolved-issue',5,60,request:get-parameter('unresolved-issue',data($admin-item//cgMDR:unresolved_issue)))}</td></tr>
-      <tr><td/><td class="left_header_cell">origin</td><td>{lib-forms:input-element('origin',97,request:get-parameter('origin',(if (data($admin-item//cgMDR:origin)>'') then (data($admin-item//cgMDR:origin)) else (''))))}</td></tr>
-      <tr><td/><td class="left_header_cell" colspan="3">provenance</td></tr>
-      <tr><td/><td class="left_header_cell">registered by</td><td> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',data($admin-item//cgMDR:registered_by)))} </td></tr>
-      <tr><td/><td class="left_header_cell">administered by</td><td> {lib-forms:make-select-administered_by(request:get-parameter('administered-by',data($admin-item//cgMDR:administered_by)))} </td></tr>
-      <tr><td/><td class="left_header_cell">submitted by</td><td> {lib-forms:make-select-submitted_by(request:get-parameter('submitted-by',data($admin-item//cgMDR:submitted_by)))} </td></tr>
-      <tr><td/><td colspan="2">{lib-forms:action-button($lib-forms:action-update-body, 'action' ,0),lib-forms:reset-button()}</td></tr>
-      </table>,
-   <br/>
+
+declare function lib-forms:edit-admin-item(
+   $reg-auth as xs:string?,
+   $administrative-note  as xs:string?,
+   $administrative-status  as xs:string?,
+   $administered-by  as xs:string?,
+   $submitted-by  as xs:string?,
+   $registered-by  as xs:string?,
+   $context-ids as xs:string*,
+   $country-identifiers as xs:string*,
+   $language-identifiers as xs:string*,
+   $names as xs:string*,
+   $definitions as xs:string*,
+   $sources as xs:string*,
+   $preferred as xs:string?,
+   $action as xs:string?
+){
+   let $skip-name := substring-after($action,'delete naming entry')
+   let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+   return
+   
+<table class="section">
+
+<tr><td class="row-header-cell" colspan="6">Administered Item Metadata</td></tr>
+<tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+<tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
+<tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
+<tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
+<tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+<tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
+<tr><td colspan="6">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>
+<tr><td colspan="6">
+          
+                 <div class="tabber">
+                    {
+                    if($names > '') then (
+                    
+                 
+                    for $name at $pos in $names
+                    let $location := (if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos))
+                    where $pos != $skip-name-index and $name > ""
+                    return
+                    (
+                    <div class="tabbertab">
+	                  <h2>Naming entry {$location}</h2>
+	                  <p>
+	                  <table class="section">
+
+                    <tr>
+                       <td class="left_header_cell">Context</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-contexts-enum('context-ids',$context-ids[$pos])}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Name</td>
+                       <td colspan="5">
+                          {lib-forms:input-element('names',70,$name)}
+                       </td>
+                    </tr>
+
+                    <tr>
+                       <td class="left_header_cell">Preferred</td>
+                       <td>
+                          {lib-forms:radio('preferred', xs:string($pos), xs:string(($preferred = xs:string($pos))))}
+                       </td>
+                    </tr>
+         
+         
+                    <tr>
+                       <td class="left_header_cell">Definition</td>
+                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, $definitions[$pos])}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Language Identifier</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(), $country-identifiers[$pos])}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), $language-identifiers[$pos])}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
+                    </tr>
+                    
+                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$location), 'action' ,'')}</td></tr>
+                    </table>
+                    </p>
+                    </div>
+                    )
+                   
+                    
+                    
+                    ) else (),
+                    
+                    if((($names > '') != xs:boolean('true')) or $action = 'add another name')  then (
+                      <div class="tabbertab">
+                      {
+                      if($names > '') then (
+                        <h2>New Naming Entry</h2>
+                       ) else (
+                        <h2>New entry 1</h2>
+                       )
+                      }
+	                  <p>
+	                  <table class="section">
+	                  
+                    <tr>
+                       <td class="left_header_cell">Context</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-contexts-enum('context-ids','')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Name</td>
+                       <td colspan="5">
+                          {lib-forms:input-element('names',70,'')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Preferred</td>
+                       <td>
+                          {lib-forms:radio('preferred', '1', '')}
+                       </td>
+                    </tr>
+
+                    <tr>
+                       <td class="left_header_cell">Definition</td>
+                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, '')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Language Identifier</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(),'')}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), '')}
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
+                    </tr>
+                    {
+                    if($names > '') then (
+                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add this new name', 'action' ,'')}</td></tr>
+                    ) else ()
+                    }
+                    
+                  </table>
+                  </p>
+                  </div>
+                  ) else ()
+                  
+                  
+                  }
+                  
+                  </div>
+                  </td>
+                  </tr>          
+
+</table>
 };
+
 
 declare function lib-forms:action-button($value as xs:string, $control as xs:string, $action as xs:string) as node()
 {
@@ -598,26 +742,6 @@ declare function lib-forms:admin-item-naming($admin-item as node()) as node()*
    
    
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

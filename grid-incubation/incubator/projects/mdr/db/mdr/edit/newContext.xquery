@@ -33,6 +33,10 @@ xquery version "1.0";
   import module namespace 
   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
   at "../web/m-lib-rendering.xquery";   
+  
+  import module namespace 
+    lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item" 
+    at "../edit/m-lib-make-admin-item.xquery";     
 
 declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
 declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
@@ -47,6 +51,7 @@ declare function local:context(
    $administered-by as xs:string,
    $submitted-by as xs:string,
    $registered-by as xs:string,
+   $context-ids as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
    $names as xs:string*,
@@ -61,33 +66,16 @@ declare function local:context(
    let $doc-name := concat($new-identifier,'.xml')
 
    let $content := (
-            element cgMDR:administered_item_administration_record {
-               element cgMDR:administrative_note {$administrative-note},
-               element cgMDR:administrative_status {$administrative-status},
-               element cgMDR:creation_date {current-date()},
-               element cgMDR:effective_date {current-date()},
-               element cgMDR:last_change_date {current-date()},
-               element cgMDR:registration_status {'Recorded'}
-               },
-               element cgMDR:administered_by {$administered-by},
-               element cgMDR:registered_by {$registered-by},
-               element cgMDR:submitted_by {$submitted-by},
-               
-               for $name at $pos in $names
-               return
-                  element cgMDR:having {
-                     element cgMDR:context_identifier {$new-identifier},
-                     element cgMDR:containing {
-                        element cgMDR:language_section_language_identifier {
-                           element cgMDR:country_identifier {$country-identifiers[$pos]},
-                           element cgMDR:language_identifier {$language-identifiers[$pos]}
-                           },
-                        element cgMDR:name {$name},
-                        element cgMDR:definition_text {$definitions[$pos]}, 
-                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))},
-                        element cgMDR:definition_source_reference {$sources[$pos]}
-                        }
-                  }
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
+            lib-make-admin-item:havings(
+                    $context-ids,
+                    $country-identifiers,
+                    $language-identifiers,
+                    $names,
+                    $definitions,
+                    $preferred,
+                    $sources)
                   
     )
 
@@ -118,6 +106,7 @@ declare function local:input-page(
    $administered-by  as xs:string?,
    $submitted-by  as xs:string?,
    $registered-by  as xs:string?,
+   $context-ids as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
    $names as xs:string*,
@@ -141,45 +130,23 @@ declare function local:input-page(
           <tr><td>
           <form name="new_context" action="newContext.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
              <div class="section">
+             
+             {lib-forms:edit-admin-item($reg-auth,
+                     $administrative-note,
+                     $administrative-status,
+                     $administered-by,
+                     $submitted-by,
+                     $registered-by,
+                     $context-ids,
+                     $country-identifiers,
+                     $language-identifiers,
+                     $names,
+                     $definitions,
+                     $sources,
+                     $preferred,
+                     $action)}
+                     
                 <table class="section">
-                {
-                    
-                    <tr><td class="row-header-cell" colspan="6">New naming entry</td></tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Name</td>
-                       <td colspan="5">
-                          {lib-forms:input-element('names',70,'')}
-                       </td>
-                    </tr>,
-
-                    <tr>
-                       <td class="left_header_cell">Definition</td>
-                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, '')}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Language Identifier</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(), '')}
-                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), '')}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Source</td>
-                       <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
-                    </tr>
-                  }
-                    
-                    <tr><td class="row-header-cell" colspan="6">Context metadata</td></tr>
-                      <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority('')} </td></tr>
-                      <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by('')} </td></tr>
-                      <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by('')} </td></tr>
-                      <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
-                      <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
-                      <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
                       <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
                  </table>
               </div>
@@ -205,18 +172,19 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
  
    session:create(),
    let $title as xs:string := "Creating a New Context"
-   let $reg-auth := request:get-parameter('registration-authority',())
-   let $administrative-note := request:get-parameter('administrative-note',())
+   let $reg-auth := request:get-parameter('registration-authority','')
+   let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-   let $country-identifiers := request:get-parameter('country-identifiers','')
-   let $language-identifiers := request:get-parameter('language-identifiers','')
+   let $context-ids := request:get-parameter('context-ids',())
+   let $country-identifiers := request:get-parameter('country-identifiers',())
+   let $language-identifiers := request:get-parameter('language-identifiers',())
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
-   let $preferred := request:get-parameter('preferred',())
+   let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
    
    return
@@ -235,6 +203,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
+                     $context-ids,
                      $country-identifiers,
                      $language-identifiers,
                      $names,
@@ -252,6 +221,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
+                     $context-ids,
                      $country-identifiers,
                      $language-identifiers,
                      $names,
@@ -271,6 +241,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $administered-by,
                $submitted-by,
                $registered-by,
+               $context-ids,
                $country-identifiers,
                $language-identifiers,
                $names,

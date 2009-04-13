@@ -33,6 +33,10 @@ xquery version "1.0";
   import module namespace 
   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
   at "../web/m-lib-rendering.xquery";   
+  
+  import module namespace 
+  lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item" 
+  at "../edit/m-lib-make-admin-item.xquery";     
 
 declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
 declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
@@ -64,35 +68,16 @@ declare function local:property(
    let $doc-name := concat($id,'.xml')
 
    let $content := (
-            element cgMDR:administered_item_administration_record {
-               element cgMDR:administrative_note {$administrative-note},
-               element cgMDR:administrative_status {$administrative-status},
-               element cgMDR:creation_date {current-date()},
-               element cgMDR:effective_date {current-date()},
-               element cgMDR:last_change_date {current-date()},
-               element cgMDR:registration_status {'Recorded'}
-               },
-               element cgMDR:administered_by {$administered-by},
-               element cgMDR:registered_by {$registered-by},
-               element cgMDR:submitted_by {$submitted-by},
-               
-               for $name at $pos in $names
-               return
-                  element cgMDR:having {
-                     element cgMDR:context_identifier {$context-ids[$pos]},
-                     element cgMDR:containing {
-                        element cgMDR:language_section_language_identifier {
-                           element cgMDR:country_identifier {$country-identifiers[$pos]},
-                           element cgMDR:language_identifier {$language-identifiers[$pos]}
-                           },
-                        element cgMDR:name {$name},
-                        element cgMDR:definition_text {$definitions[$pos]}, 
-                        if($preferred > '') then (
-                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))})
-                        else (),
-                        element cgMDR:definition_source_reference {$sources[$pos]}
-                        }
-                  },
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
+            lib-make-admin-item:havings(
+                    $context-ids,
+                    $country-identifiers,
+                    $language-identifiers,
+                    $names,
+                    $definitions,
+                    $preferred,
+                    $sources), 
 
                    for $u in $uris
                    return
@@ -157,105 +142,24 @@ declare function local:input-page(
              <div class="section">
                 {lib-forms:hidden-element('id',$id)}
                 {lib-forms:hidden-element('updating','updating')}
-                <table class="section">
-                {
-                    for $name at $pos in $names
-                    where $pos != $skip-name-index and $name > ""
-                    return
-                    (
-                    <tr><td class="row-header-cell" colspan="6">Naming entry {$pos}</td></tr>,
-                    <tr>
-                       <td class="left_header_cell">Context</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-contexts-enum('context-ids',$context-ids[$pos])}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Name</td>
-                       <td colspan="5">
-                          {lib-forms:input-element('names',70,$name)}
-                       </td>
-                    </tr>,
-
-                    <tr>
-                       <td class="left_header_cell">Preferred</td>
-                       <td>
-                           {lib-forms:radio('preferred', xs:string($pos), xs:string(($preferred = xs:string($pos))))}
-                       </td>
-                    </tr>,
-         
-         
-                    <tr>
-                       <td class="left_header_cell">Definition</td>
-                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, $definitions[$pos])}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Language Identifier</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(), $country-identifiers[$pos])}
-                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), $language-identifiers[$pos])}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Source</td>
-                       <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
-                    </tr>,
-                    
-                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$pos), 'action' ,'')}</td></tr>
-                    ),
+                
+                {lib-forms:edit-admin-item($reg-auth,
+                     $administrative-note,
+                     $administrative-status,
+                     $administered-by,
+                     $submitted-by,
+                     $registered-by,
+                     $context-ids,
+                     $country-identifiers,
+                     $language-identifiers,
+                     $names,
+                     $definitions,
+                     $sources,
+                     $preferred,
+                     $action)}
                      
-                    if($action = 'add new name')
-                    then (
-                    
-                    <tr><td class="row-header-cell" colspan="6">New naming entry</td></tr>,
-                    <tr>
-                       <td class="left_header_cell">Context</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-contexts-enum('context-ids','')}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Name</td>
-                       <td colspan="5">
-                          {lib-forms:input-element('names',70,'')}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Preferred</td>
-                       <td>
-                          {lib-forms:radio('preferred', '0', '')}
-                       </td>
-                    </tr>,
-
-                    <tr>
-                       <td class="left_header_cell">Definition</td>
-                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, '')}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Language Identifier</td>
-                       <td colspan="5">
-                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(), '')}
-                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), '')}
-                       </td>
-                    </tr>,
-                    
-                    <tr>
-                       <td class="left_header_cell">Source</td>
-                       <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
-                    </tr>
-                    ) else ()
-                  }
-
-               <tr><td class="left_header_cell">New naming entry</td><td colspan="5">{lib-forms:action-button('add new name', 'action' ,'')}</td></tr>
-
+                <table class="section">
+                
                     <tr>
                        <td class="row-header-cell" colspan="6">Object Class specific properties</td>
                     </tr>
@@ -310,14 +214,7 @@ declare function local:input-page(
                     }
                            
                             
-                            
-                    <tr><td class="row-header-cell" colspan="6">Property metadata</td></tr>
-                      <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
-                      <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
-                      <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
-                      <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
-                      <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
-                      <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
+              
                       <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
                  </table>
               </div>

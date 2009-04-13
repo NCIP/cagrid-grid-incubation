@@ -52,6 +52,11 @@
         <uri>../edit/newObjectClass.xquery</uri>
     </function>
     <function>
+        <title>Create a new conceptual domain</title>
+        <description>Create a new conceptual domain and add/edit value domains.</description>
+        <uri>../edit/newConceptualDomain.xquery</uri>
+    </function>
+    <function>
         <title>Create a new property</title>
         <description>Create a new property describing attributes or properties 
             of real world objects that can be measured 
