@@ -19,6 +19,24 @@ namespace EnterpriseArchitectAddIn
 
         public static XNamespace rs = "http://cancergrid.org/schema/result-set";
 
+        private static bool tagExists(EA.Collection tvs, String tagName)
+        {
+            try
+            {
+                if (tvs.GetByName(tagName) != null)
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                // There seems to be a bug in GetByName somewhere
+                // where an index out of bounds exception is thrown
+                // if the input parameter is not found.
+            }
+            return false;
+        }
+
         public static void annotateWithCDE(EA.Repository m_Repository, QueryServiceControl.QueryServiceManager.dataelement de)
         {
             object item;
@@ -53,25 +71,20 @@ namespace EnterpriseArchitectAddIn
                 //MessageBox.Show(txt);
 
                 EA.Collection tvs = attr.TaggedValues;
-                if (tvs.GetByName(CDEREF) != null)
+
+                if (tagExists(attr.TaggedValues, CDEREF))
                 {
                     //DialogResult dg = MessageBox.Show(
                     //    el.Name + " already has a " + CDEREF + " annotation. Replace?", 
                     //    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                     //if (dg == DialogResult.Cancel)
                     //    return;
-
                     MessageBox.Show(attr.Name + " already has a " + CDEREF + " annotation. Please remove and try again.");
                     return;
                 }
 
-                if (tvs.GetByName(PREFNAME) != null)
+                if (tagExists(attr.TaggedValues, PREFNAME))
                 {
-                    //DialogResult dg = MessageBox.Show(
-                    //    el.Name + " already has a " + PREFNAME + " annotation. Replace?", 
-                    //    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                    //if (dg == DialogResult.Cancel)
-                    //    return;
                     MessageBox.Show(attr.Name + " already has a " + PREFNAME + " annotation. Please remove and try again.");
                     return;
                 }
