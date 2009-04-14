@@ -2,49 +2,7 @@
 <xs:schema xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:iso11179="http://www.cancergrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
     <xs:import namespace="http://www.cancergrid.org/schema/ISO11179" schemaLocation="../schemas/iso11179.xsd"/>
     <xs:include schemaLocation="../schemas/cgMDR_status_codes.xsd"/>
-    <xs:element name="Value_Domain" type="Value_Domain" nillable="false" abstract="false"/>
-    <xs:complexType name="Value_Domain" mixed="false" abstract="false">
-        <xs:complexContent>
-            <xs:extension base="cgAdministered_Item">
-                <xs:sequence minOccurs="1" maxOccurs="1">
-                    <xs:element name="typed_by" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false"/>
-                    <xs:element name="value_domain_datatype" type="datatype_identifier" minOccurs="1" maxOccurs="1" nillable="false">
-                        <xs:annotation>
-                            <xs:documentation>foreignKey:Datatype@datatype_identifier</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="value_domain_format" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
-                    <xs:element name="value_domain_maximum_character_quantity" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false"/>
-                    <xs:element name="value_domain_unit_of_measure" type="unit_of_measure_identifier" minOccurs="0" maxOccurs="1" nillable="false">
-                        <xs:annotation>
-                            <xs:documentation>foreignKey: Unit_Of_Measure@unit_of_measure_identifier</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="related_to" type="Value_Domain_Relationship" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:element name="Unit_of_Measure" type="Unit_of_Measure" nillable="false" abstract="false"/>
-    <xs:complexType name="Unit_of_Measure" mixed="false" abstract="false">
-        <xs:complexContent>
-            <xs:extension base="iso11179:Unit_of_Measure">
-                <xs:sequence minOccurs="1" maxOccurs="1"/>
-                <xs:attribute name="unit_of_measure_identifier" use="required" type="unit_of_measure_identifier"/>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:element name="Conceptual_Domain" type="Conceptual_Domain" nillable="false" abstract="false"/>
-    <xs:complexType name="Conceptual_Domain" mixed="false" abstract="false">
-        <xs:complexContent>
-            <xs:extension base="cgAdministered_Item">
-                <xs:sequence minOccurs="1" maxOccurs="1">
-                    <xs:element name="dimensionality" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
-                    <xs:element name="related_to" type="Conceptual_Domain_Relationship" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+    
     <xs:simpleType name="reference_document_identifier">
         <xs:restriction base="cgMDR:identifier"/>
     </xs:simpleType>
@@ -107,13 +65,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:element name="Conceptual_Domain_Relationship" type="Conceptual_Domain_Relationship" nillable="false" abstract="false"/>
-    <xs:complexType name="Conceptual_Domain_Relationship" mixed="false" abstract="false">
-        <xs:sequence minOccurs="1" maxOccurs="1">
-            <xs:element name="related_to" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false"/>
-            <xs:element name="conceptual_domain_relationship_type_description" type="relationship_type_name" minOccurs="0" maxOccurs="1" nillable="false"/>
-        </xs:sequence>
-    </xs:complexType>
+   
     <xs:element name="cgAdministered_Item" type="cgAdministered_Item" nillable="false" abstract="false"/>
     <xs:complexType name="cgAdministered_Item" abstract="true" mixed="false">
         <xs:sequence minOccurs="1" maxOccurs="1">
@@ -258,11 +210,5 @@ Abstracted so it could be an attribute of the root element</xs:documentation>
         <xs:attribute name="data_identifier" use="required" type="xs:string"/>
         <xs:attribute name="version" use="required" type="xs:string"/>
     </xs:attributeGroup>
-    <xs:element name="Value_Domain_Relationship" type="Value_Domain_Relationship" nillable="false" abstract="false"/>
-    <xs:complexType name="Value_Domain_Relationship" mixed="false" abstract="false">
-        <xs:sequence minOccurs="1" maxOccurs="1">
-            <xs:element name="value_domain_relationship_type_description" type="relationship_type_name" minOccurs="1" maxOccurs="1" nillable="false"/>
-            <xs:element name="related_to" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false"/>
-        </xs:sequence>
-    </xs:complexType>
+    
 </xs:schema>
