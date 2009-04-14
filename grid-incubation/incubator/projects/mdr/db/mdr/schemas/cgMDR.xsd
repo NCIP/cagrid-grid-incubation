@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://www.cancergrid.org/schema/cgMDR"
+    targetNamespace="http://www.cancergrid.org/schema/cgMDR">
+
+    <xs:include schemaLocation="cgMDR_classification.xsd"/>
+    <xs:include schemaLocation="cgMDR_classification_scheme_item.xsd"/>
+    <xs:include schemaLocation="cgMDR_conceptual_domain.xsd"/>
+    <xs:include schemaLocation="cgMDR_reference_document.xsd"/>
+    <xs:include schemaLocation="cgMDR_context.xsd"/>
+    <xs:include schemaLocation="cgMDR_data_element.xsd"/>
+    <xs:include schemaLocation="cgMDR_data_element_concept.xsd"/>
+    <xs:include schemaLocation="cgMDR_object_class.xsd"/>
+    <xs:include schemaLocation="cgMDR_organization.xsd"/>
+    <xs:include schemaLocation="cgMDR_property.xsd"/>
+    <xs:include schemaLocation="cgMDR_registrationAuthority.xsd"/>
+</xs:schema>
