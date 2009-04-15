@@ -240,7 +240,7 @@ declare function lib-forms:make-select-admin-item($collection as xs:string, $sel
 {
    element input {
       attribute type {'text'},
-      attribute disabled {'disabled'},
+   
       attribute name {$select-name},
       attribute id {$select-name},
       attribute value {$received-value},

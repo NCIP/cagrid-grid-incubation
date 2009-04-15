@@ -3,25 +3,9 @@ xquery version "1.0";
 (: ~
  : Module Name:             new value domain webpage and XQuery
  :
- : Module Version           2.0
- :
- : Date                     31st July 2007
- :
- : Copyright                The cancergrid consortium
- :
  : Module overview          Creates and value domain and displays list
- :
  :)
  
-(:~
- :    @author Steve Harris
- :    @version 0.1
- :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
-~ :)
-
   import module namespace 
   lib-forms="http://www.cancergrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
@@ -36,7 +20,11 @@ xquery version "1.0";
   
   import module namespace 
     lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item" 
-    at "../edit/m-lib-make-admin-item.xquery";     
+    at "../edit/m-lib-make-admin-item.xquery";   
+    
+  import module namespace 
+   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   at "../library/m-administered-item.xquery";   
 
 declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
 declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
@@ -58,14 +46,16 @@ declare function local:property(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $uri as xs:string?,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+   $conceptual_domain_id as xs:string?,
+   $values as xs:string*
    ) as xs:boolean
 {
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
    let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
    let $doc-name := concat($new-identifier,'.xml')
+   let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
 
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
@@ -77,17 +67,21 @@ declare function local:property(
                     $names,
                     $definitions,
                     $preferred,
-                    $sources), 
-                  
-                  if($uri > '') 
-                  then (
-                  element cgMDR:reference_uri {$uri})
-                  else ()
-                  
-                  
-                  )
-
-
+                    $sources),
+         
+            
+             for $meaning at $pos in $concept_domain//cgMDR:value_meaning_description
+                    return (
+                       element cgMDR:containing {
+                         attribute permissible_value_identifier {lib-forms:generate-id()},
+                         element cgMDR:permissible_value_begin_date {current-date()},
+                         element cgMDR:value_item {$values[$pos]},
+                         element cgMDR:contained_in {$concept_domain//cgMDR:value_meaning_identifier[$pos]/text()}
+                       }
+             ),
+            element cgMDR:representing {$conceptual_domain_id}
+   )
+           
    
    (: compose the document :)
    let $document :=
@@ -120,9 +114,9 @@ declare function local:input-page(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $property_uri as xs:string?,
    $action as xs:string?,
    $preferred as xs:string?,
+   $conceptual_domain_id as xs:string?,
    $values as xs:string*
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
@@ -157,18 +151,64 @@ declare function local:input-page(
                      $preferred,
                      $action)}
                      
-                     
-
-                 <table class="section"> 
-                    <tr>
-                       <td class="row-header-cell" colspan="6">Value Domain specific properties</td>
-                    </tr>
-                 </table>   
+                {  
+                
+                    let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
+                    return
                     
-                 <table class="section">     
-                      <tr><td class="row-header-cell" colspan="6">Store</td></tr>
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
-                 </table>
+                    if ($conceptual_domain_id > '') then (
+                    
+                        lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id),
+                        
+                        <table class="section">
+                           <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
+                           <tr>
+                                <td class="left_header_cell">Conceptual Domain Name</td>
+                                <td align="left">{$conceptual_domain_id}</td>
+                           </tr>
+                           <tr>
+                                <td class="left_header_cell">Conceptual Domain ID</td>
+                                <td align="left">{administered-item:preferred-name('conceptual_domain',$conceptual_domain_id)}</td>
+                           </tr>
+                           <tr><td class="row-header-cell" colspan="6">Value Domain</td></tr>
+                           <tr>
+                           <td class="left_header_cell">Value Domain Data Type</td>
+                           <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
+                           </tr>
+                           <tr>
+                           <td class="left_header_cell">Value Domain Unit of Measure</td>
+                           <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
+                           </tr>
+                           <tr>
+                           <td class="left_header_cell">Possible Values</td><td colspan="3">meaning</td><td>value</td><td/>
+                           </tr>
+                           {
+                                for $meaning at $pos in $concept_domain//cgMDR:value_meaning_description
+                                return (
+                                   <tr>
+                                      <td class="left_header_cell">Permissable Value {$pos}</td>
+                                      <td colspan="3" >{$meaning}</td><td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
+                                   </tr>
+                                   )
+                                 
+                           }
+                        </table>,  
+                        <table class="section">     
+                              <tr><td class="row-header-cell" colspan="6">Store</td></tr>
+                              <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                        </table>
+                   ) else (
+                       <table class="section">
+                           <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
+                           <tr>
+                                <td class="left_header_cell">Choose Conceptual Domain</td>
+                                <td align="left">{lib-forms:make-select-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id)}</td>
+                                <td>{lib-forms:action-button('select', 'action','')}</td>
+                           </tr>
+                       </table>
+                   )
+               }
+                 
               </div>
           </form>
           </td></tr>
@@ -206,6 +246,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
+   let $conceptual_domain_id as xs:string? := request:get-parameter('conceptual_domain_id','')
    let $values := request:get-parameter('values',())
    
    return
@@ -230,8 +271,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $names,
                      $definitions,
                      $sources,
-                     $property_uri,
                      $preferred,
+                     $conceptual_domain_id,
                      $values
                   )
             ) 
@@ -250,9 +291,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $names,
                      $definitions,
                      $sources,
-                     $property_uri,
                      $action,
                      $preferred,
+                     $conceptual_domain_id,
                      $values
                   )
                )
@@ -272,9 +313,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $names,
                $definitions,
                $sources,
-               $property_uri,
                $action,
                $preferred,
+               $conceptual_domain_id,
                $values
                )
          )
