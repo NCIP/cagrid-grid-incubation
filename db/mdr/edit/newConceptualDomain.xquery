@@ -3,24 +3,8 @@ xquery version "1.0";
 (: ~
  : Module Name:             new conceptual domain webpage and XQuery
  :
- : Module Version           2.0
- :
- : Date                     31st July 2007
- :
- : Copyright                The cancergrid consortium
- :
  : Module overview          Creates and conceptual domain and displays list
- :
  :)
- 
-(:~
- :    @author Steve Harris
- :    @version 0.1
- :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
-~ :)
 
   import module namespace 
   lib-forms="http://www.cancergrid.org/xquery/library/forms"
@@ -60,7 +44,6 @@ declare function local:conceptual-domain(
    $sources as xs:string*,
    $uri as xs:string?,
    $preferred as xs:string?,
-   $values as xs:string*,
    $meanings as xs:string*
    ) as xs:boolean
 {
@@ -82,10 +65,16 @@ declare function local:conceptual-domain(
                     $preferred,
                     $sources), 
                   
-                  if($uri > '') 
-                  then (
-                  element cgMDR:reference_uri {$uri})
-                  else ()
+                  for $meaning at $pos in $meanings
+                  let $vmid := lib-forms:generate-id()
+                  where $meaning > ""
+                    return
+                        element cgMDR:Value_Meaning {
+                          element cgMDR:value_meaning_begin_date {current-date()},
+                          element cgMDR:value_meaning_description {$meaning},
+                          element cgMDR:value_meaning_identifier {$vmid}
+                        }
+                    
                   
                   
                   )
@@ -126,14 +115,13 @@ declare function local:input-page(
    $property_uri as xs:string?,
    $action as xs:string?,
    $preferred as xs:string?,
-   $values as xs:string*,
    $meanings as xs:string*
    ) {
    
    
 
    
-   let $skip-name := substring-after($action,'delete naming entry')
+   let $skip-name := substring-after($action,'delete value meaning')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
 
    return
@@ -171,32 +159,26 @@ declare function local:input-page(
                      
                 <table class="layout">
                
+               <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>
+               
                <tr>
-               <td class="left_header_cell">Value Domain Data Type</td>
-               <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
-               </tr>
-               <tr>
-               <td class="left_header_cell">Value Domain Unit of Measure</td>
-               <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
-               </tr>
-               <tr>
-               <td class="left_header_cell">Possible Values</td><td width="20%">value</td><td>meaning</td><td/>
+               <td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>
                </tr>
                {
-                    for $value at $pos in $values
-                    where $pos != $skip-name-index and $value > ""
+                    for $meaning at $pos in $meanings
+                    let $location := if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos)
+                    where $pos != $skip-name-index and $meaning > ""
                     return (
                        <tr>
-                          <td class="left_header_cell">Permissable Value</td>
-                          <td width="20%">{lib-forms:input-element('values', 20, $value)}</td><td>{lib-forms:input-element('meanings', 60, $meanings[$pos])}</td>
-                          <td>{lib-forms:action-button(concat('delete value entry ',$pos), 'action' ,'' ,'enum-value-update')}</td>
+                          <td class="left_header_cell">Value {$location} Meaning</td>
+                          <td>{lib-forms:input-element('meanings', 60, $meaning)}</td>
+                          <td>{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
                        </tr>
                        ),
                        <tr>
-                          <td class="left_header_cell">New Permissable Value</td>
-                          <td width="20%">{lib-forms:input-element('values', 20, '')}</td>
+                          <td class="left_header_cell">New Value Meaning</td>
                           <td>{lib-forms:input-element('meanings', 60, '')}</td>
-                          <td>{lib-forms:action-button('add new value', 'action' ,'', 'enum-value-update')}</td>
+                          <td>{lib-forms:action-button('add new value meaning', 'action' ,'')}</td>
                        </tr>
                }
             </table>  
@@ -244,7 +226,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $property_uri := request:get-parameter('property_uri','')
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
-   let $values := request:get-parameter('values','')
    let $meanings := request:get-parameter('meanings','')
    
    
@@ -272,7 +253,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $sources,
                      $property_uri,
                      $preferred,
-                     $values,
                      $meanings
                   )
             ) 
@@ -294,7 +274,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $property_uri,
                      $action,
                      $preferred,
-                     $values,
                      $meanings
                   )
                )
@@ -317,7 +296,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $property_uri,
                $action,
                $preferred,
-               $values,
                $meanings
                )
          )

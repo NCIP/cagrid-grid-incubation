@@ -57,6 +57,11 @@
         <uri>../edit/newConceptualDomain.xquery</uri>
     </function>
     <function>
+        <title>Create a new value domain</title>
+        <description>Create a new value domain and add/edit permissable values</description>
+        <uri>../edit/newValueDomain.xquery</uri>
+    </function>
+    <function>
         <title>Create a new property</title>
         <description>Create a new property describing attributes or properties 
             of real world objects that can be measured 

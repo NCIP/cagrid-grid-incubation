@@ -20,11 +20,6 @@ import module namespace
 administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
 at "../library/m-administered-item.xquery";  
 
-declare function lib-make-admin-item:current-date() as xs:string
-{
-   substring-before(xs:string(current-date()),'Z')
-};
-
 declare function lib-make-admin-item:administration-record(
     $administrative-note as xs:string,
     $administrative-status as xs:string,
@@ -34,9 +29,9 @@ declare function lib-make-admin-item:administration-record(
     element cgMDR:administered_item_administration_record {
         element cgMDR:administrative_note {$administrative-note},
         element cgMDR:administrative_status {$administrative-status},
-        element cgMDR:creation_date {lib-make-admin-item:current-date()},
-        element cgMDR:effective_date {lib-make-admin-item:current-date()},
-        element cgMDR:last_change_date {lib-make-admin-item:current-date()},
+        element cgMDR:creation_date {current-date()},
+        element cgMDR:effective_date {current-date()},
+        element cgMDR:last_change_date {current-date()},
         element cgMDR:registration_status {$registration-status}
     }
 };
