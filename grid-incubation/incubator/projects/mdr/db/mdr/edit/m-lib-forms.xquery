@@ -76,53 +76,9 @@ declare function lib-forms:substring-after-last
    replace ($arg,concat('^.*',lib-forms:escape-for-regex($delim)),'')
  } ;   
 
-(: simpler random id function :)
-declare function lib-forms:random-name($starting as xs:string?, $length as xs:nonNegativeInteger)
-as xs:string
-{
-   let $chars as xs:string* := ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E')
-   let $rand as xs:nonNegativeInteger := xs:nonNegativeInteger(util:random(15) + 1)
-   return
-      if (string-length($starting) lt $length)
-      then lib-forms:random-name (concat($starting, $chars[$rand]),$length)
-      else $starting
-};
-
-
-(:~
-  Generate an identifier for a prospective new data element.
-  Type specification is not required as mdrElementId resolves this
-  ID is unique throughout the database - avoiding two admin items
-  having the same identifier.
-:)
 declare function lib-forms:generate-id() as xs:string
 {
-   (: needs to accept a sequence of previous identifiers to include in its search :)
-   let $new-id := lib-forms:random-name((), 9)
-   return
-      (:test naked ID documents:)
-      if (doc-available(concat($new-id,'.xml')))
-      then lib-forms:generate-id()
-      else 
-         if (
-            for $id in lib-util:mdrElements('value_domain')//@permissible_value_identifier
-            where xs:string($id) = $new-id
-            return true())
-         then lib-forms:generate-id()
-         else
-            if (
-               for $id in lib-util:mdrElements('conceptual_domain')//@value_meaning_identifier
-               where xs:string($id) = $new-id
-               return true())
-            then lib-forms:generate-id()
-            else
-               if (
-                  for $id in lib-util:mdrElements()//@data_identifier
-                  where xs:string($id) = $new-id
-                  return true())
-               then lib-forms:generate-id()
-               else $new-id
-         
+    util:uuid()
 };
 
 

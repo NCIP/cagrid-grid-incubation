@@ -82,13 +82,23 @@ declare function local:conceptual-domain(
 
    
    (: compose the document :)
-   let $document :=
-      element cgMDR:Conceptual_Domain {
-            attribute item_registration_authority_identifier {$reg-auth},
-            attribute data_identifier {$data-identifier},
-            attribute version {$version},
-            $content
-           }
+   let $document := (
+       if($meanings > '') then (
+          element cgMDR:Enumerated_Conceptual_Domain {
+                attribute item_registration_authority_identifier {$reg-auth},
+                attribute data_identifier {$data-identifier},
+                attribute version {$version},
+                $content
+               }
+      ) else (
+          element cgMDR:Non_Enumerated_Conceptual_Domain {
+                attribute item_registration_authority_identifier {$reg-auth},
+                attribute data_identifier {$data-identifier},
+                attribute version {$version},
+                $content
+               }
+      )
+   )
       
    let $collection := 'conceptual_domain'
    let $message := lib-forms:store-document($document) 
@@ -158,34 +168,56 @@ declare function local:input-page(
                      
                      
                 <table class="layout">
+
+                {
+                 if(request:get-parameter('conceptual-domain-type','') = 'enumerated') then (
+                  
+                     <tr><td class="left_header_cell">Enumerated Conceptual Domain?</td>
+                      <td><input type="radio" name="conceptual-domain-type" value="enumerated" checked="checked">enumerated</input></td>
+                      <td><input type="radio" name="conceptual-domain-type" value="non-enumerated">non-enumerated</input></td>
+                      <td>{lib-forms:action-button('update', 'action' ,'')}</td>
+                     </tr>,
+                     <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>,
+      
+                     <tr>
+                      <td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>
+                     </tr>,
+                  
+                      
+                        for $meaning at $pos in $meanings
+                        let $location := if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos)
+                        where $pos != $skip-name-index and $meaning > ""
+                        return (
+                           <tr>
+                              <td class="left_header_cell">Value {$location} Meaning</td>
+                              <td>{lib-forms:input-element('meanings', 60, $meaning)}</td>
+                              <td>{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
+                           </tr>
+                           ),
+                           <tr>
+                              <td class="left_header_cell">New Value Meaning</td>
+                              <td>{lib-forms:input-element('meanings', 60, '')}</td>
+                              <td>{lib-forms:action-button('add new value meaning', 'action' ,'')}</td>
+                           </tr>
+                       
+                 ) else ( 
+                         <tr><td class="left_header_cell">Enumerated Conceptual Domain?</td>
+                           <td><input type="radio" name="conceptual-domain-type" value="enumerated" >enumerated</input></td>
+                           <td><input type="radio" name="conceptual-domain-type" value="non-enumerated" checked="checked">non-enumerated</input></td>
+                           <td>{lib-forms:action-button('update', 'action' ,'')}</td>
+                         </tr>
+                     
+                 )
+              },
                
-               <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>
-               
-               <tr>
-               <td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>
-               </tr>
-               {
-                    for $meaning at $pos in $meanings
-                    let $location := if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos)
-                    where $pos != $skip-name-index and $meaning > ""
-                    return (
-                       <tr>
-                          <td class="left_header_cell">Value {$location} Meaning</td>
-                          <td>{lib-forms:input-element('meanings', 60, $meaning)}</td>
-                          <td>{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
-                       </tr>
-                       ),
-                       <tr>
-                          <td class="left_header_cell">New Value Meaning</td>
-                          <td>{lib-forms:input-element('meanings', 60, '')}</td>
-                          <td>{lib-forms:action-button('add new value meaning', 'action' ,'')}</td>
-                       </tr>
-               }
+                
             </table>  
                     
                  <table class="section">     
                       <tr><td class="row-header-cell" colspan="6">Store</td></tr>
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                      <tr><td class="left_header_cell"></td>
+                         <td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td>  
+                      </tr>  
                  </table>
               </div>
           </form>

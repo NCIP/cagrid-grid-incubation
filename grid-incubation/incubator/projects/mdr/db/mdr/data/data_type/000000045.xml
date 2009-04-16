@@ -1,0 +1,6 @@
+<cgMDR:cgDatatype xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" datatype_identifier="000000045">
+    <cgMDR:datatype_annotation>http://www.w3.org/2001/XMLSchema</cgMDR:datatype_annotation>
+    <cgMDR:datatype_description>the xml unsignedInt datatype</cgMDR:datatype_description>
+    <cgMDR:datatype_name>unsignedInt</cgMDR:datatype_name>
+    <cgMDR:datatype_scheme_reference>XMLSchema</cgMDR:datatype_scheme_reference>
+</cgMDR:cgDatatype>

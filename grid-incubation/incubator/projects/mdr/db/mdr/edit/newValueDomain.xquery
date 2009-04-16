@@ -84,13 +84,23 @@ declare function local:property(
            
    
    (: compose the document :)
-   let $document :=
-      element cgMDR:Value_Domain {
+   let $document := (
+     if($values > '' ) then (
+      element cgMDR:Enumerated_Value_Domain {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
             $content
            }
+      ) else (
+       element cgMDR:Non_Enumerated_Value_Domain {
+            attribute item_registration_authority_identifier {$reg-auth},
+            attribute data_identifier {$data-identifier},
+            attribute version {$version},
+            $content
+           }
+      )
+   )
       
    let $collection := 'property'
    let $message := lib-forms:store-document($document) 
@@ -180,18 +190,22 @@ declare function local:input-page(
                            <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
                            </tr>
                            <tr>
-                           <td class="left_header_cell">Possible Values</td><td colspan="3">meaning</td><td>value</td><td/>
-                           </tr>
-                           {
-                                for $meaning at $pos in $concept_domain//cgMDR:value_meaning_description
-                                return (
-                                   <tr>
-                                      <td class="left_header_cell">Permissable Value {$pos}</td>
-                                      <td colspan="3" >{$meaning}</td><td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
-                                   </tr>
-                                   )
-                                 
-                           }
+                           
+                           if($concept_domain//cgMDR:value_meaning_description > '') then (
+                               <td class="left_header_cell">Possible Values</td><td colspan="3">meaning</td><td>value</td><td/>
+                               </tr>
+                               {
+                                    for $meaning at $pos in $concept_domain//cgMDR:value_meaning_description
+                                    return (
+                                       <tr>
+                                          <td class="left_header_cell">Permissable Value {$pos}</td>
+                                          <td colspan="3" >{$meaning}</td><td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
+                                       </tr>
+                                       )
+                                     
+                               }
+                           ) else ()
+                           
                         </table>,  
                         <table class="section">     
                               <tr><td class="row-header-cell" colspan="6">Store</td></tr>
