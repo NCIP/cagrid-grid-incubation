@@ -168,6 +168,7 @@ declare function local:input-page(
                      
                      
                 <table class="layout">
+                   <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
 
                 {
                  if(request:get-parameter('conceptual-domain-type','') = 'enumerated') then (
@@ -208,7 +209,7 @@ declare function local:input-page(
                          </tr>
                      
                  )
-              },
+              }
                
                 
             </table>  

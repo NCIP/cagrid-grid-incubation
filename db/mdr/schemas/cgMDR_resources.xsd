@@ -194,10 +194,6 @@ When an Administered Item is modified, it becomes a new version of the Administe
     <xs:simpleType name="datatype_scheme_reference">
         <xs:restriction base="xs:string">
             <xs:enumeration value="XMLSchema"/>
-            <xs:enumeration value="dotNet"/>
-            <xs:enumeration value="Java"/>
-            <xs:enumeration value="Python"/>
-            <xs:enumeration value="Perl"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:attributeGroup name="cgItem_Identifier">
