@@ -168,13 +168,13 @@ declare function local:input-page(
                     
                     if ($conceptual_domain_id > '') then (
                     
-                        lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id),
-                        
+
                         <table class="section">
                            <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
                            <tr>
                                 <td class="left_header_cell">Conceptual Domain Name</td>
                                 <td align="left">{$conceptual_domain_id}</td>
+                                <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
                            </tr>
                            <tr>
                                 <td class="left_header_cell">Conceptual Domain ID</td>
@@ -182,12 +182,12 @@ declare function local:input-page(
                            </tr>
                            <tr><td class="row-header-cell" colspan="6">Value Domain</td></tr>
                            <tr>
-                           <td class="left_header_cell">Value Domain Data Type</td>
-                           <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
+                               <td class="left_header_cell">Value Domain Data Type</td>
+                               <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
                            </tr>
                            <tr>
-                           <td class="left_header_cell">Value Domain Unit of Measure</td>
-                           <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
+                               <td class="left_header_cell">Value Domain Unit of Measure</td>
+                               <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
                            </tr>
                            <tr>
                            
@@ -201,12 +201,12 @@ declare function local:input-page(
                                           <td class="left_header_cell">Permissable Value {$pos}</td>
                                           <td colspan="3" >{$meaning}</td><td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
                                        </tr>
-                                       )
+                                    )
                                      
                                }
                            ) else ()
                            
-                        </table>,  
+                        </table>,
                         <table class="section">     
                               <tr><td class="row-header-cell" colspan="6">Store</td></tr>
                               <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
