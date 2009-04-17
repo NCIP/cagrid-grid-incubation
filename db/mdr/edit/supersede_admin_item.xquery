@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                    26th October 2006
  :
- : Copyright               The cancergrid consortium
+ : Copyright               The cagrid consortium
  :
  : Module overview         Supersedes an administered item with another.  
  :                         Used for consolidating the metadata repository
@@ -21,35 +21,35 @@ xquery version "1.0";
  :
 ~ :)
 import module namespace 
-   lib-forms="http://www.cancergrid.org/xquery/library/forms"
+   lib-forms="http://www.cagrid.org/xquery/library/forms"
    at "../edit/m-lib-forms.xquery";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
 
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";   
 
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";   
 
    
 import module namespace 
-   lib-supersede="http://www.cancergrid.org/xquery/library/supersede"
+   lib-supersede="http://www.cagrid.org/xquery/library/supersede"
    at "../edit/m-lib-supersede.xquery";   
     
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace util="http://exist-db.org/xquery/util";
 
 declare function local:content($supersede-source as xs:string?, $source as node()?, $supersede-target as xs:string?, $target as node()?) as element(form)
 {
-   <form xmlns="http://www.w3.org/1999/xhtml" name="supersede_admin_item" action="{session:encode-url(request:get-uri())}" method="post" class="cancergridForm" enctype="multipart/form-data">
+   <form xmlns="http://www.w3.org/1999/xhtml" name="supersede_admin_item" action="{session:encode-url(request:get-uri())}" method="post" class="cagridForm" enctype="multipart/form-data">
       <table>
          <tr>
             <td>supersession source</td>
@@ -83,7 +83,7 @@ declare function local:content($supersede-source as xs:string?, $source as node(
       
             {
             
-            let $other-admin-items := lib-util:mdrElements()[.//cgMDR:registration_status != "Superseded"]
+            let $other-admin-items := lib-util:mdrElements()[.//openMDR:registration_status != "Superseded"]
             [data(.//*)=$supersede-source or data(.//@*)=$supersede-source]
             return
                 if ($other-admin-items)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cgRegression:mdr-tests xmlns:cgRegression="http://www.cancergrid.org/schema/cgRegression" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../regression-test/regression-tests.xsd">
+<cgRegression:mdr-tests xmlns:cgRegression="http://www.cagrid.org/schema/cgRegression" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../regression-test/regression-tests.xsd">
     <cgRegression:mdr-test type="web-page-comparison">
         <cgRegression:test-name>lib-util path tests</cgRegression:test-name>
         <cgRegression:test-desc>API exerciser for lib-util path functions</cgRegression:test-desc>

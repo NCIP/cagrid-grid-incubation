@@ -1,20 +1,20 @@
 xquery version "1.0";
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace request="http://exist-db.org/xquery/request";
 (: Using eXist-predefined namespaces: request, util, xmldb :)
 
 
-import module namespace lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+import module namespace lib-rendering="http://www.cagrid.org/xquery/library/rendering"
   at "../web/m-lib-rendering.xquery";
 
-import module namespace lib-util="http://www.cancergrid.org/xquery/library/util"
+import module namespace lib-util="http://www.cagrid.org/xquery/library/util"
   at "../library/m-lib-util.xquery";
 
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery"; 
    
    

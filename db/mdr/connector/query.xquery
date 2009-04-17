@@ -1,4 +1,4 @@
-import module namespace lib-qs="http://www.cancergrid.org/xquery/library/query_service" at "m-lib-qs.xquery";
+import module namespace lib-qs="http://www.cagrid.org/xquery/library/query_service" at "m-lib-qs.xquery";
 
 declare namespace request="http://exist-db.org/xquery/request";
 

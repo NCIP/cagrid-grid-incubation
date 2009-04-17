@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               19th March 2008
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview          outputs the expected message for the trial designer plug-in
  :
@@ -19,7 +19,7 @@ xquery version "1.0";
 ~ :)
 
 import module namespace 
-   lib-search="http://www.cancergrid.org/xquery/library/search" 
+   lib-search="http://www.cagrid.org/xquery/library/search" 
    at "m-lib-search.xquery";    
 
 declare namespace request="http://exist-db.org/xquery/request";
@@ -28,7 +28,7 @@ declare namespace util="http://exist-db.org/xquery/util";
 declare option exist:serialize "method=xml media-type=text/xml"; 
 
 let $term := request:get-parameter("term", "*")
-let $scheme as xs:anyURI := xs:anyURI(request:get-parameter("scheme", "http://www.cancergrid.org/ontologies/data-element-classification"))
+let $scheme as xs:anyURI := xs:anyURI(request:get-parameter("scheme", "http://www.cagrid.org/ontologies/data-element-classification"))
 let $classified-by := request:get-parameter("classified-by", ())
 let $start as xs:integer := xs:integer(request:get-parameter("start", 0))
 let $num as xs:integer := xs:integer(request:get-parameter("num", 11))

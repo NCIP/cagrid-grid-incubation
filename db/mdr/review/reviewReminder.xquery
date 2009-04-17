@@ -5,7 +5,7 @@ xquery version "1.0";
  :
  : Date                     24th January 2007
  :
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          allows a user to record their comments on a resource
  :
@@ -18,33 +18,33 @@ xquery version "1.0";
 
 
 import module namespace 
-   lib-forms="http://www.cancergrid.org/xquery/library/forms"
+   lib-forms="http://www.cagrid.org/xquery/library/forms"
    at "../edit/m-lib-forms.xquery";
      
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";   
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";      
      
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
 declare namespace mail="http://exist-db.org/xquery/mail";
 
-   for $commissioning_document in lib-util:mdrElements("reference_document")[cgMDR:reference_document_type_description="commissioning"]
+   for $commissioning_document in lib-util:mdrElements("reference_document")[openMDR:reference_document_type_description="commissioning"]
    let $commissioning_document_id := lib-util:mdrElementId($commissioning_document)
-      for $reviewer in $commissioning_document/cgMDR:reviewer
-      for $person in lib-util:mdrElements("organization")//cgMDR:Contact[@contact_identifier = $reviewer]
-      let $email-address := $person/cgMDR:contact_information
+      for $reviewer in $commissioning_document/openMDR:reviewer
+      for $person in lib-util:mdrElements("organization")//openMDR:Contact[@contact_identifier = $reviewer]
+      let $email-address := $person/openMDR:contact_information
       return
          mail:send-email(
          <mail>

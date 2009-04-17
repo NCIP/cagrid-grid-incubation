@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" finalDefault="" blockDefault="" attributeFormDefault="unqualified" elementFormDefault="unqualified">
+<xs:schema xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns="http://www.cagrid.org/schema/openMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" finalDefault="" blockDefault="" attributeFormDefault="unqualified" elementFormDefault="unqualified">
     <xs:simpleType name="Reference_Document_Type">
         <xs:restriction base="xs:string">
             <xs:enumeration value="commissioning">

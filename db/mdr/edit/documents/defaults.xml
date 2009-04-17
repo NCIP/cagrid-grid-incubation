@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cgMDR:edit-defaults xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR">
-    <cgMDR:country_identifier>GB</cgMDR:country_identifier>
-    <cgMDR:language_identifier>eng</cgMDR:language_identifier>
-    <cgMDR:context_identifier>GB-OUCL-000011-1</cgMDR:context_identifier>
-    <cgMDR:Data_Element version="1"/>
-    <cgMDR:Classification_Scheme version="1"/>
-    <cgMDR:Enumerated_Value_Domain version="1">
-        <cgMDR:typed_by>GB-OUCL-000010-1</cgMDR:typed_by>
-        <cgMDR:value_domain_datatype>KRMZ1P97F</cgMDR:value_domain_datatype>
-        <cgMDR:value_domain_unit_of_measure>MV3QWZ2YG</cgMDR:value_domain_unit_of_measure>
-    </cgMDR:Enumerated_Value_Domain>
-    <cgMDR:Non_Enumerated_Value_Domain version="1"/>
-    <cgMDR:Enumerated_Conceptual_Domain version="1"/>
-    <cgMDR:Non_Enumerated_Conceptual_Domain version="1"/>
-    <cgMDR:administrative_status>scheduledForReview</cgMDR:administrative_status>
-    <cgMDR:registration_status>Recorded</cgMDR:registration_status>
-    <cgMDR:origin>CCVTM</cgMDR:origin>
-    <cgMDR:data_element_concept_object_class>GB-OUCL-000101-1</cgMDR:data_element_concept_object_class>
-    <cgMDR:data_element_concept_property>GB-OUCL-000102-1</cgMDR:data_element_concept_property>
-</cgMDR:edit-defaults>
+<openMDR:edit-defaults xmlns:openMDR="http://www.cagrid.org/schema/openMDR">
+    <openMDR:country_identifier>GB</openMDR:country_identifier>
+    <openMDR:language_identifier>eng</openMDR:language_identifier>
+    <openMDR:context_identifier>GB-OUCL-000011-1</openMDR:context_identifier>
+    <openMDR:Data_Element version="1"/>
+    <openMDR:Classification_Scheme version="1"/>
+    <openMDR:Enumerated_Value_Domain version="1">
+        <openMDR:typed_by>GB-OUCL-000010-1</openMDR:typed_by>
+        <openMDR:value_domain_datatype>KRMZ1P97F</openMDR:value_domain_datatype>
+        <openMDR:value_domain_unit_of_measure>MV3QWZ2YG</openMDR:value_domain_unit_of_measure>
+    </openMDR:Enumerated_Value_Domain>
+    <openMDR:Non_Enumerated_Value_Domain version="1"/>
+    <openMDR:Enumerated_Conceptual_Domain version="1"/>
+    <openMDR:Non_Enumerated_Conceptual_Domain version="1"/>
+    <openMDR:administrative_status>scheduledForReview</openMDR:administrative_status>
+    <openMDR:registration_status>Recorded</openMDR:registration_status>
+    <openMDR:origin>CCVTM</openMDR:origin>
+    <openMDR:data_element_concept_object_class>GB-OUCL-000101-1</openMDR:data_element_concept_object_class>
+    <openMDR:data_element_concept_property>GB-OUCL-000102-1</openMDR:data_element_concept_property>
+</openMDR:edit-defaults>

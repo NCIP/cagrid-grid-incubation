@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<config xmlns="http://cancergrid.org/schema/config">
+<config xmlns="http://cagrid.org/schema/config">
 	<resources>
 		<query_service name="caDSR"
-			class="org.cancergrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
+			class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
 			cache_collection_id="caDSR" cache="false" cache_provider="HibernateCacheProvider"
 			category="CDE" connection_type="REST" requestSequence="cadsr_query"
 			digestSequence="cadsr_construct fixtag cadsr_transform add_cg_namespace">
@@ -14,7 +14,7 @@
 			</webUrl>
 		</query_service>
 		<query_service name="EVS-DescLogicConcept"
-			class="org.cancergrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
+			class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
 			cache_collection_id="EVS-DescLogicConcept" cache="false"
 			cache_provider="HibernateCacheProvider" category="CONCEPT"
 			connection_type="REST" requestSequence="DescLogicConcept_query"
@@ -27,7 +27,7 @@
 			</webUrl>
 		</query_service>
 		<query_service name="EVS-MetaThesaurusConcept"
-			class="org.cancergrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
+			class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
 			cache_collection_id="EVS-MetaThesaurusConcept" cache="false"
 			cache_provider="HibernateCacheProvider" category="CONCEPT"
 			connection_type="REST" requestSequence="MetaThesaurusConcept_query"
@@ -39,69 +39,69 @@
 				http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary
 			</webUrl>
 		</query_service>
-		<query_service name="cgMDR"
-			class="org.cancergrid.ws.query.RestQueryService"
+		<query_service name="openMDR"
+			class="org.cagrid.ws.query.RestQueryService"
 			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/dataElementListSearch.xquery"
-			cache_collection_id="cgMDR" cache="false" cache_provider="HibernateCacheProvider"
-			category="CDE" connection_type="REST" requestSequence="cgMDR_REST_query"
+			cache_collection_id="openMDR" cache="false" cache_provider="HibernateCacheProvider"
+			category="CDE" connection_type="REST" requestSequence="openMDR_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)
+			<title>CancerGrid Metadata Registry (openMDR)</title>
+			<description>CancerGrid Metadata Registry (openMDR)
 			</description>
 			<webUrl>
 				http://129.67.150.47:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery
 			</webUrl>
 		</query_service>
-		<query_service name="cgMDR-Local-Terminology"
-			class="org.cancergrid.ws.query.RestQueryService"
+		<query_service name="openMDR-Local-Terminology"
+			class="org.cagrid.ws.query.RestQueryService"
 			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/terminology.xquery"
-			cache_collection_id="cgMDR-Local-Terminology" cache="false"
+			cache_collection_id="openMDR-Local-Terminology" cache="false"
 			cache_provider="HibernateCacheProvider" category="CONCEPT"
-			connection_type="REST" requestSequence="cgMDR_REST_query"
+			connection_type="REST" requestSequence="openMDR_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)
+			<title>CancerGrid Metadata Registry (openMDR)</title>
+			<description>CancerGrid Metadata Registry (openMDR)
 			</description>
 			<webUrl>
 				http://129.67.150.47:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery
 			</webUrl>
 		</query_service>
-		<query_service name="cgMDR-with-Classification"
-			class="org.cancergrid.ws.query.RestQueryService"
+		<query_service name="openMDR-with-Classification"
+			class="org.cagrid.ws.query.RestQueryService"
 			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/dataElementListSearchByClassification.xquery"
-			cache_collection_id="cgMDR-with-Classification" cache="false"
+			cache_collection_id="openMDR-with-Classification" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
-			connection_type="REST" requestSequence="cgMDR_SKOS_REST_query"
+			connection_type="REST" requestSequence="openMDR_SKOS_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)
+			<title>CancerGrid Metadata Registry (openMDR)</title>
+			<description>CancerGrid Metadata Registry (openMDR)
 			</description>
 			<webUrl>
 				https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery
 			</webUrl>
 		</query_service>
-		<query_service name="cgMDR-Classification-Schemes"
-			class="org.cancergrid.ws.query.RestQueryService"
+		<query_service name="openMDR-Classification-Schemes"
+			class="org.cagrid.ws.query.RestQueryService"
 			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/listClassificationSchemes.xquery"
-			cache_collection_id="cgMDR-Classification-Schemes" cache="false"
+			cache_collection_id="openMDR-Classification-Schemes" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="no_arg_REST" digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)
+			<title>CancerGrid Metadata Registry (openMDR)</title>
+			<description>CancerGrid Metadata Registry (openMDR)
 			</description>
 			<webUrl>
 				https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery
 			</webUrl>
 		</query_service>
-		<query_service name="cgMDR-Classification-Tree"
-			class="org.cancergrid.ws.query.RestQueryService"
+		<query_service name="openMDR-Classification-Tree"
+			class="org.cagrid.ws.query.RestQueryService"
 			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/simpleClassificationTree.xquery"
-			cache_collection_id="cgMDR-Classification-Tree" cache="false"
+			cache_collection_id="openMDR-Classification-Tree" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
-			connection_type="REST" requestSequence="cgMDR_Classification_Tree"
+			connection_type="REST" requestSequence="openMDR_Classification_Tree"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)
+			<title>CancerGrid Metadata Registry (openMDR)</title>
+			<description>CancerGrid Metadata Registry (openMDR)
 			</description>
 			<webUrl>
 				https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery
@@ -111,7 +111,7 @@
 	<cache_config>
 		<!--
 			cache_provider name="HibernateCacheProvider"
-			class="org.cancergrid.ws.cache.hibernate.HibernateCacheProvider"
+			class="org.cagrid.ws.cache.hibernate.HibernateCacheProvider"
 			resource="cg_cache" cache_period="-1"/
 		-->
 	</cache_config>

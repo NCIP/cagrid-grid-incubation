@@ -3,12 +3,12 @@
     <xsl:output omit-xml-declaration="yes" indent="yes"/>
     <xsl:strip-space elements="*"/>
     <xsl:template match="/">
-        <result-set xmlns="http://cancergrid.org/schema/result-set">
+        <result-set xmlns="http://cagrid.org/schema/result-set">
             <xsl:apply-templates select="/result-set/*"/>
         </result-set>
     </xsl:template>
     <xsl:template match="*">
-        <xsl:element name="{local-name()}" namespace="http://cancergrid.org/schema/result-set">
+        <xsl:element name="{local-name()}" namespace="http://cagrid.org/schema/result-set">
             <xsl:copy-of select="@*"/>
             <xsl:apply-templates/>
         </xsl:element>

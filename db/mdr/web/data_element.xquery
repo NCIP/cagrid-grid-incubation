@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     1st September 2006
  :
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          Renders a Data element for viewing by the user of the metadata repository
  :
@@ -22,8 +22,8 @@ xquery version "1.0";
  :    @since Sept 1st, 2006
  :    @version 3.0
 ~ :)
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 
@@ -31,23 +31,23 @@ declare namespace session="http://exist-db.org/xquery/session";
 
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
 
 import module namespace
-   value-domain="http://www.cancergrid.org/xquery/library/value-domain"
+   value-domain="http://www.cagrid.org/xquery/library/value-domain"
    at "../library/m-value-domain.xquery";
 
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";
 
 import module namespace 
-   classification-scheme-item="http://www.cancergrid.org/xquery/library/classification-scheme-item"
+   classification-scheme-item="http://www.cagrid.org/xquery/library/classification-scheme-item"
    at "../library/m-classification-scheme-item.xquery";
   
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";   
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
@@ -63,10 +63,10 @@ return
    
    
    
-      let $data_element_concept_id := data($administered_item//cgMDR:expressing)
-      let $representation_class_id := data($administered_item//cgMDR:typed_by)
-      let $representation_class_qualifier := $administered_item//cgMDR:representation_class_qualifier
-      let $value_domain_id :=  data($administered_item//cgMDR:representing)
+      let $data_element_concept_id := data($administered_item//openMDR:expressing)
+      let $representation_class_id := data($administered_item//openMDR:typed_by)
+      let $representation_class_qualifier := $administered_item//openMDR:representation_class_qualifier
+      let $value_domain_id :=  data($administered_item//openMDR:representing)
       let $value_domain := value-domain:representing($administered_item)
       
       let $title:=concat('Data Element: ', administered-item:preferred-name($administered_item))
@@ -104,10 +104,10 @@ return
                        <div class="section">
                        <table class="section">
                        <tr><td colspan="2"><div class="admin_item_section_header">Data Element Specific Attributes</div></td></tr>
-                       <tr><td  class="left_header_cell">Data Element Precision</td><td>{data($administered_item//cgMDR:data_element_precision)}</td></tr>
+                       <tr><td  class="left_header_cell">Data Element Precision</td><td>{data($administered_item//openMDR:data_element_precision)}</td></tr>
                        <tr><td  class="left_header_cell">Derived Data Elements</td><td>
 
-                       {if ($administered_item//cgMDR:input_to) then
+                       {if ($administered_item//openMDR:input_to) then
                        (
                        <table class="section">
                        <tr>    
@@ -116,9 +116,9 @@ return
                        <td><div class="admin_item_table_header">Rule</div></td>
                        </tr>
                        {
-                       for $input_to in $administered_item//cgMDR:input_to
+                       for $input_to in $administered_item//openMDR:input_to
                        let $derived_id := string($input_to//@deriving)
-                       let $spec := data($input_to//cgMDR:derivation_rule_specification)
+                       let $spec := data($input_to//openMDR:derivation_rule_specification)
                        return 
                        <tr>
                          <td>{$derived_id}</td>
@@ -143,9 +143,9 @@ return
                      <table class="section">
                      
                      <tr><td  class="left_header_cell">Examples</td><td>
-                    {if ($administered_item//cgMDR:data_element_example_item) then
+                    {if ($administered_item//openMDR:data_element_example_item) then
                      (
-                         for $example in $administered_item//cgMDR:data_element_example_item
+                         for $example in $administered_item//openMDR:data_element_example_item
                          return data($example)
                       )
                       else
@@ -164,7 +164,7 @@ return
                     <table class="section">
                      <tr><td colspan="3"><div class="admin_item_section_header">Classification</div></td></tr>
                      {
-                     for $classified_by in $administered_item//cgMDR:classified_by
+                     for $classified_by in $administered_item//openMDR:classified_by
                      let $classification_document := classification-scheme-item:resolved-instance($classified_by, 'true')
                      order by $classification_document//scheme_name, $classification_document//name
                      return 

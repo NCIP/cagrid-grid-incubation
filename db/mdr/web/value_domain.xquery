@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     27th September 2006
  :
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          Renders both types of value domain for viewing by the user of the metadata repository
  :
@@ -20,36 +20,36 @@ xquery version "1.0";
 ~ :)
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
 
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";
    
 import module namespace
-  value-meaning="http://www.cancergrid.org/xquery/library/value-meaning"
+  value-meaning="http://www.cagrid.org/xquery/library/value-meaning"
   at "../library/m-value-meaning.xquery";
   
   import module namespace
-  value-domain="http://www.cancergrid.org/xquery/library/value-domain"
+  value-domain="http://www.cagrid.org/xquery/library/value-domain"
   at "../library/m-value-domain.xquery";
   
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";   
 
 import module namespace
-  permissible-value="http://www.cancergrid.org/xquery/library/permissible-value"
+  permissible-value="http://www.cagrid.org/xquery/library/permissible-value"
   at "../library/m-permissible-value.xquery";
 
 import module namespace
-  value="http://www.cancergrid.org/xquery/library/value"
+  value="http://www.cagrid.org/xquery/library/value"
   at "../library/m-value.xquery";
 
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 (: Using eXist-predefined namespace: xmldb :)
@@ -69,8 +69,8 @@ return
     then (lib-rendering:as-xml($administered_item))
    else(
       let $administered_item_name := administered-item:preferred-name($administered_item)
-      let $representation_class_id := xs:string($administered_item//cgMDR:typed_by)
-      let $conceptual_domain_id := $administered_item//cgMDR:representing/text()
+      let $representation_class_id := xs:string($administered_item//openMDR:typed_by)
+      let $conceptual_domain_id := $administered_item//openMDR:representing/text()
       
       let $title:=concat('Value Domain: ',$administered_item_name)
    
@@ -106,7 +106,7 @@ return
                                            <td>
                                              {
                                                string-join(
-                                                   for $meaning in value-meaning:value-meaning($permissible_value/cgMDR:contained_in/text())/cgMDR:value_meaning_description
+                                                   for $meaning in value-meaning:value-meaning($permissible_value/openMDR:contained_in/text())/openMDR:value_meaning_description
                                                    order by $meaning ascending
                                                    return $meaning, (: The sorting gives deterministic behaviour that is good for regression testing :)
                                                    " | "

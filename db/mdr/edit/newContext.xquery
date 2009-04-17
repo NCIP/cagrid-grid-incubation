@@ -23,23 +23,23 @@ xquery version "1.0";
 ~ :)
 
   import module namespace 
-  lib-forms="http://www.cancergrid.org/xquery/library/forms"
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
   
   import module namespace 
-  lib-util="http://www.cancergrid.org/xquery/library/util" 
+  lib-util="http://www.cagrid.org/xquery/library/util" 
   at "../library/m-lib-util.xquery";
   
   import module namespace 
-  lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering"
   at "../web/m-lib-rendering.xquery";   
   
   import module namespace 
-    lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item" 
+    lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item" 
     at "../edit/m-lib-make-admin-item.xquery";     
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
@@ -83,7 +83,7 @@ declare function local:context(
    
    (: compose the document :)
    let $document :=
-      element cgMDR:Context {
+      element openMDR:Context {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
@@ -128,7 +128,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_context" action="newContext.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
+          <form name="new_context" action="newContext.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
              
              {lib-forms:edit-admin-item($reg-auth,

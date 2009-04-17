@@ -1,10 +1,10 @@
-module namespace lib-uri-resolution="http://www.cancergrid.org/xquery/library/resolver";
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace cgResolver = "http://www.cancergrid.org/schema/cgResolver";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+module namespace lib-uri-resolution="http://www.cagrid.org/xquery/library/resolver";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace cgResolver = "http://www.cagrid.org/schema/cgResolver";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";   
 
 declare function lib-uri-resolution:resolve($urn as xs:string?, $return-type as xs:string) as xs:anyURI

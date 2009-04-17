@@ -1,13 +1,13 @@
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 import module namespace 
-test="http://www.cancergrid.org/xquery/library/test" 
+test="http://www.cagrid.org/xquery/library/test" 
 at "../library/test.xquery";
 
 import module namespace 
-lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+lib-rendering="http://www.cagrid.org/xquery/library/rendering"
 at "../web/m-lib-rendering.xquery";
 declare namespace util="http://exist-db.org/xquery/util";
 

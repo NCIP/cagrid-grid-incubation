@@ -4,14 +4,14 @@ declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace skos="http://www.w3.org/2004/02/skos/core#";
 declare namespace dcterms="http://purl.org/dc/terms/";
 declare namespace dc="http://purl.org/dc/elements/1.1/";
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";    
       
    
@@ -28,7 +28,7 @@ return lib-rendering:txfrm-webpage(
    $title, 
          <schemes-in-use>
          {
-         for $scheme in lib-util:mdrElements('classification_scheme')[.//cgMDR:administered_item_administration_record]
+         for $scheme in lib-util:mdrElements('classification_scheme')[.//openMDR:administered_item_administration_record]
          for $graph in lib-util:mdrElements('classification_scheme')[.//@rdf:about]
          let $scheme-id := lib-util:mdrElementId($scheme)
          where $graph/skos:ConceptScheme[.//@rdf:resource=$scheme-id]

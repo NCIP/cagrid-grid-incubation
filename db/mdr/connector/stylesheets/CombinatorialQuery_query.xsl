@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:q="http://cancergrid.org/schema/query" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:q="http://cagrid.org/schema/query" version="2.0">
     <xsl:template match="/">
-        <resolveSet xmlns="http://lexbig.cancergrid.org/xsd">
+        <resolveSet xmlns="http://lexbig.cagrid.org/xsd">
             <sCodingScheme>NCI_Thesaurus</sCodingScheme>
             <sCodingSchemeVersion>&#160;</sCodingSchemeVersion>
             <sCodingSchemeTag>&#160;</sCodingSchemeTag>

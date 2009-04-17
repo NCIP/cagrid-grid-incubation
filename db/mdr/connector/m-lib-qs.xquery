@@ -1,10 +1,10 @@
-module namespace lib-qs="http://www.cancergrid.org/xquery/library/query_service";
+module namespace lib-qs="http://www.cagrid.org/xquery/library/query_service";
 
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace httpclient="http://exist-db.org/xquery/httpclient";
 
-declare namespace c="http://cancergrid.org/schema/config";
-declare namespace q="http://cancergrid.org/schema/query";
+declare namespace c="http://cagrid.org/schema/config";
+declare namespace q="http://cagrid.org/schema/query";
 
 (:~ List supported knowledge resources (names only) :)
 declare function lib-qs:listResources() as node()

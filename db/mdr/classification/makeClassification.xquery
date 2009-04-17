@@ -7,7 +7,7 @@ xquery version "1.0";
 :
 : Date                     05-03-2007
 :
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 :
 : Module overview          Renders a Data element for viewing by the user of the metadata repository
 :
@@ -20,17 +20,17 @@ xquery version "1.0";
 :    @version 1.0
 ~ :)
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 import module namespace 
-lib-forms="http://www.cancergrid.org/xquery/library/forms" 
+lib-forms="http://www.cagrid.org/xquery/library/forms" 
 at "../edit/m-lib-forms.xquery";  
 
    (:update any IDs:)
@@ -47,20 +47,20 @@ at "../edit/m-lib-forms.xquery";
    let $parent-id := $parent-class/own-slots/own-slot[@slot-name='data-identifier']//value
    return
       lib-forms:store-document( 
-         element cgMDR:Classification_Scheme_Item {
+         element openMDR:Classification_Scheme_Item {
             attribute classification_scheme_item_identifier {$identifier},
             attribute contained_in {"GB-CANCERGRID-000026-1.0"},
             if ($parent-id = 'root')
-            then (element cgMDR:association{
+            then (element openMDR:association{
                attribute associationTarget{''}
                }
                  )
             else(
-            element cgMDR:association {
+            element openMDR:association {
                attribute associationTarget{$parent-id},
-               element cgMDR:classification_scheme_item_relationship_type_description {'broaderTerm'}
+               element openMDR:classification_scheme_item_relationship_type_description {'broaderTerm'}
                }
             ),
-            element cgMDR:classification_scheme_item_value {$value}
+            element openMDR:classification_scheme_item_value {$value}
          }
       )

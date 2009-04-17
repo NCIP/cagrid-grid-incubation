@@ -1,17 +1,17 @@
 import module namespace
-permissible-value="http://www.cancergrid.org/xquery/library/permissible-value"
+permissible-value="http://www.cagrid.org/xquery/library/permissible-value"
 at "../library/m-permissible-value.xquery";
 
 import module namespace 
-test="http://www.cancergrid.org/xquery/library/test" 
+test="http://www.cagrid.org/xquery/library/test" 
 at "../library/test.xquery";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 import module namespace 
-lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+lib-rendering="http://www.cagrid.org/xquery/library/rendering"
 at "../web/m-lib-rendering.xquery";
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";

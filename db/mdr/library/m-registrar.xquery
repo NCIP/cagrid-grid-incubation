@@ -1,10 +1,10 @@
 (:~ Registrar class :)
-module namespace registrar="http://www.cancergrid.org/xquery/library/registrar";
+module namespace registrar="http://www.cagrid.org/xquery/library/registrar";
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util"
+   lib-util="http://www.cagrid.org/xquery/library/util"
    at "../library/m-lib-util.xquery";
 
 (:~
@@ -20,5 +20,5 @@ import module namespace
 declare function registrar:registering($administered_item as node())
 as node()
 {
-  lib-util:mdrElements("registration_authority")//cgMDR:represented_by[string(.//cgMDR:registrar_identifier) eq string($administered_item//cgMDR:registered_by)]
+  lib-util:mdrElements("registration_authority")//openMDR:represented_by[string(.//openMDR:registrar_identifier) eq string($administered_item//openMDR:registered_by)]
 };

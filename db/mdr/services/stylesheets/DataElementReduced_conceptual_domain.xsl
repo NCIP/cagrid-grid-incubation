@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:der-xs="http://cancergrid.org/schema/DataElementReduced" xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:der-xs="http://cagrid.org/schema/DataElementReduced" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:output indent="yes" omit-xml-declaration="yes"/>
     <xsl:strip-space elements="*"/>
     <xsl:include href="DataElementReduced_admin_content.xsl"/>
@@ -23,35 +23,35 @@
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="der-xs:new-data-element-reduced[der-xs:values/der-xs:enumerated]">
-        <cgMDR:Enumerated_Conceptual_Domain item_registration_authority_identifier="{der-xs:reg-auth}" data_identifier="{der-xs:conceptual-domain-data-identifier}" version="{$defaults/defaults/data_element_version}">
+        <openMDR:Enumerated_Conceptual_Domain item_registration_authority_identifier="{der-xs:reg-auth}" data_identifier="{der-xs:conceptual-domain-data-identifier}" version="{$defaults/defaults/data_element_version}">
             <xsl:call-template name="admin-content"/>
             <xsl:apply-templates select="der-xs:values/der-xs:enumerated/der-xs:value"/>
-            <cgMDR:related_to>
-                <cgMDR:related_to/>
-                <cgMDR:conceptual_domain_relationship_type_description/>
-            </cgMDR:related_to>
-        </cgMDR:Enumerated_Conceptual_Domain>
+            <openMDR:related_to>
+                <openMDR:related_to/>
+                <openMDR:conceptual_domain_relationship_type_description/>
+            </openMDR:related_to>
+        </openMDR:Enumerated_Conceptual_Domain>
     </xsl:template>
     <xsl:template match="der-xs:value">
-        <cgMDR:Value_Meaning>
-            <cgMDR:value_meaning_begin_date>
+        <openMDR:Value_Meaning>
+            <openMDR:value_meaning_begin_date>
                 <xsl:value-of select="format-date(current-date(),'[Y]-[M01]-[D01]')"/>
-            </cgMDR:value_meaning_begin_date>
-            <cgMDR:value_meaning_description>
+            </openMDR:value_meaning_begin_date>
+            <openMDR:value_meaning_description>
                 <xsl:value-of select="der-xs:meaning"/>
-            </cgMDR:value_meaning_description>
-            <cgMDR:value_meaning_identifier>
+            </openMDR:value_meaning_description>
+            <openMDR:value_meaning_identifier>
                 <xsl:value-of select="@meaning-identifier"/>
-            </cgMDR:value_meaning_identifier>
-        </cgMDR:Value_Meaning>
+            </openMDR:value_meaning_identifier>
+        </openMDR:Value_Meaning>
     </xsl:template>
     <xsl:template match="der-xs:new-data-element-reduced[der-xs:values/der-xs:non-enumerated]">
-        <cgMDR:Non_Enumerated_Conceptual_Domain item_registration_authority_identifier="{der-xs:reg-auth}" data_identifier="{der-xs:conceptual-domain-data-identifier}" version="{$defaults/defaults/data_element_version}">
+        <openMDR:Non_Enumerated_Conceptual_Domain item_registration_authority_identifier="{der-xs:reg-auth}" data_identifier="{der-xs:conceptual-domain-data-identifier}" version="{$defaults/defaults/data_element_version}">
             <xsl:call-template name="admin-content"/>
-            <cgMDR:related_to>
-                <cgMDR:related_to/>
-                <cgMDR:conceptual_domain_relationship_type_description/>
-            </cgMDR:related_to>
-        </cgMDR:Non_Enumerated_Conceptual_Domain>
+            <openMDR:related_to>
+                <openMDR:related_to/>
+                <openMDR:conceptual_domain_relationship_type_description/>
+            </openMDR:related_to>
+        </openMDR:Non_Enumerated_Conceptual_Domain>
     </xsl:template>
 </xsl:stylesheet>

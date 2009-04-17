@@ -1,7 +1,7 @@
-module namespace lib-forms="http://www.cancergrid.org/xquery/library/forms";
+module namespace lib-forms="http://www.cagrid.org/xquery/library/forms";
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -9,15 +9,15 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace request="http://exist-db.org/xquery/request";
 
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering" 
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering" 
    at "../web/m-lib-rendering.xquery";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
    
 declare variable $lib-forms:action-update-body as xs:string := 'update';   
@@ -112,8 +112,8 @@ declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$
       attribute name {$select-name},
       lib-forms:blank-filler(),
      for $item in lib-util:mdrElements('context')
-      let $name:= data($item//cgMDR:name/text())
-      let $id:= data($item//cgMDR:context_identifier/text())
+      let $name:= data($item//openMDR:name/text())
+      let $id:= data($item//openMDR:context_identifier/text())
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
    }
@@ -152,8 +152,8 @@ declare function lib-forms:make-select-submitted_by($received-value as xs:string
    element select {
       attribute name {'submitted-by'}, 
       lib-forms:blank-filler(),      
-      for $item in lib-util:mdrElements('organization')//cgMDR:Contact 
-      let $name:= data($item//cgMDR:contact_name)
+      for $item in lib-util:mdrElements('organization')//openMDR:Contact 
+      let $name:= data($item//openMDR:contact_name)
       let $id:= data($item//@contact_identifier)
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
@@ -165,8 +165,8 @@ declare function lib-forms:make-select-administered_by($received-value as xs:str
    element select {
       attribute name {'administered-by'},
       lib-forms:blank-filler(),      
-      for $item in lib-util:mdrElements('organization')//cgMDR:Contact 
-      let $name:= data($item//cgMDR:contact_name)
+      for $item in lib-util:mdrElements('organization')//openMDR:Contact 
+      let $name:= data($item//openMDR:contact_name)
       let $id:= data($item//@contact_identifier)
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
@@ -178,14 +178,14 @@ declare function lib-forms:make-select-registered_by($received-value as xs:strin
 element select {
    attribute name {'registered-by'},
    lib-forms:blank-filler(),
-   for $reg-auth in lib-util:mdrElements('registration_authority')//cgMDR:Registration_Authority
+   for $reg-auth in lib-util:mdrElements('registration_authority')//openMDR:Registration_Authority
    return
       element optgroup {
-         attribute label {$reg-auth//cgMDR:organization_name},
+         attribute label {$reg-auth//openMDR:organization_name},
    
-         for $item in $reg-auth//cgMDR:represented_by
-         let $name:= data($item//cgMDR:contact_name)
-         let $id:= data($item//cgMDR:registrar_identifier)
+         for $item in $reg-auth//openMDR:represented_by
+         let $name:= data($item//openMDR:contact_name)
+         let $id:= data($item//openMDR:registrar_identifier)
          order by $name
          return lib-forms:select-filler($id, $name, $received-value)
       }
@@ -218,7 +218,7 @@ declare function lib-forms:make-select-refdoc($control-name as xs:string, $recei
       },
       for $item in lib-util:mdrElements('reference_document')
       let $id:= string($item/@reference_document_identifier)
-      let $title := substring(string($item/cgMDR:reference_document_title),0,60)
+      let $title := substring(string($item/openMDR:reference_document_title),0,60)
       return lib-forms:select-filler($id, $title, $received-value)
       }
 };
@@ -227,9 +227,9 @@ declare function lib-forms:make-select-value-meaning($select-name as xs:string, 
       element select {
          attribute name {$select-name},
          lib-forms:blank-filler(),
-         for $value-meaning in lib-util:mdrElement('conceptual_domain',$conceptual-domain-id)//cgMDR:Value_Meaning
-            let $name := $value-meaning/cgMDR:value_meaning_description
-            let $id := $value-meaning/cgMDR:value_meaning_identifier
+         for $value-meaning in lib-util:mdrElement('conceptual_domain',$conceptual-domain-id)//openMDR:Value_Meaning
+            let $name := $value-meaning/openMDR:value_meaning_description
+            let $id := $value-meaning/openMDR:value_meaning_identifier
             return lib-forms:select-filler($id, $name, $received-value)
             }
 };
@@ -240,7 +240,7 @@ declare function lib-forms:make-select-registration-authority($received-value as
       attribute name {'registration-authority'},
       lib-forms:blank-filler(),
       for $item in lib-util:mdrElements('registration_authority')
-         let $name:= data($item//cgMDR:organization_name)
+         let $name:= data($item//openMDR:organization_name)
          let $id:= data($item//@organization_identifier)
          return lib-forms:select-filler($id, $name, $received-value)
          }
@@ -292,7 +292,7 @@ declare function lib-forms:make-select-classified-by($received-value as xs:strin
       lib-forms:blank-filler(),
       for $classification-item in lib-util:mdrElements('classification_scheme_item')
       let $id:= data($classification-item//@classification_scheme_item_identifier)
-      let $name:= data(concat($classification-item//@contained_in, ': ', $classification-item//cgMDR:classification_scheme_item_value))
+      let $name:= data(concat($classification-item//@contained_in, ': ', $classification-item//openMDR:classification_scheme_item_value))
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
       }
@@ -316,7 +316,7 @@ declare function lib-forms:make-select-datatype($control as xs:string?, $receive
       lib-forms:blank-filler(),
       for $item in lib-util:mdrElements('data_type')
       let $id:= data($item//@datatype_identifier)
-      let $name:= concat(data($item//cgMDR:datatype_name), ': ', data($item//cgMDR:datatype_scheme_reference))
+      let $name:= concat(data($item//openMDR:datatype_name), ': ', data($item//openMDR:datatype_scheme_reference))
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
       }
@@ -334,7 +334,7 @@ declare function lib-forms:make-select-uom($control as xs:string?, $received-val
       lib-forms:blank-filler(),
       for $item in lib-util:mdrElements('unit_of_measure')
       let $id:= data($item//@unit_of_measure_identifier)
-      let $name:= data($item//cgMDR:unit_of_measure_name)
+      let $name:= data($item//openMDR:unit_of_measure_name)
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
       }
@@ -357,7 +357,7 @@ declare function lib-forms:wrap-form-contents($title as xs:string, $form-content
 {
    let $content as node() :=
       <div xmlns="http://www.w3.org/1999/xhtml">
-      <form name="edit_admin_item" method="post" class="cancergridForm" action="{session:encode-url(request:get-uri())}">
+      <form name="edit_admin_item" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
       {$form-content}
       </form>
       </div>
@@ -375,7 +375,7 @@ declare function lib-forms:classification($admin-item as node()) as node()*
          <td><div class="admin_item_table_header">action</div></td>
       </tr>
    {
-   for $classifier at $classifier-seq in $admin-item//cgMDR:classified_by
+   for $classifier at $classifier-seq in $admin-item//openMDR:classified_by
    for $classification_item in lib-util:mdrElements('classification_scheme_item')
    where data($classification_item//@classification_scheme_item_identifier) = data($classifier/.)
    return
@@ -383,7 +383,7 @@ declare function lib-forms:classification($admin-item as node()) as node()*
             <td class="left_spacer_cell"/>   
             <td>{$classifier-seq}</td>
             <td>{data($classifier/.)}{lib-forms:hidden-element('classified-by', data($classifier/.))}</td>
-            <td>{data($classification_item//cgMDR:classification_scheme_item_value)}</td>
+            <td>{data($classification_item//openMDR:classification_scheme_item_value)}</td>
             <td>{lib-forms:action-button($lib-forms:action-cl-dissociate,$lib-forms:action-cl-control-name,$classifier-seq)}</td>
          </tr>
          }
@@ -622,12 +622,12 @@ declare function lib-forms:admin-item-reference($admin-item as node()) as node()
       
       <td><div class="admin_item_table_header">action</div></td></tr>
       {
-         for $ref-doc at $ref-doc-seq in $admin-item//cgMDR:described_by
+         for $ref-doc at $ref-doc-seq in $admin-item//openMDR:described_by
          let $ref-doc-id := data($ref-doc/.) 
          let $document := lib-util:mdrElement('reference_document',$ref-doc)
-         let $title := data($document//cgMDR:reference_document_title)
-         let $lang := data($document//cgMDR:reference_document_language_identifier)
-         let $type := data($document//cgMDR:reference_document_type_description)
+         let $title := data($document//openMDR:reference_document_title)
+         let $lang := data($document//openMDR:reference_document_language_identifier)
+         let $type := data($document//openMDR:reference_document_type_description)
          return
          <tr>
          <td class="left_spacer_cell"/>         
@@ -668,24 +668,24 @@ declare function lib-forms:admin-item-naming($admin-item as node()) as node()*
       <td><div class="admin_item_table_header">preferred</div></td>
       <td><div class="admin_item_table_header">action</div></td></tr>
       {
-      for $having at $having-id in $admin-item//cgMDR:having
-      for $containing at $containing-id in $having/cgMDR:containing
+      for $having at $having-id in $admin-item//openMDR:having
+      for $containing at $containing-id in $having/openMDR:containing
       let $pos := max($containing-id) * ($having-id - 1) + $containing-id
       return
       (
       <tr>
          <td class="left_spacer_cell"/>
          <td>{$pos}</td>
-         <td>{lib-forms:make-select-admin-item('context','context',$having/cgMDR:context_identifier)}</td>
-         <td>{lib-forms:input-element('name',97,data($containing/cgMDR:name))}</td>
-         <td>{lib-forms:select-from-simpleType-enum('Country_Identifier','name-country-identifier', false(), data($containing//cgMDR:country_identifier))}</td> 
-         <td>{lib-forms:select-from-simpleType-enum('Language_Identifier','name-language-identifier', false(),data($containing//cgMDR:language_identifier))}</td>
-         <td>{lib-forms:radio('preferred', data($pos), data($containing/cgMDR:preferred_designation))}</td>
+         <td>{lib-forms:make-select-admin-item('context','context',$having/openMDR:context_identifier)}</td>
+         <td>{lib-forms:input-element('name',97,data($containing/openMDR:name))}</td>
+         <td>{lib-forms:select-from-simpleType-enum('Country_Identifier','name-country-identifier', false(), data($containing//openMDR:country_identifier))}</td> 
+         <td>{lib-forms:select-from-simpleType-enum('Language_Identifier','name-language-identifier', false(),data($containing//openMDR:language_identifier))}</td>
+         <td>{lib-forms:radio('preferred', data($pos), data($containing/openMDR:preferred_designation))}</td>
          <td>{lib-forms:action-button($lib-forms:action-name-delete, $lib-forms:action-name-control-name, $pos),lib-forms:action-button($lib-forms:action-update-body, 'action' ,0)}</td></tr>,
          <tr>
          <td class="left_spacer_cell"/>
          <td/>
-         <td colspan="6">{lib-forms:text-area-element('definition',5,76,data($containing/cgMDR:definition_text))}</td>
+         <td colspan="6">{lib-forms:text-area-element('definition',5,76,data($containing/openMDR:definition_text))}</td>
       </tr>
       )
       }
@@ -727,12 +727,12 @@ declare function lib-forms:classified-by(
    return
       if ($skip-classified-by = $classified-by-seq) then ()
       else (
-      element cgMDR:classified_by {$classified-by}
+      element openMDR:classified_by {$classified-by}
       ),
 
    if (empty($classified-by-new)) then ()
    else (
-      element cgMDR:classified_by {$classified-by-new}   
+      element openMDR:classified_by {$classified-by-new}   
    )
          
 };
@@ -753,21 +753,21 @@ declare function lib-forms:admin-item-common(
    $submitted-by as xs:string?
    ) as node()*
 {
-   element cgMDR:administered_item_administration_record {
-      element cgMDR:administrative_note {$administrative-note},
-      element cgMDR:administrative_status {$administrative-status},
-      element cgMDR:change_description {$change-description},
-      element cgMDR:creation_date {$creation-date},
-      element cgMDR:effective_date {$effective-date},
-      element cgMDR:explanatory_comment {$explanatory-comment},
-      element cgMDR:last_change_date {$last-change-date},
-      element cgMDR:origin {$origin},
-      element cgMDR:registration_status {$registration-status},
-      element cgMDR:unresolved_issue {$unresolved-issue}
+   element openMDR:administered_item_administration_record {
+      element openMDR:administrative_note {$administrative-note},
+      element openMDR:administrative_status {$administrative-status},
+      element openMDR:change_description {$change-description},
+      element openMDR:creation_date {$creation-date},
+      element openMDR:effective_date {$effective-date},
+      element openMDR:explanatory_comment {$explanatory-comment},
+      element openMDR:last_change_date {$last-change-date},
+      element openMDR:origin {$origin},
+      element openMDR:registration_status {$registration-status},
+      element openMDR:unresolved_issue {$unresolved-issue}
    },
-   element cgMDR:administered_by {$administered-by},
-   element cgMDR:registered_by {$registered-by}, 
-   element cgMDR:submitted_by {$submitted-by}
+   element openMDR:administered_by {$administered-by},
+   element openMDR:registered_by {$registered-by}, 
+   element openMDR:submitted_by {$submitted-by}
 };
 
 declare function lib-forms:described-by(
@@ -780,11 +780,11 @@ declare function lib-forms:described-by(
    return
    if ($ref-doc-seq = $skip-id)
    then ()
-   else (element cgMDR:described_by{$ref-doc}),
+   else (element openMDR:described_by{$ref-doc}),
    
    if (empty($ref-doc-new)) 
    then ()
-   else (element cgMDR:described_by{$ref-doc-new})
+   else (element openMDR:described_by{$ref-doc-new})
 };
 
 declare function lib-forms:having(
@@ -812,37 +812,37 @@ declare function lib-forms:having(
       return
          if ($skip-name = $having-seq) then ()
          else (
-            element cgMDR:having {
-               element cgMDR:context_identifier {$having},
-               element cgMDR:containing {
-                  element cgMDR:language_section_language_identifier {
-                     element cgMDR:country_identifier {$name-country-identifier[$having-seq]},
-                     element cgMDR:language_identifier {$name-language-identifier[$having-seq]}
+            element openMDR:having {
+               element openMDR:context_identifier {$having},
+               element openMDR:containing {
+                  element openMDR:language_section_language_identifier {
+                     element openMDR:country_identifier {$name-country-identifier[$having-seq]},
+                     element openMDR:language_identifier {$name-language-identifier[$having-seq]}
                   },
-                  element cgMDR:name {$name},
-                  element cgMDR:definition_text {$definition[$having-seq]},
-                  element cgMDR:preferred_designation {
+                  element openMDR:name {$name},
+                  element openMDR:definition_text {$definition[$having-seq]},
+                  element openMDR:preferred_designation {
                      if ($preferred='new') then(false())
                      else(
                         if ($preferred = $having-seq) then (true()) else (false()))
                         },
                         
-                  element cgMDR:definition_source_reference {$definition-src[$having-seq]}
+                  element openMDR:definition_source_reference {$definition-src[$having-seq]}
                }
             }
          ),
          if ($add-name = true()) then (
-            element cgMDR:having {
-               element cgMDR:context_identifier {$context-new},
-               element cgMDR:containing {
-                  element cgMDR:language_section_language_identifier {
-                     element cgMDR:country_identifier {$name-country-identifier-new},
-                     element cgMDR:language_identifier {$name-language-identifier-new}
+            element openMDR:having {
+               element openMDR:context_identifier {$context-new},
+               element openMDR:containing {
+                  element openMDR:language_section_language_identifier {
+                     element openMDR:country_identifier {$name-country-identifier-new},
+                     element openMDR:language_identifier {$name-language-identifier-new}
                   },
-                  element cgMDR:name {$name-new},
-                  element cgMDR:definition_text {$definition-new},
-                  element cgMDR:preferred_designation {if ($preferred = 'new') then (true()) else (false())},
-                  element cgMDR:definition_source_reference {$definition-src-new}
+                  element openMDR:name {$name-new},
+                  element openMDR:definition_text {$definition-new},
+                  element openMDR:preferred_designation {if ($preferred = 'new') then (true()) else (false())},
+                  element openMDR:definition_source_reference {$definition-src-new}
                }
             }
          )
@@ -862,15 +862,15 @@ declare function lib-forms:value-domain-related-to(
    return
       if ($related-to-seq = $skip-related) then()
       else (
-         element cgMDR:related_to {
-            element cgMDR:value_domain_relationship_type_description {$how-related[$related-to-seq]},
-            element cgMDR:related_to {$related-to}
+         element openMDR:related_to {
+            element openMDR:value_domain_relationship_type_description {$how-related[$related-to-seq]},
+            element openMDR:related_to {$related-to}
             }
       ),
    if ($add-related) then (
-      element cgMDR:related_to {
-         element cgMDR:value_domain_relationship_type_description {$relationship-type-new},
-         element cgMDR:related_to {$related-to-new}
+      element openMDR:related_to {
+         element openMDR:value_domain_relationship_type_description {$relationship-type-new},
+         element openMDR:related_to {$related-to-new}
          })
    
    else()
@@ -883,22 +883,22 @@ declare function lib-forms:value-domain(
    $max-char-qty as xs:string?,
    $format as xs:string?) as node()*
 {
-   element cgMDR:typed_by {$representation-class},
-   element cgMDR:value_domain_datatype {$data-type},
-   if ($max-char-qty) then (element cgMDR:value_domain_maximum_character_quantity {$max-char-qty}) else (),
-   element cgMDR:value_domain_format {$format}, 
-   element cgMDR:value_domain_unit_of_measure {$uom}
+   element openMDR:typed_by {$representation-class},
+   element openMDR:value_domain_datatype {$data-type},
+   if ($max-char-qty) then (element openMDR:value_domain_maximum_character_quantity {$max-char-qty}) else (),
+   element openMDR:value_domain_format {$format}, 
+   element openMDR:value_domain_unit_of_measure {$uom}
 };
 
 declare function lib-forms:value-domain-common($admin-item as node()) as node()*
 {   
    <table class="layout">
    <tr><td class="left_header_cell" colspan="3">value domain common</td></tr>
-   <tr><td class="left_spacer_cell"/><td class="left_header_cell">typed by representation class</td><td>{lib-forms:make-select-admin-item('representation_class','representation-class', data($admin-item//cgMDR:typed_by))}</td></tr>
-   <tr><td/><td class="left_header_cell">data type</td><td>{lib-forms:make-select-datatype(data($admin-item//cgMDR:value_domain_datatype))}</td></tr>
-   <tr><td/><td class="left_header_cell">unit of measure</td><td>{lib-forms:make-select-uom(data($admin-item//cgMDR:value_domain_unit_of_measure))}</td></tr>
-   <tr><td/><td class="left_header_cell">maximum character quantity</td><td>{lib-forms:input-element('max-char-qty',97,data($admin-item//cgMDR:value_domain_maximum_character_quantity))}</td></tr>
-   <tr><td/><td class="left_header_cell">format</td><td>{lib-forms:input-element('format',97,data($admin-item//cgMDR:value_domain_format))}</td></tr>
+   <tr><td class="left_spacer_cell"/><td class="left_header_cell">typed by representation class</td><td>{lib-forms:make-select-admin-item('representation_class','representation-class', data($admin-item//openMDR:typed_by))}</td></tr>
+   <tr><td/><td class="left_header_cell">data type</td><td>{lib-forms:make-select-datatype(data($admin-item//openMDR:value_domain_datatype))}</td></tr>
+   <tr><td/><td class="left_header_cell">unit of measure</td><td>{lib-forms:make-select-uom(data($admin-item//openMDR:value_domain_unit_of_measure))}</td></tr>
+   <tr><td/><td class="left_header_cell">maximum character quantity</td><td>{lib-forms:input-element('max-char-qty',97,data($admin-item//openMDR:value_domain_maximum_character_quantity))}</td></tr>
+   <tr><td/><td class="left_header_cell">format</td><td>{lib-forms:input-element('format',97,data($admin-item//openMDR:value_domain_format))}</td></tr>
    <tr><td/><td colspan="2">{lib-forms:action-button($lib-forms:action-update-body, 'action', 0),lib-forms:reset-button()}</td></tr>
    </table>,
    <br/>
@@ -906,14 +906,14 @@ declare function lib-forms:value-domain-common($admin-item as node()) as node()*
 
 declare function lib-forms:concept-domain-common($dimensionality as xs:string?) as node()
 {
-   element cgMDR:dimensionality {$dimensionality}
+   element openMDR:dimensionality {$dimensionality}
 };
 
 declare function lib-forms:edit-conceptual-domain($admin-item as node()) as node()*
 {
    <table class="layout">
    <tr><td class="left_header_cell" colspan="3">non-enumerated value domain specific</td></tr>
-   <tr><td class="left_spacer_cell"/><td class="left_header_cell">dimensionality</td><td>{lib-forms:input-element('dimensionality',97,data($admin-item//cgMDR:dimensionality))}</td></tr>
+   <tr><td class="left_spacer_cell"/><td class="left_header_cell">dimensionality</td><td>{lib-forms:input-element('dimensionality',97,data($admin-item//openMDR:dimensionality))}</td></tr>
    <tr><td/><td colspan="2">{lib-forms:action-button($lib-forms:action-update-body, 'action', 0),lib-forms:reset-button()}</td></tr>
    </table>,
    <br/>
@@ -932,15 +932,15 @@ declare function lib-forms:related-value-domain($admin-item as node(), $item-typ
       <td><div class="admin_item_table_header">action</div></td>
       </tr>
       {
-      for $related-to at $related-to-seq in $admin-item//cgMDR:related_to[cgMDR:related_to]
+      for $related-to at $related-to-seq in $admin-item//openMDR:related_to[openMDR:related_to]
       return
          (
          <tr>
          <td/>
          <td>{$related-to-seq}</td>
-         <td>{string($related-to/cgMDR:related_to)}</td>
-         <td>{lib-forms:make-select-admin-item('value_domain', 'related-item', string($related-to/cgMDR:related_to))}</td>
-         <td>{lib-forms:select-from-simpleType-enum('relationship_type_name','relationship',false(),string($related-to/cgMDR:value_domain_relationship_type_description))}</td>
+         <td>{string($related-to/openMDR:related_to)}</td>
+         <td>{lib-forms:make-select-admin-item('value_domain', 'related-item', string($related-to/openMDR:related_to))}</td>
+         <td>{lib-forms:select-from-simpleType-enum('relationship_type_name','relationship',false(),string($related-to/openMDR:value_domain_relationship_type_description))}</td>
          <td>{lib-forms:action-button($lib-forms:action-rai-delete,$lib-forms:action-rai-control-name,$related-to-seq),lib-forms:action-button($lib-forms:action-update-body, 'action', 0)}</td>
          </tr>
          )
@@ -1159,9 +1159,9 @@ declare function lib-forms:popup-search($type as xs:string, $control as xs:strin
     {
     for $item in lib-util:mdrElements("classification_scheme_item")
        [data(./@contained_in) = $scheme_id]
-       [data(./cgMDR:association/@associationTarget) = $item_id]
+       [data(./openMDR:association/@associationTarget) = $item_id]
     let $item_identifier := data($item//@classification_scheme_item_identifier)
-    let $item_value := data($item//cgMDR:classification_scheme_item_value)
+    let $item_value := data($item//openMDR:classification_scheme_item_value)
     return
             element folder
             {
@@ -1177,8 +1177,8 @@ declare function lib-forms:popup-search($type as xs:string, $control as xs:strin
     declare function lib-forms:get-leaves($item_id as xs:string) as element()*
     {
     for $data_element in lib-util:mdrElements('data_element')
-      [.//cgMDR:classified_by=$item_id]
-      [.//cgMDR:administered_item_administration_record/cgMDR:registration_status!='Superseded']
+      [.//openMDR:classified_by=$item_id]
+      [.//openMDR:administered_item_administration_record/openMDR:registration_status!='Superseded']
     let $admin_item_name := administered-item:preferred-name($data_element)
     let $admin_item_id := lib-util:mdrElementId($data_element)
     order by $admin_item_name 

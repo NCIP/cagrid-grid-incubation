@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:cgResolver="http://www.cancergrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en" lang="en">
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en" lang="en">
 <head>
 <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
 <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
-<link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+<link type="text/css" href="../web/stylesheets/cagrid-style.css" rel="stylesheet"/>
 <link type="text/css" href="../classification/stylesheets/treeview.css" rel="stylesheet"/>
 <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
 <script type="text/javascript" src="../classification/stylesheets/treeview.js"/>
@@ -15,7 +15,7 @@
 <img alt="cancer grid header" src="../web/images/main_logo.gif"/>
 </a>
 <br/>
-<h2 class="title">cancergrid metadata registry</h2>
+<h2 class="title">cagrid metadata registry</h2>
 <br/>
 <table>
 <tr>
@@ -115,7 +115,7 @@
 </tr>
 </table>
     
-        Welcome to the cancergrid ISO/IEC11179 compliant metadata repository.
+        Welcome to the cagrid ISO/IEC11179 compliant metadata repository.
         An ISO/IEC11179 metadata repository is a resource where the meaning and allowed values of
             measurements are declared by linking terms in controlled vocabularies - such as SNOMED
             CT - to value domains restricting the values that may be assigned through the
@@ -128,7 +128,7 @@
             meta-analysis previously only achieved by a few groups such as the Early Breast Cancer
             Triallists' Collaborative Group.
         Here you will find the definitions of clinical and bioinformatic measurements of interest
-            to clinicians and bioinformaticians in the cancergrid project. You can browse them alphabetically, search for text within the names and definitions, inspect the underlying data model of the repository, or read some useful documents that describe how this resource is
+            to clinicians and bioinformaticians in the cagrid project. You can browse them alphabetically, search for text within the names and definitions, inspect the underlying data model of the repository, or read some useful documents that describe how this resource is
             maintained. 
         
             
@@ -172,7 +172,7 @@
             
         
     
-<p class="copyright"> Copyright (C) 2008 The CancerGrid Consortium (<a href="http://www.cancergrid.org">http://www.cancergrid.org</a>) </p>
+<p class="copyright"> Copyright (C) 2008 The CancerGrid Consortium (<a href="http://www.cagrid.org">http://www.cagrid.org</a>) </p>
 <p align="right">
 <a href="http://validator.w3.org/check?uri=referer">
 <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml-blue.gif"/>

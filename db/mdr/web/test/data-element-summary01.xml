@@ -5,9 +5,9 @@
     <head>
         <link type="text/css" href="stylesheets/main.css" rel="stylesheet"/>
         <link type="text/css" href="stylesheets/mdr.css" rel="stylesheet"/>
-        <link type="text/css" href="stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="stylesheets/cagrid-style.css" rel="stylesheet"/>
         <link type="text/css" href="treeview/treeview.css" rel="stylesheet"/>
-        <title>cancergrid metadata repository</title>
+        <title>cagrid metadata repository</title>
         <script type="text/javascript" src="treeview/treeview.js" xml:space="preserve"/>
     </head>
     <body onload="findElementInTreeview('GB-CANCERGRID-D1E682341-0.21');">
@@ -3323,6 +3323,6 @@
                 </td>
             </tr>
         </table>
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
     </body>
 </html>

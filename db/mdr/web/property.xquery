@@ -1,28 +1,28 @@
 xquery version "1.0";
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
-declare namespace cgResolver = "http://www.cancergrid.org/schema/cgResolver";
+declare namespace cgResolver = "http://www.cagrid.org/schema/cgResolver";
 (: Using eXist-predefined namespace: xmldb :)
 
 
 
 import module 
-    namespace lib-util="http://www.cancergrid.org/xquery/library/util" 
+    namespace lib-util="http://www.cagrid.org/xquery/library/util" 
     at "../library/m-lib-util.xquery";
 
 import module 
-    namespace lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+    namespace lib-rendering="http://www.cagrid.org/xquery/library/rendering"
     at "../web/m-lib-rendering.xquery";
     
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery"; 
    
 import module namespace
-    lib-uri-resolution="http://www.cancergrid.org/xquery/library/resolver"
+    lib-uri-resolution="http://www.cagrid.org/xquery/library/resolver"
     at "../resolver/m-lib-uri-resolution.xquery";     
 
 
@@ -36,12 +36,12 @@ return
     if (request:get-parameter("as-xml",()))
     then (lib-rendering:as-xml($administered_item))
    else(
-      let $reference_uri := data($administered_item//cgMDR:reference_uri)
+      let $reference_uri := data($administered_item//openMDR:reference_uri)
       let $title:=concat('Property: ',administered-item:preferred-name($administered_item))
          
       let $content as element(div) := 
                <div xmlns="http://www.w3.org/1999/xhtml"> {
-                     if ($administered_item//cgMDR:reference_uri)
+                     if ($administered_item//openMDR:reference_uri)
                      then
                      (
                       <div class="section">

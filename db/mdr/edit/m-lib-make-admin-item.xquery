@@ -1,7 +1,7 @@
-module namespace lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item";
+module namespace lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item";
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -9,30 +9,30 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace request="http://exist-db.org/xquery/request";
 
 import module namespace 
-lib-rendering="http://www.cancergrid.org/xquery/library/rendering" 
+lib-rendering="http://www.cagrid.org/xquery/library/rendering" 
 at "../web/m-lib-rendering.xquery";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 import module namespace 
-administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+administered-item="http://www.cagrid.org/xquery/library/administered-item" 
 at "../library/m-administered-item.xquery";  
 
 declare function lib-make-admin-item:administration-record(
     $administrative-note as xs:string,
     $administrative-status as xs:string,
     $registration-status as xs:string
-    ) as element(cgMDR:administered_item_administration_record)
+    ) as element(openMDR:administered_item_administration_record)
 {
-    element cgMDR:administered_item_administration_record {
-        element cgMDR:administrative_note {$administrative-note},
-        element cgMDR:administrative_status {$administrative-status},
-        element cgMDR:creation_date {current-date()},
-        element cgMDR:effective_date {current-date()},
-        element cgMDR:last_change_date {current-date()},
-        element cgMDR:registration_status {$registration-status}
+    element openMDR:administered_item_administration_record {
+        element openMDR:administrative_note {$administrative-note},
+        element openMDR:administrative_status {$administrative-status},
+        element openMDR:creation_date {current-date()},
+        element openMDR:effective_date {current-date()},
+        element openMDR:last_change_date {current-date()},
+        element openMDR:registration_status {$registration-status}
     }
 };
 
@@ -42,9 +42,9 @@ declare function lib-make-admin-item:custodians(
     $submitted-by as xs:string
     ) as element()*
 {
-    element cgMDR:administered_by {$administered-by},
-    element cgMDR:registered_by {$registered-by},
-    element cgMDR:submitted_by {$submitted-by}
+    element openMDR:administered_by {$administered-by},
+    element openMDR:registered_by {$registered-by},
+    element openMDR:submitted_by {$submitted-by}
 };
 
 declare function lib-make-admin-item:havings(
@@ -82,19 +82,19 @@ declare function lib-make-admin-item:having(
     $definition as xs:string?,
     $preferred-designation as xs:boolean,
     $definition-source-reference as xs:string?
-    ) as element(cgMDR:having)
+    ) as element(openMDR:having)
 {
-    element cgMDR:having {
-        element cgMDR:context_identifier {$context-identifier},
-        element cgMDR:containing {
-            element cgMDR:language_section_language_identifier {
-                element cgMDR:country_identifier {$country-identifier},
-                element cgMDR:language_identifier {$language-identifier}
+    element openMDR:having {
+        element openMDR:context_identifier {$context-identifier},
+        element openMDR:containing {
+            element openMDR:language_section_language_identifier {
+                element openMDR:country_identifier {$country-identifier},
+                element openMDR:language_identifier {$language-identifier}
             },
-            element cgMDR:name {$name},
-            element cgMDR:definition_text {$definition}, 
-            element cgMDR:preferred_designation {$preferred-designation},
-            element cgMDR:definition_source_reference {$definition-source-reference}
+            element openMDR:name {$name},
+            element openMDR:definition_text {$definition}, 
+            element openMDR:preferred_designation {$preferred-designation},
+            element openMDR:definition_source_reference {$definition-source-reference}
         }
     }
 };

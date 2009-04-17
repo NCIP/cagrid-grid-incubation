@@ -8,7 +8,7 @@
     <xsl:param name="authority"/>
     <xsl:param name="resource"/>
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
-    <xsl:template xmlns:lb-cg="http://lexbig.cancergrid.org/xsd" match="//lb-cg:resolveSetResponse/lb-cg:return">
+    <xsl:template xmlns:lb-cg="http://lexbig.cagrid.org/xsd" match="//lb-cg:resolveSetResponse/lb-cg:return">
         <table>
             <thead>
                 <tr>

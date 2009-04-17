@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:der-xs="http://cancergrid.org/schema/DataElementReduced" xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:der-xs="http://cagrid.org/schema/DataElementReduced" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:output indent="yes" omit-xml-declaration="yes"/>
     <xsl:strip-space elements="*"/>
     <xsl:include href="DataElementReduced_admin_content.xsl"/>
@@ -23,17 +23,17 @@
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="der-xs:new-data-element-reduced">
-        <cgMDR:Data_Element_Concept item_registration_authority_identifier="{der-xs:reg-auth}" data_identifier="{der-xs:dec-data-identifier}" version="{$defaults/defaults/data_element_version}">
+        <openMDR:Data_Element_Concept item_registration_authority_identifier="{der-xs:reg-auth}" data_identifier="{der-xs:dec-data-identifier}" version="{$defaults/defaults/data_element_version}">
             <xsl:call-template name="admin-content"/>
-            <cgMDR:data_element_concept_conceptual_domain>
+            <openMDR:data_element_concept_conceptual_domain>
                 <xsl:value-of select="concat(der-xs:reg-auth, '-', der-xs:conceptual-domain-data-identifier, '-0.1')"/>
-            </cgMDR:data_element_concept_conceptual_domain>
-            <cgMDR:data_element_concept_object_class>
+            </openMDR:data_element_concept_conceptual_domain>
+            <openMDR:data_element_concept_object_class>
                 <xsl:value-of select="$defaults/defaults/data_element_concept_object_class"/>
-            </cgMDR:data_element_concept_object_class>
-            <cgMDR:data_element_concept_property>
+            </openMDR:data_element_concept_object_class>
+            <openMDR:data_element_concept_property>
                 <xsl:value-of select="$defaults/defaults/data_element_concept_property"/>
-            </cgMDR:data_element_concept_property>
-        </cgMDR:Data_Element_Concept>
+            </openMDR:data_element_concept_property>
+        </openMDR:Data_Element_Concept>
     </xsl:template>
 </xsl:stylesheet>

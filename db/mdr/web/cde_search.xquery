@@ -1,7 +1,7 @@
 declare namespace request="http://exist-db.org/xquery/request";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util"
+lib-util="http://www.cagrid.org/xquery/library/util"
 at "../library/m-lib-util.xquery";
 
 let $xquery-path := concat(lib-util:getServer(), '/exist/rest', lib-util:webPath(), 'search.xquery')

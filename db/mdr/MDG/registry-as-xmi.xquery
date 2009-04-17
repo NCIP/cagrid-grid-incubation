@@ -1,13 +1,13 @@
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace UML="omg.org/UML1.3";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   lib-forms="http://www.cancergrid.org/xquery/library/forms" 
+   lib-forms="http://www.cagrid.org/xquery/library/forms" 
    at "../edit/m-lib-forms.xquery";
    
 declare function local:xmi-id() as attribute()
@@ -18,7 +18,7 @@ declare function local:xmi-id() as attribute()
    
 declare function local:guid() as xs:string
 {
-    concat('CGMDRID_', lib-forms:random-name((), 12))
+    concat('openMDRID_', lib-forms:random-name((), 12))
 };
 
 let $simple-types as element()* := 
@@ -73,7 +73,7 @@ return element UML:Class {
 for $simple-element in $simple-elements
 return element UML:Class {
     $simple-element/@xmi.id,
-    attribute name {$simple-element/cgMDR:field_name[@preferred='true']}, 
+    attribute name {$simple-element/openMDR:field_name[@preferred='true']}, 
     attribute visibility {"public"},
     attribute isRoot {"false"},
     attribute isLeaf {"false"},
@@ -85,7 +85,7 @@ return element UML:Class {
 
 for $simple-element in $simple-elements
 for $simple-type in $simple-types
-where $simple-element//cgMDR:representing = lib-util:mdrElementId($simple-type)
+where $simple-element//openMDR:representing = lib-util:mdrElementId($simple-type)
 return element UML:Generalization {
             attribute subtype {$simple-element/@xmi.id},
             attribute supertype {$simple-type/@xmi.id},

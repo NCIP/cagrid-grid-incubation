@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xpath-default-namespace="http://cancergrid.org/schema/config">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xpath-default-namespace="http://cagrid.org/schema/config">
     <xsl:output omit-xml-declaration="yes" indent="yes"/>
     <xsl:template match="/">
-        <resources xmlns="http://cancergrid.org/schema/query">
+        <resources xmlns="http://cagrid.org/schema/query">
             <xsl:for-each select="//query_service">
                 <xsl:sort select="@name"/>
                 <xsl:apply-templates select="."/>
@@ -10,7 +10,7 @@
         </resources>
     </xsl:template>
     <xsl:template match="query_service">
-        <query_service xmlns="http://cancergrid.org/schema/query">
+        <query_service xmlns="http://cagrid.org/schema/query">
             <xsl:copy-of select="@category"/>
             <xsl:copy-of select="@name"/>
             <title>

@@ -1,21 +1,21 @@
-<cgMDR:Registration_Authority xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" organization_identifier="cagrid.org">
-    <cgMDR:organization_name>caGrid</cgMDR:organization_name>
-    <cgMDR:organization_mail_address/>
-    <cgMDR:documentation_language_identifier>
-        <cgMDR:language_identifier>eng</cgMDR:language_identifier>
-    </cgMDR:documentation_language_identifier>
-    <cgMDR:registration_authority_identifier>
-        <cgMDR:international_code_designator>US</cgMDR:international_code_designator>
-        <cgMDR:OPI_Source>BSI</cgMDR:OPI_Source>
-        <cgMDR:organization_identifier>cagrid.org</cgMDR:organization_identifier>
-        <cgMDR:organization_part_identifier>cagrid</cgMDR:organization_part_identifier>
-    </cgMDR:registration_authority_identifier>
-    <cgMDR:represented_by>
-        <cgMDR:registrar_contact>
-            <cgMDR:contact_information>01865 283509</cgMDR:contact_information>
-            <cgMDR:contact_name>Shannon Hastings</cgMDR:contact_name>
-            <cgMDR:contact_title>Director</cgMDR:contact_title>
-        </cgMDR:registrar_contact>
-        <cgMDR:registrar_identifier>mdr.cagrid.org</cgMDR:registrar_identifier>
-    </cgMDR:represented_by>
-</cgMDR:Registration_Authority>
+<openMDR:Registration_Authority xmlns:openMDR="http://www.cagrid.org/schema/openMDR" organization_identifier="cagrid.org">
+    <openMDR:organization_name>caGrid</openMDR:organization_name>
+    <openMDR:organization_mail_address/>
+    <openMDR:documentation_language_identifier>
+        <openMDR:language_identifier>eng</openMDR:language_identifier>
+    </openMDR:documentation_language_identifier>
+    <openMDR:registration_authority_identifier>
+        <openMDR:international_code_designator>US</openMDR:international_code_designator>
+        <openMDR:OPI_Source>BSI</openMDR:OPI_Source>
+        <openMDR:organization_identifier>cagrid.org</openMDR:organization_identifier>
+        <openMDR:organization_part_identifier>cagrid</openMDR:organization_part_identifier>
+    </openMDR:registration_authority_identifier>
+    <openMDR:represented_by>
+        <openMDR:registrar_contact>
+            <openMDR:contact_information>01865 283509</openMDR:contact_information>
+            <openMDR:contact_name>Shannon Hastings</openMDR:contact_name>
+            <openMDR:contact_title>Director</openMDR:contact_title>
+        </openMDR:registrar_contact>
+        <openMDR:registrar_identifier>mdr.cagrid.org</openMDR:registrar_identifier>
+    </openMDR:represented_by>
+</openMDR:Registration_Authority>

@@ -1,4 +1,4 @@
-module namespace lib-render-skos="http://www.cancergrid.org/xquery/library/rendering/skos";
+module namespace lib-render-skos="http://www.cagrid.org/xquery/library/rendering/skos";
 
 (: ~
 : Module Name:             Classification Extraction from SKOS.xml
@@ -7,7 +7,7 @@ module namespace lib-render-skos="http://www.cancergrid.org/xquery/library/rende
 :
 : Date                     26-11-2007
 :
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 :
 : Module overview          Reders a SKOS file as a treeview
 :
@@ -20,8 +20,8 @@ module namespace lib-render-skos="http://www.cancergrid.org/xquery/library/rende
 
 
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
@@ -29,11 +29,11 @@ declare namespace skos="http://www.w3.org/2004/02/skos/core#";
 declare namespace dc="http://purl.org/dc/elements/1.1/";
 
 import module namespace 
-   lib-reasoning-skos="http://www.cancergrid.org/xquery/library/reasoning/skos" 
+   lib-reasoning-skos="http://www.cagrid.org/xquery/library/reasoning/skos" 
    at "../classification/m-lib-reasoning-skos.xquery";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
    
@@ -96,7 +96,7 @@ declare function lib-render-skos:treeview($schemes as xs:string*)
          (
          let $scheme-uris :=
              for $scheme in $schemes
-             return data(lib-util:mdrElements('classification_scheme')/skos:ConceptScheme[cgMDR:administrationRecord/@rdf:resource=$scheme]/@rdf:about)
+             return data(lib-util:mdrElements('classification_scheme')/skos:ConceptScheme[openMDR:administrationRecord/@rdf:resource=$scheme]/@rdf:about)
 
          for $scheme-uri in $scheme-uris
          return
@@ -135,7 +135,7 @@ declare function lib-render-skos:schemes() as node()
 {
     element loaded-schemes
         {
-            for $scheme in lib-util:mdrElements('classification_scheme')[exists(.//cgMDR:administered_item_administration_record)]
+            for $scheme in lib-util:mdrElements('classification_scheme')[exists(.//openMDR:administered_item_administration_record)]
             return
                 <loaded-scheme uri="{lib-util:mdrElementId($scheme)}">
                     {lib-util:mdrElementName($scheme)}

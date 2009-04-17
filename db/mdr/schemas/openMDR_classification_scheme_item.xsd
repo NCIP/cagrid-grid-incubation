@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+<xs:schema xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns="http://www.cagrid.org/schema/openMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
     <xs:annotation>
         <xs:documentation>The Classification_item package implements the Classification_Scheme_Item and relationships section of ISO11179
 
-Generalisation relationships between ISO11179 and the cancergrid metadata repository were broken to allow the subsitution of ID references for relationships in the standard.</xs:documentation>
+Generalisation relationships between ISO11179 and the cagrid metadata repository were broken to allow the subsitution of ID references for relationships in the standard.</xs:documentation>
     </xs:annotation>
-    <xs:include schemaLocation="../schemas/cgMDR_resources.xsd"/>
+    <xs:include schemaLocation="../schemas/openMDR_resources.xsd"/>
     <xs:element name="Classification_Scheme_Item" type="Classification_Scheme_Item" nillable="false" abstract="false"/>
     <xs:complexType name="Classification_Scheme_Item" mixed="false" abstract="false">
         <xs:annotation>
-            <xs:documentation>Implements cgMDR:Classification_Scheme_Identifier.</xs:documentation>
+            <xs:documentation>Implements openMDR:Classification_Scheme_Identifier.</xs:documentation>
         </xs:annotation>
         <xs:sequence minOccurs="1" maxOccurs="1">
             <xs:element name="association" type="Classification_Scheme_Item_Relationship" minOccurs="0" maxOccurs="unbounded" nillable="false"/>

@@ -9,15 +9,15 @@ xquery version "1.0";
  :)
 
 import module namespace 
-    rendering="http://www.cancergrid.org/xquery/library/rendering"
+    rendering="http://www.cagrid.org/xquery/library/rendering"
     at "../web/m-lib-rendering.xquery";
 
 import module namespace 
-    lib-util="http://www.cancergrid.org/xquery/library/util"
+    lib-util="http://www.cagrid.org/xquery/library/util"
     at "../library/m-lib-util.xquery";
 
 declare namespace transform="http://exist-db.org/xquery/transform";
-declare namespace cgRegression="http://www.cancergrid.org/schema/cgRegression";
+declare namespace cgRegression="http://www.cagrid.org/schema/cgRegression";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace util="http://exist-db.org/xquery/util";
 

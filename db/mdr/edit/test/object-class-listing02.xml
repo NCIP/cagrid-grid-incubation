@@ -3,7 +3,7 @@
     <head>
         <link type="text/css" href="../web/stylesheets/main.css" rel="stylesheet"/>
         <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
-        <link type="text/css" href="../web/stylesheets/cancergrid-style.css" rel="stylesheet"/>
+        <link type="text/css" href="../web/stylesheets/cagrid-style.css" rel="stylesheet"/>
         <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
         <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
         <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
@@ -440,7 +440,7 @@
                 <td rowspan="1" colspan="1">as name</td>
             </tr>
         </table>
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org" shape="rect">http://www.cancergrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
         <p align="right">
             <a href="http://validator.w3.org/check?uri=referer" shape="rect">
                 <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>

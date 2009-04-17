@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:iso11179="http://www.cancergrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
-    <xs:import namespace="http://www.cancergrid.org/schema/ISO11179" schemaLocation="../schemas/iso11179.xsd"/>
-    <xs:include schemaLocation="../schemas/cgMDR_status_codes.xsd"/>
+<xs:schema xmlns="http://www.cagrid.org/schema/openMDR" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:iso11179="http://www.cagrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.cagrid.org/schema/ISO11179" schemaLocation="../schemas/iso11179.xsd"/>
+    <xs:include schemaLocation="../schemas/openMDR_status_codes.xsd"/>
     
     <xs:simpleType name="reference_document_identifier">
-        <xs:restriction base="cgMDR:identifier"/>
+        <xs:restriction base="openMDR:identifier"/>
     </xs:simpleType>
     <xs:simpleType name="datatype_identifier">
-        <xs:restriction base="cgMDR:identifier"/>
+        <xs:restriction base="openMDR:identifier"/>
     </xs:simpleType>
     <xs:element name="Terminological_Entry" type="Terminological_Entry" nillable="false" abstract="false"/>
     <xs:complexType name="Terminological_Entry" mixed="false" abstract="false">
@@ -45,10 +45,10 @@
         </xs:sequence>
     </xs:complexType>
     <xs:simpleType name="contact_identifier">
-        <xs:restriction base="cgMDR:identifier"/>
+        <xs:restriction base="openMDR:identifier"/>
     </xs:simpleType>
     <xs:simpleType name="organization_identifier">
-        <xs:restriction base="cgMDR:identifier"/>
+        <xs:restriction base="openMDR:identifier"/>
     </xs:simpleType>
     <xs:simpleType name="referenceURI">
         <xs:annotation>
@@ -90,7 +90,7 @@
         </xs:sequence>
     </xs:complexType>
     <xs:simpleType name="unit_of_measure_identifier">
-        <xs:restriction base="cgMDR:identifier"/>
+        <xs:restriction base="openMDR:identifier"/>
     </xs:simpleType>
     <xs:simpleType name="Country_Identifier">
         <xs:annotation>
@@ -125,7 +125,7 @@
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="administered_item_identifier">
-        <xs:restriction base="cgMDR:identifier"/>
+        <xs:restriction base="openMDR:identifier"/>
     </xs:simpleType>
     <xs:element name="Datatype" type="Datatype" nillable="false" abstract="false"/>
     <xs:complexType name="Datatype" mixed="false" abstract="false">
@@ -161,7 +161,7 @@ When an Administered Item is modified, it becomes a new version of the Administe
         <xs:annotation>
             <xs:documentation>Types the identifier for a classification scheme</xs:documentation>
         </xs:annotation>
-        <xs:restriction base="cgMDR:identifier"/>
+        <xs:restriction base="openMDR:identifier"/>
     </xs:simpleType>
     <xs:simpleType name="classification_scheme_type_name">
         <xs:restriction base="xs:string">
@@ -189,7 +189,7 @@ When an Administered Item is modified, it becomes a new version of the Administe
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="value_meaning_identifier">
-        <xs:restriction base="cgMDR:identifier"/>
+        <xs:restriction base="openMDR:identifier"/>
     </xs:simpleType>
     <xs:simpleType name="datatype_scheme_reference">
         <xs:restriction base="xs:string">
@@ -198,7 +198,7 @@ When an Administered Item is modified, it becomes a new version of the Administe
     </xs:simpleType>
     <xs:attributeGroup name="cgItem_Identifier">
         <xs:annotation>
-            <xs:documentation>Implements cgMDR:Item_Identifier
+            <xs:documentation>Implements openMDR:Item_Identifier
 
 Abstracted so it could be an attribute of the root element</xs:documentation>
         </xs:annotation>

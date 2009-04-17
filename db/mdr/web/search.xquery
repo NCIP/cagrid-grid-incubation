@@ -7,7 +7,7 @@ xquery version "1.0";
 :
 : Date                     06 March 2007
 :
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 :
 : Module overview          Returns a reduced, tabular view on data elements
 :
@@ -18,29 +18,29 @@ xquery version "1.0";
 :    @version 1.0
 ~ :)
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace text="http://exist-db.org/xquery/text";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 import module namespace 
-administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+administered-item="http://www.cagrid.org/xquery/library/administered-item" 
 at "../library/m-administered-item.xquery";   
 
 import module namespace
-value-domain="http://www.cancergrid.org/xquery/library/value-domain"
+value-domain="http://www.cagrid.org/xquery/library/value-domain"
 at "../library/m-value-domain.xquery";
 
 import module namespace
-value-meaning="http://www.cancergrid.org/xquery/library/value-meaning"
+value-meaning="http://www.cagrid.org/xquery/library/value-meaning"
 at "../library/m-value-meaning.xquery";
 
 import module namespace 
-lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+lib-rendering="http://www.cagrid.org/xquery/library/rendering"
 at "../web/m-lib-rendering.xquery";
 
 declare namespace session="http://exist-db.org/xquery/session";

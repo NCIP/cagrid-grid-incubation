@@ -1,10 +1,10 @@
-module namespace lib-reasoning-skos="http://www.cancergrid.org/xquery/library/reasoning/skos";
+module namespace lib-reasoning-skos="http://www.cagrid.org/xquery/library/reasoning/skos";
 
 (: ~
 : Module Name:             Reasoning across SKOS.xml
 : Module Version           1.0
 : Date                     27-11-2007
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 : Module overview          Does limited reasoning on a SKOS file 
 :)
 

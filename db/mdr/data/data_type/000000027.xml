@@ -1,6 +1,6 @@
-<cgMDR:cgDatatype xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" datatype_identifier="000000027">
-    <cgMDR:datatype_annotation>http://www.w3.org/2001/XMLSchema</cgMDR:datatype_annotation>
-    <cgMDR:datatype_description>the xml NAME datatype</cgMDR:datatype_description>
-    <cgMDR:datatype_name>NAME</cgMDR:datatype_name>
-    <cgMDR:datatype_scheme_reference>XMLSchema</cgMDR:datatype_scheme_reference>
-</cgMDR:cgDatatype>
+<openMDR:cgDatatype xmlns:openMDR="http://www.cagrid.org/schema/openMDR" datatype_identifier="000000027">
+    <openMDR:datatype_annotation>http://www.w3.org/2001/XMLSchema</openMDR:datatype_annotation>
+    <openMDR:datatype_description>the xml NAME datatype</openMDR:datatype_description>
+    <openMDR:datatype_name>NAME</openMDR:datatype_name>
+    <openMDR:datatype_scheme_reference>XMLSchema</openMDR:datatype_scheme_reference>
+</openMDR:cgDatatype>

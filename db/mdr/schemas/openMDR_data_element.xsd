@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:iso11179="http://www.cancergrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
-    <xs:import namespace="http://www.cancergrid.org/schema/ISO11179" schemaLocation="../schemas/iso11179.xsd"/>
-    <xs:include schemaLocation="../schemas/cgMDR_resources.xsd"/>
+<xs:schema xmlns="http://www.cagrid.org/schema/openMDR" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:iso11179="http://www.cagrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.cagrid.org/schema/ISO11179" schemaLocation="../schemas/iso11179.xsd"/>
+    <xs:include schemaLocation="../schemas/openMDR_resources.xsd"/>
     <xs:element name="Data_Element_Derivation" type="Data_Element_Derivation" nillable="false" abstract="false"/>
     <xs:complexType name="Data_Element_Derivation" mixed="false" abstract="false">
         <xs:annotation>

@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     15th September 2006
  :
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          Renders a conceptual domain for viewing by the user of the metadata repository
  :
@@ -25,14 +25,14 @@ xquery version "1.0";
 ~ :)
 
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 
 
 import module 
-    cgResolver = "http://www.cancergrid.org/schema/cgResolver"; 
+    cgResolver = "http://www.cagrid.org/schema/cgResolver"; 
     at "../resolver/m-lib-uri-resolution.xquery";
     
 session:create(),

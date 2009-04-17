@@ -42,7 +42,7 @@
         <description>Import a .PDF or .DOC into the metadata repository and
          create a curation record so that it can be referred to
          by administered items</description>
-        <uri>../xforms/new-document.xquery?type=reference_document</uri>
+        <uri>../edit/newReferenceDocument.xquery</uri>
     </function>
     <function>
         <title>Create a new object class</title>

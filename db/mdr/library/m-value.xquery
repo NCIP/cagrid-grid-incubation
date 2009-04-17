@@ -1,6 +1,6 @@
 (:~ ISO 11179 value class :)
-module namespace ISO_value="http://www.cancergrid.org/xquery/library/value";
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+module namespace ISO_value="http://www.cagrid.org/xquery/library/value";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 
 (:~
   Constructor
@@ -8,7 +8,7 @@ declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
 :)
 declare function ISO_value:used_in($permissible_value as node())
 as node()?
-{$permissible_value//cgMDR:value_item};
+{$permissible_value//openMDR:value_item};
 
 (:~
   Item

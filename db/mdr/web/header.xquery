@@ -6,7 +6,7 @@ xquery version "1.0";
  :
  : Date                               22nd January 2008
  :
- : Copyright                      The cancergrid consortium
+ : Copyright                      The cagrid consortium
  :
  : Module overview         Provides the header for the model page
  :
@@ -17,11 +17,11 @@ xquery version "1.0";
 ~ :)
    
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";    
    
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";   
 
 declare namespace session="http://exist-db.org/xquery/session";
