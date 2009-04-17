@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               22nd September 2006
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview         maintains units of measure resources
  :
@@ -20,15 +20,15 @@ xquery version "1.0";
 
   
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";  
    
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering" 
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering" 
    at "../web/m-lib-rendering.xquery";   
    
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -47,15 +47,15 @@ session:create(),
             <tr><td><div class="admin_item_table_header">name</div></td><td><div class="admin_item_table_header">provider</div></td><td><div class="admin_item_table_header">uri</div></td></tr>
 
               {for $doc in lib-util:mdrElements("reference_document")
-                  let $name := data($doc//cgMDR:reference_document_title)
-                  let $provider := data($doc//cgMDR:provided_by)
-                  let $uri := data($doc//cgMDR:reference_document_uri)
+                  let $name := data($doc//openMDR:reference_document_title)
+                  let $provider := data($doc//openMDR:provided_by)
+                  let $uri := data($doc//openMDR:reference_document_uri)
 
                   let $url := concat(substring-before(request:get-url(),
                     "/rest/"), "/rest", lib-util:getCollectionPath("reference_document"),
                     "/", $uri)
 
-                  where data($doc//cgMDR:reference_document_type_description)="operational"
+                  where data($doc//openMDR:reference_document_type_description)="operational"
                   order by $name
                   return
                       <tr><td>{$name}</td><td>{$provider}</td><td><a href="{$url}">{$uri}</a></td></tr>

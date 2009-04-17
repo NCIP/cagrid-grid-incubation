@@ -1,21 +1,21 @@
 import module namespace 
-lib-forms="http://www.cancergrid.org/xquery/library/forms"
+lib-forms="http://www.cagrid.org/xquery/library/forms"
 at "../edit/m-lib-forms.xquery";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 import module namespace 
-lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+lib-rendering="http://www.cagrid.org/xquery/library/rendering"
 at "../web/m-lib-rendering.xquery";   
 
 import module namespace 
-lib-supersede="http://www.cancergrid.org/xquery/library/supersede"
+lib-supersede="http://www.cagrid.org/xquery/library/supersede"
 at "../edit/m-lib-supersede.xquery";  
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
 
@@ -100,7 +100,7 @@ let $tests2 :=
 let $tests3 := (
 
     let $identifier := 
-        (for $element in collection(lib-util:getCollectionPath('data_element'))[.//cgMDR:registration_status ne 'Superseded'][1]/*
+        (for $element in collection(lib-util:getCollectionPath('data_element'))[.//openMDR:registration_status ne 'Superseded'][1]/*
         return concat(
             xs:string($element//@item_registration_authority_identifier), '-', 
             xs:string($element//@data_identifier), '-', 

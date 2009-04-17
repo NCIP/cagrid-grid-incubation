@@ -4,7 +4,7 @@ xquery version "1.0";
  : Module Name:             maintenance.xquery
  : Module Version           4
  : Date                     11th November 2006
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  : Module overview          maintenance functions
  :
  :)
@@ -26,11 +26,11 @@ declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace request="http://exist-db.org/xquery/request";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
       
 import module namespace 
-      lib-rendering="http://www.cancergrid.org/xquery/library/rendering" 
+      lib-rendering="http://www.cagrid.org/xquery/library/rendering" 
       at "../web/m-lib-rendering.xquery";
       
       

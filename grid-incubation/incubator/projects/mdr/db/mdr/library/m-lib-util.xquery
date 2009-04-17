@@ -1,7 +1,7 @@
-module namespace lib-util="http://www.cancergrid.org/xquery/library/util";
+module namespace lib-util="http://www.cagrid.org/xquery/library/util";
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace util="http://exist-db.org/xquery/util";
 declare namespace session="http://exist-db.org/xquery/session";
@@ -157,14 +157,14 @@ declare function lib-util:getResourceLocation($resource-name as xs:string, $file
 
 declare function lib-util:search($mdr-element-type as xs:string, $phrase as xs:string) as element()* 
 {
-   for $doc in lib-util:mdrElements($mdr-element-type)[.//cgMDR:registration_status/text() != 'Superseded'][.//cgMDR:name[contains(.,$phrase)]] 
+   for $doc in lib-util:mdrElements($mdr-element-type)[.//openMDR:registration_status/text() != 'Superseded'][.//openMDR:name[contains(.,$phrase)]] 
    return $doc      
 };
 
 declare function lib-util:searchWithClassification($mdr-element-type as xs:string, $classified-by as xs:anyURI, $phrase as xs:string) as element()* 
 {
-   for $doc in collection(lib-util:getCollectionPath($mdr-element-type))/*[cgMDR:classified_by=$classified-by]
-   where not ($doc//cgMDR:registration_status = 'Superseded')
+   for $doc in collection(lib-util:getCollectionPath($mdr-element-type))/*[openMDR:classified_by=$classified-by]
+   where not ($doc//openMDR:registration_status = 'Superseded')
                and $doc=$phrase
    return $doc
 };
@@ -242,19 +242,19 @@ declare function lib-util:checkLogin() as xs:boolean
 declare function lib-util:mdrElementName($mdrElement as element()) as xs:string
 {
    if (lib-util:mdrElementType($mdrElement) = "reference_document")
-   then (string($mdrElement/cgMDR:reference_document_title))
+   then (string($mdrElement/openMDR:reference_document_title))
    else (
       if (lib-util:mdrElementType($mdrElement) = "unit_of_measure")
-      then (string($mdrElement/cgMDR:unit_of_measure_name))
+      then (string($mdrElement/openMDR:unit_of_measure_name))
       else (
          if (lib-util:mdrElementType($mdrElement) = "registration_authority")
-         then (string($mdrElement/cgMDR:organization_name))
+         then (string($mdrElement/openMDR:organization_name))
          else (
             if (lib-util:mdrElementType($mdrElement) = "data_type")
-            then (string($mdrElement/cgMDR:datatype_name))
+            then (string($mdrElement/openMDR:datatype_name))
             else (
-               if ($mdrElement//cgMDR:name)
-               then (string($mdrElement//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name[1]))
+               if ($mdrElement//openMDR:name)
+               then (string($mdrElement//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name[1]))
                else ('undefined'
                )
             )

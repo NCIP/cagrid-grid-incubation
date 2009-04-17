@@ -6,7 +6,7 @@ xquery version "1.0";
 :
 : Date                     06 Nov 2008
 :
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 :
 : Module overview          Loads a classification scheme into the registry
 :
@@ -17,26 +17,26 @@ xquery version "1.0";
 :    @version 1.0
 ~ :)
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
 
 import module 
-   namespace lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   namespace lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery"; 
    
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery"; 
 
 import module namespace 
-    lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item"
+    lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item"
     at "../edit/m-lib-make-admin-item.xquery";   
 
 import module namespace 
-lib-forms="http://www.cancergrid.org/xquery/library/forms"
+lib-forms="http://www.cagrid.org/xquery/library/forms"
 at "../edit/m-lib-forms.xquery";   
    
    
@@ -44,40 +44,40 @@ at "../edit/m-lib-forms.xquery";
 
 declare function local:defaults() as element()
 {
-    doc(concat(lib-util:editPath(),"documents/defaults.xml"))/cgMDR:edit-defaults
+    doc(concat(lib-util:editPath(),"documents/defaults.xml"))/openMDR:edit-defaults
 };
 
 declare function local:cs-admin-record() as element()
 {    
     let $reg-auth := 
-         for $item-reg-auth-id in lib-util:mdrElements("registration_authority")[.//cgMDR:registrar_identifier = request:get-parameter("registered-by",())]//@organization_identifier
+         for $item-reg-auth-id in lib-util:mdrElements("registration_authority")[.//openMDR:registrar_identifier = request:get-parameter("registered-by",())]//@organization_identifier
          return data($item-reg-auth-id[1])
     
     let $defaults := local:defaults()
     
     return         
-        element cgMDR:Classification_Scheme {
+        element openMDR:Classification_Scheme {
         lib-make-admin-item:identifier-attributes(
             $reg-auth,
             lib-forms:generate-id(),
-            $defaults/cgMDR:Classification_Scheme/@version),
+            $defaults/openMDR:Classification_Scheme/@version),
         lib-make-admin-item:administration-record(
             '',
-            $defaults/cgMDR:administrative_status,
-            $defaults/cgMDR:registration_status),
+            $defaults/openMDR:administrative_status,
+            $defaults/openMDR:registration_status),
         lib-make-admin-item:custodians(
             request:get-parameter("administered-by",()),
             request:get-parameter("registered-by",()),
             request:get-parameter("submitted-by",())),
-        element cgMDR:described_by {},
+        element openMDR:described_by {},
         lib-make-admin-item:having(
-            $defaults//cgMDR:context_identifier,
-            $defaults//cgMDR:country_identifier,
-            $defaults//cgMDR:language_identifier,
+            $defaults//openMDR:context_identifier,
+            $defaults//openMDR:country_identifier,
+            $defaults//openMDR:language_identifier,
             request:get-parameter("preferred-name",()),
             request:get-parameter("definition",()),
             true(), ()),
-        element cgMDR:referenceURI {request:get-uploaded-file-name("upload")}
+        element openMDR:referenceURI {request:get-uploaded-file-name("upload")}
     }
     };
 
@@ -105,7 +105,7 @@ return
         <div xmlns="http://www.w3.org/1999/xhtml">
             <form name="upload-cs" 
                 method="post" 
-                class="cancergridForm" 
+                class="cagridForm" 
                 action="/exist/rest//db/mdr/edit/upload-cs.xquery"
                 enctype="multipart/form-data">
                 

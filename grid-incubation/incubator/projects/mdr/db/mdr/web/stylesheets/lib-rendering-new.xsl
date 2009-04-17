@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cgResolver="http://www.cancergrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:param name="user" select="guest"/>
     <xsl:param name="title" select="title"/>
     <xsl:param name="footer">true</xsl:param>
@@ -174,8 +174,8 @@
     <!--calculates an admin-item-identifier-->
     <xsl:template name="admin-item-identifier">
         <xsl:choose>
-            <xsl:when test="//cgMDR:data_element_complete">
-                <xsl:value-of select="/cgMDR:data_element_complete/cgMDR:Data_Element/@item_registration_authority_identifier"/>-<xsl:value-of select="/cgMDR:data_element_complete/cgMDR:Data_Element/@data_identifier"/>-<xsl:value-of select="//cgMDR:data_element_complete/cgMDR:Data_Element/@version"/>
+            <xsl:when test="//openMDR:data_element_complete">
+                <xsl:value-of select="/openMDR:data_element_complete/openMDR:Data_Element/@item_registration_authority_identifier"/>-<xsl:value-of select="/openMDR:data_element_complete/openMDR:Data_Element/@data_identifier"/>-<xsl:value-of select="//openMDR:data_element_complete/openMDR:Data_Element/@version"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="//@item_registration_authority_identifier"/> -<xsl:value-of select="//@data_identifier"/> -<xsl:value-of select="//@version"/>
@@ -447,7 +447,7 @@
             </table>
         </div>
     </xsl:template>
-    <xsl:function name="cgMDR:sentence-case">
+    <xsl:function name="openMDR:sentence-case">
         <xsl:param name="input" as="xs:string"/>
         <xsl:value-of>
             <xsl:for-each select="tokenize(replace($input, '_', ' '),' ')">

@@ -7,7 +7,7 @@ xquery version "1.0";
 :
 : Date                     15 jan 2008
 :
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 :
 : Module overview          Finds a document to place on the end of a relationship
 :
@@ -20,23 +20,23 @@ xquery version "1.0";
 
 
 declare namespace request="http://exist-db.org/xquery/request";
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace session="http://exist-db.org/xquery/session";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util"
+   lib-util="http://www.cagrid.org/xquery/library/util"
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";      
    
 import module namespace 
-  lib-forms="http://www.cancergrid.org/xquery/library/forms"
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
   
 import module namespace 
-  lib-rendering="http://www.cancergrid.org/xquery/library/rendering" 
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering" 
   at "../web/m-lib-rendering.xquery";  
   
 declare function local:action-button($value as xs:string, $control as xs:string, $text as xs:string, $name as xs:string) as node()
@@ -69,13 +69,13 @@ return
          <title>Searching for a {$type}</title>
                 <link rel="stylesheet" href="../web/stylesheets/main.css" type="text/css"/>
                 <link rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
-                <link rel="stylesheet" href="../web/stylesheets/cancergrid-style.css" type="text/css"/>
+                <link rel="stylesheet" href="../web/stylesheets/cagrid-style.css" type="text/css"/>
                 <link rel="stylesheet" href="../classification/stylesheets/treeview.css" type="text/css"/>
                 <link rel="search" type="application/opensearchdescription+xml" title="CancerGrid Data Element Search" href="../web/cde_search.xquery"/>
 
       </head>
       <body>
-         <form name='select-item' class='cancergridForm' action='popup-search-relationship.xquery'>
+         <form name='select-item' class='cagridForm' action='popup-search-relationship.xquery'>
             <input type='hidden' name='type' value='{$type}'/>
             <input type='hidden' name='control' value='{$control}'/>
             <table class="layout">

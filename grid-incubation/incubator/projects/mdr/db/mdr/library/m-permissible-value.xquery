@@ -1,17 +1,17 @@
 (:~ Permissible value class :)
-module namespace permissible-value="http://www.cancergrid.org/xquery/library/permissible-value";
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+module namespace permissible-value="http://www.cagrid.org/xquery/library/permissible-value";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 
 (:~
   Constructor
   @param $value_domain Value domain
   
-  cgMDR:contained_in added to prevent false iterations
+  openMDR:contained_in added to prevent false iterations
 :)
 declare function permissible-value:contained_in($value_domain as element())
 as node()*
 {
-   $value_domain//cgMDR:containing[cgMDR:contained_in]
+   $value_domain//openMDR:containing[openMDR:contained_in]
 };
 
 (:~
@@ -21,6 +21,6 @@ as node()*
 declare function permissible-value:begin_date($permissible_value as element())
 as xs:date?
 {
-  for $date in $permissible_value/cgMDR:permissible_value_begin_date
+  for $date in $permissible_value/openMDR:permissible_value_begin_date
   return xs:date($date)
 };

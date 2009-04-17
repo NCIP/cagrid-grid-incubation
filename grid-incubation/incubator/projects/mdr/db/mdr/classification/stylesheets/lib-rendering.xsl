@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0">
     <xsl:param name="user" select="guest"/>
     <xsl:param name="title" select="title"/>
     <xsl:param name="footer">true</xsl:param>
@@ -16,7 +16,7 @@
             <head>
                 <link rel="stylesheet" href="../web/stylesheets/main.css" type="text/css"/>
                 <link rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
-                <link rel="stylesheet" href="../web/stylesheets/cancergrid-style.css" type="text/css"/>
+                <link rel="stylesheet" href="../web/stylesheets/cagrid-style.css" type="text/css"/>
                 <link rel="stylesheet" href="../web/treeview/treeview.css" type="text/css"/>
                 <link rel="search" type="application/opensearchdescription+xml" title="CancerGrid Data Element Search" href="../web/cde_search.xquery"/>
                 <script src="../web/treeview/treeview.js" type="text/javascript"/>
@@ -142,13 +142,13 @@
    
    <!-- renders the copyright notice on the bottom of the page-->
     <xsl:template name="copyright">
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cancergrid.org">http://www.cancergrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org">http://www.cagrid.org</a>) </p>
     </xsl:template>
     <xsl:template name="page-header">
         <div>
             <img src="../web/images/main_logo.gif" alt="cancer grid header"/>
             <br/>
-            <h2 class="title">cancergrid metadata registry</h2>
+            <h2 class="title">cagrid metadata registry</h2>
             <br/>
             <table>
                 <tr>
@@ -251,10 +251,10 @@
     </xsl:template>
    
 <!--reusable web page parts -->
-    <xsl:template match="cgMDR:language_section_language_identifier|reference_document_language_identifier">
-        <xsl:value-of select="cgMDR:country_identifier"/>
+    <xsl:template match="openMDR:language_section_language_identifier|reference_document_language_identifier">
+        <xsl:value-of select="openMDR:country_identifier"/>
         <xsl:text>-</xsl:text>
-        <xsl:value-of select="cgMDR:language_identifier"/>
+        <xsl:value-of select="openMDR:language_identifier"/>
     </xsl:template>
    
 <!--letter selectors -->
@@ -574,7 +574,7 @@
         </xsl:variable>
         <div class="content_one_pane">
             <div class="centre_block">
-                <form name="frmSrch" method="get" class="cancergrid" action="{$action}">
+                <form name="frmSrch" method="get" class="cagrid" action="{$action}">
               Search phrase <input type="text" name="phrase" value="{$phrase}"/>
                     <input class="cgButton" type="submit" value="Submit query"/>
                 </form>

@@ -1,4 +1,4 @@
-module namespace lib-search="http://www.cancergrid.org/xquery/library/search";
+module namespace lib-search="http://www.cagrid.org/xquery/library/search";
 
 (: ~
  : Module Name:             trial designer xml document
@@ -7,7 +7,7 @@ module namespace lib-search="http://www.cancergrid.org/xquery/library/search";
  :
  : Date                               31st October 2006
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview          outputs the expected message for the trial designer plug-in
  :
@@ -22,23 +22,23 @@ module namespace lib-search="http://www.cancergrid.org/xquery/library/search";
 
   
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace
-   value-domain="http://www.cancergrid.org/xquery/library/value-domain"
+   value-domain="http://www.cagrid.org/xquery/library/value-domain"
    at "../library/m-value-domain.xquery"; 
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
 
 import module namespace
-value-meaning="http://www.cancergrid.org/xquery/library/value-meaning"
+value-meaning="http://www.cagrid.org/xquery/library/value-meaning"
 at "../library/m-value-meaning.xquery";
    
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace util="http://exist-db.org/xquery/util";
 (: declare namespace exist="http://exist-db.org"; :)
@@ -115,7 +115,7 @@ let $long-name :=administered-item:preferred-name($data-element)
 let $name := lib-util:mdrElementId($data-element)
 let $version := $data-element//@version
 let $definition := administered-item:preferred-definition($data-element)
-let $value-domain := lib-util:mdrElement('value_domain',$data-element//cgMDR:representing)
+let $value-domain := lib-util:mdrElement('value_domain',$data-element//openMDR:representing)
 let $data-type :=  value-domain:datatype($value-domain)
 return
    element element {
@@ -133,8 +133,8 @@ return
                attribute base {$data-type},
                if ( value-domain:type($value-domain) = 'enumerated value domain') then
                   (
-                   for $containing in $value-domain//cgMDR:Enumerated_Value_Domain/cgMDR:containing
-                   let $value := data($containing/cgMDR:value_item)
+                   for $containing in $value-domain//openMDR:Enumerated_Value_Domain/openMDR:containing
+                   let $value := data($containing/openMDR:value_item)
                    order by $value
                    return element xs:enumeration {attribute value {$value}}
                   )
@@ -154,7 +154,7 @@ let $long-name :=administered-item:preferred-name($data-element)
 let $name := lib-util:mdrElementId($data-element)
 let $version := $data-element//@version
 let $definition := administered-item:preferred-definition($data-element)
-let $value-domain := lib-util:mdrElement('value_domain',$data-element//cgMDR:representing)
+let $value-domain := lib-util:mdrElement('value_domain',$data-element//openMDR:representing)
 let $data-type :=  value-domain:datatype($value-domain)
 return
    element element {
@@ -172,8 +172,8 @@ return
                attribute base {$data-type},
                if ( value-domain:type($value-domain) = 'enumerated value domain') then
                   (
-                   for $containing in $value-domain//cgMDR:Enumerated_Value_Domain/cgMDR:containing
-                   let $value := data($containing/cgMDR:value_item)
+                   for $containing in $value-domain//openMDR:Enumerated_Value_Domain/openMDR:containing
+                   let $value := data($containing/openMDR:value_item)
                    order by $value
                    return element xs:enumeration {attribute value {$value}}
                   )
@@ -193,14 +193,14 @@ declare function local:searchCDE($phrase as xs:string) as element()*
 {
       let $admin-items :=
       for $administered-item in lib-util:mdrElements("data_element")
-            [.//cgMDR:registration_status ne 'Superseded']
-            [.//cgMDR:name&=$phrase or .//cgMDR:definition_text&=$phrase]
+            [.//openMDR:registration_status ne 'Superseded']
+            [.//openMDR:name&=$phrase or .//openMDR:definition_text&=$phrase]
          let $administered-item-id := lib-util:mdrElementId($administered-item)
-         let $value-domain-id := data($administered-item//cgMDR:representing)
+         let $value-domain-id := data($administered-item//openMDR:representing)
          let $value-domain := lib-util:mdrElement("value_domain",$value-domain-id)
-         let $data-type := lib-util:mdrElement("data_type", data($value-domain//cgMDR:value_domain_datatype))
-         let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//cgMDR:value_domain_unit_of_measure))
-         let $preferred-name := $administered-item//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name
+         let $data-type := lib-util:mdrElement("data_type", data($value-domain//openMDR:value_domain_datatype))
+         let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//openMDR:value_domain_unit_of_measure))
+         let $preferred-name := $administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
          order by $preferred-name
          return
             element data-element{
@@ -208,7 +208,7 @@ declare function local:searchCDE($phrase as xs:string) as element()*
                   element id {$administered-item-id},
                   element preferred {data($preferred-name)},
                   element all-names {
-                  for $name in $administered-item//cgMDR:name
+                  for $name in $administered-item//openMDR:name
                   where data($name) != $preferred-name  
                   return element name {data($name)}
                   }},
@@ -217,20 +217,20 @@ declare function local:searchCDE($phrase as xs:string) as element()*
                
                   if (value-domain:type($value-domain) = 'enumerated value domain')
                   then(
-                     for $value in $value-domain//cgMDR:containing
-                     where $value/cgMDR:value_item >""
-                     order by $value/cgMDR:value_item
+                     for $value in $value-domain//openMDR:containing
+                     where $value/openMDR:value_item >""
+                     order by $value/openMDR:value_item
                      return
                      element valid-value{
-                     element code {data($value/cgMDR:value_item)},
-                     element meaning {data(value-meaning:value-meaning($value/cgMDR:contained_in)//cgMDR:value_meaning_description)}
+                     element code {data($value/openMDR:value_item)},
+                     element meaning {data(value-meaning:value-meaning($value/openMDR:contained_in)//openMDR:value_meaning_description)}
                      }
                      )
                   else(
-                     element data-type {data($data-type//cgMDR:datatype_name)},
+                     element data-type {data($data-type//openMDR:datatype_name)},
                      element units {
-                        if (data($uom//cgMDR:unit_of_measure_name)>"")
-                        then (data($uom//cgMDR:unit_of_measure_name))
+                        if (data($uom//openMDR:unit_of_measure_name)>"")
+                        then (data($uom//openMDR:unit_of_measure_name))
                         else ("(not applicable)")}
                   )
                }

@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                            21st July 2006
  :
- : Copyright                    The cancergrid consortium
+ : Copyright                    The cagrid consortium
  :
  : Module overview         Renders a Data element concept for viewing by the
  :                                    user of the metadata repository
@@ -26,21 +26,21 @@ xquery version "1.0";
 ~ :)
 
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
 
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
 
 declare variable $compound_id as xs:string external;
@@ -59,11 +59,11 @@ return
    else(
 
     let $administered_item_name := administered-item:preferred-name($administered_item)
-    let $conceptual_domain:=$administered_item//cgMDR:data_element_concept_conceptual_domain
-    let $object_class:=$administered_item//cgMDR:data_element_concept_object_class
-    let $property:=$administered_item//cgMDR:data_element_concept_property
-    let $object_class_qualifier:=$administered_item//cgMDR:object_class_qualifier
-    let $property_qualifier:=$administered_item//cgMDR:property_qualifier
+    let $conceptual_domain:=$administered_item//openMDR:data_element_concept_conceptual_domain
+    let $object_class:=$administered_item//openMDR:data_element_concept_object_class
+    let $property:=$administered_item//openMDR:data_element_concept_property
+    let $object_class_qualifier:=$administered_item//openMDR:object_class_qualifier
+    let $property_qualifier:=$administered_item//openMDR:property_qualifier
     let $title:=concat('Data Element Concept: ',$administered_item_name )
     
     let $content := 

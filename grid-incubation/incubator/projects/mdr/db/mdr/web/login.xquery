@@ -4,15 +4,15 @@ xquery version "1.0";
 (: Using eXist-predefined namespaces: request, util, xmldb :)
   
 import module 
-   namespace lib-util="http://www.cancergrid.org/xquery/library/util"
+   namespace lib-util="http://www.cagrid.org/xquery/library/util"
    at "../library/m-lib-util.xquery";
   
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";  
   
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -53,7 +53,7 @@ let $title as xs:string := "login"
 let $content  :=
         (
         <div xmlns="http://www.w3.org/1999/xhtml" >
-           <form name="login" method="post" class="cancergridForm" action="{session:encode-url(request:get-uri())}">
+           <form name="login" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
                <table class="login" cellpadding="5">
                    <tr>
                        <th colspan="2" align="left">Please Login</th>

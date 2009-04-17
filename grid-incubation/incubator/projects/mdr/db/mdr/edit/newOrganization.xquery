@@ -23,19 +23,19 @@ xquery version "1.0";
 ~ :)
 
   import module namespace 
-  lib-forms="http://www.cancergrid.org/xquery/library/forms"
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
   
   import module namespace 
-  lib-util="http://www.cancergrid.org/xquery/library/util" 
+  lib-util="http://www.cagrid.org/xquery/library/util" 
   at "../library/m-lib-util.xquery";
   
   import module namespace 
-  lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering"
   at "../web/m-lib-rendering.xquery";   
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
@@ -61,31 +61,31 @@ declare function local:context(
    let $doc-name := concat($new-identifier,'.xml')
 
    let $content := (
-            element cgMDR:administered_item_administration_record {
-               element cgMDR:administrative_note {$administrative-note},
-               element cgMDR:administrative_status {$administrative-status},
-               element cgMDR:creation_date {current-date()},
-               element cgMDR:effective_date {current-date()},
-               element cgMDR:last_change_date {current-date()},
-               element cgMDR:registration_status {'Recorded'}
+            element openMDR:administered_item_administration_record {
+               element openMDR:administrative_note {$administrative-note},
+               element openMDR:administrative_status {$administrative-status},
+               element openMDR:creation_date {current-date()},
+               element openMDR:effective_date {current-date()},
+               element openMDR:last_change_date {current-date()},
+               element openMDR:registration_status {'Recorded'}
                },
-               element cgMDR:administered_by {$administered-by},
-               element cgMDR:registered_by {$registered-by},
-               element cgMDR:submitted_by {$submitted-by},
+               element openMDR:administered_by {$administered-by},
+               element openMDR:registered_by {$registered-by},
+               element openMDR:submitted_by {$submitted-by},
                
                for $name at $pos in $names
                return
-                  element cgMDR:having {
-                     element cgMDR:context_identifier {$new-identifier},
-                     element cgMDR:containing {
-                        element cgMDR:language_section_language_identifier {
-                           element cgMDR:country_identifier {$country-identifiers[$pos]},
-                           element cgMDR:language_identifier {$language-identifiers[$pos]}
+                  element openMDR:having {
+                     element openMDR:context_identifier {$new-identifier},
+                     element openMDR:containing {
+                        element openMDR:language_section_language_identifier {
+                           element openMDR:country_identifier {$country-identifiers[$pos]},
+                           element openMDR:language_identifier {$language-identifiers[$pos]}
                            },
-                        element cgMDR:name {$name},
-                        element cgMDR:definition_text {$definitions[$pos]}, 
-                        element cgMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))},
-                        element cgMDR:definition_source_reference {$sources[$pos]}
+                        element openMDR:name {$name},
+                        element openMDR:definition_text {$definitions[$pos]}, 
+                        element openMDR:preferred_designation {(xs:int($preferred) = xs:int($pos))},
+                        element openMDR:definition_source_reference {$sources[$pos]}
                         }
                   }
                   
@@ -95,7 +95,7 @@ declare function local:context(
    
    (: compose the document :)
    let $document :=
-      element cgMDR:Context {
+      element openMDR:Context {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
@@ -139,7 +139,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_context" action="newContext.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
+          <form name="new_context" action="newContext.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
                 <table class="section">
                 {

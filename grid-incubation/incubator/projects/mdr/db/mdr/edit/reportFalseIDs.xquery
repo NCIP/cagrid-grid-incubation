@@ -1,14 +1,14 @@
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace session="http://exist-db.org/xquery/session";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery"; 
 
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering" 
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering" 
    at "../web/m-lib-rendering.xquery";
 
 

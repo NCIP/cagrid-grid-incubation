@@ -1,14 +1,14 @@
-module namespace lib-supersede="http://www.cancergrid.org/xquery/library/supersede";
+module namespace lib-supersede="http://www.cagrid.org/xquery/library/supersede";
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace util="http://exist-db.org/xquery/util";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
     
 import module namespace 
-    lib-util="http://www.cancergrid.org/xquery/library/util" 
+    lib-util="http://www.cagrid.org/xquery/library/util" 
     at "../library/m-lib-util.xquery";    
 
 
@@ -26,7 +26,7 @@ declare function lib-supersede:admin-item($admin-item as node())
    let $new-id := lib-util:mdrElementId($admin-item)
    let $collection := lib-util:mdrElementType($admin-item)
    return (
-       for $old_version in lib-util:mdrElements($collection)[.//cgMDR:registration_status != 'Superseded']
+       for $old_version in lib-util:mdrElements($collection)[.//openMDR:registration_status != 'Superseded']
        let $old-id := lib-util:mdrElementId($old_version)
        where 
           data($old_version//@version) < $admin-item//@version and 
@@ -35,17 +35,17 @@ declare function lib-supersede:admin-item($admin-item as node())
        return
              (
              (: set superseded item values :)
-             update insert element test {'test'} into $old_version//cgMDR:having,
+             update insert element test {'test'} into $old_version//openMDR:having,
 
-             update value $old_version//cgMDR:registration_status with 'Superseded',
+             update value $old_version//openMDR:registration_status with 'Superseded',
              
-             update value $old_version//cgMDR:administrative_status with 'noPendingChanges1',
+             update value $old_version//openMDR:administrative_status with 'noPendingChanges1',
              
-             update value $old_version//cgMDR:last_changed_date with current-date(),
+             update value $old_version//openMDR:last_changed_date with current-date(),
              
-             if (exists($old_version//cgMDR:until_date)) 
-             then update value $old_version//cgMDR:until_date with current-date()
-             else update insert element cgMDR:until_date {current-date()} into $old_version//cgMDR:administered_item_administration_record,
+             if (exists($old_version//openMDR:until_date)) 
+             then update value $old_version//openMDR:until_date with current-date()
+             else update insert element openMDR:until_date {current-date()} into $old_version//openMDR:administered_item_administration_record,
     
              (:things to do to administered items pointing at the data element
              we should ensure that the relationship mechanism between admin items is the
@@ -56,10 +56,10 @@ declare function lib-supersede:admin-item($admin-item as node())
              then 
                 (
                 update insert 
-                   element cgMDR:input_to
+                   element openMDR:input_to
                       {
                       attribute deriving {$new-id},
-                      element cgMDR:derivation_rule_specification {'superseded by'}
+                      element openMDR:derivation_rule_specification {'superseded by'}
                       }
                 into $old_version
                 )
@@ -69,10 +69,10 @@ declare function lib-supersede:admin-item($admin-item as node())
              then
              (
                 update insert 
-                   element cgMDR:related_to
+                   element openMDR:related_to
                       {
-                         element cgMDR:value_domain_relationship_type_description {'useInstead'},
-                         element cgMDR:related_to {$new-id}
+                         element openMDR:value_domain_relationship_type_description {'useInstead'},
+                         element openMDR:related_to {$new-id}
                       }
                 following $old_version)
                 
@@ -82,10 +82,10 @@ declare function lib-supersede:admin-item($admin-item as node())
              then
                 (
                 update insert 
-                   element cgMDR:related_to
+                   element openMDR:related_to
                    {
-                      element cgMDR:data_element_concept_relationship_type_description {'useInstead'},
-                      element cgMDR:related_to {$new-id}
+                      element openMDR:data_element_concept_relationship_type_description {'useInstead'},
+                      element openMDR:related_to {$new-id}
                    }
                 into $old_version
                 ) 
@@ -94,10 +94,10 @@ declare function lib-supersede:admin-item($admin-item as node())
              if ($collection = 'conceptual_domain')
              then
              (update insert 
-                element cgMDR:related_to
+                element openMDR:related_to
                 {
-                   element cgMDR:conceptual_domain_relationship_type_description {'useInstead'},
-                   element cgMDR:related_to {$new-id}
+                   element openMDR:conceptual_domain_relationship_type_description {'useInstead'},
+                   element openMDR:related_to {$new-id}
                 }
                 into $old_version
                 )
@@ -154,13 +154,13 @@ declare function lib-supersede:admin-item(
 
 declare function local:supersede-update($collection as xs:string, $old_version as node(), $old-id as xs:string, $new-id as xs:string)
 {
-      update value $old_version//cgMDR:registration_status with 'Superseded',       
-      update value $old_version//cgMDR:administrative_status with 'noPendingChanges',
-      update value $old_version//cgMDR:last_changed_date with current-date(),
+      update value $old_version//openMDR:registration_status with 'Superseded',       
+      update value $old_version//openMDR:administrative_status with 'noPendingChanges',
+      update value $old_version//openMDR:last_changed_date with current-date(),
          
-      if (exists($old_version//cgMDR:until_date)) 
-      then update value $old_version//cgMDR:until_date with current-date()
-      else update insert element cgMDR:until_date {current-date()} following $old_version//cgMDR:last_change_date,
+      if (exists($old_version//openMDR:until_date)) 
+      then update value $old_version//openMDR:until_date with current-date()
+      else update insert element openMDR:until_date {current-date()} following $old_version//openMDR:last_change_date,
          
       (:replace all pointers to the old item with the new item id:)
       for $item in lib-util:mdrElements()//@*
@@ -178,10 +178,10 @@ declare function local:supersede-update($collection as xs:string, $old_version a
       then 
          (
          update insert 
-            element cgMDR:input_to
+            element openMDR:input_to
                {
                attribute deriving {$new-id},
-               element cgMDR:derivation_rule_specification {'supersededBy'}
+               element openMDR:derivation_rule_specification {'supersededBy'}
                }
          into $old_version
          )
@@ -190,10 +190,10 @@ declare function local:supersede-update($collection as xs:string, $old_version a
          then
          (
             update insert 
-               element cgMDR:related_to
+               element openMDR:related_to
                   {
-                     element cgMDR:value_domain_relationship_type_description {'useInstead'},
-                     element cgMDR:related_to {$new-id}
+                     element openMDR:value_domain_relationship_type_description {'useInstead'},
+                     element openMDR:related_to {$new-id}
                   }
             following $old_version)
             
@@ -203,10 +203,10 @@ declare function local:supersede-update($collection as xs:string, $old_version a
          then
             (
             update insert 
-               element cgMDR:related_to
+               element openMDR:related_to
                {
-                  element cgMDR:data_element_concept_relationship_type_description {'useInstead'},
-                  element cgMDR:related_to {$new-id}
+                  element openMDR:data_element_concept_relationship_type_description {'useInstead'},
+                  element openMDR:related_to {$new-id}
                }
             into $old_version
             ) 
@@ -215,10 +215,10 @@ declare function local:supersede-update($collection as xs:string, $old_version a
          if ($collection = 'conceptual_domain')
          then
          (update insert 
-            element cgMDR:related_to
+            element openMDR:related_to
             {
-               element cgMDR:conceptual_domain_relationship_type_description {'useInstead'},
-               element cgMDR:related_to {$new-id}
+               element openMDR:conceptual_domain_relationship_type_description {'useInstead'},
+               element openMDR:related_to {$new-id}
             }
             into $old_version
             )

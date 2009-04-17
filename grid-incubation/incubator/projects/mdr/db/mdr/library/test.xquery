@@ -1,8 +1,8 @@
 (:~ Common test convenience variables and functions :)
-module namespace test="http://www.cancergrid.org/xquery/library/test";
+module namespace test="http://www.cagrid.org/xquery/library/test";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 declare variable $test:classification-scheme-item-1AD30C1B7 :=

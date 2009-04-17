@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               31st October 2006
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview          outputs the expected message for the trial designer plug-in
  :
@@ -21,7 +21,7 @@ xquery version "1.0";
 ~ :)
 
 import module namespace 
-   lib-search="http://www.cancergrid.org/xquery/library/search" 
+   lib-search="http://www.cagrid.org/xquery/library/search" 
    at "m-lib-search.xquery";    
 
 

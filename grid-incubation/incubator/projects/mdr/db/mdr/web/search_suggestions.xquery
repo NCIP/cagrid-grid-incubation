@@ -1,8 +1,8 @@
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace request="http://exist-db.org/xquery/request";
 
 declare option exist:serialize "media-type=plain/text method=text";
@@ -11,9 +11,9 @@ let $phrase := request:get-parameter("phrase", ())
 
 let $names :=
 for $administered-item in lib-util:mdrElements("data_element")
-            [.//cgMDR:registration_status ne 'Superseded']
-            [.//cgMDR:name&=$phrase or .//cgMDR:definition_text&=$phrase]
-         let $preferred-name := $administered-item//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name
+            [.//openMDR:registration_status ne 'Superseded']
+            [.//openMDR:name&=$phrase or .//openMDR:definition_text&=$phrase]
+         let $preferred-name := $administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
          order by $preferred-name
          return
             concat('&quot;', data($preferred-name), '&quot;')

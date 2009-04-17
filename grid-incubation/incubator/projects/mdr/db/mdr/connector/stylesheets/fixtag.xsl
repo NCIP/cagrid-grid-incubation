@@ -6,7 +6,7 @@
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="queryResponse">
-        <!--<result-set xmlns="http://cancergrid.org/schema/result-set">-->
+        <!--<result-set xmlns="http://cagrid.org/schema/result-set">-->
         <result-set>
             <xsl:apply-templates select="class"/>
         </result-set>

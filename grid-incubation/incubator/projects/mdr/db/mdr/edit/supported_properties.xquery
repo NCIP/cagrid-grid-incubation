@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               26th October 2006
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview         Displays supported representation classes
  :
@@ -19,19 +19,19 @@ xquery version "1.0";
 ~ :)
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
    
 import module 
-   namespace lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   namespace lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";    
     
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -58,8 +58,8 @@ lib-rendering:txfrm-webpage("Supported Properties",
              <a xmlns="http://www.w3.org/1999/xhtml" href='../web/property.xquery?compound_id={$id}'>
                  {$name}
              </a>
-         let $description := data($item//cgMDR:containing[cgMDR:preferred_designation=true()]/cgMDR:definition_text)
-         where matches($name, $regexp, 'i') and $item//cgMDR:registration_status ne 'Superseded' 
+         let $description := data($item//openMDR:containing[openMDR:preferred_designation=true()]/openMDR:definition_text)
+         where matches($name, $regexp, 'i') and $item//openMDR:registration_status ne 'Superseded' 
          order by $anchor
          return
          element property {

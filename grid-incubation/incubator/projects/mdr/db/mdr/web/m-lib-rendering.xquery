@@ -1,7 +1,7 @@
 (:~ HTML lib-rendering :)
-module namespace lib-rendering="http://www.cancergrid.org/xquery/library/rendering";
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+module namespace lib-rendering="http://www.cagrid.org/xquery/library/rendering";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace request="http://exist-db.org/xquery/request";   
 declare namespace transform="http://exist-db.org/xquery/transform";
@@ -12,31 +12,31 @@ import module namespace
     at "../library/lib-functx.xquery";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util"
+   lib-util="http://www.cagrid.org/xquery/library/util"
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
 
 import module namespace 
-   registrar="http://www.cancergrid.org/xquery/library/registrar"
+   registrar="http://www.cagrid.org/xquery/library/registrar"
    at "../library/m-registrar.xquery";
 
 import module namespace 
-   submitter="http://www.cancergrid.org/xquery/library/submitter"
+   submitter="http://www.cagrid.org/xquery/library/submitter"
    at "../library/m-submitter.xquery";  
   
 import module namespace 
-   administrator="http://www.cancergrid.org/xquery/library/administrator"
+   administrator="http://www.cagrid.org/xquery/library/administrator"
    at "../library/m-administrator.xquery";  
   
 import module namespace 
-  reference_document="http://www.cancergrid.org/xquery/library/reference-document"
+  reference_document="http://www.cagrid.org/xquery/library/reference-document"
   at "../library/m-reference-document.xquery";
 
 import module namespace
-  value-domain="http://www.cancergrid.org/xquery/library/value-domain"
+  value-domain="http://www.cagrid.org/xquery/library/value-domain"
   at "../library/m-value-domain.xquery";
   
 (: refactored and in the current UI :)
@@ -65,7 +65,7 @@ declare function lib-rendering:admin-item($displayed-items) as element()
                  element id {$administered-item-id},
                  element preferred {$preferred-name},
                  element all-names {
-                    for $name in $administered-item//cgMDR:name
+                    for $name in $administered-item//openMDR:name
                     where xs:string($name) != $preferred-name  
                     return element name {data($name)}
                     }   
@@ -87,17 +87,17 @@ declare function lib-rendering:conceptual-domain-reduced($displayed-items) as el
                  element id {$administered-item-id},
                  element preferred {$preferred-name},
                  element all-names {
-                    for $name in $administered-item//cgMDR:name
+                    for $name in $administered-item//openMDR:name
                     where xs:string($name) != $preferred-name  
                     return element name {data($name)}
                     }   
                  },
                  element definition {administered-item:preferred-definition($administered-item)},
               element meanings {
-                    for $meaning in $administered-item//cgMDR:Value_Meaning
-                    order by $meaning//cgMDR:Value_Meaning
+                    for $meaning in $administered-item//openMDR:Value_Meaning
+                    order by $meaning//openMDR:Value_Meaning
                     return
-                          element meaning {xs:string($meaning/cgMDR:value_meaning_description)}
+                          element meaning {xs:string($meaning/openMDR:value_meaning_description)}
                     
               }
            }
@@ -111,8 +111,8 @@ declare function lib-rendering:value-domain-reduced($displayed-items) as element
    element result-set {
      for $administered-item at $record-id in $displayed-items
      let $administered-item-id := lib-util:mdrElementId($administered-item)
-     let $data-type := lib-util:mdrElement("data_type", xs:string($administered-item//cgMDR:value_domain_datatype))
-     let $uom := lib-util:mdrElement("unit_of_measure", xs:string($administered-item//cgMDR:value_domain_unit_of_measure))
+     let $data-type := lib-util:mdrElement("data_type", xs:string($administered-item//openMDR:value_domain_datatype))
+     let $uom := lib-util:mdrElement("unit_of_measure", xs:string($administered-item//openMDR:value_domain_unit_of_measure))
      let $preferred-name := administered-item:preferred-name($administered-item)
      return
         element value_domain {
@@ -120,7 +120,7 @@ declare function lib-rendering:value-domain-reduced($displayed-items) as element
                  element id {$administered-item-id},
                  element preferred {$preferred-name},
                  element all-names {
-                    for $name in $administered-item//cgMDR:name
+                    for $name in $administered-item//openMDR:name
                     where xs:string($name) != $preferred-name  
                     return element name {data($name)}
                     }   
@@ -129,21 +129,21 @@ declare function lib-rendering:value-domain-reduced($displayed-items) as element
               element values {
                  if (value-domain:type($administered-item) = 'enumerated value domain')
                  then(
-                    let $cd := lib-util:mdrElement("conceptual_domain", $administered-item/cgMDR:representing)
-                    for $value in $administered-item//cgMDR:containing
-                    for $meaning in $cd//cgMDR:Value_Meaning
-                    where $meaning/cgMDR:value_meaning_identifier = $value/cgMDR:contained_in
-                    order by $value/cgMDR:value_item
+                    let $cd := lib-util:mdrElement("conceptual_domain", $administered-item/openMDR:representing)
+                    for $value in $administered-item//openMDR:containing
+                    for $meaning in $cd//openMDR:Value_Meaning
+                    where $meaning/openMDR:value_meaning_identifier = $value/openMDR:contained_in
+                    order by $value/openMDR:value_item
                     return
                        element valid-value{
-                          element code {xs:string($value/cgMDR:value_item)},
-                          element meaning {xs:string($meaning/cgMDR:value_meaning_description)}
+                          element code {xs:string($value/openMDR:value_item)},
+                          element meaning {xs:string($meaning/openMDR:value_meaning_description)}
                        }
                     )
                  else(
-                    element data-type {data($data-type//cgMDR:datatype_name)},
-                    element units {if (data($uom//cgMDR:unit_of_measure_name)>"")
-                                   then (data($uom//cgMDR:unit_of_measure_name))
+                    element data-type {data($data-type//openMDR:datatype_name)},
+                    element units {if (data($uom//openMDR:unit_of_measure_name)>"")
+                                   then (data($uom//openMDR:unit_of_measure_name))
                                    else ("(not applicable)")}
                     )
               }
@@ -156,10 +156,10 @@ declare function lib-rendering:data-element-reduced($displayed-items) as element
    element result-set {
      for $administered-item at $record-id in $displayed-items
      let $administered-item-id := lib-util:mdrElementId($administered-item)
-     let $value-domain-id := xs:string($administered-item//cgMDR:representing)
+     let $value-domain-id := xs:string($administered-item//openMDR:representing)
      let $value-domain := lib-util:mdrElement("value_domain",$value-domain-id)
-     let $data-type := lib-util:mdrElement("data_type", xs:string($value-domain//cgMDR:value_domain_datatype[1]))
-     let $uom := lib-util:mdrElement("unit_of_measure", xs:string($value-domain//cgMDR:value_domain_unit_of_measure[1]))
+     let $data-type := lib-util:mdrElement("data_type", xs:string($value-domain//openMDR:value_domain_datatype[1]))
+     let $uom := lib-util:mdrElement("unit_of_measure", xs:string($value-domain//openMDR:value_domain_unit_of_measure[1]))
      let $preferred-name := administered-item:preferred-name($administered-item)
      return
         element data_element {
@@ -170,7 +170,7 @@ declare function lib-rendering:data-element-reduced($displayed-items) as element
                  element id {$administered-item-id},
                  element preferred {$preferred-name},
                  element all-names {
-                    for $name in $administered-item//cgMDR:name
+                    for $name in $administered-item//openMDR:name
                     where xs:string($name) != $preferred-name  
                     return element name {data($name)}
                     }   
@@ -179,21 +179,21 @@ declare function lib-rendering:data-element-reduced($displayed-items) as element
               element values {
                  if (value-domain:type($value-domain) = 'enumerated value domain')
                  then(
-                    let $cd := lib-util:mdrElement("conceptual_domain", $value-domain/cgMDR:representing)
-                    for $value in $value-domain//cgMDR:containing
-                    for $meaning in $cd//cgMDR:Value_Meaning
-                    where $meaning/cgMDR:value_meaning_identifier = $value/cgMDR:contained_in
-                    order by $value/cgMDR:value_item
+                    let $cd := lib-util:mdrElement("conceptual_domain", $value-domain/openMDR:representing)
+                    for $value in $value-domain//openMDR:containing
+                    for $meaning in $cd//openMDR:Value_Meaning
+                    where $meaning/openMDR:value_meaning_identifier = $value/openMDR:contained_in
+                    order by $value/openMDR:value_item
                     return
                        element valid-value{
-                          element code {xs:string($value/cgMDR:value_item)},
-                          element meaning {xs:string($meaning/cgMDR:value_meaning_description)}
+                          element code {xs:string($value/openMDR:value_item)},
+                          element meaning {xs:string($meaning/openMDR:value_meaning_description)}
                        }
                     )
                  else(
-                    element data-type {data($data-type//cgMDR:datatype_name)},
-                    element units {if (data($uom//cgMDR:unit_of_measure_name)>"")
-                                   then (data($uom//cgMDR:unit_of_measure_name))
+                    element data-type {data($data-type//openMDR:datatype_name)},
+                    element units {if (data($uom//openMDR:unit_of_measure_name)>"")
+                                   then (data($uom//openMDR:unit_of_measure_name))
                                    else ("(not applicable)")}
                     )
               }
@@ -227,8 +227,8 @@ return
 <div class="section">
     <table class="section">
         <tr><td class="left_header_cell">Identifier</td><td>{$mdrElementIdentifier}</td></tr>
-        <tr><td class="left_header_cell">Registration Status</td><td>{$administered_item//cgMDR:registration_status/text()}</td></tr>
-        <tr><td class="left_header_cell">Definition</td><td>{$administered_item//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:definition_text}</td></tr>
+        <tr><td class="left_header_cell">Registration Status</td><td>{$administered_item//openMDR:registration_status/text()}</td></tr>
+        <tr><td class="left_header_cell">Definition</td><td>{$administered_item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:definition_text}</td></tr>
         <tr><td class="left_header_cell">Full Record</td><td>{administered-item:html-anchor("data_element",$mdrElementIdentifier)}</td></tr>
     </table>
     </div>
@@ -238,7 +238,7 @@ declare function lib-rendering:render_administered_item($administered_item as no
 {
 
 let $administered_item_name := administered-item:preferred-name($administered_item)
-let $admin_record :=$administered_item//cgMDR:administered_item_administration_record
+let $admin_record :=$administered_item//openMDR:administered_item_administration_record
 let $mdrElementIdentifier := lib-util:mdrElementId($administered_item)
 let $registrar := lib-rendering:registrar(registrar:registering($administered_item))
 let $submitter := lib-rendering:submitter(submitter:submitting($administered_item))
@@ -252,7 +252,7 @@ return
       <table class="section">
          <tr><td colspan="2"><h3>Administered Item - Preferred Name: {$administered_item_name}</h3></td></tr>
          <tr><td  class="left_header_cell">Administered Item Identifier</td><td>{$mdrElementIdentifier}</td></tr>
-         <tr><td class="left_header_cell">Registration Status</td><td>{$admin_record/cgMDR:registration_status/text()}</td></tr>
+         <tr><td class="left_header_cell">Registration Status</td><td>{$admin_record/openMDR:registration_status/text()}</td></tr>
          <tr><td class="left_header_cell">Registered By</td><td>{$registrar}</td></tr>               
          <tr><td class="left_header_cell"></td><td></td></tr>         
       </table>
@@ -264,26 +264,26 @@ return
             </tr>
         </table>
        {
-           for $having in $administered_item//cgMDR:having
-           let $context_id := data($having/cgMDR:context_identifier)
+           for $having in $administered_item//openMDR:having
+           let $context_id := data($having/openMDR:context_identifier)
            return
            <table class="section">
                <tr>
                    <td  class="left_header_cell">Context</td><td>{administered-item:html-anchor("context", $context_id)}</td></tr>
                {
-               for $containing in $having/cgMDR:containing
-                   order by $containing//cgMDR:preferred_designation descending
+               for $containing in $having/openMDR:containing
+                   order by $containing//openMDR:preferred_designation descending
                     return
                     (
                        <tr><td class="left_header_cell">Name</td><td>{
-                           if ($containing//cgMDR:preferred_designation=true())
-                           then concat($containing//cgMDR:name/text(),' (preferred designation)')
-                           else $containing//cgMDR:name/text()
+                           if ($containing//openMDR:preferred_designation=true())
+                           then concat($containing//openMDR:name/text(),' (preferred designation)')
+                           else $containing//openMDR:name/text()
                            }
                            </td></tr>,
-                       <tr><td class="left_header_cell">Definition</td><td>{$containing//cgMDR:definition_text/text()}</td></tr>,
+                       <tr><td class="left_header_cell">Definition</td><td>{$containing//openMDR:definition_text/text()}</td></tr>,
                        <tr><td class="left_header_cell">Language</td><td>{lib-rendering:language($containing)}</td></tr>,
-                       <tr><td class="left_header_cell">Definition Source Reference</td><td>{$containing//cgMDR:definition_source_reference/text()}</td></tr>,
+                       <tr><td class="left_header_cell">Definition Source Reference</td><td>{$containing//openMDR:definition_source_reference/text()}</td></tr>,
                        <tr class="light-rule"><td class="left_header_cell"></td><td></td></tr>
                    )
                }
@@ -298,14 +298,14 @@ return
       <div class="section">
                <table class="section">
                <tr><td colspan="2" ><div class="admin_item_section_header">Administration</div></td></tr>
-               <tr><td class="left_header_cell">Administrative Status</td><td>{$admin_record/cgMDR:administrative_status/text()}</td></tr>
+               <tr><td class="left_header_cell">Administrative Status</td><td>{$admin_record/openMDR:administrative_status/text()}</td></tr>
                <tr><td class="left_header_cell">Administered By</td><td>{$administrator}</td></tr>
-               <tr><td class="left_header_cell">Creation On</td><td>{$admin_record/cgMDR:creation_date/text()}</td></tr>
-               <tr><td class="left_header_cell">Effective From</td><td>{$admin_record/cgMDR:effective_date/text()}</td></tr>
-               <tr><td class="left_header_cell">Last Changed On</td><td>{$admin_record/cgMDR:last_change_date/text()}</td></tr>
-               <tr><td class="left_header_cell">Effective until</td><td>{$admin_record/cgMDR:until_date/text()}</td></tr>
+               <tr><td class="left_header_cell">Creation On</td><td>{$admin_record/openMDR:creation_date/text()}</td></tr>
+               <tr><td class="left_header_cell">Effective From</td><td>{$admin_record/openMDR:effective_date/text()}</td></tr>
+               <tr><td class="left_header_cell">Last Changed On</td><td>{$admin_record/openMDR:last_change_date/text()}</td></tr>
+               <tr><td class="left_header_cell">Effective until</td><td>{$admin_record/openMDR:until_date/text()}</td></tr>
                <tr><td class="left_header_cell">Submitted By</td><td>{$submitter}</td></tr>
-               <tr><td class="left_header_cell">Explanatory Comments</td><td>{$admin_record/cgMDR:explanatory_comment/text()}</td></tr>
+               <tr><td class="left_header_cell">Explanatory Comments</td><td>{$admin_record/openMDR:explanatory_comment/text()}</td></tr>
                <tr><td class="left_header_cell"></td><td></td></tr>
                </table>
       </div>
@@ -335,8 +335,8 @@ declare function lib-rendering:unspecified($attribute as xs:string?) as xs:strin
 
 declare function lib-rendering:render_value_domain_common_properties($administered_item as node()) as element(div)
 {
-    let $representation_class_id := $administered_item//cgMDR:typed_by/text()
-    let $conceptual_domain_id := $administered_item//cgMDR:representing/text()
+    let $representation_class_id := $administered_item//openMDR:typed_by/text()
+    let $conceptual_domain_id := $administered_item//openMDR:representing/text()
     let $unit-of-measure := value-domain:unit_of_measure($administered_item)
     let $datatype := value-domain:datatype($administered_item)
     return
@@ -349,7 +349,7 @@ declare function lib-rendering:render_value_domain_common_properties($administer
                             <td class="left_header_cell">Typed by representation class</td>
                             <td>
                             {
-                               if ($administered_item//cgMDR:typed_by) 
+                               if ($administered_item//openMDR:typed_by) 
                                then administered-item:html-anchor("representation_class",$representation_class_id) 
                                else 'unspecified'}</td>
                         </tr>
@@ -358,8 +358,8 @@ declare function lib-rendering:render_value_domain_common_properties($administer
                             <td class="left_header_cell">Unit of Measure</td>
                             <td>{lib-rendering:unspecified( $unit-of-measure)}</td>
                         </tr>
-                        <tr><td class="left_header_cell">Maximum Character Quantity</td><td>{lib-rendering:unspecified($administered_item/cgMDR:value_domain_maximum_character_quantity)}</td></tr>
-                        <tr><td class="left_header_cell">Format</td><td>{lib-rendering:unspecified($administered_item/cgMDR:value_domain_format)}</td></tr>
+                        <tr><td class="left_header_cell">Maximum Character Quantity</td><td>{lib-rendering:unspecified($administered_item/openMDR:value_domain_maximum_character_quantity)}</td></tr>
+                        <tr><td class="left_header_cell">Format</td><td>{lib-rendering:unspecified($administered_item/openMDR:value_domain_format)}</td></tr>
                         <tr><td class="left_header_cell">Represents conceptual domain</td><td>{administered-item:html-anchor("conceptual_domain",$conceptual_domain_id)}</td></tr>
                  </table>
               </div>
@@ -395,8 +395,8 @@ declare function lib-rendering:used_in_data_elements($id) as node()*
     for $data_element in lib-util:mdrElements("data_element")
         (:let $data_element_name := administered-item:preferred-name($data_element):)
         let $data_element_id := lib-util:mdrElementId($data_element)
-        let $registration_status := $data_element//cgMDR:registration_status/text()
-        where $data_element//cgMDR:representing = $id or $data_element//cgMDR:expressing = $id 
+        let $registration_status := $data_element//openMDR:registration_status/text()
+        where $data_element//openMDR:representing = $id or $data_element//openMDR:expressing = $id 
         order by $data_element_id
         return
             <tr>
@@ -419,16 +419,16 @@ declare function lib-rendering:related-administered-items($administered-item as 
             <tr>
                <td class="left_header_cell">Cited by this {$type}</td>
                <td>{
-               if ($administered-item//cgMDR:related_to)
+               if ($administered-item//openMDR:related_to)
                then (
                   <table class="sub-table">
                      <tr><td><div class="admin_item_table_header">id</div></td><td><div class="admin_item_table_header">name</div></td><td><div class="admin_item_table_header">outgoing relation</div></td></tr>
                      {
-                     for $related_domain in $administered-item//cgMDR:related_to[cgMDR:related_to]
-                       let $related_domain_id := $related_domain/cgMDR:related_to/text()
-                       let $how_related := if ($related_domain/cgMDR:related_to/following-sibling::* >"")
-                                                           then ($related_domain/cgMDR:related_to/following-sibling::*/text())
-                                                           else ($related_domain/cgMDR:related_to/preceding-sibling::*/text())
+                     for $related_domain in $administered-item//openMDR:related_to[openMDR:related_to]
+                       let $related_domain_id := $related_domain/openMDR:related_to/text()
+                       let $how_related := if ($related_domain/openMDR:related_to/following-sibling::* >"")
+                                                           then ($related_domain/openMDR:related_to/following-sibling::*/text())
+                                                           else ($related_domain/openMDR:related_to/preceding-sibling::*/text())
                        order by  $related_domain_id
                        return
                           <tr>
@@ -445,7 +445,7 @@ declare function lib-rendering:related-administered-items($administered-item as 
                <td class="left_header_cell">Cited by other {$type}s</td>
                <td>
                     {
-                        if (lib-util:mdrElements($doc_type)//cgMDR:related_to[cgMDR:related_to=$id])
+                        if (lib-util:mdrElements($doc_type)//openMDR:related_to[openMDR:related_to=$id])
                         then
                         (
                        <table class="sub-table">
@@ -457,10 +457,10 @@ declare function lib-rendering:related-administered-items($administered-item as 
                        {
                         for $related_domain in lib-util:mdrElements($doc_type)
                             let $related_domain_id := lib-util:mdrElementId($related_domain)
-                            let $how_related := if ($related_domain//cgMDR:related_to[cgMDR:related_to=$id]/cgMDR:related_to/following-sibling::* >"")
-                                                                 then ($related_domain//cgMDR:related_to[cgMDR:related_to=$id]/cgMDR:related_to/following-sibling::*/text())
-                                                                 else ($related_domain//cgMDR:related_to[cgMDR:related_to=$id]/cgMDR:related_to/preceding-sibling::*/text())
-                              where $related_domain//cgMDR:related_to/cgMDR:related_to=$id
+                            let $how_related := if ($related_domain//openMDR:related_to[openMDR:related_to=$id]/openMDR:related_to/following-sibling::* >"")
+                                                                 then ($related_domain//openMDR:related_to[openMDR:related_to=$id]/openMDR:related_to/following-sibling::*/text())
+                                                                 else ($related_domain//openMDR:related_to[openMDR:related_to=$id]/openMDR:related_to/preceding-sibling::*/text())
+                              where $related_domain//openMDR:related_to/openMDR:related_to=$id
                              order by  $related_domain_id
                             
                             return
@@ -485,33 +485,33 @@ declare function lib-rendering:related-administered-items($administered-item as 
 declare function lib-rendering:registrar($registrar as node()?) as node()
 {
   <table class="invisible">
-    <tr><td class="invisible">{string($registrar//cgMDR:contact_name/text())}</td></tr>
-    <tr><td class="invisible">{string($registrar//cgMDR:contact_title/text())}</td></tr>
-    <tr><td class="invisible">{string($registrar//cgMDR:contact_information/text())}</td></tr>
+    <tr><td class="invisible">{string($registrar//openMDR:contact_name/text())}</td></tr>
+    <tr><td class="invisible">{string($registrar//openMDR:contact_title/text())}</td></tr>
+    <tr><td class="invisible">{string($registrar//openMDR:contact_information/text())}</td></tr>
   </table>
 };
 
 declare function lib-rendering:submitter($submitter as node()?) as node()
 {
       <table class="invisible">
-      <tr><td class="invisible">{$submitter//cgMDR:contact_name/text()}</td></tr>
-      <tr><td class="invisible">{$submitter//cgMDR:contact_title/text()}</td></tr>
-      <tr><td class="invisible">{$submitter//cgMDR:contact_details/text()}</td></tr>
+      <tr><td class="invisible">{$submitter//openMDR:contact_name/text()}</td></tr>
+      <tr><td class="invisible">{$submitter//openMDR:contact_title/text()}</td></tr>
+      <tr><td class="invisible">{$submitter//openMDR:contact_details/text()}</td></tr>
       </table>
 };
 
 declare function lib-rendering:administrator($administrator as node()?) as node()
 {
       <table class="invisible">
-      <tr><td class="invisible">{$administrator/cgMDR:contact_name/text()}</td></tr>
-      <tr><td class="invisible">{$administrator/cgMDR:contact_title/text()}</td></tr>
-      <tr><td class="invisible">{$administrator/cgMDR:contact_details/text()}</td></tr>
+      <tr><td class="invisible">{$administrator/openMDR:contact_name/text()}</td></tr>
+      <tr><td class="invisible">{$administrator/openMDR:contact_title/text()}</td></tr>
+      <tr><td class="invisible">{$administrator/openMDR:contact_details/text()}</td></tr>
       </table>
 };
 
 declare function lib-rendering:language($containing as node()) as xs:anyAtomicType
 {
-   let $a := concat(data($containing//cgMDR:country_identifier),"-",data($containing//cgMDR:language_identifier))
+   let $a := concat(data($containing//openMDR:country_identifier),"-",data($containing//openMDR:language_identifier))
    return $a
 };
 
@@ -623,7 +623,7 @@ return
 
 declare function lib-rendering:reference_document_display($administered_item as node()) as node()?
 {
-   if (data($administered_item//cgMDR:described_by)>"")  then
+   if (data($administered_item//openMDR:described_by)>"")  then
       (
          <div class="section">
          <table class="section">
@@ -636,18 +636,18 @@ declare function lib-rendering:reference_document_display($administered_item as 
             
             </tr>
             {
-            for $reference_document_id in $administered_item//cgMDR:described_by/text()
+            for $reference_document_id in $administered_item//openMDR:described_by/text()
             let $doc := lib-util:mdrElement('reference_document', $reference_document_id)
             return 
             <tr>
                <td>
-                  {if (starts-with($doc//cgMDR:reference_document_uri,"http://"))
-                  then (<a href="{$doc//cgMDR:reference_document_uri}">{$reference_document_id}</a>)
-                  else (<a href="{concat('http://163.1.125.47:8080/exist/rest//db/mdr/collections/reference_document/',$doc//cgMDR:reference_document_uri)}">{$reference_document_id}</a>)}
+                  {if (starts-with($doc//openMDR:reference_document_uri,"http://"))
+                  then (<a href="{$doc//openMDR:reference_document_uri}">{$reference_document_id}</a>)
+                  else (<a href="{concat('http://163.1.125.47:8080/exist/rest//db/mdr/collections/reference_document/',$doc//openMDR:reference_document_uri)}">{$reference_document_id}</a>)}
                </td>
-               <td>{$doc//cgMDR:reference_document_language_identifier/text()}</td>
-               <td>{$doc//cgMDR:reference_document_title/text()}</td>
-               <td>{$doc//cgMDR:reference_document_type_description/text()}</td>
+               <td>{$doc//openMDR:reference_document_language_identifier/text()}</td>
+               <td>{$doc//openMDR:reference_document_title/text()}</td>
+               <td>{$doc//openMDR:reference_document_type_description/text()}</td>
             </tr>
             }
          </table>

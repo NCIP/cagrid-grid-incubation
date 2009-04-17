@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     31st July 2007
  :
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          Creates and property and displays list
  :
@@ -23,23 +23,23 @@ xquery version "1.0";
 ~ :)
 
   import module namespace 
-  lib-forms="http://www.cancergrid.org/xquery/library/forms"
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
   
   import module namespace 
-  lib-util="http://www.cancergrid.org/xquery/library/util" 
+  lib-util="http://www.cagrid.org/xquery/library/util" 
   at "../library/m-lib-util.xquery";
   
   import module namespace 
-  lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering"
   at "../web/m-lib-rendering.xquery";   
   
   import module namespace 
-  lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item" 
+  lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item" 
   at "../edit/m-lib-make-admin-item.xquery";     
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
@@ -81,14 +81,14 @@ declare function local:property(
 
                    for $u in $uris
                    return
-                   element cgMDR:reference_uri {$u})
+                   element openMDR:reference_uri {$u})
 
 
 
    
    (: compose the document :)
    let $document :=
-      element cgMDR:Object_Class {
+      element openMDR:Object_Class {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
@@ -138,7 +138,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="edit_objectClass" action="editObjectClass.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
+          <form name="edit_objectClass" action="editObjectClass.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
                 {lib-forms:hidden-element('id',$id)}
                 {lib-forms:hidden-element('updating','updating')}
@@ -245,19 +245,19 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $element := lib-util:mdrElement("object_class",$id)
    
    let $ireg-auth := string($element/@item_registration_authority_identifier)
-   let $iadministrative-note := string($element//cgMDR:administrative_note)
-   let $iadministrative-status := string($element//cgMDR:administrative_status)
-   let $iadministered-by := string($element//cgMDR:administered_by)
-   let $isubmitted-by := string($element//cgMDR:submitted_by)
-   let $iregistered-by := string($element//cgMDR:registered_by)
-   let $icontext-ids := $element//cgMDR:context_identifier
-   let $icountry-identifiers := $element//cgMDR:country_identifier
-   let $ilanguage-identifiers := $element//cgMDR:language_identifier
-   let $inames := $element//cgMDR:name
-   let $idefinitions := $element//cgMDR:definition_text
-   let $isources := $element//cgMDR:definition_source_reference
-   let $iobject_class_uri := $element//cgMDR:reference_uri
-   let $ipreferred := xs:string(fn:index-of($element//cgMDR:preferred_designation,'true'))
+   let $iadministrative-note := string($element//openMDR:administrative_note)
+   let $iadministrative-status := string($element//openMDR:administrative_status)
+   let $iadministered-by := string($element//openMDR:administered_by)
+   let $isubmitted-by := string($element//openMDR:submitted_by)
+   let $iregistered-by := string($element//openMDR:registered_by)
+   let $icontext-ids := $element//openMDR:context_identifier
+   let $icountry-identifiers := $element//openMDR:country_identifier
+   let $ilanguage-identifiers := $element//openMDR:language_identifier
+   let $inames := $element//openMDR:name
+   let $idefinitions := $element//openMDR:definition_text
+   let $isources := $element//openMDR:definition_source_reference
+   let $iobject_class_uri := $element//openMDR:reference_uri
+   let $ipreferred := xs:string(fn:index-of($element//openMDR:preferred_designation,'true'))
    let $iaction := request:get-parameter('update','')
 
    let $reg-auth := request:get-parameter('registration-authority','')

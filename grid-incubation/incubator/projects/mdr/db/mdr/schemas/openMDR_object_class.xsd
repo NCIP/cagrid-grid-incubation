@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.cancergrid.org/schema/cgMDR" xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/cgMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
-    <xs:include schemaLocation="../schemas/cgMDR_resources.xsd"/>
+<xs:schema xmlns="http://www.cagrid.org/schema/openMDR" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:include schemaLocation="../schemas/openMDR_resources.xsd"/>
     <xs:element name="Object_Class" type="Object_Class" nillable="false" abstract="false"/>
     <xs:complexType name="Object_Class" abstract="true" mixed="false">
         <xs:complexContent>

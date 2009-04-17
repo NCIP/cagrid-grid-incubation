@@ -1,5 +1,5 @@
 import module namespace 
-   lib-search="http://www.cancergrid.org/xquery/library/search" 
+   lib-search="http://www.cagrid.org/xquery/library/search" 
    at "m-lib-search.xquery";
 
 declare namespace request="http://exist-db.org/xquery/request";

@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               22nd September 2006
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview         maintains datatype resources
  :
@@ -20,24 +20,24 @@ xquery version "1.0";
 
   
 import module namespace 
-  lib-forms="http://www.cancergrid.org/xquery/library/forms"
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
   
 import module namespace 
-  lib-util="http://www.cancergrid.org/xquery/library/util" 
+  lib-util="http://www.cagrid.org/xquery/library/util" 
   at "../library/m-lib-util.xquery";
   
 import module namespace 
-  lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering"
   at "../web/m-lib-rendering.xquery";   
   
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";   
    
    
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 
@@ -53,7 +53,7 @@ declare function local:page-success() as element(div)
 declare function local:page-edit($message as xs:string) as element(div)
 {
    <div xmlns="http://www.w3.org/1999/xhtml">
-      <form name="new_datatype" action="{session:encode-url(request:get-uri())}" method="post" class="cancergridForm">
+      <form name="new_datatype" action="{session:encode-url(request:get-uri())}" method="post" class="cagridForm">
          <div class="section">
             <table class="section">
                <tr><td colspan="2">This form allows you to maintain the data types supported by this metadata repository</td></tr>
@@ -81,10 +81,10 @@ declare function local:page-edit($message as xs:string) as element(div)
             
             for $datatype in lib-util:mdrElements("data_type")
                let $id := data($datatype//@datatype_identifier)
-               let $name :=data($datatype//cgMDR:datatype_name)
-               let $scheme :=data($datatype//cgMDR:datatype_scheme_reference)
-               let $annotation := data($datatype//cgMDR:datatype_annotation)
-               let $description := data($datatype//cgMDR:datatype_description)                   
+               let $name :=data($datatype//openMDR:datatype_name)
+               let $scheme :=data($datatype//openMDR:datatype_scheme_reference)
+               let $annotation := data($datatype//openMDR:datatype_annotation)
+               let $description := data($datatype//openMDR:datatype_description)                   
                order by $name
                return
                <tr>
@@ -102,15 +102,15 @@ declare function local:page-edit($message as xs:string) as element(div)
    </div>
    };
    
-declare function local:document() as element(cgMDR:cgDatatype)
+declare function local:document() as element(openMDR:cgDatatype)
    {
-   element cgMDR:cgDatatype
+   element openMDR:cgDatatype
          {
             attribute datatype_identifier {lib-forms:generate-id()},
-            element cgMDR:datatype_annotation {request:get-parameter('annotation', ())},
-            element cgMDR:datatype_description {request:get-parameter('description', ())},             
-            element cgMDR:datatype_name {request:get-parameter('name','please supply name')},
-            element cgMDR:datatype_scheme_reference {request:get-parameter('scheme',())}
+            element openMDR:datatype_annotation {request:get-parameter('annotation', ())},
+            element openMDR:datatype_description {request:get-parameter('description', ())},             
+            element openMDR:datatype_name {request:get-parameter('name','please supply name')},
+            element openMDR:datatype_scheme_reference {request:get-parameter('scheme',())}
          }
    };
    

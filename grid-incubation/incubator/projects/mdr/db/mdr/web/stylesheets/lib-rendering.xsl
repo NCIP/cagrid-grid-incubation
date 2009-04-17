@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cgResolver="http://www.cancergrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cancergrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:include href="lib-rendering-new.xsl"/>
-    <xsl:output method="html" media-type="text/html" indent="yes" doctype-public="-//W3C//DTD XHTML 1,0 Transitional//EN" doctype-system="http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd" omit-xml-declaration="no" exclude-result-prefixes="cgMDR dc iaaaterm xs rdf cgResolver skos dcterms ISO11179"/>
+    <xsl:output method="html" media-type="text/html" indent="yes" doctype-public="-//W3C//DTD XHTML 1,0 Transitional//EN" doctype-system="http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd" omit-xml-declaration="no" exclude-result-prefixes="openMDR dc iaaaterm xs rdf cgResolver skos dcterms ISO11179"/>
     <xsl:param name="type">data_element</xsl:param>
     
     <!-- verbatim render of generated html -->
@@ -55,7 +55,7 @@
         <br/>
         <div class="content_one_pane">
             <div class="centre_block">
-                <form name="frmSrch" method="get" class="cancergrid" action="{$action}"> Search
+                <form name="frmSrch" method="get" class="cagrid" action="{$action}"> Search
                     phrase <input type="text" name="phrase" value="{$phrase}"/>
                     <input class="cgButton" type="submit" value="Submit query"/>
                 </form>
@@ -352,8 +352,8 @@
             </td>
         </tr>
     </xsl:template>
-    <xsl:template match="cgMDR:Reference_Document">
-        <xsl:variable name="uri" select="cgMDR:reference_document_uri"/>
+    <xsl:template match="openMDR:Reference_Document">
+        <xsl:variable name="uri" select="openMDR:reference_document_uri"/>
         <table class="layout">
             <thead>
                 <tr>
@@ -366,37 +366,37 @@
                 <tr>
                     <td class="left_header_cell">Title</td>
                     <td>
-                        <xsl:value-of select="cgMDR:reference_document_title"/>
+                        <xsl:value-of select="openMDR:reference_document_title"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="left_header_cell">Language</td>
                     <td>
-                        <xsl:value-of select="cgMDR:reference_document_language_identifier"/>
+                        <xsl:value-of select="openMDR:reference_document_language_identifier"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="left_header_cell">File name</td>
                     <td>
-                        <xsl:value-of select="cgMDR:file_name"/>
+                        <xsl:value-of select="openMDR:file_name"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="left_header_cell">Media type</td>
                     <td>
-                        <xsl:value-of select="cgMDR:file_type"/>
+                        <xsl:value-of select="openMDR:file_type"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="left_header_cell">Provided By</td>
                     <td>
-                        <xsl:value-of select="cgMDR:provided_by"/>
+                        <xsl:value-of select="openMDR:provided_by"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="left_header_cell">Type</td>
                     <td>
-                        <xsl:value-of select="cgMDR:reference_document_type_description"/>
+                        <xsl:value-of select="openMDR:reference_document_type_description"/>
                     </td>
                 </tr>
                 <tr>
@@ -467,7 +467,7 @@
             </td>
         </tr>
     </xsl:template>
-    <xsl:template match="cgMDR:Organization">
+    <xsl:template match="openMDR:Organization">
         <table>
             <tr>
                 <td class="left_header_cell">Identifier</td>
@@ -478,13 +478,13 @@
             <tr>
                 <td class="left_header_cell">Name</td>
                 <td>
-                    <xsl:value-of select="cgMDR:organization_name"/>
+                    <xsl:value-of select="openMDR:organization_name"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Address</td>
                 <td>
-                    <xsl:value-of select="cgMDR:organization_mail_address"/>
+                    <xsl:value-of select="openMDR:organization_mail_address"/>
                 </td>
             </tr>
             <tr>
@@ -497,25 +497,25 @@
                             <th>title</th>
                             <th>information</th>
                         </tr>
-                        <xsl:apply-templates select="cgMDR:Contact"/>
+                        <xsl:apply-templates select="openMDR:Contact"/>
                     </table>
                 </td>
             </tr>
         </table>
     </xsl:template>
-    <xsl:template match="cgMDR:Contact">
+    <xsl:template match="openMDR:Contact">
         <tr>
             <td>
                 <xsl:value-of select="@contact_identifier"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:contact_name"/>
+                <xsl:value-of select="openMDR:contact_name"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:contact_title"/>
+                <xsl:value-of select="openMDR:contact_title"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:contact_information"/>
+                <xsl:value-of select="openMDR:contact_information"/>
             </td>
         </tr>
     </xsl:template>
@@ -806,10 +806,10 @@
         </tr>
     </xsl:template>
     <!--render data element complete -->
-    <xsl:template match="cgMDR:data_element_complete">
-        <xsl:apply-templates select="cgMDR:Data_Element" mode="data-element-summary"/>
+    <xsl:template match="openMDR:data_element_complete">
+        <xsl:apply-templates select="openMDR:Data_Element" mode="data-element-summary"/>
     </xsl:template>
-    <xsl:template match="cgMDR:Data_Element" mode="data-element-summary">
+    <xsl:template match="openMDR:Data_Element" mode="data-element-summary">
         <table class="layout">
             <tr>
                 <td>
@@ -823,7 +823,7 @@
             </tr>
             <tr>
                 <td>
-                    <xsl:apply-templates select="cgMDR:representing"/>
+                    <xsl:apply-templates select="openMDR:representing"/>
                 </td>
             </tr>
             <tr>
@@ -843,25 +843,25 @@
             </tr>
             <tr>
                 <td>
-                    <xsl:apply-templates select="cgMDR:administered_item_administration_record"/>
+                    <xsl:apply-templates select="openMDR:administered_item_administration_record"/>
                 </td>
             </tr>
         </table>
     </xsl:template>
     <xsl:template name="data-element-summary-preferred-name">
-        <xsl:value-of select="//cgMDR:data_element_complete/cgMDR:Data_Element//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+        <xsl:value-of select="//openMDR:data_element_complete/openMDR:Data_Element//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
     </xsl:template>
     <xsl:template name="admin-item-preferred-name">
-        <xsl:value-of select="//cgMDR:Data_Element//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+        <xsl:value-of select="//openMDR:Data_Element//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
     </xsl:template>
     <xsl:template name="admin-item-preferred-definition">
-        <xsl:value-of select="//cgMDR:Data_Element//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:definition_text"/>
+        <xsl:value-of select="//openMDR:Data_Element//openMDR:containing[openMDR:preferred_designation='true']/openMDR:definition_text"/>
     </xsl:template>
     <xsl:template name="registrar">
         <xsl:param name="registrar-id"/>
-        <xsl:value-of select="//cgMDR:Registration_Authority/cgMDR:represented_by[cgMDR:registrar_identifier=$registrar-id]/cgMDR:registrar_contact/cgMDR:contact_name"/>,<br/>
-        <xsl:value-of select="//cgMDR:Registration_Authority/cgMDR:represented_by[cgMDR:registrar_identifier=$registrar-id]/cgMDR:registrar_contact/cgMDR:contact_title"/>, <br/>
-        <xsl:value-of select="//cgMDR:Registration_Authority[cgMDR:represented_by/cgMDR:registrar_identifier=$registrar-id]/cgMDR:organization_name"/>
+        <xsl:value-of select="//openMDR:Registration_Authority/openMDR:represented_by[openMDR:registrar_identifier=$registrar-id]/openMDR:registrar_contact/openMDR:contact_name"/>,<br/>
+        <xsl:value-of select="//openMDR:Registration_Authority/openMDR:represented_by[openMDR:registrar_identifier=$registrar-id]/openMDR:registrar_contact/openMDR:contact_title"/>, <br/>
+        <xsl:value-of select="//openMDR:Registration_Authority[openMDR:represented_by/openMDR:registrar_identifier=$registrar-id]/openMDR:organization_name"/>
     </xsl:template>
     <xsl:template name="naming">
         <table class="section">
@@ -885,28 +885,28 @@
                                 <div class="admin_item_table_header">preferred</div>
                             </td>
                         </tr>
-                        <xsl:apply-templates select="cgMDR:having/cgMDR:containing">
-                            <xsl:sort select="cgMDR:name" order="ascending"/>
+                        <xsl:apply-templates select="openMDR:having/openMDR:containing">
+                            <xsl:sort select="openMDR:name" order="ascending"/>
                         </xsl:apply-templates>
                     </table>
                 </td>
             </tr>
         </table>
     </xsl:template>
-    <xsl:template match="cgMDR:containing">
+    <xsl:template match="openMDR:containing">
         <tr>
             <td>
-                <xsl:apply-templates select="cgMDR:language_section_language_identifier"/>
+                <xsl:apply-templates select="openMDR:language_section_language_identifier"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:name"/>
+                <xsl:value-of select="openMDR:name"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:preferred_designation"/>
+                <xsl:value-of select="openMDR:preferred_designation"/>
             </td>
         </tr>
     </xsl:template>
-    <xsl:template match="cgMDR:representing">
+    <xsl:template match="openMDR:representing">
         <table class="section">
             <tr>
                 <td colspan="3">
@@ -917,7 +917,7 @@
                 <td class="left_header_cell">Type</td>
                 <td colspan="2">
                     <xsl:choose>
-                        <xsl:when test="//cgMDR:Enumerated_Value_Domain">enumerated</xsl:when>
+                        <xsl:when test="//openMDR:Enumerated_Value_Domain">enumerated</xsl:when>
                         <xsl:otherwise>non-enumerated</xsl:otherwise>
                     </xsl:choose>
                 </td>
@@ -928,20 +928,20 @@
                     <xsl:call-template name="html-anchor">
                         <xsl:with-param name="id" select="."/>
                         <xsl:with-param name="collection">value_domain</xsl:with-param>
-                        <xsl:with-param name="text" select="//cgMDR:Non_Enumerated_Value_Domain//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name|//cgMDR:Enumerated_Value_Domain//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+                        <xsl:with-param name="text" select="//openMDR:Non_Enumerated_Value_Domain//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name|//openMDR:Enumerated_Value_Domain//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
                     </xsl:call-template>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Summary</td>
                 <td>
-                    <xsl:apply-templates select="//cgMDR:Enumerated_Value_Domain" mode="value-domain"/>
-                    <xsl:apply-templates select="//cgMDR:Non_Enumerated_Value_Domain"/>
+                    <xsl:apply-templates select="//openMDR:Enumerated_Value_Domain" mode="value-domain"/>
+                    <xsl:apply-templates select="//openMDR:Non_Enumerated_Value_Domain"/>
                 </td>
             </tr>
         </table>
     </xsl:template>
-    <xsl:template match="cgMDR:Enumerated_Value_Domain" mode="value-domain">
+    <xsl:template match="openMDR:Enumerated_Value_Domain" mode="value-domain">
         <table class="section">
             <tr>
                 <td width="25%">
@@ -954,57 +954,57 @@
                     <div class="admin_item_table_header">reference</div>
                 </td>
             </tr>
-            <xsl:apply-templates select="cgMDR:containing" mode="value-domain">
-                <xsl:sort select="cgMDR:value_item"/>
+            <xsl:apply-templates select="openMDR:containing" mode="value-domain">
+                <xsl:sort select="openMDR:value_item"/>
             </xsl:apply-templates>
         </table>
     </xsl:template>
-    <xsl:template match="cgMDR:Non_Enumerated_Value_Domain">
+    <xsl:template match="openMDR:Non_Enumerated_Value_Domain">
         <table class="section" padding="0">
             <tr>
                 <td class="left_header_cell">Datatype</td>
                 <td>
-                    <xsl:apply-templates select="//cgMDR:cgDatatype"/>
+                    <xsl:apply-templates select="//openMDR:cgDatatype"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Unit of Measure</td>
                 <td>
-                    <xsl:apply-templates select="//cgMDR:Unit_of_Measure"/>
+                    <xsl:apply-templates select="//openMDR:Unit_of_Measure"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Precision</td>
                 <td>
-                    <xsl:value-of select="//cgMDR:unit_of_measure_precision"/>
+                    <xsl:value-of select="//openMDR:unit_of_measure_precision"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Maximum Character Quantity</td>
                 <td>
-                    <xsl:value-of select="//cgMDR:value_domain_maximum_character_quantity"/>
+                    <xsl:value-of select="//openMDR:value_domain_maximum_character_quantity"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Format</td>
                 <td>
-                    <xsl:value-of select="//cgMDR:value_domain_format"/>
+                    <xsl:value-of select="//openMDR:value_domain_format"/>
                 </td>
             </tr>
         </table>
     </xsl:template>
-    <xsl:template match="cgMDR:containing" mode="value-domain">
+    <xsl:template match="openMDR:containing" mode="value-domain">
         <tr>
             <td>
-                <xsl:value-of select="cgMDR:value_item"/>
+                <xsl:value-of select="openMDR:value_item"/>
             </td>
-            <xsl:variable name="identifier" select="cgMDR:contained_in"/>
+            <xsl:variable name="identifier" select="openMDR:contained_in"/>
             <td>
-                <xsl:value-of select="//cgMDR:Value_Meaning[cgMDR:value_meaning_identifier=$identifier]/cgMDR:value_meaning_description"/>
+                <xsl:value-of select="//openMDR:Value_Meaning[openMDR:value_meaning_identifier=$identifier]/openMDR:value_meaning_description"/>
             </td>
             <td>
                 <xsl:call-template name="uri-resolver">
-                    <xsl:with-param name="urn" select="//cgMDR:Value_Meaning[cgMDR:value_meaning_identifier=$identifier]/cgMDR:reference_uri"/>
+                    <xsl:with-param name="urn" select="//openMDR:Value_Meaning[openMDR:value_meaning_identifier=$identifier]/openMDR:reference_uri"/>
                 </xsl:call-template>
             </td>
         </tr>
@@ -1024,7 +1024,7 @@
                             <td>
                                 <table class="section">
                                     <xsl:call-template name="related-to-table-header"/>
-                                    <xsl:apply-templates select="cgMDR:input_to"/>
+                                    <xsl:apply-templates select="openMDR:input_to"/>
                                 </table>
                             </td>
                         </tr>
@@ -1035,7 +1035,7 @@
                             <td>
                                 <table class="section">
                                     <xsl:call-template name="related-to-table-header"/>
-                                    <xsl:apply-templates select="//asserted-elsewhere/cgMDR:Data_Element[//cgMDR:registration_status!='Superseded']" mode="related">
+                                    <xsl:apply-templates select="//asserted-elsewhere/openMDR:Data_Element[//openMDR:registration_status!='Superseded']" mode="related">
                                         <xsl:sort select="@item_registration_authority_identifier"/>
                                         <xsl:sort select="@data_identifier"/>
                                         <xsl:sort select="@version"/>
@@ -1064,7 +1064,7 @@
             </td>
         </tr>
     </xsl:template>
-    <xsl:template match="cgMDR:input_to">
+    <xsl:template match="openMDR:input_to">
         <xsl:variable name="reg-auth">
             <xsl:value-of select="concat(substring-before(@deriving,'-'),'-',substring-before(substring-after(@deriving,'-'),'-'))"/>
         </xsl:variable>
@@ -1075,10 +1075,10 @@
             <xsl:value-of select="substring-after(@deriving,concat($reg-auth,'-',$data-ident,'-'))"/>
         </xsl:variable>
         <xsl:variable name="related-name">
-            <xsl:value-of select="//asserted-here/cgMDR:Data_Element[@item_registration_authority_identifier=$reg-auth and @data_identifier=$data-ident and @version=$ver]//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+            <xsl:value-of select="//asserted-here/openMDR:Data_Element[@item_registration_authority_identifier=$reg-auth and @data_identifier=$data-ident and @version=$ver]//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
         </xsl:variable>
         <xsl:variable name="related-status">
-            <xsl:value-of select="//asserted-here/cgMDR:Data_Element[@item_registration_authority_identifier=$reg-auth and @data_identifier=$data-ident and @version=$ver]//cgMDR:registration_status"/>
+            <xsl:value-of select="//asserted-here/openMDR:Data_Element[@item_registration_authority_identifier=$reg-auth and @data_identifier=$data-ident and @version=$ver]//openMDR:registration_status"/>
         </xsl:variable>
         <tr>
             <td>
@@ -1088,14 +1088,14 @@
                 <xsl:value-of select="$related-name"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:derivation_rule_specification"/>
+                <xsl:value-of select="openMDR:derivation_rule_specification"/>
             </td>
             <td>
                 <xsl:value-of select="$related-status"/>
             </td>
         </tr>
     </xsl:template>
-    <xsl:template match="cgMDR:Data_Element" mode="related">
+    <xsl:template match="openMDR:Data_Element" mode="related">
         <xsl:variable name="admin-item-id">
             <xsl:call-template name="admin-item-identifier"/>
         </xsl:variable>
@@ -1105,17 +1105,17 @@
                 <xsl:value-of select="@version"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:having/cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+                <xsl:value-of select="openMDR:having/openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:input_to[@deriving=$admin-item-id]/cgMDR:derivation_rule_specification"/>
+                <xsl:value-of select="openMDR:input_to[@deriving=$admin-item-id]/openMDR:derivation_rule_specification"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:administered_item_administration_record/cgMDR:registration_status"/>
+                <xsl:value-of select="openMDR:administered_item_administration_record/openMDR:registration_status"/>
             </td>
         </tr>
     </xsl:template>
-    <xsl:template match="cgMDR:administered_item_administration_record">
+    <xsl:template match="openMDR:administered_item_administration_record">
         <table class="section">
             <tr>
                 <td colspan="2">
@@ -1128,53 +1128,53 @@
                     </i>
                 </td>
                 <td>
-                    <xsl:value-of select="cgMDR:administrative_status"/>
+                    <xsl:value-of select="openMDR:administrative_status"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Administered By</td>
                 <td>
                     <xsl:call-template name="administrator">
-                        <xsl:with-param name="administrator-id" select="../cgMDR:administered_by"/>
+                        <xsl:with-param name="administrator-id" select="../openMDR:administered_by"/>
                     </xsl:call-template>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Creation On</td>
                 <td>
-                    <xsl:value-of select="cgMDR:creation_date"/>
+                    <xsl:value-of select="openMDR:creation_date"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Effective From</td>
                 <td>
-                    <xsl:value-of select="cgMDR:effective_date"/>
+                    <xsl:value-of select="openMDR:effective_date"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Last Changed On</td>
                 <td>
-                    <xsl:value-of select="cgMDR:last_change_date"/>
+                    <xsl:value-of select="openMDR:last_change_date"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Effective until</td>
                 <td>
-                    <xsl:value-of select="cgMDR:until_date"/>
+                    <xsl:value-of select="openMDR:until_date"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Submitted By</td>
                 <td>
                     <xsl:call-template name="submitter">
-                        <xsl:with-param name="submitter-id" select="../cgMDR:submitted_by"/>
+                        <xsl:with-param name="submitter-id" select="../openMDR:submitted_by"/>
                     </xsl:call-template>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Explanatory Comments</td>
                 <td>
-                    <xsl:value-of select="cgMDR:explanatory_comment"/>
+                    <xsl:value-of select="openMDR:explanatory_comment"/>
                 </td>
             </tr>
         </table>
@@ -1200,12 +1200,12 @@
                     <div class="admin_item_table_header">type</div>
                 </td>
             </tr>
-            <xsl:apply-templates select="//cgMDR:Reference_Document" mode="tabular"/>
+            <xsl:apply-templates select="//openMDR:Reference_Document" mode="tabular"/>
         </table>
     </xsl:template>
-    <xsl:template match="cgMDR:Reference_Document" mode="tabular">
+    <xsl:template match="openMDR:Reference_Document" mode="tabular">
         <xsl:variable name="ref-doc-uri">
-            <xsl:value-of select="cgMDR:reference_document_uri"/>
+            <xsl:value-of select="openMDR:reference_document_uri"/>
         </xsl:variable>
         <xsl:variable name="ref-doc-id">
             <xsl:value-of select="@reference_document_identifier"/>
@@ -1226,34 +1226,34 @@
                 </xsl:choose>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:reference_document_language_identifier"/>
+                <xsl:value-of select="openMDR:reference_document_language_identifier"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:reference_document_title"/>
+                <xsl:value-of select="openMDR:reference_document_title"/>
             </td>
             <td>
-                <xsl:value-of select="cgMDR:reference_document_type_description"/>
+                <xsl:value-of select="openMDR:reference_document_type_description"/>
             </td>
         </tr>
     </xsl:template>
     <xsl:template name="administrator">
         <xsl:param name="administrator-id"/>
-        <xsl:value-of select="//cgMDR:Contact[@contact_identifier=$administrator-id]/cgMDR:contact_name"/>
+        <xsl:value-of select="//openMDR:Contact[@contact_identifier=$administrator-id]/openMDR:contact_name"/>
         <br/>
-        <xsl:value-of select="//cgMDR:Contact[@contact_identifier=$administrator-id]/cgMDR:contact_title"/>
+        <xsl:value-of select="//openMDR:Contact[@contact_identifier=$administrator-id]/openMDR:contact_title"/>
     </xsl:template>
     <xsl:template name="submitter">
         <xsl:param name="submitter-id"/>
-        <xsl:value-of select="//cgMDR:Contact[@contact_identifier=$submitter-id]/cgMDR:contact_name"/>
+        <xsl:value-of select="//openMDR:Contact[@contact_identifier=$submitter-id]/openMDR:contact_name"/>
         <br/>
-        <xsl:value-of select="//cgMDR:Contact[@contact_identifier=$submitter-id]/cgMDR:contact_title"/>
+        <xsl:value-of select="//openMDR:Contact[@contact_identifier=$submitter-id]/openMDR:contact_title"/>
     </xsl:template>
     <xsl:template name="data-element-conceptual-framework">
         <xsl:variable name="oc-uri">
-            <xsl:value-of select="//cgMDR:Object_Class//cgMDR:reference_uri"/>
+            <xsl:value-of select="//openMDR:Object_Class//openMDR:reference_uri"/>
         </xsl:variable>
         <xsl:variable name="p-uri">
-            <xsl:value-of select="//cgMDR:Property//cgMDR:reference_uri"/>
+            <xsl:value-of select="//openMDR:Property//openMDR:reference_uri"/>
         </xsl:variable>
         <div class="section">
             <table class="section">
@@ -1267,9 +1267,9 @@
                         record)</td>
                     <td colspan="3">
                         <xsl:call-template name="html-anchor">
-                            <xsl:with-param name="text" select="//cgMDR:Data_Element_Concept//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+                            <xsl:with-param name="text" select="//openMDR:Data_Element_Concept//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
                             <xsl:with-param name="collection">data_element_concept</xsl:with-param>
-                            <xsl:with-param name="id" select="cgMDR:expressing"/>
+                            <xsl:with-param name="id" select="openMDR:expressing"/>
                         </xsl:call-template>
                     </td>
                 </tr>
@@ -1277,9 +1277,9 @@
                     <td class="left_header_cell">Concept or concept expression</td>
                     <td>
                         <xsl:call-template name="html-anchor">
-                            <xsl:with-param name="text" select="//cgMDR:Object_Class//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+                            <xsl:with-param name="text" select="//openMDR:Object_Class//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
                             <xsl:with-param name="collection">object_class</xsl:with-param>
-                            <xsl:with-param name="id" select="//cgMDR:Data_Element_Concept//cgMDR:data_element_concept_object_class"/>
+                            <xsl:with-param name="id" select="//openMDR:Data_Element_Concept//openMDR:data_element_concept_object_class"/>
                         </xsl:call-template>
                     </td>
                     <td>
@@ -1292,9 +1292,9 @@
                     <td class="left_header_cell">Property measured</td>
                     <td>
                         <xsl:call-template name="html-anchor">
-                            <xsl:with-param name="text" select="//cgMDR:Property//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+                            <xsl:with-param name="text" select="//openMDR:Property//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
                             <xsl:with-param name="collection">property</xsl:with-param>
-                            <xsl:with-param name="id" select="//cgMDR:Data_Element_Concept//cgMDR:data_element_concept_property"/>
+                            <xsl:with-param name="id" select="//openMDR:Data_Element_Concept//openMDR:data_element_concept_property"/>
                         </xsl:call-template>
                     </td>
                     <td>
@@ -1307,9 +1307,9 @@
                     <td class="left_header_cell">Typed by representation class</td>
                     <td colspan="3">
                         <xsl:call-template name="html-anchor">
-                            <xsl:with-param name="text" select="//cgMDR:Representation_Class//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+                            <xsl:with-param name="text" select="//openMDR:Representation_Class//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
                             <xsl:with-param name="collection">representation_class</xsl:with-param>
-                            <xsl:with-param name="id" select="cgMDR:typed_by"/>
+                            <xsl:with-param name="id" select="openMDR:typed_by"/>
                         </xsl:call-template>
                     </td>
                 </tr>
@@ -1317,9 +1317,9 @@
                     <td class="left_header_cell">Representation class qualifier </td>
                     <td colspan="3">
                         <xsl:choose>
-                            <xsl:when test="cgMDR:representation_class_qualifier = ''">unqualified</xsl:when>
+                            <xsl:when test="openMDR:representation_class_qualifier = ''">unqualified</xsl:when>
                             <xsl:otherwise>
-                                <xsl:value-of select="cgMDR:representation_class_qualifier"/>
+                                <xsl:value-of select="openMDR:representation_class_qualifier"/>
                             </xsl:otherwise>
                         </xsl:choose>
                     </td>
@@ -1349,7 +1349,7 @@
                     </i>
                 </td>
                 <td>
-                    <xsl:value-of select="//cgMDR:registration_status"/>
+                    <xsl:value-of select="//openMDR:registration_status"/>
                 </td>
             </tr>
             <tr>
@@ -1380,7 +1380,7 @@
                 <td>
                     <xsl:call-template name="registrar">
                         <xsl:with-param name="registrar-id">
-                            <xsl:value-of select="//cgMDR:registered_by"/>
+                            <xsl:value-of select="//openMDR:registered_by"/>
                         </xsl:with-param>
                     </xsl:call-template>
                 </td>
@@ -1395,7 +1395,7 @@
         <table class="section">
             <tr>
                 <td colspan="2">
-                    <h3>Administered Item - Preferred Name: <xsl:value-of select="//cgMDR:data_element_complete/cgMDR:Data_Element//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name"/>
+                    <h3>Administered Item - Preferred Name: <xsl:value-of select="//openMDR:data_element_complete/openMDR:Data_Element//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
                     </h3>
                 </td>
             </tr>
@@ -1411,13 +1411,13 @@
                     </i>
                 </td>
                 <td>
-                    <xsl:value-of select="//cgMDR:data_element_complete/cgMDR:Data_Element//cgMDR:registration_status"/>
+                    <xsl:value-of select="//openMDR:data_element_complete/openMDR:Data_Element//openMDR:registration_status"/>
                 </td>
             </tr>
             <tr>
                 <td class="left_header_cell">Definition</td>
                 <td>
-                    <xsl:value-of select="//cgMDR:data_element_complete/cgMDR:Data_Element//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:definition_text"/>
+                    <xsl:value-of select="//openMDR:data_element_complete/openMDR:Data_Element//openMDR:containing[openMDR:preferred_designation='true']/openMDR:definition_text"/>
                 </td>
             </tr>
             <tr>
@@ -1442,7 +1442,7 @@
                 <td>
                     <xsl:call-template name="registrar">
                         <xsl:with-param name="registrar-id">
-                            <xsl:value-of select="//cgMDR:data_element_complete/cgMDR:Data_Element/cgMDR:registered_by"/>
+                            <xsl:value-of select="//openMDR:data_element_complete/openMDR:Data_Element/openMDR:registered_by"/>
                         </xsl:with-param>
                     </xsl:call-template>
                 </td>
@@ -1502,7 +1502,7 @@
     <xsl:template match="*" mode="name-value-pair">
         <tr>
             <td class="left_header_cell">
-                <xsl:value-of select="cgMDR:sentence-case(local-name())"/>
+                <xsl:value-of select="openMDR:sentence-case(local-name())"/>
             </td>
             <td>
                 <xsl:value-of select="."/>
@@ -1577,12 +1577,12 @@
             </td>
         </tr>
     </xsl:template>
-    <xsl:template match="cgMDR:cgDatatype">
-        <xsl:value-of select="cgMDR:datatype_name"/> (<xsl:value-of select="cgMDR:datatype_scheme_reference"/>) </xsl:template>
-    <xsl:template match="cgMDR:Unit_of_Measure">
-        <xsl:value-of select="cgMDR:unit_of_measure_name"/>
+    <xsl:template match="openMDR:cgDatatype">
+        <xsl:value-of select="openMDR:datatype_name"/> (<xsl:value-of select="openMDR:datatype_scheme_reference"/>) </xsl:template>
+    <xsl:template match="openMDR:Unit_of_Measure">
+        <xsl:value-of select="openMDR:unit_of_measure_name"/>
     </xsl:template>
-    <xsl:template match="cgMDR:reference_uri">
+    <xsl:template match="openMDR:reference_uri">
         <table class="layout">
             <tr>
                 <td class="left_header_cell"> Concept reference </td>
@@ -1595,7 +1595,7 @@
         </table>
     </xsl:template>
     <xsl:template match="supporting-classes"/>
-    <xsl:template match="cgMDR:Data_Element" mode="#default">
+    <xsl:template match="openMDR:Data_Element" mode="#default">
         <table class="layout">
             <tr>
                 <td>
@@ -1609,7 +1609,7 @@
             </tr>
             <tr>
                 <td>
-                    <xsl:apply-templates select="cgMDR:representing"/>
+                    <xsl:apply-templates select="openMDR:representing"/>
                 </td>
             </tr>
             <tr>
@@ -1629,7 +1629,7 @@
             </tr>
             <tr>
                 <td>
-                    <xsl:apply-templates select="cgMDR:administered_item_administration_record"/>
+                    <xsl:apply-templates select="openMDR:administered_item_administration_record"/>
                 </td>
             </tr>
             <tr>
@@ -1668,24 +1668,24 @@
         </tr>
     </xsl:template>
     <!--reusable content parts -->
-    <xsl:template match="cgMDR:language_section_language_identifier|reference_document_language_identifier">
-        <xsl:value-of select="cgMDR:country_identifier"/>
+    <xsl:template match="openMDR:language_section_language_identifier|reference_document_language_identifier">
+        <xsl:value-of select="openMDR:country_identifier"/>
         <xsl:text>-</xsl:text>
-        <xsl:value-of select="cgMDR:language_identifier"/>
+        <xsl:value-of select="openMDR:language_identifier"/>
     </xsl:template>
-    <xsl:template match="cgMDR:administered_by|cgMDR:registered_by|cgMDR:submitted_by">
+    <xsl:template match="openMDR:administered_by|openMDR:registered_by|openMDR:submitted_by">
         <table class="layout">
             <xsl:apply-templates select="." mode="name-value-pair"/>
         </table>
     </xsl:template>
-    <xsl:template match="cgMDR:having">
+    <xsl:template match="openMDR:having">
         <tr>
             <td class="left_header_cell">Context</td>
             <td>
                 <xsl:call-template name="html-anchor">
                     <xsl:with-param name="collection">context</xsl:with-param>
-                    <xsl:with-param name="id" select="cgMDR:context_identifier"/>
-                    <xsl:with-param name="text" select="cgMDR:context_identifier"/>
+                    <xsl:with-param name="id" select="openMDR:context_identifier"/>
+                    <xsl:with-param name="text" select="openMDR:context_identifier"/>
                 </xsl:call-template>
             </td>
         </tr>
@@ -1712,8 +1712,8 @@
                                         <div class="admin_item_table_header">preferred</div>
                                     </td>
                                 </tr>
-                                <xsl:apply-templates select="cgMDR:containing">
-                                    <xsl:sort select="cgMDR:name" order="ascending"/>
+                                <xsl:apply-templates select="openMDR:containing">
+                                    <xsl:sort select="openMDR:name" order="ascending"/>
                                 </xsl:apply-templates>
                             </table>
                         </td>

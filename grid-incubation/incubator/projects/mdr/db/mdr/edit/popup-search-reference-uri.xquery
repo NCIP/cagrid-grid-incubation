@@ -6,7 +6,7 @@ xquery version "1.0";
 :
 : Date                     08 Jul 2008
 :
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 :
 : Module overview          Finds a reference uri for an administered item
 :
@@ -18,10 +18,10 @@ xquery version "1.0";
 ~ :)
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
-declare namespace rs="http://cancergrid.org/schema/result-set";
+declare namespace rs="http://cagrid.org/schema/result-set";
     
 import module namespace 
-      lib-qs="http://www.cancergrid.org/xquery/library/query_service" 
+      lib-qs="http://www.cagrid.org/xquery/library/query_service" 
       at "../connector/m-lib-qs.xquery";  
   
 declare function local:action-button($value as xs:string, $control as xs:string, $text as xs:string, $name as xs:string) as node()
@@ -59,11 +59,11 @@ return
           <title>Searching for a reference uri</title>
           <link rel="stylesheet" href="../web/stylesheets/main.css" type="text/css"/>
           <link rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
-          <link rel="stylesheet" href="../web/stylesheets/cancergrid-style.css" type="text/css"/>
+          <link rel="stylesheet" href="../web/stylesheets/cagrid-style.css" type="text/css"/>
           <link rel="stylesheet" href="../classification/stylesheets/treeview.css" type="text/css"/>
       </head>
       <body>
-         <form name='select-item' class='cancergridForm' action='popup-search-reference-uri.xquery'>
+         <form name='select-item' class='cagridForm' action='popup-search-reference-uri.xquery'>
             <input type='hidden' name='element' value='{$element}'/>
             <table class="layout">
                <tr>

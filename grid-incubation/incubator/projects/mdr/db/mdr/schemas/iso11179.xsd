@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.cancergrid.org/schema/ISO11179" xmlns:iso11179="http://www.cancergrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cancergrid.org/schema/ISO11179" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+<xs:schema xmlns="http://www.cagrid.org/schema/ISO11179" xmlns:iso11179="http://www.cagrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/ISO11179" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
     <xs:annotation>
         <xs:documentation>The model shows constraints on minimum and maximum occurrences of
 			attributes. The constraints on maximum occurrences are to be enforced at all times. The
@@ -551,7 +551,7 @@
                     <xs:documentation>Note that in the original diagrams for ISO11179, each
 						'administered item' has in fact -two- administration records: one specific
 						to the class, and one inherited from the administered item class. We have
-						examined this and have decided this should not be implemented in cancergrid:
+						examined this and have decided this should not be implemented in cagrid:
 						the records are defined to be identical for the purposes of our
 						implementation.</xs:documentation>
                 </xs:annotation>

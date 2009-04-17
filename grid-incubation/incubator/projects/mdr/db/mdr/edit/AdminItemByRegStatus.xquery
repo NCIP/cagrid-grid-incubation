@@ -4,7 +4,7 @@ xquery version "1.0";
  : Module Name:             Items by registration status webpage
  : Module Version           0.1
  : Date                     2nd October 2006
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          Lists all data elements and assets of a particular registration status
  :
@@ -16,23 +16,23 @@ xquery version "1.0";
  :    @author Steve Harris
 ~ :)
 
-import module namespace lib-util="http://www.cancergrid.org/xquery/library/util"
+import module namespace lib-util="http://www.cagrid.org/xquery/library/util"
   at "../library/m-lib-util.xquery";
   
 import module namespace 
-    lib-forms="http://www.cancergrid.org/xquery/library/forms" 
+    lib-forms="http://www.cagrid.org/xquery/library/forms" 
     at "../edit/m-lib-forms.xquery";        
     
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery"; 
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
     
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 
@@ -43,8 +43,8 @@ declare function local:make-select-refdoc($selected as xs:string) as node()
      {
       for $item in lib-util:mdrElements('reference_document')
       let $id:= data($item//@reference_document_identifier)
-      let $title := data($item//cgMDR:reference_document_title)
-      where $item//cgMDR:reference_document_type_description = 'commissioning'
+      let $title := data($item//openMDR:reference_document_title)
+      where $item//openMDR:reference_document_type_description = 'commissioning'
       return
          if ($id=$selected) 
          then (<option value="{$id}" selected="selected">{$title}</option>) 
@@ -64,7 +64,7 @@ let $reviewer := request:get-parameter('submitted-by','')
 let $title := 'Administered Items by Status'
 let $content as element(div):= (
    <div>
-      <form action="AdminItemByRegStatus.xquery" method="post" class="cancergridForm">
+      <form action="AdminItemByRegStatus.xquery" method="post" class="cagridForm">
          <table class="section">
          <tr><td class="left_header_cell">registration status</td><td>{lib-forms:select-from-simpleType-enum('Registration_Status', 'Registration_Status', false(), $registration-status)}</td></tr>
          <tr><td class="left_header_cell">commissioning document</td><td>{local:make-select-refdoc($selected)}</td></tr>
@@ -86,7 +86,7 @@ let $content as element(div):= (
          {
          if (request:get-parameter('report-type','')='summary')
          then (
-               for $adminItem in lib-util:mdrElements('data_element')[data(.//cgMDR:registration_status) = $registration-status][data(.//cgMDR:described_by) = $selected]
+               for $adminItem in lib-util:mdrElements('data_element')[data(.//openMDR:registration_status) = $registration-status][data(.//openMDR:described_by) = $selected]
                let $name:=administered-item:preferred-name($adminItem)
                let $id:=lib-util:mdrElementId($adminItem)
                let $review-status := if (exists(lib-util:mdrElements('data-element-rating')[data(@submitted-by)= $reviewer][data(@admin-item-id)=$id]))
@@ -111,7 +111,7 @@ let $content as element(div):= (
                   <tr><td>{$id}</td><td>{$link}</td><td>{$review-status}</td></tr>
          )
          else (
-               for $adminItem in lib-util:mdrElements()[data(.//cgMDR:registration_status) = $registration-status][data(.//cgMDR:described_by) = $selected]
+               for $adminItem in lib-util:mdrElements()[data(.//openMDR:registration_status) = $registration-status][data(.//openMDR:described_by) = $selected]
                let $name:=administered-item:preferred-name($adminItem)
                let $id:=lib-util:mdrElementId($adminItem)
                let $doc-type:=lib-util:mdrElementType($adminItem)

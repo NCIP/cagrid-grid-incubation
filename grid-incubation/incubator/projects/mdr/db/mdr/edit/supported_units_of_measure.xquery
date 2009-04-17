@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               22nd September 2006
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview         maintains units of measure resources
  :
@@ -18,22 +18,22 @@ xquery version "1.0";
  :    @version 0.1
 ~ :)
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
 
 import module namespace 
-   lib-forms="http://www.cancergrid.org/xquery/library/forms"
+   lib-forms="http://www.cagrid.org/xquery/library/forms"
    at "../edit/m-lib-forms.xquery";
      
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";   
      
 
@@ -48,8 +48,8 @@ declare function local:page-entry($message as xs:string) as node()
            {
            for $uom in lib-util:mdrElements("unit_of_measure")
               let $id := data($uom//@unit_of_measure_identifier)
-              let $name :=data($uom//cgMDR:unit_of_measure_name)
-              let $precision :=data($uom//cgMDR:unit_of_measure_precision)
+              let $name :=data($uom//openMDR:unit_of_measure_name)
+              let $precision :=data($uom//openMDR:unit_of_measure_precision)
               order by $name
               return
                  <tr><td>{$id}</td><td>{$name}</td><td>{$precision}</td></tr>
@@ -57,7 +57,7 @@ declare function local:page-entry($message as xs:string) as node()
         </table>
      </p>
         
-      <form name="new_uom" action="{session:encode-url(request:get-uri())}" method="post" class="cancergridForm">
+      <form name="new_uom" action="{session:encode-url(request:get-uri())}" method="post" class="cagridForm">
           <div class="section">
              <table class="section">
                 <tr><td colspan="2">Add a new unit of measure to the metadata repository</td></tr>
@@ -78,17 +78,17 @@ declare function local:page-success()
       </div>
 };
 
-declare function local:uom-document() as element(cgMDR:Unit_of_Measure)
+declare function local:uom-document() as element(openMDR:Unit_of_Measure)
 {
    let $name := request:get-parameter('name','')
    let $precision := request:get-parameter('precision','')
    let $identifier := lib-forms:generate-id()
    return
-      element cgMDR:Unit_of_Measure
+      element openMDR:Unit_of_Measure
          {
             attribute unit_of_measure_identifier {$identifier},
-            element cgMDR:unit_of_measure_name {$name},
-            element cgMDR:unit_of_measure_precision {$precision}
+            element openMDR:unit_of_measure_name {$name},
+            element openMDR:unit_of_measure_precision {$precision}
          } 
 };
    

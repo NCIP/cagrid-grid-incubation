@@ -7,7 +7,7 @@ xquery version "1.0";
 :
 : Date                     13 October 2009
 :
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 :
 : Module overview          Returns a reduced, tabular view on administered items
 :
@@ -18,29 +18,29 @@ xquery version "1.0";
 :    @version 2.0
 ~ :)
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 import module namespace 
-administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+administered-item="http://www.cagrid.org/xquery/library/administered-item" 
 at "../library/m-administered-item.xquery";   
 
 import module namespace
-value-domain="http://www.cancergrid.org/xquery/library/value-domain"
+value-domain="http://www.cagrid.org/xquery/library/value-domain"
 at "../library/m-value-domain.xquery";
 
 import module namespace
-value-meaning="http://www.cancergrid.org/xquery/library/value-meaning"
+value-meaning="http://www.cagrid.org/xquery/library/value-meaning"
 at "../library/m-value-meaning.xquery";
 
 import module namespace 
-lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+lib-rendering="http://www.cagrid.org/xquery/library/rendering"
 at "../web/m-lib-rendering.xquery";
 
 
@@ -59,8 +59,8 @@ let $type as xs:string := request:get-parameter("type", "data_element")
 let $title as xs:string := concat(lib-util:sentence-case(lib-util:mdrElementTypeFriendly($type)), " Listing")
 
 let $all-items := 
-   for $sorted in lib-util:mdrElements($type)[.//cgMDR:registration_status ne 'Superseded'
-   and starts-with(lower-case(.//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name), $letter)]
+   for $sorted in lib-util:mdrElements($type)[.//openMDR:registration_status ne 'Superseded'
+   and starts-with(lower-case(.//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name), $letter)]
    let $preferred-name := administered-item:preferred-name($sorted)
    order by lower-case($preferred-name)
    return $sorted

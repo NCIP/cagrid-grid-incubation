@@ -7,27 +7,27 @@ xquery version "1.0";
  :)
  
   import module namespace 
-  lib-forms="http://www.cancergrid.org/xquery/library/forms"
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
   
   import module namespace 
-  lib-util="http://www.cancergrid.org/xquery/library/util" 
+  lib-util="http://www.cagrid.org/xquery/library/util" 
   at "../library/m-lib-util.xquery";
   
   import module namespace 
-  lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering"
   at "../web/m-lib-rendering.xquery";   
   
   import module namespace 
-    lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item" 
+    lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item" 
     at "../edit/m-lib-make-admin-item.xquery";   
     
   import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";   
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
@@ -70,30 +70,30 @@ declare function local:property(
                     $sources),
          
             
-             for $meaning at $pos in $concept_domain//cgMDR:value_meaning_description
+             for $meaning at $pos in $concept_domain//openMDR:value_meaning_description
                     return (
-                       element cgMDR:containing {
+                       element openMDR:containing {
                          attribute permissible_value_identifier {lib-forms:generate-id()},
-                         element cgMDR:permissible_value_begin_date {current-date()},
-                         element cgMDR:value_item {$values[$pos]},
-                         element cgMDR:contained_in {$concept_domain//cgMDR:value_meaning_identifier[$pos]/text()}
+                         element openMDR:permissible_value_begin_date {current-date()},
+                         element openMDR:value_item {$values[$pos]},
+                         element openMDR:contained_in {$concept_domain//openMDR:value_meaning_identifier[$pos]/text()}
                        }
              ),
-            element cgMDR:representing {$conceptual_domain_id}
+            element openMDR:representing {$conceptual_domain_id}
    )
            
    
    (: compose the document :)
    let $document := (
      if($values > '' ) then (
-      element cgMDR:Enumerated_Value_Domain {
+      element openMDR:Enumerated_Value_Domain {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
             $content
            }
       ) else (
-       element cgMDR:Non_Enumerated_Value_Domain {
+       element openMDR:Non_Enumerated_Value_Domain {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
@@ -142,7 +142,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_value_domain" action="newValueDomain.xquery" method="post" class="cancergridForm" enctype="multipart/form-data">
+          <form name="new_value_domain" action="newValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
              
               
@@ -191,11 +191,11 @@ declare function local:input-page(
                            </tr>
                            <tr>
                            
-                           if($concept_domain//cgMDR:value_meaning_description > '') then (
+                           if($concept_domain//openMDR:value_meaning_description > '') then (
                                <td class="left_header_cell">Possible Values</td><td colspan="3">meaning</td><td>value</td><td/>
                                </tr>
                                {
-                                    for $meaning at $pos in $concept_domain//cgMDR:value_meaning_description
+                                    for $meaning at $pos in $concept_domain//openMDR:value_meaning_description
                                     return (
                                        <tr>
                                           <td class="left_header_cell">Permissable Value {$pos}</td>

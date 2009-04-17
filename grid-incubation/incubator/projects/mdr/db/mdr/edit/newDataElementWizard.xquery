@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               25th October 2006
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview          creates a data element through a wizard format
  :
@@ -20,27 +20,27 @@ xquery version "1.0";
 
   
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-    lib-forms="http://www.cancergrid.org/xquery/library/forms" 
+    lib-forms="http://www.cagrid.org/xquery/library/forms" 
     at "../edit/m-lib-forms.xquery";     
     
 import module namespace 
-    lib-make-admin-item="http://www.cancergrid.org/xquery/library/make-admin-item" 
+    lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item" 
     at "../edit/m-lib-make-admin-item.xquery";      
     
 import module namespace 
-   lib-supersede="http://www.cancergrid.org/xquery/library/supersede"
+   lib-supersede="http://www.cagrid.org/xquery/library/supersede"
    at "../edit/m-lib-supersede.xquery";
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
    
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -453,35 +453,35 @@ let $having-alt := lib-make-admin-item:having(
             
 let $described-by := (
    if ($refdoc1 > "")
-   then (element cgMDR:described_by {$refdoc1})
+   then (element openMDR:described_by {$refdoc1})
    else(),
    if ($refdoc2 > "")
-   then (element cgMDR:described_by {$refdoc2})
+   then (element openMDR:described_by {$refdoc2})
    else(),
    if ($refdoc3 > "")
-   then (element cgMDR:described_by {$refdoc3})
+   then (element openMDR:described_by {$refdoc3})
    else()
 )
             
 let $object-class := 
    (
-   element cgMDR:Object_Class {
+   element openMDR:Object_Class {
         lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-oc,$version),
         $administration-record,
         $custodians,
         $having-preferred,   
-        element cgMDR:reference_uri {$object_class_uri}
+        element openMDR:reference_uri {$object_class_uri}
         }
    )
    
 let $property := 
    (
-    element cgMDR:Property {
+    element openMDR:Property {
         lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-pr,$version),
         $administration-record,
         $custodians,
         $having-preferred,   
-        element cgMDR:reference_uri {$property_uri}
+        element openMDR:reference_uri {$property_uri}
         }
    )
    
@@ -508,7 +508,7 @@ let $property :=
 let $conceptual-domain :=
       if ($value-domain-type = 'enumerated') then
       (   
-      element cgMDR:Enumerated_Conceptual_Domain {
+      element openMDR:Enumerated_Conceptual_Domain {
             lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-cd,$version),
             $administration-record,
             $custodians,
@@ -516,16 +516,16 @@ let $conceptual-domain :=
             $having-preferred,
             for $e in $enumerations
             return 
-                element cgMDR:Value_Meaning {
-                    element cgMDR:value_meaning_begin_date {current-date()},
-                    element cgMDR:value_meaning_description {data($e/value-meaning-desc)},
-                    element cgMDR:value_meaning_identifier {data($e/value-meaning-id)}
+                element openMDR:Value_Meaning {
+                    element openMDR:value_meaning_begin_date {current-date()},
+                    element openMDR:value_meaning_description {data($e/value-meaning-desc)},
+                    element openMDR:value_meaning_identifier {data($e/value-meaning-id)}
                   }
          }
        )
        else
        (
-       element cgMDR:Non_Enumerated_Conceptual_Domain {
+       element openMDR:Non_Enumerated_Conceptual_Domain {
             lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-cd,$version),
             $administration-record,
             $custodians,
@@ -537,78 +537,78 @@ let $conceptual-domain :=
    let $value-domain :=
       if ($value-domain-type = 'enumerated') then 
       (
-      element cgMDR:Enumerated_Value_Domain {
+      element openMDR:Enumerated_Value_Domain {
       lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-vd,$version),
          $administration-record,
          $custodians,
          $described-by,
          $having-preferred,
-         element cgMDR:typed_by {$representation-class},
+         element openMDR:typed_by {$representation-class},
          if ($enum_datatype > "")
-         then (element cgMDR:value_domain_datatype{$enum_datatype})
+         then (element openMDR:value_domain_datatype{$enum_datatype})
          else(),
          if ($enum_uom > "")
-         then (element cgMDR:value_domain_unit_of_measure{$enum_uom})
+         then (element openMDR:value_domain_unit_of_measure{$enum_uom})
          else(),
          for $e in $enumerations
          return 
          (
-         element cgMDR:containing {
+         element openMDR:containing {
             attribute permissible_value_identifier {data($e/permissible-value-id)},
-            element cgMDR:permissible_value_begin_date {current-date()},
-            element cgMDR:value_item {data($e/permissible-value)},
-            element cgMDR:contained_in {data($e/value-meaning-id)}
+            element openMDR:permissible_value_begin_date {current-date()},
+            element openMDR:value_item {data($e/permissible-value)},
+            element openMDR:contained_in {data($e/value-meaning-id)}
             }
          ),
-         element cgMDR:representing {$full-identifier-cd}        
+         element openMDR:representing {$full-identifier-cd}        
          }
       )
       else 
       (
-         element cgMDR:Non_Enumerated_Value_Domain {
+         element openMDR:Non_Enumerated_Value_Domain {
          lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-vd,$version),
          $administration-record,
          $custodians,
          $described-by,         
          $having-preferred, 
-         element cgMDR:typed_by {$representation-class}, 
-         element cgMDR:value_domain_datatype {$datatype},
-         element cgMDR:value_domain_unit_of_measure {$uom},
-         element cgMDR:representing {$full-identifier-cd}         
+         element openMDR:typed_by {$representation-class}, 
+         element openMDR:value_domain_datatype {$datatype},
+         element openMDR:value_domain_unit_of_measure {$uom},
+         element openMDR:representing {$full-identifier-cd}         
          }      
       )
       
    let $data-element-concept := (
-         element cgMDR:Data_Element_Concept {
+         element openMDR:Data_Element_Concept {
          lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-dec,$version),
          $administration-record,
          $custodians,
          $described-by,         
          $having-preferred,
-        element cgMDR:data_element_concept_conceptual_domain {$full-identifier-cd},
-        element cgMDR:data_element_concept_object_class {
+        element openMDR:data_element_concept_conceptual_domain {$full-identifier-cd},
+        element openMDR:data_element_concept_object_class {
           if ($object_class_id) then ($object_class_id) else ($full-identifier-oc)
         },
-        element cgMDR:data_element_concept_property {
+        element openMDR:data_element_concept_property {
           if ($property_id) then ($property_id) else ($full-identifier-pr)
         }
       }
    )
    
    let $data-element := (
-      element cgMDR:Data_Element {
+      element openMDR:Data_Element {
       lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-de,$version),
          $administration-record,
          $custodians,
          $described-by,         
          $having-preferred,
-         if ($having-alt//cgMDR:name > "") then $having-alt else(),
-              element cgMDR:data_element_precision {$precision},
-              element cgMDR:representing {$full-identifier-vd},
-              element cgMDR:typed_by {$representation-class}, 
-              element cgMDR:expressing {$full-identifier-dec},
-              element cgMDR:exemplified_by {
-              element cgMDR:data_element_example_item {$example}
+         if ($having-alt//openMDR:name > "") then $having-alt else(),
+              element openMDR:data_element_precision {$precision},
+              element openMDR:representing {$full-identifier-vd},
+              element openMDR:typed_by {$representation-class}, 
+              element openMDR:expressing {$full-identifier-dec},
+              element openMDR:exemplified_by {
+              element openMDR:data_element_example_item {$example}
         }
       }
       )

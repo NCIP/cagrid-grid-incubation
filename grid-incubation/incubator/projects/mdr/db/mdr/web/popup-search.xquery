@@ -7,7 +7,7 @@ xquery version "1.0";
 :
 : Date                     11 feb 2008
 :
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 :
 : Module overview          Finds a document to place on the end of a relationship
 :
@@ -20,23 +20,23 @@ xquery version "1.0";
 
 
 declare namespace request="http://exist-db.org/xquery/request";
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace session="http://exist-db.org/xquery/session";
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util"
+   lib-util="http://www.cagrid.org/xquery/library/util"
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";      
    
 import module namespace 
-  lib-forms="http://www.cancergrid.org/xquery/library/forms"
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
   
 import module namespace 
-  lib-rendering="http://www.cancergrid.org/xquery/library/rendering" 
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering" 
   at "../web/m-lib-rendering.xquery";  
 
 
@@ -55,8 +55,8 @@ let $results as element()* :=
       let $name as xs:string := lib-util:mdrElementName($doc)
       
       where (
-         if ($doc//cgMDR:registration_status)
-         then ($doc//cgMDR:registration_status ne 'Superseded')
+         if ($doc//openMDR:registration_status)
+         then ($doc//openMDR:registration_status ne 'Superseded')
          else true()
          )
          and contains($name, $phrase)

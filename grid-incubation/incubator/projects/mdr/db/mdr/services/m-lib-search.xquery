@@ -1,4 +1,4 @@
-module namespace lib-search="http://www.cancergrid.org/xquery/library/search";
+module namespace lib-search="http://www.cagrid.org/xquery/library/search";
 
 (: ~
  : Module Name:             trial designer xml document
@@ -7,7 +7,7 @@ module namespace lib-search="http://www.cancergrid.org/xquery/library/search";
  :
  : Date                               31st October 2006
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                       The cagrid consortium
  :
  : Module overview          outputs the expected message for the trial designer plug-in
  :
@@ -22,23 +22,23 @@ module namespace lib-search="http://www.cancergrid.org/xquery/library/search";
 
   
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace
-   value-domain="http://www.cancergrid.org/xquery/library/value-domain"
+   value-domain="http://www.cagrid.org/xquery/library/value-domain"
    at "../library/m-value-domain.xquery"; 
    
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";    
 
 import module namespace
-value-meaning="http://www.cancergrid.org/xquery/library/value-meaning"
+value-meaning="http://www.cagrid.org/xquery/library/value-meaning"
 at "../library/m-value-meaning.xquery";
    
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -116,7 +116,7 @@ let $long-name :=administered-item:preferred-name($data-element)
 let $name := lib-util:mdrElementId($data-element)
 let $version := $data-element//@version
 let $definition := administered-item:preferred-definition($data-element)
-let $value-domain := lib-util:mdrElement('value_domain',$data-element//cgMDR:representing)
+let $value-domain := lib-util:mdrElement('value_domain',$data-element//openMDR:representing)
 let $data-type :=  value-domain:datatype($value-domain)
 return
    element element {
@@ -134,8 +134,8 @@ return
                attribute base {$data-type},
                if ( value-domain:type($value-domain) = 'enumerated value domain') then
                   (
-                   for $containing in $value-domain//cgMDR:Enumerated_Value_Domain/cgMDR:containing
-                   let $value := data($containing/cgMDR:value_item)
+                   for $containing in $value-domain//openMDR:Enumerated_Value_Domain/openMDR:containing
+                   let $value := data($containing/openMDR:value_item)
                    order by $value
                    return element xs:enumeration {attribute value {$value}}
                   )
@@ -155,7 +155,7 @@ let $long-name :=administered-item:preferred-name($data-element)
 let $name := lib-util:mdrElementId($data-element)
 let $version := $data-element//@version
 let $definition := administered-item:preferred-definition($data-element)
-let $value-domain := lib-util:mdrElement('value_domain',$data-element//cgMDR:representing)
+let $value-domain := lib-util:mdrElement('value_domain',$data-element//openMDR:representing)
 let $data-type :=  value-domain:datatype($value-domain)
 return
    element element {
@@ -173,8 +173,8 @@ return
                attribute base {$data-type},
                if ( value-domain:type($value-domain) = 'enumerated value domain') then
                   (
-                   for $containing in $value-domain//cgMDR:Enumerated_Value_Domain/cgMDR:containing
-                   let $value := data($containing/cgMDR:value_item)
+                   for $containing in $value-domain//openMDR:Enumerated_Value_Domain/openMDR:containing
+                   let $value := data($containing/openMDR:value_item)
                    order by $value
                    return element xs:enumeration {attribute value {$value}}
                   )
@@ -190,11 +190,11 @@ declare function lib-search:dataElement($compound_id as xs:string) as element()
 {
          let $administered-item := lib-util:mdrElement("data_element", $compound_id)
          let $administered-item-id := lib-util:mdrElementId($administered-item)
-         let $value-domain-id := data($administered-item//cgMDR:representing)
+         let $value-domain-id := data($administered-item//openMDR:representing)
          let $value-domain := lib-util:mdrElement("value_domain",$value-domain-id)
-         let $data-type := lib-util:mdrElement("data_type", data($value-domain//cgMDR:value_domain_datatype))
-         let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//cgMDR:value_domain_unit_of_measure))
-         let $preferred-name := $administered-item//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name
+         let $data-type := lib-util:mdrElement("data_type", data($value-domain//openMDR:value_domain_datatype))
+         let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//openMDR:value_domain_unit_of_measure))
+         let $preferred-name := $administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
          return
             <data-element>
                <names>
@@ -202,7 +202,7 @@ declare function lib-search:dataElement($compound_id as xs:string) as element()
                   <preferred>{data($preferred-name)}</preferred>
                   <all-names>
                   {
-                      for $name in $administered-item//cgMDR:name[. != $preferred-name]
+                      for $name in $administered-item//openMDR:name[. != $preferred-name]
                       return <name>{data($name)}</name>
                   }
                   </all-names>
@@ -215,16 +215,16 @@ declare function lib-search:dataElement($compound_id as xs:string) as element()
                   (
                       <enumerated>
                       {
-                         for $value in $value-domain/cgMDR:containing[cgMDR:value_item >""]
-                         order by $value/cgMDR:value_item
+                         for $value in $value-domain/openMDR:containing[openMDR:value_item >""]
+                         order by $value/openMDR:value_item
                          return
                              <valid-value>
-                                 <code>{data($value/cgMDR:value_item)}</code>
+                                 <code>{data($value/openMDR:value_item)}</code>
                                  <meaning>
                                  {
                                      data(lib-util:mdrElements("conceptual_domain")
-                                         [.//cgMDR:registration_status != 'Superseded']
-                                         /cgMDR:Value_Meaning[cgMDR:value_meaning_identifier=$value/cgMDR:contained_in]/cgMDR:value_meaning_description)
+                                         [.//openMDR:registration_status != 'Superseded']
+                                         /openMDR:Value_Meaning[openMDR:value_meaning_identifier=$value/openMDR:contained_in]/openMDR:value_meaning_description)
                                  }
                                  </meaning>
                              </valid-value>
@@ -233,11 +233,11 @@ declare function lib-search:dataElement($compound_id as xs:string) as element()
                      )
                   else(
                       <non-enumerated>
-                         <data-type>{data($data-type//cgMDR:datatype_name)}</data-type>
+                         <data-type>{data($data-type//openMDR:datatype_name)}</data-type>
                          <units> 
                          {
-                            if (data($uom//cgMDR:unit_of_measure_name)>"")
-                            then (data($uom//cgMDR:unit_of_measure_name))
+                            if (data($uom//openMDR:unit_of_measure_name)>"")
+                            then (data($uom//openMDR:unit_of_measure_name))
                             else ("(not applicable)")
                          }
                          </units>
@@ -252,7 +252,7 @@ declare function lib-search:dataElementListSearch($term as xs:string, $start as 
 {
    let $all-admin-items := 
        for $sorted in lib-util:search("data_element", $term)
-       let $preferred-name := $sorted//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name
+       let $preferred-name := $sorted//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
        order by $preferred-name 
        return 
            $sorted
@@ -264,11 +264,11 @@ declare function lib-search:dataElementListSearch($term as xs:string, $start as 
            {
               for $administered-item at $record-id in $all-admin-items
                  let $administered-item-id := lib-util:mdrElementId($administered-item)
-                 let $value-domain-id := data($administered-item//cgMDR:representing)
+                 let $value-domain-id := data($administered-item//openMDR:representing)
                  let $value-domain := lib-util:mdrElement("value_domain",$value-domain-id)
-                 let $data-type := lib-util:mdrElement("data_type", data($value-domain//cgMDR:value_domain_datatype))
-                 let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//cgMDR:value_domain_unit_of_measure))
-                 let $preferred-name := data($administered-item//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name)
+                 let $data-type := lib-util:mdrElement("data_type", data($value-domain//openMDR:value_domain_datatype))
+                 let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//openMDR:value_domain_unit_of_measure))
+                 let $preferred-name := data($administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name)
              where $record-id >= $start and $record-id <= $start + $num 
              return
                    element data-element
@@ -279,7 +279,7 @@ declare function lib-search:dataElementListSearch($term as xs:string, $start as 
                           element preferred {$preferred-name},
                           element all-names 
                           {
-                              for $name in $administered-item//cgMDR:name
+                              for $name in $administered-item//openMDR:name
                               where data($name) != $preferred-name  
                               return element name {data($name)}
                           }
@@ -291,24 +291,24 @@ declare function lib-search:dataElementListSearch($term as xs:string, $start as 
                          then
                              element enumerated 
                              {
-                                 for $value in $value-domain//cgMDR:containing
-                                 where $value/cgMDR:value_item >""
-                                 order by $value/cgMDR:value_item
+                                 for $value in $value-domain//openMDR:containing
+                                 where $value/openMDR:value_item >""
+                                 order by $value/openMDR:value_item
                                  return
                                      element valid-value
                                      {
-                                         element code {data($value/cgMDR:value_item)},
-                                         element meaning {data(value-meaning:value-meaning($value/cgMDR:contained_in)//cgMDR:value_meaning_description)}
+                                         element code {data($value/openMDR:value_item)},
+                                         element meaning {data(value-meaning:value-meaning($value/openMDR:contained_in)//openMDR:value_meaning_description)}
                                      }
                               }
                           else
                           element non-enumerated
                           {
-                             element data-type {data($data-type//cgMDR:datatype_name)},
+                             element data-type {data($data-type//openMDR:datatype_name)},
                              element units 
                              {
-                                if (data($uom//cgMDR:unit_of_measure_name)>"")
-                                then (data($uom//cgMDR:unit_of_measure_name))
+                                if (data($uom//openMDR:unit_of_measure_name)>"")
+                                then (data($uom//openMDR:unit_of_measure_name))
                                 else ("(not applicable)")}
                             }
                        }
@@ -325,14 +325,14 @@ declare function local:searchCDEByClassification($phrase as xs:string, $classifi
 {
       let $admin-items :=
       for $administered-item in lib-search:mdrElementsByClassification("data_element", $classified-by)
-            [.//cgMDR:registration_status ne 'Superseded']
-            [.//cgMDR:name&=$phrase or .//cgMDR:definition_text&=$phrase]
+            [.//openMDR:registration_status ne 'Superseded']
+            [.//openMDR:name&=$phrase or .//openMDR:definition_text&=$phrase]
          let $administered-item-id := lib-util:mdrElementId($administered-item)
-         let $value-domain-id := data($administered-item//cgMDR:representing)
+         let $value-domain-id := data($administered-item//openMDR:representing)
          let $value-domain := lib-util:mdrElement("value_domain",$value-domain-id)
-         let $data-type := lib-util:mdrElement("data_type", data($value-domain//cgMDR:value_domain_datatype))
-         let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//cgMDR:value_domain_unit_of_measure))
-         let $preferred-name := $administered-item//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name
+         let $data-type := lib-util:mdrElement("data_type", data($value-domain//openMDR:value_domain_datatype))
+         let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//openMDR:value_domain_unit_of_measure))
+         let $preferred-name := $administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
          order by $preferred-name
          return
             element data-element{
@@ -340,7 +340,7 @@ declare function local:searchCDEByClassification($phrase as xs:string, $classifi
                   element id {$administered-item-id},
                   element preferred {data($preferred-name)},
                   element all-names {
-                  for $name in $administered-item//cgMDR:name
+                  for $name in $administered-item//openMDR:name
                   where data($name) != $preferred-name  
                   return element name {data($name)}
                   }},
@@ -352,14 +352,14 @@ declare function local:searchCDEByClassification($phrase as xs:string, $classifi
                   (
                       element enumerated
                       {
-                         for $value in $value-domain//cgMDR:containing
-                         where $value/cgMDR:value_item >""
-                         order by $value/cgMDR:value_item
+                         for $value in $value-domain//openMDR:containing
+                         where $value/openMDR:value_item >""
+                         order by $value/openMDR:value_item
                          return
                              element valid-value
                              {
-                                 element code {data($value/cgMDR:value_item)},
-                                 element meaning {data(value-meaning:value-meaning($value/cgMDR:contained_in)//cgMDR:value_meaning_description)}
+                                 element code {data($value/openMDR:value_item)},
+                                 element meaning {data(value-meaning:value-meaning($value/openMDR:contained_in)//openMDR:value_meaning_description)}
                              }
                       }
                       
@@ -367,11 +367,11 @@ declare function local:searchCDEByClassification($phrase as xs:string, $classifi
                   else(
                       element non-enumerated
                       {
-                     element data-type {data($data-type//cgMDR:datatype_name)},
+                     element data-type {data($data-type//openMDR:datatype_name)},
                      element units 
                      {
-                        if (data($uom//cgMDR:unit_of_measure_name)>"")
-                        then (data($uom//cgMDR:unit_of_measure_name))
+                        if (data($uom//openMDR:unit_of_measure_name)>"")
+                        then (data($uom//openMDR:unit_of_measure_name))
                         else ("(not applicable)")
                      }
                      }
@@ -390,7 +390,7 @@ declare function lib-search:dataElementListSearchByClassification($term as xs:st
 
    let $all-admin-items := 
        for $sorted in lib-util:searchWithClassification("data_element", $classified-by, $term)
-       let $preferred-name := $sorted//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name
+       let $preferred-name := $sorted//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
        order by $preferred-name 
        return 
            $sorted
@@ -402,11 +402,11 @@ declare function lib-search:dataElementListSearchByClassification($term as xs:st
            {
               for $administered-item at $record-id in $all-admin-items
                  let $administered-item-id := lib-util:mdrElementId($administered-item)
-                 let $value-domain-id := data($administered-item//cgMDR:representing)
+                 let $value-domain-id := data($administered-item//openMDR:representing)
                  let $value-domain := lib-util:mdrElement("value_domain",$value-domain-id)
-                 let $data-type := lib-util:mdrElement("data_type", data($value-domain//cgMDR:value_domain_datatype))
-                 let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//cgMDR:value_domain_unit_of_measure))
-                 let $preferred-name := data($administered-item//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name)
+                 let $data-type := lib-util:mdrElement("data_type", data($value-domain//openMDR:value_domain_datatype))
+                 let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//openMDR:value_domain_unit_of_measure))
+                 let $preferred-name := data($administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name)
              where $record-id >= $start and $record-id <= $start + $num 
              return
                    element data-element
@@ -417,7 +417,7 @@ declare function lib-search:dataElementListSearchByClassification($term as xs:st
                           element preferred {$preferred-name},
                           element all-names 
                           {
-                              for $name in $administered-item//cgMDR:name
+                              for $name in $administered-item//openMDR:name
                               where data($name) != $preferred-name  
                               return element name {data($name)}
                           }
@@ -429,24 +429,24 @@ declare function lib-search:dataElementListSearchByClassification($term as xs:st
                          then
                              element enumerated 
                              {
-                                 for $value in $value-domain//cgMDR:containing
-                                 where $value/cgMDR:value_item >""
-                                 order by $value/cgMDR:value_item
+                                 for $value in $value-domain//openMDR:containing
+                                 where $value/openMDR:value_item >""
+                                 order by $value/openMDR:value_item
                                  return
                                      element valid-value
                                      {
-                                         element code {data($value/cgMDR:value_item)},
-                                         element meaning {data(value-meaning:value-meaning($value/cgMDR:contained_in)//cgMDR:value_meaning_description)}
+                                         element code {data($value/openMDR:value_item)},
+                                         element meaning {data(value-meaning:value-meaning($value/openMDR:contained_in)//openMDR:value_meaning_description)}
                                      }
                               }
                           else
                           element non-enumerated
                           {
-                             element data-type {data($data-type//cgMDR:datatype_name)},
+                             element data-type {data($data-type//openMDR:datatype_name)},
                              element units 
                              {
-                                if (data($uom//cgMDR:unit_of_measure_name)>"")
-                                then (data($uom//cgMDR:unit_of_measure_name))
+                                if (data($uom//openMDR:unit_of_measure_name)>"")
+                                then (data($uom//openMDR:unit_of_measure_name))
                                 else ("(not applicable)")}
                             }
                        }
@@ -462,7 +462,7 @@ declare function lib-search:dataElementListSearchByClassification($term as xs:st
 :)
 declare function lib-search:mdrElementsByClassification($mdr-element-type as xs:string, $classified-by as xs:anyURI) as element()*
 {
-   collection(lib-util:getCollectionPath($mdr-element-type))/*[cgMDR:classified_by=$classified-by]
+   collection(lib-util:getCollectionPath($mdr-element-type))/*[openMDR:classified_by=$classified-by]
 };
 
 (:~
@@ -472,11 +472,11 @@ declare function lib-search:mdrElementsByClassification($mdr-element-type as xs:
 declare function lib-search:listClassificationSchemes() as node()*
 {
 (:        for $scheme in collection("/db/mdr/data/classification_scheme")/rdf:RDF/rdf:Description[rdf:type/@rdf:resource='http://www.w3.org/2004/02/skos/core#ConceptScheme']/@rdf:about:)
-        for $scheme in lib-util:mdrElements("classification_scheme")[exists(.//cgMDR:having)]
+        for $scheme in lib-util:mdrElements("classification_scheme")[exists(.//openMDR:having)]
         return
-(:            <classification_scheme uri="{$scheme//cgMDR:referenceURI/text()}">{$scheme//cgMDR:containing[cgMDR:preferred_designation='true']/cgMDR:name[1]/text()}</classification_scheme>
+(:            <classification_scheme uri="{$scheme//openMDR:referenceURI/text()}">{$scheme//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name[1]/text()}</classification_scheme>
 :)
-<classification_scheme uri="{$scheme//cgMDR:referenceURI/text()}">{lib-util:mdrElementName($scheme)}</classification_scheme>
+<classification_scheme uri="{$scheme//openMDR:referenceURI/text()}">{lib-util:mdrElementName($scheme)}</classification_scheme>
 };
 
 (:~
@@ -486,7 +486,7 @@ declare function lib-search:listClassificationSchemes() as node()*
 declare function lib-search:simpleClassificationTree($scheme as xs:string) as node()
 {
     let $concepts :=
-            <rdf:RDF xmlns:cgMDR="http://www.cancergrid.org/schema/cgMDR" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+            <rdf:RDF xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
             {
                 for $concept in collection("/db/mdr/data/classification_scheme")/rdf:RDF/*[skos:inScheme/@rdf:resource = $scheme]
                 return

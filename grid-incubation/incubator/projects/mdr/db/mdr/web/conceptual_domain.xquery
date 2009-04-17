@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     15th September 2006
  :
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          Renders a conceptual domain for viewing by the user of the metadata repository
  :
@@ -23,26 +23,26 @@ xquery version "1.0";
  :    @version 3.0
 ~ :)
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist"; 
 
 import module 
-    namespace lib-util="http://www.cancergrid.org/xquery/library/util" 
+    namespace lib-util="http://www.cagrid.org/xquery/library/util" 
     at "../library/m-lib-util.xquery";
 
 import module 
-    namespace lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+    namespace lib-rendering="http://www.cagrid.org/xquery/library/rendering"
     at "../web/m-lib-rendering.xquery"; 
     
 import module namespace 
-   administered-item="http://www.cancergrid.org/xquery/library/administered-item" 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
    at "../library/m-administered-item.xquery";
    
 import module namespace
-    lib-uri-resolution="http://www.cancergrid.org/xquery/library/resolver"
+    lib-uri-resolution="http://www.cagrid.org/xquery/library/resolver"
     at "../resolver/m-lib-uri-resolution.xquery";     
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
@@ -53,7 +53,7 @@ session:create(),
 let $compound_id := request:get-parameter("compound_id", "")
 
 for $administered_item in lib-util:mdrElement("conceptual_domain",$compound_id)
-    let $dimensionality := string($administered_item//cgMDR:dimensionality) 
+    let $dimensionality := string($administered_item//openMDR:dimensionality) 
     let $title:= concat('Conceptual Domain: ', administered-item:preferred-name($administered_item))
     return
       if (request:get-parameter("as-xml",()))
@@ -80,7 +80,7 @@ for $administered_item in lib-util:mdrElement("conceptual_domain",$compound_id)
                     </tr>
                     <tr><td class="left_header_cell">Dimensionality</td><td>{$dimensionality}</td></tr>
                     {
-                    if ($administered_item//cgMDR:Value_Meaning)
+                    if ($administered_item//openMDR:Value_Meaning)
                     then 
                     (
                     <tr>
@@ -95,11 +95,11 @@ for $administered_item in lib-util:mdrElement("conceptual_domain",$compound_id)
                           <td><div class="admin_item_table_header">reference</div></td>
                        </tr>
                        {
-                       for $value_meaning in $administered_item//cgMDR:Value_Meaning
-                       let $meaning := $value_meaning//cgMDR:value_meaning_description/text()
-                       let $begins := $value_meaning//cgMDR:value_meaning_begin_date/text()
-                       let $ends := $value_meaning//cgMDR:value_meaning_end_date/text()
-                       let $urn as xs:string? := xs:string($value_meaning//cgMDR:reference_uri/text())
+                       for $value_meaning in $administered_item//openMDR:Value_Meaning
+                       let $meaning := $value_meaning//openMDR:value_meaning_description/text()
+                       let $begins := $value_meaning//openMDR:value_meaning_begin_date/text()
+                       let $ends := $value_meaning//openMDR:value_meaning_end_date/text()
+                       let $urn as xs:string? := xs:string($value_meaning//openMDR:reference_uri/text())
                        return 
                        <tr>
                            <td>{$meaning}</td>

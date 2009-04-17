@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     12th Feb 2008
  :
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          maintains reference documents
  :
@@ -18,18 +18,18 @@ xquery version "1.0";
  :    @version 0.1
 ~ :)
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
 
 import module 
-   namespace lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   namespace lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery"; 
   
 import module namespace 
-  lib-util="http://www.cancergrid.org/xquery/library/util" 
+  lib-util="http://www.cagrid.org/xquery/library/util" 
   at "../library/m-lib-util.xquery";
 
 
@@ -47,10 +47,10 @@ return
    <reference-documents>  
       {
       for $item in lib-util:mdrElements('reference_document')
-      let $name:= $item/cgMDR:reference_document_title/text()
+      let $name:= $item/openMDR:reference_document_title/text()
       let $id := 
-          if (exists($item//cgMDR:reference_document_identifier))
-          then (substring-before($item//cgMDR:reference_document_identifier/text(),'.'))
+          if (exists($item//openMDR:reference_document_identifier))
+          then (substring-before($item//openMDR:reference_document_identifier/text(),'.'))
           else (string($item/@reference_document_identifier))
       let $anchor := <a xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" href='../web/reference_document.xquery?compound_id={$id}'>{$name}</a>
       where matches($name, $regexp, 'i')

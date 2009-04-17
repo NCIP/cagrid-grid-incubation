@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     19th January 2007
  :
- : Copyright                The cancergrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          allows a user to record their comments on a resource
  :
@@ -20,15 +20,15 @@ xquery version "1.0";
 
   
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-    lib-forms="http://www.cancergrid.org/xquery/library/forms" 
+    lib-forms="http://www.cagrid.org/xquery/library/forms" 
     at "../edit/m-lib-forms.xquery";
     
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";

@@ -1,12 +1,12 @@
 xquery version "1.0";
 
-module namespace lib-der="http://www.cancergrid.org/xquery/library/data-element-reduced";
+module namespace lib-der="http://www.cagrid.org/xquery/library/data-element-reduced";
 
 (: ~
 : Module Name         module for data element creation functions            
 : Module Version     1.0
 : Date                         6th May 2008
-: Copyright                The cancergrid consortium
+: Copyright                The cagrid consortium
 : Module overview  Support functions for data element creation
 :
 :)
@@ -17,20 +17,20 @@ module namespace lib-der="http://www.cancergrid.org/xquery/library/data-element-
 ~ :)
 
 import module namespace 
-lib-util="http://www.cancergrid.org/xquery/library/util" 
+lib-util="http://www.cagrid.org/xquery/library/util" 
 at "../library/m-lib-util.xquery";
 
 import module namespace 
-lib-forms="http://www.cancergrid.org/xquery/library/forms" 
+lib-forms="http://www.cagrid.org/xquery/library/forms" 
 at "../edit/m-lib-forms.xquery";
 
 import module namespace 
-lib-search="http://www.cancergrid.org/xquery/library/search" 
+lib-search="http://www.cagrid.org/xquery/library/search" 
 at "m-lib-search.xquery";
 
-declare namespace der-xs = "http://cancergrid.org/schema/DataElementReduced";
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179 =  "http://www.cancergrid.org/schema/ISO11179";  
+declare namespace der-xs = "http://cagrid.org/schema/DataElementReduced";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179 =  "http://www.cagrid.org/schema/ISO11179";  
 
 (: eXist module namespace :)
 declare namespace system="http://exist-db.org/xquery/system";
@@ -191,7 +191,7 @@ declare function lib-der:filled-default-values($element as element())  as elemen
                     return 
                         element der-xs:reg-auth 
                         {
-                             for $org in lib-util:mdrElements("registration_authority")[.//cgMDR:registrar_identifier = data($element/der-xs:registrar)]//@organization_identifier
+                             for $org in lib-util:mdrElements("registration_authority")[.//openMDR:registrar_identifier = data($element/der-xs:registrar)]//@organization_identifier
                              return data($org[1])
                         }
                 case element(der-xs:data-element-data-identifier) return element der-xs:data-element-data-identifier {lib-forms:generate-id()}
@@ -211,9 +211,9 @@ declare function lib-der:get-data-types() as element(der-xs:datatypes)
     <der-xs:datatypes>
     {
         for $item in lib-util:mdrElements('data_type')
-        order by $item/cgMDR:datatype_name
+        order by $item/openMDR:datatype_name
         return
-            <der-xs:datatype id="{$item/@datatype_identifier}" name="{$item/cgMDR:datatype_name}" scheme="{$item/cgMDR:datatype_scheme_reference}"/>
+            <der-xs:datatype id="{$item/@datatype_identifier}" name="{$item/openMDR:datatype_name}" scheme="{$item/openMDR:datatype_scheme_reference}"/>
     }
     </der-xs:datatypes>
 };
@@ -223,9 +223,9 @@ declare function lib-der:get-uom() as element(der-xs:unit_of_measures)
     <der-xs:unit_of_measures>
     {
         for $item in lib-util:mdrElements('unit_of_measure')
-        order by $item/cgMDR:unit_of_measure_name
+        order by $item/openMDR:unit_of_measure_name
         return
-            <der-xs:unit_of_measure id="{$item/@unit_of_measure_identifier}" name="{$item/cgMDR:unit_of_measure_name}"/>
+            <der-xs:unit_of_measure id="{$item/@unit_of_measure_identifier}" name="{$item/openMDR:unit_of_measure_name}"/>
     }
     </der-xs:unit_of_measures>
 };
@@ -234,10 +234,10 @@ declare function lib-der:get-organization-contacts() as element(der-xs:organizat
 {
     <der-xs:organization-contacts>
     {
-        for $item in lib-util:mdrElements('organization')//cgMDR:Contact
-        order by $item/cgMDR:contact_name
+        for $item in lib-util:mdrElements('organization')//openMDR:Contact
+        order by $item/openMDR:contact_name
         return
-            <der-xs:contact id="{$item/@contact_identifier}" name="{$item/cgMDR:contact_name}" title="{$item/cgMDR:contact_title}"/>
+            <der-xs:contact id="{$item/@contact_identifier}" name="{$item/openMDR:contact_name}" title="{$item/openMDR:contact_title}"/>
     }
     </der-xs:organization-contacts>
 };
@@ -246,10 +246,10 @@ declare function lib-der:get-reg-auth() as element(der-xs:reg-auth)
 {
     <der-xs:reg-auth>
     {
-        for $item in lib-util:mdrElements('registration_authority')//cgMDR:Registration_Authority
-        order by $item/cgMDR:organization_name, $item/cgMDR:represented_by/cgMDR:registrar_contact/cgMDR:contact_name 
+        for $item in lib-util:mdrElements('registration_authority')//openMDR:Registration_Authority
+        order by $item/openMDR:organization_name, $item/openMDR:represented_by/openMDR:registrar_contact/openMDR:contact_name 
         return
-            <der-xs:contact id="{$item/cgMDR:represented_by/cgMDR:registrar_identifier}" name="{$item/cgMDR:represented_by/cgMDR:registrar_contact/cgMDR:contact_name}" organization="{$item/cgMDR:organization_name}"/>
+            <der-xs:contact id="{$item/openMDR:represented_by/openMDR:registrar_identifier}" name="{$item/openMDR:represented_by/openMDR:registrar_contact/openMDR:contact_name}" organization="{$item/openMDR:organization_name}"/>
     }
     </der-xs:reg-auth>
 };

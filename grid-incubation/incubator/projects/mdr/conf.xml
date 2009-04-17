@@ -621,9 +621,9 @@
             <module class="org.exist.xquery.modules.xmldiff.XmlDiffModule" uri="http://exist-db.org/xquery/xmldiff"/>
             
             <!-- CancerGrid Modules -->
-            <module class="org.cancergrid.xquery.modules.Jena.JenaModule" uri="http://cancergrid.org/xquery/jena"/>
-            <module class="org.cancergrid.xquery.modules.lexbigws.LexBIGWSModule" uri="http://cancergrid.org/xquery/lexbig-ws"/>
-            <module class="org.cancergrid.xquery.modules.webservice.WebServiceModule" uri="http://cancergrid.org/xquery/webservice"/>
+            <module class="org.cagrid.xquery.modules.Jena.JenaModule" uri="http://cagrid.org/xquery/jena"/>
+            <module class="org.cagrid.xquery.modules.lexbigws.LexBIGWSModule" uri="http://cagrid.org/xquery/lexbig-ws"/>
+            <module class="org.cagrid.xquery.modules.webservice.WebServiceModule" uri="http://cagrid.org/xquery/webservice"/>
         </builtin-modules>
     </xquery>
 

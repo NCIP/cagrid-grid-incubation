@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cgRegression="http://www.cancergrid.org/schema/cgRegression" elementFormDefault="qualified" targetNamespace="http://www.cancergrid.org/schema/cgRegression" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cgRegression="http://www.cagrid.org/schema/cgRegression" elementFormDefault="qualified" targetNamespace="http://www.cagrid.org/schema/cgRegression" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
     <xs:element name="mdr-tests" nillable="false" abstract="false">
         <xs:complexType mixed="false">
             <xs:sequence minOccurs="1" maxOccurs="1">

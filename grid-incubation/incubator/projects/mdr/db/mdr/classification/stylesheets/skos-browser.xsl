@@ -8,7 +8,7 @@
                 <link rel="stylesheet" href="../web/treeview/treeview.css" type="text/css"/>
                 <link rel="stylesheet" href="../web/stylesheets/main.css" type="text/css"/>
                 <link rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
-                <link rel="stylesheet" href="../web/stylesheets/cancergrid-style.css" type="text/css"/>
+                <link rel="stylesheet" href="../web/stylesheets/cagrid-style.css" type="text/css"/>
                 <script src="treeview/treeview.js" type="text/javascript"/>
             </head>
             <body>

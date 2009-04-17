@@ -1,7 +1,7 @@
 xquery version "1.0";
 
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
-declare namespace ISO11179= "http://www.cancergrid.org/schema/ISO11179";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace xsl= "http://www.w3.org/1999/XSL/Transform";
 
 (:~
@@ -13,11 +13,11 @@ declare namespace xsl= "http://www.w3.org/1999/XSL/Transform";
 
 
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
 
 import module namespace 
-    rendering="http://www.cancergrid.org/xquery/library/rendering"
+    rendering="http://www.cagrid.org/xquery/library/rendering"
     at "../web/m-lib-rendering.xquery";
 
 

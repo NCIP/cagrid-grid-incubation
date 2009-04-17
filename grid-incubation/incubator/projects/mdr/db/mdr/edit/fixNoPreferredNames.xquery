@@ -1,4 +1,4 @@
-declare namespace cgMDR = "http://www.cancergrid.org/schema/cgMDR";
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -6,11 +6,11 @@ declare namespace session="http://exist-db.org/xquery/session";
 
      
 import module namespace 
-   lib-util="http://www.cancergrid.org/xquery/library/util" 
+   lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
    
 import module namespace 
-   lib-rendering="http://www.cancergrid.org/xquery/library/rendering"
+   lib-rendering="http://www.cagrid.org/xquery/library/rendering"
    at "../web/m-lib-rendering.xquery";   
    
 declare variable $title as xs:string := "Fix preferred designations";
@@ -23,14 +23,14 @@ session:create(),
    
 lib-rendering:txfrm-webpage($title,
    element div {
-      let $item as element()* := lib-util:mdrElements()[.//cgMDR:preferred_designation]
+      let $item as element()* := lib-util:mdrElements()[.//openMDR:preferred_designation]
       return 
-      if (count($item[not(.//cgMDR:preferred_designation='true')])=0)
+      if (count($item[not(.//openMDR:preferred_designation='true')])=0)
       then ('no broken names reported')
       else 
          (
-         for $errors in $item[not(.//cgMDR:preferred_designation='true')]//cgMDR:name 
-         return update value $errors//cgMDR:preferred_designation[1] with 'true',
+         for $errors in $item[not(.//openMDR:preferred_designation='true')]//openMDR:name 
+         return update value $errors//openMDR:preferred_designation[1] with 'true',
          'names fixed'
          )
       }
