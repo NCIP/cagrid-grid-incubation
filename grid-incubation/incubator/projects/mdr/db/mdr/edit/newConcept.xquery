@@ -1,7 +1,7 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new object class webpage and XQuery
+ : Module Name:             new Concept webpage and XQuery
  :
  : Module Version           2.0
  :
@@ -9,7 +9,7 @@ xquery version "1.0";
  :
  : Copyright                       The cagrid consortium
  :
- : Module overview          Creates and Object Class and displays list
+ : Module overview          Creates and Concept and displays list
  :
  :)
  
@@ -88,7 +88,7 @@ declare function local:object-class(
    
    (: compose the document :)
    let $document :=
-      element openMDR:Object_Class {
+      element openMDR:Concept {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
             attribute version {$version},
@@ -100,7 +100,7 @@ declare function local:object-class(
    return
       if ($message='stored')
       then true()
-      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newObjectClass.xquery&amp;",$message)))
+      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newConcept.xquery&amp;",$message)))
 };
 
 declare function local:input-page(
@@ -132,11 +132,11 @@ declare function local:input-page(
       <table class="layout">
           <tr>
              <td>
-                This form will allow you to create a new object class in the metadata repository
+                This form will allow you to create a new Concept in the metadata repository
              </td>
           </tr>
           <tr><td>
-          <form name="new_object_class" action="newObjectClass.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="new_concept" action="newConcept.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
                       {lib-forms:edit-admin-item($reg-auth,
                      $administrative-note,
@@ -157,7 +157,7 @@ declare function local:input-page(
                     <table class="section">
                     
                     <tr>
-                       <td class="row-header-cell" colspan="6">Object class specific properties</td>
+                       <td class="row-header-cell" colspan="6">Concept specific properties</td>
                     </tr>
                     
                     
@@ -216,9 +216,9 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div>
-         <p>Object class created</p>
+         <p>Concept created</p>
          <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newObjectClass.xquery">Create another object class</a></p>    
+         <p><a href="../xquery/newConcept.xquery">Create another Concept</a></p>    
       </div>
 };
 
@@ -227,7 +227,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    
 session:create(),
 
-   let $title as xs:string := "Creating a New Object Class"
+   let $title as xs:string := "Creating a New Concept"
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
