@@ -402,7 +402,7 @@
                 <tr>
                     <td>Document</td>
                     <td>
-                        <a href="{concat('reference_document.xquery?compound_id=', string(./@reference_document_identifier),'&amp;return_doc=true')}">download</a>
+                        <a href="{string(./openMDR:reference_document_uri)}">download</a>
                     </td>
                 </tr>
             </tbody>

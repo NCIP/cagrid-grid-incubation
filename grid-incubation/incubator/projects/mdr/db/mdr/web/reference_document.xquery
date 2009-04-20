@@ -52,7 +52,7 @@ return
       then (
               let $h1 := response:set-header("Content-Disposition", concat('attachment; filename="', $item//openMDR:file_name, '"'))
               return
-                 response:stream-binary($item//openMDR:reference_document_content, $item//openMDR:file_type)
+                 response:stream-binary($item//openMDR:reference_document_uri, $item//openMDR:file_type)
            )
       else 
          lib-rendering:txfrm-webpage(

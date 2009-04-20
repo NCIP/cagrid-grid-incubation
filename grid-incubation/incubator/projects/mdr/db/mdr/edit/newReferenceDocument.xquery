@@ -39,6 +39,7 @@ xquery version "1.0";
     lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item" 
     at "../edit/m-lib-make-admin-item.xquery";     
     
+declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace xdt = "http://xdt.gate2.net/v1.0";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
@@ -50,7 +51,7 @@ declare function local:reference-document(
    $language as xs:string?,
    $title as xs:string?,
    $description as xs:string?,
-   $uri as xs:string?,
+   $file as xs:string?,
    $provided-by as xs:string?,
    $action as xs:string?
    ) as xs:boolean
@@ -58,11 +59,20 @@ declare function local:reference-document(
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
    let $doc-name := $data-identifier
-
+   let $message := lib-forms:store-reference-document(request:get-uploaded-file('file'),request:get-uploaded-file-name('file'),'application/octet-stream') 
    let $document :=
       element openMDR:Reference_Document {
+           attribute reference_document_identifier {$data-identifier},
+           element openMDR:reference_document_language_identifier {$language},
+           element openMDR:reference_document_title {$title},
+           element openMDR:reference_document_type_description {$description},
+           element openMDR:provided_by {$provided-by},
+           element openMDR:reference_document_uri {concat('../data/reference_document/documents/',request:get-uploaded-file-name('file'))},
+           element openMDR:file_name {request:get-uploaded-file-name('file')},
+           element openMDR:file_type {'application/octet-stream'}
            }
       
+   
    let $collection := 'reference_document'
    let $message := lib-forms:store-document($document) 
    return
@@ -76,7 +86,7 @@ declare function local:input-page(
    $language as xs:string?,
    $title as xs:string?,
    $description as xs:string?,
-   $uri as xs:string?,
+   $file as xs:string?,
    $provided-by as xs:string?,
    $action as xs:string?
    ) {
@@ -97,9 +107,7 @@ declare function local:input-page(
           <tr><td>
           <form name="new_reference_document" action="newReferenceDocument.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
-
                     <table class="section">
-                    
                         <tr>
                            <td class="row-header-cell" colspan="6">Reference Document</td>
                         </tr>
@@ -109,7 +117,7 @@ declare function local:input-page(
                         </tr>
 
                         <tr>
-                          <td class="left_header_cell">URI</td><td>{lib-forms:input-element('uri', 80, $uri)}</td>
+                          <td class="left_header_cell">File</td><td><input type="FILE" name="file"/></td>
                         </tr>
 
                         <tr>
@@ -122,8 +130,7 @@ declare function local:input-page(
                         
                         <tr>
                           <td class="left_header_cell">Providing Organization</td><td>{lib-forms:input-element('provided-by', 80, $provided-by)}</td>
-                        </tr>
-                        
+                        </tr>                
 
                         <tr>
                            <td class="row-header-cell" colspan="6">Store</td>
@@ -143,7 +150,7 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div>
-         <p>Object class created</p>
+         <p>Reference Document created</p>
          <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
          <p><a href="../xquery/newReferenceDocument.xquery">Create reference document</a></p>    
       </div>
@@ -157,7 +164,7 @@ session:create(),
    let $title := request:get-parameter('title','')
    let $language := request:get-parameter('language','')
    let $description := request:get-parameter('description','')
-   let $uri := request:get-parameter('uri','')
+   let $file := request:get-parameter('file','')
    let $provided-by := request:get-parameter('provided-by','')
    let $action := request:get-parameter('update','')
    
@@ -174,7 +181,7 @@ session:create(),
                      $language,
                      $title,
                      $description,
-                     $uri,
+                     $file,
                      $provided-by,
                      $action
                   )
@@ -185,7 +192,7 @@ session:create(),
                      $language,
                      $title,
                      $description,
-                     $uri,
+                     $file,
                      $provided-by,
                      $action
                   )
@@ -197,7 +204,7 @@ session:create(),
                  $language,
                  $title,
                  $description,
-                 $uri,
+                 $file,
                  $provided-by,
                  $action
                )

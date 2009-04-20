@@ -9,6 +9,7 @@
             <xs:element name="reference_document_type_description" type="Reference_Document_Type" minOccurs="1" maxOccurs="1" nillable="false"/>
             <xs:element name="provided_by" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
             <xs:element name="reference_document_uri" type="xs:anyURI" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="file_type" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
         </xs:sequence>
         <xs:attribute name="reference_document_identifier" use="required" type="reference_document_identifier"/>
     </xs:complexType>
