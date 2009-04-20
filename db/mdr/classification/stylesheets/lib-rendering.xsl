@@ -146,9 +146,8 @@
     </xsl:template>
     <xsl:template name="page-header">
         <div>
-            <img src="../web/images/main_logo.gif" alt="cancer grid header"/>
+            <img src="../web/images/mdr.jpg" alt="cancer grid header"/>
             <br/>
-            <h2 class="title">cagrid metadata registry</h2>
             <br/>
             <table>
                 <tr>

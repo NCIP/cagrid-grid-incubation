@@ -12,7 +12,7 @@
     </head>
     <body onload="findElementInTreeview('GB-CANCERGRID-D1E849721-0.13');">
         <div>
-            <img alt="cancer grid header" src="images/james_logo_life.gif"/>
+            <img alt="cancer grid header" src="images/mdr.jpg"/>
             <h2 class="title">metadata registry</h2>
             <table>
                 <tr>
