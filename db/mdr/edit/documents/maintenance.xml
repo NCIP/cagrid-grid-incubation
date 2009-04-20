@@ -45,11 +45,11 @@
         <uri>../edit/newReferenceDocument.xquery</uri>
     </function>
     <function>
-        <title>Create a new object class</title>
-        <description>Create a new object class - a concept or concept expression - describing
+        <title>Create a new concept</title>
+        <description>Create a new concept - a concept or concept expression - describing
          an real world object whose properties can be measured by data elements
          within this metadata repository</description>
-        <uri>../edit/newObjectClass.xquery</uri>
+        <uri>../edit/newConcept.xquery</uri>
     </function>
     <function>
         <title>Create a new conceptual domain</title>

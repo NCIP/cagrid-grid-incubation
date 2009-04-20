@@ -197,6 +197,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $updating := request:get-parameter('updating','')
    let $title as xs:string := concat("Editing Property ", $id)
    let $element := lib-util:mdrElement("property",$id)
+   let $action := request:get-parameter('update','')
    
    let $ireg-auth := string($element/@item_registration_authority_identifier)
    let $iadministrative-note := string($element//openMDR:administrative_note)
@@ -212,7 +213,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $isources := $element//openMDR:definition_source_reference
    let $iproperty_uri := string($element//openMDR:reference_uri)
    let $ipreferred := fn:index-of($element//openMDR:preferred_designation,'true')
-   let $iaction := request:get-parameter('update','')
+   
 
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
@@ -228,7 +229,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $property_uri := request:get-parameter('property_uri','')
    let $preferred := request:get-parameter('preferred','')
-   let $action := request:get-parameter('update','')
    
    
    return
