@@ -353,7 +353,6 @@
         </tr>
     </xsl:template>
     <xsl:template match="openMDR:Reference_Document">
-        <xsl:variable name="uri" select="openMDR:reference_document_uri"/>
         <table class="layout">
             <thead>
                 <tr>
