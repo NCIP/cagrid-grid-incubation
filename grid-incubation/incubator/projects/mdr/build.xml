@@ -110,6 +110,7 @@
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="organization" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="property" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="reference_document" />
+		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data/reference_document" collection="documents" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="registration_authority" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="representation_class" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="unit_of_measure" />

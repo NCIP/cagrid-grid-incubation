@@ -53,10 +53,9 @@
     <xsl:template name="page-header">
         <div>
             <a href="../web/homepage.xquery">
-                <img src="../web/images/main_logo.gif" alt="cancer grid header"/>
+                <img src="../web/images/mdr.jpg" alt="cancer grid header"/>
             </a>
             <br/>
-            <h2 class="title">metadata registry</h2>
             <br/>
             <table>
                 <tr>
