@@ -9,10 +9,10 @@ edit pages for all data types
 Refactored:
 pulled entire system out of exist source code so that it could not be tied to any particular version or build system of exist and potentially later to not even exist at all.
 replaced cgMDR with openMDR everywhere to make non program specific
-fixed ability to find refering concepts correctly in many pages
+fixed ability to find referring concepts correctly in many pages
 created a global schema that includes all the schema parts that were defined for all the ISO parts.
 replaced cancergrid with cagrid to make non program specific
-removed xforms as xforms is still not standard supported in most browsers
+removed xforms as xforms support in most browsers
 added support for creating:
 	reference docs
 	conceptual domains
