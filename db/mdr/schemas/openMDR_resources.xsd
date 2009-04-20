@@ -75,6 +75,7 @@
             <xs:element name="submitted_by" type="contact_identifier" minOccurs="1" maxOccurs="1" nillable="false"/>
             <xs:element name="described_by" type="reference_document_identifier" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
             <xs:element name="classified_by" type="classification_scheme_item_identifier" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+            
             <xs:element name="having" type="Terminological_Entry" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
         </xs:sequence>
         <xs:attributeGroup ref="cgItem_Identifier"/>
