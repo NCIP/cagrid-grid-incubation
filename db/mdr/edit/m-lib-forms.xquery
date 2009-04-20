@@ -965,7 +965,7 @@ declare function lib-forms:store-reference-document($document as item(), $doc-na
    let $password := session:get-attribute("password")
    let $is-ssl :=  lib-util:checkSSL()
    
-   let $resource_location := lib-util:getCollectionPath('reference_document')
+   let $resource_location := concat(lib-util:getCollectionPath('reference_document'),'/documents')
    return
       if (xmldb:collection-exists($resource_location) = true())
       then (

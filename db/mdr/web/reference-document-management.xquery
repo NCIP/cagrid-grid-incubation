@@ -37,23 +37,19 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
 
 
 session:create(),
-let $letter := request:get-parameter("letter", "")
+let $letter := request:get-parameter("letter", ())
 let $use-stylesheet := request:get-parameter("use-stylesheet","")
 let $user := request:get-session-attribute("username")
-let $letter := request:get-parameter("letter", "")
-let $regexp := concat("^(", $letter, ").*")
+
 return
-   lib-rendering:txfrm-webpage("Reference Documents", 
+  lib-rendering:txfrm-webpage("Reference Documents",
    <reference-documents>  
       {
       for $item in lib-util:mdrElements('reference_document')
-      let $name:= $item/openMDR:reference_document_title/text()
-      let $id := 
-          if (exists($item//openMDR:reference_document_identifier))
-          then (substring-before($item//openMDR:reference_document_identifier/text(),'.'))
-          else (string($item/@reference_document_identifier))
+      let $name:= $item/openMDR:reference_document_title
+      let $id := $item/@reference_document_identifier
       let $anchor := <a xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" href='../web/reference_document.xquery?compound_id={$id}'>{$name}</a>
-      where matches($name, $regexp, 'i')
+      where starts-with(lower-case($name),$letter)
       order by $name
       return
          element reference-document {
@@ -62,4 +58,5 @@ return
                element name {$name}, $item
          }
       }
-   </reference-documents>)
+   </reference-documents>
+   )

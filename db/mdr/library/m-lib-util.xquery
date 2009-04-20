@@ -117,6 +117,11 @@ declare function lib-util:editPath() as xs:anyURI
 concat($lib-util:rootURI, "/edit/") cast as xs:anyURI
 };
 
+declare function lib-util:restServletPath() as xs:anyURI
+{
+concat($lib-util:rootURI, "/exist/rest/") cast as xs:anyURI
+};
+
 declare function lib-util:schemaPath() as xs:anyURI
 {
   concat($lib-util:rootURI, "/schemas/") cast as xs:anyURI

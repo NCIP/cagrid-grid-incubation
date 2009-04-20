@@ -42,7 +42,7 @@ let $user := request:get-session-attribute("username")
 let $letter := request:get-parameter("letter", "")
 let $regexp := concat("^(", $letter, ").*")
 return
-   lib-rendering:txfrm-webpage("Reference Documents", 
+   (:lib-rendering:txfrm-webpage("Reference Documents", :)
    <reference-documents>  
       {
       for $item in lib-util:mdrElements('reference_document')
@@ -58,4 +58,5 @@ return
                element name {$name}
          }
       }
-   </reference-documents>)
+   </reference-documents>
+   (:):)
