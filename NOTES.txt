@@ -1,6 +1,11 @@
 Not working:
 Reference documents with spaces.
 
+Still needed:
+new data element page
+new data element concept page
+edit pages for all data types
+
 Refactored:
 pulled entire system out of exist source code so that it could not be tied to any particular version or build system of exist and potentially later to not even exist at all.
 replaced cgMDR with openMDR everywhere to make non program specific
