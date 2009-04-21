@@ -22,12 +22,12 @@
 	<property name="build.dir" location="build" />
 	<property name="build.style.dest" location="${build.dir}/style/classes" />
 	<property name="build.processor.dest" location="${build.dir}/processor/classes" />
-	<property name="build.beans.dest" location="${build.dir}/beans/classes" />
 	<property name="build.jars.dir" location="build/lib" />
 
 	<!-- jar names -->
 	<property name="style.jar.name" value="${project.jar.prefix}style${project.jar.suffix}" />
 	<property name="processor.jar.name" value="${project.jar.prefix}processor${project.jar.suffix}" />
+	
 	<!-- jar files -->
 	<property name="style.jar.file" value="${build.jars.dir}/${style.jar.name}" />
 	<property name="processor.jar.file" value="${build.jars.dir}/${processor.jar.name}" />
@@ -62,22 +62,7 @@
 			<include name="**/*.jar" />
 			<exclude name="junit.jar" />
 		</fileset>
-
-		<pathelement location="${build.beans.dest}" />
 	</path>
-
-
-	<!-- sets up GT4 related variables -->
-	<target name="setGlobus" if="env.GLOBUS_LOCATION">
-		<!-- GT4 build files and directories-->
-		<property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
-		<property name="build.stubs" location="${ext.globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
-		<property name="globus.schema.src" location="${ext.globus.dir}/share/schema" />
-		<property name="build.packages" location="${ext.globus.dir}/share/globus_wsrf_common/build-packages.xml" />
-		<!-- Copied from build.stubs file, as there is no way to "append" to the value in the remote file -->
-		<property name="GT4.ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration" />
-	</target>
-
 
 	<!-- creates output directories -->
 	<target name="init" depends="defineContribTasks">
@@ -120,6 +105,7 @@
 		</javac>
 	</target>
 
+	
 	<!-- jars the style -->
 	<target name="jarStyle" depends="compileStyle" description="Builds the style jar file">
 		<jar destfile="${style.jar.file}">
@@ -173,6 +159,7 @@
 	<!-- allows style to be installed by top-level build -->
 	<target name="installIntroduceExtensions" if="introduce.dir" depends="installServiceStyle"  description="Will deploy this data service style to introduce so long as the introduce.dir property is passed in."/>
 
+	
 	<!-- removes all build output -->
 	<target name="clean">
 		<delete dir="${build.dir}" />
