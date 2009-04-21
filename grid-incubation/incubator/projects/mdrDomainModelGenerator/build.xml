@@ -218,32 +218,18 @@
     <!-- Run the Domain model Generator                                             -->
     <!-- ============================================================== -->
 	
-    <target name="run" description="Run the domain model generator" >
-      <!--  <java classname ="" jar="${jar.dir}/${project.name}-${project.version}.jar" fork="true"/> -->
-    	<echo message="XMI file to be Parsed: ${xmifile}" />
-    	<echo message="Domain model File to be generated: ${domainfile}" />
+	
+    <target name="run" description="Run the domain model generator. Input required: xmiFile domainFile projectName projectVersion" >
+	  <!--  <java classname ="" jar="${jar.dir}/${project.name}-${project.version}.jar" fork="true"/> -->
+    	<echo message="XMI file to be Parsed: ${xmiFile}" />
+    	<echo message="Domain model File to be generated: ${domainFile}" />
+    	<echo message="Project Name: ${projectName}" />
+    	<echo message="Project Version: ${projectVersion}" />   	
     	<java classname="gov.nih.nci.cagrid.domain.DomainGenerator" classpathref="run.classpath" 
     	      fork="yes" 
     	      maxmemory="512m"
     	      >
-    		 <arg line="${xmifile}" />
-    		 <arg line="${domainfile}" /> 
-    		 <arg line="${shortname}" />
-    		 <arg line="${version}" /> 
-    		    		
-    		    	
-    	 	<!--
-    	      <jvmarg value="-Djava.security.auth.login.config=classes/jaas.config"/>
-    	      <jvmarg value="-Dignore-vd=false"/>
-    	      
-    	      <arg value="${dir}"/>
-			
-    	 	  <arg value="${projectName}"/>
-    	      <arg value="${projectVersion}"/>
-    	      
-    	   -->
-  
-
+    		 <arg line="${xmiFile} ${domainFile} ${projectName} ${projectVersion}"/>
     	    </java>
     </target>
 
