@@ -36,7 +36,7 @@ import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 import gov.nih.nci.cagrid.metadata.xmi.FixXmiExecutor;
 import gov.nih.nci.cagrid.metadata.xmi.XMIParser;
 import gov.nih.nci.cagrid.metadata.xmi.XmiFileType;
-
+import gov.
 
 
 /**
@@ -55,18 +55,22 @@ public class DomainGenerator {
 		 if (args.length != 4) 
 		 {
 		        System.out.println("Usage: ant run "
-		                           + "-Dxmifile=<XMIFileName> -Ddomainfile=<DomainModelFileName>");
+		                           + "-DxmiFile=<XMIFileName> -DdomainFile=<DomainModelFileName> -DprojectName=<Project Name> -DprojectVersion=<Project Version>");
 		 }
 		 else
 		 {
 			 System.out.println("Starting the Domain Model Creation Process");
 			 String xmiEAModelFile = args[0];
 			 String domainModelFile = args[1];
-			 String shortName = args[2];
-	         String version = args[3];
-			 System.out.println(" xmiModelFile: "+xmiEAModelFile +" domainModelFile: "+domainModelFile+" shortname: "+shortName+" version: "+version);
+			 String projectName = args[2];
+	         String projectVersion = args[3];
+	         if ((xmiEAModelFile== null) || (domainModelFile==null) || (projectName==null) || (projectVersion==null))
+	         {
+	        	 System.out.println("Please specify the inputs");
+	         }
+			 System.out.println("XMI Model File: "+xmiEAModelFile +"; Domain Model File: "+domainModelFile+"; Project Name: "+projectName+"; Project Version: "+projectVersion);
 
-	         XMIParser parser = new XMIParser(shortName, version);
+	         XMIParser parser = new XMIParser(projectName, projectVersion);
 	         File xmiFile = new File(xmiEAModelFile);
 	         try {
 				 InputStream is = new BufferedInputStream(
