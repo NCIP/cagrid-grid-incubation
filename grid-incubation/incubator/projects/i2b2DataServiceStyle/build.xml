@@ -22,19 +22,23 @@
 	<property name="build.dir" location="build" />
 	<property name="build.style.dest" location="${build.dir}/style/classes" />
 	<property name="build.processor.dest" location="${build.dir}/processor/classes" />
+	<property name="build.utils.dest" location="${build.dir}/utils/classes"/>
 	<property name="build.jars.dir" location="build/lib" />
 
 	<!-- jar names -->
 	<property name="style.jar.name" value="${project.jar.prefix}style${project.jar.suffix}" />
 	<property name="processor.jar.name" value="${project.jar.prefix}processor${project.jar.suffix}" />
+	<property name="utils.jar.name" value="${project.jar.prefix}utils${project.jar.suffix}"/>
 	
 	<!-- jar files -->
 	<property name="style.jar.file" value="${build.jars.dir}/${style.jar.name}" />
 	<property name="processor.jar.file" value="${build.jars.dir}/${processor.jar.name}" />
+	<property name="utils.jar.file" value="${build.jars.dir}/${utils.jar.name}"/>
 
 	<!-- source directories -->
 	<property name="style.src.dir" location="${basedir}/src/java/style" />
 	<property name="processor.src.dir" location="${basedir}/src/java/processor" />
+	<property name="utils.src.dir" location="${basedir}/src/java/utils"/>
 
 	<!-- libraries -->
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -70,6 +74,7 @@
 		<mkdir dir="${build.jars.dir}" />
 		<mkdir dir="${build.style.dest}" />
 		<mkdir dir="${build.processor.dest}" />
+		<mkdir dir="${build.utils.dest}"/>
 	</target>
 
 
@@ -86,11 +91,12 @@
 
 
 	<!-- compiles the style source code -->
-	<target name="compileStyle" depends="init, compileProcessor">
+	<target name="compileStyle" depends="init, compileProcessor, compileUtils">
 		<javac srcdir="${style.src.dir}" destdir="${build.style.dest}" debug="${java.debug}" source="${java.source}">
 			<classpath refid="build.classpath" />
 			<classpath>
 				<pathelement location="${build.processor.dest}" />
+				<pathelement location="${build.utils.dest}"/>
 			</classpath>
 			<include name="**/*.java" />
 		</javac>
@@ -98,10 +104,22 @@
 
 
 	<!-- compiles the query processor source code -->
-	<target name="compileProcessor" depends="init">
+	<target name="compileProcessor" depends="init, compileUtils">
 		<javac srcdir="${processor.src.dir}" destdir="${build.processor.dest}" debug="${java.debug}" source="${java.source}">
 			<classpath refid="build.classpath" />
+			<classpath>
+				<pathelement location="${build.utils.dest}"/>
+			</classpath>
 			<include name="**/*.java" />
+		</javac>
+	</target>
+	
+	
+	<!-- compiles the utils source code -->
+	<target name="compileUtils" depends="init">
+		<javac srcdir="${utils.src.dir}" destdir="${build.utils.dest}" debug="${java.debug}" source="${java.source}">
+			<classpath refid="build.classpath"/>
+			<include name="**/*.java"/>
 		</javac>
 	</target>
 
@@ -127,6 +145,19 @@
 			</fileset>
 			<fileset dir="${processor.src.dir}">
 				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!-- jars the utils -->
+	<target name="jarUtils" depends="compileUtils" description="Builds the utils jar file">
+		<jar destfile="${utils.jar.file}">
+			<fileset dir="${build.utils.dest}">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${utils.src.dir}">
+				<include name="**/*"/>
 			</fileset>
 		</jar>
 	</target>
@@ -167,5 +198,5 @@
 
 
 	<!-- build and jar everything -->
-	<target name="all" depends="jarProcessor, jarStyle" description="Builds and jars all the classes in the project" />
+	<target name="all" depends="jarProcessor, jarStyle, jarUtils" description="Builds and jars all the classes in the project" />
 </project>
