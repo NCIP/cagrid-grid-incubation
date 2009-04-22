@@ -1,42 +1,18 @@
 package gov.nih.nci.cagrid.domain;
-/**
- * DomainGenerator
- *
- * @author dhav01
- *
- * @created Apr 2, 2009 10:31:06 AM
- * 
- */
-
-import gov.nih.nci.cagrid.common.Utils;
-import java.io.*;
-import java.io.File;
-import java.io.FileInputStream;
-
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-
-import org.cagrid.mdrq.client.MDRQueryClient;
-import org.cancergrid.schema.query.Query;
-import org.cancergrid.schema.result_set.ConceptCollection;
-import org.cancergrid.schema.result_set.ConceptRef;
-import org.cancergrid.schema.result_set.DataElement;
-import org.cancergrid.schema.result_set.ResultSet;
 
 
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
-import gov.nih.nci.cagrid.metadata.xmi.FixXmiExecutor;
 import gov.nih.nci.cagrid.metadata.xmi.XMIParser;
 import gov.nih.nci.cagrid.metadata.xmi.XmiFileType;
-import gov.
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
