@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/java/processor"/>
 	<classpathentry kind="src" path="src/java/style"/>
+	<classpathentry kind="src" path="src/java/utils"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/antlr-2.7.6rc1.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/caGrid-BulkDataHandler-client-1.3.jar"/>
