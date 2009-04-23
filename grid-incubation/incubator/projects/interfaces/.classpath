@@ -95,7 +95,6 @@
 	<classpathentry kind="lib" path="lib/qdox-1.7-20070527.154641-2.jar"/>
 	<classpathentry kind="lib" path="lib/spring.jar"/>
 	<classpathentry kind="var" path="ANT_HOME/lib/ant.jar"/>
-	<classpathentry kind="var" path="ANT_HOME/lib/ant-contrib.jar"/>
 	<classpathentry kind="var" path="ANT_HOME/lib/ant-launcher.jar"/>
 	<classpathentry kind="var" path="ANT_HOME/lib/ant-nodeps.jar"/>
 	<classpathentry kind="output" path="bin"/>
