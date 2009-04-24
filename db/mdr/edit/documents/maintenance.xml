@@ -52,6 +52,11 @@
         <uri>../edit/newConcept.xquery</uri>
     </function>
     <function>
+        <title>Create a new concept relationship</title>
+        <description>Create a new concept relationship - a concept relationship joins 2 or more concepts together by some relationship</description>
+        <uri>../edit/newConceptRelationship.xquery</uri>
+    </function>
+    <function>
         <title>Create a new conceptual domain</title>
         <description>Create a new conceptual domain and add/edit value domains.</description>
         <uri>../edit/newConceptualDomain.xquery</uri>

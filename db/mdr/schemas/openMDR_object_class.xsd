@@ -29,6 +29,7 @@
             <xs:extension base="Object_Class">
                 <xs:sequence minOccurs="1" maxOccurs="1">
                     <xs:element name="concept_relationship_type_description" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+                	<xs:element name="used_in" type="administered_item_identifier" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
