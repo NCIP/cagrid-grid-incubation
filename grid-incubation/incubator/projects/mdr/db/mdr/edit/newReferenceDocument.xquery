@@ -119,13 +119,13 @@ declare function local:input-page(
                         <tr>
                           <td class="left_header_cell">File</td><td><input type="FILE" name="file"/></td>
                         </tr>
-
-                        <tr>
-                          <td class="left_header_cell">Description</td><td>{lib-forms:text-area-element('description', 5, 80, $description)}</td>
-                        </tr>
                         
                         <tr>
                           <td class="left_header_cell">Language</td><td>{lib-forms:select-from-simpleType-enum('Language_Identifier','language', false(), $language)}</td>
+                        </tr>
+
+                        <tr>
+                          <td class="left_header_cell">Document Type</td><td>{lib-forms:select-from-simpleType-enum('Reference_Document_Type','description', true(), $description)}</td>
                         </tr>
                         
                         <tr>
