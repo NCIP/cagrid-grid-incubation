@@ -1,0 +1,1174 @@
+<ns1:DomainModel projectShortName="aim" projectVersion="1.0" xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice">
+ <ns1:exposedUMLAssociationCollection>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="multiPoint">
+     <ns1:UMLClassReference refid="EAID_043672C5_BEFE_4eec_AE77_F55AB9EB7BEA"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="textAnnotation">
+     <ns1:UMLClassReference refid="EAID_85ACCE82_5F8C_469e_8FE3_9C5727BE840C"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="referencedCalculationCollection">
+     <ns1:UMLClassReference refid="EAID_095C9220_FE6A_407b_8B5C_BBB09B745B4E"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="calculation">
+     <ns1:UMLClassReference refid="EAID_BF034EA0_8575_44d8_B728_B3F32AF3230E"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="1" roleName="spatialCoordinateCollection">
+     <ns1:UMLClassReference refid="EAID_0A6E6675_E9CB_4dfa_A958_E1E2A26F87E8"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="geometricShape">
+     <ns1:UMLClassReference refid="EAID_9043DE11_BDBC_4fbe_BD3F_70CB139DBB1F"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="1" roleName="referencedAnnotationCollection">
+     <ns1:UMLClassReference refid="EAID_1183129E_CA8C_475e_B7E8_090971C63105"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="annotationOfAnnotation">
+     <ns1:UMLClassReference refid="EAID_75D1384A_FEAA_4036_B2A3_BD46900AFC82"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="anatomicEntityCollection">
+     <ns1:UMLClassReference refid="EAID_1E13936F_3D81_4f23_A859_310414F4DD9C"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="annotation">
+     <ns1:UMLClassReference refid="EAID_16B853FA_D557_4e7b_8979_965CE1BBE80D"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="equipment">
+     <ns1:UMLClassReference refid="EAID_D5A4AF88_456A_4b5b_819D_526C9E1D0419"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="annotation">
+     <ns1:UMLClassReference refid="EAID_16B853FA_D557_4e7b_8979_965CE1BBE80D"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="imagingObservationCollection">
+     <ns1:UMLClassReference refid="EAID_C5F1BA93_058F_4ba1_A246_05C0497BA316"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="annotation">
+     <ns1:UMLClassReference refid="EAID_16B853FA_D557_4e7b_8979_965CE1BBE80D"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="calculationCollection">
+     <ns1:UMLClassReference refid="EAID_BF034EA0_8575_44d8_B728_B3F32AF3230E"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="annotation">
+     <ns1:UMLClassReference refid="EAID_16B853FA_D557_4e7b_8979_965CE1BBE80D"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="user">
+     <ns1:UMLClassReference refid="EAID_CB1EF085_DAB6_4772_99DC_7FEA5F369F45"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="annotation">
+     <ns1:UMLClassReference refid="EAID_16B853FA_D557_4e7b_8979_965CE1BBE80D"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="1" roleName="coordinateCollection">
+     <ns1:UMLClassReference refid="EAID_30F97B08_3F7D_4d37_929B_941D548BC964"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="data">
+     <ns1:UMLClassReference refid="EAID_19711D66_4DDA_40e7_968A_DEC634114159"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="dataCollection">
+     <ns1:UMLClassReference refid="EAID_19711D66_4DDA_40e7_968A_DEC634114159"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="calculationResult">
+     <ns1:UMLClassReference refid="EAID_DCD069C2_8D38_40e2_A9D9_F04798C9827B"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="relatedAnatomicEntity">
+     <ns1:UMLClassReference refid="EAID_1E13936F_3D81_4f23_A859_310414F4DD9C"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="relationship">
+     <ns1:UMLClassReference refid="EAID_1E13936F_3D81_4f23_A859_310414F4DD9C"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="imageViewModifierCollection">
+     <ns1:UMLClassReference refid="EAID_744C9E48_02E3_4047_93E9_A044D9B772AC"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imageView">
+     <ns1:UMLClassReference refid="EAID_26DBFDCD_65D6_427e_A376_02A91AA6CC0E"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="codeSequence">
+     <ns1:UMLClassReference refid="EAID_4483A30F_73D4_4d9a_9701_79202290C4DB"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imageView">
+     <ns1:UMLClassReference refid="EAID_26DBFDCD_65D6_427e_A376_02A91AA6CC0E"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="imageView">
+     <ns1:UMLClassReference refid="EAID_26DBFDCD_65D6_427e_A376_02A91AA6CC0E"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="image">
+     <ns1:UMLClassReference refid="EAID_7353E8ED_FD2C_4110_8CD7_9FFF67F1B127"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="1" roleName="imageReferenceCollection">
+     <ns1:UMLClassReference refid="EAID_442ECE73_E7E5_4804_9FA0_0F2370BF3953"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imageAnnotation">
+     <ns1:UMLClassReference refid="EAID_F4F39973_3B02_4c7d_80BE_3358177AED27"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="codeSequence">
+     <ns1:UMLClassReference refid="EAID_4483A30F_73D4_4d9a_9701_79202290C4DB"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imageViewModifier">
+     <ns1:UMLClassReference refid="EAID_744C9E48_02E3_4047_93E9_A044D9B772AC"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="study">
+     <ns1:UMLClassReference refid="EAID_E8F45577_B8B3_4605_9B05_162F3A863137"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="dicomImageReference">
+     <ns1:UMLClassReference refid="EAID_459C1915_5441_4296_BF9A_F1C01417CC6E"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="1" roleName="dimensionCollection">
+     <ns1:UMLClassReference refid="EAID_732DCE92_8647_45e3_9B87_6C17B59FF825"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="calculationResult">
+     <ns1:UMLClassReference refid="EAID_DCD069C2_8D38_40e2_A9D9_F04798C9827B"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="1" roleName="imageCollection">
+     <ns1:UMLClassReference refid="EAID_7353E8ED_FD2C_4110_8CD7_9FFF67F1B127"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="series">
+     <ns1:UMLClassReference refid="EAID_CFA46474_E4B1_443c_8838_80E4E1CA9833"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="textAnnotationCollection">
+     <ns1:UMLClassReference refid="EAID_85ACCE82_5F8C_469e_8FE3_9C5727BE840C"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imageAnnotation">
+     <ns1:UMLClassReference refid="EAID_F4F39973_3B02_4c7d_80BE_3358177AED27"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="geometricShapeCollection">
+     <ns1:UMLClassReference refid="EAID_9043DE11_BDBC_4fbe_BD3F_70CB139DBB1F"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imageAnnotation">
+     <ns1:UMLClassReference refid="EAID_F4F39973_3B02_4c7d_80BE_3358177AED27"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imagingObservation">
+     <ns1:UMLClassReference refid="EAID_C5F1BA93_058F_4ba1_A246_05C0497BA316"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="probabilityMap">
+     <ns1:UMLClassReference refid="EAID_9D5FA738_A4B8_4104_8FF7_0212EB1F02B6"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="probabilityMapCollection">
+     <ns1:UMLClassReference refid="EAID_9D5FA738_A4B8_4104_8FF7_0212EB1F02B6"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imageAnnotation">
+     <ns1:UMLClassReference refid="EAID_F4F39973_3B02_4c7d_80BE_3358177AED27"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="calculationResultCollection">
+     <ns1:UMLClassReference refid="EAID_DCD069C2_8D38_40e2_A9D9_F04798C9827B"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="calculation">
+     <ns1:UMLClassReference refid="EAID_BF034EA0_8575_44d8_B728_B3F32AF3230E"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="relatedImagingObservation">
+     <ns1:UMLClassReference refid="EAID_C5F1BA93_058F_4ba1_A246_05C0497BA316"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="relationship">
+     <ns1:UMLClassReference refid="EAID_C5F1BA93_058F_4ba1_A246_05C0497BA316"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="imagingObservationCharacteristicCollection">
+     <ns1:UMLClassReference refid="EAID_D58FB153_B0F9_4448_95B2_9F8D668E8720"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imagingObservation">
+     <ns1:UMLClassReference refid="EAID_C5F1BA93_058F_4ba1_A246_05C0497BA316"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="series">
+     <ns1:UMLClassReference refid="EAID_CFA46474_E4B1_443c_8838_80E4E1CA9833"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="study">
+     <ns1:UMLClassReference refid="EAID_E8F45577_B8B3_4605_9B05_162F3A863137"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="false">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="relatedImagingObservationCharacteristic">
+     <ns1:UMLClassReference refid="EAID_D58FB153_B0F9_4448_95B2_9F8D668E8720"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="relationship">
+     <ns1:UMLClassReference refid="EAID_D58FB153_B0F9_4448_95B2_9F8D668E8720"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="patient">
+     <ns1:UMLClassReference refid="EAID_E8BA40EE_C0B1_4306_AA16_1CB185980582"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="imageAnnotation">
+     <ns1:UMLClassReference refid="EAID_F4F39973_3B02_4c7d_80BE_3358177AED27"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+ </ns1:exposedUMLAssociationCollection>
+ <ns1:exposedUMLClassCollection>
+  <ns1:UMLClass allowableAsTarget="true" className="MultiPoint" id="EAID_043672C5_BEFE_4eec_AE77_F55AB9EB7BEA" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns2:umlAttributeCollection xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns2:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-509333015" version="1.0">
+     <ns2:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns2:UMLAttribute>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" description="Color of the line to be used for markup of the geometric shape, RGB values from 0,0,0 to 255,255,255." name="lineColor" publicID="705203154" version="1.0">
+     <ns2:SemanticMetadata conceptCode="C37927" conceptDefinition="The appearance of objects (or light sources) described in terms of a person's perception of their hue and lightness (or brightness) and saturation." conceptName="Color" order="0"/>
+     <ns2:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns2:UMLAttribute>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" description="Opacity of the line to be used for markup of the geometric shape." name="lineOpacity" publicID="-1858269044" version="1.0">
+     <ns2:SemanticMetadata conceptCode="C71596" conceptDefinition="The quality of being opaque to a degree; the degree to which something reduces the passage of light." conceptName="Opacity" order="0"/>
+     <ns2:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns2:UMLAttribute>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" description="Style of the line to be used for markup of the geometric shape." name="lineStyle" publicID="-641907888" version="1.0">
+     <ns2:SemanticMetadata conceptCode="C71598" conceptDefinition="A particular kind (as to appearance)." conceptName="Style" order="0"/>
+     <ns2:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns2:UMLAttribute>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" description="Thickness of the line to be used for markup of the greometric shape." name="lineThickness" publicID="756299726" version="1.0">
+     <ns2:SemanticMetadata conceptCode="C41145" conceptDefinition="The dimension between two surfaces of an object, usually the smallest dimension as opposed to the width or the length: also, viscous consistency." conceptName="Thickness" order="0"/>
+     <ns2:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns2:UMLAttribute>
+    <ns2:UMLAttribute description="A boolean flag that determines if the particular shape in question is donut or hole." name="includeFlag" publicID="-1714543224" version="1.0">
+     <ns2:SemanticMetadata conceptCode="C43578" conceptDefinition="An indicator that can be set or unset in order to signal whether a particular condition is true." conceptName="Flag" order="0"/>
+     <ns2:SemanticMetadata conceptCode="C61458" conceptDefinition="Doughnut-shaped object or surface generated by rotating a circle around an axis that does not intersect the circle; any object that resembles a ring." conceptName="Ring" order="1"/>
+    </ns2:UMLAttribute>
+    <ns2:UMLAttribute dataTypeName="java.lang.Integer" description="A unique integer number that is assigned to a graphical shape in annotations which have more than one shape within an AIM object." name="shapeIdentifier" publicID="2107245010" version="1.0">
+     <ns2:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns2:SemanticMetadata conceptCode="C25677" conceptDefinition="The spatial arrangement of something as distinct from its substance." conceptName="Shape" order="1"/>
+    </ns2:UMLAttribute>
+   </ns2:umlAttributeCollection>
+   <ns3:SemanticMetadata conceptCode="C48046" conceptDefinition="A set of two similar things considered as a unit." conceptName="Pair" order="0" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns4:SemanticMetadata conceptCode="C70656" conceptDefinition="The precise location of something; a spatially limited location." conceptName="Point" order="1" xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns5:SemanticMetadata conceptCode="C17648" conceptDefinition="Having, relating to, or consisting of more than one individual, element, part, or other component; manifold. (dictionary.com)" conceptName="Multiple" order="2" xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ReferencedCalculation" id="EAID_095C9220_FE6A_407b_8B5C_BBB09B745B4E" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns6:umlAttributeCollection xmlns:ns6="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns6:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1809053904" version="1.0">
+     <ns6:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns6:UMLAttribute>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" description="Referenced calculation UID." name="uniqueIdentifier" publicID="264702945" version="1.0">
+     <ns6:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns6:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+    </ns6:UMLAttribute>
+   </ns6:umlAttributeCollection>
+   <ns7:SemanticMetadata conceptCode="C54125" conceptDefinition="The procedure or activity of determining something by mathematical or logical methods." conceptName="Calculation" order="0" xmlns:ns7="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns8:SemanticMetadata conceptCode="C48294" conceptDefinition="Something referred to; the object of a reference." conceptName="Reference Object" order="1" xmlns:ns8="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="SpatialCoordinate" id="EAID_0A6E6675_E9CB_4dfa_A958_E1E2A26F87E8" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns9:umlAttributeCollection xmlns:ns9="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns9:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="1453070224" version="1.0">
+     <ns9:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns9:UMLAttribute>
+    <ns9:UMLAttribute dataTypeName="java.lang.Integer" description="The order in which a coordinate appears." name="coordinateIndex" publicID="1571519979" version="1.0">
+     <ns9:SemanticMetadata conceptCode="C42680" conceptDefinition="A logical or comprehensible arrangement of separate elements; a condition of regular or proper arrangement." conceptName="Order" order="0"/>
+     <ns9:SemanticMetadata conceptCode="C44465" conceptDefinition="A number or other designation that identifies a position relative to an axis or grid." conceptName="Coordinate" order="1"/>
+    </ns9:UMLAttribute>
+   </ns9:umlAttributeCollection>
+   <ns10:SemanticMetadata conceptCode="C44465" conceptDefinition="A number or other designation that identifies a position relative to an axis or grid." conceptName="Coordinate" order="0" xmlns:ns10="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns11:SemanticMetadata conceptCode="C41129" conceptDefinition="An area or portion of something with more or less definite boundaries designed or specified according to some established biological, administrative, economic, demographic, etc. criteria." conceptName="Region" order="1" xmlns:ns11="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ReferencedAnnotation" id="EAID_1183129E_CA8C_475e_B7E8_090971C63105" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns12:umlAttributeCollection xmlns:ns12="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns12:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="2107693101" version="1.0">
+     <ns12:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns12:UMLAttribute>
+    <ns12:UMLAttribute dataTypeName="java.lang.String" description="Referenced annotation UID." name="referencedAnnotationUID" publicID="1441191984" version="1.0">
+     <ns12:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns12:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+     <ns12:SemanticMetadata conceptCode="C44272" conceptDefinition="An explanatory or critical comment that has been added to a text." conceptName="Annotation" order="2"/>
+     <ns12:SemanticMetadata conceptCode="C48294" conceptDefinition="Something referred to; the object of a reference." conceptName="Reference Object" order="3"/>
+    </ns12:UMLAttribute>
+   </ns12:umlAttributeCollection>
+   <ns13:SemanticMetadata conceptCode="C44272" conceptDefinition="An explanatory or critical comment that has been added to a text." conceptName="Annotation" order="0" xmlns:ns13="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns14:SemanticMetadata conceptCode="C48294" conceptDefinition="Something referred to; the object of a reference." conceptName="Reference Object" order="1" xmlns:ns14="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Annotation" id="EAID_16B853FA_D557_4e7b_8979_965CE1BBE80D" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns15:umlAttributeCollection xmlns:ns15="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns15:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1737843967" version="1.0">
+     <ns15:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns15:UMLAttribute>
+    <ns15:UMLAttribute description="The version of the AIM model used by this annotation." name="aimVersion" publicID="2143023229" version="1.0">
+     <ns15:SemanticMetadata conceptCode="C25714" conceptDefinition="A form or variant of a type or original; one of a sequence of copies of a program, each incorporating new modifications." conceptName="Version" order="0"/>
+     <ns15:SemanticMetadata conceptCode="C16866" conceptDefinition="A representation of something, often idealized or modified to make it conceptually easier to understand." conceptName="Model System" order="1"/>
+    </ns15:UMLAttribute>
+    <ns15:UMLAttribute dataTypeName="java.lang.String" description="Free text about the annotation not intended for rendering on the image." name="comment" publicID="-2127809350" version="1.0">
+     <ns15:SemanticMetadata conceptCode="C25393" conceptDefinition="A written explanation, observation or criticism added to textual material." conceptName="Comment" order="0"/>
+    </ns15:UMLAttribute>
+    <ns15:UMLAttribute dataTypeName="java.util.Date" description="Date and time when the Annotation is created." name="dateTime" publicID="1230409913" version="1.0">
+     <ns15:SemanticMetadata conceptCode="C37939" conceptDefinition="An expression of both date and time that an event has happened or will happen." conceptName="Date and Time" order="0"/>
+    </ns15:UMLAttribute>
+    <ns15:UMLAttribute dataTypeName="java.lang.String" description="A human readable name for the annotation, for example, &quot;Lymph node 42&quot;, or &quot;target one&quot;." name="name" publicID="1149840160" version="1.0">
+     <ns15:SemanticMetadata conceptCode="C42614" conceptDefinition="The words or language units by which a thing is known." conceptName="Name" order="0"/>
+    </ns15:UMLAttribute>
+    <ns15:UMLAttribute dataTypeName="java.lang.String" description="A Digital Imaging and Communication in Medicine (DICOM) (style) unique identifier for this particular instance of an annotation. Used to reference a specific annotation." name="uniqueIdentifier" publicID="244594503" version="1.0">
+     <ns15:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns15:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+    </ns15:UMLAttribute>
+   </ns15:umlAttributeCollection>
+   <ns16:SemanticMetadata conceptCode="C44272" conceptDefinition="An explanatory or critical comment that has been added to a text." conceptName="Annotation" order="0" xmlns:ns16="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Data" id="EAID_19711D66_4DDA_40e7_968A_DEC634114159" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns17:umlAttributeCollection xmlns:ns17="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns17:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1875981682" version="1.0">
+     <ns17:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns17:UMLAttribute>
+    <ns17:UMLAttribute dataTypeName="java.lang.Double" description="The data of the result." name="value" publicID="540932300" version="1.0">
+     <ns17:SemanticMetadata conceptCode="C49100" conceptDefinition="The information contained in a data field.  It may represent a numeric quantity, a textual characterization, a date or time measurement, or some other state, depending on the nature of the attribute." conceptName="Value" order="0"/>
+    </ns17:UMLAttribute>
+   </ns17:umlAttributeCollection>
+   <ns18:SemanticMetadata conceptCode="C25474" conceptDefinition="A collection or single item of factual information, derived from measurement or research, from which conclusions may be drawn." conceptName="Data" order="0" xmlns:ns18="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="AnatomicEntity" id="EAID_1E13936F_3D81_4f23_A859_310414F4DD9C" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns19:umlAttributeCollection xmlns:ns19="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns19:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-684275253" version="1.0">
+     <ns19:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns19:UMLAttribute>
+    <ns19:UMLAttribute dataTypeName="java.lang.String" description="The human understandable meaning of the coded value." name="codeMeaning" publicID="2051115195" version="1.0">
+     <ns19:SemanticMetadata conceptCode="C25365" conceptDefinition="A written or verbal account, representation, statement, or explanation of something." conceptName="Description" order="0"/>
+     <ns19:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1"/>
+    </ns19:UMLAttribute>
+    <ns19:UMLAttribute dataTypeName="java.lang.String" description="The designator of the vocabulary from which the term was selected." name="codingSchemeDesignator" publicID="-2120289497" version="1.0">
+     <ns19:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns19:SemanticMetadata conceptCode="C25665" conceptDefinition="An elaborate and systematic plan of action." conceptName="Scheme" order="1"/>
+     <ns19:SemanticMetadata conceptCode="C45971" conceptDefinition="The activity of implementing rules that are used to map the elements of one set onto the elements of another set, usually on a one-to-one basis." conceptName="Coding" order="2"/>
+    </ns19:UMLAttribute>
+    <ns19:UMLAttribute dataTypeName="java.lang.String" description="It is an identifier that is unambiguous within the Coding Scheme denoted by Coding Scheme Designator. The code value here depicts anatomical location that can come from, for example, RadLex." name="codeValue" publicID="40202545" version="1.0">
+     <ns19:SemanticMetadata conceptCode="C49100" conceptDefinition="The information contained in a data field.  It may represent a numeric quantity, a textual characterization, a date or time measurement, or some other state, depending on the nature of the attribute." conceptName="Value" order="0"/>
+     <ns19:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1"/>
+    </ns19:UMLAttribute>
+   </ns19:umlAttributeCollection>
+   <ns20:SemanticMetadata conceptCode="C13717" conceptDefinition="Named locations of or within the body." conceptName="Anatomic Site" order="0" xmlns:ns20="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ImageView" id="EAID_26DBFDCD_65D6_427e_A376_02A91AA6CC0E" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns21:umlAttributeCollection xmlns:ns21="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns21:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1802461227" version="1.0">
+     <ns21:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns21:UMLAttribute>
+   </ns21:umlAttributeCollection>
+   <ns22:SemanticMetadata conceptCode="C69203" conceptDefinition="The projection of the anatomic region of interest on an image receptor." conceptName="Image View" order="0" xmlns:ns22="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Coordinate" id="EAID_30F97B08_3F7D_4d37_929B_941D548BC964" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns23:umlAttributeCollection xmlns:ns23="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns23:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1359634729" version="1.0">
+     <ns23:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns23:UMLAttribute>
+    <ns23:UMLAttribute dataTypeName="java.lang.Integer" description="Which dimension the data belongs to." name="dimensionIndex" publicID="-627877506" version="1.0">
+     <ns23:SemanticMetadata conceptCode="C25390" conceptDefinition="A numerical scale used to compare variables with one another or with some reference number; a number used to select an element of a list, vector, array or other sequence." conceptName="Index" order="0"/>
+     <ns23:SemanticMetadata conceptCode="C25483" conceptDefinition="The magnitude of something in a particular direction, especially length or width or height." conceptName="Dimension" order="1"/>
+    </ns23:UMLAttribute>
+    <ns23:UMLAttribute dataTypeName="java.lang.Integer" description="Position within the dimension." name="position" publicID="-860303511" version="1.0">
+     <ns23:SemanticMetadata conceptCode="C25339" conceptDefinition="The particular portion of space occupied by a physical object." conceptName="Position" order="0"/>
+    </ns23:UMLAttribute>
+   </ns23:umlAttributeCollection>
+   <ns24:SemanticMetadata conceptCode="C44465" conceptDefinition="A number or other designation that identifies a position relative to an axis or grid." conceptName="Coordinate" order="0" xmlns:ns24="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ImageReference" id="EAID_442ECE73_E7E5_4804_9FA0_0F2370BF3953" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns25:umlAttributeCollection xmlns:ns25="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns25:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1759803877" version="1.0">
+     <ns25:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns25:UMLAttribute>
+   </ns25:umlAttributeCollection>
+   <ns26:SemanticMetadata conceptCode="C48294" conceptDefinition="Something referred to; the object of a reference." conceptName="Reference Object" order="0" xmlns:ns26="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns27:SemanticMetadata conceptCode="C19477" conceptDefinition="Any record of a medical imaging event whether physical or electronic." conceptName="Medical Image" order="1" xmlns:ns27="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="CodeSequence" id="EAID_4483A30F_73D4_4d9a_9701_79202290C4DB" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns28:umlAttributeCollection xmlns:ns28="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns28:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-671963158" version="1.0">
+     <ns28:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns28:UMLAttribute>
+    <ns28:UMLAttribute dataTypeName="java.lang.String" description="The human understandable meaning of the coded value." name="codeMeaning" publicID="862396262" version="1.0">
+     <ns28:SemanticMetadata conceptCode="C25365" conceptDefinition="A written or verbal account, representation, statement, or explanation of something." conceptName="Description" order="0"/>
+     <ns28:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1"/>
+    </ns28:UMLAttribute>
+    <ns28:UMLAttribute dataTypeName="java.lang.String" description="It is an identifier that is unambiguous within the Coding Scheme denoted by Coding Scheme Designator. " name="codeValue" publicID="-379317096" version="1.0">
+     <ns28:SemanticMetadata conceptCode="C49100" conceptDefinition="The information contained in a data field.  It may represent a numeric quantity, a textual characterization, a date or time measurement, or some other state, depending on the nature of the attribute." conceptName="Value" order="0"/>
+     <ns28:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1"/>
+    </ns28:UMLAttribute>
+    <ns28:UMLAttribute dataTypeName="java.lang.String" description="The designator of the vocabulary from which the term was selected." name="codingSchemeDesignator" publicID="-1446604022" version="1.0">
+     <ns28:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns28:SemanticMetadata conceptCode="C25665" conceptDefinition="An elaborate and systematic plan of action." conceptName="Scheme" order="1"/>
+     <ns28:SemanticMetadata conceptCode="C45971" conceptDefinition="The activity of implementing rules that are used to map the elements of one set onto the elements of another set, usually on a one-to-one basis." conceptName="Coding" order="2"/>
+    </ns28:UMLAttribute>
+    <ns28:UMLAttribute dataTypeName="java.lang.String" description="It is used to identify the version of a coding scheme if necessary to resolve ambiguity in the Code Value (0008,0100) or Code Meaning (0008,0104)." name="codingSchemeVersion" publicID="-751944191" version="1.0">
+     <ns28:SemanticMetadata conceptCode="C25714" conceptDefinition="A form or variant of a type or original; one of a sequence of copies of a program, each incorporating new modifications." conceptName="Version" order="0"/>
+     <ns28:SemanticMetadata conceptCode="C25665" conceptDefinition="An elaborate and systematic plan of action." conceptName="Scheme" order="1"/>
+     <ns28:SemanticMetadata conceptCode="C45971" conceptDefinition="The activity of implementing rules that are used to map the elements of one set onto the elements of another set, usually on a one-to-one basis." conceptName="Coding" order="2"/>
+    </ns28:UMLAttribute>
+   </ns28:umlAttributeCollection>
+   <ns29:SemanticMetadata conceptCode="C25673" conceptDefinition="A serial arrangement in which things follow in logical order or a recurrent pattern." conceptName="Sequence" order="0" xmlns:ns29="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns30:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1" xmlns:ns30="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="DICOMImageReference" id="EAID_459C1915_5441_4296_BF9A_F1C01417CC6E" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns31:umlAttributeCollection xmlns:ns31="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns31:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1759803877" version="1.0">
+     <ns31:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns31:UMLAttribute>
+   </ns31:umlAttributeCollection>
+   <ns32:SemanticMetadata conceptCode="C48294" conceptDefinition="Something referred to; the object of a reference." conceptName="Reference Object" order="0" xmlns:ns32="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns33:SemanticMetadata conceptCode="C19477" conceptDefinition="Any record of a medical imaging event whether physical or electronic." conceptName="Medical Image" order="1" xmlns:ns33="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns34:SemanticMetadata conceptCode="C49059" conceptDefinition="A comprehensive set of standards for communications between medical imaging devices, including handling, storing and transmitting information in medical imaging. It includes a file format definition and a network communication protocol." conceptName="DICOM" order="2" xmlns:ns34="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="WebImageReference" id="EAID_593D402D_5504_46b6_A62B_53F9685F75C7" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns35:umlAttributeCollection xmlns:ns35="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns35:UMLAttribute dataTypeName="java.lang.String" description="Uniform Resource Identifier of the image." name="uri" publicID="817930601" version="1.0">
+     <ns35:SemanticMetadata conceptCode="C42778" conceptDefinition="A character string that can identify any kind of resource on the Internet, including images, text, video, audio and programs.  The most commom type of a URI is a URL." conceptName="Uniform Resource Identifier" order="0"/>
+    </ns35:UMLAttribute>
+    <ns35:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1759803877" version="1.0">
+     <ns35:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns35:UMLAttribute>
+   </ns35:umlAttributeCollection>
+   <ns36:SemanticMetadata conceptCode="C48294" conceptDefinition="Something referred to; the object of a reference." conceptName="Reference Object" order="0" xmlns:ns36="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns37:SemanticMetadata conceptCode="C19477" conceptDefinition="Any record of a medical imaging event whether physical or electronic." conceptName="Medical Image" order="1" xmlns:ns37="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns38:SemanticMetadata conceptCode="C20342" conceptDefinition="A worldwide, decentralized network of computer networks connecting individuals and organizations to information and electronic mail services." conceptName="Internet" order="2" xmlns:ns38="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Dimension" id="EAID_732DCE92_8647_45e3_9B87_6C17B59FF825" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns39:umlAttributeCollection xmlns:ns39="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns39:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="14216804" version="1.0">
+     <ns39:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns39:UMLAttribute>
+    <ns39:UMLAttribute dataTypeName="java.lang.Integer" description="Zero based unique index of the dimension." name="index" publicID="-1818680919" version="1.0">
+     <ns39:SemanticMetadata conceptCode="C25390" conceptDefinition="A numerical scale used to compare variables with one another or with some reference number; a number used to select an element of a list, vector, array or other sequence." conceptName="Index" order="0"/>
+    </ns39:UMLAttribute>
+    <ns39:UMLAttribute dataTypeName="java.lang.Integer" description="How many members a dimension has." name="size" publicID="-1398244371" version="1.0">
+     <ns39:SemanticMetadata conceptCode="C25681" conceptDefinition="The physical magnitude of something." conceptName="Size" order="0"/>
+    </ns39:UMLAttribute>
+    <ns39:UMLAttribute dataTypeName="java.lang.String" description="A human readable description of the dimension." name="label" publicID="-1440612257" version="1.0">
+     <ns39:SemanticMetadata conceptCode="C45561" conceptDefinition="A brief description given for purposes of identification; an identifying or descriptive marker that is attached to an object." conceptName="Label" order="0"/>
+    </ns39:UMLAttribute>
+   </ns39:umlAttributeCollection>
+   <ns40:SemanticMetadata conceptCode="C25483" conceptDefinition="The magnitude of something in a particular direction, especially length or width or height." conceptName="Dimension" order="0" xmlns:ns40="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Image" id="EAID_7353E8ED_FD2C_4110_8CD7_9FFF67F1B127" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns41:umlAttributeCollection xmlns:ns41="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns41:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="1408007909" version="1.0"/>
+    <ns41:UMLAttribute dataTypeName="java.lang.String" description="Unique identifier specific for a Service-Object Pair (SOP) class, as specified in the DICOM standard." name="sopClassUID" publicID="202855237" version="1.0"/>
+    <ns41:UMLAttribute dataTypeName="java.lang.String" description="Unique identifer for a Service-Object Pair (SOP) instance, as specified in a DICOM tag." name="sopInstanceUID" publicID="1015389070" version="1.0"/>
+    <ns41:UMLAttribute dataTypeName="java.lang.String" description="Laterality of (paired) body part examined." name="laterality" publicID="1475522857" version="1.0"/>
+    <ns41:UMLAttribute dataTypeName="java.lang.String" description="Patient direction of the rows" name="patientOrientationRow" publicID="-195722524" version="1.0">
+     <ns41:SemanticMetadata conceptCode="C43378" conceptDefinition="An arrangement of objects side by side in a line." conceptName="Row" order="0"/>
+     <ns41:SemanticMetadata conceptCode="C45788" conceptDefinition="Position or alignment relative to points of the compass or other specific directions." conceptName="Orientation" order="1"/>
+     <ns41:SemanticMetadata conceptCode="C16960" conceptDefinition="A person who receives medical attention, care, or treatment, or who is registered with medical professional or institution with the purpose to receive medical care when necessary." conceptName="Patient" order="2"/>
+    </ns41:UMLAttribute>
+    <ns41:UMLAttribute dataTypeName="java.lang.String" description="Patient direction of the columns" name="patientOrientationColumn" publicID="155832733" version="1.0">
+     <ns41:SemanticMetadata conceptCode="C43379" conceptDefinition="An arrangement of objects one under another in a line." conceptName="Column" order="0"/>
+     <ns41:SemanticMetadata conceptCode="C45788" conceptDefinition="Position or alignment relative to points of the compass or other specific directions." conceptName="Orientation" order="1"/>
+     <ns41:SemanticMetadata conceptCode="C16960" conceptDefinition="A person who receives medical attention, care, or treatment, or who is registered with medical professional or institution with the purpose to receive medical care when necessary." conceptName="Patient" order="2"/>
+    </ns41:UMLAttribute>
+    <ns41:UMLAttribute dataTypeName="java.lang.Double" description="Value to represent the physical distance between the center of each pixel, specified by a numeric pair - adjacent row spacing (delimiter), adjacent column spacing - expressed as a number in millimeters." name="pixelSpacingHorizontal" publicID="-1952057192" version="1.0">
+     <ns41:SemanticMetadata conceptCode="C25241" conceptDefinition="Parallel to or in the plane of the horizon." conceptName="Horizontal" order="0"/>
+     <ns41:SemanticMetadata conceptCode="C45786" conceptDefinition="An intervening interval of space or time." conceptName="Spacing" order="1"/>
+     <ns41:SemanticMetadata conceptCode="C48367" conceptDefinition="The smallest resolvable rectangular area of an image, either on a screen or stored in memory." conceptName="Pixel" order="2"/>
+    </ns41:UMLAttribute>
+    <ns41:UMLAttribute dataTypeName="java.lang.Double" description="Value to represent the physical distance between the center of each pixel, specified by a numeric pair - adjacent row spacing (delimiter), adjacent column spacing - expressed as a number in millimeters." name="pixelSpacingVertical" publicID="893994410" version="1.0">
+     <ns41:SemanticMetadata conceptCode="C25243" conceptDefinition="Upright in position or posture." conceptName="Vertical" order="0"/>
+     <ns41:SemanticMetadata conceptCode="C45786" conceptDefinition="An intervening interval of space or time." conceptName="Spacing" order="1"/>
+     <ns41:SemanticMetadata conceptCode="C48367" conceptDefinition="The smallest resolvable rectangular area of an image, either on a screen or stored in memory." conceptName="Pixel" order="2"/>
+    </ns41:UMLAttribute>
+    <ns41:UMLAttribute dataTypeName="java.util.Date" description="The date and time that the acquisition of data that resulted in this image started." name="acquisitionDatetime" publicID="1475428510" version="1.0"/>
+   </ns41:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ImageViewModifier" id="EAID_744C9E48_02E3_4047_93E9_A044D9B772AC" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns42:umlAttributeCollection xmlns:ns42="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns42:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1781713165" version="1.0">
+     <ns42:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns42:UMLAttribute>
+   </ns42:umlAttributeCollection>
+   <ns43:SemanticMetadata conceptCode="C41009" conceptDefinition="A term that helps define and render a concept unique." conceptName="Qualifier" order="0" xmlns:ns43="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns44:SemanticMetadata conceptCode="C69203" conceptDefinition="The projection of the anatomic region of interest on an image receptor." conceptName="Image View" order="1" xmlns:ns44="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="AnnotationOfAnnotation" id="EAID_75D1384A_FEAA_4036_B2A3_BD46900AFC82" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns45:umlAttributeCollection xmlns:ns45="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns45:UMLAttribute description="The type of comparison/summary being made, e.g. RECIST Baseline Sum of Longest Diameter, 
+RECIST Follow-up Sum of Longest Diameter, 
+Interval Change,
+ Summary Statistic,
+ Other." name="type" publicID="-1756968221" version="1.0">
+     <ns45:SemanticMetadata conceptCode="C25284" conceptDefinition="Something distinguishable as an identifiable class based on common qualities." conceptName="Type" order="0"/>
+    </ns45:UMLAttribute>
+    <ns45:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1737843967" version="1.0">
+     <ns45:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns45:UMLAttribute>
+    <ns45:UMLAttribute description="The version of the AIM model used by this annotation." name="aimVersion" publicID="2143023229" version="1.0">
+     <ns45:SemanticMetadata conceptCode="C25714" conceptDefinition="A form or variant of a type or original; one of a sequence of copies of a program, each incorporating new modifications." conceptName="Version" order="0"/>
+     <ns45:SemanticMetadata conceptCode="C16866" conceptDefinition="A representation of something, often idealized or modified to make it conceptually easier to understand." conceptName="Model System" order="1"/>
+    </ns45:UMLAttribute>
+    <ns45:UMLAttribute dataTypeName="java.lang.String" description="Free text about the annotation not intended for rendering on the image." name="comment" publicID="-2127809350" version="1.0">
+     <ns45:SemanticMetadata conceptCode="C25393" conceptDefinition="A written explanation, observation or criticism added to textual material." conceptName="Comment" order="0"/>
+    </ns45:UMLAttribute>
+    <ns45:UMLAttribute dataTypeName="java.util.Date" description="Date and time when the Annotation is created." name="dateTime" publicID="1230409913" version="1.0">
+     <ns45:SemanticMetadata conceptCode="C37939" conceptDefinition="An expression of both date and time that an event has happened or will happen." conceptName="Date and Time" order="0"/>
+    </ns45:UMLAttribute>
+    <ns45:UMLAttribute dataTypeName="java.lang.String" description="A human readable name for the annotation, for example, &quot;Lymph node 42&quot;, or &quot;target one&quot;." name="name" publicID="1149840160" version="1.0">
+     <ns45:SemanticMetadata conceptCode="C42614" conceptDefinition="The words or language units by which a thing is known." conceptName="Name" order="0"/>
+    </ns45:UMLAttribute>
+    <ns45:UMLAttribute dataTypeName="java.lang.String" description="A Digital Imaging and Communication in Medicine (DICOM) (style) unique identifier for this particular instance of an annotation. Used to reference a specific annotation." name="uniqueIdentifier" publicID="244594503" version="1.0">
+     <ns45:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns45:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+    </ns45:UMLAttribute>
+   </ns45:umlAttributeCollection>
+   <ns46:SemanticMetadata conceptCode="C44272" conceptDefinition="An explanatory or critical comment that has been added to a text." conceptName="Annotation" order="0" xmlns:ns46="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns47:SemanticMetadata conceptCode="C44272" conceptDefinition="An explanatory or critical comment that has been added to a text." conceptName="Annotation" order="1" xmlns:ns47="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Point" id="EAID_7A072F38_349B_46a9_B8E9_FCC1B5F7F6ED" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns48:umlAttributeCollection xmlns:ns48="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns48:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-509333015" version="1.0">
+     <ns48:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns48:UMLAttribute>
+    <ns48:UMLAttribute dataTypeName="java.lang.String" description="Color of the line to be used for markup of the geometric shape, RGB values from 0,0,0 to 255,255,255." name="lineColor" publicID="705203154" version="1.0">
+     <ns48:SemanticMetadata conceptCode="C37927" conceptDefinition="The appearance of objects (or light sources) described in terms of a person's perception of their hue and lightness (or brightness) and saturation." conceptName="Color" order="0"/>
+     <ns48:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns48:UMLAttribute>
+    <ns48:UMLAttribute dataTypeName="java.lang.String" description="Opacity of the line to be used for markup of the geometric shape." name="lineOpacity" publicID="-1858269044" version="1.0">
+     <ns48:SemanticMetadata conceptCode="C71596" conceptDefinition="The quality of being opaque to a degree; the degree to which something reduces the passage of light." conceptName="Opacity" order="0"/>
+     <ns48:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns48:UMLAttribute>
+    <ns48:UMLAttribute dataTypeName="java.lang.String" description="Style of the line to be used for markup of the geometric shape." name="lineStyle" publicID="-641907888" version="1.0">
+     <ns48:SemanticMetadata conceptCode="C71598" conceptDefinition="A particular kind (as to appearance)." conceptName="Style" order="0"/>
+     <ns48:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns48:UMLAttribute>
+    <ns48:UMLAttribute dataTypeName="java.lang.String" description="Thickness of the line to be used for markup of the greometric shape." name="lineThickness" publicID="756299726" version="1.0">
+     <ns48:SemanticMetadata conceptCode="C41145" conceptDefinition="The dimension between two surfaces of an object, usually the smallest dimension as opposed to the width or the length: also, viscous consistency." conceptName="Thickness" order="0"/>
+     <ns48:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns48:UMLAttribute>
+    <ns48:UMLAttribute description="A boolean flag that determines if the particular shape in question is donut or hole." name="includeFlag" publicID="-1714543224" version="1.0">
+     <ns48:SemanticMetadata conceptCode="C43578" conceptDefinition="An indicator that can be set or unset in order to signal whether a particular condition is true." conceptName="Flag" order="0"/>
+     <ns48:SemanticMetadata conceptCode="C61458" conceptDefinition="Doughnut-shaped object or surface generated by rotating a circle around an axis that does not intersect the circle; any object that resembles a ring." conceptName="Ring" order="1"/>
+    </ns48:UMLAttribute>
+    <ns48:UMLAttribute dataTypeName="java.lang.Integer" description="A unique integer number that is assigned to a graphical shape in annotations which have more than one shape within an AIM object." name="shapeIdentifier" publicID="2107245010" version="1.0">
+     <ns48:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns48:SemanticMetadata conceptCode="C25677" conceptDefinition="The spatial arrangement of something as distinct from its substance." conceptName="Shape" order="1"/>
+    </ns48:UMLAttribute>
+   </ns48:umlAttributeCollection>
+   <ns49:SemanticMetadata conceptCode="C70656" conceptDefinition="The precise location of something; a spatially limited location." conceptName="Point" order="0" xmlns:ns49="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ThreeDimensionSpatialCoordinate" id="EAID_7C093787_87F0_4354_B2E1_0AC6B0BC9305" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns50:umlAttributeCollection xmlns:ns50="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns50:UMLAttribute dataTypeName="java.lang.Integer" description="X axis value." name="x" publicID="1475467983" version="1.0">
+     <ns50:SemanticMetadata conceptCode="C44477" conceptDefinition="A horizontal coordinate that is used together with a vertical coordinate to specify an exact point in space." conceptName="X-Coordinate" order="0"/>
+    </ns50:UMLAttribute>
+    <ns50:UMLAttribute dataTypeName="java.lang.Double" description="Y axis value." name="y" publicID="71677192" version="1.0">
+     <ns50:SemanticMetadata conceptCode="C44478" conceptDefinition="A vertical coordinate that is used together with a horizontal coordinate to specify an exact point in space." conceptName="Y-Coordinate" order="0"/>
+    </ns50:UMLAttribute>
+    <ns50:UMLAttribute dataTypeName="java.lang.Integer" description="Z axis value." name="z" publicID="752911174" version="1.0">
+     <ns50:SemanticMetadata conceptCode="C44479" conceptDefinition="A third coordinate that is used together with horizontal (x) and vertical (y) coordinates to specify an exact point in a three dimensional space." conceptName="Z-Coordinate" order="0"/>
+    </ns50:UMLAttribute>
+    <ns50:UMLAttribute dataTypeName="java.lang.String" description="Uniquely identifies the frame of reference for
+ a Series." name="frameOfReferenceUID" publicID="51017516" version="1.0">
+     <ns50:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns50:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+     <ns50:SemanticMetadata conceptCode="C48360" conceptDefinition="A set of ideas, as of philosophical or religious doctrine, in terms of which other ideas are interpreted or assigned meaning; a system that uses coordinates to establish position." conceptName="Frame of Reference" order="2"/>
+    </ns50:UMLAttribute>
+    <ns50:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="1453070224" version="1.0">
+     <ns50:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns50:UMLAttribute>
+    <ns50:UMLAttribute dataTypeName="java.lang.Integer" description="The order in which a coordinate appears." name="coordinateIndex" publicID="1571519979" version="1.0">
+     <ns50:SemanticMetadata conceptCode="C42680" conceptDefinition="A logical or comprehensible arrangement of separate elements; a condition of regular or proper arrangement." conceptName="Order" order="0"/>
+     <ns50:SemanticMetadata conceptCode="C44465" conceptDefinition="A number or other designation that identifies a position relative to an axis or grid." conceptName="Coordinate" order="1"/>
+    </ns50:UMLAttribute>
+   </ns50:umlAttributeCollection>
+   <ns51:SemanticMetadata conceptCode="C44465" conceptDefinition="A number or other designation that identifies a position relative to an axis or grid." conceptName="Coordinate" order="0" xmlns:ns51="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns52:SemanticMetadata conceptCode="C18005" conceptDefinition="The property of being measured and described using three orthogonal directions." conceptName="3-Dimensional" order="1" xmlns:ns52="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="TextAnnotation" id="EAID_85ACCE82_5F8C_469e_8FE3_9C5727BE840C" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns53:umlAttributeCollection xmlns:ns53="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns53:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1998641010" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns53:UMLAttribute>
+    <ns53:UMLAttribute dataTypeName="java.lang.String" description="Type of characters of a particular typeface design." name="font" publicID="-834672332" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C71594" conceptDefinition="A specific size and style of type within a type family." conceptName="Font" order="0"/>
+    </ns53:UMLAttribute>
+    <ns53:UMLAttribute dataTypeName="java.lang.String" description="A color assigned to a font. Its values is assigned by RGB values from 0,0,0 to 255,255,255." name="fontColor" publicID="1808589186" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C37927" conceptDefinition="The appearance of objects (or light sources) described in terms of a person's perception of their hue and lightness (or brightness) and saturation." conceptName="Color" order="0"/>
+     <ns53:SemanticMetadata conceptCode="C71594" conceptDefinition="A specific size and style of type within a type family." conceptName="Font" order="1"/>
+    </ns53:UMLAttribute>
+    <ns53:UMLAttribute dataTypeName="java.lang.String" description="A special effect applied to font glyphs such as subscript, superscript, underline, strikethrough." name="fontEffect" publicID="1536779197" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C71600" conceptDefinition="An outward appearance." conceptName="Effect" order="0"/>
+     <ns53:SemanticMetadata conceptCode="C71594" conceptDefinition="A specific size and style of type within a type family." conceptName="Font" order="1"/>
+    </ns53:UMLAttribute>
+    <ns53:UMLAttribute dataTypeName="java.lang.String" description="A size of the font in point or pixel unit." name="fontSize" publicID="-871608470" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C25681" conceptDefinition="The physical magnitude of something." conceptName="Size" order="0"/>
+     <ns53:SemanticMetadata conceptCode="C71594" conceptDefinition="A specific size and style of type within a type family." conceptName="Font" order="1"/>
+    </ns53:UMLAttribute>
+    <ns53:UMLAttribute dataTypeName="java.lang.String" description="A property used to slant the font such as italic, normal, bold, " name="fontStyle" publicID="431689314" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C71598" conceptDefinition="A particular kind (as to appearance)." conceptName="Style" order="0"/>
+     <ns53:SemanticMetadata conceptCode="C71594" conceptDefinition="A specific size and style of type within a type family." conceptName="Font" order="1"/>
+    </ns53:UMLAttribute>
+    <ns53:UMLAttribute dataTypeName="java.lang.String" description="The text that makes up the markup." name="text" publicID="1698263518" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C25704" conceptDefinition="The words of something written." conceptName="Text" order="0"/>
+    </ns53:UMLAttribute>
+    <ns53:UMLAttribute dataTypeName="java.lang.String" description="Text position within a displaying area such as Left, Right, Center." name="textJustify" publicID="1129926926" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C71595" conceptDefinition="The arrangement of text so that it is aligned with either the left or right margin, or both." conceptName="Justification" order="0"/>
+     <ns53:SemanticMetadata conceptCode="C25704" conceptDefinition="The words of something written." conceptName="Text" order="1"/>
+    </ns53:UMLAttribute>
+    <ns53:UMLAttribute dataTypeName="java.lang.String" description="Opacity level for the font as a percentage." name="fontOpacity" publicID="-1138622173" version="1.0">
+     <ns53:SemanticMetadata conceptCode="C71596" conceptDefinition="The quality of being opaque to a degree; the degree to which something reduces the passage of light." conceptName="Opacity" order="0"/>
+     <ns53:SemanticMetadata conceptCode="C71594" conceptDefinition="A specific size and style of type within a type family." conceptName="Font" order="1"/>
+    </ns53:UMLAttribute>
+   </ns53:umlAttributeCollection>
+   <ns54:SemanticMetadata conceptCode="C44272" conceptDefinition="An explanatory or critical comment that has been added to a text." conceptName="Annotation" order="0" xmlns:ns54="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns55:SemanticMetadata conceptCode="C25704" conceptDefinition="The words of something written." conceptName="Text" order="1" xmlns:ns55="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="GeometricShape" id="EAID_9043DE11_BDBC_4fbe_BD3F_70CB139DBB1F" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns56:umlAttributeCollection xmlns:ns56="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns56:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-509333015" version="1.0">
+     <ns56:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns56:UMLAttribute>
+    <ns56:UMLAttribute dataTypeName="java.lang.String" description="Color of the line to be used for markup of the geometric shape, RGB values from 0,0,0 to 255,255,255." name="lineColor" publicID="705203154" version="1.0">
+     <ns56:SemanticMetadata conceptCode="C37927" conceptDefinition="The appearance of objects (or light sources) described in terms of a person's perception of their hue and lightness (or brightness) and saturation." conceptName="Color" order="0"/>
+     <ns56:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns56:UMLAttribute>
+    <ns56:UMLAttribute dataTypeName="java.lang.String" description="Opacity of the line to be used for markup of the geometric shape." name="lineOpacity" publicID="-1858269044" version="1.0">
+     <ns56:SemanticMetadata conceptCode="C71596" conceptDefinition="The quality of being opaque to a degree; the degree to which something reduces the passage of light." conceptName="Opacity" order="0"/>
+     <ns56:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns56:UMLAttribute>
+    <ns56:UMLAttribute dataTypeName="java.lang.String" description="Style of the line to be used for markup of the geometric shape." name="lineStyle" publicID="-641907888" version="1.0">
+     <ns56:SemanticMetadata conceptCode="C71598" conceptDefinition="A particular kind (as to appearance)." conceptName="Style" order="0"/>
+     <ns56:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns56:UMLAttribute>
+    <ns56:UMLAttribute dataTypeName="java.lang.String" description="Thickness of the line to be used for markup of the greometric shape." name="lineThickness" publicID="756299726" version="1.0">
+     <ns56:SemanticMetadata conceptCode="C41145" conceptDefinition="The dimension between two surfaces of an object, usually the smallest dimension as opposed to the width or the length: also, viscous consistency." conceptName="Thickness" order="0"/>
+     <ns56:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns56:UMLAttribute>
+    <ns56:UMLAttribute description="A boolean flag that determines if the particular shape in question is donut or hole." name="includeFlag" publicID="-1714543224" version="1.0">
+     <ns56:SemanticMetadata conceptCode="C43578" conceptDefinition="An indicator that can be set or unset in order to signal whether a particular condition is true." conceptName="Flag" order="0"/>
+     <ns56:SemanticMetadata conceptCode="C61458" conceptDefinition="Doughnut-shaped object or surface generated by rotating a circle around an axis that does not intersect the circle; any object that resembles a ring." conceptName="Ring" order="1"/>
+    </ns56:UMLAttribute>
+    <ns56:UMLAttribute dataTypeName="java.lang.Integer" description="A unique integer number that is assigned to a graphical shape in annotations which have more than one shape within an AIM object." name="shapeIdentifier" publicID="2107245010" version="1.0">
+     <ns56:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns56:SemanticMetadata conceptCode="C25677" conceptDefinition="The spatial arrangement of something as distinct from its substance." conceptName="Shape" order="1"/>
+    </ns56:UMLAttribute>
+   </ns56:umlAttributeCollection>
+   <ns57:SemanticMetadata conceptCode="C25677" conceptDefinition="The spatial arrangement of something as distinct from its substance." conceptName="Shape" order="0" xmlns:ns57="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ProbabilityMap" id="EAID_9D5FA738_A4B8_4104_8FF7_0212EB1F02B6" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns58:umlAttributeCollection xmlns:ns58="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns58:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1149059093" version="1.0">
+     <ns58:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns58:UMLAttribute>
+    <ns58:UMLAttribute dataTypeName="java.lang.String" description="The Service Object Pair Instance Unique Identifier of the Probability Map." name="instanceUID" publicID="-1894189021" version="1.0">
+     <ns58:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns58:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+     <ns58:SemanticMetadata conceptCode="C48364" conceptDefinition="An occurrence of something." conceptName="Instance" order="2"/>
+    </ns58:UMLAttribute>
+    <ns58:UMLAttribute dataTypeName="java.lang.String" description="The Service Object Pair Instance Unique Identifier of the image that Probability Map is referenced." name="referencedInstanceUniqueIdentifier" publicID="-140776669" version="1.0">
+     <ns58:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns58:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+     <ns58:SemanticMetadata conceptCode="C48364" conceptDefinition="An occurrence of something." conceptName="Instance" order="2"/>
+     <ns58:SemanticMetadata conceptCode="C48294" conceptDefinition="Something referred to; the object of a reference." conceptName="Reference Object" order="3"/>
+    </ns58:UMLAttribute>
+   </ns58:umlAttributeCollection>
+   <ns59:SemanticMetadata conceptCode="C43434" conceptDefinition="A function such that for every element of one set there is a unique element of another set." conceptName="Functional Map" order="0" xmlns:ns59="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns60:SemanticMetadata conceptCode="C54154" conceptDefinition="A measure of the expectation of the occurrence of a particular event." conceptName="Probability" order="1" xmlns:ns60="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Polyline" id="EAID_A57A1E9C_635E_4cc1_91B1_D872A816FD21" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns61:umlAttributeCollection xmlns:ns61="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns61:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-509333015" version="1.0">
+     <ns61:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns61:UMLAttribute>
+    <ns61:UMLAttribute dataTypeName="java.lang.String" description="Color of the line to be used for markup of the geometric shape, RGB values from 0,0,0 to 255,255,255." name="lineColor" publicID="705203154" version="1.0">
+     <ns61:SemanticMetadata conceptCode="C37927" conceptDefinition="The appearance of objects (or light sources) described in terms of a person's perception of their hue and lightness (or brightness) and saturation." conceptName="Color" order="0"/>
+     <ns61:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns61:UMLAttribute>
+    <ns61:UMLAttribute dataTypeName="java.lang.String" description="Opacity of the line to be used for markup of the geometric shape." name="lineOpacity" publicID="-1858269044" version="1.0">
+     <ns61:SemanticMetadata conceptCode="C71596" conceptDefinition="The quality of being opaque to a degree; the degree to which something reduces the passage of light." conceptName="Opacity" order="0"/>
+     <ns61:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns61:UMLAttribute>
+    <ns61:UMLAttribute dataTypeName="java.lang.String" description="Style of the line to be used for markup of the geometric shape." name="lineStyle" publicID="-641907888" version="1.0">
+     <ns61:SemanticMetadata conceptCode="C71598" conceptDefinition="A particular kind (as to appearance)." conceptName="Style" order="0"/>
+     <ns61:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns61:UMLAttribute>
+    <ns61:UMLAttribute dataTypeName="java.lang.String" description="Thickness of the line to be used for markup of the greometric shape." name="lineThickness" publicID="756299726" version="1.0">
+     <ns61:SemanticMetadata conceptCode="C41145" conceptDefinition="The dimension between two surfaces of an object, usually the smallest dimension as opposed to the width or the length: also, viscous consistency." conceptName="Thickness" order="0"/>
+     <ns61:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns61:UMLAttribute>
+    <ns61:UMLAttribute description="A boolean flag that determines if the particular shape in question is donut or hole." name="includeFlag" publicID="-1714543224" version="1.0">
+     <ns61:SemanticMetadata conceptCode="C43578" conceptDefinition="An indicator that can be set or unset in order to signal whether a particular condition is true." conceptName="Flag" order="0"/>
+     <ns61:SemanticMetadata conceptCode="C61458" conceptDefinition="Doughnut-shaped object or surface generated by rotating a circle around an axis that does not intersect the circle; any object that resembles a ring." conceptName="Ring" order="1"/>
+    </ns61:UMLAttribute>
+    <ns61:UMLAttribute dataTypeName="java.lang.Integer" description="A unique integer number that is assigned to a graphical shape in annotations which have more than one shape within an AIM object." name="shapeIdentifier" publicID="2107245010" version="1.0">
+     <ns61:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns61:SemanticMetadata conceptCode="C25677" conceptDefinition="The spatial arrangement of something as distinct from its substance." conceptName="Shape" order="1"/>
+    </ns61:UMLAttribute>
+   </ns61:umlAttributeCollection>
+   <ns62:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="0" xmlns:ns62="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns63:SemanticMetadata conceptCode="C17648" conceptDefinition="Having, relating to, or consisting of more than one individual, element, part, or other component; manifold. (dictionary.com)" conceptName="Multiple" order="1" xmlns:ns63="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Calculation" id="EAID_BF034EA0_8575_44d8_B728_B3F32AF3230E" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns64:umlAttributeCollection xmlns:ns64="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns64:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="106540648" version="1.0">
+     <ns64:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns64:UMLAttribute>
+    <ns64:UMLAttribute dataTypeName="java.lang.String" description="A unique identifier for a calculation such that an individual calculation can be referenced." name="uid" publicID="-2064054181" version="1.0">
+     <ns64:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns64:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+    </ns64:UMLAttribute>
+    <ns64:UMLAttribute dataTypeName="java.lang.String" description="A human understandable, brief description of the calculation." name="description" publicID="1327647609" version="1.0">
+     <ns64:SemanticMetadata conceptCode="C25365" conceptDefinition="A written or verbal account, representation, statement, or explanation of something." conceptName="Description" order="0"/>
+    </ns64:UMLAttribute>
+    <ns64:UMLAttribute dataTypeName="java.lang.String" description="An optional mathML representaion of the calculation." name="mathML" publicID="2066723879" version="1.0">
+     <ns64:SemanticMetadata conceptCode="C71609" conceptDefinition="An application of XML for describing mathematical notations and capturing both its structure and content. It aims at integrating mathematical formulae into World Wide Web documents." conceptName="Mathematical Markup Language" order="0"/>
+    </ns64:UMLAttribute>
+    <ns64:UMLAttribute description="The type of calculation; An enumerated (extensible) list that includes &quot;arbitrary&quot; as one of its types." name="type" publicID="1101134699" version="1.0">
+     <ns64:SemanticMetadata conceptCode="C25284" conceptDefinition="Something distinguishable as an identifiable class based on common qualities." conceptName="Type" order="0"/>
+    </ns64:UMLAttribute>
+   </ns64:umlAttributeCollection>
+   <ns65:SemanticMetadata conceptCode="C54125" conceptDefinition="The procedure or activity of determining something by mathematical or logical methods." conceptName="Calculation" order="0" xmlns:ns65="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ImagingObservation" id="EAID_C5F1BA93_058F_4ba1_A246_05C0497BA316" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns66:umlAttributeCollection xmlns:ns66="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns66:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="535581439" version="1.0">
+     <ns66:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns66:UMLAttribute>
+    <ns66:UMLAttribute dataTypeName="java.lang.String" description="The human understandable meaning of the coded value." name="codeMeaning" publicID="-908247426" version="1.0">
+     <ns66:SemanticMetadata conceptCode="C25365" conceptDefinition="A written or verbal account, representation, statement, or explanation of something." conceptName="Description" order="0"/>
+     <ns66:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1"/>
+    </ns66:UMLAttribute>
+    <ns66:UMLAttribute dataTypeName="java.lang.String" description="The designator of the vocabulary from which the term was selected." name="codingSchemeDesignator" publicID="1930695802" version="1.0">
+     <ns66:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns66:SemanticMetadata conceptCode="C25665" conceptDefinition="An elaborate and systematic plan of action." conceptName="Scheme" order="1"/>
+     <ns66:SemanticMetadata conceptCode="C45971" conceptDefinition="The activity of implementing rules that are used to map the elements of one set onto the elements of another set, usually on a one-to-one basis." conceptName="Coding" order="2"/>
+    </ns66:UMLAttribute>
+    <ns66:UMLAttribute dataTypeName="java.lang.String" description="It is an identifier that is unambiguous within the Coding Scheme denoted by Coding Scheme Designator. The code value here depicts anatomical location that can come from, for example, RadLex." name="codeValue" publicID="1389655870" version="1.0">
+     <ns66:SemanticMetadata conceptCode="C49100" conceptDefinition="The information contained in a data field.  It may represent a numeric quantity, a textual characterization, a date or time measurement, or some other state, depending on the nature of the attribute." conceptName="Value" order="0"/>
+     <ns66:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1"/>
+    </ns66:UMLAttribute>
+    <ns66:UMLAttribute dataTypeName="java.lang.String" description="Free text comment" name="comment" publicID="-1493474076" version="1.0">
+     <ns66:SemanticMetadata conceptCode="C25393" conceptDefinition="A written explanation, observation or criticism added to textual material." conceptName="Comment" order="0"/>
+    </ns66:UMLAttribute>
+   </ns66:umlAttributeCollection>
+   <ns67:SemanticMetadata conceptCode="C25365" conceptDefinition="A written or verbal account, representation, statement, or explanation of something." conceptName="Description" order="0" xmlns:ns67="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns68:SemanticMetadata conceptCode="C19477" conceptDefinition="Any record of a medical imaging event whether physical or electronic." conceptName="Medical Image" order="1" xmlns:ns68="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="User" id="EAID_CB1EF085_DAB6_4772_99DC_7FEA5F369F45" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns69:umlAttributeCollection xmlns:ns69="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns69:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1109793093" version="1.0">
+     <ns69:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns69:UMLAttribute>
+    <ns69:UMLAttribute dataTypeName="java.lang.String" description="The full name of the author of the annotation." name="name" publicID="-824788218" version="1.0">
+     <ns69:SemanticMetadata conceptCode="C25191" conceptDefinition="A word or group of words indicating the identity of a person usually consisting of a first (personal) name and a last (family) name with an optional middle name.  In some cultural traditions the family name comes first." conceptName="Person Name" order="0"/>
+     <ns69:SemanticMetadata conceptCode="C42781" conceptDefinition="An indicator that can be set or unset in order to signal whether a study is randomized." conceptName="Author" order="1"/>
+    </ns69:UMLAttribute>
+    <ns69:UMLAttribute dataTypeName="java.lang.String" description="The login name of the author on the software that is being used to create the annotation." name="loginName" publicID="2016282431" version="1.0">
+     <ns69:SemanticMetadata conceptCode="C42694" conceptDefinition="The account name used by a person to access a computer system." conceptName="Login Name" order="0"/>
+    </ns69:UMLAttribute>
+    <ns69:UMLAttribute dataTypeName="java.lang.String" description="The role of the author in the clinical trial, for example, &quot;reader&quot;, or &quot;adjudicator&quot;." name="roleInTrial" publicID="-1595276827" version="1.0">
+     <ns69:SemanticMetadata conceptCode="C48835" conceptDefinition="The usual or expected function of something; the part something plays in an action or event." conceptName="Role" order="0"/>
+     <ns69:SemanticMetadata conceptCode="C71104" conceptDefinition="A research study that prospectively assigns human participants or groups of humans to one or more health-related interventions to evaluate the effects on health outcomes. Interventions include but are not restricted to drugs, cells and other biological pr" conceptName="Clinical Trial" order="1"/>
+     <ns69:SemanticMetadata conceptDefinition="oducts, surgical procedures, radiologic procedures, devices, behavioral treatments, process-of-care changes, and preventive care."/>
+    </ns69:UMLAttribute>
+    <ns69:UMLAttribute dataTypeName="java.lang.Integer" description="An identifier assigned to the author by the clinical trial, for example, role might be &quot;reader&quot;, and NumberWithinRole might be &quot;42&quot;, or numberWithinRoleOfCLinicalTrial might be &quot;A12345&quot;." name="numberWithinRoleOfClinicalTrial" publicID="270792587" version="1.0">
+     <ns69:SemanticMetadata conceptCode="C71104" conceptDefinition="A research study that prospectively assigns human participants or groups of humans to one or more health-related interventions to evaluate the effects on health outcomes. Interventions include but are not restricted to drugs, cells and other biological pr" conceptName="Clinical Trial" order="0"/>
+     <ns69:SemanticMetadata conceptCode="C25199" conceptDefinition="The action or activity assigned to or required or expected of a person or group." conceptName="Social Role" order="1"/>
+     <ns69:SemanticMetadata conceptCode="C25282" conceptDefinition="oducts, surgical procedures, radiologic procedures, devices, behavioral treatments, process-of-care changes, and preventive care." conceptName="Within" order="2"/>
+     <ns69:SemanticMetadata conceptCode="C25337" conceptDefinition="A numeral or string of numerals expressing value, quantity, or identification." conceptName="Number" order="3"/>
+    </ns69:UMLAttribute>
+   </ns69:umlAttributeCollection>
+   <ns70:SemanticMetadata conceptCode="C42745" conceptDefinition="An individual who uses a computer, program, network, or related service for work or entertainment." conceptName="User" order="0" xmlns:ns70="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Series" id="EAID_CFA46474_E4B1_443c_8838_80E4E1CA9833" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns71:umlAttributeCollection xmlns:ns71="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns71:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="318350254" version="1.0"/>
+    <ns71:UMLAttribute dataTypeName="java.lang.String" description="Unique identifer of a study series." name="instanceUID" publicID="311071281" version="1.0"/>
+    <ns71:UMLAttribute dataTypeName="java.lang.String" description="User-defined description of the conditions under which the (imaging) Series was performed." name="protocolName" publicID="-738069226" version="1.0"/>
+    <ns71:UMLAttribute dataTypeName="java.lang.String" description="Type of equipment that originally acquired the data used to create the images in this series." name="modality" publicID="-568732337" version="1.0"/>
+   </ns71:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ImagingObservationCharacteristic" id="EAID_D58FB153_B0F9_4448_95B2_9F8D668E8720" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns72:umlAttributeCollection xmlns:ns72="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns72:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-2000656134" version="1.0">
+     <ns72:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns72:UMLAttribute>
+    <ns72:UMLAttribute dataTypeName="java.lang.String" description="The human understandable meaning of the coded value." name="codeMeaning" publicID="-1839279501" version="1.0">
+     <ns72:SemanticMetadata conceptCode="C25365" conceptDefinition="A written or verbal account, representation, statement, or explanation of something." conceptName="Description" order="0"/>
+     <ns72:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1"/>
+    </ns72:UMLAttribute>
+    <ns72:UMLAttribute dataTypeName="java.lang.String" description="The designator of the vocabulary from which the term was selected." name="codingSchemeDesignator" publicID="-1188317273" version="1.0">
+     <ns72:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns72:SemanticMetadata conceptCode="C25665" conceptDefinition="An elaborate and systematic plan of action." conceptName="Scheme" order="1"/>
+     <ns72:SemanticMetadata conceptCode="C45971" conceptDefinition="The activity of implementing rules that are used to map the elements of one set onto the elements of another set, usually on a one-to-one basis." conceptName="Coding" order="2"/>
+    </ns72:UMLAttribute>
+    <ns72:UMLAttribute dataTypeName="java.lang.String" description="It is an identifier that is unambiguous within the Coding Scheme denoted by Coding Scheme Designator. The code value here depicts anatomical location that can come from, for example, RadLex." name="codeValue" publicID="-986795946" version="1.0">
+     <ns72:SemanticMetadata conceptCode="C49100" conceptDefinition="The information contained in a data field.  It may represent a numeric quantity, a textual characterization, a date or time measurement, or some other state, depending on the nature of the attribute." conceptName="Value" order="0"/>
+     <ns72:SemanticMetadata conceptCode="C25162" conceptDefinition="A system, often of numbered categories, used for representation of data." conceptName="Code" order="1"/>
+    </ns72:UMLAttribute>
+    <ns72:UMLAttribute dataTypeName="java.lang.String" description="Free text comment" name="comment" publicID="1826163277" version="1.0">
+     <ns72:SemanticMetadata conceptCode="C25393" conceptDefinition="A written explanation, observation or criticism added to textual material." conceptName="Comment" order="0"/>
+    </ns72:UMLAttribute>
+   </ns72:umlAttributeCollection>
+   <ns73:SemanticMetadata conceptCode="C25447" conceptDefinition="The distinguishing qualities or prominent aspect of a person, object, action, process, or substance." conceptName="Characteristic" order="0" xmlns:ns73="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns74:SemanticMetadata conceptCode="C25365" conceptDefinition="A written or verbal account, representation, statement, or explanation of something." conceptName="Description" order="1" xmlns:ns74="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns75:SemanticMetadata conceptCode="C19477" conceptDefinition="Any record of a medical imaging event whether physical or electronic." conceptName="Medical Image" order="2" xmlns:ns75="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Equipment" id="EAID_D5A4AF88_456A_4b5b_819D_526C9E1D0419" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns76:umlAttributeCollection xmlns:ns76="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns76:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-460281774" version="1.0"/>
+    <ns76:UMLAttribute dataTypeName="java.lang.String" description="Text to capture the name of the manufacturer of medical imaging equipment." name="manufacturer" publicID="268815166" version="1.0"/>
+    <ns76:UMLAttribute dataTypeName="java.lang.String" description="Text to capture the manufacturer's model names of the (imaging) equipment that produced the composite instances." name="manufacturerModelName" publicID="560955886" version="1.0"/>
+    <ns76:UMLAttribute dataTypeName="java.lang.String" description="Numeric value to designate manufacturer's software version of the equipment that produced the (imaging) composite instances." name="softwareVersion" publicID="317933384" version="1.0"/>
+   </ns76:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Circle" id="EAID_DAD5D455_CD0B_4f1d_AB7E_C4E627D524FC" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns77:umlAttributeCollection xmlns:ns77="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns77:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-509333015" version="1.0">
+     <ns77:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns77:UMLAttribute>
+    <ns77:UMLAttribute dataTypeName="java.lang.String" description="Color of the line to be used for markup of the geometric shape, RGB values from 0,0,0 to 255,255,255." name="lineColor" publicID="705203154" version="1.0">
+     <ns77:SemanticMetadata conceptCode="C37927" conceptDefinition="The appearance of objects (or light sources) described in terms of a person's perception of their hue and lightness (or brightness) and saturation." conceptName="Color" order="0"/>
+     <ns77:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns77:UMLAttribute>
+    <ns77:UMLAttribute dataTypeName="java.lang.String" description="Opacity of the line to be used for markup of the geometric shape." name="lineOpacity" publicID="-1858269044" version="1.0">
+     <ns77:SemanticMetadata conceptCode="C71596" conceptDefinition="The quality of being opaque to a degree; the degree to which something reduces the passage of light." conceptName="Opacity" order="0"/>
+     <ns77:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns77:UMLAttribute>
+    <ns77:UMLAttribute dataTypeName="java.lang.String" description="Style of the line to be used for markup of the geometric shape." name="lineStyle" publicID="-641907888" version="1.0">
+     <ns77:SemanticMetadata conceptCode="C71598" conceptDefinition="A particular kind (as to appearance)." conceptName="Style" order="0"/>
+     <ns77:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns77:UMLAttribute>
+    <ns77:UMLAttribute dataTypeName="java.lang.String" description="Thickness of the line to be used for markup of the greometric shape." name="lineThickness" publicID="756299726" version="1.0">
+     <ns77:SemanticMetadata conceptCode="C41145" conceptDefinition="The dimension between two surfaces of an object, usually the smallest dimension as opposed to the width or the length: also, viscous consistency." conceptName="Thickness" order="0"/>
+     <ns77:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns77:UMLAttribute>
+    <ns77:UMLAttribute description="A boolean flag that determines if the particular shape in question is donut or hole." name="includeFlag" publicID="-1714543224" version="1.0">
+     <ns77:SemanticMetadata conceptCode="C43578" conceptDefinition="An indicator that can be set or unset in order to signal whether a particular condition is true." conceptName="Flag" order="0"/>
+     <ns77:SemanticMetadata conceptCode="C61458" conceptDefinition="Doughnut-shaped object or surface generated by rotating a circle around an axis that does not intersect the circle; any object that resembles a ring." conceptName="Ring" order="1"/>
+    </ns77:UMLAttribute>
+    <ns77:UMLAttribute dataTypeName="java.lang.Integer" description="A unique integer number that is assigned to a graphical shape in annotations which have more than one shape within an AIM object." name="shapeIdentifier" publicID="2107245010" version="1.0">
+     <ns77:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns77:SemanticMetadata conceptCode="C25677" conceptDefinition="The spatial arrangement of something as distinct from its substance." conceptName="Shape" order="1"/>
+    </ns77:UMLAttribute>
+   </ns77:umlAttributeCollection>
+   <ns78:SemanticMetadata conceptCode="C45789" conceptDefinition="A ring-shaped structure with every point equidistant from the center." conceptName="Circle" order="0" xmlns:ns78="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="CalculationResult" id="EAID_DCD069C2_8D38_40e2_A9D9_F04798C9827B" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns79:umlAttributeCollection xmlns:ns79="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns79:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1586627662" version="1.0">
+     <ns79:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns79:UMLAttribute>
+    <ns79:UMLAttribute description="The type of result, for example, scalar, vector, histogram, array." name="type" publicID="-1868171991" version="1.0">
+     <ns79:SemanticMetadata conceptCode="C25284" conceptDefinition="Something distinguishable as an identifiable class based on common qualities." conceptName="Type" order="0"/>
+    </ns79:UMLAttribute>
+    <ns79:UMLAttribute dataTypeName="java.lang.Integer" description="Total number of dimensions." name="numberOfDimensions" publicID="-2137288311" version="1.0">
+     <ns79:SemanticMetadata conceptCode="C25483" conceptDefinition="The magnitude of something in a particular direction, especially length or width or height." conceptName="Dimension" order="0"/>
+     <ns79:SemanticMetadata conceptCode="C25304" conceptDefinition="Pertaining to an entirety or whole, also constituting the full quantity or extent; complete; derived by addition." conceptName="Total" order="1"/>
+    </ns79:UMLAttribute>
+    <ns79:UMLAttribute dataTypeName="java.lang.String" description="A string representation of UCUM unit for the dimensions." name="unitOfMeasure" publicID="1558871727" version="1.0">
+     <ns79:SemanticMetadata conceptCode="C25709" conceptDefinition="A named quantity in terms of which other quantities are measured or specified, used as a standard measurement of like kinds." conceptName="Unit of Measure" order="0"/>
+    </ns79:UMLAttribute>
+   </ns79:umlAttributeCollection>
+   <ns80:SemanticMetadata conceptCode="C20200" conceptDefinition="The result of an action." conceptName="Outcome" order="0" xmlns:ns80="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns81:SemanticMetadata conceptCode="C54125" conceptDefinition="The procedure or activity of determining something by mathematical or logical methods." conceptName="Calculation" order="1" xmlns:ns81="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Ellipse" id="EAID_E3E4AAE2_5217_4c68_96B6_E0D4F9E58863" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns82:umlAttributeCollection xmlns:ns82="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns82:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-509333015" version="1.0">
+     <ns82:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns82:UMLAttribute>
+    <ns82:UMLAttribute dataTypeName="java.lang.String" description="Color of the line to be used for markup of the geometric shape, RGB values from 0,0,0 to 255,255,255." name="lineColor" publicID="705203154" version="1.0">
+     <ns82:SemanticMetadata conceptCode="C37927" conceptDefinition="The appearance of objects (or light sources) described in terms of a person's perception of their hue and lightness (or brightness) and saturation." conceptName="Color" order="0"/>
+     <ns82:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns82:UMLAttribute>
+    <ns82:UMLAttribute dataTypeName="java.lang.String" description="Opacity of the line to be used for markup of the geometric shape." name="lineOpacity" publicID="-1858269044" version="1.0">
+     <ns82:SemanticMetadata conceptCode="C71596" conceptDefinition="The quality of being opaque to a degree; the degree to which something reduces the passage of light." conceptName="Opacity" order="0"/>
+     <ns82:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns82:UMLAttribute>
+    <ns82:UMLAttribute dataTypeName="java.lang.String" description="Style of the line to be used for markup of the geometric shape." name="lineStyle" publicID="-641907888" version="1.0">
+     <ns82:SemanticMetadata conceptCode="C71598" conceptDefinition="A particular kind (as to appearance)." conceptName="Style" order="0"/>
+     <ns82:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns82:UMLAttribute>
+    <ns82:UMLAttribute dataTypeName="java.lang.String" description="Thickness of the line to be used for markup of the greometric shape." name="lineThickness" publicID="756299726" version="1.0">
+     <ns82:SemanticMetadata conceptCode="C41145" conceptDefinition="The dimension between two surfaces of an object, usually the smallest dimension as opposed to the width or the length: also, viscous consistency." conceptName="Thickness" order="0"/>
+     <ns82:SemanticMetadata conceptCode="C71604" conceptDefinition="A mark that is long relative to its width; a length (straight or curved) without breadth or thickness; the trace of a moving point." conceptName="Line" order="1"/>
+    </ns82:UMLAttribute>
+    <ns82:UMLAttribute description="A boolean flag that determines if the particular shape in question is donut or hole." name="includeFlag" publicID="-1714543224" version="1.0">
+     <ns82:SemanticMetadata conceptCode="C43578" conceptDefinition="An indicator that can be set or unset in order to signal whether a particular condition is true." conceptName="Flag" order="0"/>
+     <ns82:SemanticMetadata conceptCode="C61458" conceptDefinition="Doughnut-shaped object or surface generated by rotating a circle around an axis that does not intersect the circle; any object that resembles a ring." conceptName="Ring" order="1"/>
+    </ns82:UMLAttribute>
+    <ns82:UMLAttribute dataTypeName="java.lang.Integer" description="A unique integer number that is assigned to a graphical shape in annotations which have more than one shape within an AIM object." name="shapeIdentifier" publicID="2107245010" version="1.0">
+     <ns82:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns82:SemanticMetadata conceptCode="C25677" conceptDefinition="The spatial arrangement of something as distinct from its substance." conceptName="Shape" order="1"/>
+    </ns82:UMLAttribute>
+   </ns82:umlAttributeCollection>
+   <ns83:SemanticMetadata conceptCode="C64362" conceptDefinition="A closed plane curve resulting from the intersection of a circular cone and a plane cutting completely through it, especially a plane not parallel to the base." conceptName="Ellipse" order="0" xmlns:ns83="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Patient" id="EAID_E8BA40EE_C0B1_4306_AA16_1CB185980582" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns84:umlAttributeCollection xmlns:ns84="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns84:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="733844851" version="1.0"/>
+    <ns84:UMLAttribute dataTypeName="java.lang.String" description="The current legal name of the person registered on the clinical trial." name="name" publicID="1418012478" version="1.0"/>
+    <ns84:UMLAttribute dataTypeName="java.lang.String" description="The unique number assigned to identify a patient/participant on a protocol." name="patientID" publicID="-260751560" version="1.0"/>
+    <ns84:UMLAttribute dataTypeName="java.util.Date" description="The month, day and year on which the patient/participant was born." name="birthDate" publicID="-1995367190" version="1.0"/>
+    <ns84:UMLAttribute dataTypeName="java.lang.String" description="Text code to represent a patient's sex determination." name="sex" publicID="-1585453441" version="1.0"/>
+    <ns84:UMLAttribute dataTypeName="java.lang.String" description="the patient's/participant's self declared ethnic origination, independent of racial origination, based on OMB approved categories." name="ethnicGroup" publicID="255616100" version="1.0"/>
+   </ns84:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Study" id="EAID_E8F45577_B8B3_4605_9B05_162F3A863137" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns85:umlAttributeCollection xmlns:ns85="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns85:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="1020519857" version="1.0"/>
+    <ns85:UMLAttribute dataTypeName="java.lang.String" description="Unique identifier for an occurrence of a medical imaging study." name="instanceUID" publicID="966411500" version="1.0"/>
+    <ns85:UMLAttribute dataTypeName="java.util.Date" description="Date an imaging study started." name="date" publicID="1478584388" version="1.0"/>
+   </ns85:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="ImageAnnotation" id="EAID_F4F39973_3B02_4c7d_80BE_3358177AED27" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns86:umlAttributeCollection xmlns:ns86="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns86:UMLAttribute description="Specific nature of annotation being made, e.g. measurement of primary RECIST lesion or teaching file annotation or change measurement." name="type" publicID="636848329" version="1.0">
+     <ns86:SemanticMetadata conceptCode="C25284" conceptDefinition="Something distinguishable as an identifiable class based on common qualities." conceptName="Type" order="0"/>
+     <ns86:SemanticMetadata conceptCode="C44272" conceptDefinition="An explanatory or critical comment that has been added to a text." conceptName="Annotation" order="1"/>
+     <ns86:SemanticMetadata conceptCode="C48179" conceptDefinition="Any record of an imaging event whether physical or electronic." conceptName="Image" order="2"/>
+    </ns86:UMLAttribute>
+    <ns86:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="-1737843967" version="1.0">
+     <ns86:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns86:UMLAttribute>
+    <ns86:UMLAttribute description="The version of the AIM model used by this annotation." name="aimVersion" publicID="2143023229" version="1.0">
+     <ns86:SemanticMetadata conceptCode="C25714" conceptDefinition="A form or variant of a type or original; one of a sequence of copies of a program, each incorporating new modifications." conceptName="Version" order="0"/>
+     <ns86:SemanticMetadata conceptCode="C16866" conceptDefinition="A representation of something, often idealized or modified to make it conceptually easier to understand." conceptName="Model System" order="1"/>
+    </ns86:UMLAttribute>
+    <ns86:UMLAttribute dataTypeName="java.lang.String" description="Free text about the annotation not intended for rendering on the image." name="comment" publicID="-2127809350" version="1.0">
+     <ns86:SemanticMetadata conceptCode="C25393" conceptDefinition="A written explanation, observation or criticism added to textual material." conceptName="Comment" order="0"/>
+    </ns86:UMLAttribute>
+    <ns86:UMLAttribute dataTypeName="java.util.Date" description="Date and time when the Annotation is created." name="dateTime" publicID="1230409913" version="1.0">
+     <ns86:SemanticMetadata conceptCode="C37939" conceptDefinition="An expression of both date and time that an event has happened or will happen." conceptName="Date and Time" order="0"/>
+    </ns86:UMLAttribute>
+    <ns86:UMLAttribute dataTypeName="java.lang.String" description="A human readable name for the annotation, for example, &quot;Lymph node 42&quot;, or &quot;target one&quot;." name="name" publicID="1149840160" version="1.0">
+     <ns86:SemanticMetadata conceptCode="C42614" conceptDefinition="The words or language units by which a thing is known." conceptName="Name" order="0"/>
+    </ns86:UMLAttribute>
+    <ns86:UMLAttribute dataTypeName="java.lang.String" description="A Digital Imaging and Communication in Medicine (DICOM) (style) unique identifier for this particular instance of an annotation. Used to reference a specific annotation." name="uniqueIdentifier" publicID="244594503" version="1.0">
+     <ns86:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns86:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+    </ns86:UMLAttribute>
+   </ns86:umlAttributeCollection>
+   <ns87:SemanticMetadata conceptCode="C44272" conceptDefinition="An explanatory or critical comment that has been added to a text." conceptName="Annotation" order="0" xmlns:ns87="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns88:SemanticMetadata conceptCode="C48179" conceptDefinition="Any record of an imaging event whether physical or electronic." conceptName="Image" order="1" xmlns:ns88="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="TwoDimensionSpatialCoordinate" id="EAID_FB7415EF_EC36_4899_B321_3B61E39C9AC9" packageName="edu.northwestern.radiology.AIM" projectName="aim" projectVersion="1.0">
+   <ns89:umlAttributeCollection xmlns:ns89="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns89:UMLAttribute dataTypeName="java.lang.String" description="The SOPInstance UID of the image that contains the pixel." name="imageReferenceUID" publicID="-119196271" version="1.0">
+     <ns89:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+     <ns89:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="1"/>
+     <ns89:SemanticMetadata conceptCode="C25641" conceptDefinition="A note acknowledging a source of information or quoting a passage." conceptName="Reference" order="2"/>
+     <ns89:SemanticMetadata conceptCode="C48179" conceptDefinition="Any record of an imaging event whether physical or electronic." conceptName="Image" order="3"/>
+    </ns89:UMLAttribute>
+    <ns89:UMLAttribute dataTypeName="java.lang.Integer" description="Identifies the frame numbers within the Referenced SOP Instance to which the reference applies. The first frame shall be denoted as frame number 1. Or, the frame number of the frame that contains the image in the case of multi-frame images." name="referencedFrameNumber" publicID="1953620798" version="1.0">
+     <ns89:SemanticMetadata conceptCode="C25337" conceptDefinition="A numeral or string of numerals expressing value, quantity, or identification." conceptName="Number" order="0"/>
+     <ns89:SemanticMetadata conceptCode="C48294" conceptDefinition="Something referred to; the object of a reference." conceptName="Reference Object" order="1"/>
+     <ns89:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="2"/>
+     <ns89:SemanticMetadata conceptCode="C45282" conceptDefinition="The single one of its kind." conceptName="Unique" order="3"/>
+    </ns89:UMLAttribute>
+    <ns89:UMLAttribute dataTypeName="java.lang.Double" description="X axis value." name="x" publicID="474830670" version="1.0">
+     <ns89:SemanticMetadata conceptCode="C44477" conceptDefinition="A horizontal coordinate that is used together with a vertical coordinate to specify an exact point in space." conceptName="X-Coordinate" order="0"/>
+    </ns89:UMLAttribute>
+    <ns89:UMLAttribute dataTypeName="java.lang.Double" description="Y axis value." name="y" publicID="683976633" version="1.0">
+     <ns89:SemanticMetadata conceptCode="C44478" conceptDefinition="A vertical coordinate that is used together with a horizontal coordinate to specify an exact point in space." conceptName="Y-Coordinate" order="0"/>
+    </ns89:UMLAttribute>
+    <ns89:UMLAttribute dataTypeName="java.lang.Integer" description="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." name="id" publicID="1453070224" version="1.0">
+     <ns89:SemanticMetadata conceptCode="C25364" conceptDefinition="One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing." conceptName="Identifier" order="0"/>
+    </ns89:UMLAttribute>
+    <ns89:UMLAttribute dataTypeName="java.lang.Integer" description="The order in which a coordinate appears." name="coordinateIndex" publicID="1571519979" version="1.0">
+     <ns89:SemanticMetadata conceptCode="C42680" conceptDefinition="A logical or comprehensible arrangement of separate elements; a condition of regular or proper arrangement." conceptName="Order" order="0"/>
+     <ns89:SemanticMetadata conceptCode="C44465" conceptDefinition="A number or other designation that identifies a position relative to an axis or grid." conceptName="Coordinate" order="1"/>
+    </ns89:UMLAttribute>
+   </ns89:umlAttributeCollection>
+   <ns90:SemanticMetadata conceptCode="C44465" conceptDefinition="A number or other designation that identifies a position relative to an axis or grid." conceptName="Coordinate" order="0" xmlns:ns90="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns91:SemanticMetadata conceptCode="C48282" conceptDefinition="The property of being measured and described using two orthogonal directions." conceptName="2-Dimensional" order="1" xmlns:ns91="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns1:UMLClass>
+ </ns1:exposedUMLClassCollection>
+ <ns1:umlGeneralizationCollection>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_043672C5_BEFE_4eec_AE77_F55AB9EB7BEA"/>
+   <ns1:superClassReference refid="EAID_9043DE11_BDBC_4fbe_BD3F_70CB139DBB1F"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_7C093787_87F0_4354_B2E1_0AC6B0BC9305"/>
+   <ns1:superClassReference refid="EAID_0A6E6675_E9CB_4dfa_A958_E1E2A26F87E8"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_FB7415EF_EC36_4899_B321_3B61E39C9AC9"/>
+   <ns1:superClassReference refid="EAID_0A6E6675_E9CB_4dfa_A958_E1E2A26F87E8"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_75D1384A_FEAA_4036_B2A3_BD46900AFC82"/>
+   <ns1:superClassReference refid="EAID_16B853FA_D557_4e7b_8979_965CE1BBE80D"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_F4F39973_3B02_4c7d_80BE_3358177AED27"/>
+   <ns1:superClassReference refid="EAID_16B853FA_D557_4e7b_8979_965CE1BBE80D"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_459C1915_5441_4296_BF9A_F1C01417CC6E"/>
+   <ns1:superClassReference refid="EAID_442ECE73_E7E5_4804_9FA0_0F2370BF3953"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_593D402D_5504_46b6_A62B_53F9685F75C7"/>
+   <ns1:superClassReference refid="EAID_442ECE73_E7E5_4804_9FA0_0F2370BF3953"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_7A072F38_349B_46a9_B8E9_FCC1B5F7F6ED"/>
+   <ns1:superClassReference refid="EAID_9043DE11_BDBC_4fbe_BD3F_70CB139DBB1F"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_E3E4AAE2_5217_4c68_96B6_E0D4F9E58863"/>
+   <ns1:superClassReference refid="EAID_9043DE11_BDBC_4fbe_BD3F_70CB139DBB1F"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_DAD5D455_CD0B_4f1d_AB7E_C4E627D524FC"/>
+   <ns1:superClassReference refid="EAID_9043DE11_BDBC_4fbe_BD3F_70CB139DBB1F"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="EAID_A57A1E9C_635E_4cc1_91B1_D872A816FD21"/>
+   <ns1:superClassReference refid="EAID_9043DE11_BDBC_4fbe_BD3F_70CB139DBB1F"/>
+  </ns1:UMLGeneralization>
+ </ns1:umlGeneralizationCollection>
+</ns1:DomainModel>
