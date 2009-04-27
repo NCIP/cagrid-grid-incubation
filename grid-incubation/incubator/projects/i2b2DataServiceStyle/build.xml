@@ -23,26 +23,32 @@
 	<property name="build.style.dest" location="${build.dir}/style/classes" />
 	<property name="build.processor.dest" location="${build.dir}/processor/classes" />
 	<property name="build.utils.dest" location="${build.dir}/utils/classes"/>
+	<property name="build.test.dest" location="${build.dir}/test/classes"/>
 	<property name="build.jars.dir" location="build/lib" />
 
 	<!-- jar names -->
 	<property name="style.jar.name" value="${project.jar.prefix}style${project.jar.suffix}" />
 	<property name="processor.jar.name" value="${project.jar.prefix}processor${project.jar.suffix}" />
 	<property name="utils.jar.name" value="${project.jar.prefix}utils${project.jar.suffix}"/>
+	<property name="test.jar.name" value="${project.jar.prefix}test${project.jar.suffix}"/>
 	
 	<!-- jar files -->
 	<property name="style.jar.file" value="${build.jars.dir}/${style.jar.name}" />
 	<property name="processor.jar.file" value="${build.jars.dir}/${processor.jar.name}" />
 	<property name="utils.jar.file" value="${build.jars.dir}/${utils.jar.name}"/>
+	<property name="test.jar.file" value="${build.jars.dir}/${test.jar.name}"/>
 
 	<!-- source directories -->
 	<property name="style.src.dir" location="${basedir}/src/java/style" />
 	<property name="processor.src.dir" location="${basedir}/src/java/processor" />
 	<property name="utils.src.dir" location="${basedir}/src/java/utils"/>
+	<property name="test.src.dir" location="${basedir}/test/src/java"/>
+	<property name="test.resources.dir" location="${basedir}/test/resources"/>
 
 	<!-- libraries -->
 	<property name="lib.dir" location="${basedir}/lib" />
-	<property name="ext.lib.dir" location="${basedir}/ext/dependencies/jars" />
+	<property name="ext.lib.dir" location="${basedir}/ext/dependencies/impl/jars" />
+	<property name="ext.test.lib.dir" location="${basedir}/ext/dependencies/test/jars"/>
 
 	<!-- build file for stub generation -->
 	<property name="ant.build.stubs" location="${globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
@@ -67,6 +73,14 @@
 			<exclude name="junit.jar" />
 		</fileset>
 	</path>
+	
+	<!-- the test classpath -->
+	<path id="test.classpath">
+		<path refid="build.classpath"/>
+		<fileset dir="${ext.test.lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
 
 	<!-- creates output directories -->
 	<target name="init" depends="defineContribTasks">
@@ -75,6 +89,7 @@
 		<mkdir dir="${build.style.dest}" />
 		<mkdir dir="${build.processor.dest}" />
 		<mkdir dir="${build.utils.dest}"/>
+		<mkdir dir="${build.test.dest}"/>
 	</target>
 
 
@@ -122,6 +137,20 @@
 			<include name="**/*.java"/>
 		</javac>
 	</target>
+	
+	
+	<!-- compiles the test source code -->
+	<target name="compileTest" depends="compileStyle, compileUtils, compileProcessor">
+		<javac srcdir="${test.src.dir}" destdir="${build.test.dest}" debug="${java.debug}" source="${java.source}">
+			<classpath refid="test.classpath"/>
+			<classpath>
+				<pathelement location="${build.utils.dest}"/>
+				<pathelement location="${build.style.dest}"/>
+				<pathelement location="${build.processor.dest}"/>
+			</classpath>
+			<include name="**/*.java"/>
+		</javac>
+	</target>
 
 	
 	<!-- jars the style -->
@@ -157,6 +186,22 @@
 				<include name="**/*.class"/>
 			</fileset>
 			<fileset dir="${utils.src.dir}">
+				<include name="**/*"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!-- jars the tests -->
+	<target name="jarTest" depends="compileTest" description="Builds the tests jar file">
+		<jar destfile="${test.jar.file}">
+			<fileset dir="${build.test.dest}">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${test.src.dir}">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="${test.resources.dir}">
 				<include name="**/*"/>
 			</fileset>
 		</jar>
@@ -198,5 +243,5 @@
 
 
 	<!-- build and jar everything -->
-	<target name="all" depends="jarProcessor, jarStyle, jarUtils" description="Builds and jars all the classes in the project" />
+	<target name="all" depends="jarProcessor, jarStyle, jarUtils, jarTest" description="Builds and jars all the classes in the project" />
 </project>

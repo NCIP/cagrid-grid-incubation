@@ -14,6 +14,8 @@
     <conf name="stubs" visibility="public" />
     <conf name="processor" visibility="public" extends="stubs" />
     <conf name="style" visibility="public" extends="processor" />
+    
+    <conf name="test" visibility="private" extends="style"/>
   </configurations>
 
   <publications>
@@ -32,6 +34,8 @@
 
     <!-- external dependencies -->
     <dependency rev="2.0.0" org="jgoodies" name="validation" conf="style->default"/>
+    <dependency rev="2.7" org="clarkware" name="jdepend" conf="test->*" />
+    <dependency rev="4.4" org="junit" name="junit" conf="test->default" />
   </dependencies>
   
 </ivy-module>
