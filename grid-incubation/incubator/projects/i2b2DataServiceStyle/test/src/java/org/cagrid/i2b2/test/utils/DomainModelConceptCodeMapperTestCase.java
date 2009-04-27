@@ -29,7 +29,9 @@ public class DomainModelConceptCodeMapperTestCase extends TestCase {
     }
     
     
-    
+    public void testDummy() {
+        // just until I get some real tests written
+    }
     
 
     public static void main(String[] args) {

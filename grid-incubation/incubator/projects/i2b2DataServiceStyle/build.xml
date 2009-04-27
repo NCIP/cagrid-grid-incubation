@@ -24,7 +24,8 @@
 	<property name="build.processor.dest" location="${build.dir}/processor/classes" />
 	<property name="build.utils.dest" location="${build.dir}/utils/classes"/>
 	<property name="build.test.dest" location="${build.dir}/test/classes"/>
-	<property name="build.jars.dir" location="build/lib" />
+	<property name="build.dirs.list" value="${build.style.dest},${build.processor.dest},${build.utils.dest}"/>
+	<property name="build.jars.dir" location="${build.dir}/lib" />
 
 	<!-- jar names -->
 	<property name="style.jar.name" value="${project.jar.prefix}style${project.jar.suffix}" />
@@ -57,6 +58,10 @@
 	<property name="introduce.extensions.dir" location="${introduce.dir}/extensions" />
 	<property name="style.document" location="${basedir}/style/style.xml" />
 	<property name="style.dest.dir" location="${introduce.extensions.dir}/data/styles/i2b2" />
+	
+	<!-- testing stuff -->
+	<property name="test.logs.dir" location="${basedir}/test/logs"/>
+	<import file="test/test.xml"/>
 
 	<!-- =============================================================== -->
 	<!-- The Build Classpath                                             -->
@@ -81,7 +86,7 @@
 			<include name="**/*.jar"/>
 		</fileset>
 	</path>
-
+	
 	<!-- creates output directories -->
 	<target name="init" depends="defineContribTasks">
 		<mkdir dir="${build.dir}" />

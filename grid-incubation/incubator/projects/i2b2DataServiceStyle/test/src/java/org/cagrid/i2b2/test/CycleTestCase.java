@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import jdepend.framework.JDepend;
 import jdepend.framework.JavaPackage;
@@ -15,6 +16,8 @@ import junit.textui.TestRunner;
 
 
 public class CycleTestCase extends TestCase {
+    
+    public static final String BUILD_DIRS_LIST_PROPERTY = "build.dirs.list";
 
     private JDepend jdepend;
 
@@ -27,8 +30,13 @@ public class CycleTestCase extends TestCase {
     protected void setUp() {
         jdepend = new JDepend();
         try {
-            String dir = System.getProperty("build.dir", ".");
-            jdepend.addDirectory(dir);
+            String dirs = System.getProperty(BUILD_DIRS_LIST_PROPERTY, ".");
+            StringTokenizer tok = new StringTokenizer(dirs, ",");
+            while (tok.hasMoreTokens()) {
+                String dir = tok.nextToken().trim();
+                System.out.println("Analyzing source from " + dir);
+                jdepend.addDirectory(dir);
+            }
             jdepend.analyzeTestClasses(false);
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -49,6 +57,7 @@ public class CycleTestCase extends TestCase {
     public void testAllPackagesCycle() {
         int numCycles = 0;
         Collection packages = jdepend.analyze();
+        System.out.println("Analyzed " + jdepend.countPackages() + " packages");
         if (jdepend.containsCycles()) {
             Iterator iter = packages.iterator();
             while (iter.hasNext()) {
@@ -61,19 +70,17 @@ public class CycleTestCase extends TestCase {
                     for (Iterator iterator = list.iterator(); iterator.hasNext();) {
                         JavaPackage dependsP = (JavaPackage) iterator.next();
                         System.out.println("->" + dependsP.getName());
-
                     }
                 }
             }
         }
         System.out.println("\n===== Found " + numCycles + " cyclic packages. =====\n\n");
 
-        assertEquals("Cycles exist", false, jdepend.containsCycles());
+        assertFalse("Cycles exist", jdepend.containsCycles());
     }
 
 
     public static void main(String args[]) {
-
         TestRunner runner = new TestRunner();
         TestResult result = runner.doRun(new TestSuite(CycleTestCase.class));
         System.exit(result.errorCount() + result.failureCount());
