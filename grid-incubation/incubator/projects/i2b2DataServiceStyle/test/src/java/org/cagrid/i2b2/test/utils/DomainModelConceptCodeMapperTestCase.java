@@ -1,21 +1,21 @@
 package org.cagrid.i2b2.test.utils;
 
+import gov.nih.nci.cagrid.metadata.MetadataUtils;
+import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
+
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import gov.nih.nci.cagrid.metadata.MetadataUtils;
-import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
-
-import org.cagrid.i2b2.ontomapper.utils.AttributeNotFoundInModelException;
-import org.cagrid.i2b2.ontomapper.utils.ClassNotFoundInModelException;
-import org.cagrid.i2b2.ontomapper.utils.DomainModelConceptCodeMapper;
-
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
+
+import org.cagrid.i2b2.ontomapper.utils.AttributeNotFoundInModelException;
+import org.cagrid.i2b2.ontomapper.utils.ClassNotFoundInModelException;
+import org.cagrid.i2b2.ontomapper.utils.DomainModelConceptCodeMapper;
 
 /**
  * DomainModelConceptCodeMapperTestCase
@@ -89,6 +89,47 @@ public class DomainModelConceptCodeMapperTestCase extends TestCase {
         Collections.sort(foundCodes);
         for (int i = 0; i < expectedCodes.size(); i++) {
             assertEquals("Unexpected code found", expectedCodes.get(i), foundCodes.get(i));
+        }
+    }
+    
+    
+    public void testInvalidClass() {
+        String className = "non.existant.package.AndClass";
+        try {
+            mapper.getConceptCodesForClass(className);
+        } catch (ClassNotFoundInModelException ex) {
+            // expected
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fail("Unexpected exception thrown: " + ex.getMessage());
+        }
+    }
+    
+    
+    public void testValidClassInvalidAttribute() {
+        String className = "edu.northwestern.radiology.AIM.MultiPoint";
+        String attributeName = "nonExistantAttribute";
+        try {
+            mapper.getConceptCodesForAttribute(className, attributeName);
+        } catch (AttributeNotFoundInModelException ex) {
+            // expected
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fail("Unexpected exception thrown: " + ex.getMessage());
+        }
+    }
+    
+    
+    public void testInvalidClassInvalidAttribute() {
+        String className = "non.existant.package.AndClass";
+        String attributeName = "nonExistantAttribute";
+        try {
+            mapper.getConceptCodesForAttribute(className, attributeName);
+        } catch (ClassNotFoundInModelException ex) {
+            // expected... should throw this before attribute not found
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fail("Unexpected exception thrown: " + ex.getMessage());
         }
     }
     
