@@ -8,6 +8,7 @@ import java.util.List;
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 
+import org.cagrid.i2b2.ontomapper.utils.AttributeNotFoundInModelException;
 import org.cagrid.i2b2.ontomapper.utils.ClassNotFoundInModelException;
 import org.cagrid.i2b2.ontomapper.utils.DomainModelConceptCodeMapper;
 
@@ -57,6 +58,31 @@ public class DomainModelConceptCodeMapperTestCase extends TestCase {
         } catch (ClassNotFoundInModelException ex) {
             ex.printStackTrace();
             fail("Class " + className + " was expected to be in the model: " + ex.getMessage());
+        }
+        assertEquals("Unexpected number of concept codes found", expectedCodes.size(), foundCodes.size());
+        Collections.sort(expectedCodes);
+        Collections.sort(foundCodes);
+        for (int i = 0; i < expectedCodes.size(); i++) {
+            assertEquals("Unexpected code found", expectedCodes.get(i), foundCodes.get(i));
+        }
+    }
+    
+    
+    public void testAttributeConceptCodes() {
+        String className = "edu.northwestern.radiology.AIM.MultiPoint";
+        String attributeName = "lineColor";
+        List<String> expectedCodes = Arrays.asList(new String[] {
+            "C37927", "C71604"
+        });
+        List<String> foundCodes = null;
+        try {
+            foundCodes = mapper.getConceptCodesForAttribute(className, attributeName);
+        } catch (ClassNotFoundInModelException ex) {
+            ex.printStackTrace();
+            fail("Class " + className + " was expected to be in the model: " + ex.getMessage());
+        } catch (AttributeNotFoundInModelException ex) {
+            ex.printStackTrace();
+            fail("Attribute " + attributeName + " was expected to be in the model: " + ex.getMessage());
         }
         assertEquals("Unexpected number of concept codes found", expectedCodes.size(), foundCodes.size());
         Collections.sort(expectedCodes);
