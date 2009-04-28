@@ -57,7 +57,9 @@ public class CycleTestCase extends TestCase {
     public void testAllPackagesCycle() {
         int numCycles = 0;
         Collection packages = jdepend.analyze();
-        System.out.println("Analyzed " + jdepend.countPackages() + " packages");
+        assertTrue("Expected to find more than zero packages to analyize", jdepend.countPackages() != 0);
+        assertTrue("Expected to find more than zero classes to analyize", jdepend.countClasses() != 0);
+        System.out.println("Analyzed " + jdepend.countPackages() + " packages and " + jdepend.countClasses() + " classes");
         if (jdepend.containsCycles()) {
             Iterator iter = packages.iterator();
             while (iter.hasNext()) {
