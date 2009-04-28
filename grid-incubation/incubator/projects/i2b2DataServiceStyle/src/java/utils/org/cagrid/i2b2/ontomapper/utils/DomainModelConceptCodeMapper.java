@@ -60,6 +60,10 @@ public class DomainModelConceptCodeMapper implements ConceptCodeMapper {
 
     public List<String> getConceptCodesForAttribute(String className, String attributeName) 
         throws ClassNotFoundInModelException, AttributeNotFoundInModelException {
+        if (!classConceptCodes.containsKey(className)) {
+            throw new ClassNotFoundInModelException("Class " + className + 
+            " not found in domain model!");
+        }
         List<String> conceptCodes = attributeConceptCodes.get(className + "." + attributeName);
         if (conceptCodes == null) {
             throw new AttributeNotFoundInModelException(
