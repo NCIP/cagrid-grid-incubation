@@ -113,5 +113,6 @@
 	<classpathentry kind="lib" path="ext/dependencies/impl/jars/validation-2.0.0.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/impl/jars/xsom14.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/test/jars/jdepend-2.7.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/mysql-connector-java-3.0.16-ga-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
