@@ -36,6 +36,7 @@
     <dependency rev="2.0.0" org="jgoodies" name="validation" conf="style->default"/>
     <dependency rev="2.7" org="clarkware" name="jdepend" conf="test->*" />
     <dependency rev="4.4" org="junit" name="junit" conf="test->default" />
+    <dependency rev="3.0.16-ga-bin" org="mysql" name="connector-java" conf="impl->default"/>
   </dependencies>
   
 </ivy-module>
