@@ -12,12 +12,25 @@ public class DbCopy {
     
     // JDBC for MySQL: jdbc:mysql://<server>:<port>/database
     // JDBC for Sybase w/ JTDS: jdbc:sybase:Tds://<server>:<port>/database
-
+    
+    // Tables different between what's in UCSF's i2b2 database and the SQL schemas I have:
+    // encoding_dimension, i2b2, visit_dimension
+    
+    // tables that won't go in for other reasons:
+    // map_aggr_fact: duplicate primary key
+    // map_data_fact: duplicate primary key (10000001-1001-\beefydinky\Glycemic_Med_Name-0-2009-03-11-1-\i2b2)
+    // observation_fact: Column 'OBSERVATION_FACT_ID' cannot be null
+    // provider_dimension: duplicate primary key (BWH\Fellows, Residents and Interns\Owen, Chertow\)
+    // user_info: duplicate primary key (Test)
+    
+    
     /**
      * @param args
      */
     public static void main(String[] args) {
         try {
+            String tableName = "visit_dimension";
+            
             // load the sybase driver
             Class.forName(com.sybase.jdbc3.jdbc.SybDriver.class.getName());
             // and the mysql driver
@@ -33,7 +46,7 @@ public class DbCopy {
             
             // query for * from the concept_dimension table in alpha
             Statement sybaseStatement = sybaseConnection.createStatement();
-            ResultSet sybaseResults = sybaseStatement.executeQuery("select * from i2b2demodata.CONCEPT_DIMENSION2");
+            ResultSet sybaseResults = sybaseStatement.executeQuery("select * from i2b2demodata." + tableName);
             ResultSetMetaData sybaseMetadata = sybaseResults.getMetaData();
             
             // NOTE: From here on out, it gets weird.  JDBC uses 1 indexed lists / arrays, not 0 indexed like everything else in every programming language and convention ever
@@ -50,7 +63,7 @@ public class DbCopy {
             // create a prepared statement for inserting data
             System.out.println("Source table has " + sybaseMetadata.getColumnCount() + " columns");
             StringBuffer insertSql = new StringBuffer();
-            insertSql.append("insert into concept_dimension (");
+            insertSql.append("insert into " + tableName + " (");
             for (int i = 0; i < sybaseMetadata.getColumnCount(); i++) {
                 insertSql.append(sybaseMetadata.getColumnName(i + 1));
                 if (i + 1 < sybaseMetadata.getColumnCount()) {
