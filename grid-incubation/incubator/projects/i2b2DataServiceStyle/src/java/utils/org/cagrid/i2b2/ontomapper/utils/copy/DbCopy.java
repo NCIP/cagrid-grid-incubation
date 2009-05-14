@@ -15,10 +15,23 @@ public class DbCopy {
         
     // tables that won't go in for various reasons:
     // map_aggr_fact: duplicate primary key
+    // -- the UCSF database doesn't have a PK on this table
+    // -- edited schema, imported data
     // map_data_fact: duplicate primary key (10000001-1001-\beefydinky\Glycemic_Med_Name-0-2009-03-11-1-\i2b2)
+    // -- the UCSF database doesn't have a PK on this table
+    // -- edited schema, imported data
     // observation_fact: Column 'OBSERVATION_FACT_ID' cannot be null
+    // observation_fact: Column 'CONCEPT_PATH' cannot be null
+    // observation_fact: Column 'LOCATION_CD' cannot be null
+    // observation_fact: Data too long for column 'PROVIDER_ID' at row 1
+    // observation_fact: Data too long for column 'LOCATION_CD' at row 1
+    // -- the UCSF database allows nulls on all of these
+    // -- the UCSF database made PROVIDER_ID (and many others) varchar(50)
+    // -- edited the schema, imported the data
     // provider_dimension: duplicate primary key (BWH\Fellows, Residents and Interns\Owen, Chertow\)
+    // -- the UCSF database doesn't have a PK on this table
     // user_info: duplicate primary key (Test)
+    // -- Despite this error, the UCSF database DOES define this PK.  Thats bad.
     
     
     /**
@@ -26,7 +39,7 @@ public class DbCopy {
      */
     public static void main(String[] args) {
         try {
-            String tableName = "encoding_dimension";
+            String tableName = "observation_fact";
             
             // load the sybase driver
             Class.forName(com.sybase.jdbc3.jdbc.SybDriver.class.getName());
