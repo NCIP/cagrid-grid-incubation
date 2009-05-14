@@ -12,11 +12,8 @@ public class DbCopy {
     
     // JDBC for MySQL: jdbc:mysql://<server>:<port>/database
     // JDBC for Sybase w/ JTDS: jdbc:sybase:Tds://<server>:<port>/database
-    
-    // Tables different between what's in UCSF's i2b2 database and the SQL schemas I have:
-    // encoding_dimension, i2b2, visit_dimension
-    
-    // tables that won't go in for other reasons:
+        
+    // tables that won't go in for various reasons:
     // map_aggr_fact: duplicate primary key
     // map_data_fact: duplicate primary key (10000001-1001-\beefydinky\Glycemic_Med_Name-0-2009-03-11-1-\i2b2)
     // observation_fact: Column 'OBSERVATION_FACT_ID' cannot be null
@@ -29,7 +26,7 @@ public class DbCopy {
      */
     public static void main(String[] args) {
         try {
-            String tableName = "visit_dimension";
+            String tableName = "encoding_dimension";
             
             // load the sybase driver
             Class.forName(com.sybase.jdbc3.jdbc.SybDriver.class.getName());
