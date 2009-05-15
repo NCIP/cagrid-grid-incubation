@@ -33,6 +33,9 @@ public class DbCopy {
     // -- edited the schema, imported the data
     // user_info: duplicate primary key (Test)
     // -- Despite this error, the UCSF database DOES define this PK.  Thats bad.
+    // -- It'a case sensitivity on Linux (UCSF) vs not on windows (Me).  'test' != 'Test', except when it does.
+    // -- added 'COLATE latin1_general_cs' to the table, imported the data
+    // -- went ahead and added COLATE latin1_general_cs to all the tables
     
     
     /**
@@ -40,7 +43,7 @@ public class DbCopy {
      */
     public static void main(String[] args) {
         try {
-            String tableName = "provider_dimension";
+            String tableName = "user_info";
             
             // load the sybase driver
             Class.forName(com.sybase.jdbc3.jdbc.SybDriver.class.getName());
@@ -52,7 +55,7 @@ public class DbCopy {
             System.out.println("Got a connection to sybase");
             
             // connect to database beta
-            Connection mysqlConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/i2b2_alpha", "root", "");
+            Connection mysqlConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/i2b2_beta", "root", "");
             System.out.println("Got a connection to mysql");
             
             // query for * from the concept_dimension table in alpha
