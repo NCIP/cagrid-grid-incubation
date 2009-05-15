@@ -30,6 +30,7 @@ public class DbCopy {
     // -- edited the schema, imported the data
     // provider_dimension: duplicate primary key (BWH\Fellows, Residents and Interns\Owen, Chertow\)
     // -- the UCSF database doesn't have a PK on this table
+    // -- edited the schema, imported the data
     // user_info: duplicate primary key (Test)
     // -- Despite this error, the UCSF database DOES define this PK.  Thats bad.
     
@@ -39,7 +40,7 @@ public class DbCopy {
      */
     public static void main(String[] args) {
         try {
-            String tableName = "observation_fact";
+            String tableName = "provider_dimension";
             
             // load the sybase driver
             Class.forName(com.sybase.jdbc3.jdbc.SybDriver.class.getName());
