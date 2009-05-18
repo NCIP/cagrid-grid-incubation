@@ -43,6 +43,7 @@ public class DbCopy {
      */
     public static void main(String[] args) {
         try {
+            boolean printEverything = false;
             String tableName = "user_info";
             
             // load the sybase driver
@@ -94,29 +95,42 @@ public class DbCopy {
             insertSql.append(")");
             System.out.println("INSERT SQL:");
             System.out.println(insertSql.toString());
+            System.out.println(". = 100 rows inserted");
             PreparedStatement preparedInsert = mysqlConnection.prepareStatement(insertSql.toString());
+            int rows = 0;
             while (sybaseResults.next()) {
                 for (int i = 1; i <= columns; i++) {
                     Object value = sybaseResults.getObject(i);
-                    if (value == null) {
-                        System.out.print("null (<null>)");
-                    } else {
-                        System.out.print(value + " (" + value.getClass().getName() + ")");
-                    }
-                    if (i + 1 <= columns) {
-                        System.out.print("\t\t");
+                    if (printEverything) {
+                        if (value == null) {
+                            System.out.print("null (<null>)");
+                        } else {
+                            System.out.print(value + " (" + value.getClass().getName() + ")");
+                        }
+                        if (i + 1 <= columns) {
+                            System.out.print("\t\t");
+                        }
                     }
                     preparedInsert.setObject(i, value);
                 }
                 preparedInsert.execute();
-                System.out.println();
-                System.out.println(preparedInsert.getUpdateCount() + " rows inserted");
+                rows++;
+                if (rows % 100 == 0) {
+                    System.out.print(".");
+                }
+                if (rows % 5000 == 0) {
+                    System.out.print("  " + rows);
+                    System.out.println();
+                }
             }
+            System.out.println();
+            System.out.println("Copied " + rows + " rows");
             sybaseConnection.close();
             mysqlConnection.close();
         } catch (Exception ex) {
+            System.out.println();
             ex.printStackTrace();
         }
-    }
-
+    }    
+    
 }
