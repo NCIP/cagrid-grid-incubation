@@ -43,15 +43,16 @@ public class DbCopy {
      */
     public static void main(String[] args) {
         // input database
-        /* UCSF i2b2 demo database
+        /* UCSF i2b2 demo database */
         String inputDb = "jdbc:sybase:Tds:192.168.24.21:2638/i2b2rc4";
         String inputUser = "DBA";
         String inputPasswd = "SQL";
-        */
         
+        /*
         String inputDb = "jdbc:mysql://localhost:3306/i2b2_alpha";
         String inputUser = "root";
         String inputPasswd = "";
+        */
         
         // output database
         String outputDb = "jdbc:mysql://localhost:3306/i2b2_beta";
@@ -62,7 +63,7 @@ public class DbCopy {
         boolean printEverything = false;
         
         // what table are we copying
-        String tableName = "visit_dimension";
+        String tableName = "workplace_access";
         try {
             // load the sybase driver
             Class.forName(com.sybase.jdbc3.jdbc.SybDriver.class.getName());
@@ -79,7 +80,7 @@ public class DbCopy {
             
             // query for * from the table in input
             Statement inputStatement = inputConnection.createStatement();
-            ResultSet inputResults = inputStatement.executeQuery("select * from " + tableName);
+            ResultSet inputResults = inputStatement.executeQuery("select * from i2b2workdata." + tableName);
             ResultSetMetaData inputMetadata = inputResults.getMetaData();
             
             // NOTE: From here on out, it gets weird.  JDBC uses 1 indexed lists / arrays, 
