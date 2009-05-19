@@ -42,32 +42,51 @@ public class DbCopy {
      * @param args
      */
     public static void main(String[] args) {
+        // input database
+        /* UCSF i2b2 demo database
+        String inputDb = "jdbc:sybase:Tds:192.168.24.21:2638/i2b2rc4";
+        String inputUser = "DBA";
+        String inputPasswd = "SQL";
+        */
+        
+        String inputDb = "jdbc:mysql://localhost:3306/i2b2_alpha";
+        String inputUser = "root";
+        String inputPasswd = "";
+        
+        // output database
+        String outputDb = "jdbc:mysql://localhost:3306/i2b2_beta";
+        String outputUser = "root";
+        String outputPasswd = "";
+        
+        // set print every line??
+        boolean printEverything = false;
+        
+        // what table are we copying
+        String tableName = "visit_dimension";
         try {
-            boolean printEverything = false;
-            String tableName = "user_info";
-            
             // load the sybase driver
             Class.forName(com.sybase.jdbc3.jdbc.SybDriver.class.getName());
             // and the mysql driver
             Class.forName(com.mysql.jdbc.Driver.class.getName());
             
-            // connect to database alpha
-            Connection sybaseConnection = DriverManager.getConnection("jdbc:sybase:Tds:192.168.24.21:2638/i2b2rc4", "DBA", "SQL");
-            System.out.println("Got a connection to sybase");
+            // connect to input database
+            Connection inputConnection = DriverManager.getConnection(inputDb, inputUser, inputPasswd);
+            System.out.println("Got a connection to the input database");
             
             // connect to database beta
-            Connection mysqlConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/i2b2_beta", "root", "");
-            System.out.println("Got a connection to mysql");
+            Connection outputConnection = DriverManager.getConnection(outputDb, outputUser, outputPasswd);
+            System.out.println("Got a connection to the output database");
             
-            // query for * from the concept_dimension table in alpha
-            Statement sybaseStatement = sybaseConnection.createStatement();
-            ResultSet sybaseResults = sybaseStatement.executeQuery("select * from i2b2demodata." + tableName);
-            ResultSetMetaData sybaseMetadata = sybaseResults.getMetaData();
+            // query for * from the table in input
+            Statement inputStatement = inputConnection.createStatement();
+            ResultSet inputResults = inputStatement.executeQuery("select * from " + tableName);
+            ResultSetMetaData inputMetadata = inputResults.getMetaData();
             
-            // NOTE: From here on out, it gets weird.  JDBC uses 1 indexed lists / arrays, not 0 indexed like everything else in every programming language and convention ever
-            int columns = sybaseMetadata.getColumnCount();
+            // NOTE: From here on out, it gets weird.  JDBC uses 1 indexed lists / arrays, 
+            // not 0 indexed like everything else in every programming language and convention ever
+            int columns = inputMetadata.getColumnCount();
             for (int i = 1; i <= columns; i++) {
-                System.out.print(sybaseMetadata.getColumnName(i));
+                System.out.print(inputMetadata.getColumnName(i));
                 if (i + 1 <= columns) {
                     System.out.print("\t\t");
                 }
@@ -76,19 +95,19 @@ public class DbCopy {
             System.out.println("-------------");
             
             // create a prepared statement for inserting data
-            System.out.println("Source table has " + sybaseMetadata.getColumnCount() + " columns");
+            System.out.println("Source table has " + inputMetadata.getColumnCount() + " columns");
             StringBuffer insertSql = new StringBuffer();
             insertSql.append("insert into " + tableName + " (");
-            for (int i = 0; i < sybaseMetadata.getColumnCount(); i++) {
-                insertSql.append(sybaseMetadata.getColumnName(i + 1));
-                if (i + 1 < sybaseMetadata.getColumnCount()) {
+            for (int i = 0; i < inputMetadata.getColumnCount(); i++) {
+                insertSql.append(inputMetadata.getColumnName(i + 1));
+                if (i + 1 < inputMetadata.getColumnCount()) {
                     insertSql.append(", ");
                 }
             }
             insertSql.append(") values(");
-            for (int i = 0; i < sybaseMetadata.getColumnCount(); i++) {
+            for (int i = 0; i < inputMetadata.getColumnCount(); i++) {
                 insertSql.append("?");
-                if (i + 1 < sybaseMetadata.getColumnCount()) {
+                if (i + 1 < inputMetadata.getColumnCount()) {
                     insertSql.append(", ");
                 }
             }
@@ -96,11 +115,11 @@ public class DbCopy {
             System.out.println("INSERT SQL:");
             System.out.println(insertSql.toString());
             System.out.println(". = 100 rows inserted");
-            PreparedStatement preparedInsert = mysqlConnection.prepareStatement(insertSql.toString());
+            PreparedStatement preparedInsert = outputConnection.prepareStatement(insertSql.toString());
             int rows = 0;
-            while (sybaseResults.next()) {
+            while (inputResults.next()) {
                 for (int i = 1; i <= columns; i++) {
-                    Object value = sybaseResults.getObject(i);
+                    Object value = inputResults.getObject(i);
                     if (printEverything) {
                         if (value == null) {
                             System.out.print("null (<null>)");
@@ -125,8 +144,8 @@ public class DbCopy {
             }
             System.out.println();
             System.out.println("Copied " + rows + " rows");
-            sybaseConnection.close();
-            mysqlConnection.close();
+            inputConnection.close();
+            outputConnection.close();
         } catch (Exception ex) {
             System.out.println();
             ex.printStackTrace();
