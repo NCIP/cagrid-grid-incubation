@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:cfg="http://cancergrid.org/schema/config" xmlns="http://cancergrid.org/schema/query" elementFormDefault="qualified" targetNamespace="http://cancergrid.org/schema/query" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="config.xsd" namespace="http://cancergrid.org/schema/config" />
+  <xs:element name="query" type="query" />
+  <xs:complexType name="query">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="serviceUrl" nillable="true" type="xs:anyURI" />
+      <xs:element name="resource" type="xs:string" />
+      <xs:element minOccurs="0" name="src" nillable="true" type="xs:string" />
+      <xs:choice>
+        <xs:element minOccurs="0" maxOccurs="1" name="term" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="id" type="xs:string" />
+      </xs:choice>
+      <xs:element minOccurs="0" default="0" name="startIndex" type="xs:int" />
+      <xs:element minOccurs="0" default="10" name="numResults" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
