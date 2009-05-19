@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:der="http://cancergrid.org/services/DataElementReduced" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns0="http://cancergrid.org/services/DataElementReduced" targetNamespace="http://cancergrid.org/services/DataElementReduced" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>DataElementReduced</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema xmlns:der-xs="http://cancergrid.org/schema/DataElementReduced" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://cancergrid.org/services/DataElementReduced">
+      <xs:import schemaLocation="DataElementReduced?xsd=xsd0" namespace="http://cancergrid.org/schema/DataElementReduced" />
+      <xs:element name="createDataElementReduced">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="der-xs:new-data-element-reduced" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="createDataElementReducedResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="dataElementListSearch">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="term" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="startIndex" type="xs:int" />
+            <xs:element minOccurs="0" name="numResults" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="dataElementListSearchResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getDataTypesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getOrganizationContactsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getRegAuthResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getUOMResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getOrganizationContactsRequest" />
+  <wsdl:message name="getOrganizationContactsResponse">
+    <wsdl:part name="parameters" element="ns0:getOrganizationContactsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUOMRequest" />
+  <wsdl:message name="getUOMResponse">
+    <wsdl:part name="parameters" element="ns0:getUOMResponse" />
+  </wsdl:message>
+  <wsdl:message name="createDataElementReducedRequest">
+    <wsdl:part name="parameters" element="ns0:createDataElementReduced" />
+  </wsdl:message>
+  <wsdl:message name="createDataElementReducedResponse">
+    <wsdl:part name="parameters" element="ns0:createDataElementReducedResponse" />
+  </wsdl:message>
+  <wsdl:message name="getRegAuthRequest" />
+  <wsdl:message name="getRegAuthResponse">
+    <wsdl:part name="parameters" element="ns0:getRegAuthResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDataTypesRequest" />
+  <wsdl:message name="getDataTypesResponse">
+    <wsdl:part name="parameters" element="ns0:getDataTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="dataElementListSearchRequest">
+    <wsdl:part name="parameters" element="ns0:dataElementListSearch" />
+  </wsdl:message>
+  <wsdl:message name="dataElementListSearchResponse">
+    <wsdl:part name="parameters" element="ns0:dataElementListSearchResponse" />
+  </wsdl:message>
+  <wsdl:portType name="DataElementReducedPortType">
+    <wsdl:operation name="getOrganizationContacts">
+      <wsdl:input wsaw:Action="urn:getOrganizationContacts" message="ns0:getOrganizationContactsRequest" />
+      <wsdl:output wsaw:Action="urn:getOrganizationContactsResponse" message="ns0:getOrganizationContactsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUOM">
+      <wsdl:input wsaw:Action="urn:getUOM" message="ns0:getUOMRequest" />
+      <wsdl:output wsaw:Action="urn:getUOMResponse" message="ns0:getUOMResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createDataElementReduced">
+      <wsdl:input wsaw:Action="urn:createDataElementReduced" message="ns0:createDataElementReducedRequest" />
+      <wsdl:output wsaw:Action="urn:createDataElementReducedResponse" message="ns0:createDataElementReducedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getRegAuth">
+      <wsdl:input wsaw:Action="urn:getRegAuth" message="ns0:getRegAuthRequest" />
+      <wsdl:output wsaw:Action="urn:getRegAuthResponse" message="ns0:getRegAuthResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDataTypes">
+      <wsdl:input wsaw:Action="urn:getDataTypes" message="ns0:getDataTypesRequest" />
+      <wsdl:output wsaw:Action="urn:getDataTypesResponse" message="ns0:getDataTypesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="dataElementListSearch">
+      <wsdl:input wsaw:Action="urn:dataElementListSearch" message="ns0:dataElementListSearchRequest" />
+      <wsdl:output wsaw:Action="urn:dataElementListSearchResponse" message="ns0:dataElementListSearchResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DataElementReducedSOAP11Binding" type="ns0:DataElementReducedPortType">
+    <wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" Id="UTOverTransport">
+      <wsp:ExactlyOne>
+        <wsp:All>
+          <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+            <wsp:Policy>
+              <sp:TransportToken>
+                <wsp:Policy>
+                  <sp:HttpsToken RequireClientCertificate="false" />
+                </wsp:Policy>
+              </sp:TransportToken>
+              <sp:AlgorithmSuite>
+                <wsp:Policy>
+                  <sp:Basic256 />
+                </wsp:Policy>
+              </sp:AlgorithmSuite>
+              <sp:Layout>
+                <wsp:Policy>
+                  <sp:Lax />
+                </wsp:Policy>
+              </sp:Layout>
+              <sp:IncludeTimestamp />
+            </wsp:Policy>
+          </sp:TransportBinding>
+          <sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+            <wsp:Policy>
+              <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient" />
+            </wsp:Policy>
+          </sp:SignedSupportingTokens>
+        </wsp:All>
+      </wsp:ExactlyOne>
+    </wsp:Policy>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getOrganizationContacts">
+      <soap:operation soapAction="urn:getOrganizationContacts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUOM">
+      <soap:operation soapAction="urn:getUOM" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createDataElementReduced">
+      <soap:operation soapAction="urn:createDataElementReduced" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegAuth">
+      <soap:operation soapAction="urn:getRegAuth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDataTypes">
+      <soap:operation soapAction="urn:getDataTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dataElementListSearch">
+      <soap:operation soapAction="urn:dataElementListSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DataElementReducedSOAP12Binding" type="ns0:DataElementReducedPortType">
+    <wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" Id="UTOverTransport">
+      <wsp:ExactlyOne>
+        <wsp:All>
+          <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+            <wsp:Policy>
+              <sp:TransportToken>
+                <wsp:Policy>
+                  <sp:HttpsToken RequireClientCertificate="false" />
+                </wsp:Policy>
+              </sp:TransportToken>
+              <sp:AlgorithmSuite>
+                <wsp:Policy>
+                  <sp:Basic256 />
+                </wsp:Policy>
+              </sp:AlgorithmSuite>
+              <sp:Layout>
+                <wsp:Policy>
+                  <sp:Lax />
+                </wsp:Policy>
+              </sp:Layout>
+              <sp:IncludeTimestamp />
+            </wsp:Policy>
+          </sp:TransportBinding>
+          <sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+            <wsp:Policy>
+              <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient" />
+            </wsp:Policy>
+          </sp:SignedSupportingTokens>
+        </wsp:All>
+      </wsp:ExactlyOne>
+    </wsp:Policy>
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getOrganizationContacts">
+      <soap12:operation soapAction="urn:getOrganizationContacts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUOM">
+      <soap12:operation soapAction="urn:getUOM" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createDataElementReduced">
+      <soap12:operation soapAction="urn:createDataElementReduced" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegAuth">
+      <soap12:operation soapAction="urn:getRegAuth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDataTypes">
+      <soap12:operation soapAction="urn:getDataTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dataElementListSearch">
+      <soap12:operation soapAction="urn:dataElementListSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DataElementReducedHttpBinding" type="ns0:DataElementReducedPortType">
+    <http:binding verb="POST" />
+    <wsdl:operation name="getOrganizationContacts">
+      <http:operation location="DataElementReduced/getOrganizationContacts" />
+      <wsdl:input>
+        <mime:content part="getOrganizationContacts" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getOrganizationContacts" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUOM">
+      <http:operation location="DataElementReduced/getUOM" />
+      <wsdl:input>
+        <mime:content part="getUOM" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getUOM" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createDataElementReduced">
+      <http:operation location="DataElementReduced/createDataElementReduced" />
+      <wsdl:input>
+        <mime:content part="createDataElementReduced" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="createDataElementReduced" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegAuth">
+      <http:operation location="DataElementReduced/getRegAuth" />
+      <wsdl:input>
+        <mime:content part="getRegAuth" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getRegAuth" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDataTypes">
+      <http:operation location="DataElementReduced/getDataTypes" />
+      <wsdl:input>
+        <mime:content part="getDataTypes" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getDataTypes" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dataElementListSearch">
+      <http:operation location="DataElementReduced/dataElementListSearch" />
+      <wsdl:input>
+        <mime:content part="dataElementListSearch" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="dataElementListSearch" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DataElementReduced">
+    <wsdl:port name="DataElementReducedSOAP11port_https" binding="ns0:DataElementReducedSOAP11Binding">
+      <soap:address location="https://localhost:8443/exist/services/DataElementReduced" />
+    </wsdl:port>
+    <wsdl:port name="DataElementReducedSOAP11port_http1" binding="ns0:DataElementReducedSOAP11Binding">
+      <soap:address location="http://localhost:8080/exist/services/DataElementReduced" />
+    </wsdl:port>
+    <wsdl:port name="DataElementReducedSOAP12port_https" binding="ns0:DataElementReducedSOAP12Binding">
+      <soap12:address location="https://localhost:8443/exist/services/DataElementReduced" />
+    </wsdl:port>
+    <wsdl:port name="DataElementReducedSOAP12port_http1" binding="ns0:DataElementReducedSOAP12Binding">
+      <soap12:address location="http://localhost:8080/exist/services/DataElementReduced" />
+    </wsdl:port>
+    <wsdl:port name="DataElementReducedHttpport" binding="ns0:DataElementReducedHttpBinding">
+      <http:address location="https://localhost:8443/exist/services/DataElementReduced" />
+    </wsdl:port>
+    <wsdl:port name="DataElementReducedHttpport1" binding="ns0:DataElementReducedHttpBinding">
+      <http:address location="http://localhost:8080/exist/services/DataElementReduced" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

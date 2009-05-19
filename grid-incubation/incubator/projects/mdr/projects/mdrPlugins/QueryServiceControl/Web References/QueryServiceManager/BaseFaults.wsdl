@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" xmlns="http://schemas.xmlsoap.org/wsdl/" name="BaseFaults" targetNamespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified">
+      <xsd:import schemaLocation="./WS-BaseFaults.xsd" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="BaseFaultMessage">
+    <wsdl:part name="Fault" element="wsbf:BaseFault" />
+  </wsdl:message>
+</wsdl:definitions>
