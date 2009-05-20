@@ -10,14 +10,15 @@
 	<import file="${ivy-shared-targets.file}" />
 
 	<target name="do.resolve-dependencies" depends="pre.resolve-dependencies">
-		<ivy:retrieve conf="impl" pattern="${ivy.resolved.artifacts.pattern}" sync="true" />
+		<ivy:retrieve conf="impl" pattern="${ivy.resolved.artifacts.dir}/dependencies/service/[type]s/[originalname](.[ext])" sync="true" type="jar" />
+		<ivy:retrieve conf="serviceTools" pattern="${ivy.resolved.artifacts.dir}/dependencies/tools/[type]s/[originalname](.[ext])" type="jar" />
 	</target>
 
 	<!-- Overloaded to support multiple artifact patterns  -->
 	<target name="do.publish" depends="pre.publish">
 		<publish-artifacts>
 			<artifacts-list>
-				<artifacts pattern="${basedir}/db/mdr/connector/[artifact].[ext]" />
+
 			</artifacts-list>
 		</publish-artifacts>
 	</target>
