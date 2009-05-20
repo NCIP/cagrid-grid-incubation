@@ -11,7 +11,7 @@
 	<!-- Place any other properties you will need here                  -->
 	<!-- ============================================================== -->
 
-	<property name="jar.prefix" value="${service.name}" />
+	<property name="jar.prefix" value="caGrid-${service.name}" />
 	<property name="mdc.jar.name" value="${jar.prefix}-mdc.jar" />
 
 	<property name="ext.dir" location="${basedir}/ext" />

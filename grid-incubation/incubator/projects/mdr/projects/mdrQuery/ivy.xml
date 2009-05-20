@@ -16,10 +16,10 @@
 	</configurations>
 
 	<publications>
-		<artifact name="MDRQuery-client" conf="default" type="jar" />
-		<artifact name="MDRQuery-common" conf="default" type="jar" />
-		<artifact name="MDRQuery-mdc" conf="default" type="jar" />
-		<artifact name="MDRQuery-stubs" conf="default" type="jar" />
+		<artifact name="caGrid-MDRQuery-client" conf="default" type="jar" />
+		<artifact name="caGrid-MDRQuery-common" conf="default" type="jar" />
+		<artifact name="caGrid-MDRQuery-mdc" conf="default" type="jar" />
+		<artifact name="caGrid-MDRQuery-stubs" conf="default" type="jar" />
 	</publications>
 
 	<dependencies>
