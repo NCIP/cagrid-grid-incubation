@@ -4,7 +4,7 @@
 	<property file="project.properties" />
 
 	<!-- OVERLOADED-->
-	<property name="ivy.generated.artifacts.pattern" value="${ivy.generated.artifacts.dir}/lib/[artifact]-[revision].[ext]" />
+	<property name="ivy.generated.artifacts.pattern" value="${ivy.generated.artifacts.dir}/lib/[artifact].[ext]" />
 
 	<property name="ivy-shared-targets.file" location="${basedir}/../../antfiles/ivy/ivy-shared-targets-${repository.version}.xml" />
 	<import file="${ivy-shared-targets.file}" />
@@ -15,12 +15,4 @@
 		<ivy:retrieve conf="serviceTools" pattern="${ivy.resolved.artifacts.dir}/dependencies/tools/[type]s/[originalname](.[ext])" type="jar" />
 	</target>
 
-	<!-- Overloaded to support multiple artifact patterns  -->
-	<target name="do.publish" depends="pre.publish">
-		<publish-artifacts>
-			<artifacts-list>
-
-			</artifacts-list>
-		</publish-artifacts>
-	</target>
 </project>

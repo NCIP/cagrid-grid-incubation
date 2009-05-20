@@ -26,7 +26,7 @@
     <property name="jar.dir" value="${build.dir}/lib" />
     <property name="project.jarfile" value="${jar.dir}/${project.name}-${project.version}.jar" />
     <property name="lib.dir" value="${basedir}/lib" />
-    <property name="ext.lib.dir" value="${basedir}/ext/dependencies/default/jars" />
+    <property name="ext.lib.dir" value="${basedir}/ext/dependencies/service/jars" />
     <property name="ext.test.lib.dir" location="${basedir}/ext/dependencies/test/jars" />
 	
 	<!-- javac options -->
