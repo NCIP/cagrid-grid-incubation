@@ -46,6 +46,9 @@
 		<dependency rev="latest.integration" org="caGrid"
 			name="metadata-validator" conf="serviceTools->default" transitive="false" />
 
+		<dependency rev="latest.integration" org="caGrid"
+			name="mdr" conf="impl->stylesheets" transitive="false" />
+
 	</dependencies>
 
 </ivy-module>
