@@ -16,6 +16,10 @@
 	</configurations>
 
 	<publications>
+		<artifact name="MDRQuery-client" conf="default" type="jar" />
+		<artifact name="MDRQuery-common" conf="default" type="jar" />
+		<artifact name="MDRQuery-mdc" conf="default" type="jar" />
+		<artifact name="MDRQuery-stubs" conf="default" type="jar" />
 	</publications>
 
 	<dependencies>
@@ -46,8 +50,16 @@
 		<dependency rev="latest.integration" org="caGrid"
 			name="metadata-validator" conf="serviceTools->default" transitive="false" />
 
-		<dependency rev="latest.integration" org="caGrid"
-			name="mdr" conf="impl->stylesheets" transitive="false" />
+		<dependency rev="latest.integration" org="caGrid" name="mdr"
+			conf="impl->stylesheets" transitive="false" />
+
+		<dependency rev="3.0.1" org="apache" name="jarkarta-commons-httpclient"
+			conf="impl->default" />
+		<dependency rev="1.3" org="apache" name="commons-codec"
+			conf="impl->default" />
+		<dependency rev="9" org="saxonica" name="saxon"
+			conf="impl->default" />
+
 
 	</dependencies>
 

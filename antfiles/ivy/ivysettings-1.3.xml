@@ -16,6 +16,7 @@
     <filesystem name="fs" local="true">
       <ivy pattern="@{repo.dir}/[organisation]/[module]/ivy-[revision].xml"/>
       <artifact pattern="@{repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+      <artifact pattern="@{repo.dir}/[organisation]/[module]/[revision]/[artifact][revision].[ext]"/>
       <artifact pattern="@{repo.dir}/[organisation]/[module]/[revision]/[artifact].[ext]"/>
     </filesystem>
   </macrodef>
