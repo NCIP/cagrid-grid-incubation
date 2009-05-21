@@ -5,6 +5,7 @@
 	<property environment="env" />
 	<property name="exist.dir" location="${env.EXIST_HOME}" />
 	<property name="lib.dir" value="lib" />
+	<property name="ext.lib.dir" value="ext/dependencies/impl/jars" />
 
 	<path id="classpath.core">
 		<fileset dir="${exist.dir}/lib/core">
@@ -44,7 +45,7 @@
 			<dname>
 				<param name="CN" value="MDR" />
 				<param name="OU" value="Anonymous" />
-				<param name="O" value="cabig.org" />
+				<param name="O" value="cagrid.org" />
 				<param name="C" value="US" />
 			</dname>
 		</genkey>
@@ -53,6 +54,7 @@
 	<target name="uploadDatabase" depends="getDBHost, getDBPort, getDBUserName, getDBPassword">
 		<copy overwrite="true" todir="${exist.dir}/lib/user">
 			<fileset dir="${lib.dir}" />
+			<fileset dir="${ext.lib.dir}" />
 		</copy>
 
 		<copy overwrite="true" file="conf.xml" tofile="${exist.dir}/conf.xml">
@@ -119,7 +121,7 @@
 	</target>
 
 	<target name="install" depends="generateKey,uploadDatabase" />
-	
+
 	<target name="clean" />
 	<target name="all" />
 
