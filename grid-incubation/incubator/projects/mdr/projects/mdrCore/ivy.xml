@@ -4,8 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
 
-	<info organisation="caGrid" module="mdr"
-		revision="${project.version}">
+	<info organisation="caGrid" module="mdr" revision="${project.version}">
 		<license name="caGrid" url="http://cagrid.org/wiki/CaGrid:LICENSE-1.3" />
 		<description>MDR ISO 11179 Database and Application</description>
 	</info>
@@ -17,31 +16,55 @@
 	</configurations>
 
 	<publications>
-		<artifact name="stylesheets/add_cg_namespace" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/cadsr_construct" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/cadsr_query" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/cadsr_transform" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/cgMDR_Classification_Tree" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/cgMDR_query" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/cgMDR_REST_query" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/cgMDR_SKOS_REST_query" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/cgMDR_transform" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/CombinatorialQuery_query" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/CombinatorialQuery_transform" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/config_filter" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/DescLogicConcept_construct" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/DescLogicConcept_query" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/DescLogicConcept_transform" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/direct-copy" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/add_cg_namespace" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cadsr_construct" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cadsr_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cadsr_transform" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cgMDR_Classification_Tree" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cgMDR_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cgMDR_REST_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cgMDR_SKOS_REST_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cgMDR_transform" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/CombinatorialQuery_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/CombinatorialQuery_transform"
+			conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/config_filter" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/DescLogicConcept_construct" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/DescLogicConcept_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/DescLogicConcept_transform" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/direct-copy" conf="stylesheets"
+			type="xsl" />
 		<artifact name="stylesheets/fixtag" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/MetaThesaurusConcept_construct" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/MetaThesaurusConcept_query" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/MetaThesaurusConcept_sources" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/MetaThesaurusConcept_transform" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/no_arg_REST" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/MetaThesaurusConcept_construct"
+			conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/MetaThesaurusConcept_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/MetaThesaurusConcept_sources"
+			conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/MetaThesaurusConcept_transform"
+			conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/no_arg_REST" conf="stylesheets"
+			type="xsl" />
 	</publications>
 
 	<dependencies>
+		<dependency rev="9" org="saxonica" name="saxon" conf="impl->default" />
+		<dependency rev="9" org="saxonica" name="saxon-dom" conf="impl->default" />
+		<dependency rev="9" org="saxonica" name="saxon-xpath" conf="impl->default" />
 	</dependencies>
 
 </ivy-module>
