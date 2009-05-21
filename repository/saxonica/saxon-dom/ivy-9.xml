@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+    <info organisation="saxonica" module="saxon-dom" revision="9" status="release">
+        <license name="MPL 1.0" url="http://www.mozilla.org/MPL/MPL-1.0.html"/>
+
+        <description homepage="http://saxon.sourceforge.net/"> "The latest open-source implementation of XSLT 2.0 and XPath 2.0, and XQuery 1.0. This provides the "basic" conformance level of these languages: in effect, this provides all the features of the languages except schema-aware processing. This version reflects the syntax of the final XSLT 2.0, XQuery 1.0, and XPath 2.0 Recommendations of 23 January 2007"
+        </description>
+    </info>
+</ivy-module>
