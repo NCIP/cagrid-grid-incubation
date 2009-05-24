@@ -65,42 +65,7 @@
 
 		<copy overwrite="true" file="jetty.xml" tofile="${exist.dir}/tools/jetty/etc/jetty.xml">
 		</copy>
-
-		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="application/xquery" user="${dbusername}" password="${dbpassword}">
-			<fileset dir="db/mdr">
-				<include name="**/*.xquery" />
-			</fileset>
-		</xdb:store>
-
-		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="xml" user="${dbusername}" password="${dbpassword}">
-			<fileset dir="db/mdr">
-				<include name="**/*.xml" />
-				<include name="**/*.xsd" />
-				<include name="**/*.xqm" />
-				<include name="**/*.xsl" />
-				<include name="**/*.xhtml" />
-				<exclude name="**/*.xquery" />
-			</fileset>
-		</xdb:store>
-
-		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="binary" user="${dbusername}" password="${dbpassword}">
-			<fileset dir="db/mdr">
-				<include name="**/*" />
-				<exclude name="**/*.xml" />
-				<exclude name="**/*.xsd" />
-				<exclude name="**/*.xqm" />
-				<exclude name="**/*.xsl" />
-				<exclude name="**/*.xhtml" />
-				<exclude name="**/*.xquery" />
-			</fileset>
-		</xdb:store>
-
-		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/system" createcollection="true" createsubcollections="true" user="${dbusername}" password="${dbpassword}">
-			<fileset dir="db/system">
-				<include name="config/**/*" />
-			</fileset>
-		</xdb:store>
-
+		
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr" collection="data" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="classification_scheme" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="conceptual_domain" />
@@ -117,6 +82,50 @@
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="representation_class" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="unit_of_measure" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="value_domain" />
+		
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="text/css" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/mdr">
+				<include name="**/*.css" />
+			</fileset>
+		</xdb:store>
+
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="application/xquery" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/mdr">
+				<include name="**/*.xquery" />
+				<exclude name="**/*.css" />
+			</fileset>
+		</xdb:store>
+
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="xml" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/mdr">
+				<include name="**/*.xml" />
+				<include name="**/*.xsd" />
+				<include name="**/*.xqm" />
+				<include name="**/*.xsl" />
+				<include name="**/*.xhtml" />
+				<exclude name="**/*.xquery" />
+				<exclude name="**/*.css" />
+			</fileset>
+		</xdb:store>
+
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" createcollection="true" createsubcollections="true" type="binary" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/mdr">
+				<include name="**/*" />
+				<exclude name="**/*.xml" />
+				<exclude name="**/*.xsd" />
+				<exclude name="**/*.xqm" />
+				<exclude name="**/*.xsl" />
+				<exclude name="**/*.xhtml" />
+				<exclude name="**/*.xquery" />
+				<exclude name="**/*.css" />
+			</fileset>
+		</xdb:store>
+
+		<xdb:store xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/system" createcollection="true" createsubcollections="true" user="${dbusername}" password="${dbpassword}">
+			<fileset dir="db/system">
+				<include name="config/**/*" />
+			</fileset>
+		</xdb:store>
 
 	</target>
 
