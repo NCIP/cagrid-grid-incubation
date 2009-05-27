@@ -280,15 +280,14 @@ public class QueryServiceManager {
 
     public static void main(String[] args) {
         try {
-            QueryServiceManager manager = new QueryServiceManager(new File("etc/stylesheets"),new File("etc/config.xml"));
-            Query_service info = manager.getQueryServiceInfo("caDSR");
+            QueryServiceManager manager = new QueryServiceManager(new File("ext/dependencies/service/stylesheets"),new File("etc/config.xml"));
+            Query_service info = manager.getQueryServiceInfo("caDSR-ObjectClass");
             Query query = new Query();
             query.setTerm("protein");
             //query.setId("2436860");
             //query.setVersion("1.0");
             query.setResource(info.getName());
             ResultSet rs = manager.query(query);
-
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
