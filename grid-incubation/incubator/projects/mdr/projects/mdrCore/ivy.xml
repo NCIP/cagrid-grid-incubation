@@ -20,6 +20,10 @@
 			type="xsl" />
 		<artifact name="stylesheets/cadsr_construct" conf="stylesheets"
 			type="xsl" />
+		<artifact name="stylesheets/cadsr_OC_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/cadsr_prop_query" conf="stylesheets"
+			type="xsl" />
 		<artifact name="stylesheets/cadsr_query" conf="stylesheets"
 			type="xsl" />
 		<artifact name="stylesheets/cadsr_transform" conf="stylesheets"

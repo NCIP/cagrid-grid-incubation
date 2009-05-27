@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openMDR:edit-defaults xmlns:openMDR="http://www.cagrid.org/schema/openMDR">
-    <openMDR:country_identifier>GB</openMDR:country_identifier>
+    <openMDR:country_identifier>US</openMDR:country_identifier>
     <openMDR:language_identifier>eng</openMDR:language_identifier>
     <openMDR:context_identifier>GB-OUCL-000011-1</openMDR:context_identifier>
     <openMDR:Data_Element version="1"/>
