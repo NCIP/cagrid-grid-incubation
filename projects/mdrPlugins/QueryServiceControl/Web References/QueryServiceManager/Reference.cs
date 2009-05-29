@@ -342,9 +342,9 @@ namespace QueryServiceControl.QueryServiceManager {
         
         private string srcField;
         
-        private string itemField;
+        private string[] itemsField;
         
-        private ItemChoiceType itemElementNameField;
+        private ItemsChoiceType[] itemsElementNameField;
         
         private int startIndexField;
         
@@ -390,24 +390,26 @@ namespace QueryServiceControl.QueryServiceManager {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("id", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("term", typeof(string))]
-        [System.Xml.Serialization.XmlChoiceIdentifierAttribute("ItemElementName")]
-        public string Item {
+        [System.Xml.Serialization.XmlElementAttribute("version", typeof(string))]
+        [System.Xml.Serialization.XmlChoiceIdentifierAttribute("ItemsElementName")]
+        public string[] Items {
             get {
-                return this.itemField;
+                return this.itemsField;
             }
             set {
-                this.itemField = value;
+                this.itemsField = value;
             }
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ItemsElementName")]
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public ItemChoiceType ItemElementName {
+        public ItemsChoiceType[] ItemsElementName {
             get {
-                return this.itemElementNameField;
+                return this.itemsElementNameField;
             }
             set {
-                this.itemElementNameField = value;
+                this.itemsElementNameField = value;
             }
         }
         
@@ -438,13 +440,16 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3082")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/query", IncludeInSchema=false)]
-    public enum ItemChoiceType {
+    public enum ItemsChoiceType {
         
         /// <remarks/>
         id,
         
         /// <remarks/>
         term,
+        
+        /// <remarks/>
+        version,
     }
     
     /// <remarks/>
@@ -1161,7 +1166,33 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
     public partial class conceptRef {
         
+        private string idField;
+        
+        private string sourceField;
+        
         private string nameField;
+        
+        private string definitionField;
+        
+        /// <remarks/>
+        public string id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string source {
+            get {
+                return this.sourceField;
+            }
+            set {
+                this.sourceField = value;
+            }
+        }
         
         /// <remarks/>
         public string name {
@@ -1170,6 +1201,16 @@ namespace QueryServiceControl.QueryServiceManager {
             }
             set {
                 this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string definition {
+            get {
+                return this.definitionField;
+            }
+            set {
+                this.definitionField = value;
             }
         }
     }
@@ -1494,6 +1535,8 @@ namespace QueryServiceControl.QueryServiceManager {
         
         private values valuesField;
         
+        private conceptRef[] conceptCollectionField;
+        
         /// <remarks/>
         public values values {
             get {
@@ -1501,6 +1544,17 @@ namespace QueryServiceControl.QueryServiceManager {
             }
             set {
                 this.valuesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public conceptRef[] conceptCollection {
+            get {
+                return this.conceptCollectionField;
+            }
+            set {
+                this.conceptCollectionField = value;
             }
         }
     }

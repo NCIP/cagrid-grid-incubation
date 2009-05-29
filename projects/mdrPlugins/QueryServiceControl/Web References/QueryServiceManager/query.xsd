@@ -9,7 +9,10 @@
       <xs:element minOccurs="0" name="src" nillable="true" type="xs:string" />
       <xs:choice>
         <xs:element minOccurs="0" maxOccurs="1" name="term" type="xs:string" />
-        <xs:element minOccurs="0" maxOccurs="1" name="id" type="xs:string" />
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="id" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="version" type="xs:string" />
+        </xs:sequence>
       </xs:choice>
       <xs:element minOccurs="0" default="0" name="startIndex" type="xs:int" />
       <xs:element minOccurs="0" default="10" name="numResults" type="xs:int" />
