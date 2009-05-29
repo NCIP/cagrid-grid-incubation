@@ -7,10 +7,19 @@
 	<!-- ============================================================== -->
 
 	<target name="copyStylesheetsToTmpEtc">
-		<mkdir dir="tmp/etc/stylesheets"/>
+		<mkdir dir="tmp/etc/stylesheets" />
 		<copy overwrite="true" toDir="tmp/etc/stylesheets">
 			<fileset dir="ext/dependencies/service/stylesheets">
 				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="copyExtLibs">
+
+		<copy todir="${build.lib.dir}">
+			<fileset dir="${ext.lib.dir}">
+				<include name="*.jar" />
 			</fileset>
 		</copy>
 	</target>
@@ -19,14 +28,14 @@
 	<!-- ============================================================== -->
 	<!-- Pre Deploy Tomcat                                              -->
 	<!-- ============================================================== -->
-	<target name="preDeployTomcat" depends="copyStylesheetsToTmpEtc">
+	<target name="preDeployTomcat" depends="copyStylesheetsToTmpEtc,copyExtLibs">
 	</target>
 
 
 	<!-- ============================================================== -->
 	<!-- Pre Deploy Globus                                              -->
 	<!-- ============================================================== -->
-	<target name="preDeployGlobus" depends="copyStylesheetsToTmpEtc">
+	<target name="preDeployGlobus" depends="copyStylesheetsToTmpEtc,copyExtLibs">
 
 	</target>
 
@@ -34,7 +43,7 @@
 	<!-- ============================================================== -->
 	<!-- Pre Deploy JBOSS                                               -->
 	<!-- ============================================================== -->
-	<target name="preDeployJBoss" depends="copyStylesheetsToTmpEtc">
+	<target name="preDeployJBoss" depends="copyStylesheetsToTmpEtc,copyExtLibs">
 
 	</target>
 
