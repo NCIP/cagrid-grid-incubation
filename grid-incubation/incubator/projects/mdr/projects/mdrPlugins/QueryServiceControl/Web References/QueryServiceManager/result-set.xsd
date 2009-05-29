@@ -58,6 +58,7 @@
       <xs:extension base="common-info">
         <xs:sequence>
           <xs:element ref="values" />
+          <xs:element minOccurs="0" ref="conceptCollection" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -167,7 +168,10 @@
   <xs:element name="conceptRef" type="conceptRef" />
   <xs:complexType name="conceptRef">
     <xs:sequence>
-      <xs:element name="name" type="xs:string" />
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="source" type="xs:string" />
+      <xs:element minOccurs="0" name="name" type="xs:string" />
+      <xs:element minOccurs="0" name="definition" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

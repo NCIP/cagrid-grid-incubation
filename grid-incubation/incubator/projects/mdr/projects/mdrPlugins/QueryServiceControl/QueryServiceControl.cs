@@ -189,13 +189,15 @@ namespace QueryServiceControl
                 QueryServiceManager.QueryRequestQuery req = new QueryServiceManager.QueryRequestQuery();
                 req.query = new QueryServiceManager.query();
                 req.query.resource = "cgMDR-Classification-Tree";
-                req.query.ItemElementName = global::QueryServiceControl.QueryServiceManager.ItemChoiceType.term;
-                req.query.Item = (string)cbClassificationSchemes.SelectedValue;
+                req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[1];
+                req.query.ItemsElementName[0] = global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.term;
+                req.query.Items = new string[1];
+                req.query.Items[0] = (string)cbClassificationSchemes.SelectedValue;
 
                 QueryServiceManager.resultset r = qsm.query(req);
                 if (r.Items.Length != 1)
                 {
-                    MessageBox.Show("Error getting classification tree for: " + req.query.Item);
+                    MessageBox.Show("Error getting classification tree for: " + req.query.Items[0]);
                 }
 
                 QueryServiceManager.node root = (QueryServiceManager.node)r.Items[0];
@@ -238,8 +240,10 @@ namespace QueryServiceControl
                 req.query = new QueryServiceManager.query();
                 req.query.resource = cbResources.SelectedValue.ToString();
 
-                req.query.Item = txtTerm.Text;
-                req.query.ItemElementName = global::QueryServiceControl.QueryServiceManager.ItemChoiceType.term;
+                req.query.Items = new string[] { txtTerm.Text };
+                req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[] {
+                    global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.term
+                };
                 if (currentPage == 0)
                 {
                     req.query.startIndex = currentPage;
@@ -400,8 +404,9 @@ namespace QueryServiceControl
                 TreeNode selectedNode = classificationTree.SelectedNode;
                 QueryServiceManager.query query = new QueryServiceManager.query();
                 query.resource = "cgMDR-with-Classification";
-                query.Item = "*";
-                query.ItemElementName = global::QueryServiceControl.QueryServiceManager.ItemChoiceType.term;
+                query.Items = new string[] { "*" };
+                query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[]{
+                    global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.term };
                 query.src = selectedNode.Tag.ToString();
                 if (currentPageCLS == 0)
                 {
