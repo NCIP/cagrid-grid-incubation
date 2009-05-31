@@ -66,6 +66,7 @@
 		<copy overwrite="true" file="jetty.xml" tofile="${exist.dir}/tools/jetty/etc/jetty.xml">
 		</copy>
 		
+		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db" collection="mdr" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr" collection="data" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="classification_scheme" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/mdr/data" collection="conceptual_domain" />
