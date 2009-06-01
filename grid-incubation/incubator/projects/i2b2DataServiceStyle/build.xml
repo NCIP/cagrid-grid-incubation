@@ -165,7 +165,7 @@
 				<include name="**/*.class" />
 			</fileset>
 			<fileset dir="${style.src.dir}">
-				<include name="**/*.java" />
+				<include name="**/*" />
 			</fileset>
 		</jar>
 	</target>
