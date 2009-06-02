@@ -13,6 +13,7 @@ import gov.nih.nci.cagrid.introduce.common.ResourceManager;
 import gov.nih.nci.cagrid.introduce.common.ServiceInformation;
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
+import gov.nih.nci.cagrid.metadata.dataservice.UMLClass;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,10 +22,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -78,6 +83,7 @@ public class DomainModelPanel extends AbstractWizardPanel {
         if (properties != null && properties.length != 0) {
             if (properties[0].isPopulateFromFile() && properties[0].getFileLocation() != null) {
                 getModelFilenameTextField().setText(properties[0].getFileLocation());
+                loadDomainModelPackages();
             }
         }
     }
@@ -169,7 +175,7 @@ public class DomainModelPanel extends AbstractWizardPanel {
      */
     private JList getPackageList() {
         if (packageList == null) {
-            packageList = new JList();
+            packageList = new JList(new DefaultListModel());
         }
         return packageList;
     }
@@ -264,6 +270,7 @@ public class DomainModelPanel extends AbstractWizardPanel {
                 LOG.warn("Unable to store last selected file in Resource Manager: " + ex.getMessage(), ex);
             }
         }
+        loadDomainModelPackages();
     }
     
     
@@ -274,5 +281,41 @@ public class DomainModelPanel extends AbstractWizardPanel {
         CommonTools.removeResourceProperty(service, DataServiceConstants.DOMAIN_MODEL_QNAME);
         // add the domain model RP
         CommonTools.addResourcePropety(service, resourceProperty);
+    }
+    
+    
+    private void loadDomainModelPackages() {
+        ServiceType service = getServiceInformation().getServices().getService(0);
+        ResourcePropertyType[] properties = CommonTools.getResourcePropertiesOfType(
+            service, DataServiceConstants.DOMAIN_MODEL_QNAME);
+        File modelFile = null;
+        if (properties != null && properties.length != 0) {
+            if (properties[0].isPopulateFromFile() && properties[0].getFileLocation() != null) {
+                modelFile = new File(getServiceInformation().getBaseDirectory(), 
+                    "etc" + File.separator + properties[0].getFileLocation());
+            }
+        }
+        if (modelFile != null && modelFile.exists()) {
+            try {
+                // read the domain model
+                FileReader reader = new FileReader(modelFile);
+                DomainModel model = MetadataUtils.deserializeDomainModel(reader);
+                reader.close();
+                // sort out package names
+                Set<String> sortedPackageNames = new TreeSet<String>();
+                for (UMLClass clazz : model.getExposedUMLClassCollection().getUMLClass()) {
+                    sortedPackageNames.add(clazz.getPackageName());
+                }
+                // add packages by name to the list on the UI
+                String[] packageNames = new String[sortedPackageNames.size()];
+                sortedPackageNames.toArray(packageNames);
+                getPackageList().setListData(packageNames);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                // TODO: fail! / show error dialog
+            }
+        } else {
+            getPackageList().setListData(new String[] {});
+        }
     }
 }
