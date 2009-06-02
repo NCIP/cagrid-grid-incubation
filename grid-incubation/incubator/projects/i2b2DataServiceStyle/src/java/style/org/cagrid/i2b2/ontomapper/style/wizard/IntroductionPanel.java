@@ -32,6 +32,13 @@ public class IntroductionPanel extends AbstractWizardPanel {
     
     private static final Log LOG = LogFactory.getLog(IntroductionPanel.class);
     
+    private static final String INFO_TEXT = 
+        "This wizard will guide you througha simplified process of creating " +
+        "a caGrid Data Service backed by an i2b2 datamart.  In the following " +
+        "screens, you will be prompted to select your domain model for the " +
+        "subset of datatypes you wish to expose to the grid, and the " +
+        "connection information to the i2b2 database";
+    
     private JLabel logoLabel = null;
     private JTextArea informationTextArea = null;
     private JScrollPane informationScrollPane = null;
@@ -108,6 +115,9 @@ public class IntroductionPanel extends AbstractWizardPanel {
             informationTextArea = new JTextArea();
             informationTextArea.setLineWrap(true);
             informationTextArea.setWrapStyleWord(true);
+            informationTextArea.setEditable(false);
+            informationTextArea.setFont(new java.awt.Font("Dialog", java.awt.Font.ITALIC, 12));
+            informationTextArea.setText(INFO_TEXT);
         }
         return informationTextArea;
     }
