@@ -71,7 +71,15 @@ public class DomainModelPanel extends AbstractWizardPanel {
 
 
     public void update() {
-        // TODO Auto-generated method stub
+        // see if there's already a domain model resource property
+        ServiceType service = getServiceInformation().getServices().getService(0);
+        ResourcePropertyType[] properties = CommonTools.getResourcePropertiesOfType(
+            service, DataServiceConstants.DOMAIN_MODEL_QNAME);
+        if (properties != null && properties.length != 0) {
+            if (properties[0].isPopulateFromFile() && properties[0].getFileLocation() != null) {
+                getModelFilenameTextField().setText(properties[0].getFileLocation());
+            }
+        }
     }
     
     
@@ -247,6 +255,8 @@ public class DomainModelPanel extends AbstractWizardPanel {
             resourceProperty.setPopulateFromFile(true);
             // store the RP in the service model
             storeDomainModelResourceProperty(resourceProperty);
+            // set the filename's text in the UI
+            getModelFilenameTextField().setText(serviceModel.getName());
             // store the selected location in the resource manager
             try {
                 ResourceManager.setStateProperty(ResourceManager.LAST_FILE, selection.getAbsolutePath());
