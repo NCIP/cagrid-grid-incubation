@@ -1,6 +1,7 @@
 package org.cagrid.i2b2.ontomapper.style.wizard;
 
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.common.portal.validation.IconFeedbackPanel;
 import gov.nih.nci.cagrid.data.DataServiceConstants;
 import gov.nih.nci.cagrid.data.ui.domain.DomainModelFromXmiDialog;
 import gov.nih.nci.cagrid.data.ui.wizard.AbstractWizardPanel;
@@ -34,6 +35,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -41,6 +43,14 @@ import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.jgoodies.validation.Severity;
+import com.jgoodies.validation.ValidationResult;
+import com.jgoodies.validation.ValidationResultModel;
+import com.jgoodies.validation.message.SimpleValidationMessage;
+import com.jgoodies.validation.util.DefaultValidationResultModel;
+import com.jgoodies.validation.util.ValidationUtils;
+import com.jgoodies.validation.view.ValidationComponentUtils;
 
 /**
  * DomainModelPanel
@@ -53,14 +63,23 @@ public class DomainModelPanel extends AbstractWizardPanel {
     
     private static final Log LOG = LogFactory.getLog(DomainModelPanel.class);
     
+    private static final String MODEL_FILENAME_KEY = "model_filename";
+    private static final String MODEL_PACAKGES_KEY = "model_packages";
+    
+    private JPanel mainPanel = null;
     private JLabel modelFilenameLabel = null;
     private JTextField modelFilenameTextField = null;
     private JButton selectModelButton = null;
     private JList packageList = null;
     private JScrollPane packageScrollPane = null;
     
+    private ValidationResultModel validationModel = null;
+    private IconFeedbackPanel validationPanel = null;
+    
     public DomainModelPanel(ServiceExtensionDescriptionType extensionDescription, ServiceInformation info) {
         super(extensionDescription, info);
+        this.validationModel = new DefaultValidationResultModel();
+        configureValidation();
         initialize();
     }
 
@@ -86,38 +105,63 @@ public class DomainModelPanel extends AbstractWizardPanel {
                 loadDomainModelPackages();
             }
         }
+        validateInput();
     }
     
     
     private void initialize() {
-        GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
-        gridBagConstraints3.fill = GridBagConstraints.BOTH;
-        gridBagConstraints3.gridy = 1;
-        gridBagConstraints3.weightx = 1.0;
-        gridBagConstraints3.weighty = 1.0;
-        gridBagConstraints3.gridwidth = 3;
-        gridBagConstraints3.insets = new Insets(2, 10, 10, 10);
-        gridBagConstraints3.gridx = 0;
-        GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
-        gridBagConstraints2.gridx = 2;
-        gridBagConstraints2.insets = new Insets(10, 2, 2, 10);
-        gridBagConstraints2.gridy = 0;
-        GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
-        gridBagConstraints1.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints1.gridy = 0;
-        gridBagConstraints1.weightx = 1.0;
-        gridBagConstraints1.insets = new Insets(10, 2, 2, 2);
-        gridBagConstraints1.gridx = 1;
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.insets = new Insets(10, 10, 2, 2);
-        gridBagConstraints.gridy = 0;
-        this.setLayout(new GridBagLayout());
-        this.setSize(new Dimension(595, 224));
-        this.add(getModelFilenameLabel(), gridBagConstraints);
-        this.add(getModelFilenameTextField(), gridBagConstraints1);
-        this.add(getSelectModelButton(), gridBagConstraints2);
-        this.add(getPackageScrollPane(), gridBagConstraints3);
+        setLayout(new GridBagLayout());
+        GridBagConstraints cons = new GridBagConstraints();
+        cons.gridx = 0;
+        cons.gridy = 0;
+        cons.fill = GridBagConstraints.BOTH;
+        cons.weightx = 1.0D;
+        cons.weighty = 1.0D;
+        add(getValidationPanel(), cons);
+    }
+    
+    
+    private IconFeedbackPanel getValidationPanel() {
+        if (validationPanel == null) {
+            validationPanel = new IconFeedbackPanel(validationModel, getMainPanel());
+        }
+        return validationPanel;
+    }
+    
+    
+    private JPanel getMainPanel() {
+        if (mainPanel == null) {
+            mainPanel = new JPanel();
+            GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
+            gridBagConstraints3.fill = GridBagConstraints.BOTH;
+            gridBagConstraints3.gridy = 1;
+            gridBagConstraints3.weightx = 1.0;
+            gridBagConstraints3.weighty = 1.0;
+            gridBagConstraints3.gridwidth = 3;
+            gridBagConstraints3.insets = new Insets(2, 10, 10, 10);
+            gridBagConstraints3.gridx = 0;
+            GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
+            gridBagConstraints2.gridx = 2;
+            gridBagConstraints2.insets = new Insets(10, 2, 2, 10);
+            gridBagConstraints2.gridy = 0;
+            GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+            gridBagConstraints1.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints1.gridy = 0;
+            gridBagConstraints1.weightx = 1.0;
+            gridBagConstraints1.insets = new Insets(10, 2, 2, 2);
+            gridBagConstraints1.gridx = 1;
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.insets = new Insets(10, 10, 2, 2);
+            gridBagConstraints.gridy = 0;
+            mainPanel.setLayout(new GridBagLayout());
+            mainPanel.setSize(new Dimension(595, 224));
+            mainPanel.add(getModelFilenameLabel(), gridBagConstraints);
+            mainPanel.add(getModelFilenameTextField(), gridBagConstraints1);
+            mainPanel.add(getSelectModelButton(), gridBagConstraints2);
+            mainPanel.add(getPackageScrollPane(), gridBagConstraints3);
+        }
+        return mainPanel;
     }
 
 
@@ -161,6 +205,7 @@ public class DomainModelPanel extends AbstractWizardPanel {
             selectModelButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     selectDomainModel();
+                    validateInput();
                 }
             });
         }
@@ -317,5 +362,42 @@ public class DomainModelPanel extends AbstractWizardPanel {
         } else {
             getPackageList().setListData(new String[] {});
         }
+    }
+    
+    
+    private void configureValidation() {
+        ValidationComponentUtils.setMessageKey(getModelFilenameTextField(), MODEL_FILENAME_KEY);
+        ValidationComponentUtils.setMessageKey(getPackageList(), MODEL_PACAKGES_KEY);
+        
+        validateInput();
+        updateComponentTreeSeverity();
+    }
+    
+    
+
+    private void validateInput() {
+        ValidationResult result = new ValidationResult();
+        
+        if (ValidationUtils.isBlank(getModelFilenameTextField().getText())) {
+            result.add(new SimpleValidationMessage("Must supply a domain model", 
+                Severity.ERROR, MODEL_FILENAME_KEY));
+        } else if (getPackageList().getModel().getSize() == 0) {
+            // domain models must have packages and classes
+            result.add(new SimpleValidationMessage("Domain Model must contain one or more packages", 
+                Severity.ERROR, MODEL_PACAKGES_KEY));
+        }
+        
+        validationModel.setResult(result);
+        
+        updateComponentTreeSeverity();
+        
+        // update next button enabled
+        setNextEnabled(!validationModel.hasErrors());
+    }
+    
+    
+    private void updateComponentTreeSeverity() {
+        ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground(this);
+        ValidationComponentUtils.updateComponentTreeSeverityBackground(this, validationModel.getResult());
     }
 }
