@@ -167,4 +167,4 @@ public class DomainModelPanel extends AbstractWizardPanel {
         }
         return packageScrollPane;
     }
-}  //  @jve:decl-index=0:visual-constraint="50,111"
+}
