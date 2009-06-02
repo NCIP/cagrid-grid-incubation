@@ -1,8 +1,18 @@
 package org.cagrid.i2b2.ontomapper.style.wizard;
 
+import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.data.DataServiceConstants;
+import gov.nih.nci.cagrid.data.ui.domain.DomainModelFromXmiDialog;
 import gov.nih.nci.cagrid.data.ui.wizard.AbstractWizardPanel;
 import gov.nih.nci.cagrid.introduce.beans.extension.ServiceExtensionDescriptionType;
+import gov.nih.nci.cagrid.introduce.beans.resource.ResourcePropertyType;
+import gov.nih.nci.cagrid.introduce.beans.service.ServiceType;
+import gov.nih.nci.cagrid.introduce.common.CommonTools;
+import gov.nih.nci.cagrid.introduce.common.FileFilters;
+import gov.nih.nci.cagrid.introduce.common.ResourceManager;
 import gov.nih.nci.cagrid.introduce.common.ServiceInformation;
+import gov.nih.nci.cagrid.metadata.MetadataUtils;
+import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,14 +20,19 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,6 +53,7 @@ public class DomainModelPanel extends AbstractWizardPanel {
     private JButton selectModelButton = null;
     private JList packageList = null;
     private JScrollPane packageScrollPane = null;
+    
     public DomainModelPanel(ServiceExtensionDescriptionType extensionDescription, ServiceInformation info) {
         super(extensionDescription, info);
         initialize();
@@ -56,7 +72,6 @@ public class DomainModelPanel extends AbstractWizardPanel {
 
     public void update() {
         // TODO Auto-generated method stub
-
     }
     
     
@@ -131,7 +146,7 @@ public class DomainModelPanel extends AbstractWizardPanel {
             selectModelButton.setText("Select");
             selectModelButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                    System.out.println("actionPerformed()"); // TODO Auto-generated Event stub actionPerformed()
+                    selectDomainModel();
                 }
             });
         }
@@ -166,5 +181,88 @@ public class DomainModelPanel extends AbstractWizardPanel {
             packageScrollPane.setViewportView(getPackageList());
         }
         return packageScrollPane;
+    }
+    
+    
+    private void selectDomainModel() {
+        // if there's a previously selected directory, use it
+        String defaultDirectory = null;
+        try {
+            defaultDirectory = ResourceManager.getStateProperty(ResourceManager.LAST_FILE);
+        } catch (Exception ex) {
+            LOG.warn("Unable to retrieve last selected file from Resource Manager: " + ex.getMessage(), ex);
+        }
+        FileFilter[] filters = new FileFilter[] {
+            FileFilters.XML_FILTER, FileFilters.XMI_FILTER
+        };
+        JFileChooser chooser = new JFileChooser(defaultDirectory);
+        for (FileFilter filter : filters) {
+            chooser.addChoosableFileFilter(filter);
+        }
+        chooser.setFileFilter(filters[0]);
+        chooser.setApproveButtonText("Select");
+        int choice = chooser.showOpenDialog(this);
+        if (choice == JFileChooser.APPROVE_OPTION) {
+            File selection = chooser.getSelectedFile();
+            File serviceModel = null;
+            // XML or XMI?
+            if (chooser.getFileFilter() == FileFilters.XMI_FILTER) {
+                LOG.debug("XMI detected... must convert!");
+                // convert the XMI to a domain model
+                DomainModel model = DomainModelFromXmiDialog.createDomainModel(null, selection.getAbsolutePath());
+                LOG.debug("Domain Model created from XMI");
+                // create a file within the service for the model
+                String modelFilename = selection.getName()
+                    .substring(0, selection.getName().length() - ".xmi".length());
+                modelFilename += ".xml";
+                serviceModel = new File(getServiceInformation().getBaseDirectory(),
+                    "etc" + File.separator + modelFilename);
+                LOG.debug("Serializing Domain Moodel to " + serviceModel.getAbsolutePath());
+                // serialize the model
+                try {
+                    FileWriter writer = new FileWriter(serviceModel);
+                    MetadataUtils.serializeDomainModel(model, writer);
+                    writer.flush();
+                    writer.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    // TODO: fail! / show error dialog!
+                }
+            } else {
+                // just copy the file in to the service
+                serviceModel = new File(getServiceInformation().getBaseDirectory(),
+                    "etc" + File.separator + selection.getName());
+                try {
+                    Utils.copyFile(selection, serviceModel);
+                    LOG.debug("Copied selected domain model to " + serviceModel.getAbsolutePath());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    // TODO: fail!  show exception dialog!!
+                }
+            }
+            // create the resource property
+            ResourcePropertyType resourceProperty = new ResourcePropertyType();
+            resourceProperty.setQName(DataServiceConstants.DOMAIN_MODEL_QNAME);
+            resourceProperty.setFileLocation(serviceModel.getName());
+            resourceProperty.setPopulateFromFile(true);
+            // store the RP in the service model
+            storeDomainModelResourceProperty(resourceProperty);
+            // store the selected location in the resource manager
+            try {
+                ResourceManager.setStateProperty(ResourceManager.LAST_FILE, selection.getAbsolutePath());
+            } catch (Exception ex) {
+                LOG.warn("Unable to store last selected file in Resource Manager: " + ex.getMessage(), ex);
+            }
+        }
+    }
+    
+    
+    private void storeDomainModelResourceProperty(ResourcePropertyType resourceProperty) {
+        // have to locate the main service type
+        ServiceType service = getServiceInformation().getServices().getService(0);
+        // remove any existing resource property of the domain model type
+        CommonTools.removeResourceProperty(service, DataServiceConstants.DOMAIN_MODEL_QNAME);
+        // add the domain model RP
+        CommonTools.addResourcePropety(service, resourceProperty);
     }
 }
