@@ -14,6 +14,9 @@ import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.i2b2.ontomapper.processor.I2B2QueryProcessor;
+import org.cagrid.i2b2.ontomapper.style.wizard.config.IntroductionConfigurationManager;
+
 import javax.swing.JTextArea;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
@@ -28,8 +31,17 @@ import java.awt.Insets;
 import javax.swing.border.SoftBevelBorder;
 
 
+/**
+ * IntroductionPanel
+ * Simple informational panel to get the i2b2-ontomapper
+ * data service creation wizard started
+ * 
+ * @author David
+ */
 public class IntroductionPanel extends AbstractWizardPanel {
     
+    public static final String STYLE_LOGO_LOCATION = "/org/cagrid/i2b2/ontomapper/style/resources/i2b2_dataservices.gif";
+
     private static final Log LOG = LogFactory.getLog(IntroductionPanel.class);
     
     private static final String INFO_TEXT = 
@@ -43,9 +55,13 @@ public class IntroductionPanel extends AbstractWizardPanel {
     private JTextArea informationTextArea = null;
     private JScrollPane informationScrollPane = null;
     private JPanel iconPanel = null;
+    
+    private IntroductionConfigurationManager configurationManager = null;
 
     public IntroductionPanel(ServiceExtensionDescriptionType extensionDescription, ServiceInformation info) {
         super(extensionDescription, info);
+        this.configurationManager = new IntroductionConfigurationManager(extensionDescription, info);
+        this.configurationManager.setQueryProcessorClassName(I2B2QueryProcessor.class.getName());
         initialize();
     }
 
@@ -62,6 +78,15 @@ public class IntroductionPanel extends AbstractWizardPanel {
 
     public void update() {
         // nothing to update, just an informational panel
+    }
+    
+    
+    public void movingNext() {
+        try {
+            configurationManager.applyConfigration();
+        } catch (Exception ex) {
+            LOG.error("Error applying configuration: " + ex.getMessage(), ex);
+        }
     }
     
     
@@ -89,7 +114,7 @@ public class IntroductionPanel extends AbstractWizardPanel {
         if (logoLabel == null) {
             logoLabel = new JLabel();
             // load the logo
-            InputStream imageStream = getClass().getResourceAsStream("resources/i2b2_dataservices.gif");
+            InputStream imageStream = getClass().getResourceAsStream(STYLE_LOGO_LOCATION);
             if (imageStream != null) {
                 try {
                     BufferedImage image = ImageIO.read(imageStream);
