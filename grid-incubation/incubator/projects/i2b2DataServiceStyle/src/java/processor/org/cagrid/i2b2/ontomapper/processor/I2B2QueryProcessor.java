@@ -30,7 +30,16 @@ import org.cagrid.i2b2.ontomapper.utils.DomainModelConceptCodeMapper;
 public class I2B2QueryProcessor extends CQLQueryProcessor {
     
     // properties for configuration
+    // the domain model document location for the concept code mapper
     public static final String DOMAIN_MODEL_FILE_NAME = "domainModelFileName";
+    // the JDBC driver name
+    public static final String JDBC_DRIVER_NAME = "jdbcDriverClassname";
+    // the JDBC connection string
+    public static final String JDBC_CONNECT_STRING = "jdbcConnectString";
+    // the JDBC username
+    public static final String JDBC_USERNAME = "jdbcUsername";
+    // the JDBC password
+    public static final String JDBC_PASSWORD = "jdbcPassword";
     
     // default values for configuration
     public static final String DEFAULT_DOMAIN_MODEL_FILE_NAME = "domainModel.xml";
@@ -47,6 +56,10 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     public Properties getRequiredParameters() {
         Properties props = new Properties();
         props.setProperty(DOMAIN_MODEL_FILE_NAME, DEFAULT_DOMAIN_MODEL_FILE_NAME);
+        props.setProperty(JDBC_DRIVER_NAME, "");
+        props.setProperty(JDBC_CONNECT_STRING, "");
+        props.setProperty(JDBC_USERNAME, "");
+        props.setProperty(JDBC_PASSWORD, "");
         return props;
     }
     
