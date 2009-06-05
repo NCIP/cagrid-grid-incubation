@@ -7,6 +7,7 @@
 	<CreationWizardPanels>
 		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.IntroductionPanel" />
 		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.DomainModelPanel" />
+		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.DatabasePanel" />
 	</CreationWizardPanels>
 	<ModificationUiPanel
 		classname="org.cagrid.i2b2.ontomapper.style.ModificationPanel" />
