@@ -1,14 +1,9 @@
 package org.cagrid.i2b2.ontomapper.style.wizard;
 
-import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.common.portal.validation.IconFeedbackPanel;
-import gov.nih.nci.cagrid.data.DataServiceConstants;
 import gov.nih.nci.cagrid.data.ui.domain.DomainModelFromXmiDialog;
 import gov.nih.nci.cagrid.data.ui.wizard.AbstractWizardPanel;
 import gov.nih.nci.cagrid.introduce.beans.extension.ServiceExtensionDescriptionType;
-import gov.nih.nci.cagrid.introduce.beans.resource.ResourcePropertyType;
-import gov.nih.nci.cagrid.introduce.beans.service.ServiceType;
-import gov.nih.nci.cagrid.introduce.common.CommonTools;
 import gov.nih.nci.cagrid.introduce.common.FileFilters;
 import gov.nih.nci.cagrid.introduce.common.ResourceManager;
 import gov.nih.nci.cagrid.introduce.common.ServiceInformation;
@@ -25,7 +20,6 @@ import java.awt.Insets;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -43,6 +37,7 @@ import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.i2b2.ontomapper.style.wizard.config.DomainModelConfigurationManager;
 
 import com.jgoodies.validation.Severity;
 import com.jgoodies.validation.ValidationResult;
@@ -76,9 +71,12 @@ public class DomainModelPanel extends AbstractWizardPanel {
     private ValidationResultModel validationModel = null;
     private IconFeedbackPanel validationPanel = null;
     
+    private DomainModelConfigurationManager configurationManager = null;
+    
     public DomainModelPanel(ServiceExtensionDescriptionType extensionDescription, ServiceInformation info) {
         super(extensionDescription, info);
         this.validationModel = new DefaultValidationResultModel();
+        this.configurationManager = new DomainModelConfigurationManager(extensionDescription, info);
         configureValidation();
         initialize();
     }
@@ -95,17 +93,24 @@ public class DomainModelPanel extends AbstractWizardPanel {
 
 
     public void update() {
-        // see if there's already a domain model resource property
-        ServiceType service = getServiceInformation().getServices().getService(0);
-        ResourcePropertyType[] properties = CommonTools.getResourcePropertiesOfType(
-            service, DataServiceConstants.DOMAIN_MODEL_QNAME);
-        if (properties != null && properties.length != 0) {
-            if (properties[0].isPopulateFromFile() && properties[0].getFileLocation() != null) {
-                getModelFilenameTextField().setText(properties[0].getFileLocation());
-                loadDomainModelPackages();
-            }
+        String filename = configurationManager.getDomainModelFilename();
+        if (filename != null) {
+            getModelFilenameTextField().setText(filename);
+        } else {
+            getModelFilenameTextField().setText("");
         }
+        loadDomainModelPackages();
+
         validateInput();
+    }
+    
+    
+    public void movingNext() {
+        try {
+            configurationManager.applyConfigration();
+        } catch (Exception ex) {
+            LOG.error("Error applying domain model configuration: " + ex.getMessage(), ex);
+        }
     }
     
     
@@ -263,7 +268,7 @@ public class DomainModelPanel extends AbstractWizardPanel {
         int choice = chooser.showOpenDialog(this);
         if (choice == JFileChooser.APPROVE_OPTION) {
             File selection = chooser.getSelectedFile();
-            File serviceModel = null;
+            File serviceModel = selection;
             // XML or XMI?
             if (chooser.getFileFilter() == FileFilters.XMI_FILTER) {
                 LOG.debug("XMI detected... must convert!");
@@ -287,27 +292,11 @@ public class DomainModelPanel extends AbstractWizardPanel {
                     ex.printStackTrace();
                     // TODO: fail! / show error dialog!
                 }
-            } else {
-                // just copy the file in to the service
-                serviceModel = new File(getServiceInformation().getBaseDirectory(),
-                    "etc" + File.separator + selection.getName());
-                try {
-                    Utils.copyFile(selection, serviceModel);
-                    LOG.debug("Copied selected domain model to " + serviceModel.getAbsolutePath());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    // TODO: fail!  show exception dialog!!
-                }
             }
-            // create the resource property
-            ResourcePropertyType resourceProperty = new ResourcePropertyType();
-            resourceProperty.setQName(DataServiceConstants.DOMAIN_MODEL_QNAME);
-            resourceProperty.setFileLocation(serviceModel.getName());
-            resourceProperty.setPopulateFromFile(true);
-            // store the RP in the service model
-            storeDomainModelResourceProperty(resourceProperty);
+            // set the filename with the config manager
+            configurationManager.setDomainModelFilename(serviceModel.getAbsolutePath());
             // set the filename's text in the UI
-            getModelFilenameTextField().setText(serviceModel.getName());
+            getModelFilenameTextField().setText(serviceModel.getAbsolutePath());
             // store the selected location in the resource manager
             try {
                 ResourceManager.setStateProperty(ResourceManager.LAST_FILE, selection.getAbsolutePath());
@@ -319,26 +308,10 @@ public class DomainModelPanel extends AbstractWizardPanel {
     }
     
     
-    private void storeDomainModelResourceProperty(ResourcePropertyType resourceProperty) {
-        // have to locate the main service type
-        ServiceType service = getServiceInformation().getServices().getService(0);
-        // remove any existing resource property of the domain model type
-        CommonTools.removeResourceProperty(service, DataServiceConstants.DOMAIN_MODEL_QNAME);
-        // add the domain model RP
-        CommonTools.addResourcePropety(service, resourceProperty);
-    }
-    
-    
     private void loadDomainModelPackages() {
-        ServiceType service = getServiceInformation().getServices().getService(0);
-        ResourcePropertyType[] properties = CommonTools.getResourcePropertiesOfType(
-            service, DataServiceConstants.DOMAIN_MODEL_QNAME);
         File modelFile = null;
-        if (properties != null && properties.length != 0) {
-            if (properties[0].isPopulateFromFile() && properties[0].getFileLocation() != null) {
-                modelFile = new File(getServiceInformation().getBaseDirectory(), 
-                    "etc" + File.separator + properties[0].getFileLocation());
-            }
+        if (getModelFilenameTextField().getText().length() != 0) {
+            modelFile = new File(getModelFilenameTextField().getText());
         }
         if (modelFile != null && modelFile.exists()) {
             try {
