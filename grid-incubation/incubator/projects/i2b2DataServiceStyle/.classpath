@@ -58,7 +58,7 @@
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_core_samples_mgmt_stubs.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_core_samples_mgmt.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_core_stubs.jar"/>
-	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_core.jar" sourcepath="/gtsrc"/>
+	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_core.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_provider_jce.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_test_interop_stubs.jar"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/wsrf_test_interop.jar" sourcepath="/GT4_LOCATION"/>
@@ -116,5 +116,6 @@
 	<classpathentry kind="lib" path="ext/dependencies/impl/jars/mysql-connector-java-3.0.16-ga-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jconn3.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/impl/jars/commons-pool-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/commons-dbcp-1.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

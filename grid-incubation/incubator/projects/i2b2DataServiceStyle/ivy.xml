@@ -36,7 +36,7 @@
     <dependency rev="2.0.0" org="jgoodies" name="validation" conf="style->default"/>
     <dependency rev="2.7" org="clarkware" name="jdepend" conf="test->*" />
     <dependency rev="4.4" org="junit" name="junit" conf="test->default" />
-    <dependency rev="1.2" org="apache" name="commons-pool" conf="impl->default"/>
+    <dependency rev="1.2.2" org="apache" name="commons-dbcp" conf="impl->default"/>
     
     <!-- only required for DB Copy stuff, can probably be removed later -->    
     <dependency rev="3.0.16-ga-bin" org="mysql" name="connector-java" conf="impl->default"/>
