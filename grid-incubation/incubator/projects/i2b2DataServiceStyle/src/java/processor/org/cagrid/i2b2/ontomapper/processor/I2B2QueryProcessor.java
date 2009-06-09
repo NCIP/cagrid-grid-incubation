@@ -47,6 +47,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     private static final Log LOG = LogFactory.getLog(I2B2QueryProcessor.class);
         
     private ConceptCodeMapper conceptMapper = null;
+    private DatabaseConnectionSource connectionSource = null;
     
     public I2B2QueryProcessor() {
         super();
@@ -78,6 +79,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     public void initialize(Properties parameters, InputStream wsdd) throws InitializationException {
         super.initialize(parameters, wsdd);
         initConceptMapper();
+        initConnectionSource();
     }
     
     
@@ -101,11 +103,40 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
         }
         conceptMapper = new DomainModelConceptCodeMapper(model);
     }
+    
+    
+    private void initConnectionSource() throws InitializationException {
+        LOG.debug("Initializing database conection source");
+        /* TODO: again, spring would be awesome here, but for now I'm just
+         * loading a default implementation
+         */
+        String driverClassname = getConfiguredParameters().getProperty(JDBC_DRIVER_NAME);
+        String connectString = getConfiguredParameters().getProperty(JDBC_CONNECT_STRING);
+        String username = getConfiguredParameters().getProperty(JDBC_USERNAME);
+        String password = getConfiguredParameters().getProperty(JDBC_PASSWORD);
+        try {
+            connectionSource = new PooledDatabaseConnectionSource(
+                driverClassname, connectString, username, password);
+        } catch (Exception ex) {
+            String message = "Unable to initialize database connection source: " + ex.getMessage();
+            LOG.error(message, ex);
+            throw new InitializationException(message, ex);
+        }
+    }
+    
+    
+    public void finalize() throws Throwable {
+        try {
+            connectionSource.shutdown();
+        } catch (Exception ex) {
+            LOG.error("Error shutting down connection source: " + ex.getMessage(), ex);
+        }
+        super.finalize();
+    }
 
 
     public CQLQueryResults processQuery(CQLQuery cqlQuery) throws MalformedQueryException, QueryProcessingException {
         // TODO Auto-generated method stub
         return null;
     }
-
 }
