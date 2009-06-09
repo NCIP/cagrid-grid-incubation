@@ -15,17 +15,18 @@ import org.apache.commons.pool.ObjectPool;
 import org.apache.commons.pool.impl.GenericObjectPool;
 
 /**
+ * PooledDatabaseConnectionSource
  * Utility to get JDBC connections for the i2b2 query processor
  * using Apache's DBCP
  * 
  * @author David
  */
-public class I2B2DatabaseConnectionSource {
+public class PooledDatabaseConnectionSource implements DatabaseConnectionSource {
 
     public static final String DBCP_DRIVER_NAME = "jdbc:apache:commons:dbcp:";
     public static final String POOL_NAME_PREFIX = "i2b2_dbcp_pool";
 
-    private static final Log LOG = LogFactory.getLog(I2B2DatabaseConnectionSource.class);
+    private static final Log LOG = LogFactory.getLog(PooledDatabaseConnectionSource.class);
     
     private String uniquePoolId = null;
     private boolean isShutdown = false;
@@ -35,7 +36,7 @@ public class I2B2DatabaseConnectionSource {
     private String username = null;
     private String password = null;
     
-    public I2B2DatabaseConnectionSource(String jdbcDriverClassname, 
+    public PooledDatabaseConnectionSource(String jdbcDriverClassname, 
         String jdbcConnectionString, String username, String password) throws Exception {
         this.uniquePoolId = UUID.randomUUID().toString();
         this.jdbcDriverClassname = jdbcDriverClassname;
@@ -60,7 +61,7 @@ public class I2B2DatabaseConnectionSource {
     
     
     public void shutdown() throws SQLException {
-        if (isShutdown()) {
+        if (!isShutdown()) {
             PoolingDriver driver = (PoolingDriver) DriverManager.getDriver(DBCP_DRIVER_NAME);
             driver.closePool(uniquePoolId);
             isShutdown = true;
