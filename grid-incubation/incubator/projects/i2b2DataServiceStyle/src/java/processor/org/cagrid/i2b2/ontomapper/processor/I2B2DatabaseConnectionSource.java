@@ -3,16 +3,16 @@ package org.cagrid.i2b2.ontomapper.processor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.UUID;
 
-import org.apache.commons.pool.ObjectPool;
-import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.commons.dbcp.ConnectionFactory;
-import org.apache.commons.dbcp.PoolingDriver;
-import org.apache.commons.dbcp.PoolableConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
-
+import org.apache.commons.dbcp.PoolableConnectionFactory;
+import org.apache.commons.dbcp.PoolingDriver;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.pool.ObjectPool;
+import org.apache.commons.pool.impl.GenericObjectPool;
 
 /**
  * Utility to get JDBC connections for the i2b2 query processor
@@ -23,20 +23,26 @@ import org.apache.commons.logging.LogFactory;
 public class I2B2DatabaseConnectionSource {
 
     public static final String DBCP_DRIVER_NAME = "jdbc:apache:commons:dbcp:";
-    public static final String POOL_NAME = "i2b2_dbcp_pool";
+    public static final String POOL_NAME_PREFIX = "i2b2_dbcp_pool";
 
     private static final Log LOG = LogFactory.getLog(I2B2DatabaseConnectionSource.class);
+    
+    private String uniquePoolId = null;
+    private boolean isShutdown = false;
     
     private String jdbcDriverClassname = null;
     private String jdbcConnectionString = null;
     private String username = null;
     private String password = null;
     
-    public I2B2DatabaseConnectionSource(String jdbcDriverClassname, String jdbcConnectionString, String username, String password) {
+    public I2B2DatabaseConnectionSource(String jdbcDriverClassname, 
+        String jdbcConnectionString, String username, String password) throws Exception {
+        this.uniquePoolId = UUID.randomUUID().toString();
         this.jdbcDriverClassname = jdbcDriverClassname;
         this.jdbcConnectionString = jdbcConnectionString;
         this.username = username;
         this.password = password;
+        setupDriver();
     }
     
     
@@ -49,17 +55,25 @@ public class I2B2DatabaseConnectionSource {
      * @throws SQLException
      */
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DBCP_DRIVER_NAME + POOL_NAME);
+        return DriverManager.getConnection(DBCP_DRIVER_NAME + uniquePoolId);
     }
     
     
     public void shutdown() throws SQLException {
-        PoolingDriver driver = (PoolingDriver) DriverManager.getDriver(DBCP_DRIVER_NAME);
-        driver.closePool(POOL_NAME);
+        if (isShutdown()) {
+            PoolingDriver driver = (PoolingDriver) DriverManager.getDriver(DBCP_DRIVER_NAME);
+            driver.closePool(uniquePoolId);
+            isShutdown = true;
+        }
     }
     
     
-    public void setupDriver() throws Exception {
+    public boolean isShutdown() {
+        return isShutdown;
+    }
+    
+    
+    private void setupDriver() throws Exception {
         // load and init the "inner" JDBC driver
         LOG.debug("Loading and registering JDBC driver class " + jdbcDriverClassname);
         Class.forName(jdbcDriverClassname);
@@ -86,15 +100,20 @@ public class I2B2DatabaseConnectionSource {
 
         // ...and register our pool with it.
         LOG.debug("Registering connection pool with DBCP driver");
-        driver.registerPool(POOL_NAME, connectionPool);
+        driver.registerPool(uniquePoolId, connectionPool);
     }
-
     
-    public static void printDriverStats() throws Exception {
+    
+    public int getActiveConnectionCount() throws SQLException {
         PoolingDriver driver = (PoolingDriver) DriverManager.getDriver(DBCP_DRIVER_NAME);
-        ObjectPool connectionPool = driver.getConnectionPool(POOL_NAME);
-        
-        System.out.println("NumActive: " + connectionPool.getNumActive());
-        System.out.println("NumIdle: " + connectionPool.getNumIdle());
+        ObjectPool connectionPool = driver.getConnectionPool(uniquePoolId);
+        return connectionPool.getNumActive();
+    }
+    
+    
+    public int getIdleConnectionCount() throws SQLException {
+        PoolingDriver driver = (PoolingDriver) DriverManager.getDriver(DBCP_DRIVER_NAME);
+        ObjectPool connectionPool = driver.getConnectionPool(uniquePoolId);
+        return connectionPool.getNumIdle();
     }
 }
