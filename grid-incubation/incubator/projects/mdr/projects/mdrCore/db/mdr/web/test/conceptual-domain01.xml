@@ -5,7 +5,7 @@
         <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
         <link type="text/css" href="../web/stylesheets/cagrid-style.css" rel="stylesheet"/>
         <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
-        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <link href="../web/cde_search.xquery" title="OpenMDR Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
         <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
         <title>Conceptual Domain: ECOG Performance Status enumerated conceptual domain</title>
     </head>
@@ -82,7 +82,7 @@
             <tr>
                 <td rowspan="1" colspan="1">
                     <div class="cssnav">
-                        <a target="_top" href="conceptual_domain.xquery?compound_id=GB-CANCERGRID-D1E682343-0.17&amp;as-xml=true" shape="rect">
+                        <a target="_top" href="conceptual_domain.xquery?compound_id=GB-OPENMDR-D1E682343-0.17&amp;as-xml=true" shape="rect">
                             <img alt="as XML" src="../web/images/greybutton.bmp"/>
                             <span>as XML</span>
                         </a>
@@ -101,7 +101,7 @@
                         </tr>
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Administered Item Identifier</td>
-                            <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682343-0.17</td>
+                            <td rowspan="1" colspan="1">GB-OPENMDR-D1E682343-0.17</td>
                         </tr>
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Registered By</td>
@@ -111,7 +111,7 @@
                                         <td class="invisible" rowspan="1" colspan="1">Dr. Peter Macallum</td>
                                     </tr>
                                     <tr>
-                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, CancerGrid</td>
+                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, OpenMDR</td>
                                     </tr>
                                     <tr>
                                         <td class="invisible" rowspan="1" colspan="1">01223 765348</td>
@@ -137,7 +137,7 @@
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
                             <td rowspan="1" colspan="1">
-                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                                <a href="../web/context.xquery?compound_id=GB-OPENMDR-000001-1" shape="rect">Clinical Trials</a>
                             </td>
                         </tr>
                         <tr>
@@ -185,7 +185,7 @@
                                         <td class="invisible" rowspan="1" colspan="1">Steve Harris</td>
                                     </tr>
                                     <tr>
-                                        <td class="invisible" rowspan="1" colspan="1">Researcher, CancerGrid</td>
+                                        <td class="invisible" rowspan="1" colspan="1">Researcher, OpenMDR</td>
                                     </tr>
                                     <tr>
                                         <td class="invisible" rowspan="1" colspan="1"/>
@@ -217,7 +217,7 @@
                                         <td class="invisible" rowspan="1" colspan="1">Sui L lin</td>
                                     </tr>
                                     <tr>
-                                        <td class="invisible" rowspan="1" colspan="1">Researcher, CancerGrid</td>
+                                        <td class="invisible" rowspan="1" colspan="1">Researcher, OpenMDR</td>
                                     </tr>
                                     <tr>
                                         <td class="invisible" rowspan="1" colspan="1"/>
@@ -383,7 +383,7 @@
                 </table>
             </div>
         </div>
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The OpenMDR Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
         <p align="right">
             <a href="http://validator.w3.org/check?uri=referer" shape="rect">
                 <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>

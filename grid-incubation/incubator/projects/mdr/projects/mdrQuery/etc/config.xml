@@ -65,8 +65,8 @@
 			category="CDE" connection_type="REST"
 			requestSequence="cgMDR_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)</description>
+			<title>OpenMDR Metadata Registry (cgMDR)</title>
+			<description>OpenMDR Metadata Registry (cgMDR)</description>
 			<webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="cgMDR-Local-Terminology"
@@ -77,8 +77,8 @@
 			category="CONCEPT" connection_type="REST"
 			requestSequence="cgMDR_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)</description>
+			<title>OpenMDR Metadata Registry (cgMDR)</title>
+			<description>OpenMDR Metadata Registry (cgMDR)</description>
 			<webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="cgMDR-with-Classification"
@@ -89,8 +89,8 @@
 			category="CLASSIFICATION_SCHEME" connection_type="REST"
 			requestSequence="cgMDR_SKOS_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)</description>
+			<title>OpenMDR Metadata Registry (cgMDR)</title>
+			<description>OpenMDR Metadata Registry (cgMDR)</description>
 			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="cgMDR-Classification-Schemes"
@@ -101,8 +101,8 @@
 			category="CLASSIFICATION_SCHEME" connection_type="REST"
 			requestSequence="no_arg_REST"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)</description>
+			<title>OpenMDR Metadata Registry (cgMDR)</title>
+			<description>OpenMDR Metadata Registry (cgMDR)</description>
 			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="cgMDR-Classification-Tree"
@@ -113,8 +113,8 @@
 			category="CLASSIFICATION_SCHEME" connection_type="REST"
 			requestSequence="cgMDR_Classification_Tree"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (cgMDR)</title>
-			<description>CancerGrid Metadata Registry (cgMDR)</description>
+			<title>OpenMDR Metadata Registry (cgMDR)</title>
+			<description>OpenMDR Metadata Registry (cgMDR)</description>
 			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 	</resources>

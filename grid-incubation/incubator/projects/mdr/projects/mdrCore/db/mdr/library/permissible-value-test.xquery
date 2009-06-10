@@ -22,14 +22,14 @@ lib-rendering:txfrm-webpage(
         test:expression("permissible-value:contained_in/1 and permissible-value:begin_date/1",
             for $v in
                 permissible-value:contained_in(
-                    lib-util:mdrElement('value_domain', 'GB-CANCERGRID-6EB677D37-0.1')
+                    lib-util:mdrElement('value_domain', 'GB-OPENMDR-6EB677D37-0.1')
                 )
             return permissible-value:begin_date($v),
 
             "
             for $v in
                 permissible-value:contained_in(
-                    lib-util:mdrElement('value_domain', 'GB-CANCERGRID-6EB677D37-0.1')
+                    lib-util:mdrElement('value_domain', 'GB-OPENMDR-6EB677D37-0.1')
                 )
             return permissible-value:begin_date($v)
             ",

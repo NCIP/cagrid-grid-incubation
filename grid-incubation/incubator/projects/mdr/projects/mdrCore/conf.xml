@@ -620,7 +620,7 @@
                     uri="http://exist-db.org/xquery/xslfo" /-->
             <module class="org.exist.xquery.modules.xmldiff.XmlDiffModule" uri="http://exist-db.org/xquery/xmldiff"/>
             
-            <!-- CancerGrid Modules -->
+            <!-- OpenMDR Modules -->
             <module class="org.cagrid.xquery.modules.Jena.JenaModule" uri="http://cagrid.org/xquery/jena"/>
             <module class="org.cagrid.xquery.modules.lexbigws.LexBIGWSModule" uri="http://cagrid.org/xquery/lexbig-ws"/>
             <module class="org.cagrid.xquery.modules.webservice.WebServiceModule" uri="http://cagrid.org/xquery/webservice"/>

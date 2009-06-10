@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008 CancerGrid Consortium <http://www.cagrid.org/>
+ * Copyright (c) 2005-2008 OpenMDR Consortium <http://www.cagrid.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -47,7 +47,7 @@ import org.w3c.dom.Node;
  * This is a utility class to help construct a chain of XSLT templates to be applied to
  * an input XML one after another in sequence.
  * 
- * @author <a href="mailto:Andrew.Tsui@comlab.ox.ac.uk">Andrew Tsui</a> (<a href="http://www.cagrid.org">CancerGrid Consortium</a>)
+ * @author <a href="mailto:Andrew.Tsui@comlab.ox.ac.uk">Andrew Tsui</a> (<a href="http://www.cagrid.org">OpenMDR Consortium</a>)
  * @version 1.1
  */
 public class ChainTransformer 

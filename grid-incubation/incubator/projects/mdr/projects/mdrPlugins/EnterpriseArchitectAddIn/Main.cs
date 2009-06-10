@@ -33,10 +33,10 @@ namespace EnterpriseArchitectAddIn
             {
                 case "":
                     return ROOT_MENU;
-                    //return "-&CancerGrid";
+                    //return "-&OpenMDR";
                     
                     /*
-                case "-&CancerGrid":
+                case "-&OpenMDR":
                     string[] ar = { "&Open Query Service Panel", "&Create CDE" };
                     //string[] ar = { "&Add Element from CDE", "&Create CDE", "&View Selected Element Details" };
                     return ar;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <treeview>
-    <folder title="CancerGrid Classification Scheme" img="images/white_circle.gif" expanded="true">
+    <folder title="OpenMDR Classification Scheme" img="images/white_circle.gif" expanded="true">
         <folder title="Minimum Cancer Dataset" img="images/white_circle.gif" expanded="true" code="06D67D8B6">
             <folder title="General" img="images/white_circle.gif" expanded="true" code="2ED5C8689">
                 <folder title="Demographics" img="images/white_circle.gif" expanded="true" code="79B19EBBD"/>

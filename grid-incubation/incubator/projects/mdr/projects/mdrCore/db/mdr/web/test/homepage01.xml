@@ -5,9 +5,9 @@
         <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
         <link type="text/css" href="../web/stylesheets/cagrid-style.css" rel="stylesheet"/>
         <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
-        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <link href="../web/cde_search.xquery" title="OpenMDR Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
         <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
-        <title>CancerGrid Metadata Registry</title>
+        <title>OpenMDR Metadata Registry</title>
     </head>
     <body>
         <div>
@@ -76,7 +76,7 @@
             <div class="welcome">welcome: guest</div>
         </div>
         <br clear="none"/>
-        <div class="admin_item_header">CancerGrid Metadata Registry</div>
+        <div class="admin_item_header">OpenMDR Metadata Registry</div>
         <br clear="none"/>
         <div>
             <div class="content_one_pane">
@@ -103,7 +103,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" rowspan="1">
-                            <p>This page contains a CancerGrid CDE search plug-in that can be installed
+                            <p>This page contains a OpenMDR CDE search plug-in that can be installed
                             into the Search Engine bar of Firefox 2 and Internet Explorer 7. Click
                             on the drop-down icon of the search bar of your browser to add the
                             plug-in.</p>
@@ -121,7 +121,7 @@
                             <h4>Firefox 2</h4>
                             <ul>
                                 <li>Click on the drop-down icon in the search bar</li>
-                                <li>Choose <strong>Add "CancerGrid CDE Search"</strong>
+                                <li>Choose <strong>Add "OpenMDR CDE Search"</strong>
                                 </li>
                             </ul>
                         </td>
@@ -130,16 +130,16 @@
                             <h4>Internet Explorer 7</h4>
                             <ul>
                                 <li>Click on the drop-down icon in the search bar</li>
-                                <li>Choose <strong>Add Search Providers -&gt; CancerGrid CDE
+                                <li>Choose <strong>Add Search Providers -&gt; OpenMDR CDE
                             Search</strong> (install)</li>
-                                <li>OR, Choose <strong>CancerGrid CDE Search</strong> (temporaly use)</li>
+                                <li>OR, Choose <strong>OpenMDR CDE Search</strong> (temporaly use)</li>
                             </ul>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The OpenMDR Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
         <p align="right">
             <a href="http://validator.w3.org/check?uri=referer" shape="rect">
                 <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>

@@ -8,8 +8,8 @@ at "../library/m-lib-util.xquery";
 declare variable $test:classification-scheme-item-1AD30C1B7 :=
     lib-util:mdrElement("classification_scheme_item", "1AD30C1B7");
 
-declare variable $test:organization-GB-CANCERGRID-000002-1 :=
-    lib-util:mdrElement("organization", "GB-CANCERGRID-000002-1");
+declare variable $test:organization-GB-OPENMDR-000002-1 :=
+    lib-util:mdrElement("organization", "GB-OPENMDR-000002-1");
 
 declare variable $test:reference-document-06E6647D0 :=
     lib-util:mdrElement("reference_document", "06E6647D0");
@@ -23,35 +23,35 @@ declare variable $test:unit-of-measure-0EABB5D21 :=
 declare variable $test:data-element-rating-87CA6EB31 :=
     lib-util:mdrElement("data-element-rating", "87CA6EB31");
 
-declare variable $test:context-GB-CANCERGRID-000001-1 :=
-    lib-util:mdrElement("context", "GB-CANCERGRID-000001-1");
+declare variable $test:context-GB-OPENMDR-000001-1 :=
+    lib-util:mdrElement("context", "GB-OPENMDR-000001-1");
 
-declare variable $test:conceptual-domain-GB-CANCERGRID-0E57DB56A-0.1 :=
-    lib-util:mdrElement("conceptual_domain", "GB-CANCERGRID-0E57DB56A-0.1");
+declare variable $test:conceptual-domain-GB-OPENMDR-0E57DB56A-0.1 :=
+    lib-util:mdrElement("conceptual_domain", "GB-OPENMDR-0E57DB56A-0.1");
 
-declare variable $test:value-domain-GB-CANCERGRID-006BB338C-0.1 :=
-    lib-util:mdrElement("value_domain", "GB-CANCERGRID-006BB338C-0.1");
+declare variable $test:value-domain-GB-OPENMDR-006BB338C-0.1 :=
+    lib-util:mdrElement("value_domain", "GB-OPENMDR-006BB338C-0.1");
 
-declare variable $test:object-class-GB-CANCERGRID-3E5B7BE69-0.1 :=
-    lib-util:mdrElement("object_class", "GB-CANCERGRID-3E5B7BE69-0.1");
+declare variable $test:object-class-GB-OPENMDR-3E5B7BE69-0.1 :=
+    lib-util:mdrElement("object_class", "GB-OPENMDR-3E5B7BE69-0.1");
 
-declare variable $test:classification-scheme-GB-CANCERGRID-000026-1.0 :=
-    lib-util:mdrElement("classification_scheme", "GB-CANCERGRID-000026-1.0");
+declare variable $test:classification-scheme-GB-OPENMDR-000026-1.0 :=
+    lib-util:mdrElement("classification_scheme", "GB-OPENMDR-000026-1.0");
 
-declare variable $test:data-element-GB-CANCERGRID-0A296A56A-0.1 :=
-    lib-util:mdrElement("data_element", "GB-CANCERGRID-0A296A56A-0.1");
+declare variable $test:data-element-GB-OPENMDR-0A296A56A-0.1 :=
+    lib-util:mdrElement("data_element", "GB-OPENMDR-0A296A56A-0.1");
 
-declare variable $test:data-element-concept-GB-CANCERGRID-3B90B6D4C-0.1 :=
-    lib-util:mdrElement("data_element_concept", "GB-CANCERGRID-3B90B6D4C-0.1");
+declare variable $test:data-element-concept-GB-OPENMDR-3B90B6D4C-0.1 :=
+    lib-util:mdrElement("data_element_concept", "GB-OPENMDR-3B90B6D4C-0.1");
 
-declare variable $test:property-GB-CANCERGRID-4A4B57291-0.1 :=
-    lib-util:mdrElement("property", "GB-CANCERGRID-4A4B57291-0.1");
+declare variable $test:property-GB-OPENMDR-4A4B57291-0.1 :=
+    lib-util:mdrElement("property", "GB-OPENMDR-4A4B57291-0.1");
 
-declare variable $test:registration-authority-GB-CANCERGRID-CA :=
-    lib-util:mdrElement("registration_authority", "GB-CANCERGRID-CA");
+declare variable $test:registration-authority-GB-OPENMDR-CA :=
+    lib-util:mdrElement("registration_authority", "GB-OPENMDR-CA");
 
-declare variable $test:representation-class-GB-CANCERGRID-000010-1 :=
-    lib-util:mdrElement("representation_class", "GB-CANCERGRID-000010-1");
+declare variable $test:representation-class-GB-OPENMDR-000010-1 :=
+    lib-util:mdrElement("representation_class", "GB-OPENMDR-000010-1");
 
 (:~
     Test an expression

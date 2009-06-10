@@ -5,7 +5,7 @@
         <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
         <link type="text/css" href="../web/stylesheets/cagrid-style.css" rel="stylesheet"/>
         <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
-        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <link href="../web/cde_search.xquery" title="OpenMDR Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
         <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
         <title>Supported Object Classes</title>
     </head>
@@ -305,14 +305,14 @@
                 </td>
             </tr>
             <tr>
-                <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-000025-1</td>
+                <td class="left_header_cell" rowspan="1" colspan="1">GB-OPENMDR-000025-1</td>
                 <td rowspan="1" colspan="1">
-                    <a href="../web/object_class.xquery?compound_id=GB-CANCERGRID-000025-1" shape="rect">default object class</a>
+                    <a href="../web/object_class.xquery?compound_id=GB-OPENMDR-000025-1" shape="rect">default object class</a>
                 </td>
                 <td rowspan="1" colspan="1">Default placeholder property for the Trial Builder Import</td>
             </tr>
         </table>
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The OpenMDR Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
         <p align="right">
             <a href="http://validator.w3.org/check?uri=referer" shape="rect">
                 <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>

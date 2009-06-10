@@ -7,11 +7,11 @@ using Microsoft.Office.Tools.Excel;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CancerGrid Excel Query Service AddIn")]
+[assembly: AssemblyTitle("OpenMDR Excel Query Service AddIn")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("cagrid.org")]
-[assembly: AssemblyProduct("CancerGrid Excel Query Service AddIn")]
+[assembly: AssemblyProduct("OpenMDR Excel Query Service AddIn")]
 [assembly: AssemblyCopyright("Copyright © cagrid.org 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

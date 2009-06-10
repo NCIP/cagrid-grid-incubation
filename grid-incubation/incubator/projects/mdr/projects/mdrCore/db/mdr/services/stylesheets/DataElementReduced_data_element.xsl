@@ -9,14 +9,14 @@
         <!--defaults>
             <country_identifier>GB</country_identifier>
             <language_identifier>eng</language_identifier>
-            <context_identifier>GB-CANCERGRID-000001-1</context_identifier>
+            <context_identifier>GB-OPENMDR-000001-1</context_identifier>
             <data_element_version>0.1</data_element_version>
             <enumerated_value_domain_version>0.1</enumerated_value_domain_version>
             <administrative_status>scheduledForReview</administrative_status>
             <registration_status>Recorded</registration_status>
             <origin>CRUK Cancer Clinical Trials Unit, University of Birmingham</origin>
-            <data_element_concept_object_class>GB-CANCERGRID-000025-1</data_element_concept_object_class>
-            <data_element_concept_property>GB-CANCERGRID-000024-0.1</data_element_concept_property>
+            <data_element_concept_object_class>GB-OPENMDR-000025-1</data_element_concept_object_class>
+            <data_element_concept_property>GB-OPENMDR-000024-0.1</data_element_concept_property>
         </defaults-->
     </xsl:variable>
     <xsl:template match="/">
@@ -32,7 +32,7 @@
                 <xsl:value-of select="concat(der-xs:reg-auth, '-', der-xs:value-domain-data-identifier, '-', $defaults/defaults/enumerated_value_domain_version)"/>
             </openMDR:representing>
             <openMDR:typed_by>
-                <xsl:value-of select="if (der-xs:values/der-xs:enumerated) then 'GB-CANCERGRID-000010-1' else ''"/>
+                <xsl:value-of select="if (der-xs:values/der-xs:enumerated) then 'GB-OPENMDR-000010-1' else ''"/>
             </openMDR:typed_by>
             <openMDR:expressing>
                 <xsl:value-of select="concat(der-xs:reg-auth, '-', der-xs:dec-data-identifier, '-', $defaults/defaults/enumerated_value_domain_version)"/>

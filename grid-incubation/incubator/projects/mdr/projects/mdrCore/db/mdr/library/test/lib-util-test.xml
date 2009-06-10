@@ -5,7 +5,7 @@
         <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
         <link type="text/css" href="../web/stylesheets/cagrid-style.css" rel="stylesheet"/>
         <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
-        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <link href="../web/cde_search.xquery" title="OpenMDR Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
         <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
         <title>lib-util tests</title>
     </head>
@@ -93,8 +93,8 @@
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:organization-GB-CANCERGRID-000002-1)</td>
-                <td rowspan="1" colspan="1">GB-CANCERGRID-000002-1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:organization-GB-OPENMDR-000002-1)</td>
+                <td rowspan="1" colspan="1">GB-OPENMDR-000002-1</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
@@ -123,25 +123,25 @@
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementId/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:context-GB-CANCERGRID-000001-1)</td>
-                <td rowspan="1" colspan="1">GB-CANCERGRID-000001-1</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementId($test:context-GB-OPENMDR-000001-1)</td>
+                <td rowspan="1" colspan="1">GB-OPENMDR-000001-1</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:conceptual-domain-GB-CANCERGRID-0E57DB56A-0.1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:conceptual-domain-GB-OPENMDR-0E57DB56A-0.1)</td>
                 <td rowspan="1" colspan="1">conceptual_domain</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:value-domain-GB-CANCERGRID-006BB338C-0.1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:value-domain-GB-OPENMDR-006BB338C-0.1)</td>
                 <td rowspan="1" colspan="1">value_domain</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:object-class-GB-CANCERGRID-3E5B7BE69-0.1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:object-class-GB-OPENMDR-3E5B7BE69-0.1)</td>
                 <td rowspan="1" colspan="1">object_class</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
@@ -153,25 +153,25 @@
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:classification-scheme-GB-CANCERGRID-000026-1.0)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:classification-scheme-GB-OPENMDR-000026-1.0)</td>
                 <td rowspan="1" colspan="1">classification_scheme</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:context-GB-CANCERGRID-000001-1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:context-GB-OPENMDR-000001-1)</td>
                 <td rowspan="1" colspan="1">context</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:data-element-GB-CANCERGRID-0A296A56A-0.1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:data-element-GB-OPENMDR-0A296A56A-0.1)</td>
                 <td rowspan="1" colspan="1">data_element</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:data-element-concept-GB-CANCERGRID-3B90B6D4C-0.1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:data-element-concept-GB-OPENMDR-3B90B6D4C-0.1)</td>
                 <td rowspan="1" colspan="1">data_element_concept</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
@@ -183,13 +183,13 @@
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:organization-GB-CANCERGRID-000002-1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:organization-GB-OPENMDR-000002-1)</td>
                 <td rowspan="1" colspan="1">organization</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:property-GB-CANCERGRID-4A4B57291-0.1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:property-GB-OPENMDR-4A4B57291-0.1)</td>
                 <td rowspan="1" colspan="1">property</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
@@ -201,13 +201,13 @@
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:registration-authority-GB-CANCERGRID-CA)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:registration-authority-GB-OPENMDR-CA)</td>
                 <td rowspan="1" colspan="1">registration_authority</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
             <tr>
                 <td rowspan="1" colspan="1">lib-util:mdrElementType/1</td>
-                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:representation-class-GB-CANCERGRID-000010-1)</td>
+                <td rowspan="1" colspan="1">lib-util:mdrElementType($test:representation-class-GB-OPENMDR-000010-1)</td>
                 <td rowspan="1" colspan="1">representation_class</td>
                 <td rowspan="1" colspan="1">true</td>
             </tr>
@@ -686,7 +686,7 @@
                 <td rowspan="1" colspan="1">true</td>
             </tr>
         </table>
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The OpenMDR Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
         <p align="right">
             <a href="http://validator.w3.org/check?uri=referer" shape="rect">
                 <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>
