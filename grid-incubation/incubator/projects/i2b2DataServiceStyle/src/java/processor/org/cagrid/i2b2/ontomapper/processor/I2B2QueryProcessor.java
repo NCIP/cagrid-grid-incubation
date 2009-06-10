@@ -12,11 +12,13 @@ import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.i2b2.ontomapper.utils.ClassNotFoundInModelException;
 import org.cagrid.i2b2.ontomapper.utils.ConceptCodeMapper;
 import org.cagrid.i2b2.ontomapper.utils.DomainModelConceptCodeMapper;
 
@@ -136,7 +138,20 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
 
 
     public CQLQueryResults processQuery(CQLQuery cqlQuery) throws MalformedQueryException, QueryProcessingException {
-        // TODO Auto-generated method stub
+        /*
+         * Starting with a very simple implementation to grab the Target object and nothing else
+         */
+        
+        // figure out the concept codes of the target data type
+        List<String> targetCodes = null;
+        try {
+            targetCodes = conceptMapper.getConceptCodesForClass(cqlQuery.getTarget().getName());
+        } catch (ClassNotFoundInModelException ex) {
+            LOG.error(ex.getMessage(), ex);
+            throw new QueryProcessingException("Target class not found in model! " + ex.getMessage(), ex);
+        }
+        
+        
         return null;
     }
 }
