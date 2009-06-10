@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:cfg="http://cancergrid.org/schema/config" xmlns="http://cancergrid.org/schema/query" elementFormDefault="qualified" targetNamespace="http://cancergrid.org/schema/query" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="config.xsd" namespace="http://cancergrid.org/schema/config" />
+<xs:schema xmlns:cfg="http://cagrid.org/schema/config" xmlns="http://cagrid.org/schema/query" elementFormDefault="qualified" targetNamespace="http://cagrid.org/schema/query" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="config.xsd" namespace="http://cagrid.org/schema/config" />
   <xs:element name="query" type="query" />
   <xs:complexType name="query">
     <xs:sequence>

@@ -13,7 +13,7 @@
 		</xsl:copy>
 	</xsl:template>
 	<xsl:template match="DataElement">
-		<!--<data-element xmlns="http://cancergrid.org/schema/result-set">-->
+		<!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
 		<data-element>
 			<names>
 				<id>US-NCICB-CACORE-CADSR-<xsl:value-of select="publicID"/>-<xsl:value-of select="version"/>
@@ -49,7 +49,7 @@
 	</xsl:template>
 	
 	<xsl:template match="NonenumeratedValueDomain">
-		<!--<values xmlns="http://cancergrid.org/schema/result-set">-->
+		<!--<values xmlns="http://cagrid.org/schema/result-set">-->
 		<values>
 			<non-enumerated>
 				<data-type>
@@ -61,7 +61,7 @@
 	</xsl:template>
 	
 	<xsl:template match="EnumeratedValueDomain">
-		<!--<values xmlns="http://cancergrid.org/schema/result-set">-->
+		<!--<values xmlns="http://cagrid.org/schema/result-set">-->
 		<values>
 			<enumerated>
 				<xsl:apply-templates select="valueDomainPermissibleValueCollection/ValueDomainPermissibleValue/permissibleValue/PermissibleValue"/>
@@ -70,7 +70,7 @@
 	</xsl:template>
 	
 	<xsl:template match="PermissibleValue">
-		<!--<valid-value xmlns="http://cancergrid.org/schema/result-set">-->
+		<!--<valid-value xmlns="http://cagrid.org/schema/result-set">-->
 		<valid-value>
 			<code>
 				<xsl:value-of select="value"/>
@@ -83,7 +83,7 @@
 	</xsl:template>
     	
 	<xsl:template match="ObjectClass">
-		<!--<data-element xmlns="http://cancergrid.org/schema/result-set">-->
+		<!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
 		<object-class>
 			<names>
 				<id>US-NCICB-CACORE-CADSR-<xsl:value-of select="publicID"/>-<xsl:value-of select="version"/>
@@ -116,7 +116,7 @@
 	</xsl:template>
 	
 	<xsl:template match="Property">
-		<!--<data-element xmlns="http://cancergrid.org/schema/result-set">-->
+		<!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
 		<property>
 			<names>
 				<id>US-NCICB-CACORE-CADSR-<xsl:value-of select="publicID"/>-<xsl:value-of select="version"/>

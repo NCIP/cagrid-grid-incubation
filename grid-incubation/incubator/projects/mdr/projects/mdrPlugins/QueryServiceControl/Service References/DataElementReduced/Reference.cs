@@ -12,7 +12,7 @@ namespace QueryServiceControl.DataElementReduced {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", ConfigurationName="DataElementReduced.DataElementReducedPortType")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://cagrid.org/services/DataElementReduced", ConfigurationName="DataElementReduced.DataElementReducedPortType")]
     public interface DataElementReducedPortType {
         
         // CODEGEN: Generating message contract since the operation getOrganizationContacts is neither RPC nor document wrapped.
@@ -59,10 +59,10 @@ namespace QueryServiceControl.DataElementReduced {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="getOrganizationContactsResponse", WrapperNamespace="http://cancergrid.org/services/DataElementReduced", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getOrganizationContactsResponse", WrapperNamespace="http://cagrid.org/services/DataElementReduced", IsWrapped=true)]
     public partial class getOrganizationContactsResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string @return;
         
@@ -85,10 +85,10 @@ namespace QueryServiceControl.DataElementReduced {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="getUOMResponse", WrapperNamespace="http://cancergrid.org/services/DataElementReduced", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getUOMResponse", WrapperNamespace="http://cagrid.org/services/DataElementReduced", IsWrapped=true)]
     public partial class getUOMResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string @return;
         
@@ -105,7 +105,7 @@ namespace QueryServiceControl.DataElementReduced {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName="new-data-element-reduced", Namespace="http://cancergrid.org/schema/DataElementReduced")]
+    [System.Xml.Serialization.XmlTypeAttribute(TypeName="new-data-element-reduced", Namespace="http://cagrid.org/schema/DataElementReduced")]
     public partial class newdataelementreduced : object, System.ComponentModel.INotifyPropertyChanged {
         
         private string preferrednameField;
@@ -315,7 +315,7 @@ namespace QueryServiceControl.DataElementReduced {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/DataElementReduced")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/DataElementReduced")]
     public partial class values : object, System.ComponentModel.INotifyPropertyChanged {
         
         private object itemField;
@@ -348,7 +348,7 @@ namespace QueryServiceControl.DataElementReduced {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/DataElementReduced")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/DataElementReduced")]
     public partial class enumerated : object, System.ComponentModel.INotifyPropertyChanged {
         
         private value[] valueField;
@@ -380,7 +380,7 @@ namespace QueryServiceControl.DataElementReduced {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/DataElementReduced")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/DataElementReduced")]
     public partial class value : object, System.ComponentModel.INotifyPropertyChanged {
         
         private string codeField;
@@ -454,7 +454,7 @@ namespace QueryServiceControl.DataElementReduced {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName="non-enumerated", Namespace="http://cancergrid.org/schema/DataElementReduced")]
+    [System.Xml.Serialization.XmlTypeAttribute(TypeName="non-enumerated", Namespace="http://cagrid.org/schema/DataElementReduced")]
     public partial class nonenumerated : object, System.ComponentModel.INotifyPropertyChanged {
         
         private string datatypeField;
@@ -497,10 +497,10 @@ namespace QueryServiceControl.DataElementReduced {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="createDataElementReduced", WrapperNamespace="http://cancergrid.org/services/DataElementReduced", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="createDataElementReduced", WrapperNamespace="http://cagrid.org/services/DataElementReduced", IsWrapped=true)]
     public partial class createDataElementReducedRequest {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/schema/DataElementReduced", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/schema/DataElementReduced", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute("new-data-element-reduced")]
         public DataElementReduced.newdataelementreduced newdataelementreduced;
         
@@ -514,10 +514,10 @@ namespace QueryServiceControl.DataElementReduced {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="createDataElementReducedResponse", WrapperNamespace="http://cancergrid.org/services/DataElementReduced", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="createDataElementReducedResponse", WrapperNamespace="http://cagrid.org/services/DataElementReduced", IsWrapped=true)]
     public partial class createDataElementReducedResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string @return;
         
@@ -540,10 +540,10 @@ namespace QueryServiceControl.DataElementReduced {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="getRegAuthResponse", WrapperNamespace="http://cancergrid.org/services/DataElementReduced", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getRegAuthResponse", WrapperNamespace="http://cagrid.org/services/DataElementReduced", IsWrapped=true)]
     public partial class getRegAuthResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string @return;
         
@@ -566,10 +566,10 @@ namespace QueryServiceControl.DataElementReduced {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="getDataTypesResponse", WrapperNamespace="http://cancergrid.org/services/DataElementReduced", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getDataTypesResponse", WrapperNamespace="http://cagrid.org/services/DataElementReduced", IsWrapped=true)]
     public partial class getDataTypesResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string @return;
         
@@ -583,17 +583,17 @@ namespace QueryServiceControl.DataElementReduced {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="dataElementListSearch", WrapperNamespace="http://cancergrid.org/services/DataElementReduced", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="dataElementListSearch", WrapperNamespace="http://cagrid.org/services/DataElementReduced", IsWrapped=true)]
     public partial class dataElementListSearchRequest {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string term;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=1)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=1)]
         public int startIndex;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=2)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=2)]
         public int numResults;
         
         public dataElementListSearchRequest() {
@@ -608,10 +608,10 @@ namespace QueryServiceControl.DataElementReduced {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="dataElementListSearchResponse", WrapperNamespace="http://cancergrid.org/services/DataElementReduced", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="dataElementListSearchResponse", WrapperNamespace="http://cagrid.org/services/DataElementReduced", IsWrapped=true)]
     public partial class dataElementListSearchResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cancergrid.org/services/DataElementReduced", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cagrid.org/services/DataElementReduced", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
         public string @return;
         

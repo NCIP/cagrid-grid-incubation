@@ -14,7 +14,7 @@ namespace ExcelQueryServiceAddIn
 {
     public partial class DataElementCreationForm : Form
     {
-        private static XNamespace rs = "http://cancergrid.org/schema/result-set";
+        private static XNamespace rs = "http://cagrid.org/schema/result-set";
         private Excel.Worksheet cdeList = null;
         private Excel.Application application = Globals.ThisAddIn.Application;
         private static readonly string dummyPass = "dummy_password";
@@ -96,8 +96,8 @@ namespace ExcelQueryServiceAddIn
                         new XDeclaration("1.0", "utf-8", "yes"),
                         new XElement(xs + "schema",
                             new XAttribute(XNamespace.Xmlns + "xs", "http://www.w3.org/2001/XMLSchema"),
-                            new XAttribute("xmlns", "http://cancergrid.org/schema/result-set"),
-                            new XAttribute("targetNamespace", "http://cancergrid.org/schema/result-set"),
+                            new XAttribute("xmlns", "http://cagrid.org/schema/result-set"),
+                            new XAttribute("targetNamespace", "http://cagrid.org/schema/result-set"),
                             new XElement(xs + "element",
                                 new XAttribute("name", preferredNameTag + "List"),
                                 new XAttribute("type", preferredNameTag + "List")
@@ -178,8 +178,8 @@ namespace ExcelQueryServiceAddIn
                         new XDeclaration("1.0", "utf-8", "yes"),
                         new XElement(xs + "schema",
                             new XAttribute(XNamespace.Xmlns + "xs", "http://www.w3.org/2001/XMLSchema"),
-                            new XAttribute("xmlns", "http://cancergrid.org/schema/result-set"),
-                            new XAttribute("targetNamespace", "http://cancergrid.org/schema/result-set"),
+                            new XAttribute("xmlns", "http://cagrid.org/schema/result-set"),
+                            new XAttribute("targetNamespace", "http://cagrid.org/schema/result-set"),
                             new XElement(xs + "element",
                                 new XAttribute("name", preferredNameTag + "List"),
                                 new XAttribute("type", preferredNameTag + "List")

@@ -10,9 +10,9 @@ using Microsoft.Office.Tools.Excel;
 [assembly: AssemblyTitle("CancerGrid Excel Query Service AddIn")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("cancergrid.org")]
+[assembly: AssemblyCompany("cagrid.org")]
 [assembly: AssemblyProduct("CancerGrid Excel Query Service AddIn")]
-[assembly: AssemblyCopyright("Copyright © cancergrid.org 2008")]
+[assembly: AssemblyCopyright("Copyright © cagrid.org 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

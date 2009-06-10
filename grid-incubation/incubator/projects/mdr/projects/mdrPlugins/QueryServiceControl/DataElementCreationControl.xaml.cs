@@ -34,7 +34,7 @@ namespace QueryServiceControl
         public event EventHandler OnUseResult;
         private string lastResult = null;
 
-        private XNamespace der_xs = "http://cancergrid.org/schema/DataElementReduced";
+        private XNamespace der_xs = "http://cagrid.org/schema/DataElementReduced";
 
         public ObservableCollection<Contact> orgContacts { get; set; }
         public ObservableCollection<Contact> regAuths { get; set; }

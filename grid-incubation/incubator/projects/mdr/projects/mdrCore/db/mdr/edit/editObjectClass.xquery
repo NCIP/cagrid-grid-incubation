@@ -1,7 +1,7 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new property webpage and XQuery
+ : Module Name:             new object class webpage and XQuery
  :
  : Module Version           2.0
  :
@@ -9,7 +9,7 @@ xquery version "1.0";
  :
  : Copyright                The cagrid consortium
  :
- : Module overview          Creates and property and displays list
+ : Module overview          Creates and object class  and displays list
  :
  :)
  
@@ -100,7 +100,7 @@ declare function local:property(
    return
       if ($message='stored')
       then true()
-      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=editConcept.xquery&amp;",$message)))
+      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=editObjectClass.xquery&amp;",$message)))
 };
 
 declare function local:input-page(
@@ -134,11 +134,11 @@ declare function local:input-page(
       <table class="layout">
           <tr>
              <td>
-                This form will allow you to edit a Concept in the metadata repository
+                This form will allow you to edit a Object Class in the metadata repository
              </td>
           </tr>
           <tr><td>
-          <form name="edit_concept" action="editConcept.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="edit_ObjectClass" action="editObjectClass.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
                 {lib-forms:hidden-element('id',$id)}
                 {lib-forms:hidden-element('updating','updating')}
@@ -161,7 +161,7 @@ declare function local:input-page(
                 <table class="section">
                 
                     <tr>
-                       <td class="row-header-cell" colspan="6">Concept specific properties</td>
+                       <td class="row-header-cell" colspan="6">ObjectClass specific properties</td>
                     </tr>
                      {   
                          for $u at $pos in $object_class_uri
@@ -230,9 +230,8 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div>
-         <p>Property modified</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/editConcept.xquery">Create another Concept</a></p>    
+         <p>Oject Class Modified</p>
+         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>       
       </div>
 };
 
@@ -241,7 +240,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    session:create(),
    let $id := request:get-parameter('id','')
    let $updating := request:get-parameter('updating','')
-   let $title as xs:string := concat("Editing Concept ", $id)
+   let $title as xs:string := concat("Editing Object Class ", $id)
    let $element := lib-util:mdrElement("object_class",$id)
    
    let $ireg-auth := string($element/@item_registration_authority_identifier)

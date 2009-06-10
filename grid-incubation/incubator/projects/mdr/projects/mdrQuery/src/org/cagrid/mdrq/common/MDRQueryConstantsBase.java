@@ -12,6 +12,6 @@ public interface MDRQueryConstantsBase {
 	public static final String SERVICE_NS = "http://mdrq.cagrid.org/MDRQuery";
 	public static final QName RESOURCE_KEY = new QName(SERVICE_NS, "MDRQueryKey");
 	public static final QName RESOURCE_PROPERTY_SET = new QName(SERVICE_NS, "MDRQueryResourceProperties");
-	public static final QName RESOURCES = new QName("http://cancergrid.org/schema/config", "resources");
+	public static final QName RESOURCES = new QName("http://cagrid.org/schema/config", "resources");
 	
 }

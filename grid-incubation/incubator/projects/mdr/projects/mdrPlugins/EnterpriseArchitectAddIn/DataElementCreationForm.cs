@@ -37,7 +37,7 @@ namespace EnterpriseArchitectAddIn
 
             //XmlDocument xDoc = new XmlDocument();
             //xDoc.LoadXml(dataElementCreationControl.LastResult);
-            XElement x = XElement.Parse(dataElementCreationControl.LastResult.Replace("<", "<rs:").Replace("<rs:/", "</rs:").Replace("<rs:data-element>", "<rs:data-element xmlns:rs=\"http://cancergrid.org/schema/result-set\">"));
+            XElement x = XElement.Parse(dataElementCreationControl.LastResult.Replace("<", "<rs:").Replace("<rs:/", "</rs:").Replace("<rs:data-element>", "<rs:data-element xmlns:rs=\"http://cagrid.org/schema/result-set\">"));
             EAUtil.insertCDE(m_Repository, x, EAUtil.INSERT_XSD_TYPE.TOP_LEVEL_ATTRIBUTE);
         }
 
@@ -50,7 +50,7 @@ namespace EnterpriseArchitectAddIn
             }
             //XmlDocument xDoc = new XmlDocument();
             //xDoc.LoadXml(dataElementCreationControl.LastResult);
-            XElement x = XElement.Parse(dataElementCreationControl.LastResult.Replace("<", "<rs:").Replace("<rs:/", "</rs:").Replace("<rs:data-element>", "<rs:data-element xmlns:rs=\"http://cancergrid.org/schema/result-set\">"));
+            XElement x = XElement.Parse(dataElementCreationControl.LastResult.Replace("<", "<rs:").Replace("<rs:/", "</rs:").Replace("<rs:data-element>", "<rs:data-element xmlns:rs=\"http://cagrid.org/schema/result-set\">"));
             EAUtil.insertCDE(m_Repository, x, EAUtil.INSERT_XSD_TYPE.TOP_LEVEL_ELEMENT);
         }
         /*
@@ -65,7 +65,7 @@ namespace EnterpriseArchitectAddIn
             XmlDocument xDoc = new XmlDocument();
             xDoc.LoadXml(dataElementCreationControl.LastResult);
             nsmanager = new XmlNamespaceManager(xDoc.NameTable);
-            nsmanager.AddNamespace("rs", "http://cancergrid.org/schema/result-set");
+            nsmanager.AddNamespace("rs", "http://cagrid.org/schema/result-set");
             insertCDE(xDoc.DocumentElement.SelectSingleNode("/data-element"), INSERT_XSD_TYPE.NOT_APPLICABLE);
         }
         */

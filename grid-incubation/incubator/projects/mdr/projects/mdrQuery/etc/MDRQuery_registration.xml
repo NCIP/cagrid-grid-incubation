@@ -13,11 +13,11 @@
   <Content xsi:type="agg:AggregatorContent" xmlns:agg="http://mds.globus.org/aggregator/types">
     <agg:AggregatorConfig xsi:type="agg:AggregatorConfig">
       <agg:GetMultipleResourcePropertiesPollType
-			xmlns:ns2="http://cancergrid.org/schema/config"
-			xmlns:ns0="http://cancergrid.org/schema/result-set"
+			xmlns:ns2="http://cagrid.org/schema/config"
+			xmlns:ns0="http://cagrid.org/schema/result-set"
 			xmlns:xs="http://www.w3.org/2001/XMLSchema"
 			xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"
-			xmlns:ns1="http://cancergrid.org/schema/query"
+			xmlns:ns1="http://cagrid.org/schema/query"
 			xmlns:ns3="http://mdrq.cagrid.org/MDRQuery/types">
         <!-- Specifies that the index should refresh information
             every 300000 milliseconds (once every 5 minutes) -->

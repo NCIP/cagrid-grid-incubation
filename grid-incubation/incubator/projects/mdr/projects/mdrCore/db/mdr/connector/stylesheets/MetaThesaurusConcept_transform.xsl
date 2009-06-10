@@ -17,7 +17,7 @@
     </xsl:template>
 
     <xsl:template match="MetaThesaurusConcept">
-        <!--<concept xmlns="http://cancergrid.org/schema/result-set">-->
+        <!--<concept xmlns="http://cagrid.org/schema/result-set">-->
         <concept>
             <names>
                 <id>US-NCICB-CACORE-EVS-METATHESAURUSCONCEPT-<xsl:value-of select="Cui"/></id>
@@ -31,7 +31,7 @@
             <definition>
                 <xsl:apply-templates select="DefinitionCollection/Definition"/>
             </definition>
-            <!--<properties xmlns="http://cancergrid.org/schema/result-set">-->
+            <!--<properties xmlns="http://cagrid.org/schema/result-set">-->
             <properties>
                 <xsl:apply-templates select="SemanticTypeCollection"/>
                 <xsl:apply-templates select="SynonymCollection"/>
@@ -40,7 +40,7 @@
     </xsl:template>
     
     <xsl:template match="Definition">
-        <!--<property  xmlns="http://cancergrid.org/schema/result-set">-->
+        <!--<property  xmlns="http://cagrid.org/schema/result-set">-->
         <value>
         	<xsl:value-of select="Definition"/>
         </value>
@@ -58,7 +58,7 @@
     </xsl:template>
 
     <xsl:template match="Atom">
-        <!--<name xmlns="http://cancergrid.org/schema/result-set">-->
+        <!--<name xmlns="http://cagrid.org/schema/result-set">-->
         <name>
             <!--
             <code>
@@ -76,7 +76,7 @@
     </xsl:template>
 
     <xsl:template match="SemanticTypeCollection">
-        <!--<property  xmlns="http://cancergrid.org/schema/result-set">-->
+        <!--<property  xmlns="http://cagrid.org/schema/result-set">-->
         <property>
             <name>Semantic_Type</name>
             <value>
@@ -89,7 +89,7 @@
         <xsl:variable name="synonym" select="tokenize(normalize-space(.), ';')"/>
         <xsl:for-each select="$synonym">
             <xsl:if test="normalize-space(.) != ''">
-                <!--<property  xmlns="http://cancergrid.org/schema/result-set">-->
+                <!--<property  xmlns="http://cagrid.org/schema/result-set">-->
                 <property>
                     <name>Synonym</name>
                     <value>

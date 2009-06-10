@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Oxford University Computing Laboratory")]
 [assembly: AssemblyProduct("Enterprise ArchitectAdd In")]
-[assembly: AssemblyCopyright("Copyright © cancergrid.org 2008")]
+[assembly: AssemblyCopyright("Copyright © cagrid.org 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -1,4 +1,4 @@
-<config xmlns="http://cancergrid.org/schema/config">
+<config xmlns="http://cagrid.org/schema/config">
 	<resources>
 		<query_service name="caDSR"
 			class="org.cancergrid.ws.query.RestQueryService"

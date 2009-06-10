@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="http://cancergrid.org/schema/result-set" elementFormDefault="qualified" targetNamespace="http://cancergrid.org/schema/result-set" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns="http://cagrid.org/schema/result-set" elementFormDefault="qualified" targetNamespace="http://cagrid.org/schema/result-set" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="result-set" type="result-set" />
   <xs:complexType name="result-set">
     <xs:sequence>

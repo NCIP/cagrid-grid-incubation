@@ -102,7 +102,7 @@ namespace QueryServiceControl.QueryServiceManager {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://mdrq.cagrid.org/MDRQuery/QueryRequest", RequestElementName="QueryRequest", RequestNamespace="http://mdrq.cagrid.org/MDRQuery", ResponseElementName="QueryResponse", ResponseNamespace="http://mdrq.cagrid.org/MDRQuery", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute("result-set", Namespace="http://cancergrid.org/schema/result-set")]
+        [return: System.Xml.Serialization.XmlElementAttribute("result-set", Namespace="http://cagrid.org/schema/result-set")]
         public resultset query([System.Xml.Serialization.XmlElementAttribute("query")] QueryRequestQuery query1) {
             object[] results = this.Invoke("query", new object[] {
                         query1});
@@ -132,7 +132,7 @@ namespace QueryServiceControl.QueryServiceManager {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://mdrq.cagrid.org/MDRQuery/GetQueryResourcesRequest", RequestElementName="GetQueryResourcesRequest", RequestNamespace="http://mdrq.cagrid.org/MDRQuery", ResponseElementName="GetQueryResourcesResponse", ResponseNamespace="http://mdrq.cagrid.org/MDRQuery", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlArrayAttribute("resources", Namespace="http://cancergrid.org/schema/config")]
+        [return: System.Xml.Serialization.XmlArrayAttribute("resources", Namespace="http://cagrid.org/schema/config")]
         [return: System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
         public query_service[] getQueryResources() {
             object[] results = this.Invoke("getQueryResources", new object[0]);
@@ -317,7 +317,7 @@ namespace QueryServiceControl.QueryServiceManager {
         private query queryField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Namespace="http://cancergrid.org/schema/query")]
+        [System.Xml.Serialization.XmlElementAttribute(Namespace="http://cagrid.org/schema/query")]
         public query query {
             get {
                 return this.queryField;
@@ -333,7 +333,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/query")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/query")]
     public partial class query {
         
         private string serviceUrlField;
@@ -439,7 +439,7 @@ namespace QueryServiceControl.QueryServiceManager {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3082")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/query", IncludeInSchema=false)]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/query", IncludeInSchema=false)]
     public enum ItemsChoiceType {
         
         /// <remarks/>
@@ -709,7 +709,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/config")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/config")]
     public partial class query_service {
         
         private string titleField;
@@ -909,7 +909,7 @@ namespace QueryServiceControl.QueryServiceManager {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3082")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/config")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/config")]
     public enum category {
         
         /// <remarks/>
@@ -930,7 +930,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class classification_scheme {
         
         private string uriField;
@@ -965,7 +965,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class node {
         
         private node[] node1Field;
@@ -1026,7 +1026,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName="non-enumerated", Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(TypeName="non-enumerated", Namespace="http://cagrid.org/schema/result-set")]
     public partial class nonenumerated {
         
         private string datatypeField;
@@ -1060,7 +1060,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class enumerated {
         
         private validvalue[] validvalueField;
@@ -1082,7 +1082,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName="valid-value", Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(TypeName="valid-value", Namespace="http://cagrid.org/schema/result-set")]
     public partial class validvalue {
         
         private string codeField;
@@ -1128,7 +1128,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class meaning {
         
         private string conceptRefField;
@@ -1163,7 +1163,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class conceptRef {
         
         private string idField;
@@ -1220,7 +1220,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class values {
         
         private object itemField;
@@ -1243,7 +1243,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class definition {
         
         private string valueField;
@@ -1276,7 +1276,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://cagrid.org/schema/result-set")]
     public partial class definitionSource {
         
         private string abbreviationField;
@@ -1321,7 +1321,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class names {
         
         private string idField;
@@ -1372,7 +1372,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName="common-info", Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(TypeName="common-info", Namespace="http://cagrid.org/schema/result-set")]
     public partial class commoninfo {
         
         private names namesField;
@@ -1431,7 +1431,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName="object-class", Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(TypeName="object-class", Namespace="http://cagrid.org/schema/result-set")]
     public partial class objectclass : commoninfo {
         
         private conceptRef[] conceptCollectionField;
@@ -1453,7 +1453,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class property : commoninfo {
         
         private conceptRef[] conceptCollectionField;
@@ -1475,7 +1475,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class concept : commoninfo {
         
         private propertiesProperty[] propertiesField;
@@ -1497,7 +1497,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://cagrid.org/schema/result-set")]
     public partial class propertiesProperty {
         
         private string nameField;
@@ -1530,7 +1530,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName="data-element", Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(TypeName="data-element", Namespace="http://cagrid.org/schema/result-set")]
     public partial class dataelement : commoninfo {
         
         private values valuesField;
@@ -1564,7 +1564,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(TypeName="result-set", Namespace="http://cancergrid.org/schema/result-set")]
+    [System.Xml.Serialization.XmlTypeAttribute(TypeName="result-set", Namespace="http://cagrid.org/schema/result-set")]
     public partial class resultset {
         
         private string statusField;
