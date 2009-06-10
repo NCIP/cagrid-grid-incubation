@@ -39,8 +39,8 @@
 			cache_collection_id="openMDR" cache="false" cache_provider="HibernateCacheProvider"
 			category="CDE" connection_type="REST" requestSequence="openMDR_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (openMDR)</title>
-			<description>CancerGrid Metadata Registry (openMDR)
+			<title>Metadata Registry (openMDR)</title>
+			<description>Metadata Registry (openMDR)
 			</description>
 			<webUrl>http://129.67.150.47:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
@@ -51,8 +51,8 @@
 			cache_provider="HibernateCacheProvider" category="CONCEPT"
 			connection_type="REST" requestSequence="openMDR_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (openMDR)</title>
-			<description>CancerGrid Metadata Registry (openMDR)
+			<title>Metadata Registry (openMDR)</title>
+			<description>Metadata Registry (openMDR)
 			</description>
 			<webUrl>http://129.67.150.47:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
@@ -63,8 +63,8 @@
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="openMDR_SKOS_REST_query"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (openMDR)</title>
-			<description>CancerGrid Metadata Registry (openMDR)
+			<title>Metadata Registry (openMDR)</title>
+			<description>Metadata Registry (openMDR)
 			</description>
 			<webUrl>https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
@@ -74,8 +74,8 @@
 			cache_collection_id="openMDR-Classification-Schemes" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="no_arg_REST" digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (openMDR)</title>
-			<description>CancerGrid Metadata Registry (openMDR)
+			<title>Metadata Registry (openMDR)</title>
+			<description>Metadata Registry (openMDR)
 			</description>
 			<webUrl>https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
@@ -86,8 +86,8 @@
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="openMDR_Classification_Tree"
 			digestSequence="add_cg_namespace">
-			<title>CancerGrid Metadata Registry (openMDR)</title>
-			<description>CancerGrid Metadata Registry (openMDR)
+			<title>Metadata Registry (openMDR)</title>
+			<description>Metadata Registry (openMDR)
 			</description>
 			<webUrl>https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>

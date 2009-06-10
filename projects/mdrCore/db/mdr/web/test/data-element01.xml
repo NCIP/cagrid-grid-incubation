@@ -5,7 +5,7 @@
         <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
         <link type="text/css" href="../web/stylesheets/cagrid-style.css" rel="stylesheet"/>
         <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
-        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <link href="../web/cde_search.xquery" title="OpenMDR Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
         <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
         <title>Data Element: ECOG Performance Status</title>
     </head>
@@ -82,7 +82,7 @@
             <tr>
                 <td rowspan="1" colspan="1">
                     <div class="cssnav">
-                        <a target="_top" href="data_element.xquery?compound_id=GB-CANCERGRID-D1E682341-0.21&amp;as-xml=true" shape="rect">
+                        <a target="_top" href="data_element.xquery?compound_id=GB-OPENMDR-D1E682341-0.21&amp;as-xml=true" shape="rect">
                             <img alt="as XML" src="../web/images/greybutton.bmp"/>
                             <span>as XML</span>
                         </a>
@@ -101,7 +101,7 @@
                         </tr>
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Administered Item Identifier</td>
-                            <td rowspan="1" colspan="1">GB-CANCERGRID-D1E682341-0.21</td>
+                            <td rowspan="1" colspan="1">GB-OPENMDR-D1E682341-0.21</td>
                         </tr>
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Registered By</td>
@@ -111,7 +111,7 @@
                                         <td class="invisible" rowspan="1" colspan="1">Dr. Peter Macallum</td>
                                     </tr>
                                     <tr>
-                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, CancerGrid</td>
+                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, OpenMDR</td>
                                     </tr>
                                     <tr>
                                         <td class="invisible" rowspan="1" colspan="1">01223 765348</td>
@@ -137,7 +137,7 @@
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
                             <td rowspan="1" colspan="1">
-                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                                <a href="../web/context.xquery?compound_id=GB-OPENMDR-000001-1" shape="rect">Clinical Trials</a>
                             </td>
                         </tr>
                         <tr>
@@ -169,7 +169,7 @@
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
                             <td rowspan="1" colspan="1">
-                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                                <a href="../web/context.xquery?compound_id=GB-OPENMDR-000001-1" shape="rect">Clinical Trials</a>
                             </td>
                         </tr>
                         <tr>
@@ -201,7 +201,7 @@
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
                             <td rowspan="1" colspan="1">
-                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                                <a href="../web/context.xquery?compound_id=GB-OPENMDR-000001-1" shape="rect">Clinical Trials</a>
                             </td>
                         </tr>
                         <tr>
@@ -249,7 +249,7 @@
                                         <td class="invisible" rowspan="1" colspan="1">Peter MacCallum</td>
                                     </tr>
                                     <tr>
-                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, CancerGrid</td>
+                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, OpenMDR</td>
                                     </tr>
                                     <tr>
                                         <td class="invisible" rowspan="1" colspan="1"/>
@@ -281,7 +281,7 @@
                                         <td class="invisible" rowspan="1" colspan="1">Sui L lin</td>
                                     </tr>
                                     <tr>
-                                        <td class="invisible" rowspan="1" colspan="1">Researcher, CancerGrid</td>
+                                        <td class="invisible" rowspan="1" colspan="1">Researcher, OpenMDR</td>
                                     </tr>
                                     <tr>
                                         <td class="invisible" rowspan="1" colspan="1"/>
@@ -371,7 +371,7 @@
                     <tr>
                         <td class="left_header_cell" rowspan="1" colspan="1">Full Definition</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E682344-0.17" shape="rect">ECOG Performance Status</a>
+                            <a href="../web/value_domain.xquery?compound_id=GB-OPENMDR-D1E682344-0.17" shape="rect">ECOG Performance Status</a>
                         </td>
                     </tr>
                     <tr>
@@ -382,13 +382,13 @@
                     <tr>
                         <td rowspan="1" colspan="1">Expresses data element concept</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/data_element_concept.xquery?compound_id=GB-CANCERGRID-D1E682342-0.14" shape="rect">ECOG Performance Status data element concept</a>
+                            <a href="../web/data_element_concept.xquery?compound_id=GB-OPENMDR-D1E682342-0.14" shape="rect">ECOG Performance Status data element concept</a>
                         </td>
                     </tr>
                     <tr>
                         <td rowspan="1" colspan="1">Typed by representation class</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/representation_class.xquery?compound_id=GB-CANCERGRID-000010-1" shape="rect">Code</a>
+                            <a href="../web/representation_class.xquery?compound_id=GB-OPENMDR-000010-1" shape="rect">Code</a>
                         </td>
                     </tr>
                     <tr>
@@ -423,9 +423,9 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="1" colspan="1">GB-CANCERGRID-D1E573861-0.19</td>
+                                        <td rowspan="1" colspan="1">GB-OPENMDR-D1E573861-0.19</td>
                                         <td rowspan="1" colspan="1">
-                                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E573861-0.19" shape="rect">ECOG performance status is 0, 1 or 2</a>
+                                            <a href="../web/data_element.xquery?compound_id=GB-OPENMDR-D1E573861-0.19" shape="rect">ECOG performance status is 0, 1 or 2</a>
                                         </td>
                                         <td rowspan="1" colspan="1">narrowerTerm</td>
                                     </tr>
@@ -458,13 +458,13 @@
                         </tr>
                         <tr>
                             <td rowspan="1" colspan="1">
-                                <a href="../web/classification_scheme.xquery?compound_id=GB-CANCERGRID-000026-1.0" shape="rect">CancerGrid Classification Scheme</a>
+                                <a href="../web/classification_scheme.xquery?compound_id=GB-OPENMDR-000026-1.0" shape="rect">OpenMDR Classification Scheme</a>
                             </td>
                             <td rowspan="1" colspan="1">Performance Status</td>
                         </tr>
                         <tr>
                             <td rowspan="1" colspan="1">
-                                <a href="../web/classification_scheme.xquery?compound_id=GB-CANCERGRID-000026-1.0" shape="rect">CancerGrid Classification Scheme</a>
+                                <a href="../web/classification_scheme.xquery?compound_id=GB-OPENMDR-000026-1.0" shape="rect">OpenMDR Classification Scheme</a>
                             </td>
                             <td rowspan="1" colspan="1">PhysicalCharacteristic</td>
                         </tr>
@@ -472,7 +472,7 @@
                 </div>
             </div>
         </div>
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The OpenMDR Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
         <p align="right">
             <a href="http://validator.w3.org/check?uri=referer" shape="rect">
                 <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>

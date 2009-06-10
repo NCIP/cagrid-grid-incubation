@@ -3,7 +3,7 @@ xquery version "1.0";
 (:~
  : Regression tests
  :
- : Copyright (C) 2007 The CancerGrid Consortium
+ : Copyright (C) 2007 The OpenMDR Consortium
  : @author Igor Toujilov
  : @author Steve Harris
  :)

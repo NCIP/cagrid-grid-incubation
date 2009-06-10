@@ -71,7 +71,7 @@ return
                 <link rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
                 <link rel="stylesheet" href="../web/stylesheets/cagrid-style.css" type="text/css"/>
                 <link rel="stylesheet" href="../classification/stylesheets/treeview.css" type="text/css"/>
-                <link rel="search" type="application/opensearchdescription+xml" title="CancerGrid Data Element Search" href="../web/cde_search.xquery"/>
+                <link rel="search" type="application/opensearchdescription+xml" title="OpenMDR Data Element Search" href="../web/cde_search.xquery"/>
 
       </head>
       <body>

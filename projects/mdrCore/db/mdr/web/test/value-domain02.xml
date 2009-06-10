@@ -5,7 +5,7 @@
         <link type="text/css" href="../web/stylesheets/mdr.css" rel="stylesheet"/>
         <link type="text/css" href="../web/stylesheets/cagrid-style.css" rel="stylesheet"/>
         <link type="text/css" href="../web/treeview/treeview.css" rel="stylesheet"/>
-        <link href="../web/cde_search.xquery" title="CancerGrid Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
+        <link href="../web/cde_search.xquery" title="OpenMDR Data Element Search" type="application/opensearchdescription+xml" rel="search"/>
         <script type="text/javascript" src="../web/treeview/treeview.js" xml:space="preserve"/>
         <title>Value Domain: Value domain for Patient Trial Number</title>
     </head>
@@ -82,7 +82,7 @@
             <tr>
                 <td rowspan="1" colspan="1">
                     <div class="cssnav">
-                        <a target="_top" href="value_domain.xquery?compound_id=GB-CANCERGRID-D1E592584-0.14&amp;as-xml=true" shape="rect">
+                        <a target="_top" href="value_domain.xquery?compound_id=GB-OPENMDR-D1E592584-0.14&amp;as-xml=true" shape="rect">
                             <img alt="as XML" src="../web/images/greybutton.bmp"/>
                             <span>as XML</span>
                         </a>
@@ -101,7 +101,7 @@
                         </tr>
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Administered Item Identifier</td>
-                            <td rowspan="1" colspan="1">GB-CANCERGRID-D1E592584-0.14</td>
+                            <td rowspan="1" colspan="1">GB-OPENMDR-D1E592584-0.14</td>
                         </tr>
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Registered By</td>
@@ -111,7 +111,7 @@
                                         <td class="invisible" rowspan="1" colspan="1">Dr. Peter Macallum</td>
                                     </tr>
                                     <tr>
-                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, CancerGrid</td>
+                                        <td class="invisible" rowspan="1" colspan="1">Project Manager, OpenMDR</td>
                                     </tr>
                                     <tr>
                                         <td class="invisible" rowspan="1" colspan="1">01223 765348</td>
@@ -137,7 +137,7 @@
                         <tr>
                             <td class="left_header_cell" rowspan="1" colspan="1">Context</td>
                             <td rowspan="1" colspan="1">
-                                <a href="../web/context.xquery?compound_id=GB-CANCERGRID-000001-1" shape="rect">Clinical Trials</a>
+                                <a href="../web/context.xquery?compound_id=GB-OPENMDR-000001-1" shape="rect">Clinical Trials</a>
                             </td>
                         </tr>
                         <tr>
@@ -217,7 +217,7 @@
                                         <td class="invisible" rowspan="1" colspan="1">Steve Harris</td>
                                     </tr>
                                     <tr>
-                                        <td class="invisible" rowspan="1" colspan="1">Researcher, CancerGrid</td>
+                                        <td class="invisible" rowspan="1" colspan="1">Researcher, OpenMDR</td>
                                     </tr>
                                     <tr>
                                         <td class="invisible" rowspan="1" colspan="1"/>
@@ -272,7 +272,7 @@
                     <tr>
                         <td class="left_header_cell" rowspan="1" colspan="1">Represents conceptual domain</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/conceptual_domain.xquery?compound_id=GB-CANCERGRID-D1E592583-0.11" shape="rect">Non-enumerated conceptual domain for unique study subject identifiers</a>
+                            <a href="../web/conceptual_domain.xquery?compound_id=GB-OPENMDR-D1E592583-0.11" shape="rect">Non-enumerated conceptual domain for unique study subject identifiers</a>
                         </td>
                     </tr>
                 </table>
@@ -291,7 +291,7 @@
                     <tr>
                         <td class="left_header_cell" rowspan="1" colspan="1">Typed by representation class</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/representation_class.xquery?compound_id=GB-CANCERGRID-000100-1" shape="rect">Identifier</a>
+                            <a href="../web/representation_class.xquery?compound_id=GB-OPENMDR-000100-1" shape="rect">Identifier</a>
                         </td>
                     </tr>
                     <tr>
@@ -337,30 +337,30 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E592584-0.1</td>
+                                    <td rowspan="1" colspan="1">GB-OPENMDR-D1E592584-0.1</td>
                                     <td rowspan="1" colspan="1">
-                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E592584-0.1" shape="rect">Patient Trial Number  value domain</a>
+                                        <a href="../web/value_domain.xquery?compound_id=GB-OPENMDR-D1E592584-0.1" shape="rect">Patient Trial Number  value domain</a>
                                     </td>
                                     <td rowspan="1" colspan="1">useInstead</td>
                                 </tr>
                                 <tr>
-                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E592584-0.11</td>
+                                    <td rowspan="1" colspan="1">GB-OPENMDR-D1E592584-0.11</td>
                                     <td rowspan="1" colspan="1">
-                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E592584-0.11" shape="rect">Patient Trial Number  value domain</a>
+                                        <a href="../web/value_domain.xquery?compound_id=GB-OPENMDR-D1E592584-0.11" shape="rect">Patient Trial Number  value domain</a>
                                     </td>
                                     <td rowspan="1" colspan="1">useInstead</td>
                                 </tr>
                                 <tr>
-                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E592584-0.12</td>
+                                    <td rowspan="1" colspan="1">GB-OPENMDR-D1E592584-0.12</td>
                                     <td rowspan="1" colspan="1">
-                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E592584-0.12" shape="rect">Patient Trial Number  value domain</a>
+                                        <a href="../web/value_domain.xquery?compound_id=GB-OPENMDR-D1E592584-0.12" shape="rect">Patient Trial Number  value domain</a>
                                     </td>
                                     <td rowspan="1" colspan="1">useInstead</td>
                                 </tr>
                                 <tr>
-                                    <td rowspan="1" colspan="1">GB-CANCERGRID-D1E592584-0.13</td>
+                                    <td rowspan="1" colspan="1">GB-OPENMDR-D1E592584-0.13</td>
                                     <td rowspan="1" colspan="1">
-                                        <a href="../web/value_domain.xquery?compound_id=GB-CANCERGRID-D1E592584-0.13" shape="rect">Value domain for Patient Trial Number</a>
+                                        <a href="../web/value_domain.xquery?compound_id=GB-OPENMDR-D1E592584-0.13" shape="rect">Value domain for Patient Trial Number</a>
                                     </td>
                                     <td rowspan="1" colspan="1">useInstead</td>
                                 </tr>
@@ -373,58 +373,58 @@
                 <div class="admin_item_section_header">Represented by data elements</div>
                 <table class="section">
                     <tr>
-                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E592581-0.1</td>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-OPENMDR-D1E592581-0.1</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E592581-0.1" shape="rect">Patient Trial Number  data element</a>
+                            <a href="../web/data_element.xquery?compound_id=GB-OPENMDR-D1E592581-0.1" shape="rect">Patient Trial Number  data element</a>
                         </td>
                         <td rowspan="1" colspan="1">Superseded</td>
                     </tr>
                     <tr>
-                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E592581-0.11</td>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-OPENMDR-D1E592581-0.11</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E592581-0.11" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
+                            <a href="../web/data_element.xquery?compound_id=GB-OPENMDR-D1E592581-0.11" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
                         </td>
                         <td rowspan="1" colspan="1">Superseded</td>
                     </tr>
                     <tr>
-                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E592581-0.12</td>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-OPENMDR-D1E592581-0.12</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E592581-0.12" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
+                            <a href="../web/data_element.xquery?compound_id=GB-OPENMDR-D1E592581-0.12" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
                         </td>
                         <td rowspan="1" colspan="1">Superseded</td>
                     </tr>
                     <tr>
-                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E592581-0.13</td>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-OPENMDR-D1E592581-0.13</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E592581-0.13" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
+                            <a href="../web/data_element.xquery?compound_id=GB-OPENMDR-D1E592581-0.13" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
                         </td>
                         <td rowspan="1" colspan="1">Superseded</td>
                     </tr>
                     <tr>
-                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E592581-0.14</td>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-OPENMDR-D1E592581-0.14</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E592581-0.14" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
+                            <a href="../web/data_element.xquery?compound_id=GB-OPENMDR-D1E592581-0.14" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
                         </td>
                         <td rowspan="1" colspan="1">Superseded</td>
                     </tr>
                     <tr>
-                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E592581-0.15</td>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-OPENMDR-D1E592581-0.15</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E592581-0.15" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
+                            <a href="../web/data_element.xquery?compound_id=GB-OPENMDR-D1E592581-0.15" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
                         </td>
                         <td rowspan="1" colspan="1">Superseded</td>
                     </tr>
                     <tr>
-                        <td class="left_header_cell" rowspan="1" colspan="1">GB-CANCERGRID-D1E592581-0.16</td>
+                        <td class="left_header_cell" rowspan="1" colspan="1">GB-OPENMDR-D1E592581-0.16</td>
                         <td rowspan="1" colspan="1">
-                            <a href="../web/data_element.xquery?compound_id=GB-CANCERGRID-D1E592581-0.16" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
+                            <a href="../web/data_element.xquery?compound_id=GB-OPENMDR-D1E592581-0.16" shape="rect">Patient Trial Number (CRUK Trials Unit, Birmingham)</a>
                         </td>
                         <td rowspan="1" colspan="1">Recorded</td>
                     </tr>
                 </table>
             </div>
         </div>
-        <p class="copyright"> Copyright (C) 2006 The CancerGrid Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
+        <p class="copyright"> Copyright (C) 2006 The OpenMDR Consortium (<a href="http://www.cagrid.org" shape="rect">http://www.cagrid.org</a>) </p>
         <p align="right">
             <a href="http://validator.w3.org/check?uri=referer" shape="rect">
                 <img width="88" height="31" alt="Valid XHTML 1.0 Transitional" src="../web/images/valid-xhtml10.png"/>

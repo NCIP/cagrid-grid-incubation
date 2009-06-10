@@ -49,7 +49,7 @@
             this.Controls.Add(this.eaQueryServiceControl);
             this.MinimumSize = new System.Drawing.Size(400, 821);
             this.Name = "EAQueryServiceForm";
-            this.Text = "CancerGrid Query Service";
+            this.Text = "OpenMDR Query Service";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -41,7 +41,7 @@ return
 <XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="{current-dateTime()}">
 	<XMI.header>
 		<XMI.documentation>
-			<XMI.exporter>The CancerGrid Metadata Registry</XMI.exporter>
+			<XMI.exporter>The OpenMDR Metadata Registry</XMI.exporter>
 			<XMI.exporterVersion>0.1</XMI.exporterVersion>
 		</XMI.documentation>
 	</XMI.header>
