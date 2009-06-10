@@ -49,7 +49,8 @@ CREATE TABLE encoding_dimension (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE latin1_general_cs;
 DROP INDEX UQ_ENCODING_DIME_ENCODING_NAM ON encoding_dimension;
 CREATE UNIQUE INDEX UQ_ENCODING_DIME_ENCODING_NAM ON encoding_dimension (ENCODING_NAME);
-create table encoding_project (
+DROP TABLE encoding_project;
+CREATE TABLE encoding_project (
  ENCODING_PROJECT_ID int NOT NULL,
  PROJECT_NAME varchar(50),
  PROJECT_VERSION varchar(10),
@@ -57,6 +58,12 @@ create table encoding_project (
  ENCODING_SERVICE_ID int,
  PRIMARY KEY (ENCODING_PROJECT_ID) )
 ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE latin1_general_cs;
+DROP TABLE encoding_project_link;
+CREATE TABLE encoding_project_link (
+ ENCODING_PROJECT_ID int not null,
+ ENCODING_CD varchar(25) not null,
+ PRIMARY KEY (ENCODING_PROJECT_ID, ENCODING_CD)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE latin1_general_cs;
 DROP TABLE encounter_mapping;
 CREATE TABLE encounter_mapping ( ENCOUNTER_IDE varchar(200) NOT NULL, ENCOUNTER_IDE_SOURCE varchar(50) NOT NULL, ENCOUNTER_NUM int NOT NULL, PATIENT_IDE varchar(200), PATIENT_IDE_SOURCE varchar(50), ENCOUNTER_IDE_STATUS varchar(50), UPLOAD_DATE datetime, UPDATE_DATE datetime, DOWNLOAD_DATE datetime, IMPORT_DATE datetime, SOURCESYSTEM_CD varchar(50), UPLOAD_ID int, PRIMARY KEY (ENCOUNTER_IDE, ENCOUNTER_IDE_SOURCE) ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE latin1_general_cs;
 DROP INDEX EM_IDX_ENCPATH ON encounter_mapping;
