@@ -3,7 +3,7 @@ package org.cagrid.mdrq.service;
 import java.io.File;
 import java.rmi.RemoteException;
 
-import org.cancergrid.ws.query.QueryServiceManager;
+import org.cagrid.openmdr.ws.query.QueryServiceManager;
 
 /**
  * TODO:I am the service side implementation class. IMPLEMENT AND DOCUMENT ME

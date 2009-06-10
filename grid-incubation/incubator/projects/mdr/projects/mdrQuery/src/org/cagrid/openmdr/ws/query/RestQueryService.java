@@ -19,7 +19,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package org.cancergrid.ws.query;
+package org.cagrid.openmdr.ws.query;
 
 import gov.nih.nci.cagrid.common.Utils;
 
@@ -28,8 +28,8 @@ import java.io.StringWriter;
 
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.log4j.Logger;
+import org.cagrid.openmdr.ws.util.HttpContentReader;
 import org.cancergrid.schema.query.Query;
-import org.cancergrid.ws.util.HttpContentReader;
 
 /**
  * Query service that works with web services the uses REST interface
@@ -37,7 +37,7 @@ import org.cancergrid.ws.util.HttpContentReader;
  * @author <a href="mailto:Andrew.Tsui@comlab.ox.ac.uk">Andrew Tsui</a> (<a href="http://www.cagrid.org">OpenMDR Consortium</a>)
  * @version 1.0
  * 
- * @see org.cancergrid.ws.query.XSLTransformQueryService
+ * @see org.cagrid.openmdr.ws.query.XSLTransformQueryService
  */
 
 public class RestQueryService extends XSLTransformQueryService

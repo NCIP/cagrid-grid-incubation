@@ -16,7 +16,7 @@
  * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.cancergrid.ws.query;
+package org.cagrid.openmdr.ws.query;
 
 import gov.nih.nci.cagrid.common.Utils;
 
@@ -29,19 +29,19 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.cagrid.openmdr.ws.cache.CacheManager;
+import org.cagrid.openmdr.ws.config.QueryServiceConfig;
 import org.cancergrid.schema.config.Query_service;
 import org.cancergrid.schema.query.Query;
 import org.cancergrid.schema.result_set.ResultSet;
-import org.cancergrid.ws.cache.CacheManager;
-import org.cancergrid.ws.config.QueryServiceConfig;
 
 
 /**
  * QueryServiceManager provides a single access point for invoking registered
  * OpenMDR query services.
  * 
- * @see org.cancergrid.ws.query.QueryOperation
- * @see org.cancergrid.ws.query.XSLTransformQueryService
+ * @see org.cagrid.openmdr.ws.query.QueryOperation
+ * @see org.cagrid.openmdr.ws.query.XSLTransformQueryService
  */
 
 public class QueryServiceManager {
