@@ -2,8 +2,8 @@ Not working:
 Reference documents with spaces.
 
 Still needed:
-new data element page
-new data element concept page
+new data element page that can either add new object class property conceptual domain and value domain or use existing
+new data element concept page that can either add new object class property data element conceptual domain and value domain or use existing
 edit pages for all data types
 
 Refactored:
