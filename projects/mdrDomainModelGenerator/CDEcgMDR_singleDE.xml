@@ -1,19 +1,19 @@
-<ns1:DomainModel projectShortName="CDEcgMDR_singleDE" projectVersion="1" xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice">
+<ns1:DomainModel projectShortName="CDEopenMDR_singleDE" projectVersion="1" xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice">
  <ns1:exposedUMLAssociationCollection/>
  <ns1:exposedUMLClassCollection>
-  <ns1:UMLClass allowableAsTarget="true" className="PARTICIPANT" id="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3" packageName="Model" projectName="CDEcgMDR_singleDE" projectVersion="1">
+  <ns1:UMLClass allowableAsTarget="true" className="PARTICIPANT" id="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3" packageName="Model" projectName="CDEopenMDR_singleDE" projectVersion="1">
    <ns2:umlAttributeCollection xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
     <ns2:UMLAttribute name="ID" publicID="-1928709253" version="1.0"/>
     <ns2:UMLAttribute name="LAST_NAME" publicID="-1238738509" version="1.0"/>
    </ns2:umlAttributeCollection>
   </ns1:UMLClass>
-  <ns1:UMLClass allowableAsTarget="true" className="PROTOCOL" id="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813" packageName="Model" projectName="CDEcgMDR_singleDE" projectVersion="1">
+  <ns1:UMLClass allowableAsTarget="true" className="PROTOCOL" id="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813" packageName="Model" projectName="CDEopenMDR_singleDE" projectVersion="1">
    <ns3:umlAttributeCollection xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
     <ns3:UMLAttribute name="ID" publicID="1985013473" version="1.0"/>
     <ns3:UMLAttribute name="SHORT_NAME" publicID="1949057467" version="1.0"/>
    </ns3:umlAttributeCollection>
   </ns1:UMLClass>
-  <ns1:UMLClass allowableAsTarget="true" className="Participant" id="EAID_8BEF11CA_0CFF_473c_8BFD_62978B6AED95" packageName="edu.osu.ccts.ctsatest.domain" projectName="CDEcgMDR_singleDE" projectVersion="1">
+  <ns1:UMLClass allowableAsTarget="true" className="Participant" id="EAID_8BEF11CA_0CFF_473c_8BFD_62978B6AED95" packageName="edu.osu.ccts.ctsatest.domain" projectName="CDEopenMDR_singleDE" projectVersion="1">
    <ns4:umlAttributeCollection xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
     <ns4:UMLAttribute dataTypeName="java.lang.Long" name="id" publicID="-793160152" version="1.0">
      <ns4:SemanticMetadata conceptCode="C9305" conceptDefinition="A tumor composed of atypical neoplastic, often pleomorphic cells that invade other tissues.  Malignant neoplasms usually metastasize to distant anatomic sites and may recur after excision.  The most common malignant neoplasms are carcinomas (adenocarcinomas or squamous cell carcinomas), Hodgkin's and non-Hodgkin's lymphomas, leukemias, melanomas, and sarcomas. -- 2004" conceptName="Malignant Neoplasm" order="0"/>
@@ -25,7 +25,7 @@
     </ns4:UMLAttribute>
    </ns4:umlAttributeCollection>
   </ns1:UMLClass>
-  <ns1:UMLClass allowableAsTarget="true" className="Protocol" id="EAID_968017BA_CD78_4595_A79A_EDD270AFA79A" packageName="edu.osu.ccts.ctsatest.domain" projectName="CDEcgMDR_singleDE" projectVersion="1">
+  <ns1:UMLClass allowableAsTarget="true" className="Protocol" id="EAID_968017BA_CD78_4595_A79A_EDD270AFA79A" packageName="edu.osu.ccts.ctsatest.domain" projectName="CDEopenMDR_singleDE" projectVersion="1">
    <ns5:umlAttributeCollection xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
     <ns5:UMLAttribute dataTypeName="java.lang.Long" name="id" publicID="1841645318" version="1.0">
      <ns5:SemanticMetadata conceptCode="C9305" conceptDefinition="A tumor composed of atypical neoplastic, often pleomorphic cells that invade other tissues.  Malignant neoplasms usually metastasize to distant anatomic sites and may recur after excision.  The most common malignant neoplasms are carcinomas (adenocarcinomas or squamous cell carcinomas), Hodgkin's and non-Hodgkin's lymphomas, leukemias, melanomas, and sarcomas. -- 2004" conceptName="Malignant Neoplasm" order="0"/>

@@ -5,7 +5,7 @@
 			class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
 			cache_collection_id="caDSR" cache="false" cache_provider="HibernateCacheProvider"
 			category="CDE" connection_type="REST" requestSequence="cadsr_query"
-			digestSequence="cadsr_construct fixtag cadsr_transform add_cg_namespace">
+			digestSequence="cadsr_construct fixtag cadsr_transform add_namespace">
 			<title>NCI Cancer Data Standards Repository (caDSR)</title>
 			<description>NCICB Resource for Common Data Elements
 			</description>
@@ -16,7 +16,7 @@
 			cache_collection_id="EVS-DescLogicConcept" cache="false"
 			cache_provider="HibernateCacheProvider" category="CONCEPT"
 			connection_type="REST" requestSequence="DescLogicConcept_query"
-			digestSequence="DescLogicConcept_construct fixtag DescLogicConcept_transform add_cg_namespace">
+			digestSequence="DescLogicConcept_construct fixtag DescLogicConcept_transform add_namespace">
 			<title>NCI Enterprise Vocabulary Services (EVS)</title>
 			<description>The NCI EVS is a set of services and resources that
 				address NCI's needs for controlled vocabulary.</description>
@@ -27,7 +27,7 @@
 			cache_collection_id="EVS-MetaThesaurusConcept" cache="false"
 			cache_provider="HibernateCacheProvider" category="CONCEPT"
 			connection_type="REST" requestSequence="MetaThesaurusConcept_query"
-			digestSequence="MetaThesaurusConcept_construct fixtag MetaThesaurusConcept_transform add_cg_namespace">
+			digestSequence="MetaThesaurusConcept_construct fixtag MetaThesaurusConcept_transform add_namespace">
 			<title>NCI Enterprise Vocabulary Services (EVS)</title>
 			<description>The NCI EVS is a set of services and resources that
 				address NCI's needs for controlled vocabulary.</description>
@@ -38,7 +38,7 @@
 			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/dataElementListSearch.xquery"
 			cache_collection_id="openMDR" cache="false" cache_provider="HibernateCacheProvider"
 			category="CDE" connection_type="REST" requestSequence="openMDR_REST_query"
-			digestSequence="add_cg_namespace">
+			digestSequence="add_namespace">
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
@@ -50,7 +50,7 @@
 			cache_collection_id="openMDR-Local-Terminology" cache="false"
 			cache_provider="HibernateCacheProvider" category="CONCEPT"
 			connection_type="REST" requestSequence="openMDR_REST_query"
-			digestSequence="add_cg_namespace">
+			digestSequence="add_namespace">
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
@@ -62,7 +62,7 @@
 			cache_collection_id="openMDR-with-Classification" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="openMDR_SKOS_REST_query"
-			digestSequence="add_cg_namespace">
+			digestSequence="add_namespace">
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
@@ -73,7 +73,7 @@
 			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/listClassificationSchemes.xquery"
 			cache_collection_id="openMDR-Classification-Schemes" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
-			connection_type="REST" requestSequence="no_arg_REST" digestSequence="add_cg_namespace">
+			connection_type="REST" requestSequence="no_arg_REST" digestSequence="add_namespace">
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
@@ -85,7 +85,7 @@
 			cache_collection_id="openMDR-Classification-Tree" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="openMDR_Classification_Tree"
-			digestSequence="add_cg_namespace">
+			digestSequence="add_namespace">
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
