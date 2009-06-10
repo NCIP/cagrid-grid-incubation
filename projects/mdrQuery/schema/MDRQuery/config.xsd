@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://cancergrid.org/schema/config"
-    targetNamespace="http://cancergrid.org/schema/config" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://cagrid.org/schema/config"
+    targetNamespace="http://cagrid.org/schema/config" elementFormDefault="qualified">
     
     <xs:element name="config" type="config"/>
     <xs:complexType name="config">

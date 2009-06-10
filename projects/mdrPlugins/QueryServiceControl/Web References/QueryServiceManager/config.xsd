@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="http://cancergrid.org/schema/config" elementFormDefault="qualified" targetNamespace="http://cancergrid.org/schema/config" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns="http://cagrid.org/schema/config" elementFormDefault="qualified" targetNamespace="http://cagrid.org/schema/config" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="config" type="config" />
   <xs:complexType name="config">
     <xs:sequence>

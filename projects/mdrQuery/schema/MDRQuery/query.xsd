@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://cancergrid.org/schema/query"
-	xmlns:cfg="http://cancergrid.org/schema/config" targetNamespace="http://cancergrid.org/schema/query"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://cagrid.org/schema/query"
+	xmlns:cfg="http://cagrid.org/schema/config" targetNamespace="http://cagrid.org/schema/query"
 	elementFormDefault="qualified">
 
-	<xs:import namespace="http://cancergrid.org/schema/config"
+	<xs:import namespace="http://cagrid.org/schema/config"
 		schemaLocation="config.xsd" />
 
 	<xs:element name="query" type="query" />

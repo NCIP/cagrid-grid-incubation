@@ -17,7 +17,7 @@
     </xsl:template>
     
     <xsl:template match="DescLogicConcept">
-        <!--<concept xmlns="http://cancergrid.org/schema/result-set">-->
+        <!--<concept xmlns="http://cagrid.org/schema/result-set">-->
         <concept>
             <names>
                 <id>US-NCICB-CACORE-EVS-DESCLOGICCONCEPT-<xsl:value-of select="Code"/></id>
@@ -33,7 +33,7 @@
     </xsl:template>
     
     <xsl:template match="PropertyCollection">
-        <!--<properties  xmlns="http://cancergrid.org/schema/result-set">-->
+        <!--<properties  xmlns="http://cagrid.org/schema/result-set">-->
         <properties>
             <xsl:for-each select="Property">
                 <xsl:sort select="Name"/>
@@ -45,7 +45,7 @@
     </xsl:template>
     
     <xsl:template match="Property">
-        <!--<property  xmlns="http://cancergrid.org/schema/result-set">-->
+        <!--<property  xmlns="http://cagrid.org/schema/result-set">-->
         <property>
                 <name><xsl:value-of select="Name"/></name>
                 <value><xsl:value-of select="Value"/></value>

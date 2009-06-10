@@ -17,7 +17,7 @@ namespace EnterpriseArchitectAddIn
             NOT_APPLICABLE
         }
 
-        public static XNamespace rs = "http://cancergrid.org/schema/result-set";
+        public static XNamespace rs = "http://cagrid.org/schema/result-set";
 
         private static bool tagExists(EA.Collection tvs, String tagName)
         {

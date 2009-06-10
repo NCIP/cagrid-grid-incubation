@@ -1,126 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../stylesheets/maintenance.xsl"?>
 <functions>
-    <function>
-        <title>Create a classification scheme</title>
-        <description>Creates a new classification scheme and uploads its SKOS file</description>
-        <uri>upload-cs.xquery</uri>
-    </function>
-    <function>
-        <title>Run test suite</title>
-        <description>Runs the selenium test suite for the registry</description>
-        <uri>../selenium/core/TestRunner.html?test=../../tests/TestSuite.html&amp;resultsUrl=../postResults</uri>
-    </function>
-    <!--
-    <function>
-        <title>Create data element</title>
-        <description>Simple form for recording a data element and value domain for later curation</description>
-        <uri>../edit/newDataElementReduced.xquery</uri>
-    </function>
-    -->
-    <function>
-        <title>Create data element and supporting classes</title>
-        <description>Create a detailed data element, data element concept,
-         object class, property, conceptual domain and value domain
-         through a simple wizard interface</description>
-        <uri>../edit/newDataElementWizard.xquery</uri>
-    </function>
-    <function>
-        <title>Create data element concept and supporting classes</title>
-        <description>Create a data element copncept, class, and property 
-            and associate it with a conceptual domain</description>
-        <uri>../edit/newDataElementConcept.xquery</uri>
-    </function>
-    <function>
-        <title>Maintain units of measure</title>
-        <description>View and maintain the units of measure available to the
-         curators of this metadata repository</description>
-        <uri>../edit/supported_units_of_measure.xquery</uri>
-    </function>
-    <function>
-        <title>Create a new reference document</title>
-        <description>Import a .PDF or .DOC into the metadata repository and
-         create a curation record so that it can be referred to
-         by administered items</description>
-        <uri>../edit/newReferenceDocument.xquery</uri>
-    </function>
-    <function>
-        <title>Create a new concept</title>
-        <description>Create a new concept - a concept or concept expression - describing
-         an real world object whose properties can be measured by data elements
-         within this metadata repository</description>
-        <uri>../edit/newConcept.xquery</uri>
-    </function>
-    <function>
-        <title>Create a new concept relationship</title>
-        <description>Create a new concept relationship - a concept relationship joins 2 or more concepts together by some relationship</description>
-        <uri>../edit/newConceptRelationship.xquery</uri>
-    </function>
-    <function>
-        <title>Create a new conceptual domain</title>
-        <description>Create a new conceptual domain and add/edit value domains.</description>
-        <uri>../edit/newConceptualDomain.xquery</uri>
-    </function>
-    <function>
-        <title>Create a new value domain</title>
-        <description>Create a new value domain and add/edit permissable values</description>
-        <uri>../edit/newValueDomain.xquery</uri>
-    </function>
-    <function>
-        <title>Create a new property</title>
-        <description>Create a new property describing attributes or properties 
-            of real world objects that can be measured 
-            by data elements within this metadata repository</description>
-        <uri>../edit/newProperty.xquery</uri>
-    </function>
-    <function>
-        <title>Create a new context</title>
-        <description>Create a new context a partition in the registry in which
-        data elements may be named differently</description>
-        <uri>../edit/newContext.xquery</uri>
-    </function>
-    <function>
-        <title>Maintain Datatypes</title>
-        <description>View and maintain the datatypes available to the
-         curators of this metadata repository</description>
-        <uri>../edit/supported_datatype.xquery</uri>
-    </function>
-    <function>
-        <title>Browse Representation classes supported by this metadata repository</title>
-        <description>List and link to representation classes supported by this
-         metadata repository.  Representation classes are the most
-         general property or attribute descriptions for data elements</description>
-        <uri>../edit/supported_representation_class.xquery</uri>
-    </function>
-    <function>
-        <title>Report on inconsistent IDs</title>
-        <description>List and link to documents with inconsistent identifiers and names</description>
-        <uri>../edit/reportFalseIDs.xquery</uri>
-    </function>
-    <function>
-        <title>Report on duplicate IDs</title>
-        <description>List and link to documents with duplicate identifiers. This report takes several minutes to complete...</description>
-        <uri>../edit/reportDuplicateIDs.xquery</uri>
-    </function>
-    <function>
-        <title>Fix names</title>
-        <description>Updates administered items that do not have a name marked as preferred, marking
-         the first name as preferred</description>
-        <uri>../edit/fixNoPreferredNames.xquery</uri>
-    </function>
-    <function>
-        <title>Report on Broken Links</title>
-        <description>Reports on broken links in the metadata registry</description>
-        <uri>../tests/unmatched-references.xquery</uri>
-    </function>
-    <function>
-        <title>Organisations</title>
-        <description>Mangage organisations in the metadata registry</description>
-        <uri>../web/organisations.xquery</uri>
-    </function>
-    <function>
-        <title>Schema</title>
-        <description>Generate an XML Schema of the registry</description>
-        <uri>../MDG/registry-schema.xquery</uri>
-    </function>
+	<!--
+		<function> <title>Create a classification scheme</title>
+		<description>Creates a new classification scheme and uploads its SKOS
+		file</description> <uri>upload-cs.xquery</uri> </function> <function>
+		<title>Run test suite</title> <description>Runs the selenium test
+		suite for the registry</description>
+		<uri>../selenium/core/TestRunner.html?test=../../tests/TestSuite.html&amp;resultsUrl=../postResults</uri>
+		</function> <function> <title>Create data element</title>
+		<description>Simple form for recording a data element and value domain
+		for later curation</description>
+		<uri>../edit/newDataElementReduced.xquery</uri> </function>
+	-->
+	<function>
+		<title>Create data element and supporting classes</title>
+		<description>Create a detailed data element, data element
+			concept,
+			object class, property, conceptual domain and value domain
+			through a simple wizard interface</description>
+		<uri>../edit/newDataElementWizard.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Create data element concept and supporting classes
+		</title>
+		<description>Create a data element copncept, class, and property
+			and associate it with a conceptual domain</description>
+		<uri>../edit/newDataElementConcept.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Maintain units of measure</title>
+		<description>View and maintain the units of measure available to
+			the
+			curators of this metadata repository</description>
+		<uri>../edit/supported_units_of_measure.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Create a new reference document</title>
+		<description>Import a .PDF or .DOC into the metadata repository
+			and
+			create a curation record so that it can be referred to
+			by administered items</description>
+		<uri>../edit/newReferenceDocument.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Create a new object class</title>
+		<description>Create a new object class - a concept or concept
+			expression - describing
+			an real world object whose properties can be measured by data elements
+			within this metadata repository</description>
+		<uri>../edit/newObjectClass.xquery</uri>
+	</function>
+	<function>
+		<title>Create a new concept relationship</title>
+		<description>Create a new concept relationship - a concept
+			relationship joins 2 or more concepts together by some relationship
+		</description>
+		<uri>../edit/newConceptRelationship.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Create a new conceptual domain</title>
+		<description>Create a new conceptual domain and add/edit value
+			domains.</description>
+		<uri>../edit/newConceptualDomain.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Create a new value domain</title>
+		<description>Create a new value domain and add/edit permissable
+			values</description>
+		<uri>../edit/newValueDomain.xquery</uri>
+	</function>
+	<function>
+		<title>Create a new property</title>
+		<description>Create a new property describing attributes or
+			properties
+			of real world objects that can be measured
+			by data elements within this metadata repository</description>
+		<uri>../edit/newProperty.xquery</uri>
+	</function>
+	<function>
+		<title>Create a new context</title>
+		<description>Create a new context a partition in the registry in
+			which
+			data elements may be named differently</description>
+		<uri>../edit/newContext.xquery</uri>
+	</function>
+	<function>
+		<title>Maintain Datatypes</title>
+		<description>View and maintain the datatypes available to the
+			curators of this metadata repository</description>
+		<uri>../edit/supported_datatype.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Browse Representation classes supported by this metadata
+			repository</title>
+		<description>List and link to representation classes supported by
+			this
+			metadata repository. Representation classes are the most
+			general property or attribute descriptions for data elements</description>
+		<uri>../edit/supported_representation_class.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Report on inconsistent IDs</title>
+		<description>List and link to documents with inconsistent
+			identifiers and names</description>
+		<uri>../edit/reportFalseIDs.xquery</uri>
+	</function>
+	<function>
+		<title>Report on duplicate IDs</title>
+		<description>List and link to documents with duplicate
+			identifiers. This report takes several minutes to complete...
+		</description>
+		<uri>../edit/reportDuplicateIDs.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Fix names</title>
+		<description>Updates administered items that do not have a name
+			marked as preferred, marking
+			the first name as preferred</description>
+		<uri>../edit/fixNoPreferredNames.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Report on Broken Links</title>
+		<description>Reports on broken links in the metadata registry
+		</description>
+		<uri>../tests/unmatched-references.xquery
+		</uri>
+	</function>
+	<function>
+		<title>Organisations</title>
+		<description>Mangage organisations in the metadata registry
+		</description>
+		<uri>../web/organisations.xquery</uri>
+	</function>
+	<function>
+		<title>Schema</title>
+		<description>Generate an XML Schema of the registry
+		</description>
+		<uri>../MDG/registry-schema.xquery</uri>
+	</function>
 </functions>

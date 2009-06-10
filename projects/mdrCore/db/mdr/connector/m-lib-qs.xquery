@@ -6,6 +6,8 @@ declare namespace httpclient="http://exist-db.org/xquery/httpclient";
 declare namespace c="http://cagrid.org/schema/config";
 declare namespace q="http://cagrid.org/schema/query";
 
+declare namespace util="http://exist-db.org/xquery/util";
+
 (:~ List supported knowledge resources (names only) :)
 declare function lib-qs:listResources() as node()
 {
@@ -58,7 +60,9 @@ declare function lib-qs:query($resource as xs:string, $src as xs:string?, $term 
         then
             (: Generate resource specific query :)
             let $request := lib-qs:chain-transform($query, tokenize(data($qs/@requestSequence), ' '))
-            
+            let $log := util:log-system-out($qs)
+            let $log := util:log-system-out($query)
+            let $log := util:log-system-out($request)
             (: Query the resource:)
             let $content := httpclient:get(xs:anyURI($request), xs:boolean("false"), ())/httpclient:body/*
             return

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="http://cancergrid.org/schema/DataElementReduced" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://cancergrid.org/schema/DataElementReduced" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns="http://cagrid.org/schema/DataElementReduced" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://cagrid.org/schema/DataElementReduced" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="new-data-element-reduced" type="new-data-element-reduced" />
   <xs:complexType name="new-data-element-reduced">
     <xs:sequence>
