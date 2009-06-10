@@ -159,7 +159,7 @@ namespace QueryServiceControl
             {
                 QueryServiceManager.QueryRequestQuery req = new QueryServiceManager.QueryRequestQuery();
                 req.query = new QueryServiceManager.query();
-                req.query.resource = "cgMDR-Classification-Schemes";
+                req.query.resource = "openMDR-Classification-Schemes";
                 
                 QueryServiceManager.resultset r = qsm.query(req);
                 if (r.Items.Length > 0)
@@ -188,7 +188,7 @@ namespace QueryServiceControl
             {
                 QueryServiceManager.QueryRequestQuery req = new QueryServiceManager.QueryRequestQuery();
                 req.query = new QueryServiceManager.query();
-                req.query.resource = "cgMDR-Classification-Tree";
+                req.query.resource = "openMDR-Classification-Tree";
                 req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[1];
                 req.query.ItemsElementName[0] = global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.term;
                 req.query.Items = new string[1];
@@ -403,7 +403,7 @@ namespace QueryServiceControl
                 }
                 TreeNode selectedNode = classificationTree.SelectedNode;
                 QueryServiceManager.query query = new QueryServiceManager.query();
-                query.resource = "cgMDR-with-Classification";
+                query.resource = "openMDR-with-Classification";
                 query.Items = new string[] { "*" };
                 query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[]{
                     global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.term };

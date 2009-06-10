@@ -16,7 +16,7 @@
 	</configurations>
 
 	<publications>
-		<artifact name="stylesheets/add_cg_namespace" conf="stylesheets"
+		<artifact name="stylesheets/add_namespace" conf="stylesheets"
 			type="xsl" />
 		<artifact name="stylesheets/cadsr_construct" conf="stylesheets"
 			type="xsl" />
@@ -28,15 +28,15 @@
 			type="xsl" />
 		<artifact name="stylesheets/cadsr_transform" conf="stylesheets"
 			type="xsl" />
-		<artifact name="stylesheets/cgMDR_Classification_Tree" conf="stylesheets"
+		<artifact name="stylesheets/openMDR_Classification_Tree" conf="stylesheets"
 			type="xsl" />
-		<artifact name="stylesheets/cgMDR_query" conf="stylesheets"
+		<artifact name="stylesheets/openMDR_query" conf="stylesheets"
 			type="xsl" />
-		<artifact name="stylesheets/cgMDR_REST_query" conf="stylesheets"
+		<artifact name="stylesheets/openMDR_REST_query" conf="stylesheets"
 			type="xsl" />
-		<artifact name="stylesheets/cgMDR_SKOS_REST_query" conf="stylesheets"
+		<artifact name="stylesheets/openMDR_SKOS_REST_query" conf="stylesheets"
 			type="xsl" />
-		<artifact name="stylesheets/cgMDR_transform" conf="stylesheets"
+		<artifact name="stylesheets/openMDR_transform" conf="stylesheets"
 			type="xsl" />
 		<artifact name="stylesheets/CombinatorialQuery_query" conf="stylesheets"
 			type="xsl" />
