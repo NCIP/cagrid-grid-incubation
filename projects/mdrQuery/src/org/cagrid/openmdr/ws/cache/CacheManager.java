@@ -19,12 +19,12 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package org.cancergrid.ws.cache;
+package org.cagrid.openmdr.ws.cache;
 
 import java.util.*;
 
 import org.apache.log4j.Logger;
-import org.cancergrid.ws.config.QueryServiceConfig;
+import org.cagrid.openmdr.ws.config.QueryServiceConfig;
 
 /**
  * Utility class for managing cache providers

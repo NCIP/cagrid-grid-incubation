@@ -12,7 +12,7 @@
 			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr</webUrl>			
 		</query_service>
 		<query_service name="caDSR-ObjectClass"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://cadsrapi.nci.nih.gov/cadsrapi40/GetXML"
 			cache_collection_id="caDSR-ObjectClass" cache="false"
 			cache_provider="HibernateCacheProvider" 
@@ -23,7 +23,7 @@
 			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr</webUrl>			
 		</query_service>
 		<query_service name="caDSR-Property"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://cadsrapi.nci.nih.gov/cadsrapi40/GetXML"
 			cache_collection_id="caDSR-Property" cache="false"
 			cache_provider="HibernateCacheProvider" 
@@ -34,7 +34,7 @@
 			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr</webUrl>			
 		</query_service>
 		<query_service name="EVS-DescLogicConcept"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
 			cache_collection_id="EVS-DescLogicConcept" cache="false"
 			cache_provider="HibernateCacheProvider"
@@ -46,7 +46,7 @@
 			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>			
 		</query_service>
 		<query_service name="EVS-MetaThesaurusConcept"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
 			cache_collection_id="EVS-MetaThesaurusConcept" cache="false"
 			cache_provider="HibernateCacheProvider"
@@ -58,7 +58,7 @@
 			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>			
 		</query_service>
 		<query_service name="openMDR"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementListSearch.xquery"
 			cache_collection_id="openMDR" cache="false"
 			cache_provider="HibernateCacheProvider" 
@@ -70,7 +70,7 @@
 			<webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="openMDR-Local-Terminology"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/terminology.xquery"
 			cache_collection_id="openMDR-Local-Terminology" cache="false"
 			cache_provider="HibernateCacheProvider" 
@@ -82,7 +82,7 @@
 			<webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="openMDR-with-Classification"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementListSearchByClassification.xquery"
 			cache_collection_id="openMDR-with-Classification" cache="false"
 			cache_provider="HibernateCacheProvider" 
@@ -94,7 +94,7 @@
 			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="openMDR-Classification-Schemes"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/listClassificationSchemes.xquery"
 			cache_collection_id="openMDR-Classification-Schemes" cache="false"
 			cache_provider="HibernateCacheProvider" 
@@ -106,7 +106,7 @@
 			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="openMDR-Classification-Tree"
-			class="org.cancergrid.ws.query.RestQueryService"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/simpleClassificationTree.xquery"
 			cache_collection_id="openMDR-Classification-Tree" cache="false"
 			cache_provider="HibernateCacheProvider" 

@@ -16,7 +16,7 @@
  * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.cancergrid.ws.config;
+package org.cagrid.openmdr.ws.config;
 
 import gov.nih.nci.cagrid.common.Utils;
 

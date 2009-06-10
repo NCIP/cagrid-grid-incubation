@@ -19,7 +19,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package org.cancergrid.ws.cache;
+package org.cagrid.openmdr.ws.cache;
 
 /**
  * This is a Java interface which specify the caching operation signature required by 

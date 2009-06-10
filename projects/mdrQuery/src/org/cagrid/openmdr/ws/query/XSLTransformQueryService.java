@@ -16,7 +16,7 @@
  * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.cancergrid.ws.query;
+package org.cagrid.openmdr.ws.query;
 
 import gov.nih.nci.cagrid.common.Utils;
 
@@ -26,10 +26,10 @@ import java.util.List;
 
 import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.log4j.Logger;
+import org.cagrid.openmdr.ws.config.QueryServiceConfig;
+import org.cagrid.openmdr.ws.util.ChainTransformer;
 import org.cancergrid.schema.query.Query;
 import org.cancergrid.schema.result_set.ResultSet;
-import org.cancergrid.ws.config.QueryServiceConfig;
-import org.cancergrid.ws.util.ChainTransformer;
 
 
 /**
@@ -40,7 +40,7 @@ import org.cancergrid.ws.util.ChainTransformer;
  * @author <a href="mailto:Andrew.Tsui@comlab.ox.ac.uk">Andrew Tsui</a> (<a
  *         href="http://www.cagrid.org">OpenMDR Consortium</a>)
  * @version 1.0
- * @see org.cancergrid.ws.query.QueryOperation
+ * @see org.cagrid.openmdr.ws.query.QueryOperation
  */
 
 public abstract class XSLTransformQueryService implements QueryOperation {

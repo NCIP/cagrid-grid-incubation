@@ -1,4 +1,4 @@
-package org.cancergrid.ws.query;
+package org.cagrid.openmdr.ws.query;
 
 import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.common.XMLUtilities;
@@ -10,8 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.cagrid.openmdr.ws.util.HttpContentReader;
 import org.cancergrid.schema.query.Query;
-import org.cancergrid.ws.util.HttpContentReader;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;

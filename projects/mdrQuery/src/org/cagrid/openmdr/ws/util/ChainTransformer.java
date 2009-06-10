@@ -19,7 +19,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package org.cancergrid.ws.util;
+package org.cagrid.openmdr.ws.util;
 
 import java.io.File;
 import java.io.FileInputStream;

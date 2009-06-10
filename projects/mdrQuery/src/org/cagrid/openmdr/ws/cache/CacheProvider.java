@@ -19,26 +19,62 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package org.cancergrid.ws.query;
+package org.cagrid.openmdr.ws.cache;
 
-import org.cancergrid.schema.query.Query;
-import org.cancergrid.schema.result_set.ResultSet;
+import java.util.Date;
 
 /**
- * This is a Java interface which specify the Query Operation signature common
- * to all implementation of OpenMDR web service interface for querying vocabulary
- * and meta-data services.
+ * This class implements CacheOperation and features common to all cache providers 
+ * for OpenMDR web service.
  * 
  * @author <a href="mailto:Andrew.Tsui@comlab.ox.ac.uk">Andrew Tsui</a> (<a href="http://www.cagrid.org">OpenMDR Consortium</a>)
  * @version 1.0
+ * 
+ * @see CacheOperation
  */
-
-public interface QueryOperation
+public abstract class CacheProvider implements CacheOperation
 {
 	/**
-	 * This operation query metadata
-	 * @param query information required to generate a query request to terminology/metadata services
-	 * @return query results
+	 * How long the cache item is considered valid
 	 */
-	public ResultSet query(Query query);
+	private long cachePeriod = -1; //never expires
+	
+	public long getCachePeriod() {
+		return cachePeriod;
+	}
+
+	public void setCachePeriod(long minutes) {
+		this.cachePeriod = minutes;
+	}
+	
+	public boolean isCacheItemExists(String cache_collection_id, String cache_item_id)
+	{
+		try
+		{
+			String cacheItem = getCacheData(cache_collection_id, cache_item_id);
+			return (cacheItem == null);
+		} catch (Exception e)
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Utility method to check whether specified cache item date has expired.
+	 * 
+	 * @param cacheDate cache date to check
+	 * @return true if expired else false
+	 */
+	protected boolean expired(Date cacheDate)
+	{
+		if (cachePeriod == -1)
+		{
+			return false;
+		}
+		
+		Date now = new Date(); 
+		long hours = (now.getTime() - cacheDate.getTime())/(60*1000);
+		return (hours > cachePeriod);
+	}
+	
 }
