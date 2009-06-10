@@ -63,7 +63,7 @@ public class DbCopy {
         boolean printEverything = false;
         
         // what table are we copying
-        String tableName = "workplace_access";
+        String tableName = "encoding_project";
         try {
             // load the sybase driver
             Class.forName(com.sybase.jdbc3.jdbc.SybDriver.class.getName());
@@ -80,7 +80,7 @@ public class DbCopy {
             
             // query for * from the table in input
             Statement inputStatement = inputConnection.createStatement();
-            ResultSet inputResults = inputStatement.executeQuery("select * from i2b2workdata." + tableName);
+            ResultSet inputResults = inputStatement.executeQuery("select * from i2b2demodata." + tableName);
             ResultSetMetaData inputMetadata = inputResults.getMetaData();
             
             // NOTE: From here on out, it gets weird.  JDBC uses 1 indexed lists / arrays, 
