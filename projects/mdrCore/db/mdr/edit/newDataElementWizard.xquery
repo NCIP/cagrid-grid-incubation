@@ -1,22 +1,5 @@
 xquery version "1.0";
 
-(: ~
- : Module Name:             new vanilla data element
- :
- : Module Version           1.0
- :
- : Date                               25th October 2006
- :
- : Copyright                       The cagrid consortium
- :
- : Module overview          creates a data element through a wizard format
- :
- :)
- 
-(:~
- :    @author Steve Harris
- :    @version 0.1
-~ :)
 
   
 import module namespace 
