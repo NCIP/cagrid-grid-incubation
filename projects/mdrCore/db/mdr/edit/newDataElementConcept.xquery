@@ -13,14 +13,6 @@ xquery version "1.0";
  :
  :)
  
-(:~
- :    @author Steve Harris
- :    @version 0.1
- :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
-~ :)
 
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"
