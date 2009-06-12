@@ -14,18 +14,15 @@
 		<uri>../edit/newDataElementReduced.xquery</uri> </function>
 	-->
 	<function>
-		<title>Create data element and supporting classes</title>
-		<description>Create a detailed data element, data element
-			concept,
-			object class, property, conceptual domain and value domain
-			through a simple wizard interface</description>
-		<uri>../edit/newDataElementWizard.xquery
+		<title>Create data element</title>
+		<description>Create a detailed data element by associating a data element concept and a value domain</description>
+		<uri>../edit/newDataElement.xquery
 		</uri>
 	</function>
 	<function>
-		<title>Create data element concept and supporting classes
+		<title>Create data element concept
 		</title>
-		<description>Create a data element copncept, class, and property
+		<description>Create a data element concept, object class, and property
 			and associate it with a conceptual domain</description>
 		<uri>../edit/newDataElementConcept.xquery
 		</uri>
