@@ -13,14 +13,6 @@ xquery version "1.0";
  :
  :)
  
-(:~
- :    @author Steve Harris
- :    @version 0.1
- :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
-~ :)
 
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"
@@ -163,7 +155,7 @@ declare function local:input-page(
                   </td>
               </tr>
               <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, request:get-parameter('example',''))}</td></tr>
-              <tr><td class="left_header_cell">Precision</td><td colspan="2">{lib-forms:input-element('precision', 70,request:get-parameter('precision','0'))}</td></tr>
+              <tr><td class="left_header_cell">Precision</td><td colspan="2">{lib-forms:input-element('precision', 70,request:get-parameter('precision',''))}</td></tr>
             </table>
                      
                 <table class="section">
