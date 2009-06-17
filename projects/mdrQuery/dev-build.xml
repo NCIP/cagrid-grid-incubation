@@ -197,11 +197,11 @@
 			<include name="**/*" />
 			<exclude name="**/client/**" />
 			<exclude name="**/service/**" />
-			<exclude name="**/cancergrid/ws/**" />
+			<exclude name="**/cagrid/openmdr/ws/**" />
 			<exclude name="**/apache/commons/**" />
 		</jar>
 		<jar jarfile="${build.lib.dir}/${mdc.jar.name}" basedir="${build.dest}">
-			<include name="**/cancergrid/ws/**" />
+			<include name="**/cagrid/openmdr/ws/**" />
 			<include name="**/apache/commons/**" />
 		</jar>
 		<runtarget target="postJar" />
