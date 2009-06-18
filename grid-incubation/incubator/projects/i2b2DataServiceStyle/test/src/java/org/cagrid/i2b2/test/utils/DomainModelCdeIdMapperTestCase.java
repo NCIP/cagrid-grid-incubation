@@ -5,8 +5,8 @@ import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 import junit.framework.TestResult;
@@ -15,7 +15,7 @@ import junit.textui.TestRunner;
 
 import org.cagrid.i2b2.ontomapper.utils.AttributeNotFoundInModelException;
 import org.cagrid.i2b2.ontomapper.utils.ClassNotFoundInModelException;
-import org.cagrid.i2b2.ontomapper.utils.DomainModelConceptCodeMapper;
+import org.cagrid.i2b2.ontomapper.utils.DomainModelCdeIdMapper;
 
 /**
  * DomainModelConceptCodeMapperTestCase
@@ -23,14 +23,14 @@ import org.cagrid.i2b2.ontomapper.utils.DomainModelConceptCodeMapper;
  * 
  * @author David
  */
-public class DomainModelConceptCodeMapperTestCase extends TestCase {
+public class DomainModelCdeIdMapperTestCase extends TestCase {
     
-    public static final String MODEL_LOCATION = "/test/resources/aim_v1_DomainModel.xml";
+    public static final String MODEL_LOCATION = "/test/resources/caArray_2-1_DomainModel.xml";
     
-    private DomainModelConceptCodeMapper mapper = null;
+    private DomainModelCdeIdMapper mapper = null;
     
-    public DomainModelConceptCodeMapperTestCase() {
-        super("Domain Model Concept Code Mapper Test Case");
+    public DomainModelCdeIdMapperTestCase() {
+        super("Domain Model Cde Id Mapper Test Case");
     }
     
     
@@ -39,56 +39,52 @@ public class DomainModelConceptCodeMapperTestCase extends TestCase {
             InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(MODEL_LOCATION));
             DomainModel model = MetadataUtils.deserializeDomainModel(reader);
             reader.close();
-            mapper = new DomainModelConceptCodeMapper(model);
+            mapper = new DomainModelCdeIdMapper(model);
         } catch (Exception ex) {
             ex.printStackTrace();
-            fail("Error setting up domain model concept code mapper: " + ex.getMessage());
+            fail("Error setting up domain model cde id mapper: " + ex.getMessage());
         }
     }
     
     
-    public void testClassConceptCodes() {
-        String className = "edu.northwestern.radiology.AIM.MultiPoint";
-        List<String> expectedCodes = Arrays.asList(new String[] {
-            "C48046", "C70656", "C17648"
-        });
-        List<String> foundCodes = null;
+    public void testClassFound() {
+        String className = "edu.georgetown.pir.Organism";
         try {
-            foundCodes = mapper.getConceptCodesForClass(className);
+            mapper.getCdeIdsForClass(className);
         } catch (ClassNotFoundInModelException ex) {
             ex.printStackTrace();
             fail("Class " + className + " was expected to be in the model: " + ex.getMessage());
-        }
-        assertEquals("Unexpected number of concept codes found", expectedCodes.size(), foundCodes.size());
-        Collections.sort(expectedCodes);
-        Collections.sort(foundCodes);
-        for (int i = 0; i < expectedCodes.size(); i++) {
-            assertEquals("Unexpected code found", expectedCodes.get(i), foundCodes.get(i));
         }
     }
     
     
-    public void testAttributeConceptCodes() {
-        String className = "edu.northwestern.radiology.AIM.MultiPoint";
-        String attributeName = "lineColor";
-        List<String> expectedCodes = Arrays.asList(new String[] {
-            "C37927", "C71604"
-        });
-        List<String> foundCodes = null;
+    public void testAttributesAndCdes() {
+        String className = "edu.georgetown.pir.Organism";
+        Map<String, Long> attributeCdeIds = null;
         try {
-            foundCodes = mapper.getConceptCodesForAttribute(className, attributeName);
+            attributeCdeIds = mapper.getCdeIdsForClass(className);
         } catch (ClassNotFoundInModelException ex) {
             ex.printStackTrace();
             fail("Class " + className + " was expected to be in the model: " + ex.getMessage());
-        } catch (AttributeNotFoundInModelException ex) {
-            ex.printStackTrace();
-            fail("Attribute " + attributeName + " was expected to be in the model: " + ex.getMessage());
         }
-        assertEquals("Unexpected number of concept codes found", expectedCodes.size(), foundCodes.size());
-        Collections.sort(expectedCodes);
-        Collections.sort(foundCodes);
-        for (int i = 0; i < expectedCodes.size(); i++) {
-            assertEquals("Unexpected code found", expectedCodes.get(i), foundCodes.get(i));
+        // check the size
+        assertEquals("Unexpected number of attributes found for class " + className, 6, attributeCdeIds.size());
+        List<String> expectedAttributeNames = Arrays.asList(new String[] {
+            "commonName", "ethnicityStrain", "id", "ncbiTaxonomyId", "scientificName", "taxonomyRank"
+        });
+        List<Long> expectedCdeIds = Arrays.asList(new Long[] {
+            Long.valueOf(2223787), Long.valueOf(2590794), Long.valueOf(2223783),
+            Long.valueOf(2342465), Long.valueOf(2223784), Long.valueOf(2590793)
+        });
+        
+        // verify CDEids per attribute
+        for (int i = 0; i < expectedAttributeNames.size(); i++) {
+            String expectName = expectedAttributeNames.get(i);
+            Long expectCde = expectedCdeIds.get(i);
+            assertTrue("Attribute " + expectName + " not found", 
+                attributeCdeIds.containsKey(expectName));
+            Long foundCde = attributeCdeIds.get(expectName);
+            assertEquals("CDE id was not what we expected for " + expectName, expectCde, foundCde);
         }
     }
     
@@ -96,7 +92,7 @@ public class DomainModelConceptCodeMapperTestCase extends TestCase {
     public void testInvalidClass() {
         String className = "non.existant.package.AndClass";
         try {
-            mapper.getConceptCodesForClass(className);
+            mapper.getCdeIdsForClass(className);
         } catch (ClassNotFoundInModelException ex) {
             // expected
         } catch (Exception ex) {
@@ -107,10 +103,10 @@ public class DomainModelConceptCodeMapperTestCase extends TestCase {
     
     
     public void testValidClassInvalidAttribute() {
-        String className = "edu.northwestern.radiology.AIM.MultiPoint";
+        String className = "edu.georgetown.pir.Organism";
         String attributeName = "nonExistantAttribute";
         try {
-            mapper.getConceptCodesForAttribute(className, attributeName);
+            mapper.getCdeIdForAttribute(className, attributeName);
         } catch (AttributeNotFoundInModelException ex) {
             // expected
         } catch (Exception ex) {
@@ -124,7 +120,7 @@ public class DomainModelConceptCodeMapperTestCase extends TestCase {
         String className = "non.existant.package.AndClass";
         String attributeName = "nonExistantAttribute";
         try {
-            mapper.getConceptCodesForAttribute(className, attributeName);
+            mapper.getCdeIdForAttribute(className, attributeName);
         } catch (ClassNotFoundInModelException ex) {
             // expected... should throw this before attribute not found
         } catch (Exception ex) {
@@ -136,7 +132,7 @@ public class DomainModelConceptCodeMapperTestCase extends TestCase {
 
     public static void main(String[] args) {
         TestRunner runner = new TestRunner();
-        TestResult result = runner.doRun(new TestSuite(DomainModelConceptCodeMapperTestCase.class));
+        TestResult result = runner.doRun(new TestSuite(DomainModelCdeIdMapperTestCase.class));
         System.exit(result.errorCount() + result.failureCount());
     }
 }

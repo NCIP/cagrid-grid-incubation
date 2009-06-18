@@ -12,15 +12,15 @@ import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.i2b2.ontomapper.utils.CdeIdMapper;
 import org.cagrid.i2b2.ontomapper.utils.ClassNotFoundInModelException;
-import org.cagrid.i2b2.ontomapper.utils.ConceptCodeMapper;
-import org.cagrid.i2b2.ontomapper.utils.DomainModelConceptCodeMapper;
+import org.cagrid.i2b2.ontomapper.utils.DomainModelCdeIdMapper;
 
 /** 
  *  I2B2QueryProcessor
@@ -48,7 +48,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     
     private static final Log LOG = LogFactory.getLog(I2B2QueryProcessor.class);
         
-    private ConceptCodeMapper conceptMapper = null;
+    private CdeIdMapper cdeIdMapper = null;
     private DatabaseConnectionSource connectionSource = null;
     
     public I2B2QueryProcessor() {
@@ -80,13 +80,13 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
      */
     public void initialize(Properties parameters, InputStream wsdd) throws InitializationException {
         super.initialize(parameters, wsdd);
-        initConceptMapper();
+        initCdeIdMapper();
         initConnectionSource();
     }
     
     
-    private void initConceptMapper() throws InitializationException {
-        LOG.debug("Initializing concept code mapper");
+    private void initCdeIdMapper() throws InitializationException {
+        LOG.debug("Initializing cde id mapper");
         /* TODO: I'd love to use Spring here to load any arbitrary concept 
          * code mapper instance, but for now I'll hard code this as a
          * DomainModelConceptCodeMapper
@@ -103,7 +103,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
             LOG.error(message, ex);
             throw new InitializationException(message, ex);
         }
-        conceptMapper = new DomainModelConceptCodeMapper(model);
+        cdeIdMapper = new DomainModelCdeIdMapper(model);
     }
     
     
@@ -142,15 +142,14 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
          * Starting with a very simple implementation to grab the Target object and nothing else
          */
         
-        // figure out the concept codes of the target data type
-        List<String> targetCodes = null;
+        // figure out the CDE ids of the attributes in the target data type
+        Map<String, Long> targetAttributeCdeIds = null;
         try {
-            targetCodes = conceptMapper.getConceptCodesForClass(cqlQuery.getTarget().getName());
+            targetAttributeCdeIds = cdeIdMapper.getCdeIdsForClass(cqlQuery.getTarget().getName());
         } catch (ClassNotFoundInModelException ex) {
             LOG.error(ex.getMessage(), ex);
             throw new QueryProcessingException("Target class not found in model! " + ex.getMessage(), ex);
-        }
-        
+        }        
         
         return null;
     }
