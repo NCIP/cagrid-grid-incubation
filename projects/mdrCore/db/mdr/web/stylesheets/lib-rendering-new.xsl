@@ -52,13 +52,11 @@
     <!-- page header rendering-->
     <xsl:template name="page-header">
         <div>
-            <a href="../web/homepage.xquery">
-                <img src="../web/images/mdr.jpg" alt="cancer grid header"/>
-            </a>
-            <br/>
-            <br/>
-            <table>
-                <tr>
+         <table width="100%">
+             <tr align="left" valign="top">
+             <td>
+               <table>
+                 <tr>
                     <td>
                         <xsl:call-template name="css-rollover-button">
                             <xsl:with-param name="text">contents</xsl:with-param>
@@ -66,6 +64,8 @@
                             <xsl:with-param name="link">../web/contents.xquery</xsl:with-param>
                         </xsl:call-template>
                     </td>
+                </tr>
+                <tr>
                     <td>
                         <xsl:call-template name="css-rollover-button">
                             <xsl:with-param name="text">search</xsl:with-param>
@@ -73,20 +73,8 @@
                             <xsl:with-param name="link">../web/search.xquery</xsl:with-param>
                         </xsl:call-template>
                     </td>
-                    <td>
-                        <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">classification</xsl:with-param>
-                            <xsl:with-param name="alt">classification</xsl:with-param>
-                            <xsl:with-param name="link">../web/classification.xquery</xsl:with-param>
-                        </xsl:call-template>
-                    </td>
-                    <td>
-                        <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">documentation</xsl:with-param>
-                            <xsl:with-param name="alt">documentation</xsl:with-param>
-                            <xsl:with-param name="link">../web/documentation.xquery</xsl:with-param>
-                        </xsl:call-template>
-                    </td>
+                </tr>
+                <tr>
                     <td>
                         <xsl:call-template name="css-rollover-button">
                             <xsl:with-param name="text">reference documents</xsl:with-param>
@@ -95,41 +83,11 @@
                         </xsl:call-template>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">model</xsl:with-param>
-                            <xsl:with-param name="alt">model</xsl:with-param>
-                            <xsl:with-param name="link">../model/index.htm</xsl:with-param>
-                            <xsl:with-param name="target">_blank</xsl:with-param>
-                        </xsl:call-template>
-                    </td>
-                    <td>
-                        <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">terminologies</xsl:with-param>
-                            <xsl:with-param name="alt">terminologies</xsl:with-param>
-                            <xsl:with-param name="link">../classification/used-schemes.xquery</xsl:with-param>
-                        </xsl:call-template>
-                    </td>
                     <xsl:choose>
                         <xsl:when test="$user='guest'">
-                            <td>
-                                <xsl:call-template name="css-rollover-button">
-                                    <xsl:with-param name="text">login</xsl:with-param>
-                                    <xsl:with-param name="alt">login</xsl:with-param>
-                                    <xsl:with-param name="link">../web/login.xquery</xsl:with-param>
-                                </xsl:call-template>
-                            </td>
-                            <td/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <td>
-                                <xsl:call-template name="css-rollover-button">
-                                    <xsl:with-param name="text">logout</xsl:with-param>
-                                    <xsl:with-param name="alt">logout</xsl:with-param>
-                                    <xsl:with-param name="link">../web/logout.xquery</xsl:with-param>
-                                </xsl:call-template>
-                            </td>
+                            <tr>
                             <td>
                                 <xsl:call-template name="css-rollover-button">
                                     <xsl:with-param name="text">maintenance</xsl:with-param>
@@ -137,26 +95,34 @@
                                     <xsl:with-param name="link">../edit/maintenance.xquery</xsl:with-param>
                                 </xsl:call-template>
                             </td>
+                           </tr>    
                         </xsl:otherwise>
                     </xsl:choose>
-                    <td>
-                        <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">back</xsl:with-param>
-                            <xsl:with-param name="alt">back</xsl:with-param>
-                            <xsl:with-param name="onclick">history.go(-1)</xsl:with-param>
-                        </xsl:call-template>
-                    </td>
-                </tr>
-            </table>
-            <xsl:call-template name="welcome"/>
+              </table>
+            </td>
+              <td valign="top" align="left">
+                <a href="../web/homepage.xquery">
+                  <img src="../web/images/mdr.jpg" alt="openMDR"/>
+                </a>
+              </td>
+              <td align="right" valign="top">
+                <xsl:call-template name="welcome"/>
+              </td>
+            </tr>
+         </table>
         </div>
     </xsl:template>
     
     <!--renders the welcome message -->
     <xsl:template name="welcome">
-        <br/>
-        <div class="welcome">welcome: <xsl:value-of select="$user"/>
-        </div>
+        <xsl:choose>
+            <xsl:when test="$user='guest'">
+                <a href="../web/login.xquery">login</a>
+            </xsl:when>
+            <xsl:otherwise>
+                Welcome: <xsl:value-of select="$user"/> <br/> <a href="../web/login.xquery">logout</a>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     
     <!--finds the appropriate xquery to render the content-->
