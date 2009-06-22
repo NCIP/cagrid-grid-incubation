@@ -1,4 +1,4 @@
-package gov.nih.nci.cagrid.identifiers.na;
+package org.cagrid.identifiers.namingauthority;
 
 import java.util.HashMap;
 import java.util.List;

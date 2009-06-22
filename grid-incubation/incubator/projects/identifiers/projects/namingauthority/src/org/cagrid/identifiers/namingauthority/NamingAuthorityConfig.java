@@ -1,7 +1,8 @@
-package gov.nih.nci.cagrid.identifiers.na;
+package org.cagrid.identifiers.namingauthority;
 
 public interface NamingAuthorityConfig {
 	
 	public String getPrefix();
+	public int getHttpServerPort();
 
 }

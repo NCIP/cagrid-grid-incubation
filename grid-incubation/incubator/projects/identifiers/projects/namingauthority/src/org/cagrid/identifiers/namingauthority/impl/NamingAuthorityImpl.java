@@ -1,10 +1,10 @@
-package gov.nih.nci.cagrid.identifiers.na.impl;
+package org.cagrid.identifiers.namingauthority.impl;
 
-import gov.nih.nci.cagrid.identifiers.na.*;
-import gov.nih.nci.cagrid.identifiers.util.*;
+import org.cagrid.identifiers.namingauthority.*;
+import org.cagrid.identifiers.namingauthority.util.Database;
 
-import gov.nih.nci.cagrid.identifiers.http.HttpServer;
-
+import org.cagrid.identifiers.namingauthority.util.*;
+import org.cagrid.identifiers.namingauthority.http.HttpServer;
 
 public class NamingAuthorityImpl extends NamingAuthority implements IdentifierMaintainer, IdentifierUser {
 
@@ -29,8 +29,7 @@ public class NamingAuthorityImpl extends NamingAuthority implements IdentifierMa
 	public void startHttpServer() {
 		synchronized(lock) {
 			if (_httpServer == null) {
-				//TODO: read this port number from config
-				_httpServer = new HttpServer(this, 8081);
+				_httpServer = new HttpServer(this, getHttpServerPort());
 				_httpServer.start();
 			}
 		}

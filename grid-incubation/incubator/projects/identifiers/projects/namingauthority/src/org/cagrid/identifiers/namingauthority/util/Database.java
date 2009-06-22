@@ -1,14 +1,11 @@
-package gov.nih.nci.cagrid.identifiers.na.impl;
+package org.cagrid.identifiers.namingauthority.util;
 
 import java.util.List;
 
-import gov.nih.nci.cagrid.identifiers.Type;
-import gov.nih.nci.cagrid.identifiers.TypeValuesMap;
-import gov.nih.nci.cagrid.identifiers.Values;
-import gov.nih.nci.cagrid.identifiers.hibernate.IdentifierValue;
-import gov.nih.nci.cagrid.identifiers.na.IdentifierValues;
-import gov.nih.nci.cagrid.identifiers.util.HibernateUtil;
 
+
+import org.cagrid.identifiers.namingauthority.IdentifierValues;
+import org.cagrid.identifiers.namingauthority.hibernate.IdentifierValue;
 import org.hibernate.Session;
 
 public class Database {

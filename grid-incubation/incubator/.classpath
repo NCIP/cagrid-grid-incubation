@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="projects/identifiers/projects/namingauthority/src/|projects/identifiers/projects/namingauthority/src/" including="slumdog" kind="src" path=""/>
+	<classpathentry kind="src" path="projects/identifiers/projects/namingauthority/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="projects/identifiers/projects/namingauthority/lib/jetty-6.1.18.jar"/>
+	<classpathentry kind="lib" path="projects/identifiers/projects/namingauthority/lib/jetty-util-6.1.18.jar"/>
+	<classpathentry kind="lib" path="projects/identifiers/projects/namingauthority/lib/servlet-api-2.5-20081211.jar"/>
+	<classpathentry kind="lib" path="projects/identifiers/projects/namingauthority/lib/hibernate3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
