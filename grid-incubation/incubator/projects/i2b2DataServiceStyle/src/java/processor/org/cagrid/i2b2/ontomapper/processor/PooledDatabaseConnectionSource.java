@@ -38,7 +38,7 @@ public class PooledDatabaseConnectionSource implements DatabaseConnectionSource 
     
     public PooledDatabaseConnectionSource(String jdbcDriverClassname, 
         String jdbcConnectionString, String username, String password) throws Exception {
-        this.uniquePoolId = UUID.randomUUID().toString();
+        this.uniquePoolId = POOL_NAME_PREFIX + "_" + UUID.randomUUID().toString();
         this.jdbcDriverClassname = jdbcDriverClassname;
         this.jdbcConnectionString = jdbcConnectionString;
         this.username = username;
@@ -75,9 +75,10 @@ public class PooledDatabaseConnectionSource implements DatabaseConnectionSource 
     
     
     private void setupDriver() throws Exception {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
         // load and init the "inner" JDBC driver
         LOG.debug("Loading and registering JDBC driver class " + jdbcDriverClassname);
-        Class.forName(jdbcDriverClassname);
+        Class.forName(jdbcDriverClassname, true, loader);
         
         // generic object pool to hold connections
         LOG.debug("Creating connection pool");
@@ -96,7 +97,7 @@ public class PooledDatabaseConnectionSource implements DatabaseConnectionSource 
 
         // Finally, we create the PoolingDriver itself...
         LOG.debug("Loading and registering pooling DBCP driver");
-        Class.forName("org.apache.commons.dbcp.PoolingDriver");
+        Class.forName("org.apache.commons.dbcp.PoolingDriver", true, loader);
         PoolingDriver driver = (PoolingDriver) DriverManager.getDriver(DBCP_DRIVER_NAME);
 
         // ...and register our pool with it.
