@@ -3,7 +3,7 @@
 <!-- caGrid 1.0 metadata utils build file                              -->
 <!-- ================================================================= -->
 
-<project name="identifiers-namingauthority" default="compile" basedir=".">
+<project name="caGrid-identifiers-namingauthority" default="compile" basedir=".">
     <!-- Environment -->
     <property environment="env" />
     <property file="${basedir}/build.properties" />
