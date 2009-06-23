@@ -8,16 +8,16 @@ import java.util.Set;
 public class IdentifierValues {
 	private HashMap<String, ArrayList<String>> _values;
 	
-	public List<String> getValues( String type ) {
-		return _values.get(type);
+	public String[] getValues( String type ) {
+		return (String[])_values.get(type).toArray();
 	}
 	
-	public Set<String> getTypes() {
-		return _values.keySet();
+	public String[] getTypes() {
+		return (String[])_values.keySet().toArray();
 	}
 
 	public void add(String type, String data) {
-		ArrayList<String> currValues = (ArrayList<String>)getValues( type );
+		ArrayList<String> currValues = _values.get(type);
 		if (currValues == null) {
 			currValues = new ArrayList<String>();
 			_values.put(type, currValues);
