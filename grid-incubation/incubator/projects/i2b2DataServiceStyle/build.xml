@@ -214,7 +214,7 @@
 
 
 	<!-- installs the service style -->
-	<target name="installServiceStyle" depends="defineContribTasks" description="Installs the I2B2 data service style">
+	<target name="installServiceStyle" description="Installs the I2B2 data service style">
 		<echo message="Installing Data Service Style I2B2" />
 		<!-- some properties for the install -->
 		<!-- make requisite directories -->
@@ -232,6 +232,11 @@
 			<!-- copy the dependencies -->
 			<fileset dir="${lib.dir}">
 				<include name="*.jar" />
+			</fileset>
+			<!-- need a different version of DBCP than Tomcat provides -->
+			<fileset dir="${ext.lib.dir}">
+				<include name="commons-dbcp*"/>
+				<include name="commons-pool*"/>
 			</fileset>
 		</copy>
 	</target>
