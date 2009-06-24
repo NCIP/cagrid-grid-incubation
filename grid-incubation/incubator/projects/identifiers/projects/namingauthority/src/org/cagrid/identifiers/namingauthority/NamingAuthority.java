@@ -7,6 +7,7 @@ public abstract class NamingAuthority {
 	
 	public NamingAuthority( NamingAuthorityConfig config ) {
 		_prefix = config.getPrefix();
+		_httpServerPort = config.getHttpServerPort();
 	}
 	
 	public String getPrefix() { return _prefix; }

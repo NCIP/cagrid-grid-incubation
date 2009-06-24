@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 public class IdentifierValues {
-	private HashMap<String, ArrayList<String>> _values;
+	private HashMap<String, ArrayList<String>> _values =
+		new HashMap<String, ArrayList<String>>();
 	
 	public String[] getValues( String type ) {
 		return (String[])_values.get(type).toArray();
