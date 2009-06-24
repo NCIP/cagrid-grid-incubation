@@ -6,6 +6,7 @@
 	<property environment="env" />
 	<property file="${basedir}/project.properties" />
 	<property file="${basedir}/build.properties" />
+	<property file="${env.HOME}/.cagrid/installer-1.3/cagrid.installer.properties" />
 	<property name="globus.dir" location="${env.GLOBUS_LOCATION}" />
 
 	<!-- build with debugging information -->
@@ -32,7 +33,7 @@
 	<!-- extension -->
 	<property name="extension.dir" location="${basedir}/extension" />
 	<property name="extension.description.file" value="${extension.dir}/extension.xml" />
-	<property name="introduce.extensions.dir" location="../introduce/extensions" />
+	<property name="introduce.extensions.dir" location="${cagrid.home}/projects/introduce/extensions" />
 	<property name="ext.schema.dir" location="${basedir}/ext/dependencies/xsd" />
 
 	<!-- source directories -->
