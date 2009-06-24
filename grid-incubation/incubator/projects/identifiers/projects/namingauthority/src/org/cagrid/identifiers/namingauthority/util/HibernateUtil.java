@@ -10,7 +10,7 @@ public class HibernateUtil {
 	static {
 		try {
 			// Create the SessionFactory from hibernate.cfg.xml
-			sessionFactory = new Configuration().configure("gov/nih/nci/cagrid/identifiers/hibernate/identifiers.hibernate.cfg.xml").buildSessionFactory();
+			sessionFactory = new Configuration().configure("org/cagrid/identifiers/namingauthority/hibernate/identifiers.hibernate.cfg.xml").buildSessionFactory();
 			System.out.println("SessionFactory created...");
 		} catch (Throwable ex) {
 			// Make sure you log the exception, as it might be swallowed
