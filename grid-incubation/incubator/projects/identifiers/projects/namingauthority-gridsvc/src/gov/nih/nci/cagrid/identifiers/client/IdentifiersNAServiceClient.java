@@ -18,6 +18,9 @@ import org.oasis.wsrf.properties.GetResourcePropertyResponse;
 
 import org.globus.gsi.GlobusCredential;
 
+import gov.nih.nci.cagrid.identifiers.TypeValues;
+import gov.nih.nci.cagrid.identifiers.TypeValuesMap;
+import gov.nih.nci.cagrid.identifiers.Values;
 import gov.nih.nci.cagrid.identifiers.stubs.IdentifiersNAServicePortType;
 import gov.nih.nci.cagrid.identifiers.stubs.service.IdentifiersNAServiceAddressingLocator;
 import gov.nih.nci.cagrid.identifiers.common.IdentifiersNAServiceI;
@@ -64,30 +67,34 @@ public class IdentifiersNAServiceClient extends IdentifiersNAServiceClientBase i
 			  IdentifiersNAServiceClient client = new IdentifiersNAServiceClient(args[1]);
 			  // place client calls here if you want to use this main as a
 			  // test....
-//			  gov.nih.nci.cagrid.identifiers.Value[] values = 
-//				  new gov.nih.nci.cagrid.identifiers.Value[2];
-//				
-//			  values[0] = new gov.nih.nci.cagrid.identifiers.Value();
-//			  values[0].setIndex(1);
-//			  values[0].setData("http://www.google.com");
-//			  values[0].setType(gov.nih.nci.cagrid.identifiers.Type.URL);
-//				
-//			  values[1] = new gov.nih.nci.cagrid.identifiers.Value();
-//			  values[1].setData("abc def hij");
-//			  values[1].setIndex(2);
-//			  values[1].setType(gov.nih.nci.cagrid.identifiers.Type.DOI);
-//				
-//			  gov.nih.nci.cagrid.identifiers.Identifier id = 
-//					client.createIdentifier(new gov.nih.nci.cagrid.identifiers.Values(values));
-//			  System.out.println("Created [" + id.getName() + "]");
-//				
-//			  System.out.println("Now retrieving values for " + id.getName());
-//			  gov.nih.nci.cagrid.identifiers.Identifier id2 = client.getValues(id.getName());
-//			  System.out.println("Retrieved ID: " + id2.getName());
-//			  for(gov.nih.nci.cagrid.identifiers.Value v : id2.getValues().getValue()) {
-//					System.out.println("Index: " + v.getIndex() + ", Type: " + v.getType() + ", Data: " + v.getData());
-//			  }
 				
+			  TypeValues[] tvs = new TypeValues[2];
+			  tvs[0] = new TypeValues();
+			  tvs[0].setType(gov.nih.nci.cagrid.identifiers.Type.URL);
+			  Values values = new Values();
+			  values.setValue(new String[] { "http://www.google.com" });
+			  tvs[0].setValues(values);
+			  
+			  tvs[1] = new TypeValues();
+			  tvs[1].setType(gov.nih.nci.cagrid.identifiers.Type.DOI);
+			  values = new Values();
+			  values.setValue(new String[] { "abc def hij" });
+			  tvs[1].setValues(values);
+			  
+			  TypeValuesMap tvm = new TypeValuesMap();
+			  tvm.setTypeValues(tvs);
+
+			  String identifier = client.createIdentifier(tvm);
+			  System.out.println("Created [" + identifier + "]");
+				
+			  System.out.println("Now retrieving values for " + identifier);
+			  TypeValuesMap tvm2 = client.getTypeValues(identifier);
+			  for( TypeValues tv : tvm2.getTypeValues() ) {
+				  System.out.println("TYPE: " + tv.getType().getValue());
+				  for( String value : tv.getValues().getValue() ) {
+					  System.out.println("DATA: " + value);
+				  }
+			  }
 			} else {
 				usage();
 				System.exit(1);
