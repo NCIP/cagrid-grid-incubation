@@ -3,7 +3,7 @@ package org.cagrid.identifiers.namingauthority.http;
 import org.cagrid.identifiers.namingauthority.IdentifierUser;
 import org.cagrid.identifiers.namingauthority.IdentifierValues;
 import org.cagrid.identifiers.namingauthority.NamingAuthority;
-import org.cagrid.identifiers.namingauthority.hibernate.IdentifierValue;
+import org.cagrid.identifiers.namingauthority.util.IdentifierUtil;
 
 import org.mortbay.jetty.Request;
 import org.mortbay.jetty.Server;
@@ -15,9 +15,9 @@ import javax.servlet.http.*;
 public class HttpServer implements Runnable {
 
 	private int _port;
-	private IdentifierUser _na;
+	private NamingAuthority _na;
 	
-	public HttpServer(IdentifierUser na, int port) {
+	public HttpServer(NamingAuthority na, int port) {
 		_port = port;
 		_na = na;
 	}
@@ -34,13 +34,14 @@ public class HttpServer implements Runnable {
 		    {
 		    	StringBuffer msg = new StringBuffer();
 		    	
-		    	String idStr = request.getParameter("id");
-		    	if (idStr == null) {
+		    	String uri = request.getRequestURI();
+		    	if (uri == null || uri.length() <= 1 || !uri.startsWith("/")) {
 		    		msg.append("<h1>No identifier provided</h1>");
 		    	}
 		    	else
 		    	{
-		    		IdentifierValues ivs = _na.getValues(idStr);
+		    		String idStr = IdentifierUtil.generate(_na.getPrefix(), uri.substring(1));
+		    		IdentifierValues ivs = ((IdentifierUser)_na).getValues(idStr);
 		    		if (ivs == null)
 		    		{
 		    			msg.append("<h2>Identifier [" + idStr + "] could not be found</h2>\n");
