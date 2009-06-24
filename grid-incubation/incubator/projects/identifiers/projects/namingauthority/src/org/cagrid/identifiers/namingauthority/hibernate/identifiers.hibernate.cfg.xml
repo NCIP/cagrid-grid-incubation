@@ -31,7 +31,7 @@
         <!-- Force Drop and re-create the database schema on startup, so comment out after first run or you'll lose data -->
         <!-- <property name="hbm2ddl.auto">create</property> -->
 
-        <mapping resource="gov/nih/nci/cagrid/identifiers/hibernate/IdentifierValue.hbm.xml"/>
+        <mapping resource="org/cagrid/identifiers/namingauthority/hibernate/IdentifierValue.hbm.xml"/>
 
     </session-factory>
 
