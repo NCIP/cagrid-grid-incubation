@@ -49,6 +49,8 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     public static final String JDBC_USERNAME = "jdbcUsername";
     // the JDBC password
     public static final String JDBC_PASSWORD = "jdbcPassword";
+    // the database table name prefix
+    public static final String TABLE_NAME_PREFIX = "tableNamePrefix";
     // the caDSR URL used for mapping attributes to CDEs
     public static final String CADSR_URL = "cadsrUrl";
     
@@ -56,11 +58,14 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     public static final String DEFAULT_DOMAIN_MODEL_FILE_NAME = "domainModel.xml";
     // default caDSR URL -- OSU training for now
     public static final String DEFAULT_CADSR_URL = "osuDSR.osu.edu";
+    // default DB table name prefix is i2b2demodata -- for demo stuff
+    public static final String DEFAULT_TABLE_NAME_PREFIX = "i2b2demodata";
     
     private static final Log LOG = LogFactory.getLog(I2B2QueryProcessor.class);
         
     private CdeIdMapper cdeIdMapper = null;
     private DatabaseConnectionSource connectionSource = null;
+    private I2B2QueryFactory queryFactory = null;
     
     public I2B2QueryProcessor() {
         super();
@@ -94,6 +99,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
         super.initialize(parameters, wsdd);
         initCdeIdMapper();
         initConnectionSource();
+        initQueryFactory();
     }
     
     
@@ -136,6 +142,14 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
             LOG.error(message, ex);
             throw new InitializationException(message, ex);
         }
+    }
+    
+    
+    private void initQueryFactory() {
+        LOG.debug("Initializing database query factory");
+        String tablePrefix = getConfiguredParameters().getProperty(TABLE_NAME_PREFIX);
+        LOG.debug("Table prefix found: " + tablePrefix);
+        queryFactory = new I2B2QueryFactory(tablePrefix);
     }
     
     
@@ -208,7 +222,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
         String projectVersion = cdeIdMapper.getProjectVersion();
         try {
             dbConnection = connectionSource.getConnection();
-            pathsStatement = dbConnection.prepareStatement(I2B2Queries.CDE_PATHS);
+            pathsStatement = dbConnection.prepareStatement(queryFactory.getCdePathsQuery());
             pathsStatement.setInt(1, cde.intValue());
             pathsStatement.setString(2, cadsrUrl);
             pathsStatement.setString(3, projectName);
