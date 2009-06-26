@@ -25,8 +25,8 @@ public class SDK41Processor {
    
     public static final String OLD_CASTOR_JAR_NAME = "castor-0.9.9.jar";
     
-    public static final String SERIALIZER = "org.cagrid.datatype.sdkmapping4.encoding.SDK41SerializerFactory";
-    public static final String DESERIALIZER = "org.cagrid.datatype.sdkmapping4.encoding.SDK41DeserializerFactory";
+    public static final String SERIALIZER = "org.cagrid.datatype.sdkmapping41.encoding.SDK41SerializerFactory";
+    public static final String DESERIALIZER = "org.cagrid.datatype.sdkmapping41.encoding.SDK41DeserializerFactory";
     
     private static final Log LOG = LogFactory.getLog(SDK41Processor.class);
     
