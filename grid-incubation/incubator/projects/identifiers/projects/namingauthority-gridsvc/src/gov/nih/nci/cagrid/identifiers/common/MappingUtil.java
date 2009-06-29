@@ -2,7 +2,7 @@ package gov.nih.nci.cagrid.identifiers.common;
 
 import java.util.Set;
 
-import org.cagrid.identifiers.namingauthority.IdentifierValues;
+import org.cagrid.identifiers.core.IdentifierValues;
 import gov.nih.nci.cagrid.identifiers.*;
 
 public class MappingUtil {
