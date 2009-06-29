@@ -4,7 +4,7 @@ import java.util.List;
 
 
 
-import org.cagrid.identifiers.namingauthority.IdentifierValues;
+import org.cagrid.identifiers.core.IdentifierValues;
 import org.cagrid.identifiers.namingauthority.hibernate.IdentifierValue;
 import org.hibernate.Session;
 

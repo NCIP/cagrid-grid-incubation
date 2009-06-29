@@ -1,4 +1,4 @@
-package org.cagrid.identifiers.namingauthority;
+package org.cagrid.identifiers.core;
 
 public interface IdentifierMaintainer {
 	String create( IdentifierValues values );

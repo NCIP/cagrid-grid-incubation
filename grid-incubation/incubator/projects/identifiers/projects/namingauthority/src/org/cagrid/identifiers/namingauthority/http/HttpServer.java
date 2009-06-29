@@ -1,7 +1,7 @@
 package org.cagrid.identifiers.namingauthority.http;
 
-import org.cagrid.identifiers.namingauthority.IdentifierUser;
-import org.cagrid.identifiers.namingauthority.IdentifierValues;
+import org.cagrid.identifiers.core.IdentifierUser;
+import org.cagrid.identifiers.core.IdentifierValues;
 import org.cagrid.identifiers.namingauthority.NamingAuthority;
 import org.cagrid.identifiers.namingauthority.util.IdentifierUtil;
 
@@ -42,6 +42,15 @@ public class HttpServer implements Runnable {
 		    	{
 		    		String idStr = IdentifierUtil.generate(_na.getPrefix(), uri.substring(1));
 		    		IdentifierValues ivs = ((IdentifierUser)_na).getValues(idStr);
+		    		//junk
+		    		java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+		    		java.beans.XMLEncoder encoder = new java.beans.XMLEncoder(baos);
+		    	              //new java.io.BufferedOutputStream(
+		    	                //new java.io.FileOutputStream(filename)));
+		    	        encoder.writeObject(ivs);
+		    	        encoder.close();
+		    	        System.out.println("XML{"+baos.toString()+"}");
+		    		//end junk
 		    		if (ivs == null)
 		    		{
 		    			msg.append("<h2>Identifier [" + idStr + "] could not be found</h2>\n");

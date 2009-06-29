@@ -1,5 +1,6 @@
 package org.cagrid.identifiers.namingauthority.impl;
 
+import org.cagrid.identifiers.core.*;
 import org.cagrid.identifiers.namingauthority.*;
 import org.cagrid.identifiers.namingauthority.util.Database;
 
