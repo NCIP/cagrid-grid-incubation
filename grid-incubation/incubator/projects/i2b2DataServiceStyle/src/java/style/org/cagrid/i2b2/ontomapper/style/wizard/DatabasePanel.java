@@ -70,6 +70,7 @@ public class DatabasePanel extends AbstractWizardPanel {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_TEST_RESULTS = "testResults";
+    private static final String KEY_TABLE_PREFIX = "tablePrefix";
     
     // consistent error message for test results
     private static final String TEST_ERROR_PREFIX = "TEST ERROR";
@@ -91,6 +92,8 @@ public class DatabasePanel extends AbstractWizardPanel {
     private JTextField usernameTextField = null;
     private JLabel passwordLabel = null;
     private JPasswordField passwordField = null;
+    private JLabel tablePrefixLabel = null;
+    private JTextField tablePrefixTextField = null;
     private JButton testConnectionButton = null;
     private JTextArea testResultsTextArea = null;
     private JScrollPane testResultsScrollPane = null;
@@ -129,6 +132,8 @@ public class DatabasePanel extends AbstractWizardPanel {
         
         getPasswordField().setText(configurationManager.getPassword());
         
+        getTablePrefixTextField().setText(configurationManager.getTablePrefix());
+        
         validateInput();
     }
     
@@ -165,9 +170,21 @@ public class DatabasePanel extends AbstractWizardPanel {
     
     private JPanel getMainPanel() {
         if (mainPanel == null) {
+            GridBagConstraints gridBagConstraints21 = new GridBagConstraints();
+            gridBagConstraints21.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints21.gridy = 5;
+            gridBagConstraints21.weightx = 1.0;
+            gridBagConstraints21.insets = new Insets(2, 2, 2, 2);
+            gridBagConstraints21.gridwidth = 2;
+            gridBagConstraints21.gridx = 1;
+            GridBagConstraints gridBagConstraints13 = new GridBagConstraints();
+            gridBagConstraints13.gridx = 0;
+            gridBagConstraints13.insets = new Insets(2, 2, 2, 2);
+            gridBagConstraints13.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints13.gridy = 5;
             GridBagConstraints gridBagConstraints12 = new GridBagConstraints();
             gridBagConstraints12.fill = GridBagConstraints.BOTH;
-            gridBagConstraints12.gridy = 5;
+            gridBagConstraints12.gridy = 6;
             gridBagConstraints12.weightx = 1.0;
             gridBagConstraints12.weighty = 1.0;
             gridBagConstraints12.insets = new Insets(2, 2, 2, 2);
@@ -178,7 +195,7 @@ public class DatabasePanel extends AbstractWizardPanel {
             gridBagConstraints11.fill = GridBagConstraints.HORIZONTAL;
             gridBagConstraints11.insets = new Insets(2, 2, 2, 2);
             gridBagConstraints11.anchor = GridBagConstraints.NORTH;
-            gridBagConstraints11.gridy = 5;
+            gridBagConstraints11.gridy = 6;
             GridBagConstraints gridBagConstraints10 = new GridBagConstraints();
             gridBagConstraints10.fill = GridBagConstraints.HORIZONTAL;
             gridBagConstraints10.gridy = 4;
@@ -258,6 +275,8 @@ public class DatabasePanel extends AbstractWizardPanel {
             mainPanel.add(getPasswordField(), gridBagConstraints10);
             mainPanel.add(getTestConnectionButton(), gridBagConstraints11);
             mainPanel.add(getTestResultsScrollPane(), gridBagConstraints12);
+            mainPanel.add(getTablePrefixLabel(), gridBagConstraints13);
+            mainPanel.add(getTablePrefixTextField(), gridBagConstraints21);
         }
         return mainPanel;
     }
@@ -443,6 +462,29 @@ public class DatabasePanel extends AbstractWizardPanel {
         }
         return passwordField;
     }
+    
+    
+    private JLabel getTablePrefixLabel() {
+        if (tablePrefixLabel == null) {
+            tablePrefixLabel = new JLabel();
+            tablePrefixLabel.setText("Table Name Prefix:");
+        }
+        return tablePrefixLabel;
+    }
+    
+    
+    private JTextField getTablePrefixTextField() {
+        if (tablePrefixTextField == null) {
+            tablePrefixTextField = new JTextField();
+            tablePrefixTextField.getDocument().addDocumentListener(new DocumentChangeAdapter() {
+                public void documentEdited(DocumentEvent e) {
+                    configurationManager.setTablePrefix(getTablePrefixTextField().getText());
+                    validateInput();
+                }
+            });
+        }
+        return tablePrefixTextField;
+    }
 
 
     /**
@@ -543,7 +585,7 @@ public class DatabasePanel extends AbstractWizardPanel {
                                 driverClassnames.add(className);
                             }
                         } catch (Throwable th) {
-                            // catching anything here since there's likley to be many errors
+                            // catching anything here since there's likely to be many errors
                             LOG.warn("Error loading class " + className + " (" + th.getMessage() + ")");
                         }
                     }
@@ -615,6 +657,7 @@ public class DatabasePanel extends AbstractWizardPanel {
         ValidationComponentUtils.setMessageKey(getConnectStringTextField(), KEY_CONNECT_STRING);
         ValidationComponentUtils.setMessageKey(getUsernameTextField(), KEY_USERNAME);
         ValidationComponentUtils.setMessageKey(getPasswordField(), KEY_PASSWORD);
+        ValidationComponentUtils.setMessageKey(getTablePrefixTextField(), KEY_TABLE_PREFIX);
         ValidationComponentUtils.setMessageKey(getTestResultsTextArea(), KEY_TEST_RESULTS);
         
         validateInput();
@@ -645,6 +688,10 @@ public class DatabasePanel extends AbstractWizardPanel {
         if (getPasswordField().getPassword().length == 0) {
             result.add(new SimpleValidationMessage(
                 "A password is recommended for connecting to the database over JDBC", Severity.WARNING, KEY_PASSWORD));
+        }
+        if (ValidationUtils.isBlank(getTablePrefixLabel().getText())) {
+            result.add(new SimpleValidationMessage(
+                "A table name prefix is recommended", Severity.WARNING, KEY_TABLE_PREFIX));
         }
         if (ValidationUtils.isBlank(getTestResultsTextArea().getText())) {
             result.add(new SimpleValidationMessage(

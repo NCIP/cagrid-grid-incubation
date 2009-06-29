@@ -27,6 +27,7 @@ public class DatabaseConfigurationManager extends BaseConfigurationManager {
     private String connection = null;
     private String user = null;
     private String password = null;
+    private String tablePrefix = null;
 
     public DatabaseConfigurationManager(ServiceExtensionDescriptionType extensionDescription,
         ServiceInformation serviceInformation) {
@@ -102,5 +103,15 @@ public class DatabaseConfigurationManager extends BaseConfigurationManager {
 
     public void setUser(String user) {
         this.user = user;
+    }
+    
+    
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+    
+    
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 }
