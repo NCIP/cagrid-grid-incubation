@@ -33,4 +33,7 @@ caGrid-identifiers-core-1.3.jar
    	- commons-logging
    	- commons-codec
 
-
+addressing-1.0.jar 
+wsrf_core.jar 
+cog-jglobus.jar
+caGrid-core-1.3-dev.jar 
