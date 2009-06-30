@@ -24,16 +24,21 @@
 	<property name="build.processor.dest" location="${build.dir}/processor/classes" />
 	<property name="build.utils.dest" location="${build.dir}/utils/classes"/>
 	<property name="build.test.dest" location="${build.dir}/test/classes"/>
-	<property name="build.dirs.list" value="${build.style.dest},${build.processor.dest},${build.utils.dest}"/>
+	<property name="build.beans.dir" location="${build.dir}/beans"/>
+	<property name="build.beans.src.dir" location="${build.beans.dir}/src"/>
+	<property name="build.beans.classes.dir" location="${build.beans.dir}/classes"/>
+	<property name="build.beans.xsd.dir" location="${build.beans.dir}/xsd"/>
 	<property name="build.jars.dir" location="${build.dir}/lib" />
 
 	<!-- jar names -->
-	<property name="style.jar.name" value="${project.jar.prefix}style${project.jar.suffix}" />
-	<property name="processor.jar.name" value="${project.jar.prefix}processor${project.jar.suffix}" />
+	<property name="beans.jar.name" value="${project.jar.prefix}beans${project.jar.suffix}"/>
+	<property name="style.jar.name" value="${project.jar.prefix}style${project.jar.suffix}"/>
+	<property name="processor.jar.name" value="${project.jar.prefix}processor${project.jar.suffix}"/>
 	<property name="utils.jar.name" value="${project.jar.prefix}utils${project.jar.suffix}"/>
 	<property name="test.jar.name" value="${project.jar.prefix}test${project.jar.suffix}"/>
 	
 	<!-- jar files -->
+	<property name="beans.jar.file" value="${build.jars.dir}/${beans.jar.name}"/>
 	<property name="style.jar.file" value="${build.jars.dir}/${style.jar.name}" />
 	<property name="processor.jar.file" value="${build.jars.dir}/${processor.jar.name}" />
 	<property name="utils.jar.file" value="${build.jars.dir}/${utils.jar.name}"/>
@@ -58,6 +63,11 @@
 	<property name="introduce.extensions.dir" location="${introduce.dir}/extensions" />
 	<property name="style.document" location="${basedir}/style/style.xml" />
 	<property name="style.dest.dir" location="${introduce.extensions.dir}/data/styles/i2b2" />
+	
+	<!-- beans build -->
+	<property name="ns2pkg.mapping" location="${basedir}/namespace2package.mapping"/>
+	<property name="mapping.src" location="${ns2pkg.mapping}"/>
+	<property name="beans.src.dir" location="${build.dir}/beans/src"/>
 	
 	<!-- testing stuff -->
 	<property name="test.logs.dir" location="${basedir}/test/logs"/>
@@ -87,6 +97,28 @@
 		</fileset>
 	</path>
 	
+
+	<!-- sets up GT4 related variables -->
+	<target name="setGlobus" if="env.GLOBUS_LOCATION">
+		<!-- GT4 build files and directories-->
+		<property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
+		<property name="build.stubs" location="${ext.globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
+		<property name="globus.schema.src" location="${ext.globus.dir}/share/schema" />
+		<property name="build.packages" location="${ext.globus.dir}/share/globus_wsrf_common/build-packages.xml" />
+		<!-- Copied from build.stubs file, as there is no way to "append" to the value in the remote file -->
+		<property name="GT4.ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration" />
+	</target>
+	
+	
+	<!-- merge namespace mappings with globus -->
+	<target name="mergeNsMappings" depends="init">
+		<ant antfile="${build.stubs}" target="mergePackageMapping" inheritall="true">
+			<property name="mapping.src" location="${ns2pkg.mapping}" />
+			<property name="mapping.dst" location="${build.dir}/namespace2package.mappings"/>
+		</ant>
+	</target>
+	
+	
 	<!-- creates output directories -->
 	<target name="init" depends="defineContribTasks">
 		<mkdir dir="${build.dir}" />
@@ -95,6 +127,10 @@
 		<mkdir dir="${build.processor.dest}" />
 		<mkdir dir="${build.utils.dest}"/>
 		<mkdir dir="${build.test.dest}"/>
+		<mkdir dir="${build.beans.dir}"/>
+		<mkdir dir="${build.beans.src.dir}"/>
+		<mkdir dir="${build.beans.xsd.dir}"/>
+		<mkdir dir="${build.beans.classes.dir}"/>
 	</target>
 
 
@@ -108,15 +144,44 @@
 			</classpath>
 		</taskdef>
 	</target>
+	
+	
+	<!-- generates source stubs for the schema defined types -->
+	<target name="generateBeans" depends="init, setGlobus, mergeNsMappings">
+		<!-- copy schemas to beans xsd dir -->
+		<copy todir="${build.beans.xsd.dir}">
+			<fileset dir="${basedir}/schema/xsd/test">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+		<!-- use globus / axis to generate beans -->
+		<property name="mapping.dst" value="${build.dir}/namespace2package.mappings" />
+		<ant antfile="${ant.build.stubs}" target="mergePackageMapping" />
+		<property name="mapping.file" value="${mapping.dst}" />
+		<!-- generate beans for test schemas -->
+		<ant antfile="${ant.build.stubs}" target="generateStubs">
+			<property name="source.stubs.dir" location="${build.beans.xsd.dir}" />
+			<property name="wsdl.file" value="i2b2-test-beans.wsdl" />
+			<property name="target.stubs.dir" location="${build.beans.src.dir}"/>
+		</ant>
+	</target>
+	
+	
+	<target name="compileBeans" depends="generateBeans">
+		<javac srcdir="${build.beans.src.dir}" destdir="${build.beans.classes.dir}">
+			<classpath refid="build.classpath"/>
+		</javac>
+	</target>
 
 
 	<!-- compiles the style source code -->
-	<target name="compileStyle" depends="init, compileProcessor, compileUtils">
+	<target name="compileStyle" depends="init, compileBeans, compileProcessor, compileUtils">
 		<javac srcdir="${style.src.dir}" destdir="${build.style.dest}" debug="${java.debug}" source="${java.source}">
 			<classpath refid="build.classpath" />
 			<classpath>
 				<pathelement location="${build.processor.dest}" />
 				<pathelement location="${build.utils.dest}"/>
+				<pathelement location="${build.beans.classes.dir}"/>
 			</classpath>
 			<include name="**/*.java" />
 		</javac>
@@ -124,11 +189,12 @@
 
 
 	<!-- compiles the query processor source code -->
-	<target name="compileProcessor" depends="init, compileUtils">
+	<target name="compileProcessor" depends="init, compileBeans, compileUtils">
 		<javac srcdir="${processor.src.dir}" destdir="${build.processor.dest}" debug="${java.debug}" source="${java.source}">
 			<classpath refid="build.classpath" />
 			<classpath>
 				<pathelement location="${build.utils.dest}"/>
+				<pathelement location="${build.beans.classes.dir}"/>
 			</classpath>
 			<include name="**/*.java" />
 		</javac>
@@ -136,7 +202,7 @@
 	
 	
 	<!-- compiles the utils source code -->
-	<target name="compileUtils" depends="init">
+	<target name="compileUtils" depends="init, compileBeans">
 		<javac srcdir="${utils.src.dir}" destdir="${build.utils.dest}" debug="${java.debug}" source="${java.source}">
 			<classpath refid="build.classpath"/>
 			<include name="**/*.java"/>
@@ -155,6 +221,19 @@
 			</classpath>
 			<include name="**/*.java"/>
 		</javac>
+	</target>
+	
+	
+	<!-- jars the beans -->
+	<target name="jarBeans" depends="compileStyle" description="Builds the beans jar file">
+		<jar destfile="${beans.jar.file}">
+			<fileset dir="${build.beans.classes.dir}">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${build.beans.src.dir}">
+				<include name="**/*"/>
+			</fileset>
+		</jar>
 	</target>
 
 	
@@ -253,5 +332,5 @@
 
 
 	<!-- build and jar everything -->
-	<target name="all" depends="jarProcessor, jarStyle, jarUtils, jarTest" description="Builds and jars all the classes in the project" />
+	<target name="all" depends="jarBeans, jarProcessor, jarStyle, jarUtils, jarTest" description="Builds and jars all the classes in the project" />
 </project>
