@@ -186,7 +186,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
             LOG.error(ex);
             throw new QueryProcessingException(ex.getMessage(), ex);
         }
-        // cde has to exist
+        // CDE has to exist
         if (cde == null) {
             throw new QueryProcessingException("No CDE found for attribute " 
                 + cqlQuery.getQueryModifier().getDistinctAttribute());
