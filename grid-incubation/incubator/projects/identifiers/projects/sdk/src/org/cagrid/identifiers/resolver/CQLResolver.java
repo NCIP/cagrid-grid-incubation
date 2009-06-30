@@ -1,44 +1,58 @@
 package org.cagrid.identifiers.resolver;
 
-import gov.nih.nci.cagrid.identifiers.TypeValues;
+import java.io.StringBufferInputStream;
 
 import javax.xml.namespace.QName;
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
+import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.utils.XMLUtils;
-import org.cagrid.identifiers.core.IdentifierValues;
+import org.cagrid.identifiers.core.*;
+import org.globus.wsrf.encoding.DeserializationException;
+import org.globus.wsrf.encoding.ObjectDeserializer;
 
 public class CQLResolver implements Resolver{
 
-	public Object resolve( IdentifierValues ivs ) {
+	public Object resolve( IdentifierValues ivs ) throws Exception {
 		
-		String[] eprStrs = ivs.getValues("EPR");
-		String[] cqlStrs = ivs.getValues("CQL");
+		String[] eprStrs = ivs.getValues(DataType.EPR.toString());
+		String[] cqlStrs = ivs.getValues(DataType.CQL.toString());
 		
-		String cqlStr = null;
-		for( TypeValues tv : tvm.getTypeValues() ) {
-			if (tv.getType() == gov.nih.nci.cagrid.identifiers.Type.CQL) {
-				for( String data : tv.getValues().getValue() ) {
-					System.out.println("Type["+tv.getType().getValue()+"]={"+data+"}");
-					cqlStr = data;
-					break;
-				}
-			}
-			
-			if (cqlStr != null) break;
+		if (eprStrs == null || eprStrs.length == 0 || cqlStrs == null || cqlStrs.length == 0) {
+			System.out.println("No data available to perform CQL resolution");
+			return null;
 		}
-		gov.nih.nci.cagrid.cqlresultset.CQLQueryResults results = 
-			query();
-		return results;
+		
+		//
+		// Deserialize EPR
+		//
+		System.out.println("Going to deserialize EPR={" + eprStrs[0] + "}");
+		
+		StringBufferInputStream fis = new StringBufferInputStream( eprStrs[0] );
+		EndpointReferenceType endpoint = (EndpointReferenceType) 
+				ObjectDeserializer.deserialize(new InputSource(fis),
+					         EndpointReferenceType.class);
+
+		//
+		// Deserialize query
+		//
+		System.out.println("Going to deserialize CQL={" + cqlStrs[0] + "}");
+		
+		gov.nih.nci.cagrid.cqlquery.CQLQuery query = (gov.nih.nci.cagrid.cqlquery.CQLQuery) 
+				gov.nih.nci.cagrid.common.Utils.deserializeObject(
+					new java.io.StringReader(cqlStrs[0]), gov.nih.nci.cagrid.cqlquery.CQLQuery.class);
+		
+		String endpointUrl = endpoint.getAddress().toString();
+		String portName = endpoint.getPortType().getLocalPart();
+
+		
+		return query( query, endpointUrl, portName );
 	}
 
 	public static gov.nih.nci.cagrid.cqlresultset.CQLQueryResults 
-		query(gov.nih.nci.cagrid.cqlquery.CQLQuery cqlQuery, String cqlStr) throws Exception {
+		query(gov.nih.nci.cagrid.cqlquery.CQLQuery cqlQuery, String url, String portName) throws Exception {
 
 		String operationName = "query";
-		String portName = "SDKTestModelModifiedPortTypePort";
-
-		System.out.println("portName[" + portName + "]");
-		System.out.println("operationName[" + operationName + "]");
 
 		gov.nih.nci.cagrid.data.stubs.QueryRequest params = new gov.nih.nci.cagrid.data.stubs.QueryRequest();
 		gov.nih.nci.cagrid.data.stubs.QueryRequestCqlQuery cqlQueryContainer = new gov.nih.nci.cagrid.data.stubs.QueryRequestCqlQuery();
@@ -47,20 +61,6 @@ public class CQLResolver implements Resolver{
 
 		org.apache.axis.client.Service service = new org.apache.axis.client.Service();
 		
-//		Call call = service.createCall(QName.valueOf(portName),
-//				QName.valueOf(operationName));
-//		call.setTargetEndpointAddress("http://localhost:8082/wsrf/services/cagrid/SDKTestModelModified");
-//		//((org.apache.axis.client.Call)call).setOperation(QName.valueOf(portName), "query");
-//		((org.apache.axis.client.Call)call).setTimeout(new Integer(15*1000));
-//		((org.apache.axis.client.Call)call).setProperty(ElementDeserializer.DESERIALIZE_CURRENT_ELEMENT, Boolean.TRUE);
-//		//((org.apache.axis.client.Call)call).setReturnType(new QName("http://gov.nih.nci.cagrid.data/DataService", "QueryResponse"));
-//	
-//		//call.addParameter("QueryRequest", new QName("http://gov.nih.nci.cagrid.data/DataService", "QueryRequest"), ParameterMode.IN);
-//		((org.apache.axis.client.Call)call).registerTypeMapping(org.w3c.dom.Element.class, 
-//				new QName("http://gov.nih.nci.cagrid.data/DataService", "QueryResponse"),
-//				new ElementSerializerFactory(),
-//				new ElementDeserializerFactory());
-
 		org.apache.axis.description.OperationDesc oper = 
 			new org.apache.axis.description.OperationDesc();
         oper.setName("query");
@@ -76,21 +76,9 @@ public class CQLResolver implements Resolver{
         oper.setReturnQName(new javax.xml.namespace.QName("http://gov.nih.nci.cagrid.data/DataService", "QueryResponse"));
         oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        //oper.addFault(new org.apache.axis.description.FaultDesc(
-        //              new javax.xml.namespace.QName("http://gov.nih.nci.cagrid.data/DataServiceExceptions", "MalformedQueryException"),
-        //              "gov.nih.nci.cagrid.data.faults.MalformedQueryExceptionType",
-        //              new javax.xml.namespace.QName("http://gov.nih.nci.cagrid.data/DataServiceExceptions", "MalformedQueryExceptionType"),
-        //              true
-        //             ));
-        //oper.addFault(new org.apache.axis.description.FaultDesc(
-        //              new javax.xml.namespace.QName("http://gov.nih.nci.cagrid.data/DataServiceExceptions", "QueryProcessingException"),
-        //              "gov.nih.nci.cagrid.data.faults.QueryProcessingExceptionType",
-        //              new javax.xml.namespace.QName("http://gov.nih.nci.cagrid.data/DataServiceExceptions", "QueryProcessingExceptionType"),
-        //              true
-        //             ));
       
 		org.apache.axis.client.Call _call = (org.apache.axis.client.Call) service.createCall();
-		_call.setTargetEndpointAddress("http://localhost:8082/wsrf/services/cagrid/SDKTestModelModified");
+		_call.setTargetEndpointAddress(url);
         _call.setOperation(oper);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://data.cagrid.nci.nih.gov/DataService/QueryRequest");
@@ -111,13 +99,5 @@ public class CQLResolver implements Resolver{
 
 		System.out.println("\nDone!");
 		return (resp != null ? resp.getCQLQueryResultCollection() : null);
-	}
-	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 }

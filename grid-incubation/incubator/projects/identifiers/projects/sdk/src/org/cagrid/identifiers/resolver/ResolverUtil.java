@@ -78,7 +78,7 @@ public class ResolverUtil {
 		String URI = getNamingAuthorityURL( identifier );
 	}
 	
-	public static void resolveHttp( String identifier ) {
+	public static IdentifierValues resolveHttp( String identifier ) {
 		HttpClient client = new HttpClient();
 		
 		HttpMethod method = new GetMethod( identifier );
@@ -88,6 +88,8 @@ public class ResolverUtil {
 		// Provide custom retry handler is necessary
 	    method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
 	    		new DefaultHttpMethodRetryHandler(3, false));
+	    
+	    IdentifierValues ivs = null;
 	    
 	    try {
 	    	System.out.println("Connecting to " + identifier);
@@ -100,7 +102,7 @@ public class ResolverUtil {
 	    	if (ctHeader == null || ctHeader.getValue() == null || 
 	    			ctHeader.getValue().indexOf("application/xml") == -1) {
 	    		System.out.println("Response has no XML content");
-	    		return;
+	    		return null;
 	    	}
 	   
 	   // 	byte[] responseBody = method.getResponseBodyAsString();
@@ -111,12 +113,12 @@ public class ResolverUtil {
 			XMLDecoder decoder = new XMLDecoder(new StringBufferInputStream(
 					response));
 		    
-		    IdentifierValues ivs = (IdentifierValues)decoder.readObject();
+		    ivs = (IdentifierValues)decoder.readObject();
 		    decoder.close();
 		    
 		    if (ivs == null) {
 		    	System.out.println("No data found for specified identifier");
-		    	return;
+		    	return null;
 		    }
 		    
 		    for( String type : ivs.getTypes() ) {
@@ -124,6 +126,9 @@ public class ResolverUtil {
 		    		System.out.println("["+type+"]=["+value+"]");
 		    	}
 		    }
+		    
+	
+		    
 //	    	// Deal with the response.
 //	        // Use caution: ensure correct character encoding and is not binary data
 //	    	System.out.println("Body[" + new String(responseBody) + "]");
@@ -157,6 +162,8 @@ public class ResolverUtil {
 	        // Release the connection.
 	        method.releaseConnection();
 	    }  
+	    
+	    return ivs;
 	}
 	
 	public static void main(String[] args) {
