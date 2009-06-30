@@ -42,6 +42,8 @@
 				<xsl:value-of select="registrationStatus"/>
 			</registration-status>
 			<xsl:apply-templates select="valueDomain"/>
+			<xsl:apply-templates select="dataElementConcept/DataElementConcept/objectClass/ObjectClass"/>
+			<xsl:apply-templates select="dataElementConcept/DataElementConcept/property/Property"/>
 		</data-element>
 	</xsl:template>
 	<xsl:template match="valueDomain">
