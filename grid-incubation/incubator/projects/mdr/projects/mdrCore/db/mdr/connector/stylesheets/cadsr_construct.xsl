@@ -18,7 +18,7 @@
     </xsl:template>
 
     <!-- Expand the valueDomain and permissableValue node by reading from the given xlink -->
-    <xsl:template match="field[@name=('valueDomain', 'permissibleValue')]">
+    <xsl:template match="field[@name=('valueDomain', 'permissibleValue', 'dataElementConcept', 'objectClass', 'property')]">
         <field name="{@name}">
             <xsl:apply-templates select="doc(data(@xlink:href))/xlink:httpQuery/queryResponse/class"/>
         </field>
