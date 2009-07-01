@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/MDRQuery/src/org/cagrid/mdrq/client/MDRQueryClient.java"/>
+<listEntry value="/MDR-Query/src/org/cagrid/mdrq/client/MDRQueryClient.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -13,5 +13,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.cagrid.mdrq.client.MDRQueryClient"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-url ${string_prompt:the service url}"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="MDRQuery"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="MDR-Query"/>
 </launchConfiguration>
