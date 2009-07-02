@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:include href="lib-rendering-new.xsl"/>
     <xsl:output method="html" media-type="text/html" indent="yes" doctype-public="-//W3C//DTD XHTML 1,0 Transitional//EN" doctype-system="http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd" omit-xml-declaration="no" exclude-result-prefixes="openMDR dc iaaaterm xs rdf cgResolver skos dcterms ISO11179"/>
-    <xsl:param name="type">data_element</xsl:param>
+    
     
     <!-- verbatim render of generated html -->
     <xsl:template match="html:div">

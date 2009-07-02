@@ -86,5 +86,5 @@ return
        )
     
 
-    return lib-rendering:txfrm-webpage($title, $content, true(),  true(),$compound_id, 'data_element_concept.xquery')
+    return lib-rendering:txfrm-webpage($title, $content, true(),  true(),$compound_id, 'data_element_concept.xquery','../edit/editDataElementConcept.xquery')
     )

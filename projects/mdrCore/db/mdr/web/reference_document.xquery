@@ -61,4 +61,4 @@ return
             true(), 
             false(), 
             $id, 
-            'reference_document.xquery'))
+            'reference_document.xquery','../edit/editReferenceDocument.xquery'))

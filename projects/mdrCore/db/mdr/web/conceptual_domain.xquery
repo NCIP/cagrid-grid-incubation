@@ -128,5 +128,5 @@ for $administered_item in lib-util:mdrElement("conceptual_domain",$compound_id)
                     lib-rendering:related-administered-items($administered_item)
          }</div>
       
-         return lib-rendering:txfrm-webpage($title, $content, true(), true(), $compound_id, 'conceptual_domain.xquery')
+         return lib-rendering:txfrm-webpage($title, $content, true(), true(), $compound_id, 'conceptual_domain.xquery','../edit/editConceptualDomain.xquery')
          )

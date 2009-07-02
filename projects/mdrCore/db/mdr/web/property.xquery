@@ -63,5 +63,5 @@ return
                   }</div>
                
       
-              return lib-rendering:txfrm-webpage($title, $content, true(),  true(),$compound_id, 'property.xquery')
+              return lib-rendering:txfrm-webpage($title, $content, true(),  true(),$compound_id, 'property.xquery','../edit/editProperty.xquery')
    )

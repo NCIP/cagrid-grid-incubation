@@ -131,5 +131,5 @@ return
          lib-rendering:value_domain_used_in_data_elements($compound_id)
       }</div>
       return 
-         lib-rendering:txfrm-webpage($title, $content, true(),  true(), $compound_id, 'value_domain.xquery')
+         lib-rendering:txfrm-webpage($title, $content, true(),  true(), $compound_id, 'value_domain.xquery''../edit/editValueDomain.xquery')
    )
