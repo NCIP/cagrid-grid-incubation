@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="gme://caCORE.caCORE/3.2/i2b2.miniocre" targetNamespace="gme://caCORE.caCORE/3.2/i2b2.miniocre" elementFormDefault="qualified">
+  <xs:element name="Planning_entity" type="Planning_entity" />
+  <xs:complexType name="Planning_entity">
+    <xs:complexContent>
+      <xs:extension base="Information_entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Study" type="Study" />
+  <xs:complexType name="Study">
+    <xs:complexContent>
+      <xs:extension base="Entity">
+        <xs:sequence />
+        <xs:attribute name="NCT_number" type="xs:integer" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Entity" type="Entity" />
+  <xs:complexType name="Entity">
+    <xs:complexContent>
+      <xs:extension base="Thing">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Subject" type="Subject" />
+  <xs:complexType name="Subject">
+    <xs:complexContent>
+      <xs:extension base="Role">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StudyProtocol" type="StudyProtocol" />
+  <xs:complexType name="StudyProtocol">
+    <xs:complexContent>
+      <xs:extension base="Information_entity">
+        <xs:sequence />
+        <xs:attribute name="public_title" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Outcome_analysis_specification" type="Outcome_analysis_specification" />
+  <xs:complexType name="Outcome_analysis_specification">
+    <xs:complexContent>
+      <xs:extension base="Outcome_entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Subject_outcome" type="Subject_outcome" />
+  <xs:complexType name="Subject_outcome">
+    <xs:complexContent>
+      <xs:extension base="Outcome">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Role" type="Role" />
+  <xs:complexType name="Role">
+    <xs:complexContent>
+      <xs:extension base="Thing">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Time_point" type="Time_point" />
+  <xs:complexType name="Time_point">
+    <xs:complexContent>
+      <xs:extension base="Expression">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Study_characteristic" type="Study_characteristic" />
+  <xs:complexType name="Study_characteristic">
+    <xs:complexContent>
+      <xs:extension base="Entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Terminology_code" type="Terminology_code" />
+  <xs:complexType name="Terminology_code">
+    <xs:complexContent>
+      <xs:extension base="Expression">
+        <xs:sequence />
+        <xs:attribute name="has_concept_id" type="xs:string" />
+        <xs:attribute name="has_terminology" type="xs:string" />
+        <xs:attribute name="has_vesion" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Outcome_phenomenon" type="Outcome_phenomenon" />
+  <xs:complexType name="Outcome_phenomenon">
+    <xs:complexContent>
+      <xs:extension base="Outcome_entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Study_characteristic_code" type="Study_characteristic_code" />
+  <xs:complexType name="Study_characteristic_code">
+    <xs:complexContent>
+      <xs:extension base="Terminology_code">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Outcome_entity" type="Outcome_entity" />
+  <xs:complexType name="Outcome_entity">
+    <xs:complexContent>
+      <xs:extension base="Information_entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Person" type="Person" />
+  <xs:complexType name="Person">
+    <xs:complexContent>
+      <xs:extension base="Entity">
+        <xs:sequence />
+        <xs:attribute name="has_name" type="xs:boolean" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Study_design_characteristic" type="Study_design_characteristic" />
+  <xs:complexType name="Study_design_characteristic">
+    <xs:complexContent>
+      <xs:extension base="Study_characteristic">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Statistical_analysis" type="Statistical_analysis" />
+  <xs:complexType name="Statistical_analysis">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="Investigator" type="Investigator" />
+  <xs:complexType name="Investigator">
+    <xs:complexContent>
+      <xs:extension base="Role">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Study_outcome" type="Study_outcome" />
+  <xs:complexType name="Study_outcome">
+    <xs:complexContent>
+      <xs:extension base="Outcome">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Organization" type="Organization" />
+  <xs:complexType name="Organization">
+    <xs:complexContent>
+      <xs:extension base="Entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Contact_information" type="Contact_information" />
+  <xs:complexType name="Contact_information">
+    <xs:complexContent>
+      <xs:extension base="Information_entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HealthCareSite" type="HealthCareSite" />
+  <xs:complexType name="HealthCareSite">
+    <xs:complexContent>
+      <xs:extension base="Role">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Outcome_variable" type="Outcome_variable" />
+  <xs:complexType name="Outcome_variable">
+    <xs:complexContent>
+      <xs:extension base="Outcome_entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HealthCareProvider" type="HealthCareProvider" />
+  <xs:complexType name="HealthCareProvider">
+    <xs:complexContent>
+      <xs:extension base="Role">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Relative_time_point" type="Relative_time_point" />
+  <xs:complexType name="Relative_time_point">
+    <xs:complexContent>
+      <xs:extension base="Time_point">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StudySite" type="StudySite" />
+  <xs:complexType name="StudySite">
+    <xs:complexContent>
+      <xs:extension base="Role">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Expression" type="Expression" />
+  <xs:complexType name="Expression">
+    <xs:complexContent>
+      <xs:extension base="Information_entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Thing" type="Thing" />
+  <xs:complexType name="Thing">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="Outcome" type="Outcome" />
+  <xs:complexType name="Outcome">
+    <xs:complexContent>
+      <xs:extension base="Outcome_entity">
+        <xs:sequence />
+        <xs:attribute name="has_name" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Information_entity" type="Information_entity" />
+  <xs:complexType name="Information_entity">
+    <xs:complexContent>
+      <xs:extension base="Entity">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
+

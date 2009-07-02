@@ -161,7 +161,7 @@
 		<!-- generate beans for test schemas -->
 		<ant antfile="${ant.build.stubs}" target="generateStubs">
 			<property name="source.stubs.dir" location="${build.beans.xsd.dir}" />
-			<property name="wsdl.file" value="i2b2-test-beans.wsdl" />
+			<property name="wsdl.file" value="i2b2-beans.wsdl" />
 			<property name="target.stubs.dir" location="${build.beans.src.dir}"/>
 		</ant>
 	</target>
