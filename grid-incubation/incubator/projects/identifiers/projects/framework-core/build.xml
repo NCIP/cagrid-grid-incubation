@@ -17,9 +17,7 @@
 	<property name="javadoc.dir" value="${build.dir}/javadoc" />
     <property name="classes.dir" value="${build.dir}/classes" />
     <property name="jar.dir" value="${build.dir}/lib" />
-    <property name="namingauthority.jarfile" value="${jar.dir}/${project.name}-namingauthority-${project.version}.jar" />
     <property name="core.jarfile" value="${jar.dir}/${project.name}-core-${project.version}.jar" />
-    <property name="resolver.jarfile" value="${jar.dir}/${project.name}-resolver-${project.version}.jar" />
     <property name="lib.dir" value="${basedir}/lib" />
     <property name="ext.lib.dir" value="${basedir}/ext/dependencies/service/jars" />
     <property name="ext.test.lib.dir" location="${basedir}/ext/dependencies/test/jars" />
@@ -83,7 +81,7 @@
     <!-- ======================================================== -->
     <!-- Creates the core jar file                                -->
     <!-- ======================================================== -->
-    <target name="jarCore" depends="compile" description="Builds the core jar file">
+    <target name="jar" depends="compile" description="Builds the core jar file">
         <mkdir dir="${jar.dir}" />
         <jar jarfile="${core.jarfile}" basedir="${classes.dir}">
             <include name="**/core/**" />
@@ -92,29 +90,6 @@
             </manifest>
         </jar>
     </target>
-
-    <target name="jarResolver" depends="compile" description="Builds the resolver jar file">
-        <mkdir dir="${jar.dir}" />
-        <jar jarfile="${resolver.jarfile}" basedir="${classes.dir}">
-            <include name="**/resolver/**" />
-            <manifest>
-                <attribute name="Built-By" value="${user.name}" />
-            </manifest>
-        </jar>
-    </target>
-
-    <target name="jarNamingAuthority" depends="compile" description="Builds the naming authority jar file">
-        <mkdir dir="${jar.dir}" />
-        <jar jarfile="${namingauthority.jarfile}" basedir="${classes.dir}">
-            <exclude name="**/core/**" />
-            <exclude name="**/resolver/**" />
-            <manifest>
-                <attribute name="Built-By" value="${user.name}" />
-            </manifest>
-        </jar>
-    </target>
-
-	<target name="jar" depends="jarCore,jarResolver,jarNamingAuthority" description="Builds the Jar Files"/>
 
 	<!-- =================================================================== -->
 	<!-- Builds Code Docuementation                                          -->
