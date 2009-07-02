@@ -2,7 +2,7 @@ package org.cagrid.identifiers.resolver;
 
 import org.cagrid.identifiers.core.DataType;
 
-public abstract class ResolutionProfile {
+public abstract class RetrieverProfile {
 	public enum Type { 
 		CQL ( new DataType[] { DataType.CQL, DataType.EPR } );
 		

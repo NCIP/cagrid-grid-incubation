@@ -11,7 +11,7 @@ import org.cagrid.identifiers.core.*;
 import org.globus.wsrf.encoding.DeserializationException;
 import org.globus.wsrf.encoding.ObjectDeserializer;
 
-public class CQLResolver implements Resolver{
+public class CQLRetriever implements Retriever{
 
 	public Object resolve( IdentifierValues ivs ) throws Exception {
 		
