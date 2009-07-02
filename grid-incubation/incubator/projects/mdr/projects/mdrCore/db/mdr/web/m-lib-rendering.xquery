@@ -569,6 +569,7 @@ return
      )
    
 };
+
 declare function lib-rendering:txfrm-webpage(
    $title as xs:string, 
    $content as node()*, 
@@ -604,6 +605,64 @@ let $parameters :=
          element param {
          attribute name {'as-xml-link'},
          attribute value {$as-xml-link}
+         }}      
+
+let $path:= concat("xmldb:exist://" ,lib-util:webPath(), "stylesheets/lib-rendering.xsl")
+return
+   if ($debug)
+   then element debug {
+         $content, 
+         $path,
+         $parameters     
+         }
+   else transform:transform(
+         $content, 
+         $path,
+         $parameters
+         )     
+};
+
+
+declare function lib-rendering:txfrm-webpage(
+   $title as xs:string, 
+   $content as node()*, 
+   $edit as xs:boolean, 
+   $supersede as xs:boolean,
+   $id as xs:string, 
+   $as-xml-link as xs:string?,
+   $edit-link as xs:string?) as node()*
+{
+let $user:=request:get-session-attribute("username")
+let $debug:=xs:boolean(request:get-parameter("debug","false"))
+let $parameters :=
+   element parameters {
+         element param {
+         attribute name {'user'},
+         attribute value {if($user) then($user) else('guest')}
+         },
+         element param {
+            attribute name {'title'},
+            attribute value {$title}
+         },
+         element param {
+         attribute name {'show-edit-button'},
+         attribute value {$edit}
+         },
+         element param {
+         attribute name {'show-supersede-button'},
+         attribute value {$supersede}
+         },
+         element param {
+         attribute name {'id'},
+         attribute value {$id}
+         },        
+         element param {
+         attribute name {'as-xml-link'},
+         attribute value {$as-xml-link}
+         },
+         element param {
+         attribute name {'edit-link'},
+         attribute value {$edit-link}
          }}      
 
 let $path:= concat("xmldb:exist://" ,lib-util:webPath(), "stylesheets/lib-rendering.xsl")

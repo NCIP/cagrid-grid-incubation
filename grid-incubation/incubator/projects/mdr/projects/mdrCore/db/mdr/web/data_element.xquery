@@ -178,7 +178,7 @@ return
                    )
                    
              
-        return lib-rendering:txfrm-webpage($title, $content, true(), true(), $compound_id, 'data_element.xquery')
+        return lib-rendering:txfrm-webpage($title, $content, true(), true(), $compound_id, 'data_element.xquery','../edit/editDataElement.xquery')
       )
       
       

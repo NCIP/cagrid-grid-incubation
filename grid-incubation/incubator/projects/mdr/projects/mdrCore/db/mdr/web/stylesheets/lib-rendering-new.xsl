@@ -7,6 +7,7 @@
     <xsl:param name="show-supersede-button">false</xsl:param>
     <xsl:param name="id"/>
     <xsl:param name="as-xml-link"/>
+    <xsl:param name="edit-link"/>
     <xsl:param name="can-supersede" select="false()"/>
     <xsl:variable name="admin-item-identifier">
         <xsl:call-template name="admin-item-identifier"/>
@@ -198,7 +199,7 @@
                             <xsl:with-param name="text">edit</xsl:with-param>
                             <xsl:with-param name="alt">edit</xsl:with-param>
                             <xsl:with-param name="link">
-                                <xsl:value-of select="concat('../edit/editObjectClass.xquery?id=', $id)"/>
+                                <xsl:value-of select="concat($edit-link,'?id=', $id)"/>
                             </xsl:with-param>
                         </xsl:call-template>
                     </td>

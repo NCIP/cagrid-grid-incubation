@@ -33,7 +33,7 @@ return
       let $content := <div xmlns="http://www.w3.org/1999/xhtml">  {
          lib-rendering:render_administered_item($administered_item)
          }</div>
-      return lib-rendering:txfrm-webpage($title, $content, true(),  true(),$compound_id, 'context.xquery')
+      return lib-rendering:txfrm-webpage($title, $content, true(),  true(),$compound_id, 'context.xquery','../edit/editContext.xquery')
       )
 
        
