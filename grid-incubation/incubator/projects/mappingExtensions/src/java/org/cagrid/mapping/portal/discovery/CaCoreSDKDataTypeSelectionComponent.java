@@ -9,6 +9,7 @@ import gov.nih.nci.cagrid.introduce.beans.namespace.NamespaceType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.NamespacesType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.SchemaElementType;
 import gov.nih.nci.cagrid.introduce.common.CommonTools;
+import gov.nih.nci.cagrid.introduce.common.FileFilters;
 import gov.nih.nci.cagrid.introduce.common.ServiceInformation;
 import gov.nih.nci.cagrid.introduce.portal.modification.discovery.NamespaceTypeDiscoveryComponent;
 
@@ -21,8 +22,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -34,6 +37,7 @@ import org.cagrid.datatype.sdkmapping41.SDK41Processor;
 import org.cagrid.mapping.portal.CaCoreSDKBrowserPanel;
 
 public class CaCoreSDKDataTypeSelectionComponent extends NamespaceTypeDiscoveryComponent {
+    public static final String GLOBUS_LOCATION_ENV = "GLOBUS_LOCATION";
 
 	private static final Log LOG = LogFactory.getLog(CaCoreSDKDataTypeSelectionComponent.class);
 
@@ -100,6 +104,7 @@ public class CaCoreSDKDataTypeSelectionComponent extends NamespaceTypeDiscoveryC
 		
 		try {
 			copyCaCoreJarToService(schemaDestinationDir);
+			copyCaCoreRemoteLibJarsToService(schemaDestinationDir);
 		} catch (Exception e) {
 			addError("Unable to copy the caCORE SDK jar");
 			return null;
@@ -235,6 +240,42 @@ public class CaCoreSDKDataTypeSelectionComponent extends NamespaceTypeDiscoveryC
 		
 		File destJar = new File(schemaDestinationDir + "/../../lib", beansJar.getName());
 		FileUtils.copyFile(beansJar, destJar);
+
+	}
+	
+	private void copyCaCoreRemoteLibJarsToService(File schemaDestinationDir) throws IOException {
+        File globusLocation = new File(System.getenv(GLOBUS_LOCATION_ENV));
+        File globusLib = new File(globusLocation, "lib");
+        File[] globusJars = globusLib.listFiles(new FileFilters.JarFileFilter());
+        Set<String> globusJarNames = new HashSet<String>();
+        for (File jar : globusJars) {
+            globusJarNames.add(jar.getName());
+        }
+        
+		File selectedDir = new File(getMappingPanel().getSdkDir()+"/output");
+
+		File[] outputContents = selectedDir.listFiles(new FileFilter() {
+			public boolean accept(File path) {
+				return path.isDirectory() && !path.getName().startsWith(".");
+			}
+		});
+
+		File applicationOutDir = outputContents[0];
+        
+        // copy in libraries from the remote lib dir that DON'T collide with Globus's
+        LOG.debug("Copying libraries from remote client directory");
+        File[] remoteLibs = new File(applicationOutDir, "package/remote-client/lib").listFiles(new FileFilters.JarFileFilter());
+        for (File lib : remoteLibs) {
+            String libName = lib.getName();
+            if (!globusJarNames.contains(libName)) {
+                LOG.debug(libName + " copied to the service");
+                File libOutput = new File(schemaDestinationDir + "/../../lib", libName);
+                Utils.copyFile(lib, libOutput);
+            } else {
+                LOG.debug(libName + " appears to conflict with a Globus library," +
+                        " and was NOT copied to the service");
+            }
+        }
 
 	}
 

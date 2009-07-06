@@ -141,6 +141,7 @@
 				<include name="extension.xml"/>
 			</fileset>
 		</copy>
+		<copy todir="${introduce.dir}/extensions/lib" file="${jar.file}" />
 	</target>
 
 	
