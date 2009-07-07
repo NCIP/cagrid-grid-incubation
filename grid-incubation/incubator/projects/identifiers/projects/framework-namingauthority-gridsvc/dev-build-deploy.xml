@@ -6,11 +6,20 @@
 	<!-- file. DO NOT REMOVE ANY TARGETS                                -->
 	<!-- ============================================================== -->
 
+	 <target name="copyExtLibs">
+
+      <copy todir="${build.lib.dir}">
+         <fileset dir="${ext.lib.dir}">
+            <include name="*.jar" />
+         </fileset>
+      </copy>
+   </target>
+
 
 	<!-- ============================================================== -->
 	<!-- Pre Deploy Tomcat                                              -->
 	<!-- ============================================================== -->
-	<target name="preDeployTomcat">
+	<target name="preDeployTomcat" depends="copyExtLibs">
 
 	</target>
 	
@@ -18,7 +27,7 @@
 	<!-- ============================================================== -->
 	<!-- Pre Deploy Globus                                              -->
 	<!-- ============================================================== -->
-	<target name="preDeployGlobus">
+	<target name="preDeployGlobus" depends="copyExtLibs">
 
 	</target>
 	
@@ -26,7 +35,7 @@
 	<!-- ============================================================== -->
 	<!-- Pre Deploy JBOSS                                               -->
 	<!-- ============================================================== -->
-	<target name="preDeployJBoss">
+	<target name="preDeployJBoss" depends="copyExtLibs">
 
 	</target>
 	
