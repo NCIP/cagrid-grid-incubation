@@ -65,7 +65,7 @@ declare function local:property(
    ) as xs:boolean
 {
    let $version := lib-forms:substring-after-last($id,'-')
-   let $data-identifier := lib-forms:substring-after-last(lib-forms:substring-before-last($id,'-'),'-')
+   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $doc-name := concat($id,'.xml')
 
    let $content := (
