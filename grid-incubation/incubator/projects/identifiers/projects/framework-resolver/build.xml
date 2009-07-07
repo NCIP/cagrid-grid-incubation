@@ -19,7 +19,7 @@
     <property name="jar.dir" value="${build.dir}/lib" />
     <property name="resolver.jarfile" value="${jar.dir}/${project.name}-resolver-${project.version}.jar" />
     <property name="lib.dir" value="${basedir}/lib" />
-    <property name="ext.lib.dir" value="${basedir}/ext/dependencies/service/jars" />
+    <property name="ext.lib.dir" value="${basedir}/ext/dependencies/impl/jars" />
     <property name="ext.test.lib.dir" location="${basedir}/ext/dependencies/test/jars" />
 	
 	<!-- javac options -->
@@ -34,11 +34,17 @@
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar" />
             </fileset>
+            <fileset dir="${ext.lib.dir}">
+                <include name="**/*.jar" />
+            </fileset>
         </path>
 
         <path id="run.classpath">
             <pathelement location="${classes.dir}" />
             <fileset dir="${lib.dir}">
+                <include name="**/*.jar" />
+            </fileset>
+            <fileset dir="${ext.lib.dir}">
                 <include name="**/*.jar" />
             </fileset>
         </path>

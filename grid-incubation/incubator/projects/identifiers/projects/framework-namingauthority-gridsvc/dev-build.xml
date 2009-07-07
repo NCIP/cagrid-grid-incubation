@@ -11,20 +11,29 @@
 	<!-- Place any other properties you will need here                  -->
 	<!-- ============================================================== -->
 
-
-
+	<property name="jar.prefix" value="caGrid-${service.name}" />
+	<property name="ext.dir" location="${basedir}/ext" />
+   <property name="ext.dependencies.dir" location="${ext.dir}/dependencies" />
+   <property name="ext.lib.dir" location="${ext.dependencies.dir}/service/jars" />
+	<property name="ext.test.lib.dir" value="${ext.dependencies.dir}/test/jars" />
 
 	<!-- ============================================================== -->
 	<!-- Create any extended Classpaths here                            -->
 	<!-- ============================================================== -->
 	<target name="defineExtendedClasspaths">
 		<path id="base.extended.classpath">
+			<fileset dir="${ext.lib.dir}">
+            <include name="**/*" />
+         </fileset>
 		</path>
 		<path id="service.build.extended.classpath">
 		</path>
 		<path id="service.run.extended.classpath">
 		</path>
 		<path id="test.build.extended.classpath">
+			<fileset dir="${ext.test.lib.dir}">
+            <include name="**/*" />
+         </fileset>
 		</path>
 		<path id="test.run.extended.classpath">
 		</path>
