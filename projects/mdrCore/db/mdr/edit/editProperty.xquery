@@ -43,6 +43,7 @@ declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+declare namespace util="http://exist-db.org/xquery/util";
 
 
 declare function local:property(
@@ -212,7 +213,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
    let $iproperty_uri := string($element//openMDR:reference_uri)
-   let $ipreferred := fn:index-of($element//openMDR:preferred_designation,'true')
+   let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
    
 
    let $reg-auth := request:get-parameter('registration-authority','')
