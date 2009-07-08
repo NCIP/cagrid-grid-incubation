@@ -26,6 +26,16 @@
 	<property name="java.source" value="1.5"/>
 	<property name="java.debug" value="true"/>
 
+	<!-- testing stuff -->
+   <property name="test.dir" location="${basedir}/test" />
+   <property name="test.src.dir" location="${test.dir}/src" />
+   <property name="test.classes.dir" location="${build.dir}/test_classes" />
+   <property name="test.lib.dir" location="${test.dir}/lib" />
+   <property name="test.logs.dir" location="${test.dir}/logs" />
+   <property name="test.project.jar" location="${jar.dir}/${project.name}-namingauthority-tests-${project.version}.jar" />
+
+   <import file="test/test.xml" />
+
     <!-- =============================================================== -->
     <!-- Define the Classpaths                                           -->
     <!-- =============================================================== -->
@@ -48,6 +58,24 @@
                 <include name="**/*.jar" />
             </fileset>
         </path>
+
+        <path id="test.classpath">
+            <pathelement path="${classes.dir}" />
+            <pathelement path="${test.dir}/resources" />
+            <fileset dir="${test.lib.dir}">
+                <include name="**/*.jar" />
+            </fileset>
+            <fileset dir="${ext.test.lib.dir}">
+                <include name="**/*.jar" />
+            </fileset>
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar" />
+            </fileset>
+            <fileset dir="${ext.lib.dir}">
+                <include name="**/*.jar" />
+            </fileset>
+        </path>
+
     </target>
 
 
@@ -75,6 +103,18 @@
         </copy>
     </target>
 
+	 <!-- =============================================================== -->
+    <!-- Compiles the test source code                                   -->
+    <!-- =============================================================== -->
+    <target name="compile-tests" depends="prepare" description="compiles.">
+        <mkdir dir="${test.classes.dir}" />
+        <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" source="${java.source}" 
+				debug="${java.debug}" deprecation="off" optimize="off">
+            <classpath refid="test.classpath" />
+        </javac>
+    </target>
+
+
 	
     <!-- ============================================================== -->
     <!-- Cleans up generated stuff                                      -->
@@ -87,6 +127,15 @@
         <mkdir dir="${jar.dir}" />
         <jar jarfile="${namingauthority.jarfile}" basedir="${classes.dir}">
             <include name="**/namingauthority/**" />
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="jar-tests" depends="compile-tests" description="Builds the Jar Files">
+        <mkdir dir="${jar.dir}" />
+        <jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
@@ -115,6 +164,6 @@
     <!-- ============================================================== -->
     <!-- Builds from scratch                                                -->
     <!-- ============================================================== -->
-    <target name="all" description="Builds the entire application" depends="jar" />
+    <target name="all" description="Builds the entire application" depends="jar,jar-tests" />
 </project>
 

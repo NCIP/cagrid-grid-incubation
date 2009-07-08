@@ -11,16 +11,25 @@
 
 	<configurations>
 		<conf name="impl" visibility="private" />
+		<conf name="impl-test" visibility="private" />
+		<conf name="test" visibility="public" extends="impl-test,impl" />
 		<conf name="default" visibility="public" extends="impl" />
 	</configurations>
 
 	<publications>
 		<artifact name="caGrid-identifiers-namingauthority" conf="default" type="jar" />
+		<artifact name="caGrid-identifiers-namingauthority-tests" conf="test" type="jar" />
 	</publications>
 
 	<dependencies>
 		<dependency rev="latest.integration" org="caGrid" name="framework-core"
-         conf="impl->default" transitive="true" />
+         conf="impl->default;impl-test->default" transitive="true" />
+
+		<dependency org="caGrid" name="testing" rev="latest.integration"
+         conf="impl-test->system" />
+
+		<dependency rev="4.4" org="junit" name="junit" conf="impl-test->default" />
+		<dependency rev="1.1" org="apache" name="commons-logging" conf="impl-test->default" />
 
 		<!-- External Dependencies -->
     	<dependency rev="3.2.+" org="hibernate" name="hibernate" conf="impl->default" />
