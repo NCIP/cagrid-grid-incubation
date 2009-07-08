@@ -4,22 +4,23 @@
 	<property file="project.properties" />
 
 	<!-- OVERLOADED-->
+<!--
+	<property name="ivy.resolve.configurations" value="impl,test" />
+-->
+	<property name="ivy.resolve.configurations" value="impl" />
 	<property name="ivy.generated.artifacts.pattern" value="${ivy.generated.artifacts.dir}/lib/[artifact]-[revision].[ext]" />
 
 	<property name="ivy-shared-targets.file" location="${basedir}/../../antfiles/ivy/ivy-shared-targets-${repository.version}.xml" />
 	<import file="${ivy-shared-targets.file}" />
 
 	<target name="do.resolve-dependencies" depends="pre.resolve-dependencies">
-		<ivy:retrieve conf="impl" pattern="${ivy.resolved.artifacts.pattern}" sync="true" />
-	</target>
+		<!-- <ivy:retrieve conf="impl" pattern="${ivy.resolved.artifacts.pattern}" sync="true" /> -->
 
-	<!-- Overloaded to support multiple artifact patterns  
-	<target name="do.publish" depends="pre.publish">
-		<publish-artifacts>
-			<artifacts-list>
-				<artifacts pattern="${basedir}/db/mdr/connector/[artifact].[ext]" />
-			</artifacts-list>
-		</publish-artifacts>
+		<ivy:retrieve conf="impl" pattern="${ivy.resolved.artifacts.dir}/dependencies/service/[type]s/[originalname](.[ext])" sync="true" type="jar" />
+<!--
+      <ivy:retrieve conf="impl-test" pattern="${ivy.resolved.artifacts.dir}/dependencies/test/[type]s/[originalname](.[ext])" sync="true" type="*"/>
+      <ivy:retrieve conf="serviceTools" pattern="${ivy.resolved.artifacts.dir}/dependencies/tools/[type]s/[originalname](.[ext])" type="jar" />
+-->
+
 	</target>
-   -->
 </project>

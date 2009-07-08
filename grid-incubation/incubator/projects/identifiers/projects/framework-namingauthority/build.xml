@@ -19,7 +19,7 @@
     <property name="jar.dir" value="${build.dir}/lib" />
     <property name="namingauthority.jarfile" value="${jar.dir}/${project.name}-namingauthority-${project.version}.jar" />
     <property name="lib.dir" value="${basedir}/lib" />
-    <property name="ext.lib.dir" value="${basedir}/ext/dependencies/impl/jars" />
+    <property name="ext.lib.dir" value="${basedir}/ext/dependencies/service/jars" />
     <property name="ext.test.lib.dir" location="${basedir}/ext/dependencies/test/jars" />
 	
 	<!-- javac options -->
