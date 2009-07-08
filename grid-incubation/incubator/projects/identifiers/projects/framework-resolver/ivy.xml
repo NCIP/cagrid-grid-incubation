@@ -19,8 +19,14 @@
 	</publications>
 
 	<dependencies>
+		<dependency rev="latest.integration" org="caGrid" name="core" conf="impl->default" />
+		<dependency rev="latest.integration" org="caGrid" name="data" conf="impl->stubs" />
+		<dependency rev="latest.integration" org="caGrid" name="cql" conf="impl->cql" />
+
 		<dependency rev="latest.integration" org="caGrid" name="framework-core"
          conf="impl->default" transitive="true" />
+		<dependency rev="3.0" org="apache" name="jarkarta-commons-httpclient" 
+			conf="impl->default" transitive="true" />
 	</dependencies>
 
 </ivy-module>

@@ -10,16 +10,7 @@
 	</info>
 
 	<configurations>
-		<conf name="impl" visibility="private" extends="service"/>
-		<conf name="impl-test" visibility="private" />
-		<conf name="annotations" visibility="private" />
-      <conf name="serviceTools" visibility="private" />
-
-    	<conf name="stubs" visibility="public" />
-    	<conf name="common" extends="stubs,annotations" visibility="public" />
-    	<conf name="client" extends="common" visibility="public" />
-    	<conf name="service" visibility="public" extends="client" />
-    	<conf name="test" visibility="public" extends="service,impl-test" />
+		<conf name="impl" visibility="private" />
 		<conf name="default" visibility="public" extends="impl" />
 	</configurations>
 
@@ -32,10 +23,10 @@
          conf="impl->default" transitive="true" />
 
 		<!-- External Dependencies -->
-    	<dependency rev="3.2.+" org="hibernate" name="hibernate" conf="service->default" />
-    	<dependency rev="2.2" org="apache" name="tomcat-servlet" conf="service->default" />
-    	<dependency rev="6.1.18" org="jetty" name="jetty" conf="service->default" />
-    	<dependency rev="6.1.18" org="jetty" name="jetty-util" conf="service->default" />
+    	<dependency rev="3.2.+" org="hibernate" name="hibernate" conf="impl->default" />
+    	<dependency rev="2.2" org="apache" name="tomcat-servlet" conf="impl->default" />
+    	<dependency rev="6.1.18" org="jetty" name="jetty" conf="impl->default" />
+    	<dependency rev="6.1.18" org="jetty" name="jetty-util" conf="impl->default" />
 
 	</dependencies>
 

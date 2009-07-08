@@ -9,13 +9,9 @@
 		<description>caGrid identifiers core modules</description>
 	</info>
 
-<!--
 	<configurations>
-		<conf name="impl" visibility="private" />
-		<conf name="stylesheets" visibility="public" />
-		<conf name="default" visibility="public" extends="impl" />
+		<conf name="default" visibility="public" />
 	</configurations>
--->
 
 	<publications>
 		<artifact name="caGrid-identifiers-core" conf="default" type="jar" />
