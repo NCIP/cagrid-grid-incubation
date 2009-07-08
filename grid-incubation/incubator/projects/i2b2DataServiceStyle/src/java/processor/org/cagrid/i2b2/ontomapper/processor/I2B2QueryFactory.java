@@ -34,6 +34,18 @@ public class I2B2QueryFactory {
     }
     
     
+    private String getParameterizedOrClause(String columnId, String prefix, int items) {
+        StringBuffer clause = new StringBuffer();
+        for (int i = 0; i < items; i++) {
+            clause.append(columnId).append(' ').append(prefix).append(" ?");
+            if (i + 1 < items) {
+                clause.append(" or ");
+            }
+        }
+        return clause.toString();
+    }
+    
+    
     private String replacePrefixes(String query) {
         // if null prefix, replace with an empty string
         String replacement = databasePrefix != null ? databasePrefix : "";
