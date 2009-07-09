@@ -23,6 +23,11 @@ public class ObjectAssembler {
     private static final Log LOG = LogFactory.getLog(ObjectAssembler.class);
     
     
+    private ObjectAssembler() {
+        // prevents unnecessary and confusing instantiation
+    }
+    
+    
     public static <T> List<T> assembleObjects(ResultSet results, Class<T> type) throws ObjectAssemblyException, SQLException {
         List<T> objects = new LinkedList<T>();
         while (results.next()) {
