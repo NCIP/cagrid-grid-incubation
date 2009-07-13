@@ -18,7 +18,7 @@ public class NamingAuthorityImpl extends NamingAuthority implements IdentifierMa
 	}
 
 	public String create(IdentifierValues values) {
-		String identifier = IdentifierUtil.generate(getPrefix());
+		String identifier = IdentifierUtil.generate(getConfig().getPrefix());
 		Database.save(identifier, values);
         return identifier;
 	}
@@ -30,7 +30,7 @@ public class NamingAuthorityImpl extends NamingAuthority implements IdentifierMa
 	public void startHttpServer() {
 		synchronized(lock) {
 			if (_httpServer == null) {
-				_httpServer = new HttpServer(this, getHttpServerPort());
+				_httpServer = new HttpServer(this, getConfig().getHttpServerPort());
 				_httpServer.start();
 			}
 		}

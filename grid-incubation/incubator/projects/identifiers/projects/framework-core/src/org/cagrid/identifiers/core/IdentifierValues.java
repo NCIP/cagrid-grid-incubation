@@ -31,4 +31,19 @@ public class IdentifierValues implements java.io.Serializable {
 		}
 		currValues.add(data);
 	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		
+		for( String type : getTypes()) {
+			sb.append("=====================================================================\n");
+			sb.append("TYPE [" + type + "]\n");
+			for( String value : getValues(type) ) {
+				sb.append("      VALUE [" + value + "]\n");
+			}
+		}
+		sb.append("\n");
+		
+		return sb.toString();
+	}
 }

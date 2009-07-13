@@ -10,16 +10,23 @@
 	</info>
 
 	<configurations>
-		<conf name="impl" visibility="private" />
+		<conf name="impl" visibility="private" extends="service" />
 		<conf name="serviceTools" visibility="private" />
+<!--
 		<conf name="default" visibility="public" extends="impl" />
+-->
+
+		<conf name="stubs" visibility="public" />
+    	<conf name="common" extends="stubs" visibility="public" />
+    	<conf name="client" extends="common" visibility="public" />
+    	<conf name="service" extends="client" visibility="public" />
 	</configurations>
 
 	<publications>
-		<artifact name="caGrid-IdentifiersNAService-client" conf="default" type="jar" />
-		<artifact name="caGrid-IdentifiersNAService-common" conf="default" type="jar" />
-		<artifact name="caGrid-IdentifiersNAService-service" conf="default" type="jar" />
-		<artifact name="caGrid-IdentifiersNAService-stubs" conf="default" type="jar" />
+		<artifact name="caGrid-IdentifiersNAService-stubs" conf="stubs" type="jar" />
+		<artifact name="caGrid-IdentifiersNAService-common" conf="common" type="jar" />
+		<artifact name="caGrid-IdentifiersNAService-client" conf="client" type="jar" />
+		<artifact name="caGrid-IdentifiersNAService-service" conf="service" type="jar" />
 	</publications>
 
 	<dependencies>

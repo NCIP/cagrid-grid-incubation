@@ -6,6 +6,7 @@ public class NamingAuthorityConfigImpl implements NamingAuthorityConfig {
 
 	private String _prefix = "";
 	private int _httpServerPort = 0;
+	private String _gridSvcUrl = "";
 	
 	public void setPrefix( String prefix ) {
 		_prefix = prefix;
@@ -21,6 +22,13 @@ public class NamingAuthorityConfigImpl implements NamingAuthorityConfig {
 
 	public int getHttpServerPort() {
 		return _httpServerPort;
+	}
+
+	public void setGridSvcUrl(String gridSvcUrl) {
+		_gridSvcUrl = gridSvcUrl;
+	}
+	public String getGridSvcUrl() {
+		return this._gridSvcUrl;
 	}
 
 }

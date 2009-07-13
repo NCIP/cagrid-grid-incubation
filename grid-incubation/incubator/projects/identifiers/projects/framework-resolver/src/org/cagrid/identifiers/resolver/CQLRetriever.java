@@ -13,7 +13,7 @@ import org.globus.wsrf.encoding.ObjectDeserializer;
 
 public class CQLRetriever implements Retriever{
 
-	public Object resolve( IdentifierValues ivs ) throws Exception {
+	public Object retrieve( IdentifierValues ivs ) throws Exception {
 		
 		String[] eprStrs = ivs.getValues(DataType.EPR.toString());
 		String[] cqlStrs = ivs.getValues(DataType.CQL.toString());
@@ -97,7 +97,6 @@ public class CQLRetriever implements Retriever{
 			resp = (gov.nih.nci.cagrid.data.stubs.QueryResponse)ret;
 		}
 
-		System.out.println("\nDone!");
 		return (resp != null ? resp.getCQLQueryResultCollection() : null);
 	}
 }

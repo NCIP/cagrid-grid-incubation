@@ -1,0 +1,25 @@
+Testsuite: org.cagrid.identifiers.resolver.test.ResolverTestCase
+Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 1.243 sec
+------------- Standard Output ---------------
+Connecting to http://purl.cagrid.org:8090/cagrid/3c70f038-8773-4749-a5ea-37f5246d609d
+Connecting to http://na.cagrid.org:8081/3c70f038-8773-4749-a5ea-37f5246d609d?config
+Status code: 200
+Connecting to http://localhost:8080/wsrf/services/cagrid/IdentifiersNAService to retrieve values for identifier http://purl.cagrid.org:8090/cagrid/3c70f038-8773-4749-a5ea-37f5246d609d
+=====================================================================
+TYPE [EPR]
+      VALUE [<ns1:SDKTestModel xsi:type="ns2:EndpointReferenceType" xmlns:ns1="http://sdktestmodel.cagrid.org/SDKTestModel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://schemas.xmlsoap.org/ws/2004/03/addressing">
+ <ns2:Address xsi:type="ns2:AttributedURI">http://localhost:8099/wsrf/services/cagrid/SDKTestModel</ns2:Address>
+ <ns2:ReferenceProperties xsi:type="ns2:ReferencePropertiesType"/>
+ <ns2:ReferenceParameters xsi:type="ns2:ReferenceParametersType"/>
+ <ns2:PortType xsi:type="ns2:AttributedQName" xmlns:ns3="http://sdktestmodel.cagrid.org/SDKTestModel/service">ns3:SDKTestModelPortTypePort</ns2:PortType>
+ <ns2:ServiceName xsi:type="ns2:ServiceNameType" xmlns:ns4="http://sdktestmodel.cagrid.org/SDKTestModel/service">ns4:SDKTestModelService</ns2:ServiceName>
+</ns1:SDKTestModel>
+]
+=====================================================================
+TYPE [CQL]
+      VALUE [<CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">   <Target name="gov.nih.nci.cacoresdk.domain.onetoone.unidirectional.Person">      <Attribute name="id" value="5400717" predicate="EQUAL_TO"/>   </Target></CQLQuery>]
+
+
+------------- ---------------- ---------------
+
+Testcase: testGridResolution took 1.093 sec

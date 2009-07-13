@@ -23,6 +23,7 @@ public class IdentifiersNAServiceImpl extends IdentifiersNAServiceImplBase {
 		try {
 			config.setPrefix(getConfiguration().getIdentifiersNaPrefix());
 			config.setHttpServerPort(Integer.parseInt(getConfiguration().getIdentifiersNaHttpServerPort()));
+			config.setGridSvcUrl("http://localhost:8080/wsrf/services/cagrid/IdentifiersNAService");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

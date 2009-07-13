@@ -2,14 +2,11 @@ package org.cagrid.identifiers.namingauthority;
 
 public abstract class NamingAuthority {
 	
-	public String _prefix;
-	public int _httpServerPort;
+	private NamingAuthorityConfig config;
 	
 	public NamingAuthority( NamingAuthorityConfig config ) {
-		_prefix = config.getPrefix();
-		_httpServerPort = config.getHttpServerPort();
+		this.config = config;
 	}
 	
-	public String getPrefix() { return _prefix; }
-	public int getHttpServerPort(){ return _httpServerPort; }
+	public NamingAuthorityConfig getConfig() { return this.config; }
 }

@@ -1,21 +1,35 @@
 package org.cagrid.identifiers.resolver;
 
+import gov.nih.nci.cagrid.identifiers.Type;
+import gov.nih.nci.cagrid.identifiers.TypeValues;
+import gov.nih.nci.cagrid.identifiers.TypeValuesMap;
+import gov.nih.nci.cagrid.identifiers.Values;
+import gov.nih.nci.cagrid.identifiers.client.IdentifiersNAServiceClient;
+
 import java.beans.XMLDecoder;
 import java.io.IOException;
 import java.io.StringBufferInputStream;
+import java.rmi.RemoteException;
 
+import org.apache.axis.types.URI.MalformedURIException;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.cagrid.identifiers.core.IdentifierValues;
+import org.cagrid.identifiers.namingauthority.http.NamingAuthorityConfig;
 
 
 public class ResolverUtil {
 
-	public static String getNamingAuthorityURL( String identifier ) {
+	public static int HTTP_SUCCESS = 200;
+	public static int HTTP_REDIRECT = 302;
+	
+	//
+	// Given an identifier, it returns the real naming authority URL
+	//
+	public static String getNamingAuthorityURL( String identifier ) throws HttpException, IOException {
 		
 		String identifierURL = "";
-		String naURL = "";
 		
 		HttpClient client = new HttpClient();
 		
@@ -32,53 +46,104 @@ public class ResolverUtil {
 	    	
 	    	int statusCode = client.executeMethod(method);
 	    	
-	    	System.out.println("Status code: " + statusCode);
-	    	
-	    	if (statusCode == 302) {
+	    	if (statusCode == HTTP_REDIRECT) {
 	    		// Expected redirect
 	    		identifierURL = method.getResponseHeader("Location").getValue();
-	    	
 	    	} else {
 	    		// No redirect. Assume identifier already points to NA
 	    		identifierURL = identifier;
 	    	}
-	    	
-	    	System.out.println("identifierURI="+identifierURL);
-	    	
-	    	URI naURI = new URI( identifierURL );
-//	    	System.out.println("host="+naURI.getHost());
-//	    	System.out.println("name="+naURI.getName());
-//	    	System.out.println("path="+naURI.getPath());
-//	    	System.out.println("pathquery="+naURI.getPathQuery());
-//	    	System.out.println("port="+naURI.getPort());
-//	    	System.out.println("fragment="+naURI.getFragment());
-//	    	System.out.println("charset="+naURI.getProtocolCharset());
-//	    	System.out.println("query="+naURI.getQuery());
-	    	
-	    	naURL = identifierURL.replaceFirst(naURI.getPath(), "");
-
-	    } catch (HttpException e) {
-	        System.err.println("Fatal protocol violation: " + e.getMessage());
-	        e.printStackTrace();
-	    } catch (IOException e) {
-	        System.err.println("Fatal transport error: " + e.getMessage());
-	        e.printStackTrace();
-	    } catch (Exception e) {
-	    	System.err.println("Fatal unexpected exception: " + e.getMessage());
-	    	e.printStackTrace();
 	    } finally {
 	        // Release the connection.
 	        method.releaseConnection();
 	    }  
 	    
-	    return naURL;
+	    return identifierURL;
 	}
 	
-	public static void resolveGrid( String identifier ) {
-		String URI = getNamingAuthorityURL( identifier );
+	//
+	// Given the naming authority URL, it returns the naming
+	// authority configuration object.
+	//
+	public static NamingAuthorityConfig getNamingAuthorityConfig(String url) throws HttpException, IOException {
+		HttpClient client = new HttpClient();
+		HttpMethod method = new GetMethod( url );
+		method.setFollowRedirects(true);
+		
+		// Provide custom retry handler is necessary
+	    method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
+	    		new DefaultHttpMethodRetryHandler(3, false));
+	    
+	    NamingAuthorityConfig config = null;
+	    
+	    try {
+	    	System.out.println("Connecting to " + url);
+	    	
+	    	int statusCode = client.executeMethod(method);
+	    	
+	    	if (statusCode != HTTP_SUCCESS)
+	    		throw new HttpException("Unable to retrieve naming authority config from " + url + " [" + statusCode + "]");
+	    	
+	    	Header ctHeader = method.getResponseHeader("Content-Type");
+	    	if (ctHeader == null || ctHeader.getValue() == null || 
+	    			ctHeader.getValue().indexOf("application/xml") == -1) {
+	    		throw new HttpException("Unable to retrieve naming authority config from " 
+	    				+ url + ". Response has no XML content.");
+	    	}
+	   
+	    	String response = method.getResponseBodyAsString();
+
+	    	// Deserialize response
+			XMLDecoder decoder = new XMLDecoder(new StringBufferInputStream(
+					response));
+		    
+		    config = (NamingAuthorityConfig)decoder.readObject();
+		    decoder.close();
+		    
+		    if (config == null) {
+		    	System.out.println("No data found for specified identifier");
+		    	return null;
+		    }
+	    } finally {
+	        // Release the connection.
+	        method.releaseConnection();
+	    }  
+	    
+	    return config;
 	}
 	
-	public static IdentifierValues resolveHttp( String identifier ) {
+	public static IdentifierValues convert( TypeValues[] tvsArr ) {
+		if (tvsArr == null)
+			return null;
+		
+		IdentifierValues ivs = new IdentifierValues();
+		
+		for( TypeValues tvs : tvsArr ) {
+			Type type = tvs.getType();
+			Values values = tvs.getValues();
+			for( String value : values.getValue() ) {
+				ivs.add(type.getValue(), value);
+			}
+		}
+		
+		return ivs;
+	}
+	
+	public static IdentifierValues resolveGrid( String identifier ) throws HttpException, IOException {
+		String url = getNamingAuthorityURL( identifier );
+		NamingAuthorityConfig config = getNamingAuthorityConfig( url + "?config" );
+		if (config == null) {
+			throw new HttpException("Unable to retrieve naming authority configuration from " + url);
+		}
+		
+		IdentifiersNAServiceClient client = new IdentifiersNAServiceClient( config.getGridSvcUrl() );
+		
+		System.out.println("Connecting to " + config.getGridSvcUrl() + " to retrieve values for identifier " + identifier);
+		return gov.nih.nci.cagrid.identifiers.common.MappingUtil.toIdentifierValues(
+				client.getTypeValues(identifier) );
+	}
+	
+	public static IdentifierValues resolveHttp( String identifier ) throws HttpException, IOException {
 		HttpClient client = new HttpClient();
 		
 		HttpMethod method = new GetMethod( identifier );
@@ -120,55 +185,11 @@ public class ResolverUtil {
 		    	System.out.println("No data found for specified identifier");
 		    	return null;
 		    }
-		    
-		    for( String type : ivs.getTypes() ) {
-		    	for( String value : ivs.getValues( type )) {
-		    		System.out.println("["+type+"]=["+value+"]");
-		    	}
-		    }
-		    
-	
-		    
-//	    	// Deal with the response.
-//	        // Use caution: ensure correct character encoding and is not binary data
-//	    	System.out.println("Body[" + new String(responseBody) + "]");
-//	
-//	    	System.out.println("StatusCode="+method.getStatusCode());
-//	    	System.out.println("StatusText="+method.getStatusText());
-//	    	System.out.println("StatusLine="+method.getStatusLine());
-//	    	System.out.println("Content type=["+method.getResponseHeader("Content-Type").getValue()+"]");
-//	    	for( Header h : method.getResponseHeaders()) {
-//	    		System.out.println("Response Header[" + h.getName() + "]=[" + h.getValue() + "]");
-//	    		for( HeaderElement he : h.getElements() ) {
-//	    			System.out.println("Response Header Element[" + he.getName() + "]=[" + he.getValue() + "]");
-//	    			NameValuePair[] nvps = he.getParameters();
-//	    			if (nvps != null) {
-//	    				for( NameValuePair nvp : nvps) {
-//	    					System.out.println("NameValuePair: [" + nvp.getName() + "]=[" + nvp.getValue() + "]");
-//	    				}
-//	    			}
-//	    		}
-//	    	}
-	    } catch (HttpException e) {
-	        System.err.println("Fatal protocol violation: " + e.getMessage());
-	        e.printStackTrace();
-	    } catch (IOException e) {
-	        System.err.println("Fatal transport error: " + e.getMessage());
-	        e.printStackTrace();
-	    } catch (Exception e) {
-	    	System.err.println("Fatal unexpected exception: " + e.getMessage());
-	    	e.printStackTrace();
 	    } finally {
 	        // Release the connection.
 	        method.releaseConnection();
 	    }  
 	    
 	    return ivs;
-	}
-	
-	public static void main(String[] args) {
-		String purl="http://purl.cagrid.org:8090/cagrid/b14f8d9c-6f6e-43c3-8fa5-aac049b1c80a";
-		//ResolverUtil.resolveHttp(purl);
-		System.out.println("NA="+ResolverUtil.getNamingAuthorityURL(purl));
 	}
 }

@@ -13,6 +13,12 @@ import org.mortbay.jetty.handler.AbstractHandler;
 import javax.servlet.http.*;
 
 public class HttpServer implements Runnable {
+	
+	public static String HTTP_ACCEPT_HDR = "Accept";
+	public static String HTTP_ACCEPT_HTML = "text/html";
+	public static String HTTP_ACCEPT_XML = "application/xml";
+	public static String HTTP_ACCEPT_ANY = "*/*";
+	
 
 	private int _port;
 	private NamingAuthority _na;
@@ -26,18 +32,66 @@ public class HttpServer implements Runnable {
 		new Thread(this).start();
 	}
 	
-	public boolean isBrowser(HttpServletRequest request) {
-		String ua = request.getHeader("User-Agent");
-		System.out.println("User-Agent:" + ua);
-		if (ua != null) {
-			if (ua.indexOf( "Firefox/" ) != -1 ||
-					ua.indexOf( "MSIE" ) != -1 ||
-					ua.indexOf( "Safari/" ) != -1)
+	public boolean xmlResponseRequired(HttpServletRequest req) {
+		boolean htmlOk = false;
+		boolean xmlOk = false;
+		boolean anyOk = false;
+		
+		String resType = req.getHeader(HTTP_ACCEPT_HDR);
+		
+		System.out.println("ACCEPT["+resType+"]");
+		
+		if (resType != null) {
+			
+			// I found that each browser specifies Accept header
+			// differently (see below). For example, Safari specifies
+			// application/xml as the first accepted format, so
+			// obviously, if we just take into account the first
+			// format, we'd always return XML to Safari, which is
+			// undesired. So what we'll do is that we'll return
+			// HTML unless it is not listed as one of the accepted
+			// formats. "*/*" will also override XML. Client programs 
+			// other than browsers wishing to retrieve XML should list 
+			// XML only. 
+			//
+			// Safari
+			// application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+			//
+			// Firefox
+			// text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+			//
+			// IE
+			// */*
+			
+			String[] resTypeArr = resType.split(",");
+			for( String type : resTypeArr ) {
+				if (type.contains(HTTP_ACCEPT_HTML))
+					htmlOk = true;
+				else if (type.contains(HTTP_ACCEPT_ANY))
+					anyOk = true;
+				else if (type.contains(HTTP_ACCEPT_XML))
+					xmlOk = true;
+			}
+			
+			if (!htmlOk && !anyOk && xmlOk) 
 				return true;
 		}
-
+		
 		return false;
 	}
+	
+//	public boolean isBrowser(HttpServletRequest request) {
+//		String ua = request.getHeader("User-Agent");
+//		System.out.println("User-Agent:" + ua);
+//		if (ua != null) {
+//			if (ua.indexOf( "Firefox/" ) != -1 ||
+//					ua.indexOf( "MSIE" ) != -1 ||
+//					ua.indexOf( "Safari/" ) != -1)
+//				return true;
+//		}
+//
+//		return false;
+//	}
 	
 	public String htmlResponse(String idStr, IdentifierValues ivs) {
 		StringBuffer msg = new StringBuffer();
@@ -66,11 +120,20 @@ public class HttpServer implements Runnable {
 		java.beans.XMLEncoder encoder = new java.beans.XMLEncoder(baos);
         encoder.writeObject(ivs);
         encoder.close();
-        System.out.println("XML{"+baos.toString()+"}");
       
         return baos.toString();
 	}
 
+	public String xmlConfigResponse() {
+		NamingAuthorityConfig publicConfig = new NamingAuthorityConfig( this._na.getConfig() );
+		java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+		java.beans.XMLEncoder encoder = new java.beans.XMLEncoder(baos);
+        encoder.writeObject(publicConfig);
+        encoder.close();
+      
+        return baos.toString();
+	}
+	
 	public void run() {
 		Handler handler=new AbstractHandler()
 		{
@@ -79,40 +142,52 @@ public class HttpServer implements Runnable {
 		    {
 		    	StringBuffer msg = new StringBuffer();
 		    	
-		    	// Specifying an id parameter forces xml output.
-	    		// This is good to inspect the XML response from
-	    		// a web browser.
-	    		String idStr = request.getParameter("id");
-	    		boolean xmlResponse = false;
-	    		boolean noErrors = true;
-	    		
-	    		if (idStr == null) {
-	    			String uri = request.getRequestURI();
-			    	System.out.println("URI["+uri+"]");
-			    	if (uri == null || uri.length() <= 1 || !uri.startsWith("/")) {
-			    		msg.append("<h1>No identifier provided</h1>");
-			    		noErrors = false;
-			    		response.setContentType("text/html");
-			    	} else {
-			    		idStr = IdentifierUtil.generate(_na.getPrefix(), uri.substring(1));
+		    	//
+		    	// ?config causes to ignore resolution and
+		    	// return naming authority configuration
+		    	// instead
+		    	//
+		    	String config = request.getParameter("config");
+		    	if (config != null) {
+		    		msg.append(xmlConfigResponse());
+	    			response.setContentType("application/xml");
+		    	} else {
+		    		//
+			    	// Specifying ?xml in the URL forces XML output
+			    	// (Usefull for a user debugging from a web
+			    	// browser)
+			    	//
+			    	boolean forceXML = false;
+			    	if (request.getParameter("xml") != null) {
+			    		forceXML = true;
 			    	}
-	    		} else {
-	    			idStr = IdentifierUtil.generate(_na.getPrefix(), idStr);
-	    			xmlResponse = true;
-	    		}
-	    		
-	    		if (noErrors) {
-		    		System.out.println("ID["+idStr+"]");
+			    	
+		    		boolean xmlResponse = forceXML || xmlResponseRequired(request);
+		    		boolean noErrors = true;
 		    		
-		    		IdentifierValues ivs = ((IdentifierUser)_na).getValues(idStr);
+		    		String uri = request.getRequestURI();
+				    System.out.println("URI["+uri+"]");
+				    String idStr = null;
+				    if (uri == null || uri.length() <= 1 || !uri.startsWith("/")) {
+				    	msg.append("<h1>No identifier provided</h1>");
+				    	noErrors = false;
+				    	response.setContentType("text/html");
+				    } else {
+				    	idStr = IdentifierUtil.generate(_na.getConfig().getPrefix(), uri.substring(1));
+				    }
 		    		
-		    		if (xmlResponse || !isBrowser(request)) {
-		    			msg.append(xmlResponse(ivs));
-		    			response.setContentType("application/xml");
-		    		} else {
-		    			msg.append(htmlResponse(idStr, ivs));
-		    			response.setContentType("text/html");
-		    		}
+		    		if (noErrors) {
+		    		
+			    		IdentifierValues ivs = ((IdentifierUser)_na).getValues(idStr);
+			    		
+			    		if (xmlResponse) {
+			    			msg.append(xmlResponse(ivs));
+			    			response.setContentType("application/xml");
+			    		} else {
+			    			msg.append(htmlResponse(idStr, ivs));
+			    			response.setContentType("text/html");
+			    		}
+			    	}
 		    	}
 		    	    
 		        response.setStatus(HttpServletResponse.SC_OK);

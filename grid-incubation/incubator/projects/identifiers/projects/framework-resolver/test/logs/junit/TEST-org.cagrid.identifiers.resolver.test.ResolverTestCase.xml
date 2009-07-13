@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="cmelean-mbp.local" name="org.cagrid.identifiers.resolver.test.ResolverTestCase" tests="1" time="1.243" timestamp="2009-07-13T19:54:09">
+  <properties>
+    <property name="java.vendor" value="Apple Inc." />
+    <property name="lib.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/lib" />
+    <property name="ext.globus.dir" value="/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="jikes.class.path" value=":/Library/Java/Home/../Classes/charsets.jar:/Library/Java/Home/../Classes/classes.jar:/Library/Java/Home/../Classes/dt.jar:/Library/Java/Home/../Classes/jce.jar:/Library/Java/Home/../Classes/jconsole.jar:/Library/Java/Home/../Classes/jsse.jar:/Library/Java/Home/../Classes/laf.jar:/Library/Java/Home/../Classes/ui.jar" />
+    <property name="sun.management.compiler" value="HotSpot Client Compiler" />
+    <property name="env.SECURITYSESSIONID" value="16519490" />
+    <property name="test.project.jar" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/lib/caGrid-identifiers-resolver-tests-1.3.jar" />
+    <property name="schema.src" value="/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/share/schema" />
+    <property name="os.name" value="Mac OS X" />
+    <property name="sun.boot.class.path" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/jsfd.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/ui.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/laf.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/sunrsasign.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/jsse.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/jce.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/charsets.jar" />
+    <property name="env.TMPDIR" value="/var/folders/5S/5Sp-r+kUGyagtbEcptKoek+++TI/-Tmp-/" />
+    <property name="env.PWD" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver" />
+    <property name="env.LANG" value="en_US.UTF-8" />
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc." />
+    <property name="ant.home" value="/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0" />
+    <property name="jar.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/lib" />
+    <property name="java.runtime.version" value="1.5.0_19-b02-304" />
+    <property name="env.GLOBUS_LOCATION" value="/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3" />
+    <property name="env.HISTSIZE" value="1000" />
+    <property name="env.Apple_PubSub_Socket_Render" value="/tmp/launch-ZThbvE/Render" />
+    <property name="env.DISPLAY" value="/tmp/launch-cEIIGq/:0" />
+    <property name="user.name" value="cmelean" />
+    <property name="env.USER" value="cmelean" />
+    <property name="test.classes.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/test_classes" />
+    <property name="env.SHELL" value="/bin/bash" />
+    <property name="env.__CF_USER_TEXT_ENCODING" value="0x1F5:0:0" />
+    <property name="awt.nativeDoubleBuffering" value="true" />
+    <property name="env.JAVA_MAIN_CLASS_3825" value="org.apache.tools.ant.launch.Launcher" />
+    <property name="repository.version" value="1.3" />
+    <property name="env.HISTFILESIZE" value="1000" />
+    <property name="build.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/classes" />
+    <property name="ext.lib.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars" />
+    <property name="env.PATH" value="/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0/bin:/Library/Java/Home/bin:/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0/bin:/Library/Java/Home/bin:/opt/subversion/bin:/Library/Java/Home/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin" />
+    <property name="user.language" value="en" />
+    <property name="sun.boot.library.path" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Libraries" />
+    <property name="ant.project.name" value="caGrid-identifiers" />
+    <property name="java.version" value="1.5.0_19" />
+    <property name="user.timezone" value="" />
+    <property name="ext.test.lib.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars" />
+    <property name="sun.arch.data.model" value="32" />
+    <property name="test.src.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/test/src" />
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="java.endorsed.dirs" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/lib/endorsed" />
+    <property name="sun.cpu.isalist" value="" />
+    <property name="sun.jnu.encoding" value="MacRoman" />
+    <property name="file.encoding.pkg" value="sun.io" />
+    <property name="env.SHLVL" value="1" />
+    <property name="file.separator" value="/" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="test.lib.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/test/lib" />
+    <property name="classes.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/classes" />
+    <property name="java.class.version" value="49.0" />
+    <property name="user.country" value="US" />
+    <property name="java.home" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home" />
+    <property name="java.vm.info" value="mixed mode, sharing" />
+    <property name="env.CATALINA_HOME" value="/Users/cmelean/local/cagrid-1.3/ext/tomcat" />
+    <property name="env.LOGNAME" value="cmelean" />
+    <property name="java.source" value="1.5" />
+    <property name="ant.file" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build.xml" />
+    <property name="os.version" value="10.5.7" />
+    <property name="GT4.ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration" />
+    <property name="env.TERM_PROGRAM_VERSION" value="240.2" />
+    <property name="path.separator" value=":" />
+    <property name="java.vm.version" value="1.5.0_19-137" />
+    <property name="ant.library.dir" value="/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0/lib" />
+    <property name="ant.file.caGrid-identifiers" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build.xml" />
+    <property name="env.JAVA_HOME" value="/Library/Java/Home" />
+    <property name="java.awt.printerjob" value="apple.awt.CPrinterJob" />
+    <property name="env.TERM" value="xterm-color" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="awt.toolkit" value="apple.awt.CToolkit" />
+    <property name="env.CAGRID_HOME" value="/Users/cmelean/local/cagrid-1.3/ext/caGrid" />
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="env.MANPATH" value="/usr/share/man:/usr/local/share/man:/usr/X11/man" />
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="user.home" value="/Users/cmelean" />
+    <property name="java.specification.vendor" value="Sun Microsystems Inc." />
+    <property name="env.TERM_PROGRAM" value="Apple_Terminal" />
+    <property name="test.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/test" />
+    <property name="java.vendor.url" value="http://www.apple.com/" />
+    <property name="java.library.path" value=".:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java" />
+    <property name="ant.file.identifiers_resolver_tests_harness" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/test/test.xml" />
+    <property name="gopherProxySet" value="false" />
+    <property name="java.vm.vendor" value="Apple Inc." />
+    <property name="java.debug" value="true" />
+    <property name="java.runtime.name" value="Java(TM) 2 Runtime Environment, Standard Edition" />
+    <property name="ant.version" value="Apache Ant version 1.7.0 compiled on December 13 2006" />
+    <property name="java.class.path" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/classes:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/test/resources:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/antlr-2.7.6rc1.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/asm.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/caGrid-IdentifiersNAService-stubs-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/caGrid-identifiers-core-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/caGrid-identifiers-namingauthority-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/cglib-2.1_3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/commons-logging-1.1.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/dom4j-1.6.1.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/ehcache-1.2.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/hibernate3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/jetty-6.1.18.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/jetty-util-6.1.18.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/jta-1.0.1B.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/junit-4.4.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/test/jars/servlet.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/antlr-2.7.6rc1.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/asm.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-CQL-cql.1.0-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-IdentifiersNAService-client-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-IdentifiersNAService-common-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-IdentifiersNAService-stubs-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-ServiceSecurityProvider-client-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-ServiceSecurityProvider-common-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-ServiceSecurityProvider-service-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-ServiceSecurityProvider-stubs-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-core-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-data-stubs-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-identifiers-core-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-identifiers-namingauthority-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/caGrid-metadata-security-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/cglib-2.1_3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/commons-codec-1.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/commons-httpclient-3.0.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/dom4j-1.6.1.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/ehcache-1.2.3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/hibernate3.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/jdom-1.0.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/jetty-6.1.18.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/jetty-util-6.1.18.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/jta-1.0.1B.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/ext/dependencies/impl/jars/servlet.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/addressing-1.0.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/axis-url.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/axis.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/bootstrap.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/cog-axis.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/cog-jglobus.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/cog-tomcat.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/cog-url.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/commonj.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/commons-beanutils.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/commons-cli-2.0.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/commons-collections-3.0.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/commons-digester.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/commons-discovery.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/commons-logging.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/concurrent.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/cryptix-asn1.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/cryptix.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/cryptix32.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_resolution_service.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_resolution_stubs_java.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_resolution_test.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_transfer_service.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_transfer_stubs_java.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_transfer_test.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_usage_core.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_usage_packets_common.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/globus_wsrf_tools_test.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/jaxrpc.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/jce-jdk13-125.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/jgss.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/junit.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/log4j-1.2.8.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/naming-common.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/naming-factory.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/naming-java.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/naming-resources.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/opensaml.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/puretls.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/resolver.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/saaj.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/servlet.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsdl4j.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_common.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_registry.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_registry_stubs.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_samples_authzService.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_samples_authzService_stubs.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_samples_counter.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_samples_counter_stubs.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_samples_mgmt.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_samples_mgmt_stubs.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_core_stubs.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_provider_jce.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_test.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_test_interop.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_test_interop_stubs.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_test_unit.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_test_unit_stubs.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wsrf_tools.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/wss4j.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/xalan.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/xercesImpl.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/xml-apis.jar:/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/lib/xmlsec.jar:/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/test_classes:/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0/lib/ant-launcher.jar:/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0/lib/ant.jar:/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0/lib/ant-junit.jar" />
+    <property name="project.version" value="1.3" />
+    <property name="project.name" value="caGrid-identifiers" />
+    <property name="env.CVS_RSH" value="ssh" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="java.vm.specification.version" value="1.0" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="sun.os.patch.level" value="unknown" />
+    <property name="build.stubs" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build-stubs.xml" />
+    <property name="env.HOME" value="/Users/cmelean" />
+    <property name="env.ANT_HOME" value="/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0" />
+    <property name="java.io.tmpdir" value="/var/folders/5S/5Sp-r+kUGyagtbEcptKoek+++TI/-Tmp-/" />
+    <property name="java.vendor.url.bug" value="http://bugreport.apple.com/" />
+    <property name="env.SSH_AUTH_SOCK" value="/tmp/launch-cZihVW/Listeners" />
+    <property name="build.packages" value="/Users/cmelean/local/cagrid-1.3/ext/ws-core-4.0.3/share/globus_wsrf_common/build-packages.xml" />
+    <property name="env.COMMAND_MODE" value="unix2003" />
+    <property name="java.awt.graphicsenv" value="apple.awt.CGraphicsEnvironment" />
+    <property name="os.arch" value="i386" />
+    <property name="java.ext.dirs" value="/Library/Java/Extensions:/System/Library/Java/Extensions:/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/lib/ext" />
+    <property name="mrj.version" value="1050.1.5.0_19-304" />
+    <property name="user.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver" />
+    <property name="line.separator" value="
+" />
+    <property name="java.vm.name" value="Java HotSpot(TM) Client VM" />
+    <property name="env.EDITOR" value="vi" />
+    <property name="basedir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver" />
+    <property name="test.logs.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/test/logs" />
+    <property name="ant.java.version" value="1.5" />
+    <property name="ant.core.lib" value="/Users/cmelean/local/cagrid-1.3/ext/apache-ant-1.7.0/lib/ant.jar" />
+    <property name="file.encoding" value="MacRoman" />
+    <property name="resolver.jarfile" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/lib/caGrid-identifiers-resolver-1.3.jar" />
+    <property name="java.specification.version" value="1.5" />
+    <property name="src.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/src" />
+    <property name="javadoc.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/build/javadoc" />
+    <property name="junit.results.dir" value="/Users/cmelean/code/eclipse/workspace/identifiers-BUILD/grid-incubation/incubator/projects/identifiers/projects/framework-resolver/test/logs/junit" />
+  </properties>
+  <testcase classname="org.cagrid.identifiers.resolver.test.ResolverTestCase" name="testGridResolution" time="1.093" />
+  <system-out><![CDATA[Connecting to http://purl.cagrid.org:8090/cagrid/3c70f038-8773-4749-a5ea-37f5246d609d
+Connecting to http://na.cagrid.org:8081/3c70f038-8773-4749-a5ea-37f5246d609d?config
+Status code: 200
+Connecting to http://localhost:8080/wsrf/services/cagrid/IdentifiersNAService to retrieve values for identifier http://purl.cagrid.org:8090/cagrid/3c70f038-8773-4749-a5ea-37f5246d609d
+=====================================================================
+TYPE [EPR]
+      VALUE [<ns1:SDKTestModel xsi:type="ns2:EndpointReferenceType" xmlns:ns1="http://sdktestmodel.cagrid.org/SDKTestModel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://schemas.xmlsoap.org/ws/2004/03/addressing">
+ <ns2:Address xsi:type="ns2:AttributedURI">http://localhost:8099/wsrf/services/cagrid/SDKTestModel</ns2:Address>
+ <ns2:ReferenceProperties xsi:type="ns2:ReferencePropertiesType"/>
+ <ns2:ReferenceParameters xsi:type="ns2:ReferenceParametersType"/>
+ <ns2:PortType xsi:type="ns2:AttributedQName" xmlns:ns3="http://sdktestmodel.cagrid.org/SDKTestModel/service">ns3:SDKTestModelPortTypePort</ns2:PortType>
+ <ns2:ServiceName xsi:type="ns2:ServiceNameType" xmlns:ns4="http://sdktestmodel.cagrid.org/SDKTestModel/service">ns4:SDKTestModelService</ns2:ServiceName>
+</ns1:SDKTestModel>
+]
+=====================================================================
+TYPE [CQL]
+      VALUE [<CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">   <Target name="gov.nih.nci.cacoresdk.domain.onetoone.unidirectional.Person">      <Attribute name="id" value="5400717" predicate="EQUAL_TO"/>   </Target></CQLQuery>]
+
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
