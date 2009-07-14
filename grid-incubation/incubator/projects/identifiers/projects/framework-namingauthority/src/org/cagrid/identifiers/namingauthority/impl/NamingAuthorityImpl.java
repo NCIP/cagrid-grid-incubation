@@ -10,29 +10,29 @@ import org.cagrid.identifiers.namingauthority.http.HttpServer;
 public class NamingAuthorityImpl extends NamingAuthority implements IdentifierMaintainer, IdentifierUser {
 
 	private HttpServer _httpServer = null;
-	private Object lock = new Object();
+	private Database db = null;
 	
 	public NamingAuthorityImpl(NamingAuthorityConfig config) {
 		super(config);
+		
+		db = new Database(config.getDbUrl(), config.getDbUserName(), config.getDbPassword());
 		System.out.println("Created NA with prefix: " + config.getPrefix());
 	}
 
 	public String create(IdentifierValues values) {
 		String identifier = IdentifierUtil.generate(getConfig().getPrefix());
-		Database.save(identifier, values);
+		db.save(identifier, values);
         return identifier;
 	}
 	
 	public IdentifierValues getValues( String identifier ) {
-		return Database.getValues(identifier);
+		return db.getValues(identifier);
 	}
 	
-	public void startHttpServer() {
-		synchronized(lock) {
-			if (_httpServer == null) {
-				_httpServer = new HttpServer(this, getConfig().getHttpServerPort());
-				_httpServer.start();
-			}
+	public synchronized void startHttpServer() {
+		if (_httpServer == null) {
+			_httpServer = new HttpServer(this, getConfig().getHttpServerPort());
+			_httpServer.start();
 		}
 	}
 }

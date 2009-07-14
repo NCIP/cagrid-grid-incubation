@@ -4,31 +4,58 @@ import org.cagrid.identifiers.namingauthority.NamingAuthorityConfig;
 
 public class NamingAuthorityConfigImpl implements NamingAuthorityConfig {
 
-	private String _prefix = "";
-	private int _httpServerPort = 0;
-	private String _gridSvcUrl = "";
+	private String prefix = null;
+	private int httpServerPort = 0;
+	private String gridSvcUrl = null;
+	private String dbUrl = null;
+	private String dbUser = null;
+	private String dbPassword = null;
 	
 	public void setPrefix( String prefix ) {
-		_prefix = prefix;
+		this.prefix = prefix;
 	}
 	
 	public String getPrefix() {
-		return _prefix;
+		return this.prefix;
 	}
 	
 	public void setHttpServerPort( int port ) {
-		_httpServerPort = port;
+		this.httpServerPort = port;
 	}
 
 	public int getHttpServerPort() {
-		return _httpServerPort;
+		return this.httpServerPort;
 	}
 
 	public void setGridSvcUrl(String gridSvcUrl) {
-		_gridSvcUrl = gridSvcUrl;
+		this.gridSvcUrl = gridSvcUrl;
 	}
 	public String getGridSvcUrl() {
-		return this._gridSvcUrl;
+		return this.gridSvcUrl;
+	}
+
+	public void setDbUrl( String dbUrl ) { 
+		this.dbUrl = dbUrl; 
+	}
+	
+	public String getDbUrl() {
+		return this.dbUrl;
+	}
+
+	public void setDbUser( String user ) {
+		this.dbUser = user;
+	}
+	
+	public String getDbUserName() {
+		return this.dbUser;
+	}
+
+	public void setDbPassword( String pwd ) {
+		this.dbPassword = pwd;
+	}
+	
+	public String getDbPassword() {
+		return this.dbPassword;
 	}
 
 }

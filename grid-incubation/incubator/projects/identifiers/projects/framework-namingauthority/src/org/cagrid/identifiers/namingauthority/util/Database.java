@@ -7,12 +7,19 @@ import java.util.List;
 import org.cagrid.identifiers.core.IdentifierValues;
 import org.cagrid.identifiers.namingauthority.hibernate.IdentifierValue;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class Database {
 
-	public static void save( String identifier, IdentifierValues values ) {
+	private SessionFactory dbFactory = null;
+	
+	public Database( String dbUrl, String dbUser, String dbPassword ) {
+		dbFactory = HibernateUtil.initFactory(dbUrl, dbUser, dbPassword);
+	}
+		
+	public void save( String identifier, IdentifierValues values ) {
 			
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = dbFactory.getCurrentSession();
         session.beginTransaction();
 
         for( String type : values.getTypes()) {
@@ -29,9 +36,9 @@ public class Database {
         session.getTransaction().commit();
 	}
 	
-	public static IdentifierValues getValues( String identifier ) {
+	public IdentifierValues getValues( String identifier ) {
 		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = dbFactory.getCurrentSession();
 		session.beginTransaction();
 		List<IdentifierValue> values = session.
 			createQuery("from IdentifierValue as iv where iv.name = :name").

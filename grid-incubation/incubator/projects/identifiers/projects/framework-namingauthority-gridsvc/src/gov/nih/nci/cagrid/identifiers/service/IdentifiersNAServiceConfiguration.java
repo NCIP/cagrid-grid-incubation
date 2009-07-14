@@ -49,6 +49,14 @@ public class IdentifiersNAServiceConfiguration implements ServiceConfiguration {
 	
 	private String identifiersNaHttpServerPort;
 	
+	private String identifiersNaDbUrl;
+	
+	private String identifiersNaDbUser;
+	
+	private String identifiersNaDbPassword;
+	
+	private String identifiersNaGridSvcUrl;
+	
 	
     public String getEtcDirectoryPath() {
 		return ContainerConfig.getBaseDirectory() + File.separator + etcDirectoryPath;
@@ -77,6 +85,46 @@ public class IdentifiersNAServiceConfiguration implements ServiceConfiguration {
 	
 	public void setIdentifiersNaHttpServerPort(String identifiersNaHttpServerPort) {
 		this.identifiersNaHttpServerPort = identifiersNaHttpServerPort;
+	}
+
+	
+	public String getIdentifiersNaDbUrl() {
+		return identifiersNaDbUrl;
+	}
+	
+	
+	public void setIdentifiersNaDbUrl(String identifiersNaDbUrl) {
+		this.identifiersNaDbUrl = identifiersNaDbUrl;
+	}
+
+	
+	public String getIdentifiersNaDbUser() {
+		return identifiersNaDbUser;
+	}
+	
+	
+	public void setIdentifiersNaDbUser(String identifiersNaDbUser) {
+		this.identifiersNaDbUser = identifiersNaDbUser;
+	}
+
+	
+	public String getIdentifiersNaDbPassword() {
+		return identifiersNaDbPassword;
+	}
+	
+	
+	public void setIdentifiersNaDbPassword(String identifiersNaDbPassword) {
+		this.identifiersNaDbPassword = identifiersNaDbPassword;
+	}
+
+	
+	public String getIdentifiersNaGridSvcUrl() {
+		return identifiersNaGridSvcUrl;
+	}
+	
+	
+	public void setIdentifiersNaGridSvcUrl(String identifiersNaGridSvcUrl) {
+		this.identifiersNaGridSvcUrl = identifiersNaGridSvcUrl;
 	}
 
 	

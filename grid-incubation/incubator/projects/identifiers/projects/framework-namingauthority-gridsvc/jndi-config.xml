@@ -37,6 +37,22 @@
           <name>identifiersNaHttpServerPort</name>
           <value>@identifiersNaHttpServerPort@</value>
         </parameter>
+        <parameter>
+          <name>identifiersNaDbUrl</name>
+          <value>@identifiersNaDbUrl@</value>
+        </parameter>
+        <parameter>
+          <name>identifiersNaDbUser</name>
+          <value>@identifiersNaDbUser@</value>
+        </parameter>
+        <parameter>
+          <name>identifiersNaDbPassword</name>
+          <value>@identifiersNaDbPassword@</value>
+        </parameter>
+        <parameter>
+          <name>identifiersNaGridSvcUrl</name>
+          <value>@identifiersNaGridSvcUrl@</value>
+        </parameter>
       </resourceParams>
     </resource>
     <resource name="home" type="gov.nih.nci.cagrid.identifiers.service.globus.resource.IdentifiersNAServiceResourceHome">
