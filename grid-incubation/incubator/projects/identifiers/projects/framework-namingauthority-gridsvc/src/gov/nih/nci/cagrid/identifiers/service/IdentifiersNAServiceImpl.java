@@ -1,5 +1,6 @@
 package gov.nih.nci.cagrid.identifiers.service;
 
+import org.cagrid.identifiers.namingauthority.impl.NamingAuthorityConfigImpl;
 import org.cagrid.identifiers.namingauthority.impl.NamingAuthorityImpl;
 
 import gov.nih.nci.cagrid.identifiers.common.MappingUtil;
@@ -33,7 +34,6 @@ public class IdentifiersNAServiceImpl extends IdentifiersNAServiceImplBase {
 			e.printStackTrace();
 		}
 		_na = new NamingAuthorityImpl(config);
-		System.out.println("IdentifiersNAServiceImpl Created...");
 		
 		//Start a web server for http resolution
 		_na.startHttpServer();

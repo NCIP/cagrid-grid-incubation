@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Deploy Naming Authority as a web app" basedir=".">
 
-	<property name="warfile" value="build/identifiers-na.war"/>
+	<property name="warfile" value="build/namingauthority.war"/>
   	<property environment="env"/>
 
 	<target name="setTomcat" if="env.CATALINA_HOME">
@@ -18,6 +18,11 @@
 	</target>
 
 	<target name="create">
+		<copy todir="WebContent/WEB-INF/lib" overwrite="true">
+         <fileset dir="${ext.lib.dir}">
+            <include name="*.jar"/>
+         </fileset>
+      </copy>
 		<war destfile="${warfile}" webxml="WebContent/WEB-INF/web.xml" update="true">
 			<classes dir="build/classes"/>
 			<fileset dir="WebContent">

@@ -1,11 +1,11 @@
-package gov.nih.nci.cagrid.identifiers.service;
+package org.cagrid.identifiers.namingauthority.impl;
 
 import org.cagrid.identifiers.namingauthority.NamingAuthorityConfig;
 
 public class NamingAuthorityConfigImpl implements NamingAuthorityConfig {
 
 	private String prefix = null;
-	private int httpServerPort = 0;
+	private Integer httpServerPort = null;
 	private String gridSvcUrl = null;
 	private String dbUrl = null;
 	private String dbUser = null;
@@ -19,17 +19,18 @@ public class NamingAuthorityConfigImpl implements NamingAuthorityConfig {
 		return this.prefix;
 	}
 	
-	public void setHttpServerPort( int port ) {
+	public void setHttpServerPort( Integer port ) {
 		this.httpServerPort = port;
 	}
 
-	public int getHttpServerPort() {
+	public Integer getHttpServerPort() {
 		return this.httpServerPort;
 	}
 
 	public void setGridSvcUrl(String gridSvcUrl) {
 		this.gridSvcUrl = gridSvcUrl;
 	}
+	
 	public String getGridSvcUrl() {
 		return this.gridSvcUrl;
 	}

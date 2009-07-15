@@ -97,14 +97,12 @@
         <javac srcdir="${src.dir}" destdir="${classes.dir}" source="${java.source}" debug="${java.debug}" deprecation="off" optimize="off">
             <classpath refid="build.classpath" />
         </javac>
-<!--
-Dont copy source code
         <copy toDir="${classes.dir}">
             <fileset dir="${src.dir}">
                 <include name="**/*" />
+					 <exclude name="**/*.java"/>
             </fileset>
         </copy>
--->
     </target>
 
 	 <!-- =============================================================== -->

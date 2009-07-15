@@ -33,9 +33,11 @@
 
 		<!-- External Dependencies -->
     	<dependency rev="3.2.+" org="hibernate" name="hibernate" conf="impl->default" />
+    	<dependency rev="3.2" org="apache" name="commons-collections" conf="impl->default" />
     	<dependency rev="2.2" org="apache" name="tomcat-servlet" conf="impl->default" />
     	<dependency rev="6.1.18" org="jetty" name="jetty" conf="impl->default" />
     	<dependency rev="6.1.18" org="jetty" name="jetty-util" conf="impl->default" />
+    	<dependency rev="3.0.16-ga-bin" org="mysql" name="connector-java" conf="impl->default" />
 
 	</dependencies>
 

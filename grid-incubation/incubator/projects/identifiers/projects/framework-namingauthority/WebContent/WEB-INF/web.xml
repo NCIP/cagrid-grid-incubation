@@ -6,6 +6,26 @@
 		<display-name>NamingAuthorityService</display-name>
 		<servlet-name>NamingAuthorityService</servlet-name>
 		<servlet-class>org.cagrid.identifiers.namingauthority.impl.NamingAuthorityService</servlet-class>
+		<init-param>
+    		<param-name>identifiersNaDbUrl</param-name>
+    		<param-value>jdbc:mysql://localhost/identifiers</param-value>
+  		</init-param>
+  		<init-param>
+    		<param-name>identifiersNaHttpServerPort</param-name>
+    		<param-value>8081</param-value>
+    	</init-param>
+    	<init-param>
+    		<param-name>identifiersNaDbUser</param-name>
+    		<param-value>root</param-value>
+    	</init-param>
+    	<init-param>
+    		<param-name>identifiersNaDbPassword</param-name>
+    		<param-value>cagrid</param-value>
+    	</init-param>
+    	<init-param>
+    		<param-name>identifiersNaPrefix</param-name>
+    		<param-value>http://purl.cagrid.org:8090/cagrid</param-value>
+    	</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>

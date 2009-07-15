@@ -7,6 +7,6 @@
 <title>Naming Authority Services</title>
 </head>
 <body>
-<h2>This web application hosts a naming authority for caGrid identifiers</h2>
+<h3>This web application hosts a naming authority for caGrid identifiers</h3>
 </body>
 </html>
