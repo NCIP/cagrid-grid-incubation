@@ -80,7 +80,7 @@ public class MDRUtils {
 		try {
 			if (publicId != null) {
 				MDRQueryClient client = new MDRQueryClient(
-						"http://localhost:8080/wsrf/services/cagrid/MDRQuery");
+						"http://mdr.ctsa.cagrid.org:8081/wsrf/services/cagrid/MDRQuery");
 				Query query = new Query();
 				query.setId(publicId);
 				query.setVersion(version);
