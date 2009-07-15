@@ -141,6 +141,12 @@
 		<uri>../web/organisations.xquery</uri>
 	</function>
 	<function>
+		<title>Create a new Organization</title>
+		<description>Add organizations in the metadata registry
+		</description>
+		<uri>../edit/newOrganisation.xquery</uri>
+	</function>
+	<function>
 		<title>Schema</title>
 		<description>Generate an XML Schema of the registry
 		</description>
