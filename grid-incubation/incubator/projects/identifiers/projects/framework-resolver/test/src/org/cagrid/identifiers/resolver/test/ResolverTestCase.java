@@ -23,19 +23,29 @@ import junit.framework.TestCase;
 public class ResolverTestCase extends TestCase {
 
 	private static Log log = LogFactory.getLog(ResolverTestCase.class);
+	
+	private String purl = "http://purl.cagrid.org:8090/cagrid/3c70f038-8773-4749-a5ea-37f5246d609d";
 
 	public void testGridResolution() {
-		String purl="http://purl.cagrid.org:8090/cagrid/3c70f038-8773-4749-a5ea-37f5246d609d";
-		//ResolverUtil.resolveHttp(purl);
 		try {
 			IdentifierValues ivs = ResolverUtil.resolveGrid(purl);
 			System.out.println(ivs.toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
+	
+	public void testHttpResolution() {
+		try {
+			IdentifierValues ivs = ResolverUtil.resolveHttp(purl);
+			System.out.println(ivs.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	
 	public static void main(String[] args) {
 		junit.textui.TestRunner.run(ResolverTestCase.class);
 	}

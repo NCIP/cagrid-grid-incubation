@@ -21,9 +21,6 @@ import org.cagrid.identifiers.namingauthority.http.NamingAuthorityConfig;
 
 public class ResolverUtil {
 
-	public static int HTTP_SUCCESS = 200;
-	public static int HTTP_REDIRECT = 302;
-	
 	//
 	// Given an identifier, it returns the real naming authority URL
 	//
@@ -46,7 +43,7 @@ public class ResolverUtil {
 	    	
 	    	int statusCode = client.executeMethod(method);
 	    	
-	    	if (statusCode == HTTP_REDIRECT) {
+	    	if (statusCode ==  HttpStatus.SC_MOVED_TEMPORARILY) {
 	    		// Expected redirect
 	    		identifierURL = method.getResponseHeader("Location").getValue();
 	    	} else {
@@ -81,8 +78,9 @@ public class ResolverUtil {
 	    	
 	    	int statusCode = client.executeMethod(method);
 	    	
-	    	if (statusCode != HTTP_SUCCESS)
-	    		throw new HttpException("Unable to retrieve naming authority config from " + url + " [" + statusCode + "]");
+	    	if (statusCode != HttpStatus.SC_OK)
+	    		throw new HttpException("Unable to retrieve naming authority config from " 
+	    				+ url + " [" + statusCode + ":" + method.getStatusLine() + "]");
 	    	
 	    	Header ctHeader = method.getResponseHeader("Content-Type");
 	    	if (ctHeader == null || ctHeader.getValue() == null || 
@@ -154,6 +152,8 @@ public class ResolverUtil {
 	    method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
 	    		new DefaultHttpMethodRetryHandler(3, false));
 	    
+	    method.addRequestHeader(new Header("Accept", "application/xml"));
+	    
 	    IdentifierValues ivs = null;
 	    
 	    try {
@@ -161,17 +161,17 @@ public class ResolverUtil {
 	    	
 	    	int statusCode = client.executeMethod(method);
 	    	
-	    	System.out.println("Status code: " + statusCode);
+	    	if (statusCode != HttpStatus.SC_OK) {
+	    		throw new HttpException(identifier + " returned [" + statusCode + ":" + method.getStatusLine() + "]");
+	        }
 	    	
 	    	Header ctHeader = method.getResponseHeader("Content-Type");
 	    	if (ctHeader == null || ctHeader.getValue() == null || 
 	    			ctHeader.getValue().indexOf("application/xml") == -1) {
-	    		System.out.println("Response has no XML content");
-	    		return null;
+	    		throw new HttpException(identifier + " returned no XML content (Content-Type: "
+	    				+ (ctHeader != null ? ctHeader.getValue() : "null") + ")");
 	    	}
 	   
-	   // 	byte[] responseBody = method.getResponseBodyAsString();
-	    	
 	    	String response = method.getResponseBodyAsString();
 	    	System.out.println(response);
 	    	// Deserialize response
