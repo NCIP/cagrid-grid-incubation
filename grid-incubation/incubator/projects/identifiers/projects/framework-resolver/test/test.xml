@@ -1,5 +1,5 @@
 <!-- ======================================================================= -->
-<!-- Identifiers Naming Authority test build file                            -->
+<!-- Identifiers Resolution test build file                                  -->
 <!-- ======================================================================= -->
 <project name="identifiers_resolver_tests_harness" basedir=".">
 	<property name="junit.results.dir" value="${test.logs.dir}/junit" />

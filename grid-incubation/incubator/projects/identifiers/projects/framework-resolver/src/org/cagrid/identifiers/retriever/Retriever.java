@@ -1,4 +1,4 @@
-package org.cagrid.identifiers.resolver;
+package org.cagrid.identifiers.retriever;
 
 import org.cagrid.identifiers.core.IdentifierValues;
 

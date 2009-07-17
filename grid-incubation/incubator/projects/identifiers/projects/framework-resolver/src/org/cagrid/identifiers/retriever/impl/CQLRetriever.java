@@ -1,4 +1,4 @@
-package org.cagrid.identifiers.resolver;
+package org.cagrid.identifiers.retriever.impl;
 
 import java.io.StringBufferInputStream;
 
@@ -8,6 +8,7 @@ import org.xml.sax.InputSource;
 import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.utils.XMLUtils;
 import org.cagrid.identifiers.core.*;
+import org.cagrid.identifiers.retriever.Retriever;
 import org.globus.wsrf.encoding.DeserializationException;
 import org.globus.wsrf.encoding.ObjectDeserializer;
 
