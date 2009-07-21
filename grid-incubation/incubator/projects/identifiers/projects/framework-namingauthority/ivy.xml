@@ -38,6 +38,7 @@
     	<dependency rev="6.1.18" org="jetty" name="jetty" conf="impl->default" />
     	<dependency rev="6.1.18" org="jetty" name="jetty-util" conf="impl->default" />
     	<dependency rev="3.0.16-ga-bin" org="mysql" name="connector-java" conf="impl->default" />
+		<dependency rev="2.5.5" org="springframework" name="spring" conf="impl->full" transitive="true" />
 
 	</dependencies>
 

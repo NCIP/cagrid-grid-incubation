@@ -41,7 +41,12 @@ public class IdentifiersNAServiceImpl extends IdentifiersNAServiceImplBase {
 	
 
   public java.lang.String createIdentifier(gov.nih.nci.cagrid.identifiers.TypeValuesMap typeValues) throws RemoteException {
-	  return _na.create(MappingUtil.toIdentifierValues(typeValues));
+	  try {
+		return _na.create(MappingUtil.toIdentifierValues(typeValues));
+	} catch (Exception e) {
+		e.printStackTrace();
+		throw new RemoteException(e.toString());
+	}
   }
 
   public gov.nih.nci.cagrid.identifiers.TypeValuesMap getTypeValues(java.lang.String identifier) throws RemoteException {

@@ -8,8 +8,15 @@
                 http://www.springframework.org/schema/util
                 http://www.springframework.org/schema/util/spring-util.xsd">
                 
-    <!-- Retriever Profiles -->
-    <bean id="CQLRetriever" class="org.cagrid.identifiers.retriever.impl.CQLRetriever"/>
+    <!-- CQLRetriever Retriever Profile -->
+    <bean id="CQLRetriever" class="org.cagrid.identifiers.retriever.impl.CQLRetriever">
+    	<property name="requiredTypes">
+		   <util:list>
+		    	<bean id="CQLType.name" class="org.springframework.beans.factory.config.PropertyPathFactoryBean"/>
+		    	<bean id="EPRType.name" class="org.springframework.beans.factory.config.PropertyPathFactoryBean"/>
+		   </util:list>
+        </property>
+    </bean>
     <!-- End of Profiles -->
     
 	<bean id="RetrieverFactory" class="org.cagrid.identifiers.retriever.impl.DefaultRetrieverFactory">

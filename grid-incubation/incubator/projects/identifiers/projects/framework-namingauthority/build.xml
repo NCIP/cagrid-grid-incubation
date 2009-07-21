@@ -103,6 +103,9 @@
 					 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+        <copy toDir="${classes.dir}">
+            <fileset dir="." includes="resources/**"/>
+        </copy>
     </target>
 
 	 <!-- =============================================================== -->
@@ -128,7 +131,10 @@
     <target name="jar" depends="compile" description="Builds the naming authority jar file">
         <mkdir dir="${jar.dir}" />
         <jar jarfile="${namingauthority.jarfile}" basedir="${classes.dir}">
+<!--
             <include name="**/namingauthority/**" />
+-->
+				<include name="**/*" />
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>

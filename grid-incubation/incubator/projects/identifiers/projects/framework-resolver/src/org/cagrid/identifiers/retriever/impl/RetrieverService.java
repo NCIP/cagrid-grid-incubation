@@ -11,17 +11,19 @@ public class RetrieverService {
 	private RetrieverFactory factory;
 	
 	public RetrieverService() {
-		init( "/resources/spring/framework-resolver-context.xml",
-				"RetrieverFactory");
+		init( new String[] { 
+				"/resources/spring/framework-resolver-context.xml",
+				"/resources/spring/framework-namingauthority-context.xml"},
+			"RetrieverFactory");
 	}
 	
-	public RetrieverService( String contextFilePath, String contextFactoryName ) {
-		init( contextFilePath, contextFactoryName );
+	public RetrieverService( String[] contextList, String factoryName ) {
+		init( contextList, factoryName );
 	}
 	
-	private void init( String contextFilePath, String contextFactoryName ) {
-		appCtx = new ClassPathXmlApplicationContext( contextFilePath );
-		factory = (RetrieverFactory) appCtx.getBean( contextFactoryName );
+	private void init( String[] contextList, String factoryName ) {
+		appCtx = new ClassPathXmlApplicationContext( contextList );
+		factory = (RetrieverFactory) appCtx.getBean( factoryName );
 	}
 	
 	public RetrieverFactory getFactory() {

@@ -9,15 +9,16 @@ import org.apache.axis.message.addressing.EndpointReferenceType;
 import org.apache.axis.utils.XMLUtils;
 import org.cagrid.identifiers.core.*;
 import org.cagrid.identifiers.retriever.Retriever;
-import org.globus.wsrf.encoding.DeserializationException;
 import org.globus.wsrf.encoding.ObjectDeserializer;
 
-public class CQLRetriever implements Retriever{
+public class CQLRetriever extends Retriever {
 
 	public Object retrieve( IdentifierValues ivs ) throws Exception {
 		
-		String[] eprStrs = ivs.getValues(DataType.EPR.toString());
-		String[] cqlStrs = ivs.getValues(DataType.CQL.toString());
+		validateTypes( ivs );
+		
+		String[] eprStrs = ivs.getValues("EPR");
+		String[] cqlStrs = ivs.getValues("CQL");
 		
 		if (eprStrs == null || eprStrs.length == 0 || cqlStrs == null || cqlStrs.length == 0) {
 			System.out.println("No data available to perform CQL resolution");
@@ -52,8 +53,6 @@ public class CQLRetriever implements Retriever{
 
 	public static gov.nih.nci.cagrid.cqlresultset.CQLQueryResults 
 		query(gov.nih.nci.cagrid.cqlquery.CQLQuery cqlQuery, String url, String portName) throws Exception {
-
-		String operationName = "query";
 
 		gov.nih.nci.cagrid.data.stubs.QueryRequest params = new gov.nih.nci.cagrid.data.stubs.QueryRequest();
 		gov.nih.nci.cagrid.data.stubs.QueryRequestCqlQuery cqlQueryContainer = new gov.nih.nci.cagrid.data.stubs.QueryRequestCqlQuery();

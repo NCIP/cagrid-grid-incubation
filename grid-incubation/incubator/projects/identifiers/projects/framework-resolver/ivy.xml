@@ -29,11 +29,11 @@
 			conf="impl->client"/>
 
 		<dependency rev="latest.integration" org="caGrid" name="framework-core"
-         conf="impl->default;impl-test->default" transitive="true" />
+         conf="impl->default" transitive="true" />
       <dependency rev="latest.integration" org="caGrid" name="framework-namingauthority"
-         conf="impl->default;impl-test->default" transitive="true" />
+         conf="impl->default" transitive="true" />
 		<dependency rev="latest.integration" org="caGrid" name="framework-namingauthority-gridsvc"
-         conf="impl->stubs,client;impl-test->stubs" transitive="true" />
+         conf="impl->stubs,client" transitive="true" />
 
 		<dependency rev="3.0" org="apache" name="jarkarta-commons-httpclient" 
 			conf="impl->default" transitive="true" />
