@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test/src"/>
+	<classpathentry kind="lib" path="build/lib/caGrid-identifiers-namingauthority-1.3.jar"/>
+	<classpathentry kind="lib" path="build/lib/caGrid-identifiers-namingauthority-tests-1.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/antlr-2.7.6rc1.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/asm.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/caGrid-identifiers-core-1.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/cglib-2.1_3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/ehcache-1.2.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/hibernate3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/jetty-6.1.18.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/jetty-util-6.1.18.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/jta-1.0.1B.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/mysql-connector-java-3.0.16-ga-bin.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/servlet.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/spring-test.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/spring.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/caGrid-core-1.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/caGrid-identifiers-core-1.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/caGrid-testing-core-1.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/caGrid-testing-system-1.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/junit-4.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="build/test_classes"/>
+</classpath>
