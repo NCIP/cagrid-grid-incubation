@@ -144,16 +144,9 @@ declare function local:input-page(
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $context-ids,
-                     $country-identifiers,
-                     $language-identifiers,
-                     $names,
-                     $definitions,
-                     $sources,
-                     $preferred,
                      $action)}
                      
-                     <!--@rakesh-->
+                     <!--@rakesh -->
                                           
              	<table class="layout">
              		<tr><td class="row-header-cell" colspan="6">Organization</td></tr>
@@ -226,13 +219,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-   let $context-ids := request:get-parameter('context-ids',())
+  (: let $context-ids := request:get-parameter('context-ids',())
    let $country-identifiers := request:get-parameter('country-identifiers',())
    let $language-identifiers := request:get-parameter('language-identifiers',())
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
+   :)
    let $action := request:get-parameter('update','')
    let $organization_name :=request:get-parameter('org_name','')
    let $organization_mail_address :=request:get-parameter('org_mail_address','')
