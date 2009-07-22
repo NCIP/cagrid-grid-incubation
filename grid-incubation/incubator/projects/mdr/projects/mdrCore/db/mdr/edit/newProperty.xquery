@@ -45,6 +45,7 @@ declare namespace response="http://exist-db.org/xquery/response";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 
 
+
 declare function local:property(
    $reg-auth as xs:string,
    $administrative-note as xs:string,
@@ -78,17 +79,11 @@ declare function local:property(
                     $definitions,
                     $preferred,
                     $sources), 
-                
-                  
-                  if($uri > '') 
-                  then (
-                  element openMDR:reference_uri {$uri})
-                  else ()
-                  
-                  
-                  )
-
-
+                   if($uri > '') 
+                   then (
+                   element openMDR:reference_uri {$uri})
+                   else ()
+                   )
    
    (: compose the document :)
    let $document :=
@@ -128,7 +123,6 @@ declare function local:input-page(
    
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
-
    return
    <div xmlns="http://www.w3.org/1999/xhtml">
    
