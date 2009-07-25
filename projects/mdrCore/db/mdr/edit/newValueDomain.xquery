@@ -162,7 +162,6 @@ declare function local:input-page(
                      $action)}
                      
                 {  
-                
                     let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
                     return
                     
