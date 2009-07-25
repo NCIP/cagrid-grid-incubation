@@ -80,7 +80,6 @@ return
             ()
             else
             (
-              
               <div class="section">
                  <table class="section">
                     <tr><td colspan="2"><div class="admin_item_section_header">Permissible values</div></td></tr>
@@ -96,7 +95,7 @@ return
                             {
                                for $permissible_value  in permissible-value:contained_in($administered_item)
                                   let $value := value:used_in($permissible_value)
-                                  order by	$value
+                                  order by $value
                                   return
                                      <tr>
                                            <td class="left_header_cell">
@@ -131,5 +130,5 @@ return
          lib-rendering:value_domain_used_in_data_elements($compound_id)
       }</div>
       return 
-         lib-rendering:txfrm-webpage($title, $content, true(),  true(), $compound_id, 'value_domain.xquery''../edit/editValueDomain.xquery')
+         lib-rendering:txfrm-webpage($title, $content, true(),  true(), $compound_id, 'value_domain.xquery','../edit/editValueDomain.xquery')
    )
