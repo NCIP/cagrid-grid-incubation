@@ -74,13 +74,8 @@ declare function local:conceptual-domain(
                           element openMDR:value_meaning_description {$meaning},
                           element openMDR:value_meaning_identifier {$vmid}
                         }
-                    
-                  
-                  
-                  )
+                 )
 
-
-   
    (: compose the document :)
    let $document := (
        if($meanings > '') then (
@@ -128,15 +123,11 @@ declare function local:input-page(
    $meanings as xs:string*
    ) {
    
-   
-
-   
    let $skip-name := substring-after($action,'delete value meaning')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
 
    return
    (
-
    
    <div xmlns="http://www.w3.org/1999/xhtml">
     
@@ -149,8 +140,7 @@ declare function local:input-page(
           <tr><td>
           <form name="new_value_domain" action="newConceptualDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
-             
-              
+                         
            {lib-forms:edit-admin-item($reg-auth,
                      $administrative-note,
                      $administrative-status,
@@ -166,13 +156,12 @@ declare function local:input-page(
                      $preferred,
                      $action)}
                      
-                     
                 <table class="layout">
                    <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
 
                 {
-                 if(request:get-parameter('conceptual-domain-type','') = 'enumerated') then (
-                  
+                 if(request:get-parameter('conceptual-domain-type','') = 'enumerated') 
+                 then (
                      <tr><td class="left_header_cell">Enumerated Conceptual Domain?</td>
                       <td><input type="radio" name="conceptual-domain-type" value="enumerated" checked="checked">enumerated</input></td>
                       <td><input type="radio" name="conceptual-domain-type" value="non-enumerated">non-enumerated</input></td>
@@ -201,13 +190,14 @@ declare function local:input-page(
                               <td>{lib-forms:action-button('add new value meaning', 'action' ,'')}</td>
                            </tr>
                        
-                 ) else ( 
+                 ) 
+                 else 
+                 ( 
                          <tr><td class="left_header_cell">Enumerated Conceptual Domain?</td>
                            <td><input type="radio" name="conceptual-domain-type" value="enumerated" >enumerated</input></td>
                            <td><input type="radio" name="conceptual-domain-type" value="non-enumerated" checked="checked">non-enumerated</input></td>
                            <td>{lib-forms:action-button('update', 'action' ,'')}</td>
                          </tr>
-                     
                  )
               }
                
