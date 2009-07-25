@@ -152,8 +152,7 @@ let $property :=
       else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newDataElementConcept.xquery&amp;","Could not store property"))) )
    )
    else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newDataElementConcept.xquery&amp;","Could not store object class"))) )
-   
-     
+
 };
 
 declare function local:input-page(
