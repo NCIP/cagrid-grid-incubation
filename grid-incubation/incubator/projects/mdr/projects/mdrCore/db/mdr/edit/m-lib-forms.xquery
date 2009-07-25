@@ -580,6 +580,178 @@ declare function lib-forms:edit-admin-item(
 };
 
 
+declare function lib-forms:edit-admin-item(
+   $reg-auth as xs:string?,
+   $administrative-note  as xs:string?,
+   $administrative-status  as xs:string?,
+   $administered-by  as xs:string?,
+   $submitted-by  as xs:string?,
+   $registered-by  as xs:string?,
+   $action as xs:string?
+){
+   let $skip-name := substring-after($action,'delete naming entry')
+   let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+   return
+   
+<table class="section">
+   <tr><td class="row-header-cell" colspan="6">Standard Administered Item Metadata</td></tr>
+   <tr>
+   <td>
+   <div class="tabber">
+     <div class="tabbertab">
+         <h2>Administered Item Metadata</h2>
+         <p>
+            <table class="section">
+                <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+                <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
+                <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
+                <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
+                <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+                <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
+            </table>
+          </p>
+     </div>
+        {
+        if($names > '') then (
+        
+     
+        for $name at $pos in $names
+        let $location := (if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos))
+        where $pos != $skip-name-index and $name > ""
+        return
+        (
+        <div class="tabbertab">
+          <h2>Naming {$location}</h2>
+          <p>
+              <table class="section">
+
+                <tr>
+                   <td class="left_header_cell">Context</td>
+                   <td colspan="5">
+                      {lib-forms:select-from-contexts-enum('context-ids',$context-ids[$pos])}
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Name</td>
+                   <td colspan="5">
+                      {lib-forms:input-element('names',70,$name)}
+                   </td>
+                </tr>
+        
+                <tr>
+                   <td class="left_header_cell">Preferred</td>
+                   <td>
+                      {lib-forms:radio('preferred', xs:string($pos), xs:string(($preferred = xs:string($pos))))}
+                   </td>
+                </tr>
+        
+        
+                <tr>
+                   <td class="left_header_cell">Definition</td>
+                   <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, $definitions[$pos])}
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Language Identifier</td>
+                   <td colspan="5">
+                      {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(), $country-identifiers[$pos])}
+                      {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), $language-identifiers[$pos])}
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Source</td>
+                   <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
+                </tr>
+            
+                <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$location), 'action' ,'')}</td></tr>
+                <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>
+             </table>
+          </p>
+       </div>
+       )
+       
+        
+        
+        ) else (),
+        
+        if((($names > '') != xs:boolean('true')) or $action = 'add another name')  then (
+          <div class="tabbertab">
+          {
+          if($names > '') then (
+            <h2>New Naming Entry</h2>
+           ) else (
+            <h2>Name 1</h2>
+           )
+          }
+              <p>
+                  <table class="section">
+              
+                    <tr>
+                       <td class="left_header_cell">Context</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-contexts-enum('context-ids','')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Name</td>
+                       <td colspan="5">
+                          {lib-forms:input-element('names',70,'')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Preferred</td>
+                       <td>
+                          {lib-forms:radio('preferred', '1', '')}
+                       </td>
+                    </tr>
+            
+                    <tr>
+                       <td class="left_header_cell">Definition</td>
+                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, '')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Language Identifier</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(),'')}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), '')}
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
+                    </tr>
+        {
+        if($names > '') then (
+                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add this new name', 'action' ,'')}</td></tr>
+        ) else (
+                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>
+        )
+        }
+        
+              </table>
+          </p>
+      </div>
+      ) else ()
+      
+      
+      }
+      
+  </div>
+  </td>
+  </tr>          
+
+</table>
+};
+
+
 declare function lib-forms:action-button($value as xs:string, $control as xs:string, $action as xs:string) as node()
 {
    element input {
