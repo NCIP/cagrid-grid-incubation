@@ -6,7 +6,9 @@ import gov.nih.nci.cagrid.data.InitializationException;
 import gov.nih.nci.cagrid.data.MalformedQueryException;
 import gov.nih.nci.cagrid.data.QueryProcessingException;
 import gov.nih.nci.cagrid.data.cql.CQLQueryProcessor;
+import gov.nih.nci.cagrid.data.mapping.Mappings;
 import gov.nih.nci.cagrid.data.utilities.CQLResultsCreationUtil;
+import gov.nih.nci.cagrid.data.utilities.ResultsCreationException;
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 
@@ -16,18 +18,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.i2b2.beans.test.Observation;
 import org.cagrid.i2b2.ontomapper.utils.AttributeNotFoundInModelException;
 import org.cagrid.i2b2.ontomapper.utils.CdeIdMapper;
 import org.cagrid.i2b2.ontomapper.utils.ClassNotFoundInModelException;
 import org.cagrid.i2b2.ontomapper.utils.DomainModelCdeIdMapper;
+import org.cagrid.i2b2.ontomapper.utils.ObjectAssembler;
+import org.cagrid.i2b2.ontomapper.utils.ObjectAssemblyException;
 
 /** 
  *  I2B2QueryProcessor
@@ -164,21 +171,58 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
 
 
     public CQLQueryResults processQuery(CQLQuery cqlQuery) throws MalformedQueryException, QueryProcessingException {
-        /*
-         * Starting with a very simple implementation to grab attributes of the target object and nothing else
-         */
+        // for now, we can only do distinct attributes
+        enforceDistinctAttribute(cqlQuery);
         
-        if (cqlQuery.getQueryModifier() == null ||
-            cqlQuery.getQueryModifier().getDistinctAttribute() == null) {
-            throw new QueryProcessingException("Only distinct attributes of a target are supported now");
+        // get some relevant information
+        String className = cqlQuery.getTarget().getName();
+        String attributeName = cqlQuery.getQueryModifier().getDistinctAttribute();
+        
+        // figure out the CDE
+        Long cde = getCdeForAttribute(className, attributeName);
+        LOG.debug("CDE for " + className + "." + attributeName + " is " + String.valueOf(cde));
+        if (cde == null) {
+            throw new QueryProcessingException("No CDE found for " + className + "." + attributeName);
         }
         
+        // get query paths for the CDE
+        List<String> paths = getPathsForCde(cde);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Paths for CDE " + cde + ":");
+            for (String path : paths) {
+                LOG.debug("\t" + path);
+            }
+        }
+        
+        // get observation instances from the DB based on each query path
+        List<Observation> observations = getObservationsByPaths(paths);
+        
+        // wait... now what do I pull out of here as an attribute??? TVal_Char, I guess
+        
+        List<String> tvalCharValues = new LinkedList<String>();
+        for (Observation ob : observations) {
+            tvalCharValues.add(ob.getTVal_Char());
+        }
+        CQLQueryResults fakeResults = CQLResultsCreationUtil.createAttributeResults(
+            tvalCharValues, className, new String[] {attributeName});
+        
+        return fakeResults;
+    }
+    
+    
+    private void enforceDistinctAttribute(CQLQuery cqlQuery) throws MalformedQueryException {
+        if (cqlQuery.getQueryModifier() == null || cqlQuery.getQueryModifier().getDistinctAttribute() == null) {
+            throw new MalformedQueryException("Only distinct attrbutes are currently supported");
+        }
+    }
+    
+    
+    private Long getCdeForAttribute(String className, String attributeName) throws QueryProcessingException {
         // get the CDE of the attribute
         LOG.debug("Looking up CDE in id mapper");
         Long cde = null;
         try {
-            cde = cdeIdMapper.getCdeIdForAttribute(
-                cqlQuery.getTarget().getName(), cqlQuery.getQueryModifier().getDistinctAttribute());
+            cde = cdeIdMapper.getCdeIdForAttribute(className, attributeName);
         } catch (ClassNotFoundInModelException ex) {
             LOG.error(ex);
             throw new QueryProcessingException(ex.getMessage(), ex);
@@ -189,25 +233,73 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
         // CDE has to exist
         if (cde == null) {
             throw new QueryProcessingException("No CDE found for attribute " 
-                + cqlQuery.getQueryModifier().getDistinctAttribute());
+                + className + "." + attributeName);
         }
-        
-        // get paths for CDE
-        List<String> paths = getPathsForCde(cde);
-        
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Paths for CDE " + cde);
+        return cde;
+    }
+    
+    
+    // temporary method only knows how to get observation instances
+    private List<Observation> getObservationsByPaths(List<String> paths) throws QueryProcessingException {
+        LOG.debug("Looking up observations for a list of concept paths");
+        List<Observation> observations = null;
+        String observationsSQL = queryFactory.getObservationsByPathQuery(paths.size());
+        Connection dbConnection = null;
+        PreparedStatement obsStatement = null;
+        ResultSet obsResults = null;
+        try {
+            dbConnection = connectionSource.getConnection();
+            obsStatement = dbConnection.prepareStatement(observationsSQL);
+            int index = 1;
             for (String path : paths) {
-                LOG.debug("\t" + path);
+                obsStatement.setString(index, path);
+                index++;
+            }
+            obsResults = obsStatement.executeQuery();
+            observations = ObjectAssembler.assembleObjects(obsResults, Observation.class);
+        } catch (SQLException ex) {
+            String message = "Error querying for Observations by CDE paths: " + ex.getMessage();
+            LOG.error(message, ex);
+            throw new QueryProcessingException(message, ex);
+        } catch (ObjectAssemblyException ex) {
+            String message = "Error assembling Observation instances: " + ex.getMessage();
+            LOG.error(message, ex);
+            throw new QueryProcessingException(message, ex);
+        } finally {
+            if (obsResults != null) {
+                try {
+                    obsResults.close();
+                } catch (SQLException ex) {
+                    LOG.error("Error closing result set: " + ex.getMessage(), ex);
+                }
+            }
+            if (obsStatement != null) {
+                try {
+                    obsStatement.close();
+                } catch (SQLException ex) {
+                    LOG.error("Error closing statement: " + ex.getMessage(), ex);
+                }
+            }
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                } catch (SQLException ex) {
+                    LOG.error("Error releasing DB connection: " + ex.getMessage(), ex);
+                }
             }
         }
-        
-        // for the moment, just return paths
-        CQLQueryResults fakeResults = CQLResultsCreationUtil.createAttributeResults(
-            paths, cqlQuery.getTarget().getName(),
-            new String[] {cqlQuery.getQueryModifier().getDistinctAttribute()});
-        
-        return fakeResults;
+        return observations;
+    }
+    
+    
+    private Map<String, List<String>> getPathsForAttributeCdes(Map<String, Long> attributeCdes) throws QueryProcessingException {
+        Map<String, List<String>> attributePaths = new HashMap<String, List<String>>();
+        for (String attributeName : attributeCdes.keySet()) {
+            Long cde = attributeCdes.get(attributeName);
+            List<String> paths = getPathsForCde(cde);
+            attributePaths.put(attributeName, paths);
+        }
+        return attributePaths;
     }
     
     
