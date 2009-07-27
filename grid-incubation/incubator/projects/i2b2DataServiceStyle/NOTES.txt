@@ -10,13 +10,13 @@ select cd.concept_path from i2b2demodata.concept_dimension cd, i2b2demodata.ENCO
   and ed.cde_public_id = 3432351 and es.service_url = 'osuDSR.osu.edu' and ep.project_name = 'i2b2' and ep.project_version = '4.0';
   
 Attributes found in miniOCRe21:
-	NCT_number - integer
-	public_title - string
-	Type - string
+	NCT_number - integer - 2649415
+	public_title - string - 2422269
+	Type - string - 64182
 	has_terminology - string (?)
 	has_vesion - string (???)
 	has_concept_id - string
 	has_name - boolean
-	FirstName - string
-	LastName - string
+	FirstName - string - 2179589
+	LastName - string - 2179591
 	has_name - string (?)  
