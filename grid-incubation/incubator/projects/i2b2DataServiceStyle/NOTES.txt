@@ -8,3 +8,15 @@ select cd.concept_path from i2b2demodata.concept_dimension cd, i2b2demodata.ENCO
   and epl.encoding_project_id = ep.encoding_project_id
   and ep.encoding_service_id = es.encoding_service_id
   and ed.cde_public_id = 3432351 and es.service_url = 'osuDSR.osu.edu' and ep.project_name = 'i2b2' and ep.project_version = '4.0';
+  
+Attributes found in miniOCRe21:
+	NCT_number - integer
+	public_title - string
+	Type - string
+	has_terminology - string (?)
+	has_vesion - string (???)
+	has_concept_id - string
+	has_name - boolean
+	FirstName - string
+	LastName - string
+	has_name - string (?)  
