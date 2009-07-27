@@ -19,4 +19,4 @@ Attributes found in miniOCRe21:
 	has_name - boolean
 	FirstName - string - 2179589
 	LastName - string - 2179591
-	has_name - string (?)  
+	has_name - string (?)
