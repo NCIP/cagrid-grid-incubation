@@ -1,0 +1,3 @@
+Connect: jdbc:sybase:Tds:192.168.24.21:2638/i2b2rc4
+User: DBA
+Pass: SQL
