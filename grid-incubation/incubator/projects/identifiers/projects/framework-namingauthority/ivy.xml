@@ -22,8 +22,6 @@
 	</publications>
 
 	<dependencies>
-		<dependency rev="latest.integration" org="caGrid" name="framework-core"
-         conf="impl->default;impl-test->default" transitive="true" />
 
 		<dependency org="caGrid" name="testing" rev="latest.integration"
          conf="impl-test->system" />
