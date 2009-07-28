@@ -53,6 +53,7 @@ public class DatabaseConfigurationManager extends BaseConfigurationManager {
         setServiceProperty(I2B2QueryProcessor.JDBC_CONNECT_STRING, getConnection());
         setServiceProperty(I2B2QueryProcessor.JDBC_USERNAME, getUser());
         setServiceProperty(I2B2QueryProcessor.JDBC_PASSWORD, getPassword());
+        setServiceProperty(I2B2QueryProcessor.TABLE_NAME_PREFIX, getTablePrefix());
     }
 
 
