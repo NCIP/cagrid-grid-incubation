@@ -20,3 +20,23 @@ Attributes found in miniOCRe21:
 	FirstName - string - 2179589
 	LastName - string - 2179591
 	has_name - string (?)
+	
+	
+	
+Concept Dimension to Map Fact Tables
+
+Concept Path, Concept Dimension
+
+Observation fact - has concept_path.  That links to concept dimension.
+Also in MAP_DATA_FACT -- can search for it in there - also MAP_AGGR_FACT (all aggregated fact data)
+What's a numeric, varchar, or boolean, and which field is the data in.
+TValChar = text, NValNum = numeric
+Valtype_CD tells you which column the real data lives in
+	Correlating like rows in fact tables by ENCOUNTER_NUM (Unofficially)
+		Encounter table is not used, but that's how we tie related things in fact tables together
+		"400 measurments of a person are taken, they all get the same encounter id"
+		Lab data based on accession num
+		"Virtual Row"
+Everything else in there is "metadata"
+
+Maps getting re-run - not putting anything in ValType_Cd.  Awsome.  Also, nothing in TVal_Char, or NVal_Num.  For trial bank stuff, there's no data in there, so the ValType_Cd doesn't get populated
