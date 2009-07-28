@@ -28,8 +28,6 @@
       <dependency rev="latest.integration" org="caGrid" name="service-security-provider" 
 			conf="impl->client"/>
 
-		<dependency rev="latest.integration" org="caGrid" name="framework-core"
-         conf="impl->default" transitive="true" />
       <dependency rev="latest.integration" org="caGrid" name="framework-namingauthority"
          conf="impl->default" transitive="true" />
 		<dependency rev="latest.integration" org="caGrid" name="framework-namingauthority-gridsvc"

@@ -57,9 +57,6 @@
 		<dependency rev="latest.integration" org="caGrid"
 			name="metadata-validator" conf="serviceTools->default" transitive="false" />
 
-		<dependency rev="latest.integration" org="caGrid" name="framework-core"
-         conf="impl->default" transitive="true" />
-
 		<dependency rev="latest.integration" org="caGrid" name="framework-namingauthority"
          conf="impl->default" transitive="true" />
 	</dependencies>
