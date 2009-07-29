@@ -1,0 +1,16 @@
+http\://monitor.cagrid.org/MonitoringService=org.cagrid.monitor.stubs
+http\://monitor.cagrid.org/MonitoringService/bindings=org.cagrid.monitor.stubs.bindings
+http\://monitor.cagrid.org/MonitoringService/service=org.cagrid.monitor.stubs.service
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
+
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.service=gov.nih.nci.cagrid.metadata.service
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata=gov.nih.nci.cagrid.metadata
+http\://monitor.cagrid.org/MonitoringService/types=org.cagrid.monitor.stubs.types
+http\://monitor.cagrid.org/MonitorService=org.cagrid.monitor.db
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common=gov.nih.nci.cagrid.metadata.common
+
+

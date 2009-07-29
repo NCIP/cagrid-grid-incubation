@@ -1,0 +1,96 @@
+<ns1:ServiceMetadata xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata">
+ <ns1:serviceDescription>
+  <ns2:Service description="" name="MonitoringService" version="1.3" xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.service">
+   <ns2:pointOfContactCollection>
+    <ns3:PointOfContact affiliation="OSU" email="joe.george@osumc.edu" firstName="Joe" lastName="George" phoneNumber="" role="Developer" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   </ns2:pointOfContactCollection>
+   <ns2:serviceContextCollection>
+    <ns2:ServiceContext description="" name="MonitoringService">
+     <ns2:operationCollection>
+      <ns2:Operation description="" name="GetMultipleResourceProperties">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="GetResourceProperty">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="QueryResourceProperties">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="getServiceSecurityMetadata">
+       <ns2:inputParameterCollection/>
+       <ns2:Output qName="ns4:ServiceSecurityMetadata" dimensionality="1" isArray="false" xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="Starts the monitoring service" name="startMonitoring">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="Stops the monitoring service." name="stopMonitoring">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="Adds a service for monitoring" name="addService">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns5:Service" dimensionality="1" index="0" isArray="false" isRequired="false" name="service" xmlns:ns5="http://monitor.cagrid.org/MonitorService"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="xsd:long" dimensionality="1" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="MonitorFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="Adds a task" name="addTask">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns6:Task" dimensionality="1" index="0" isArray="false" isRequired="false" name="task" xmlns:ns6="http://monitor.cagrid.org/MonitorService"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="xsd:long" dimensionality="1" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="MonitorFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="Adds an event" name="addEvent">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns7:Event" dimensionality="1" index="0" isArray="false" isRequired="false" name="event" xmlns:ns7="http://monitor.cagrid.org/MonitorService"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="xsd:long" dimensionality="1" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="MonitorFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="Get history" name="getEventHistory">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns8:Event" dimensionality="1" index="0" isArray="false" isRequired="false" name="event" xmlns:ns8="http://monitor.cagrid.org/MonitorService"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns9:Job" dimensionality="1" isArray="true" xmlns:ns9="http://monitor.cagrid.org/MonitorService"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="MonitorFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="Service Metadata" name="addServiceMetadata">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns1:ServiceMetadata" dimensionality="1" index="0" isArray="false" isRequired="false" name="serviceMetadata"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+     </ns2:operationCollection>
+     <ns2:contextPropertyCollection>
+      <ns2:ContextProperty description="" name="{gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata}ServiceMetadata"/>
+     </ns2:contextPropertyCollection>
+    </ns2:ServiceContext>
+   </ns2:serviceContextCollection>
+   <ns10:SemanticMetadata conceptCode="C63541" conceptDefinition="A service available on a system that coordinates resources that are not subject to central control, using open, general purpose protocols and interfaces to deliver nontrivial qualities of services." conceptName="Grid Service" order="0" xmlns:ns10="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns11:SemanticMetadata conceptCode="C63543" conceptDefinition="A published API which receives data in the form of objects, performs computations based upon the input data, and returns information to a client via caGrid in the form of one or more objects." conceptName="Analytical Grid Service" order="1" xmlns:ns11="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns2:Service>
+ </ns1:serviceDescription>
+ <ns1:hostingResearchCenter>
+  <ns12:ResearchCenter displayName="MonitoringService" shortName="Monitor" xmlns:ns12="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+   <ns12:Address country="US" locality="Columbus" postalCode="43210" stateProvince="OH" street1="336 Biomedical Research Tower" street2="460 W 12th Ave"/>
+   <ns12:ResearchCenterDescription description="" homepageURL="" imageURL="" rssNewsURL=""/>
+   <ns12:pointOfContactCollection>
+    <ns12:PointOfContact affiliation="OSU" email="joe.george@osumc.edu" firstName="Joe" lastName="George" phoneNumber="" role="Developer"/>
+   </ns12:pointOfContactCollection>
+  </ns12:ResearchCenter>
+ </ns1:hostingResearchCenter>
+</ns1:ServiceMetadata>

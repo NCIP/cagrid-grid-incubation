@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.cagrid.monitor.db">
+  <class name="Source" table="source" lazy="false">
+  	<id name="id" column="id">
+  		<generator class="native" />
+  	</id>
+  	<property name="name"></property>
+  	<property name="description"></property>
+  	<property name="enabled"></property>
+  	<property name="epr" type="org.cagrid.monitor.service.hibernate.URLUserType" ></property>
+  </class>
+</hibernate-mapping>

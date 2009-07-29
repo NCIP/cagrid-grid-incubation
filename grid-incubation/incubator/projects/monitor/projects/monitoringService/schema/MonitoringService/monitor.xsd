@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://monitor.cagrid.org/MonitorService"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://monitor.cagrid.org/MonitorService">
+
+	<element name="Event" type="tns:Event" />
+	<element name="Service" type="tns:Service" />
+	<element name="Task" type="tns:Task" />
+	<element name="Job" type="tns:Job" />
+	<element name="MetaData" type="tns:MetaData" />
+
+	<complexType name="Event">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="service" type="tns:Service" />
+			<element name="task" type="tns:Task" />
+			<element name="frequency" type="long" />
+			<element name="status" type="tns:StatusType" />
+			<element name="enabled" type="boolean" />
+			<element name="lastRuntime" type="date" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Service">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="name" type="string" />
+			<element name="description" type="string" />
+			<element name="epr" type="anyURI" />
+			<element name="enabled" type="boolean" />
+			<element name="type" type="tns:Type" />
+			<element name="source" type="tns:Source" />
+			<element name="metadata" type="tns:MetaData" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Task">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="name" type="string" />
+			<element name="description" type="string" />
+			<element name="command" type="string" />
+			<element name="enabled" type="boolean" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Job">
+		<sequence>
+			<element name="duration" type="long" />
+			<element name="id" type="long" />
+			<element name="result" type="tns:ResultType" />
+			<element name="started" type="date" />
+			<element name="status" type="tns:StatusType" />
+			<element name="event_id" type="long" />
+		</sequence>
+	</complexType>
+
+
+	<simpleType name="StatusType">
+		<restriction base="string">
+			<enumeration value="DISABLED" />
+			<enumeration value="RUNNING" />
+			<enumeration value="STOPPED" />
+			<enumeration value="AVAILABLE" />
+			<enumeration value="PENDING" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="ResultType">
+		<restriction base="string">
+			<enumeration value="SUCCESS" />
+			<enumeration value="FAILURE" />
+			<enumeration value="ERROR" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="Source">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="name" type="string" />
+			<element name="description" type="string" />
+			<element name="epr" type="anyURI" />
+			<element name="enabled" type="boolean" />
+			<element name="type" type="tns:Type" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Type">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="name" type="string" />
+			<element name="description" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="MetaData">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="first_name" type="string" />
+			<element name="last_name" type="string" />
+			<element name="email" type="string" />
+			<element name="phone" type="string" />
+			<element name="organization" type="string" />
+		</sequence>
+	</complexType>
+
+</schema>

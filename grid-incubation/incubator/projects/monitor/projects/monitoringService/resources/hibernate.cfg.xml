@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="localhost">
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">monitor</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/monitor</property>
+        <property name="hibernate.connection.username">monitor</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+        
+        <property name="current_session_context_class">thread</property>
+        
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">false</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">create</property>
+
+        <mapping resource="event.hbm.xml"/>
+        <mapping resource="job.hbm.xml"/>
+        <mapping resource="metadata.hbm.xml"/>
+        <mapping resource="service.hbm.xml"/>
+        <mapping resource="source.hbm.xml"/>
+        <mapping resource="task.hbm.xml"/>
+        <mapping resource="type.hbm.xml"/>
+
+    </session-factory>
+</hibernate-configuration>

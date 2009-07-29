@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.cagrid.monitor.db">
+  <class name="Service" table="service" lazy="false">
+  	<id name="id" column="id">
+  		<generator class="native" />
+  	</id>
+  	<property name="name"></property>
+  	<property name="enabled"></property>
+  	<property name="description"></property>
+  	<property name="epr" type="org.cagrid.monitor.service.hibernate.URLUserType"></property><!--
+  	<many-to-one name="metadata" class="MetaData" column="metadata_id" not-null="true" />
+  	<many-to-one name="source" class="Source" column="source_id" not-null="true" />
+  	<many-to-one name="type" class="Type" column="type_id" not-null="true" />
+  --></class>
+</hibernate-mapping>
