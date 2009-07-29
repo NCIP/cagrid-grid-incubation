@@ -4,8 +4,9 @@ package org.cagrid.i2b2.ontomapper.processor;
 public class I2B2QueryFactory {
 
     
-    //Placeholder for table name prefixes in queries
+    // placeholder for table name prefixes in queries
     private static final String HOLDER = "<!--TablePrefix-->";
+    // query to get CONCEPT_PATHs from a given CDE number
     private static final String CDE_PATHS = 
         "select cd.concept_path from " + HOLDER + "concept_dimension cd, " + HOLDER + "ENCODING_DIMENSION ed, " 
             + HOLDER + "ENCODING_PROJECT ep, " + HOLDER + "ENCODING_PROJECT_LINK epl, " + HOLDER + "ENCODING_SERVICE es "
@@ -14,10 +15,25 @@ public class I2B2QueryFactory {
             + "and epl.encoding_project_id = ep.encoding_project_id "
             + "and ep.encoding_service_id = es.encoding_service_id "
             + "and ed.cde_public_id = ? and es.service_url = ? and ep.project_name = ? and ep.project_version = ?";
+    // fields required to get anything useful out of a fact table
+    private static final String REQUIRED_FACT_FIELDS = "ValType_Cd, TVal_Char, NVal_Num";
+    // optional fields that help correlate data in fact tables
+    private static final String OPTIONAL_FACT_FIELDS = "Encounter_Num, Patient_Num";
+    // query for the observation_fact table
     private static final String OBSERVATIONS_BY_PATH_A = 
-        "select * from " + HOLDER + "observation_fact obs where ";
+        "select " + REQUIRED_FACT_FIELDS + ", " + OPTIONAL_FACT_FIELDS + " from " + HOLDER + "observation_fact obs where ";
     private static final String OBSERVATIONS_BY_PATH_COLUMN = "obs.concept_path";
     private static final String OBSERVATIONS_BY_PATH_B = " order by obs.encounter_num, obs.patient_num";
+    // query for the map_data_fact table
+    private static final String MAP_DATA_BY_PATH_A = 
+        "select" + REQUIRED_FACT_FIELDS + ", " + OPTIONAL_FACT_FIELDS + " from " + HOLDER + "map_data_fact mdf where ";
+    private static final String MAP_DATA_BY_PATH_COLUMN = "mdf.concept_path";
+    private static final String MAP_DATA_BY_PATH_B = " order by mdf.encounter_num, mdf.patient_num";
+    // query for map_aggr_fact table (no optional fields here)
+    private static final String MAP_AGGR_BY_PATH_A = 
+        "select " + REQUIRED_FACT_FIELDS + " from " + HOLDER + "map_aggr_fact maf where ";
+    private static final String MAP_AGGR_BY_PATH_COLUMN = "maf.concept_path";
+    private static final String MAP_AGGR_BY_PATH_B = " order by maf.map_id"; // TODO: check this field
     
     private String databasePrefix = null;
     
@@ -44,6 +60,26 @@ public class I2B2QueryFactory {
         String clause = getParameterizedOrClause(OBSERVATIONS_BY_PATH_COLUMN, "=", pathCount);
         query.append(clause);
         query.append(replacePrefixes(OBSERVATIONS_BY_PATH_B));
+        return query.toString();
+    }
+    
+    
+    public String getMapDataByPathQuery(int pathCount) {
+        StringBuffer query = new StringBuffer();
+        query.append(replacePrefixes(MAP_DATA_BY_PATH_A));
+        String clause = getParameterizedOrClause(MAP_DATA_BY_PATH_COLUMN, "=", pathCount);
+        query.append(clause);
+        query.append(replacePrefixes(MAP_DATA_BY_PATH_B));
+        return query.toString();
+    }
+    
+    
+    public String getMapAggrByPathQuery(int pathCount) {
+        StringBuffer query = new StringBuffer();
+        query.append(replacePrefixes(MAP_AGGR_BY_PATH_A));
+        String clause = getParameterizedOrClause(MAP_AGGR_BY_PATH_COLUMN, "=", pathCount);
+        query.append(clause);
+        query.append(replacePrefixes(MAP_AGGR_BY_PATH_B));
         return query.toString();
     }
     
