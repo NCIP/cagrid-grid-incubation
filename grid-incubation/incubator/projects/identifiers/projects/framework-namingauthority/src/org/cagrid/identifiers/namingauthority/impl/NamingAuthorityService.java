@@ -7,9 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.cagrid.identifiers.namingauthority.http.HttpProcessor;
+
 public class NamingAuthorityService extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private NamingAuthorityImpl na;
+	private NamingAuthorityImpl namingAuthority;
+	private HttpProcessor httpProcessor;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -25,46 +28,39 @@ public class NamingAuthorityService extends HttpServlet {
 		System.out.println("NamingAuthorityService initializing...");
 		
 		String identifiersNaDbUrl = config.getInitParameter("identifiersNaDbUrl");
-		String identifiersNaHttpServerPort = config.getInitParameter("identifiersNaHttpServerPort");
 		String identifiersNaDbUser = config.getInitParameter("identifiersNaDbUser");
 		String identifiersNaDbPassword = config.getInitParameter("identifiersNaDbPassword");
 		String identifiersNaPrefix = config.getInitParameter("identifiersNaPrefix");
+		String identifiersNaGridSvcUrl = config.getInitParameter("identifiersNaGridSvcUrl");
 		
 		//
 		// Start Naming Authority
 		//
 		NamingAuthorityConfigImpl naConfig = new NamingAuthorityConfigImpl();
 		naConfig.setPrefix(identifiersNaPrefix);
-		naConfig.setHttpServerPort(Integer.valueOf(identifiersNaHttpServerPort));
 		naConfig.setDbUrl(identifiersNaDbUrl);
 		naConfig.setDbUser(identifiersNaDbUser);
 		naConfig.setDbPassword(identifiersNaDbPassword);
+		naConfig.setGridSvcUrl(identifiersNaGridSvcUrl);
 
-		na = new NamingAuthorityImpl(naConfig);
-		na.startHttpServer();
+		this.namingAuthority = new NamingAuthorityImpl(naConfig);
+		this.httpProcessor = new HttpProcessor( this.namingAuthority );
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		System.out.println("getPathInfo["+request.getPathInfo()+"]");
-//		System.out.println("getQueryString["+request.getQueryString()+"]");
-//		System.out.println("getRequestURI["+request.getRequestURI()+"]");
-//		System.out.println("getRequestURL["+request.getRequestURL()+"]");
-//		System.out.println("getServerName["+request.getServerName()+"]");
-//		System.out.println("getServerPort["+request.getServerPort()+"]");
-//		System.out.println("getServletPath["+request.getServletPath()+"]");
+		System.out.println("getPathInfo["+request.getPathInfo()+"]");
+		System.out.println("getQueryString["+request.getQueryString()+"]");
+		System.out.println("getRequestURI["+request.getRequestURI()+"]");
+		System.out.println("getRequestURL["+request.getRequestURL()+"]");
+		System.out.println("getServerName["+request.getServerName()+"]");
+		System.out.println("getServerPort["+request.getServerPort()+"]");
+		System.out.println("getServletPath["+request.getServletPath()+"]");
 		
-		String site = "http://" + request.getServerName();
 		
-		if ( na.getConfig().getHttpServerPort() != null )
-			site += ":" + na.getConfig().getHttpServerPort();
-		
-		if ( request.getQueryString() != null ) 
-			site += "/" + request.getQueryString();
-		
-		response.sendRedirect(site);
+		httpProcessor.processRequest(request, response);
 	}
 
 	/**

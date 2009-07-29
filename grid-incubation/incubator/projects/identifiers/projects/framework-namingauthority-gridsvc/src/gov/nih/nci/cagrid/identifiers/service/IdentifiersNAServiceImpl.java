@@ -23,7 +23,6 @@ public class IdentifiersNAServiceImpl extends IdentifiersNAServiceImplBase {
 		NamingAuthorityConfigImpl config = new NamingAuthorityConfigImpl();
 		try {
 			config.setPrefix(getConfiguration().getIdentifiersNaPrefix());
-			config.setHttpServerPort(Integer.parseInt(getConfiguration().getIdentifiersNaHttpServerPort()));
 			config.setGridSvcUrl(getConfiguration().getIdentifiersNaGridSvcUrl());
 			config.setDbUrl(getConfiguration().getIdentifiersNaDbUrl());
 			config.setDbUser(getConfiguration().getIdentifiersNaDbUser());
@@ -34,9 +33,6 @@ public class IdentifiersNAServiceImpl extends IdentifiersNAServiceImplBase {
 			e.printStackTrace();
 		}
 		_na = new NamingAuthorityImpl(config);
-		
-		//Start a web server for http resolution
-		_na.startHttpServer();
 	}
 	
 

@@ -47,8 +47,6 @@ public class IdentifiersNAServiceConfiguration implements ServiceConfiguration {
 	
 	private String identifiersNaPrefix;
 	
-	private String identifiersNaHttpServerPort;
-	
 	private String identifiersNaDbUrl;
 	
 	private String identifiersNaDbUser;
@@ -75,16 +73,6 @@ public class IdentifiersNAServiceConfiguration implements ServiceConfiguration {
 	
 	public void setIdentifiersNaPrefix(String identifiersNaPrefix) {
 		this.identifiersNaPrefix = identifiersNaPrefix;
-	}
-
-	
-	public String getIdentifiersNaHttpServerPort() {
-		return identifiersNaHttpServerPort;
-	}
-	
-	
-	public void setIdentifiersNaHttpServerPort(String identifiersNaHttpServerPort) {
-		this.identifiersNaHttpServerPort = identifiersNaHttpServerPort;
 	}
 
 	

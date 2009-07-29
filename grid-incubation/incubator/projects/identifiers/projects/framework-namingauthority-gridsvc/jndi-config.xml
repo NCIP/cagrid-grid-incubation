@@ -34,10 +34,6 @@
           <value>@identifiersNaPrefix@</value>
         </parameter>
         <parameter>
-          <name>identifiersNaHttpServerPort</name>
-          <value>@identifiersNaHttpServerPort@</value>
-        </parameter>
-        <parameter>
           <name>identifiersNaDbUrl</name>
           <value>@identifiersNaDbUrl@</value>
         </parameter>

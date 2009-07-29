@@ -10,10 +10,10 @@
     		<param-name>identifiersNaDbUrl</param-name>
     		<param-value>jdbc:mysql://localhost/identifiers</param-value>
   		</init-param>
-  		<init-param>
-    		<param-name>identifiersNaHttpServerPort</param-name>
-    		<param-value>8081</param-value>
-    	</init-param>
+		<init-param>
+         <param-name>identifiersNaGridSvcUrl</param-name>
+         <param-value>http://localhost:8080/wsrf/services/cagrid/IdentifiersNAService</param-value>
+      </init-param>
     	<init-param>
     		<param-name>identifiersNaDbUser</param-name>
     		<param-value>root</param-value>
@@ -30,7 +30,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>NamingAuthorityService</servlet-name>
-		<url-pattern>/NamingAuthorityService</url-pattern>
+		<url-pattern>/NamingAuthorityService/*</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

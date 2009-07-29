@@ -133,7 +133,6 @@
  <ns15:Extensions xsi:type="ns15:ExtensionsType" xmlns:ns15="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
  <ns16:ServiceProperties xmlns:ns16="gme://gov.nih.nci.cagrid.introduce/1/Property">
   <ns16:Property description="The naming authority prefix" isFromETC="false" key="identifiersNaPrefix" value="http://localhost:8090/cagrid"/>
-  <ns16:Property description="The naming authority's http server port" isFromETC="false" key="identifiersNaHttpServerPort" value="8081"/>
   <ns16:Property description="DB hosting the naming authority's identifier_values table" isFromETC="false" key="identifiersNaDbUrl" value="jdbc:mysql://localhost/identifiers"/>
   <ns16:Property description="User name to connect to the DB" isFromETC="false" key="identifiersNaDbUser" value="root"/>
   <ns16:Property description="Password to connect to the DB" isFromETC="false" key="identifiersNaDbPassword" value="cagrid"/>
