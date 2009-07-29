@@ -6,9 +6,7 @@ import gov.nih.nci.cagrid.data.InitializationException;
 import gov.nih.nci.cagrid.data.MalformedQueryException;
 import gov.nih.nci.cagrid.data.QueryProcessingException;
 import gov.nih.nci.cagrid.data.cql.CQLQueryProcessor;
-import gov.nih.nci.cagrid.data.mapping.Mappings;
 import gov.nih.nci.cagrid.data.utilities.CQLResultsCreationUtil;
-import gov.nih.nci.cagrid.data.utilities.ResultsCreationException;
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 
@@ -17,6 +15,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,13 +27,10 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cagrid.i2b2.beans.test.Observation;
 import org.cagrid.i2b2.ontomapper.utils.AttributeNotFoundInModelException;
 import org.cagrid.i2b2.ontomapper.utils.CdeIdMapper;
 import org.cagrid.i2b2.ontomapper.utils.ClassNotFoundInModelException;
 import org.cagrid.i2b2.ontomapper.utils.DomainModelCdeIdMapper;
-import org.cagrid.i2b2.ontomapper.utils.ObjectAssembler;
-import org.cagrid.i2b2.ontomapper.utils.ObjectAssemblyException;
 
 /** 
  *  I2B2QueryProcessor
@@ -87,6 +83,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
         props.setProperty(JDBC_USERNAME, "");
         props.setProperty(JDBC_PASSWORD, "");
         props.setProperty(CADSR_URL, DEFAULT_CADSR_URL);
+        props.setProperty(TABLE_NAME_PREFIX, "");
         return props;
     }
     
@@ -194,17 +191,34 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
             }
         }
         
-        // get observation instances from the DB based on each query path
-        List<Observation> observations = getObservationsByPaths(paths);
-        
-        // wait... now what do I pull out of here as an attribute??? TVal_Char, I guess
-        
-        List<String> tvalCharValues = new LinkedList<String>();
-        for (Observation ob : observations) {
-            tvalCharValues.add(ob.getTVal_Char());
+        List<DataEntry> observationEntries = null;
+        List<DataEntry> mapDataEntries = null;
+        List<DataEntry> mapAggrEntries = null;
+        if (paths.size() != 0) {
+            // get observation instances from the DB based on each query path
+            observationEntries = getFactEntriesByPaths(DatabaseFactTable.OBSERVATION, paths);
+            mapDataEntries = getFactEntriesByPaths(DatabaseFactTable.MAP_DATA, paths);
+            mapAggrEntries = getFactEntriesByPaths(DatabaseFactTable.MAP_AGGREGATE, paths);
+        } else {
+            // empty lists
+            observationEntries = new LinkedList<DataEntry>();
+            mapDataEntries = new LinkedList<DataEntry>();
+            mapAggrEntries = new LinkedList<DataEntry>();
         }
+        
+        Set<String> distinctValues = new HashSet<String>();
+        for (DataEntry entry : observationEntries) {
+            distinctValues.add(entry.getActualValueAsString());
+        }
+        for (DataEntry entry : mapDataEntries) {
+            distinctValues.add(entry.getActualValueAsString());
+        }
+        for (DataEntry entry : mapAggrEntries) {
+            distinctValues.add(entry.getActualValueAsString());
+        }
+        List<String> values = new LinkedList<String>(distinctValues);
         CQLQueryResults fakeResults = CQLResultsCreationUtil.createAttributeResults(
-            tvalCharValues, className, new String[] {attributeName});
+            values, className, new String[] {attributeName});
         
         return fakeResults;
     }
@@ -239,43 +253,49 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     }
     
     
-    // temporary method only knows how to get observation instances
-    private List<Observation> getObservationsByPaths(List<String> paths) throws QueryProcessingException {
-        LOG.debug("Looking up observations for a list of concept paths");
-        List<Observation> observations = null;
-        String observationsSQL = queryFactory.getObservationsByPathQuery(paths.size());
+    private List<DataEntry> getFactEntriesByPaths(DatabaseFactTable table, List<String> paths) throws QueryProcessingException {
+        List<DataEntry> entries = null;
+        String parameterisedSql = null;
+        switch (table) {
+            case OBSERVATION:
+                parameterisedSql = queryFactory.getObservationsByPathQuery(paths.size());
+                break;
+            case MAP_DATA:
+                parameterisedSql = queryFactory.getMapDataByPathQuery(paths.size());
+                break;
+            case MAP_AGGREGATE:
+                parameterisedSql = queryFactory.getMapAggrByPathQuery(paths.size());
+                break;
+        }
         Connection dbConnection = null;
-        PreparedStatement obsStatement = null;
-        ResultSet obsResults = null;
+        PreparedStatement statement = null;
+        ResultSet results = null;
         try {
             dbConnection = connectionSource.getConnection();
-            obsStatement = dbConnection.prepareStatement(observationsSQL);
+            statement = dbConnection.prepareStatement(parameterisedSql);
             int index = 1;
             for (String path : paths) {
-                obsStatement.setString(index, path);
+                statement.setString(index, path);
                 index++;
             }
-            obsResults = obsStatement.executeQuery();
-            observations = ObjectAssembler.assembleObjects(obsResults, Observation.class);
+            results = statement.executeQuery();
+            entries = convertResultsToEntries(results);
         } catch (SQLException ex) {
-            String message = "Error querying for Observations by CDE paths: " + ex.getMessage();
+            String message = "Error querying for fact data by CDE paths: " + ex.getMessage();
             LOG.error(message, ex);
-            throw new QueryProcessingException(message, ex);
-        } catch (ObjectAssemblyException ex) {
-            String message = "Error assembling Observation instances: " + ex.getMessage();
-            LOG.error(message, ex);
+            LOG.error("SQL:\n" + parameterisedSql);
             throw new QueryProcessingException(message, ex);
         } finally {
-            if (obsResults != null) {
+            if (results != null) {
                 try {
-                    obsResults.close();
+                    results.close();
                 } catch (SQLException ex) {
                     LOG.error("Error closing result set: " + ex.getMessage(), ex);
                 }
             }
-            if (obsStatement != null) {
+            if (statement != null) {
                 try {
-                    obsStatement.close();
+                    statement.close();
                 } catch (SQLException ex) {
                     LOG.error("Error closing statement: " + ex.getMessage(), ex);
                 }
@@ -288,7 +308,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
                 }
             }
         }
-        return observations;
+        return entries;
     }
     
     
@@ -351,5 +371,101 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
             }
         }
         return paths;
+    }
+    
+    
+    private List<DataEntry> convertResultsToEntries(ResultSet results) throws SQLException, QueryProcessingException {
+        List<DataEntry> entries = new LinkedList<DataEntry>();
+        ResultSetMetaData metadata = results.getMetaData();
+        int columnCount = metadata.getColumnCount();
+        if (columnCount != 3 || columnCount != 5) {
+            String message = "Unexpected number of columns in result set: " + metadata.getColumnCount();
+            LOG.error(message);
+            throw new QueryProcessingException(message);
+        }
+        while (results.next()) {
+            DataEntry entry = null;
+            String valueType = results.getString(I2B2QueryFactory.VALUE_TYPE_FIELD);
+            String textValue = results.getString(I2B2QueryFactory.TEXT_VALUE_FIELD);
+            String numValueString = results.getString(I2B2QueryFactory.NUMERIC_VALUE_FIELD);
+            Double numValue = numValueString != null ? Double.valueOf(numValueString) : null;
+            if (columnCount == 5) {
+                String encounterNumString = results.getString(I2B2QueryFactory.ENCOUNTER_NUMBER_FIELD);
+                String patientNumString = results.getString(I2B2QueryFactory.PATIENT_NUMBER_FIELD);
+                Integer encounterNum = encounterNumString != null ? Integer.valueOf(encounterNumString) : null;
+                Integer patientNum = patientNumString != null ? Integer.valueOf(patientNumString) : null;
+                entry = new DataEntry(valueType, textValue, numValue, encounterNum, patientNum);
+            } else {
+                entry = new DataEntry(valueType, textValue, numValue);
+            }
+            entries.add(entry);
+        }
+        return entries;
+    }
+    
+    
+    private static class DataEntry {
+        private String valueType = null;
+        private String textValue = null;
+        private Double numericValue = null;
+        
+        private Integer encounterNumber;
+        private Integer patientNumber;
+        
+        public DataEntry(String valueType, String textValue, Double numericValue) {
+            this(valueType, textValue, numericValue, null, null);
+        }
+        
+
+        public DataEntry(String valueType, String textValue, Double numericValue, 
+            Integer encounterNumber, Integer patientNumber) {
+            this.valueType = valueType;
+            this.textValue = textValue;
+            this.numericValue = numericValue;
+            this.encounterNumber = encounterNumber;
+            this.patientNumber = patientNumber;
+        }
+
+
+        public String getValueType() {
+            return valueType;
+        }
+
+
+        public String getTextValue() {
+            return textValue;
+        }
+
+
+        public Double getNumericValue() {
+            return numericValue;
+        }
+
+
+        public int getEncounterNumber() {
+            return encounterNumber;
+        }
+
+
+        public int getPatientNumber() {
+            return patientNumber;
+        }
+        
+        
+        public String getActualValueAsString() {
+            String realValue = null;
+            // T = text
+            // N = number (double????)
+            // D = date - time
+            // B = ? (no actual values with this one)
+            // @ = no data
+            if ("T".equals(getValueType()) || "D".equals(getValueType()) || "B".equals(getValueType())) {
+                realValue = getTextValue();
+            } else if ("N".equals(getValueType())) {
+                realValue = String.valueOf(getNumericValue());
+            }
+            LOG.debug("Unknown value type: " + getValueType() + ", returning null value");
+            return realValue;
+        }
     }
 }

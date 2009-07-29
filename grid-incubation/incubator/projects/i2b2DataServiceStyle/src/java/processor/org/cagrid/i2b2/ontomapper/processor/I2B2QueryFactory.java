@@ -3,7 +3,6 @@ package org.cagrid.i2b2.ontomapper.processor;
 
 public class I2B2QueryFactory {
 
-    
     // placeholder for table name prefixes in queries
     private static final String HOLDER = "<!--TablePrefix-->";
     // query to get CONCEPT_PATHs from a given CDE number
@@ -16,9 +15,14 @@ public class I2B2QueryFactory {
             + "and ep.encoding_service_id = es.encoding_service_id "
             + "and ed.cde_public_id = ? and es.service_url = ? and ep.project_name = ? and ep.project_version = ?";
     // fields required to get anything useful out of a fact table
-    private static final String REQUIRED_FACT_FIELDS = "ValType_Cd, TVal_Char, NVal_Num";
+    public static final String VALUE_TYPE_FIELD = "ValType_Cd";
+    public static final String TEXT_VALUE_FIELD = "TVal_Char";
+    public static final String NUMERIC_VALUE_FIELD = "NVal_Num";
+    public static final String ENCOUNTER_NUMBER_FIELD = "Encounter_Num";
+    public static final String PATIENT_NUMBER_FIELD = "Patient_Num";
+    private static final String REQUIRED_FACT_FIELDS = VALUE_TYPE_FIELD + ", " + TEXT_VALUE_FIELD + ", " + NUMERIC_VALUE_FIELD;
     // optional fields that help correlate data in fact tables
-    private static final String OPTIONAL_FACT_FIELDS = "Encounter_Num, Patient_Num";
+    private static final String OPTIONAL_FACT_FIELDS = ENCOUNTER_NUMBER_FIELD + ", " + PATIENT_NUMBER_FIELD;
     // query for the observation_fact table
     private static final String OBSERVATIONS_BY_PATH_A = 
         "select " + REQUIRED_FACT_FIELDS + ", " + OPTIONAL_FACT_FIELDS + " from " + HOLDER + "observation_fact obs where ";
