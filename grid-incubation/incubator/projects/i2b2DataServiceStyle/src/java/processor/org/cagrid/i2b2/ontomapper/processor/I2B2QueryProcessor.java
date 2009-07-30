@@ -378,7 +378,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
         List<DataEntry> entries = new LinkedList<DataEntry>();
         ResultSetMetaData metadata = results.getMetaData();
         int columnCount = metadata.getColumnCount();
-        if (columnCount != 3 || columnCount != 5) {
+        if (!(columnCount == 3 || columnCount == 5)) {
             String message = "Unexpected number of columns in result set: " + metadata.getColumnCount();
             LOG.error(message);
             throw new QueryProcessingException(message);
