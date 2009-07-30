@@ -40,3 +40,20 @@ Valtype_CD tells you which column the real data lives in
 Everything else in there is "metadata"
 
 Maps getting re-run - not putting anything in ValType_Cd.  Awsome.  Also, nothing in TVal_Char, or NVal_Num.  For trial bank stuff, there's no data in there, so the ValType_Cd doesn't get populated
+
+			  CQLQuery query = new CQLQuery();
+			  Object target = new Object();
+			  target.setName("i2b2.miniocre.Study");
+			  QueryModifier mods = new QueryModifier();
+			  mods.setDistinctAttribute("NCT_number");
+			  query.setTarget(target);
+			  query.setQueryModifier(mods);
+			  
+			  System.out.println("Querying");
+			  CQLQueryResults results = client.query(query);
+			  Iterator iter = new CQLQueryResultsIterator(results, true);
+			  System.out.println("Iterating");
+			  while (iter.hasNext()) {
+			      System.out.println(iter.next());
+			  }
+			  System.out.println("Done");
