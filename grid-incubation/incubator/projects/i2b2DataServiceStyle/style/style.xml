@@ -1,5 +1,5 @@
 <DataServiceStyle xmlns="http://gov.nih.nci.cagrid.data/Style"
-	name="I2B2" version="1.3">
+	name="I2B2 Ontomapper" version="1.3">
 	<CompatibleCaGridVersions>
 		<Version>1.3</Version>
 	</CompatibleCaGridVersions>
@@ -8,6 +8,7 @@
 		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.IntroductionPanel" />
 		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.DomainModelPanel" />
 		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.DatabasePanel" />
+		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.EncodingServicePanel"/>
 	</CreationWizardPanels>
 	<ModificationUiPanel
 		classname="org.cagrid.i2b2.ontomapper.style.ModificationPanel" />
