@@ -38,6 +38,8 @@ public class I2B2QueryFactory {
         "select " + REQUIRED_FACT_FIELDS + " from " + HOLDER + "map_aggr_fact maf where ";
     private static final String MAP_AGGR_BY_PATH_COLUMN = "maf.concept_path";
     private static final String MAP_AGGR_BY_PATH_B = " order by maf.map_id"; // TODO: check this field
+    // query for encoding service URLs
+    private static final String ENCODING_SERVICE_URL = "select service_url from " + HOLDER + "encoding_service";
     
     private String databasePrefix = null;
     
@@ -85,6 +87,11 @@ public class I2B2QueryFactory {
         query.append(clause);
         query.append(replacePrefixes(MAP_AGGR_BY_PATH_B));
         return query.toString();
+    }
+    
+    
+    public String getEncodingServiceQuery() {
+        return replacePrefixes(ENCODING_SERVICE_URL);
     }
     
     
