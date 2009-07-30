@@ -48,7 +48,7 @@ public abstract class BaseConfigurationManager {
     }
     
     
-    protected String getServiceProperty(String shortKey) throws Exception {
+    public String getServiceProperty(String shortKey) throws Exception {
         String fullKey =DataServiceConstants.QUERY_PROCESSOR_CONFIG_PREFIX + shortKey;
         String value = null;
         if (CommonTools.servicePropertyExists(getServiceInformation().getServiceDescriptor(), fullKey)) {
