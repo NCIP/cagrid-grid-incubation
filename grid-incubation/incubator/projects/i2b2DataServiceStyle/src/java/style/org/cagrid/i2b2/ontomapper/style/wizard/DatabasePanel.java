@@ -578,7 +578,7 @@ public class DatabasePanel extends AbstractWizardPanel {
                         className = className.replace('/', '.');
                         LOG.debug("Trying to load class " + className);
                         try {
-                            Class clazz = jdbcClassLoader.loadClass(className);
+                            Class<?> clazz = jdbcClassLoader.loadClass(className);
                             if (Driver.class.isAssignableFrom(clazz)) {
                                 // keep drivers in a sorted set
                                 LOG.debug(className + " appears to be a JDBC driver");
@@ -622,7 +622,7 @@ public class DatabasePanel extends AbstractWizardPanel {
                 URL jarUrl = new File(jdbcJarFilename).toURL();
                 URLClassLoader jdbcClassLoader = new URLClassLoader(new URL[] {jarUrl}, getClass().getClassLoader());
                 // load the driver
-                Class driverClass = jdbcClassLoader.loadClass(getDriverClassnameComboBox().getSelectedItem().toString());
+                Class<?> driverClass = jdbcClassLoader.loadClass(getDriverClassnameComboBox().getSelectedItem().toString());
                 results.append("Loaded driver...\n");
                 // register the driver
                 Driver driver = (Driver) driverClass.newInstance();
@@ -717,9 +717,6 @@ public class DatabasePanel extends AbstractWizardPanel {
         
         // update next button enabled
         setNextEnabled(!validationModel.hasErrors());
-        
-        // TODO: remove this if we add a panel for schemas
-        setWizardComplete(!validationModel.hasErrors());
     }
     
     
