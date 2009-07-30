@@ -30,7 +30,7 @@ public class I2B2QueryFactory {
     private static final String OBSERVATIONS_BY_PATH_B = " order by obs.encounter_num, obs.patient_num";
     // query for the map_data_fact table
     private static final String MAP_DATA_BY_PATH_A = 
-        "select" + REQUIRED_FACT_FIELDS + ", " + OPTIONAL_FACT_FIELDS + " from " + HOLDER + "map_data_fact mdf where ";
+        "select " + REQUIRED_FACT_FIELDS + ", " + OPTIONAL_FACT_FIELDS + " from " + HOLDER + "map_data_fact mdf where ";
     private static final String MAP_DATA_BY_PATH_COLUMN = "mdf.concept_path";
     private static final String MAP_DATA_BY_PATH_B = " order by mdf.encounter_num, mdf.patient_num";
     // query for map_aggr_fact table (no optional fields here)
