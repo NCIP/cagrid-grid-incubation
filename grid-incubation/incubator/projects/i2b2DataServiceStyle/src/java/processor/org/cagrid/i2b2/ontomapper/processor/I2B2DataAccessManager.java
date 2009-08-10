@@ -44,6 +44,55 @@ public class I2B2DataAccessManager {
     }
     
     
+    public Map<String, List<FactDataEntry>> getAttributeValues(String className) throws QueryProcessingException {
+        // get all the attribute names and their associated CDEs
+        Map<String, Long> attributeCdes = null;
+        try {
+            attributeCdes = cdeIdMapper.getCdeIdsForClass(className);
+        } catch (ClassNotFoundInModelException ex) {
+            LOG.error(ex.getMessage(), ex);
+            throw new QueryProcessingException(ex);
+        }
+        
+        // query for fact data entries for each attribute
+        Map<String, List<FactDataEntry>> attributeEntries = new HashMap<String, List<FactDataEntry>>();
+        for (String attributeName : attributeCdes.keySet()) {
+            Long cde = attributeCdes.get(attributeName);
+            List<String> paths = getPathsForCde(cde);
+            LinkedList<FactDataEntry> entries = new LinkedList<FactDataEntry>();
+            if (paths.size() != 0) {
+                entries.addAll(getFactEntriesByPaths(DatabaseFactTable.OBSERVATION, paths));
+                entries.addAll(getFactEntriesByPaths(DatabaseFactTable.MAP_DATA, paths));
+                // TODO: this won't have encounter_num or patient_num in it, so we probably have to omit it
+                // entries.addAll(getFactEntriesByPaths(DatabaseFactTable.MAP_AGGREGATE, paths));
+            }
+            attributeEntries.put(attributeName, entries);
+        }
+        
+        /* Not sure where I was going with this...
+        // each encounter_num is a "new object instance"
+        Comparator<FactDataEntry> entryComparator = new Comparator<FactDataEntry>() {
+            public int compare(FactDataEntry o1, FactDataEntry o2) {
+                return o1.getEncounterNumber().compareTo(o2.getEncounterNumber());
+            }
+        };
+        // sort each attribute value list
+        for (LinkedList<FactDataEntry> attributeValues : attributeEntries.values()) {
+            Collections.sort(attributeValues, entryComparator);
+        }
+        // get a definitive set of all involved encounter numbers
+        SortedSet<Integer> encounterNumbers = new TreeSet<Integer>();
+        for (LinkedList<FactDataEntry> attributeValues : attributeEntries.values()) {
+            for (FactDataEntry entry : attributeValues) {
+                encounterNumbers.add(entry.getEncounterNumber());
+            }
+        }
+        */
+        
+        return attributeEntries;
+    }
+    
+    
     public List<Object> getAttributeValues(String className, String attributeName) throws QueryProcessingException {
         // get fact table entries
         List<FactDataEntry> entries = getAttribteEntries(className, attributeName);

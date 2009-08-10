@@ -1,19 +1,30 @@
 package org.cagrid.i2b2.ontomapper.processor;
 
+import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.cqlresultset.CQLQueryResults;
 import gov.nih.nci.cagrid.data.InitializationException;
 import gov.nih.nci.cagrid.data.MalformedQueryException;
 import gov.nih.nci.cagrid.data.QueryProcessingException;
 import gov.nih.nci.cagrid.data.cql.CQLQueryProcessor;
+import gov.nih.nci.cagrid.data.mapping.Mappings;
+import gov.nih.nci.cagrid.data.service.ServiceConfigUtil;
 import gov.nih.nci.cagrid.data.utilities.CQLResultsCreationUtil;
+import gov.nih.nci.cagrid.data.utilities.ResultsCreationException;
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 
 import java.io.FileReader;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -169,24 +180,141 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
 
 
     public CQLQueryResults processQuery(CQLQuery cqlQuery) throws MalformedQueryException, QueryProcessingException {
-        // for now, we can only do distinct attributes
-        enforceDistinctAttribute(cqlQuery);
+        // since this query processor is very alpha, check if the query is something it can do
+        checkCurrentCapabilities(cqlQuery);
         
-        // get some relevant information
+        // a place to put results
+        CQLQueryResults results = null;
+        
+        // see what kind of query we're doing
         String className = cqlQuery.getTarget().getName();
-        String attributeName = cqlQuery.getQueryModifier().getDistinctAttribute();
+        if (cqlQuery.getQueryModifier() != null && cqlQuery.getQueryModifier().getDistinctAttribute() != null) {
+            // distinct attributes
+            String attributeName = cqlQuery.getQueryModifier().getDistinctAttribute();
+            List<String> values = dataAccessManager.getAttributeStringValues(className, attributeName);
+            results = CQLResultsCreationUtil.createAttributeResults(
+                values, className, new String[] {attributeName});
+        } else {
+            // objects
+            List<Object> values = getObjectValues(className);
+            try {
+                results = CQLResultsCreationUtil.createObjectResults(values, className, getClassToQnameMappings());
+            } catch (ResultsCreationException ex) {
+                throw new QueryProcessingException("Error creating query results: " + ex.getMessage(), ex);
+            } catch (Exception ex) {
+                throw new QueryProcessingException("Error creating query results: " + ex.getMessage(), ex);
+            }
+        }
         
-        List<String> values = dataAccessManager.getAttributeStringValues(className, attributeName);
-        CQLQueryResults fakeResults = CQLResultsCreationUtil.createAttributeResults(
-            values, className, new String[] {attributeName});
-        
-        return fakeResults;
+        return results;
     }
     
     
-    private void enforceDistinctAttribute(CQLQuery cqlQuery) throws MalformedQueryException {
-        if (cqlQuery.getQueryModifier() == null || cqlQuery.getQueryModifier().getDistinctAttribute() == null) {
-            throw new MalformedQueryException("Only distinct attrbutes are currently supported");
+    private List<Object> getObjectValues(String className) throws QueryProcessingException {
+        Map<String, List<FactDataEntry>> attributeValues = dataAccessManager.getAttributeValues(className);
+        Map<Integer, Object> objectInstances = new HashMap<Integer, Object>(); // by encounter num
+        Class<?> clazz = null;
+        try {
+            clazz = Class.forName(className);
+        } catch (ClassNotFoundException ex) {
+            throw new QueryProcessingException("Error loading class: " + ex.getMessage(), ex);
         }
+        for (String attributeName : attributeValues.keySet()) {
+            List<FactDataEntry> attributeEntries = attributeValues.get(attributeName);
+            for (FactDataEntry attributeEntry : attributeEntries) {
+                Integer encounterNum = attributeEntry.getEncounterNumber();
+                // see if an object instance exists for this encounter number
+                Object instance = null;
+                if (objectInstances.containsKey(encounterNum) && objectInstances.get(encounterNum) != null) {
+                    instance = objectInstances.get(encounterNum);
+                } else {
+                    // no instance, create a new one
+                    try {
+                        instance = clazz.newInstance();
+                    } catch (InstantiationException ex) {
+                        throw new QueryProcessingException("Unable to instantiate a new class instance: " + ex.getMessage(), ex);
+                    } catch (IllegalAccessException ex) {
+                        throw new QueryProcessingException("No default constructor found to create a new class instance: " + ex.getMessage(), ex);
+                    }
+                    objectInstances.put(encounterNum, instance);
+                }
+                Object attributeValue = null;
+                try {
+                    attributeValue = attributeEntry.getTypedValue();
+                } catch (ParseException ex) {
+                    throw new QueryProcessingException("Error parsing attribute value: " + ex.getMessage(), ex);
+                }
+                setAttributeValue(instance, attributeName, attributeValue);
+            }
+        }
+        // package up object instances in a list
+        List<Object> instances = new ArrayList<Object>();
+        instances.addAll(objectInstances.values());
+        return instances;
+    }
+    
+    
+    private void setAttributeValue(Object instance, String attributeName, Object value) throws QueryProcessingException {
+        Class<?> clazz = instance.getClass();
+        Field attributeField = null;
+        try {
+            attributeField = clazz.getField(attributeName);
+        } catch (NoSuchFieldException ex) {
+            // this happens, go check for a setter method instead
+            LOG.debug("Field " + attributeName + " not found -- will check for a setter");
+        }
+        if (attributeField != null) {
+            if (attributeField.isAccessible()) {
+                // set it and forget it!
+                try {
+                    attributeField.set(instance, value);
+                } catch (IllegalAccessException ex) {
+                    // uh oh
+                    throw new QueryProcessingException("Error setting attribute value: " + ex.getMessage(), ex);
+                }
+            } else {
+                LOG.debug("Field for attribute " + attributeName + " found, but not accessable");
+            }
+        } else {
+            String setterName = "set" + Character.toUpperCase(attributeName.charAt(0));
+            if (attributeName.length() > 1) {
+                setterName = setterName + attributeName.substring(1);
+            }
+            Method setter = null;
+            try {
+                setter = clazz.getMethod(setterName, value.getClass());
+            } catch (NoSuchMethodException ex) {
+                throw new QueryProcessingException("No accessable field or setter found for attribute: " + ex.getMessage(), ex);
+            }
+            try {
+                setter.invoke(instance, value);
+            } catch (IllegalAccessException ex) {
+                throw new QueryProcessingException("Error setting attribute value: " + ex.getMessage(), ex);
+            } catch (InvocationTargetException ex) {
+                throw new QueryProcessingException("Error setting attribute value: " + ex.getMessage(), ex);
+            }
+        }
+    }
+    
+    
+    private void checkCurrentCapabilities(CQLQuery cqlQuery) throws MalformedQueryException {
+        gov.nih.nci.cagrid.cqlquery.Object target = cqlQuery.getTarget();
+        if (target.getAssociation() != null || target.getAttribute() != null || target.getGroup() != null) {
+            throw new MalformedQueryException("Only top-level query targets are allowed");
+        }
+        if (cqlQuery.getQueryModifier() != null) {
+            if (cqlQuery.getQueryModifier().getDistinctAttribute() == null) {
+                throw new MalformedQueryException("Only distinct attrbutes in query modifiers are currently supported");
+            }
+        }
+    }
+    
+    
+    private Mappings getClassToQnameMappings() throws Exception {
+        // get the mapping file name
+        String filename = ServiceConfigUtil.getClassToQnameMappingsFile();
+        // String filename = "mapping.xml";
+        Mappings mappings = (Mappings) Utils.deserializeDocument(filename, Mappings.class);
+        return mappings;
     }
 }
