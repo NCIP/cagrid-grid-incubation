@@ -63,6 +63,7 @@
     <xs:complexContent>
       <xs:extension base="Thing">
         <xs:sequence />
+        <xs:attribute name="Type" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -87,9 +88,9 @@
     <xs:complexContent>
       <xs:extension base="Expression">
         <xs:sequence />
-        <xs:attribute name="has_concept_id" type="xs:string" />
         <xs:attribute name="has_terminology" type="xs:string" />
         <xs:attribute name="has_vesion" type="xs:string" />
+        <xs:attribute name="has_concept_id" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -143,6 +144,8 @@
     <xs:complexContent>
       <xs:extension base="Role">
         <xs:sequence />
+        <xs:attribute name="FirstName" type="xs:string" />
+        <xs:attribute name="LastName" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
