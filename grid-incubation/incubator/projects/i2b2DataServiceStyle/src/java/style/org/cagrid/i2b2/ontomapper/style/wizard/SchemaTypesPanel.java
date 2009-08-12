@@ -158,7 +158,7 @@ public class SchemaTypesPanel extends AbstractWizardPanel {
 
     private boolean allSchemasResolved() {
         for (int i = 0; i < getPackageNamespaceTable().getRowCount(); i++) {
-            String status = (String) getPackageNamespaceTable().getValueAt(i, 2);
+            SchemaMappingStatus status = (SchemaMappingStatus) getPackageNamespaceTable().getValueAt(i, 2);
             if (!status.equals(SchemaMappingStatus.FOUND)) {
                 return false;
             }

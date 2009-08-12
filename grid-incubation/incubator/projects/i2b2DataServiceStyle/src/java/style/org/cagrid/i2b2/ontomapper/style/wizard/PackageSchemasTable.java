@@ -100,7 +100,7 @@ public class PackageSchemasTable extends JTable {
                 } 
 
                 // figure out what the current status is
-                String status = (String) getValueAt(row, 2);
+                SchemaMappingStatus status = (SchemaMappingStatus) getValueAt(row, 2);
                 if (status.equals(SchemaMappingStatus.FOUND)) {
                     String[] message = {
                         "This package already has a schema associated with it.",
