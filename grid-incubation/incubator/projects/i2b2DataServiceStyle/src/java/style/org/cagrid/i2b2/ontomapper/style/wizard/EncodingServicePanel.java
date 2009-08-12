@@ -321,8 +321,6 @@ public class EncodingServicePanel extends AbstractWizardPanel {
         
         // update next button enabled
         setNextEnabled(!validationModel.hasErrors());
-        
-        setWizardComplete(true);
     }
     
     
