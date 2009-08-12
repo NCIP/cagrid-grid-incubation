@@ -31,6 +31,9 @@
       
     <!-- Introduce for extension related stuff -->
     <dependency rev="latest.integration" org="caGrid" name="introduce" conf="style->core" />
+    
+    <!-- grape for UI stuff in the style -->
+    <dependency rev="latest.integration" org="caGrid" name="grape" conf="style->default" />
 
     <!-- external dependencies -->
     <dependency rev="2.0.0" org="jgoodies" name="validation" conf="style->default"/>
