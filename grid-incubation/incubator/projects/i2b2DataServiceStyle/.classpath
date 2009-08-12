@@ -118,5 +118,7 @@
 	<classpathentry kind="lib" path="lib/jconn3.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/impl/jars/commons-pool-1.2.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/impl/jars/commons-dbcp-1.2.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/caGrid-grape-1.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/impl/jars/caGrid-grape-resources-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
