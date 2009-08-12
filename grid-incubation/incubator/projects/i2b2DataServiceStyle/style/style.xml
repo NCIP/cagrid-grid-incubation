@@ -9,6 +9,7 @@
 		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.DomainModelPanel" />
 		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.DatabasePanel" />
 		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.EncodingServicePanel"/>
+		<CreationWizardPanel classname="org.cagrid.i2b2.ontomapper.style.wizard.SchemaTypesPanel"/>
 	</CreationWizardPanels>
 	<ModificationUiPanel
 		classname="org.cagrid.i2b2.ontomapper.style.ModificationPanel" />
