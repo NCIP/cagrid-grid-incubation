@@ -71,6 +71,7 @@
 	
 	<!-- testing stuff -->
 	<property name="test.logs.dir" location="${basedir}/test/logs"/>
+	<property name="build.dirs.list" location="${build.beans.classes.dir},${build.processor.dest},${build.style.dest},${build.utils.dest}"/>
 	<import file="test/test.xml"/>
 
 	<!-- =============================================================== -->
