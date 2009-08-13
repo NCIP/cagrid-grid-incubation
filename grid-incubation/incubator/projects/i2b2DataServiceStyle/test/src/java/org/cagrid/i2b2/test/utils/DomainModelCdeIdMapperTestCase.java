@@ -25,7 +25,7 @@ import org.cagrid.i2b2.ontomapper.utils.DomainModelCdeIdMapper;
  */
 public class DomainModelCdeIdMapperTestCase extends TestCase {
     
-    public static final String MODEL_LOCATION = "/test/resources/caArray_2-1_DomainModel.xml";
+    public static final String MODEL_LOCATION = "/resources/models/caArray_2-1_DomainModel.xml";
     
     private DomainModelCdeIdMapper mapper = null;
     
