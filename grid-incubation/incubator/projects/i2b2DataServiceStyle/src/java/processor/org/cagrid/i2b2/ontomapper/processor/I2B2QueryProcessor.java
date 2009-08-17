@@ -268,8 +268,12 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
             if (attributeField.isAccessible()) {
                 Object typedValue = value;
                 Class<?> fieldType = attributeField.getClass();
-                if (value instanceof Double && (fieldType.equals(Integer.class) || fieldType.equals(BigInteger.class))) {
-                    typedValue = convertNumericType((Double) value, fieldType);
+                if (fieldType.equals(Integer.class) || fieldType.equals(BigInteger.class)) {
+                    if (value instanceof Double) {
+                        typedValue = convertNumericType((Double) value, fieldType);
+                    } else {
+                        typedValue = convertStringToNumericType(String.valueOf(value), fieldType);
+                    }
                 }
                 // set it and forget it!
                 try {
@@ -287,13 +291,26 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
                 setterName = setterName + attributeName.substring(1);
             }
             Method setter = null;
-            try {
-                setter = clazz.getMethod(setterName, value.getClass());
-            } catch (NoSuchMethodException ex) {
-                throw new QueryProcessingException("No accessable field or setter found for attribute: " + ex.getMessage(), ex);
+            Method[] allMethods = clazz.getMethods();
+            for (Method m : allMethods) {
+                if (m.getName().equals(setterName) && m.getParameterTypes().length == 1) {
+                    setter = m;
+                }
+            }
+            if (setter == null) {
+                throw new QueryProcessingException("No accessable field or setter found for attribute: " + attributeName);
             }
             try {
-                setter.invoke(instance, value);
+                Object typedValue = value;
+                Class<?> parameterType = setter.getParameterTypes()[0];
+                if (parameterType.equals(Integer.class) || parameterType.equals(BigInteger.class)) {
+                    if (value instanceof Double) {
+                        typedValue = convertNumericType((Double) value, parameterType);
+                    } else {
+                        typedValue = convertStringToNumericType(String.valueOf(value), parameterType);
+                    }
+                }
+                setter.invoke(instance, typedValue);
             } catch (IllegalAccessException ex) {
                 throw new QueryProcessingException("Error setting attribute value: " + ex.getMessage(), ex);
             } catch (InvocationTargetException ex) {
@@ -314,6 +331,12 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
             return Integer.valueOf(numeric.intValue());
         }
         throw new QueryProcessingException("Unable to convert numeric type " + numeric.getClass().getName() + " to " + type.getName());
+    }
+    
+    
+    private Object convertStringToNumericType(String numeric, Class<?> type) throws QueryProcessingException {
+        Double doubleValue = Double.valueOf(numeric);
+        return convertNumericType(doubleValue, type);
     }
     
     
