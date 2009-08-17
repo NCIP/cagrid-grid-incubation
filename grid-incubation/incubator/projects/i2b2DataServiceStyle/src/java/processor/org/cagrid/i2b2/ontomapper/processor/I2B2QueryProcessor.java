@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -265,9 +266,14 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
         }
         if (attributeField != null) {
             if (attributeField.isAccessible()) {
+                Object typedValue = value;
+                Class<?> fieldType = attributeField.getClass();
+                if (value instanceof Double && (fieldType.equals(Integer.class) || fieldType.equals(BigInteger.class))) {
+                    typedValue = convertNumericType((Double) value, fieldType);
+                }
                 // set it and forget it!
                 try {
-                    attributeField.set(instance, value);
+                    attributeField.set(instance, typedValue);
                 } catch (IllegalAccessException ex) {
                     // uh oh
                     throw new QueryProcessingException("Error setting attribute value: " + ex.getMessage(), ex);
@@ -294,6 +300,20 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
                 throw new QueryProcessingException("Error setting attribute value: " + ex.getMessage(), ex);
             }
         }
+    }
+    
+    
+    private Object convertNumericType(Double numeric, Class<?> type) throws QueryProcessingException {
+        if (numeric.doubleValue() - numeric.intValue() != 0) {
+            // TODO: should this just be a warning???
+            throw new QueryProcessingException("Attempting to truncate " + numeric + " as " + numeric.intValue());
+        }
+        if (type.equals(BigInteger.class)) {
+            return BigInteger.valueOf(numeric.intValue());
+        } else if (type.equals(Integer.class)) {
+            return Integer.valueOf(numeric.intValue());
+        }
+        throw new QueryProcessingException("Unable to convert numeric type " + numeric.getClass().getName() + " to " + type.getName());
     }
     
     
