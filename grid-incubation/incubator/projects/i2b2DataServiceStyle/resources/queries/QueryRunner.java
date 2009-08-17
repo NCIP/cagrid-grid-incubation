@@ -15,7 +15,7 @@ public class QueryRunner {
         String url = "http://localhost:8080/wsrf/services/cagrid/I2B2Demo";
         
         // the name of a CQL query XML document
-        String queryFilename = "/queries/Investigators.xml";
+        String queryFilename = "queries/Investigators.xml";
         // String queryFilename = "/queries/HealthCareProviders.xml";
         // String queryFilename = "/queries/StudyNctNumber.xml";
         
