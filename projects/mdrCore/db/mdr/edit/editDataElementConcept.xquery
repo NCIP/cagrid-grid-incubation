@@ -92,16 +92,31 @@ declare function local:DataElementConcept(
                     $definitions,
                     $preferred,
                     $sources),
+                    (:
+                    element openMDR:data_element_concept_conceptual_domain {$conceptual_domain_id},
+                    element openMDR:data_element_concept_object_class 
+                    {
+                        if ($object_class_id) then ($object_class_id) else ($full-identifier-oc)
+                    },
+                    element openMDR:data_element_concept_property 
+                    {
+                        if ($property_id) then ($property_id) else ($full-identifier-pr)
+                    }
+                    :)
+                    
                     element openMDR:data_element_concept_conceptual_domain {$conceptual_domain_id},
                     element openMDR:data_element_concept_object_class {$object_class_id},
-                    element openMDR:data_element_concept_property {$property_id})
+                    element openMDR:data_element_concept_property {$property_id}
+                    )
+                    
+                    
 let $object-class := 
    (
    element openMDR:Object_Class {
         lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-oc,$version),
-         lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
-            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
-            lib-make-admin-item:havings(
+        lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+        lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
+        lib-make-admin-item:havings(
                     $context-ids,
                     $country-identifiers,
                     $language-identifiers,
@@ -115,11 +130,11 @@ let $object-class :=
    
 let $property := 
    (
-    element openMDR:Property {
+    element openMDR:DataElementConcept {
         lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-pr,$version),
-         lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
-            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
-            lib-make-admin-item:havings(
+        lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+        lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
+        lib-make-admin-item:havings(
                     $context-ids,
                     $country-identifiers,
                     $language-identifiers,
@@ -189,7 +204,7 @@ declare function local:input-page(
       <table class="layout">
           <tr>
              <td>
-                This form will allow you to create a new DataElementConcept in the metadata repository
+                This form will allow you to Edit a DataElementConcept in the metadata repository
              </td>
           </tr>
           <tr><td>
@@ -274,7 +289,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    session:create(),
    let $id := request:get-parameter('id','')
    let $updating := request:get-parameter('updating','')
-   let $title as xs:string := "Creating a New DataElementConcept"
+   let $title as xs:string := "Editing DataElementConcept"
    let $element := lib-util:mdrElement("DataElementConcept",$id)   
    let $action := request:get-parameter('update','')
 
