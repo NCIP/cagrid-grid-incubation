@@ -40,6 +40,7 @@ declare function local:organisation(
    $administered-by as xs:string,
    $submitted-by as xs:string,
    $registered-by as xs:string,
+   
    $context-ids as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
@@ -47,11 +48,12 @@ declare function local:organisation(
    $definitions as xs:string*,
    $sources as xs:string*,
    $preferred as xs:string?,
+   
    $organization_name as xs:string?,
    $organization_mail_address as xs:string?,
-   $contact_information as xs:string?,
    $contact_name as xs:string?,
-   $contact_title as xs:string?
+   $contact_title as xs:string?,
+   $contact_information as xs:string?
    
    ) as xs:boolean
 {
@@ -74,7 +76,7 @@ declare function local:organisation(
                     $definitions,
                     $preferred,
                     $sources)
-                  
+                 
     )
    
    (: compose the document :)
@@ -107,20 +109,22 @@ declare function local:input-page(
    $administered-by  as xs:string?,
    $submitted-by  as xs:string?,
    $registered-by  as xs:string?,
+   
    $context-ids as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $action as xs:string?,
    $preferred as xs:string?,
+   
    $org_name as xs:string?,
    $org_mail_address as xs:string?,
    $contact-name as xs:string?,
    $contact-title as xs:string?,
-   $contact-information as xs:string?
-   
+   $contact-information as xs:string?,
+   $action as xs:string?
+
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -137,15 +141,25 @@ declare function local:input-page(
           <tr><td>
           <form name="new_organisation" action="newOrganisation.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
-             
+            
              {lib-forms:edit-admin-item($reg-auth,
                      $administrative-note,
                      $administrative-status,
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $action)}
                      
+                     $context-ids,
+                     $country-identifiers,
+                     $language-identifiers,
+                     $names,
+                     $definitions,
+                     $sources,
+                     $preferred,
+                     
+                     $action)}  
+                     
+                 
                      <!--@rakesh -->
                                           
              	<table class="layout">
@@ -219,21 +233,23 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-  (: let $context-ids := request:get-parameter('context-ids',())
+   
+   let $context-ids := request:get-parameter('context-ids',())
    let $country-identifiers := request:get-parameter('country-identifiers',())
    let $language-identifiers := request:get-parameter('language-identifiers',())
+   
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
-   :)
-   let $action := request:get-parameter('update','')
+   
    let $organization_name :=request:get-parameter('org_name','')
    let $organization_mail_address :=request:get-parameter('org_mail_address','')
-   let $contact_information :=request:get-parameter('contact-information','')
    let $contact_name :=request:get-parameter('contact-name','')
    let $contact_title :=request:get-parameter('contact-title','')
-   
+   let $contact_information :=request:get-parameter('contact-information','')
+   let $action := request:get-parameter('update','')
+
    return
    
       lib-rendering:txfrm-webpage(
@@ -250,6 +266,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
+                     
                      $context-ids,
                      $country-identifiers,
                      $language-identifiers,
@@ -257,6 +274,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $definitions,
                      $sources,
                      $preferred,
+                     
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
@@ -273,44 +291,47 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
+                     
                      $context-ids,
                      $country-identifiers,
                      $language-identifiers,
                      $names,
                      $definitions,
                      $sources,
-                     $action,
                      $preferred,
+                     
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
                      $contact_title,
-                     $contact_information
+                     $contact_information,
+                     $action
                   )
                )
          )
-      else local:input-page
-           (
-               '',
-               $reg-auth,
-               $administrative-note,
-               $administrative-status,
-               $administered-by,
-               $submitted-by,
-               $registered-by,
-               $context-ids,
-               $country-identifiers,
-               $language-identifiers,
-               $names,
-               $definitions,
-               $sources,
-               $action,
-               $preferred,
-               $organization_name,
-               $organization_mail_address,
-							 $contact_name,
-               $contact_title,
-               $contact_information
-               )
+          else local:input-page(
+                     '',
+                     $reg-auth,
+                     $administrative-note,
+                     $administrative-status,
+                     $administered-by,
+                     $submitted-by,
+                     $registered-by,
+                     
+                     $context-ids,
+                     $country-identifiers,
+                     $language-identifiers,
+                     $names,
+                     $definitions,
+                     $sources,
+                     $preferred,
+                     
+                     $organization_name,
+                     $organization_mail_address,
+                     $contact_name,
+                     $contact_title,
+                     $contact_information,
+                     $action
+                  )
          )
 
