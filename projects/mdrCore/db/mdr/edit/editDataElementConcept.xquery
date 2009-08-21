@@ -64,7 +64,16 @@ declare function local:DataElementConcept(
    ) as xs:string
    {
    let $version := '0.1'
-   
+
+(:
+,
+    $object_class_id as xs:string?,
+    $property_id as xs:string?,
+    $conceptual_domain_id as xs:string?,
+    $object_class_uri as xs:string?,
+    $property_uri as xs:string?
+:)
+
    let $object_class_id := request:get-parameter('object_class_id','')
    let $property_id := request:get-parameter('property_id','')
    let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
@@ -77,7 +86,7 @@ declare function local:DataElementConcept(
    let $full-identifier-oc := concat($reg-auth, '-', $data-identifier-oc, '-', $version)
    let $full-identifier-pr := concat($reg-auth, '-', $data-identifier-pr, '-', $version)
 
-   let $data-identifier := lib-forms:generate-id()
+   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
    
 
@@ -152,7 +161,9 @@ let $property :=
             lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier,$version),
             $content
            }
-      
+   let $collection := 'data_element_concept'
+   let $message := lib-forms:store-document($document) 
+   
    return
    if ((
       if ($object_class_id > '')
@@ -290,7 +301,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $id := request:get-parameter('id','')
    let $updating := request:get-parameter('updating','')
    let $title as xs:string := "Editing DataElementConcept"
-   let $element := lib-util:mdrElement("DataElementConcept",$id)   
+   let $element := lib-util:mdrElement("data_element_concept",$id)   
    let $action := request:get-parameter('update','')
 
    let $reg-auth := request:get-parameter('registration-authority','')
@@ -363,8 +374,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $names,
                      $definitions,
                      $sources,
-                     $action,
-                     $preferred
+                     $preferred,
+                     $action
                   )
                )
          )
@@ -387,8 +398,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $names,
                $definitions,
                $sources,
-               $action,
-               $preferred
+               $preferred,
+               $action
                )
          ) else (
                local:input-page
@@ -407,8 +418,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $inames,
                $idefinitions,
                $isources,
-               $action,
-               $ipreferred
+               $ipreferred,
+               $action
                )
          )
        )
