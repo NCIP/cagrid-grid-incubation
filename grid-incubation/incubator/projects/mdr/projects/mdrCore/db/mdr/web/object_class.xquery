@@ -66,4 +66,4 @@ session:create(),
    return
       if (request:get-parameter("as-xml",()))
       then (lib-rendering:as-xml($administered_item))
-      else(lib-rendering:txfrm-webpage($title, local:content($administered_item), true(), true(), $compound_id, 'object_class.xquery''../edit/editObjectClass.xquery'))
+      else(lib-rendering:txfrm-webpage($title, local:content($administered_item), true(), true(), $compound_id, 'object_class.xquery','../edit/editObjectClass.xquery'))
