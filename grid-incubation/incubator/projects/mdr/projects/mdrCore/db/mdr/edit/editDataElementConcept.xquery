@@ -1,11 +1,11 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new property webpage and XQuery
+ : Module Name:             edit DataElementConcept webpage and XQuery
  :
- : Module Version           2.0
+ : Module Version           3.0
  :
- : Date                     31st July 2007
+ : Date                     26th Aug 2009
  :
  : Copyright                The cagrid consortium
  :
@@ -20,6 +20,10 @@ xquery version "1.0";
  :    @author Steve Harris
  :    @version 2.0
  :     now allows searching for concept terms 
+ :    
+ :    @author Rakesh Dhaval
+ :    @version 3.0
+ :    allows editing the DataElementConcept
 ~ :)
 
   import module namespace 
@@ -64,35 +68,21 @@ declare function local:data_element_concept(
     
    $conceptual_domain_id as xs:string?,
    $object_class_id as xs:string?,
-   $property_id as xs:string?,
-   $property_uri as xs:string?,
-   $object_class_uri as xs:string?
+   $property_id as xs:string?
    ) as xs:string
    {
    let $version := '0.1'
 
-
-(:
-   let $object_class_id := request:get-parameter('object_class_id','')
-   let $property_id := request:get-parameter('property_id','')
-   let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
    let $object_class_uri := request:get-parameter('object_class_uri','')
    let $property_uri := request:get-parameter('property_uri','')
-:)
-
-    let $object_class_id := substring-after(lib-forms:substring-before-last($id,'-'),'-')
-    let $property_id := substring-after(lib-forms:substring-before-last($id,'-'),'-')
-    
-   let $data-identifier-oc := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+   
+   let $data-identifier-oc := substring-after(lib-forms:substring-before-last($id,'-'),'-')   
    let $data-identifier-pr := substring-after(lib-forms:substring-before-last($id,'-'),'-')
- 
    let $full-identifier-oc := concat($reg-auth, '-', $data-identifier-oc, '-', $version)
    let $full-identifier-pr := concat($reg-auth, '-', $data-identifier-pr, '-', $version)
-
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
-   
-
+ 
    let $content := (
            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
@@ -104,17 +94,6 @@ declare function local:data_element_concept(
                     $definitions,
                     $preferred,
                     $sources),
-                    (:
-                    element openMDR:data_element_concept_conceptual_domain {$conceptual_domain_id},
-                    element openMDR:data_element_concept_object_class 
-                    {
-                        if ($object_class_id) then ($object_class_id) else ($full-identifier-oc)
-                    },
-                    element openMDR:data_element_concept_property 
-                    {
-                        if ($property_id) then ($property_id) else ($full-identifier-pr)
-                    }
-                    :)
                     
                     element openMDR:data_element_concept_conceptual_domain {$conceptual_domain_id},
                     element openMDR:data_element_concept_object_class {$object_class_id},
@@ -209,9 +188,7 @@ declare function local:input-page(
    
    $conceptual_domain_id as xs:string?,
    $object_class_id as xs:string?,
-   $property_id as xs:string?,
-   $property_uri as xs:string?,
-   $object_class_uri as xs:string?
+   $property_id as xs:string?
    ) 
    
    {
@@ -258,7 +235,7 @@ declare function local:input-page(
               <tr>
                   <td class="left_header_cell"> </td>
                   <td align="left" colspan="2"><i> or select existing </i> 
-                  {lib-forms:make-select-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''))}
+                  {lib-forms:make-select-admin-item('object_class','object_class_id', $object_class_id)}
                   </td>
                </tr>
                <tr>
@@ -270,14 +247,14 @@ declare function local:input-page(
               <tr>
                   <td class="left_header_cell"> </td>
                   <td align="left" colspan="2"><i> or select existing </i> 
-                     {lib-forms:make-select-admin-item('property','property_id', request:get-parameter('property_id',''))}
+                     {lib-forms:make-select-admin-item('property','property_id', $property_id)}
                   </td>
                </tr>
                
                 <tr>
                   <td class="left_header_cell">Conceptual Domain</td>
                   <td align="left" colspan="2">
-                     {lib-forms:make-select-admin-item('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))}
+                     {lib-forms:make-select-admin-item('conceptual_domain','conceptual_domain_id', $conceptual_domain_id)}
                   </td>
                </tr>
             </table>
@@ -328,7 +305,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
    
-   (: adding next 5 lines:)
    let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
    let $object_class_id := request:get-parameter('object_class_id','')
    let $property_id := request:get-parameter('property_id','')
@@ -349,51 +325,27 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))    
    
-   let $log := util:log-system-err($ipreferred)
-
-   (: adding next 5 lines:)
-   let $iconceptual_domain_id := $element//openMDR:data_element_concept_conceptual_domain/text()
-   let $log := util:log-system-err($iconceptual_domain_id)
+   let $conceptual_domain_id := $element//openMDR:data_element_concept_conceptual_domain/text()
+   let $log := util:log-system-err($conceptual_domain_id)
+   
+    let $object_class_id:=$element//openMDR:data_element_concept_object_class/text()
+    let $log := util:log-system-err($object_class_id)
+    
+    let $property_id:=$element//openMDR:data_element_concept_property/text()
+    let $log := util:log-system-err($property_id)
+    
 (:
-   let $iobject_class_id := element//openMDR:data_element_concept_object_class/text()
-   let $log := util:log-system-err($iobject_class_id)
-:)
-   let $iproperty_id := element//openMDR:data_element_concept_property/text()
-   let $log := util:log-system-err($iproperty_id)
-
-   let $iproperty_uri := string($element//openMDR:reference_uri)
+   let $iproperty_uri := $element//openMDR:reference_uri
    let $log := util:log-system-err($iproperty_uri)
 
    let $iobject_class_uri := $element//openMDR:reference_uri
    let $log := util:log-system-err($iobject_class_uri)
-   
-   (: print log testing :)
-   let $log := util:log-system-err($iproperty_uri)
-   let $log := util:log-system-err($iobject_class_uri)
+   let $iproperty_uri := $element//openMDR:object_class_qualifier
+   let $iobject_class_uri := $element//openMDR:property_qualifier
+    
+:)
 
-
-(:
-    let $iproperty_uri := $element//openMDR:object_class_qualifier
-    let $iobject_class_uri := $element//openMDR:property_qualifier
-  
-    let $foo := util:log-system-out($iproperty_uri as item()*) empty()
-
-    let $foo := util:log-system-out($iproperty_uri)
-    let $bar := util:log-system-out($iobject_class_uri)
-:)  
-  
-   (:
-    let $administered_item_name := administered-item:preferred-name($administered_item)
-    let $conceptual_domain:=$administered_item//openMDR:data_element_concept_conceptual_domain
-    let $object_class:=$administered_item//openMDR:data_element_concept_object_class
-    let $property:=$administered_item//openMDR:data_element_concept_property
-    let $object_class_qualifier:=$administered_item//openMDR:object_class_qualifier
-    let $property_qualifier:=$administered_item//openMDR:property_qualifier
-    let $title:=concat('Data Element Concept: ',$administered_item_name )
-   :)
-   
-   
-   return
+    return
       lib-rendering:txfrm-webpage(
       $title,
       if ($action='Store Changes')
@@ -418,9 +370,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $preferred,
                      $conceptual_domain_id,
                      $object_class_id,
-                     $property_id,
-                     $property_uri,
-                     $object_class_uri
+                     $property_id
                   )
             ) 
          then (local:success-page()  )
@@ -443,9 +393,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action,
                      $conceptual_domain_id,
                      $object_class_id,
-                     $property_id,
-                     $property_uri,
-                     $object_class_uri
+                     $property_id
                   )
                )
          )
@@ -472,9 +420,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $conceptual_domain_id,
                $object_class_id,
-               $property_id,
-               $property_uri,
-               $object_class_uri
+               $property_id
                )
          ) else (
                local:input-page
@@ -497,9 +443,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $conceptual_domain_id,
                $object_class_id,
-               $property_id,
-               $property_uri,
-               $object_class_uri
+               $property_id
                )
          )
        )
