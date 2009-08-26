@@ -46,7 +46,7 @@ declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
 
 
-declare function local:DataElementConcept(
+declare function local:data_element_concept(
    $id as xs:string,
    $reg-auth as xs:string,
    $administrative-note as xs:string,
@@ -60,26 +60,29 @@ declare function local:DataElementConcept(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+    
+   $conceptual_domain_id as xs:string?,
+   $object_class_id as xs:string?,
+   $property_id as xs:string?,
+   $property_uri as xs:string?,
+   $object_class_uri as xs:string?
    ) as xs:string
    {
    let $version := '0.1'
 
-(:
-,
-    $object_class_id as xs:string?,
-    $property_id as xs:string?,
-    $conceptual_domain_id as xs:string?,
-    $object_class_uri as xs:string?,
-    $property_uri as xs:string?
-:)
 
+(:
    let $object_class_id := request:get-parameter('object_class_id','')
    let $property_id := request:get-parameter('property_id','')
    let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
    let $object_class_uri := request:get-parameter('object_class_uri','')
    let $property_uri := request:get-parameter('property_uri','')
+:)
 
+    let $object_class_id := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+    let $property_id := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+    
    let $data-identifier-oc := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $data-identifier-pr := substring-after(lib-forms:substring-before-last($id,'-'),'-')
  
@@ -202,7 +205,13 @@ declare function local:input-page(
    $definitions as xs:string*,
    $sources as xs:string*,
    $preferred as xs:string?,
-   $action as xs:string?
+   $action as xs:string?,
+   
+   $conceptual_domain_id as xs:string?,
+   $object_class_id as xs:string?,
+   $property_id as xs:string?,
+   $property_uri as xs:string?,
+   $object_class_uri as xs:string?
    ) 
    
    {
@@ -289,7 +298,7 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div>
-         <p>Property modified</p>
+         <p>Data Element Concept modified</p>
          <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
          <p><a href="../xquery/newDataElementConcept.xquery">Create another DataElementConcept</a></p>    
       </div>
@@ -299,6 +308,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
  
    session:create(),
    let $id := request:get-parameter('id','')
+   
    let $updating := request:get-parameter('updating','')
    let $title as xs:string := "Editing DataElementConcept"
    let $element := lib-util:mdrElement("data_element_concept",$id)   
@@ -318,6 +328,13 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
    
+   (: adding next 5 lines:)
+   let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
+   let $object_class_id := request:get-parameter('object_class_id','')
+   let $property_id := request:get-parameter('property_id','')
+   let $property_uri := request:get-parameter('property_uri','')
+   let $object_class_uri := request:get-parameter('object_class_uri',())
+
    let $ireg-auth := string($element/@item_registration_authority_identifier)
    let $iadministrative-note := string($element//openMDR:administrative_note)
    let $iadministrative-status := string($element//openMDR:administrative_status)
@@ -330,17 +347,60 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $inames := $element//openMDR:name
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
-   let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
+   let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))    
+   
+   let $log := util:log-system-err($ipreferred)
+
+   (: adding next 5 lines:)
+   let $iconceptual_domain_id := $element//openMDR:data_element_concept_conceptual_domain/text()
+   let $log := util:log-system-err($iconceptual_domain_id)
+(:
+   let $iobject_class_id := element//openMDR:data_element_concept_object_class/text()
+   let $log := util:log-system-err($iobject_class_id)
+:)
+   let $iproperty_id := element//openMDR:data_element_concept_property/text()
+   let $log := util:log-system-err($iproperty_id)
+
+   let $iproperty_uri := string($element//openMDR:reference_uri)
+   let $log := util:log-system-err($iproperty_uri)
+
+   let $iobject_class_uri := $element//openMDR:reference_uri
+   let $log := util:log-system-err($iobject_class_uri)
+   
+   (: print log testing :)
+   let $log := util:log-system-err($iproperty_uri)
+   let $log := util:log-system-err($iobject_class_uri)
+
+
+(:
+    let $iproperty_uri := $element//openMDR:object_class_qualifier
+    let $iobject_class_uri := $element//openMDR:property_qualifier
+  
+    let $foo := util:log-system-out($iproperty_uri as item()*) empty()
+
+    let $foo := util:log-system-out($iproperty_uri)
+    let $bar := util:log-system-out($iobject_class_uri)
+:)  
+  
+   (:
+    let $administered_item_name := administered-item:preferred-name($administered_item)
+    let $conceptual_domain:=$administered_item//openMDR:data_element_concept_conceptual_domain
+    let $object_class:=$administered_item//openMDR:data_element_concept_object_class
+    let $property:=$administered_item//openMDR:data_element_concept_property
+    let $object_class_qualifier:=$administered_item//openMDR:object_class_qualifier
+    let $property_qualifier:=$administered_item//openMDR:property_qualifier
+    let $title:=concat('Data Element Concept: ',$administered_item_name )
+   :)
+   
    
    return
-   
       lib-rendering:txfrm-webpage(
       $title,
       if ($action='Store Changes')
       then 
          (
          if (
-               local:DataElementConcept
+               local:data_element_concept
                   (
                      $id,
                      $reg-auth,
@@ -355,7 +415,12 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $names,
                      $definitions,
                      $sources,
-                     $preferred
+                     $preferred,
+                     $conceptual_domain_id,
+                     $object_class_id,
+                     $property_id,
+                     $property_uri,
+                     $object_class_uri
                   )
             ) 
          then (local:success-page()  )
@@ -375,7 +440,12 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $definitions,
                      $sources,
                      $preferred,
-                     $action
+                     $action,
+                     $conceptual_domain_id,
+                     $object_class_id,
+                     $property_id,
+                     $property_uri,
+                     $object_class_uri
                   )
                )
          )
@@ -399,7 +469,12 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $definitions,
                $sources,
                $preferred,
-               $action
+               $action,
+               $conceptual_domain_id,
+               $object_class_id,
+               $property_id,
+               $property_uri,
+               $object_class_uri
                )
          ) else (
                local:input-page
@@ -419,7 +494,12 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $idefinitions,
                $isources,
                $ipreferred,
-               $action
+               $action,
+               $conceptual_domain_id,
+               $object_class_id,
+               $property_id,
+               $property_uri,
+               $object_class_uri
                )
          )
        )
