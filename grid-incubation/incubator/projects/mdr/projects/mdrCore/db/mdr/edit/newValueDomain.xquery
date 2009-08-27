@@ -171,12 +171,12 @@ declare function local:input-page(
                         <table class="section">
                            <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
                            <tr>
-                                <td class="left_header_cell">Conceptual Domain Name</td>
+                                <td class="left_header_cell">Conceptual Domain ID</td>
                                 <td align="left">{$conceptual_domain_id}</td>
                                 <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
                            </tr>
                            <tr>
-                                <td class="left_header_cell">Conceptual Domain ID</td>
+                                <td class="left_header_cell">Conceptual Domain Name</td>
                                 <td align="left">{administered-item:preferred-name('conceptual_domain',$conceptual_domain_id)}</td>
                            </tr>
                            <tr><td class="row-header-cell" colspan="6">Value Domain</td></tr>
