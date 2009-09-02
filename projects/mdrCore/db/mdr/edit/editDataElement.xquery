@@ -1,11 +1,12 @@
 xquery version "1.0";
 
+
 (: ~
- : Module Name:             new property webpage and XQuery
+ : Module Name:             edit DataElement webpage and XQuery
  :
- : Module Version           2.0
+ : Module Version           3.0
  :
- : Date                     31st July 2007
+ : Date                     26th Aug 2009
  :
  : Copyright                The cagrid consortium
  :
@@ -20,6 +21,10 @@ xquery version "1.0";
  :    @author Steve Harris
  :    @version 2.0
  :     now allows searching for concept terms 
+ :    
+ :    @author Rakesh Dhaval
+ :    @version 3.0
+ :    allows editing the DataElementConcept
 ~ :)
 
   import module namespace 
@@ -60,22 +65,14 @@ declare function local:DataElement(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $preferred as xs:string?
-) as xs:boolean
+   $preferred as xs:string?,
+   $data_element_concept_id as xs:string?,
+   $value_domain_id as xs:string?,
+   $example as xs:string?,
+   $precision as xs:string?
+) as xs:string
 {
-(:
-   $data_element_concept_id?,
-   $value_domain_id?,
-   $example?,
-   $precision?
-:)
    let $version := lib-forms:substring-after-last($id,'-')
-   
-   let $data_element_concept_id := request:get-parameter('data_element_concept_id','')
-   let $value_domain_id := request:get-parameter('value_domain_id','')
-   let $example:= request:get-parameter('example','')
-   let $precision := request:get-parameter('precision','')
-
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $doc-name := concat($id,'.xml')
 
@@ -90,30 +87,35 @@ declare function local:DataElement(
                     $definitions,
                     $preferred,
                     $sources), 
-
                     element openMDR:data_element_precision {$precision},
                     element openMDR:representing {$value_domain_id},
                     element openMDR:expressing {$data_element_concept_id},
                     element openMDR:exemplified_by {
-                    element openMDR:data_element_example_item {$example} }
+                        element openMDR:data_element_example_item {$example} 
+                        }
                     )
 
-
-   
+    (:
+        DEC:
+        https://localhost:8443/exist/rest/db/mdr/edit/editDataElementConcept.xquery?id=cagrid.org-07faf2af-4fbf-4b7e-97d9-0947fe63334b-0.1
+        
+        VD:
+        https://localhost:8443/exist/rest/db/mdr/edit/editValueDomain.xquery?id=cagrid.org-0785fe37-45cf-4f4f-ab64-b83c4ddf241b-0.1
+    :) 
    (: compose the document :)
    let $document :=
         element openMDR:Data_Element {
             lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier,$version),
             $content
            }
-   (:   
-   let $collection := 'property'
+      
+   let $collection := 'data_element'
    let $message := lib-forms:store-document($document) 
-   :)
+   
    return
     if(lib-forms:store-document($document)='stored')
           then 'stored'
-          else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=editDataElement.xquery&amp;","Could not store data element"))) )
+          else ( response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=editDataElement.xquery&amp;","Could not store data element"))) )
 };
 
 declare function local:input-page(
@@ -132,7 +134,11 @@ declare function local:input-page(
    $definitions as xs:string*,
    $sources as xs:string*,
    $action as xs:string?,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+   $data_element_concept_id as xs:string?,
+   $value_domain_id as xs:string?,
+   $example as xs:string?,
+   $precision as xs:string?
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -173,13 +179,13 @@ declare function local:input-page(
               <tr>
                   <td class="left_header_cell">Data Element Concept</td>
                   <td align="left" colspan="2">
-                  {lib-forms:make-select-admin-item('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''))}
+                  {lib-forms:make-select-admin-item('data_element_concept','data_element_concept_id', $data_element_concept_id)}
                   </td>
                </tr>
                <tr>
                   <td class="left_header_cell">Value Domain</td>
                   <td align="left" colspan="2">
-                     {lib-forms:make-select-admin-item('value_domain','value_domain_id', request:get-parameter('value_domain_id',''))}
+                     {lib-forms:make-select-admin-item('value_domain','value_domain_id', $value_domain_id)}
                   </td>
               </tr>
               <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, request:get-parameter('example',''))}</td></tr>
@@ -214,9 +220,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $updating := request:get-parameter('updating','')
    let $title as xs:string := concat("Editing DataElement ", $id)
    let $element := lib-util:mdrElement("data_element",$id)
+   let $log := util:log-system-err($element)
+
    let $action := request:get-parameter('update','')
+   let $log := util:log-system-err($action)
    
    let $ireg-auth := string($element/@item_registration_authority_identifier)
+   let $log := util:log-system-err($ireg-auth)
+   
    let $iadministrative-note := string($element//openMDR:administrative_note)
    let $iadministrative-status := string($element//openMDR:administrative_status)
    let $iadministered-by := string($element//openMDR:administered_by)
@@ -229,7 +240,19 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
+
+   let $log := util:log-system-err($iregistered-by)
+
+   let $idata_element_concept_id := $element//openMDR:expressing/text()
+   let $ivalue_domain_id := $element//openMDR:representing/text()
+   let $iexample := string($element//openMDR:data_element_example_item/text())
+   let $iprecision := $element//openMDR:data_element_precision/text()
    
+    let $log := util:log-system-err($idata_element_concept_id)
+    let $log := util:log-system-err($ivalue_domain_id)
+    let $log := util:log-system-err($iexample)
+    let $log := util:log-system-err($iprecision)
+
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
@@ -244,7 +267,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
    
-   
+   let $data_element_concept_id := request:get-parameter('data_element_concept_id','')
+   let $value_domain_id := request:get-parameter('value_domain_id','')
+   let $example := request:get-parameter('example','')
+   let $precision := request:get-parameter('precision','')
+      
    return
    
       lib-rendering:txfrm-webpage(
@@ -268,7 +295,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $names,
                      $definitions,
                      $sources,
-                     $preferred
+                     $preferred,
+                     $data_element_concept_id,
+                     $value_domain_id,
+                     $example,
+                     $precision
                   )
             ) 
          then (local:success-page()  )
@@ -288,7 +319,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $definitions,
                      $sources,
                      $action,
-                     $preferred
+                     $preferred,
+                     $data_element_concept_id,
+                     $value_domain_id,
+                     $example,
+                     $precision                     
                   )
                )
          )
@@ -311,7 +346,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $definitions,
                $sources,
                $action,
-               $preferred
+               $preferred,
+               $data_element_concept_id,
+               $value_domain_id,
+               $example,
+               $precision               
                )
          ) else (
                local:input-page(
@@ -330,7 +369,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $idefinitions,
                $isources,
                $action,
-               $ipreferred
+               $ipreferred,
+               $idata_element_concept_id,
+               $ivalue_domain_id,
+               $iexample,
+               $iprecision               
                )
          )
        )
