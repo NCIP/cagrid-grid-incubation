@@ -751,6 +751,43 @@ declare function lib-forms:edit-admin-item(
 </table>
 };
 
+declare function lib-forms:edit-admin-item-only(
+   $reg-auth as xs:string?,
+   $administrative-note  as xs:string?,
+   $administrative-status  as xs:string?,
+   $administered-by  as xs:string?,
+   $submitted-by  as xs:string?,
+   $registered-by  as xs:string?,
+   $action as xs:string?
+){
+   let $skip-name := substring-after($action,'delete naming entry')
+   let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+   return
+   
+<table class="section">
+   <tr><td class="row-header-cell" colspan="6">Standard Administered Item Metadata</td></tr>
+   <tr>
+   <td>
+   <div class="tabber">
+     <div class="tabbertab">
+         <h2>Administered Item Metadata</h2>
+         <p>
+            <table class="section">
+                <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+                <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
+                <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
+                <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
+                <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+                <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
+            </table>
+          </p>
+     </div>
+  </div>
+  </td>
+  </tr>          
+
+</table>
+};
 
 declare function lib-forms:action-button($value as xs:string, $control as xs:string, $action as xs:string) as node()
 {
