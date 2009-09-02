@@ -1,11 +1,12 @@
 xquery version "1.0";
 
+
 (: ~
- : Module Name:             edit organization webpage and XQuery
+ : Module Name:             edit DataElement webpage and XQuery
  :
- : Module Version           2.0
+ : Module Version           3.0
  :
- : Date                     31st July 2007
+ : Date                     26th Aug 2009
  :
  : Copyright                The cagrid consortium
  :
@@ -14,12 +15,9 @@ xquery version "1.0";
  :)
  
 (:~
- :    @author Steve Harris
- :    @version 0.1
- :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
+ :    @author Rakesh Dhaval
+ :    @version 3.0
+ :    allows editing the Organization
 ~ :)
 
   import module namespace 
@@ -54,38 +52,27 @@ declare function local:organisation(
    $administered-by as xs:string,
    $submitted-by as xs:string,
    $registered-by as xs:string,
-   $context-ids as xs:string*,
-   $country-identifiers as xs:string*,
-   $language-identifiers as xs:string*,
-   $names as xs:string*,
-   $definitions as xs:string*,
-   $sources as xs:string*,
-   $uri as xs:string?,
-   $preferred as xs:string?,
    $organization_name as xs:string?,
    $organization_mail_address as xs:string?,
    $contact_name as xs:string?,
    $contact_title as xs:string?,
    $contact_information as xs:string?
-   
    ) as xs:boolean
 {
    let $version := lib-forms:substring-after-last($id,'-')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $doc-name := concat($id,'.xml')
+   let $organization-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+   let $contact-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+   let $log := util:log-system-err($organization-identifier)
+   let $log := util:log-system-err($contact-identifier)
 
+ 
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
-            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
-            lib-make-admin-item:havings(
-                    $context-ids,
-                    $country-identifiers,
-                    $language-identifiers,
-                    $names,
-                    $definitions,
-                    $preferred,
-                    $sources)
-                    
+            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by)
+          
+   )                 
    (: compose the document :)
     let $document :=
             element openMDR:Organization {
@@ -101,6 +88,7 @@ declare function local:organisation(
 							             }
       
    let $collection := 'organisation'
+   let $log := util:log-system-err($collection)
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
@@ -117,14 +105,6 @@ declare function local:input-page(
    $administered-by  as xs:string?,
    $submitted-by  as xs:string?,
    $registered-by  as xs:string?,
-   $context-ids  as xs:string*,
-   $country-identifiers as xs:string*,
-   $language-identifiers as xs:string*,
-   $names as xs:string*,
-   $definitions as xs:string*,
-   $sources as xs:string*,
-   $property_uri as xs:string?,
-   $preferred as xs:string?,     
    $org_name as xs:string?,
    $org_mail_address as xs:string?,
    $contact-name as xs:string?,
@@ -149,24 +129,14 @@ declare function local:input-page(
           <form name="edit_organisation" action="editOrganisation.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
                 {lib-forms:hidden-element('id',$id)}
-                {lib-forms:hidden-element('updating','updating')}
-                
-                {lib-forms:edit-admin-item($reg-auth,
+                {lib-forms:hidden-element('updating','updating')}               
+                {lib-forms:edit-admin-item-only($reg-auth,
                      $administrative-note,
                      $administrative-status,
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $context-ids,
-                     $country-identifiers,
-                     $language-identifiers,
-                     $names,
-                     $definitions,
-                     $sources,
-                     $preferred,
                      $action)}
-                     
-                     
                      
                 	<table class="layout">
              		<tr><td class="row-header-cell" colspan="6">Organization</td></tr>
@@ -179,10 +149,8 @@ declare function local:input-page(
                   	<td class="left_header_cell">Organization Email Address</td>
                     <td><input type="text" name="org_mail_address"></input></td>
                   </tr>
- 
               	}
-             	</table>  
-             	                                          
+             	</table>               	                                          
              	<table class="layout">
              		<tr><td class="row-header-cell" colspan="6">Contact</td></tr>
                 {
@@ -198,7 +166,6 @@ declare function local:input-page(
                   	<td class="left_header_cell">Information</td>
                     <td><input type="text" name="contact-information"></input></td>
                   </tr>
- 
               	}
              	</table>  
              	
@@ -224,35 +191,50 @@ declare function local:success-page()
       </div>
 };
 
+  
+
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
- 
+   
    session:create(),
    let $id := request:get-parameter('id','')
+   let $log := util:log-system-err($id)
+
    let $updating := request:get-parameter('updating','')
    let $title as xs:string := concat("Editing Organization ", $id)
-   let $element := lib-util:mdrElement("organisation",$id)
-   let $action := request:get-parameter('update','')
+   let $log := util:log-system-err($title)
+    
+   let $element := lib-util:mdrElement("organization",$id)
+   let $log := util:log-system-err($element)
    
+   let $action := request:get-parameter('update','')
    let $ireg-auth := string($element/@item_registration_authority_identifier)
    let $iadministrative-note := string($element//openMDR:administrative_note)
    let $iadministrative-status := string($element//openMDR:administrative_status)
    let $iadministered-by := string($element//openMDR:administered_by)
    let $isubmitted-by := string($element//openMDR:submitted_by)
    let $iregistered-by := string($element//openMDR:registered_by)
-   let $icontext-ids := $element//openMDR:context_identifier
-   let $icountry-identifiers := $element//openMDR:country_identifier
-   let $ilanguage-identifiers := $element//openMDR:language_identifier
-   let $inames := $element//openMDR:name
-   let $idefinitions := $element//openMDR:definition_text
-   let $isources := $element//openMDR:definition_source_reference
-   let $iproperty_uri := string($element//openMDR:reference_uri)
-   let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
+
+   let $iorganization_name := element//openMDR:organization_name
+   let $log := util:log-system-err($iorganization_name)
+   let $iorganization_mail_address := element//openMDR:organization_mail_address/text()   
+   let $log := util:log-system-err($iorganization_mail_address)
+   let $icontact_name := element//openMDR:contact_name/text()
+
+   let $log := util:log-system-err($icontact_name)
+   let $icontact_title := element//openMDR:contact_title/text()
+   let $log := util:log-system-err($icontact_title)
+   let $icontact_information := element//openMDR:contact_information/text()
+   let $log := util:log-system-err($icontact_information)
    
-   let $iorganization_name :=element//openMDR:organization_name
-   let $iorganization_mail_address :=element//openMDR:organization_mail_address
-   let $icontact_name :=element//openMDR:contact_name
-   let $icontact_title :=element//openMDR:contact_title
-   let $icontact_information :=element//openMDR:contact_information
+   let $organization_name :=request:get-parameter('org_name','')
+   let $log := util:log-system-err($organization_name)
+
+   let $organization_mail_address :=request:get-parameter('org_mail_address','')
+   let $contact_name :=request:get-parameter('contact-name','')
+   let $contact_title :=request:get-parameter('contact-title','')
+   let $contact_information :=request:get-parameter('contact-information','')
+   let $action := request:get-parameter('update','')
+   
    
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
@@ -260,14 +242,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-   let $context-ids := request:get-parameter('context-ids',())
-   let $country-identifiers := request:get-parameter('country-identifiers',())
-   let $language-identifiers := request:get-parameter('language-identifiers',())
-   let $names := request:get-parameter('names',())
-   let $definitions := request:get-parameter('definitions',())
-   let $sources := request:get-parameter('sources',())
-   let $property_uri := request:get-parameter('property_uri','')
-   let $preferred := request:get-parameter('preferred','')
    
    let $organization_name :=request:get-parameter('org_name','')
    let $organization_mail_address :=request:get-parameter('org_mail_address','')
@@ -292,15 +266,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $context-ids,
-                     $country-identifiers,
-                     $language-identifiers,
-                     $names,
-                     $definitions,
-                     $sources,
-                     $property_uri,
-                     $preferred,
-                     
+
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
@@ -318,14 +284,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     $context-ids,
-                     $country-identifiers,
-                     $language-identifiers,
-                     $names,
-                     $definitions,
-                     $sources,
-                     $property_uri,
-                     $preferred,
                      
                      $organization_name,
                      $organization_mail_address,
@@ -349,14 +307,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $administered-by,
                $submitted-by,
                $registered-by,
-               $context-ids,
-               $country-identifiers,
-               $language-identifiers,
-               $names,
-               $definitions,
-               $sources,
-               $property_uri,
-               $preferred,
                
                $organization_name,
                $organization_mail_address,
@@ -376,14 +326,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $iadministered-by,
                $isubmitted-by,
                $iregistered-by,
-               $icontext-ids,
-               $icountry-identifiers,
-               $ilanguage-identifiers,
-               $inames,
-               $idefinitions,
-               $isources,
-               $iproperty_uri,
-               $ipreferred,
                
                $iorganization_name,
                $iorganization_mail_address,
@@ -393,8 +335,5 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action
                )
          )
-       )
-       
+       )  
     )
-       
-
