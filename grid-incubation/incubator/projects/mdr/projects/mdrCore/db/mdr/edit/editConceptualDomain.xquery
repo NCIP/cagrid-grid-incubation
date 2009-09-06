@@ -1,15 +1,16 @@
 xquery version "1.0";
 
+
 (: ~
- : Module Name:             new property webpage and XQuery
+ : Module Name:             edit Conceptual Domain webpage and XQuery
  :
- : Module Version           2.0
+ : Module Version           3.0
  :
- : Date                     31st July 2007
+ : Date                     26th Aug 2009
  :
  : Copyright                The cagrid consortium
  :
- : Module overview          Creates and property and displays list
+ : Module overview          Edit Conceptual Domain
  :
  :)
  
@@ -20,6 +21,10 @@ xquery version "1.0";
  :    @author Steve Harris
  :    @version 2.0
  :     now allows searching for concept terms 
+ :    
+ :    @author Rakesh Dhaval
+ :    @version 3.0
+ :    allows editing the DataElementConcept
 ~ :)
 
   import module namespace 
@@ -54,7 +59,7 @@ declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
 
    
-declare function local:conceptual_domain(
+declare function local:conceptual-domain(
    $id as xs:string,
    $reg-auth as xs:string,
    $administrative-note as xs:string,
@@ -69,6 +74,7 @@ declare function local:conceptual_domain(
    $definitions as xs:string*,
    $sources as xs:string*,
    $preferred as xs:string?,
+   $value_meaning_begin_date as xs:string?,
    $meanings as xs:string*
    ) as xs:boolean
 {
@@ -91,12 +97,14 @@ declare function local:conceptual_domain(
                     $sources), 
                     for $meaning at $pos in $meanings
                     return
-                    element openMDR:Value_Meaning 
+                    if($meaning >'') then
+                       element openMDR:Value_Meaning 
                        {
-                       element openMDR:value_meaning_begin_date {current-date()},
-                       element openMDR:value_meaning_description {$meaning},
-                       element openMDR:value_meaning_identifier {$vmid}
+                        element openMDR:value_meaning_begin_date {$value_meaning_begin_date},
+                        element openMDR:value_meaning_description {$meaning},
+                        element openMDR:value_meaning_identifier {$vmid}
                        }
+                       else()
                     )
                         
    (: compose the document :)
@@ -118,7 +126,7 @@ declare function local:conceptual_domain(
       )
    )
   
-   let $collection := 'conceptual_domain'
+   let $collection := 'conceptual-domain'
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
@@ -143,15 +151,20 @@ declare function local:input-page(
    $sources as xs:string*,
    $action as xs:string?,
    $preferred as xs:string?,
+   $value_meaning_begin_date as xs:string?,
    $meanings as xs:string*
-   ) {
-   let $skip-name := substring-after($action,'delete naming entry')
-   let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
-
-   return
-   <div xmlns="http://www.w3.org/1999/xhtml">
+   ) 
+   {
+       let $skip-name := substring-after($action,'delete naming entry')
+       let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+       
+       let $skip-uri := substring-after($action,'delete value meaning')
+       let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
+  
+    return
+        <div xmlns="http://www.w3.org/1999/xhtml">
     
-      <table class="layout">
+        <table class="layout">
           <tr>
              <td>
                 This form will allow you to Edit Conceptual Domain in the metadata repository
@@ -177,28 +190,26 @@ declare function local:input-page(
                      $preferred,
                      $action)}
                      
-                     
                 <table class="layout">
                    <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
 
                 {
-                if(exists($meanings))
+                  
+                    if(exists($meanings))
                     then (
                      <tr><td class="left_header_cell">Enumerated Conceptual Domain?</td>
                       <td><input type="radio" name="conceptual-domain-type" value="enumerated" checked="checked">enumerated</input></td>
                       <td><input type="radio" name="conceptual-domain-type" value="non-enumerated">non-enumerated</input></td>
                       <td>{lib-forms:action-button('update', 'action' ,'')}</td>
                      </tr>,
-                     <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>,
-      
+                     <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>,     
                      <tr>
                       <td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>
                      </tr>,
-                       for $value_meaning  at $pos in $meanings
-                        (:let $meaning := $value_meaning/text():)                           
-                        let $meaning := $value_meaning
-                        let $location := if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos)
-                        where $pos != $skip-name-index and $value_meaning > ""
+                     
+                       for $meaning  at $pos in $meanings                                              
+                       let $location := if($pos > $skip-uri-index and $skip-uri-index > 0) then (util:eval($pos - 1)) else ($pos)
+                        where $pos != $skip-uri-index and $meaning > ""
                         return (
                            <tr>
                               <td class="left_header_cell">Value {$location} Meaning</td>
@@ -220,7 +231,6 @@ declare function local:input-page(
                            <td>{lib-forms:action-button('update', 'action' ,'')}</td>
                          </tr>
                     )
-
               }
                
             </table> 
@@ -246,7 +256,7 @@ declare function local:success-page()
       <div>
          <p>Conceptual Domain modified</p>
          <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newProperty.xquery">Create another Conceptual Domain</a></p>    
+         <p><a href="../xquery/editConceptualDomain.xquery">Create another Conceptual Domain</a></p>    
       </div>
 };
 
@@ -271,9 +281,15 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $inames := $element//openMDR:name
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
-   let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
-   let $imeanings := $element//openMDR:Value_Meaning    
+   let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true')) 
+   let $imeanings := $element//openMDR:value_meaning_description
+   let $log := util:log-system-err($imeanings)
    
+   let $begins := $element//openMDR:value_meaning_begin_date/text()
+   let $log := util:log-system-err($begins)
+
+   let $ends := $element//openMDR:value_meaning_end_date/text()      
+   let $ivalue_meaning_begin_date := $element//openMDR:ivalue_meaning_begin_date                  
 
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
@@ -288,8 +304,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
+   let $value_meaning_begin_date := request:get-parameter('value_meaning_begin_date','')
    let $meanings := request:get-parameter('meanings','')
-
    return
    
       lib-rendering:txfrm-webpage(
@@ -298,7 +314,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
       then 
          (
          if (
-               local:conceptual_domain
+               local:conceptual-domain
                   (
                      $id,
                      $reg-auth,
@@ -314,6 +330,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $definitions,
                      $sources,
                      $preferred,
+                     $value_meaning_begin_date,
                      $meanings
                   )
             ) 
@@ -335,6 +352,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $sources,
                      $action,
                      $preferred,
+                     $value_meaning_begin_date,
                      $meanings
                   )
                )
@@ -342,7 +360,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
       else (
          if ($updating ='updating')
          then (
-      local:input-page
+            local:input-page
                (
                '',
                $id,
@@ -360,6 +378,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $sources,
                $action,
                $preferred,
+               $value_meaning_begin_date,
                $meanings
                )
          ) else (
@@ -381,6 +400,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $isources,
                $action,
                $ipreferred,
+               $ivalue_meaning_begin_date,
                $imeanings
                )
          )
