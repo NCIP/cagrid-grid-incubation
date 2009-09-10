@@ -41,14 +41,6 @@ declare function local:organisation(
    $submitted-by as xs:string,
    $registered-by as xs:string,
    
-   $context-ids as xs:string*,
-   $country-identifiers as xs:string*,
-   $language-identifiers as xs:string*,
-   $names as xs:string*,
-   $definitions as xs:string*,
-   $sources as xs:string*,
-   $preferred as xs:string?,
-   
    $organization_name as xs:string?,
    $organization_mail_address as xs:string?,
    $contact_name as xs:string?,
@@ -67,15 +59,7 @@ declare function local:organisation(
  
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
-            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
-            lib-make-admin-item:havings(
-                    $context-ids,
-                    $country-identifiers,
-                    $language-identifiers,
-                    $names,
-                    $definitions,
-                    $preferred,
-                    $sources)
+            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by)
                  
     )
    
@@ -110,14 +94,6 @@ declare function local:input-page(
    $submitted-by  as xs:string?,
    $registered-by  as xs:string?,
    
-   $context-ids as xs:string*,
-   $country-identifiers as xs:string*,
-   $language-identifiers as xs:string*,
-   $names as xs:string*,
-   $definitions as xs:string*,
-   $sources as xs:string*,
-   $preferred as xs:string?,
-   
    $org_name as xs:string?,
    $org_mail_address as xs:string?,
    $contact-name as xs:string?,
@@ -141,27 +117,14 @@ declare function local:input-page(
           <tr><td>
           <form name="new_organisation" action="newOrganisation.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
-            
-             {lib-forms:edit-admin-item($reg-auth,
+             {lib-forms:edit-admin-item-only($reg-auth,
                      $administrative-note,
                      $administrative-status,
                      $administered-by,
                      $submitted-by,
-                     $registered-by,
-                     
-                     $context-ids,
-                     $country-identifiers,
-                     $language-identifiers,
-                     $names,
-                     $definitions,
-                     $sources,
-                     $preferred,
-                     
+                     $registered-by,                     
                      $action)}  
-                     
-                 
-                     <!--@rakesh -->
-                                          
+                                                               
              	<table class="layout">
              		<tr><td class="row-header-cell" colspan="6">Organization</td></tr>
                 {
@@ -194,10 +157,8 @@ declare function local:input-page(
                   </tr>
  
               	}
-             	</table>  
-             	
-                     <!--end @rakesh -->
-                  <table class="section">
+             	</table> 
+             	<table class="section">
                       <tr>
                       	<td class="left_header_cell"></td>
                       	<td><input type="submit" name="update" value="Store"/></td>
@@ -234,15 +195,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
    
-   let $context-ids := request:get-parameter('context-ids',())
-   let $country-identifiers := request:get-parameter('country-identifiers',())
-   let $language-identifiers := request:get-parameter('language-identifiers',())
-   
-   let $names := request:get-parameter('names',())
-   let $definitions := request:get-parameter('definitions',())
-   let $sources := request:get-parameter('sources',())
-   let $preferred := request:get-parameter('preferred','')
-   
    let $organization_name :=request:get-parameter('org_name','')
    let $organization_mail_address :=request:get-parameter('org_mail_address','')
    let $contact_name :=request:get-parameter('contact-name','')
@@ -266,15 +218,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     
-                     $context-ids,
-                     $country-identifiers,
-                     $language-identifiers,
-                     $names,
-                     $definitions,
-                     $sources,
-                     $preferred,
-                     
+  
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
@@ -291,14 +235,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     
-                     $context-ids,
-                     $country-identifiers,
-                     $language-identifiers,
-                     $names,
-                     $definitions,
-                     $sources,
-                     $preferred,
                      
                      $organization_name,
                      $organization_mail_address,
@@ -317,15 +253,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $administered-by,
                      $submitted-by,
                      $registered-by,
-                     
-                     $context-ids,
-                     $country-identifiers,
-                     $language-identifiers,
-                     $names,
-                     $definitions,
-                     $sources,
-                     $preferred,
-                     
+ 
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
