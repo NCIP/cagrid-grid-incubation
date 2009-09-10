@@ -34,6 +34,7 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.cbResources = new System.Windows.Forms.ComboBox();
             this.statusMsg = new System.Windows.Forms.Label();
+            this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.grpResults = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanelResults = new System.Windows.Forms.TableLayoutPanel();
             this.lstResults = new System.Windows.Forms.ListBox();
@@ -98,17 +99,21 @@
             // 
             // txtTerm
             // 
-            this.tableLayoutPanel4.SetColumnSpan(this.txtTerm, 2);
-            this.txtTerm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtTerm.Location = new System.Drawing.Point(3, 33);
+            this.txtTerm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTerm.Location = new System.Drawing.Point(83, 33);
             this.txtTerm.Name = "txtTerm";
-            this.txtTerm.Size = new System.Drawing.Size(268, 20);
+            this.txtTerm.Size = new System.Drawing.Size(188, 20);
             this.txtTerm.TabIndex = 0;
+            this.txtTerm.TextChanged += new System.EventHandler(this.txtTerm_TextChanged);
             this.txtTerm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTerm_KeyPress);
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(197, 63);
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSearch.Location = new System.Drawing.Point(3, 63);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(74, 20);
             this.btnSearch.TabIndex = 1;
@@ -130,12 +135,13 @@
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Controls.Add(this.cbResources, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.statusMsg, 0, 2);
-            this.tableLayoutPanel4.Controls.Add(this.txtTerm, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.btnSearch, 1, 2);
+            this.tableLayoutPanel4.Controls.Add(this.statusMsg, 1, 2);
+            this.tableLayoutPanel4.Controls.Add(this.txtTerm, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this.btnSearch, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.cbSearchType, 0, 1);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -159,11 +165,22 @@
             // statusMsg
             // 
             this.statusMsg.AutoSize = true;
-            this.statusMsg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusMsg.Location = new System.Drawing.Point(3, 60);
+            this.statusMsg.Location = new System.Drawing.Point(83, 62);
+            this.statusMsg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
             this.statusMsg.Name = "statusMsg";
-            this.statusMsg.Size = new System.Drawing.Size(188, 30);
+            this.statusMsg.Size = new System.Drawing.Size(0, 13);
             this.statusMsg.TabIndex = 3;
+            this.statusMsg.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // cbSearchType
+            // 
+            this.cbSearchType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbSearchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSearchType.FormattingEnabled = true;
+            this.cbSearchType.Location = new System.Drawing.Point(3, 33);
+            this.cbSearchType.Name = "cbSearchType";
+            this.cbSearchType.Size = new System.Drawing.Size(74, 21);
+            this.cbSearchType.TabIndex = 4;
             // 
             // grpResults
             // 
@@ -709,5 +726,6 @@
         private System.Windows.Forms.TabPage otherDetails;
         private System.Windows.Forms.WebBrowser wbDetailsOther;
         private System.Windows.Forms.Button btnAnnotate;
+        private System.Windows.Forms.ComboBox cbSearchType;
     }
 }
