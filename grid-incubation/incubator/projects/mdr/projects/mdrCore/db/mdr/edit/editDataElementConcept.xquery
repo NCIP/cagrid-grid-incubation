@@ -72,10 +72,9 @@ declare function local:data_element_concept(
    ) as xs:string
    {
    let $version := '0.1'
-(:
    let $object_class_uri := request:get-parameter('object_class_uri','')
    let $property_uri := request:get-parameter('property_uri','')
-   :)
+
    let $data-identifier-oc := substring-after(lib-forms:substring-before-last($id,'-'),'-')   
    let $data-identifier-pr := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $full-identifier-oc := concat($reg-auth, '-', $data-identifier-oc, '-', $version)
