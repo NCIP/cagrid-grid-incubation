@@ -72,10 +72,10 @@ declare function local:data_element_concept(
    ) as xs:string
    {
    let $version := '0.1'
-
+(:
    let $object_class_uri := request:get-parameter('object_class_uri','')
    let $property_uri := request:get-parameter('property_uri','')
-   
+   :)
    let $data-identifier-oc := substring-after(lib-forms:substring-before-last($id,'-'),'-')   
    let $data-identifier-pr := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $full-identifier-oc := concat($reg-auth, '-', $data-identifier-oc, '-', $version)
@@ -229,7 +229,7 @@ declare function local:input-page(
                <tr>
                   <td class="left_header_cell">Object Class URI</td>
                   <td align="left" colspan="2">
-                     {lib-forms:find-concept-id('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
+                    <a href="../edit/newObjectClass.xquery">Create a New Object Class</a>
                   </td>
               </tr>
               <tr>
@@ -241,7 +241,7 @@ declare function local:input-page(
                <tr>
                   <td class="left_header_cell">Property URI</td>
                   <td align="left" colspan="2">
-                     {lib-forms:find-concept-id('property_uri','get property concept',request:get-parameter('property_uri',''))}
+                        <a href="../edit/newProperty.xquery">Create a New Property</a>
                   </td>
               </tr>
               <tr>
@@ -260,7 +260,7 @@ declare function local:input-page(
             </table>
                      
                 <table class="section">
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
                  </table>
               </div>
           </form>
@@ -308,9 +308,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
    let $object_class_id := request:get-parameter('object_class_id','')
    let $property_id := request:get-parameter('property_id','')
+   (:
    let $property_uri := request:get-parameter('property_uri','')
    let $object_class_uri := request:get-parameter('object_class_uri',())
-
+   :)
    let $ireg-auth := string($element/@item_registration_authority_identifier)
    let $iadministrative-note := string($element//openMDR:administrative_note)
    let $iadministrative-status := string($element//openMDR:administrative_status)
@@ -325,25 +326,20 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))    
    
-   let $conceptual_domain_id := $element//openMDR:data_element_concept_conceptual_domain/text()
-   let $log := util:log-system-err($conceptual_domain_id)
-   
-    let $object_class_id:=$element//openMDR:data_element_concept_object_class/text()
-    let $log := util:log-system-err($object_class_id)
+    let $iconceptual_domain_id := $element//openMDR:data_element_concept_conceptual_domain   
+    let $iobject_class_id:=$element//openMDR:data_element_concept_object_class
+    let $iproperty_id:=$element//openMDR:data_element_concept_property
+    let $iobject_class_uri :=$element//openMDR:object_class_qualifier
+    let $iproperty_uri :=$element//openMDR:property_qualifier
     
-    let $property_id:=$element//openMDR:data_element_concept_property/text()
-    let $log := util:log-system-err($property_id)
-    
-(:
-   let $iproperty_uri := $element//openMDR:reference_uri
-   let $log := util:log-system-err($iproperty_uri)
+    (:
+    let $log := util:log-system-err($iconceptual_domain_id)
+    let $log := util:log-system-err($iobject_class_id)
+    let $log := util:log-system-err($iproperty_id)
+    let $log := util:log-system-err($iobject_class_uri)
+    let $log := util:log-system-err($iproperty_uri)
+    :)
 
-   let $iobject_class_uri := $element//openMDR:reference_uri
-   let $log := util:log-system-err($iobject_class_uri)
-   let $iproperty_uri := $element//openMDR:object_class_qualifier
-   let $iobject_class_uri := $element//openMDR:property_qualifier
-    
-:)
 
     return
       lib-rendering:txfrm-webpage(
@@ -441,9 +437,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $isources,
                $ipreferred,
                $action,
-               $conceptual_domain_id,
-               $object_class_id,
-               $property_id
+               $iconceptual_domain_id,
+               $iobject_class_id,
+               $iproperty_id
                )
          )
        )
