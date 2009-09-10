@@ -44,5 +44,5 @@ let $title as xs:string := concat("Organisation: ", $content//openMDR:organizati
 return
     if (request:get-parameter("as-xml",()))
     then (lib-rendering:as-xml($content))
-    else lib-rendering:txfrm-webpage($title, $content, true(), true(), $id, 'organization.xquery','../edit/editOrganization.xquery')
+    else lib-rendering:txfrm-webpage($title, $content, true(), true(), $id, 'organization.xquery','../edit/editOrganisation.xquery')
    
