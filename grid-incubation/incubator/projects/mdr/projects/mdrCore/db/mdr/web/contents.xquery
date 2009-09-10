@@ -91,6 +91,9 @@ let $content as element()* :=
         else(),
         if ($type='property')
         then lib-rendering:admin-item($displayed-items)
+        else(),
+        if ($type='organisation')
+        then lib-rendering:admin-item($displayed-items)
         else()
     )
 return
