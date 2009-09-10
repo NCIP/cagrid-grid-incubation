@@ -181,19 +181,23 @@ declare function local:input-page(
                   <td align="left" colspan="2">
                   {lib-forms:make-select-admin-item('data_element_concept','data_element_concept_id', $data_element_concept_id)}
                   </td>
+                  <td>
+                    <a href='../edit/editDataElementConcept.xquery?id={$data_element_concept_id}'>Edit</a>
+                  </td>
                </tr>
                <tr>
                   <td class="left_header_cell">Value Domain</td>
                   <td align="left" colspan="2">
                      {lib-forms:make-select-admin-item('value_domain','value_domain_id', $value_domain_id)}
+                  <td>
+                    <a href='../edit/editValueDomain.xquery?id={$value_domain_id}'>Edit</a>
+                  </td>
                   </td>
               </tr>
-              <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, request:get-parameter('example',''))}</td></tr>
-              <tr><td class="left_header_cell">Precision</td><td colspan="2">{lib-forms:input-element('precision', 70,request:get-parameter('precision',''))}</td></tr>
-       
-                    
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
-                 </table>
+              <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, $example)}</td></tr>
+              <tr><td class="left_header_cell">Precision</td><td colspan="2">{lib-forms:input-element('precision', 70,$precision)}</td></tr>                  
+              <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+          </table>
               </div>
           </form>
           </td></tr>
@@ -245,7 +249,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
 
    let $idata_element_concept_id := $element//openMDR:expressing/text()
    let $ivalue_domain_id := $element//openMDR:representing/text()
-   let $iexample := string($element//openMDR:data_element_example_item/text())
+   let $iexample := $element//openMDR:data_element_example_item/text()
    let $iprecision := $element//openMDR:data_element_precision/text()
    
     let $log := util:log-system-err($idata_element_concept_id)
