@@ -1,11 +1,11 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new property webpage and XQuery
+ : Module Name:             edit value domain webpage and XQuery
  :
- : Module Version           2.0
+ : Module Version           3.0
  :
- : Date                     31st July 2007
+ : Date                     26th Aug 2009
  :
  : Copyright                The cagrid consortium
  :
@@ -20,6 +20,10 @@ xquery version "1.0";
  :    @author Steve Harris
  :    @version 2.0
  :     now allows searching for concept terms 
+ :
+ :    @author Rakesh Dhaval
+ :    @version 3.0
+ :    allows editing the DataElementConcept
 ~ :)
 
   import module namespace 
@@ -76,12 +80,14 @@ declare function local:value_domain(
    ) as xs:boolean
 {
                     
+   let $log := util:log-system-err($values)
+             
    let $version := lib-forms:substring-after-last($id,'-')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $doc-name := concat($id,'.xml')
    let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
-   let $permissible-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
-
+   let $permissible-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')    
+    
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
@@ -105,8 +111,7 @@ declare function local:value_domain(
              ),
             element openMDR:representing {$conceptual_domain_id}
     )
-
-   
+  
    (: compose the document :)
     let $document := (
      if($values > '' ) then (
@@ -157,7 +162,7 @@ declare function local:input-page(
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
-
+   let $log := util:log-system-err($values)
    return
 
    <div xmlns="http://www.w3.org/1999/xhtml">
@@ -168,9 +173,10 @@ declare function local:input-page(
                 This form will allow you to edit a Value Domain in the metadata repository
              </td>
           </tr>
-          <tr><td>
-          <form name="edit_value_domain" action="editValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
-             <div class="section">
+          <tr>
+            <td>
+                <form name="edit_value_domain" action="editValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+                <div class="section">
                 {lib-forms:hidden-element('id',$id)}
                 {lib-forms:hidden-element('updating','updating')}
                 
@@ -188,73 +194,71 @@ declare function local:input-page(
                      $sources,
                      $preferred,
                      $action)}
-                     
-                 {  
-                    let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
-                    return
-                    
-                    if ($conceptual_domain_id > '') then (
-                        <table class="section">
-                           <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
-                           <tr>
-                                <td class="left_header_cell">Conceptual Domain Name</td>
-                                <td align="left">{$conceptual_domain_id}</td>
-                                <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
-                           </tr>
+                                  
+                    <table class="section">
+                        <tr>
+                            <td class="row-header-cell" colspan="6">Conceptual Domain</td>
+                        </tr>
+                        {
+                        let $log := util:log-system-err($values)
+                        let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
+                        return                    
+                        if ($conceptual_domain_id > '') 
+                        then (                       
                            <tr>
                                 <td class="left_header_cell">Conceptual Domain ID</td>
+                                <td align="left">{$conceptual_domain_id}</td>
+                                <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
+                           </tr>,
+                           <tr>
+                                <td class="left_header_cell">Conceptual Domain Name</td>
                                 <td align="left">{administered-item:preferred-name('conceptual_domain',$conceptual_domain_id)}</td>
-                           </tr>
-                           <tr><td class="row-header-cell" colspan="6">Value Domain</td></tr>
+                           </tr>,
+                           <tr><td class="row-header-cell" colspan="6">Value Domain</td></tr>,
                            <tr>
                                <td class="left_header_cell">Value Domain Data Type</td>
                                <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
-                           </tr>
+                           </tr>,
                            <tr>
                                <td class="left_header_cell">Value Domain Unit of Measure</td>
                                <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
-                           </tr>
-                           <tr>
-                           
-                           if($concept_domain//openMDR:value_meaning_description > '') then (
-                               <td class="left_header_cell">Possible Values</td><td colspan="3">meaning</td><td>value</td><td/>
-                               </tr>
-                               {
-                                    for $meaning at $pos in $concept_domain//openMDR:value_meaning_description
-                                    return (
-                                       <tr>
-                                          <td class="left_header_cell">Permissable Value {$pos}</td>
-                                          <td colspan="3" >{$meaning}</td><td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
-                                       </tr>
-                                    )
-                                     
-                               }
-                           ) else ()
-                           
-                        </table>,
-                        <table class="section">     
-                              <tr><td class="row-header-cell" colspan="6">Store</td></tr>
-                              <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
-                        </table>
-                   ) else (
-                       <table class="section">
-                           <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
+                           </tr>,                   
+                           if ($concept_domain//openMDR:value_meaning_description > '') 
+                           then 
+                           (
+                                   <tr>
+                                   <td class="left_header_cell">Possible Values</td>
+                                   <td colspan="3">meaning</td>
+                                   <td>value</td>
+                                   </tr>,                                    
+                                        for $meaning at $pos in $concept_domain//openMDR:value_meaning_description
+                                        return (
+                                           <tr>
+                                              <td class="left_header_cell">Permissable Value {$pos}</td>
+                                              <td colspan="3" >{$meaning}</td>
+                                              <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
+                                           </tr>
+                                        ) 
+                           ) 
+                           else () 
+                    ) 
+                    else (
                            <tr>
                                 <td class="left_header_cell">Choose Conceptual Domain</td>
                                 <td align="left">
-                                {
-                                    
+                                {                                    
                                     lib-forms:make-select-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id)
-                        
                                 }
                                 </td>
-                                <td>{lib-forms:action-button('select', 'action','')}</td>
-                                
-                           </tr>
-                       </table>
+                                <td>{lib-forms:action-button('select', 'action','')}</td>                                
+                           </tr>                    
                    )
-               }
-                 
+               }    
+               </table>
+                    <table class="section">
+                          <tr><td class="row-header-cell" colspan="6">Store</td></tr>
+                          <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                    </table>
               </div>
           </form>
           </td></tr>
@@ -297,9 +301,45 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
-   let $iconceptual_domain_id  := $element//openMDR:conceptual_domain_id 
-   let $ivalues := $element//openMDR:value_meaning_description
-
+   
+   (: let $iconceptual_domain_id  := $element//openMDR:conceptual_domain_id   
+    let test := element//openMDR:contained_in/text())/openMDR:value_meaning_description
+   :)
+   
+   let $iconceptual_domain_id := $element//openMDR:representing/text()
+   let $log := util:log-system-err($iconceptual_domain_id)
+   
+   let $ivalues := $element//openMDR:value_item
+   let $log := util:log-system-err($ivalues)
+   
+   let $imeanings := $element//openMDR:conceptual_domain
+   let $log := util:log-system-err($imeanings)
+   
+   (:
+    for $permissible_value  in permissible-value:contained_in($administered_item)
+      let $value := value:used_in($permissible_value)
+      order by $value
+      return
+         <tr>
+               <td class="left_header_cell">
+                 {if ($value) then value:item($value) else ()}
+               </td>
+               <td>
+                 {
+                   string-join(
+                       for $meaning in value-meaning:value-meaning($permissible_value/openMDR:contained_in/text())/openMDR:value_meaning_description
+                       order by $meaning ascending
+                       return $meaning, (: The sorting gives deterministic behaviour that is good for regression testing :)
+                       " | "
+                   )
+                 }
+               </td>
+               <td>
+               {permissible-value:begin_date($permissible_value)}
+               </td>
+         </tr>
+   :)
+   
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
@@ -312,11 +352,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
-   let $property_uri := request:get-parameter('property_uri','')
    let $preferred := request:get-parameter('preferred','')
    let $conceptual_domain_id as xs:string? := request:get-parameter('conceptual_domain_id','')
    let $values := request:get-parameter('values',())
-   
+
    return
       lib-rendering:txfrm-webpage(
       $title,
