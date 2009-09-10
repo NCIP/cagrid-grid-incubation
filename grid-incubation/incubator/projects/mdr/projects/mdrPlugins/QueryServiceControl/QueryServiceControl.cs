@@ -28,6 +28,9 @@ namespace QueryServiceControl
         protected int currentPageCLS = 0;
         protected int pageSizeCLS = 20;
 
+        private String TERM_SEARCH_TYPE = "Term";
+        private String ID_SEARCH_TYPE = "Id";
+
         public QueryServiceControl()
         {
             InitializeComponent();
@@ -49,6 +52,11 @@ namespace QueryServiceControl
 
             //OSUMC: hide classification tab. Not used.
             tabControl.Controls.Remove(tabClassified);
+
+            // Set default search type to "Term"
+            cbSearchType.Items.Add(TERM_SEARCH_TYPE);
+            cbSearchType.Items.Add(ID_SEARCH_TYPE);
+            cbSearchType.SelectedItem = TERM_SEARCH_TYPE;
         }
 
         void searchCLSWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -233,7 +241,7 @@ namespace QueryServiceControl
                 wbDetailsDef.DocumentText = "";
                 wbDetailsPropsValues.DocumentText = "";
 
-                SetStatus("Querying...");
+                SetStatus("Querying...Please wait...");
                 this.Cursor = Cursors.WaitCursor;
 
                 QueryServiceManager.QueryRequestQuery req = new global::QueryServiceControl.QueryServiceManager.QueryRequestQuery();
@@ -241,9 +249,19 @@ namespace QueryServiceControl
                 req.query.resource = cbResources.SelectedValue.ToString();
 
                 req.query.Items = new string[] { txtTerm.Text };
-                req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[] {
-                    global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.term
-                };
+
+                if (cbSearchType.SelectedItem.Equals(TERM_SEARCH_TYPE)) {
+                    req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[] {
+                        global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.term
+                    };
+                }
+                else
+                {
+                    req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[] {
+                        global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.id
+                    };
+                }
+
                 if (currentPage == 0)
                 {
                     req.query.startIndex = currentPage;
@@ -770,6 +788,11 @@ namespace QueryServiceControl
         protected virtual void annotate(object sender, EventArgs e)
         {
             throw new NotImplementedException("This function has not been implmented.");
+        }
+
+        private void txtTerm_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
