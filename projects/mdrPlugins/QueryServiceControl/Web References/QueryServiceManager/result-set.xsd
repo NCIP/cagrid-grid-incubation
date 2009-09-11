@@ -59,6 +59,8 @@
         <xs:sequence>
           <xs:element ref="values" />
           <xs:element minOccurs="0" ref="conceptCollection" />
+          <xs:element maxOccurs="unbounded" ref="object-class" />
+          <xs:element maxOccurs="unbounded" ref="property" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
