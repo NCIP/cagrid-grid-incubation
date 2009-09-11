@@ -240,6 +240,7 @@ namespace QueryServiceControl
                 lstResults.Update();
                 wbDetailsDef.DocumentText = "";
                 wbDetailsPropsValues.DocumentText = "";
+                wbOcProps.DocumentText = "";
 
                 SetStatus("Querying...Please wait...");
                 this.Cursor = Cursors.WaitCursor;
@@ -665,6 +666,36 @@ namespace QueryServiceControl
                     else if (sender.Equals(lstResults))
                     {
                         wbDetailsPropsValues.DocumentText = values;
+                    }
+
+                    // Take care of object classes/properties
+                    if (dataelement.objectclass.Length > 0 || dataelement.property.Length > 0)
+                    {
+                        String tableStr = "<table style=\"width: 100%;border: 1px solid #ddd;border-collapse: collapse;\"><tr><th style=\"background-color: #ddd;color: #000;text-align: left;padding: 5px;\">Type</th><th style=\"background-color: #ddd;color: #000;text-align: left;padding: 5px;\">Name</th><th style=\"background-color: #ddd;color: #000;text-align: left;padding: 5px;\">Concept(s)</th></tr>";
+                  
+                        foreach (QueryServiceManager.objectclass oc in dataelement.objectclass)
+                        {
+                            String concepts = "";
+                            for(int i=0; i < oc.conceptCollection.Length;i++)
+                            {
+                                if (i > 0) concepts += ", ";
+                                concepts += oc.conceptCollection[i].name;
+                            }
+                            tableStr += "<tr><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">Object Class</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + oc.names.preferred + "</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + concepts + "</td></tr>";
+                        }
+
+                        foreach (QueryServiceManager.property prop in dataelement.property)
+                        {
+                            String concepts = "";
+                            for (int i = 0; i < prop.conceptCollection.Length; i++)
+                            {
+                                if (i > 0) concepts += ", ";
+                                concepts += prop.conceptCollection[i].name;
+                            }
+                            tableStr += "<tr><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">Property</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + prop.names.preferred + "</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + concepts + "</td></tr>";
+                        }
+                        tableStr += "</table>";
+                        wbOcProps.DocumentText = tableStr;
                     }
                 }
                 else if (objectclass != null || property != null)

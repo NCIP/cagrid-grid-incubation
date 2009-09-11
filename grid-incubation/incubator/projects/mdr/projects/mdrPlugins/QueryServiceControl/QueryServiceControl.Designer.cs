@@ -48,6 +48,8 @@
             this.wbDetailsDef = new System.Windows.Forms.WebBrowser();
             this.tabPagePropsValues = new System.Windows.Forms.TabPage();
             this.wbDetailsPropsValues = new System.Windows.Forms.WebBrowser();
+            this.tabOcProps = new System.Windows.Forms.TabPage();
+            this.wbOcProps = new System.Windows.Forms.WebBrowser();
             this.otherDetails = new System.Windows.Forms.TabPage();
             this.wbDetailsOther = new System.Windows.Forms.WebBrowser();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -81,6 +83,7 @@
             this.tabControlDetails.SuspendLayout();
             this.tabPageDef.SuspendLayout();
             this.tabPagePropsValues.SuspendLayout();
+            this.tabOcProps.SuspendLayout();
             this.otherDetails.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabFreeText.SuspendLayout();
@@ -156,6 +159,7 @@
             // 
             this.tableLayoutPanel4.SetColumnSpan(this.cbResources, 2);
             this.cbResources.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbResources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbResources.FormattingEnabled = true;
             this.cbResources.Location = new System.Drawing.Point(3, 3);
             this.cbResources.Name = "cbResources";
@@ -293,6 +297,7 @@
             // 
             this.tabControlDetails.Controls.Add(this.tabPageDef);
             this.tabControlDetails.Controls.Add(this.tabPagePropsValues);
+            this.tabControlDetails.Controls.Add(this.tabOcProps);
             this.tabControlDetails.Controls.Add(this.otherDetails);
             this.tabControlDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlDetails.Location = new System.Drawing.Point(3, 16);
@@ -341,6 +346,25 @@
             this.wbDetailsPropsValues.Name = "wbDetailsPropsValues";
             this.wbDetailsPropsValues.Size = new System.Drawing.Size(260, 283);
             this.wbDetailsPropsValues.TabIndex = 0;
+            // 
+            // tabOcProps
+            // 
+            this.tabOcProps.Controls.Add(this.wbOcProps);
+            this.tabOcProps.Location = new System.Drawing.Point(4, 22);
+            this.tabOcProps.Name = "tabOcProps";
+            this.tabOcProps.Size = new System.Drawing.Size(266, 289);
+            this.tabOcProps.TabIndex = 3;
+            this.tabOcProps.Text = "OC/Props";
+            this.tabOcProps.UseVisualStyleBackColor = true;
+            // 
+            // wbOcProps
+            // 
+            this.wbOcProps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wbOcProps.Location = new System.Drawing.Point(0, 0);
+            this.wbOcProps.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbOcProps.Name = "wbOcProps";
+            this.wbOcProps.Size = new System.Drawing.Size(266, 289);
+            this.wbOcProps.TabIndex = 0;
             // 
             // otherDetails
             // 
@@ -661,6 +685,7 @@
             this.tabControlDetails.ResumeLayout(false);
             this.tabPageDef.ResumeLayout(false);
             this.tabPagePropsValues.ResumeLayout(false);
+            this.tabOcProps.ResumeLayout(false);
             this.otherDetails.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabFreeText.ResumeLayout(false);
@@ -727,5 +752,7 @@
         private System.Windows.Forms.WebBrowser wbDetailsOther;
         private System.Windows.Forms.Button btnAnnotate;
         private System.Windows.Forms.ComboBox cbSearchType;
+        private System.Windows.Forms.TabPage tabOcProps;
+        private System.Windows.Forms.WebBrowser wbOcProps;
     }
 }
