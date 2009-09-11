@@ -33,14 +33,7 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 
-declare function local:organisation(
-   $reg-auth as xs:string,
-   $administrative-note as xs:string,
-   $administrative-status as xs:string,
-   $administered-by as xs:string,
-   $submitted-by as xs:string,
-   $registered-by as xs:string,
-   
+declare function local:organisation(   
    $organization_name as xs:string?,
    $organization_mail_address as xs:string?,
    $contact_name as xs:string?,
@@ -51,18 +44,12 @@ declare function local:organisation(
 {
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
-   let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
+   let $new-identifier := concat( $data-identifier, '-', $version)
    let $doc-name := concat($new-identifier,'.xml')
   
-	 let $organization-identifier := lib-forms:generate-id()
-	 let $contact-identifier := lib-forms:generate-id()
- 
-   let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
-            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by)
-                 
-    )
-   
+    let $organization-identifier := concat(lib-forms:generate-id(),'-',$version)
+	let $contact-identifier := concat(lib-forms:generate-id(),'-',$version)
+  
    (: compose the document :)
    let $document :=
             element openMDR:Organization {
@@ -86,14 +73,7 @@ declare function local:organisation(
 };
 
 declare function local:input-page(
-   $message as xs:string?,
-   $reg-auth as xs:string?,
-   $administrative-note  as xs:string?,
-   $administrative-status  as xs:string?,
-   $administered-by  as xs:string?,
-   $submitted-by  as xs:string?,
-   $registered-by  as xs:string?,
-   
+   $message as xs:string?,   
    $org_name as xs:string?,
    $org_mail_address as xs:string?,
    $contact-name as xs:string?,
@@ -117,13 +97,6 @@ declare function local:input-page(
           <tr><td>
           <form name="new_organisation" action="newOrganisation.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
-             {lib-forms:edit-admin-item-only($reg-auth,
-                     $administrative-note,
-                     $administrative-status,
-                     $administered-by,
-                     $submitted-by,
-                     $registered-by,                     
-                     $action)}  
                                                                
              	<table class="layout">
              		<tr><td class="row-header-cell" colspan="6">Organization</td></tr>
@@ -188,12 +161,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
  
    session:create(),
    let $title as xs:string := "Creating a New Organisation"
-   let $reg-auth := request:get-parameter('registration-authority','')
-   let $administrative-note := request:get-parameter('administrative-note','')
-   let $administrative-status := request:get-parameter('administrative-status','')
-   let $administered-by := request:get-parameter('administered-by','')
-   let $submitted-by := request:get-parameter('submitted-by','')
-   let $registered-by := request:get-parameter('registered-by','')
    
    let $organization_name :=request:get-parameter('org_name','')
    let $organization_mail_address :=request:get-parameter('org_mail_address','')
@@ -203,7 +170,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $action := request:get-parameter('update','')
 
    return
-   
       lib-rendering:txfrm-webpage(
       $title,
       if ($action='Store')
@@ -212,13 +178,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
          if (
                local:organisation
                   (
-                     $reg-auth,
-                     $administrative-note,
-                     $administrative-status,
-                     $administered-by,
-                     $submitted-by,
-                     $registered-by,
-  
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
@@ -229,13 +188,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
          then local:success-page()  
          else (local:input-page(
             'could not store document',
-                     $reg-auth,
-                     $administrative-note,
-                     $administrative-status,
-                     $administered-by,
-                     $submitted-by,
-                     $registered-by,
-                     
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
@@ -247,13 +199,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
          )
           else local:input-page(
                      '',
-                     $reg-auth,
-                     $administrative-note,
-                     $administrative-status,
-                     $administered-by,
-                     $submitted-by,
-                     $registered-by,
- 
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
