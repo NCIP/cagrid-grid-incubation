@@ -80,7 +80,6 @@ declare function local:value_domain(
    ) as xs:boolean
 {
                     
-   let $log := util:log-system-err($values)
              
    let $version := lib-forms:substring-after-last($id,'-')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
@@ -162,7 +161,6 @@ declare function local:input-page(
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
-   let $log := util:log-system-err($values)
    return
 
    <div xmlns="http://www.w3.org/1999/xhtml">
@@ -200,7 +198,6 @@ declare function local:input-page(
                             <td class="row-header-cell" colspan="6">Conceptual Domain</td>
                         </tr>
                         {
-                        let $log := util:log-system-err($values)
                         let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
                         return                    
                         if ($conceptual_domain_id > '') 
@@ -307,39 +304,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    :)
    
    let $iconceptual_domain_id := $element//openMDR:representing/text()
-   let $log := util:log-system-err($iconceptual_domain_id)
-   
    let $ivalues := $element//openMDR:value_item
-   let $log := util:log-system-err($ivalues)
-   
    let $imeanings := $element//openMDR:conceptual_domain
-   let $log := util:log-system-err($imeanings)
-   
-   (:
-    for $permissible_value  in permissible-value:contained_in($administered_item)
-      let $value := value:used_in($permissible_value)
-      order by $value
-      return
-         <tr>
-               <td class="left_header_cell">
-                 {if ($value) then value:item($value) else ()}
-               </td>
-               <td>
-                 {
-                   string-join(
-                       for $meaning in value-meaning:value-meaning($permissible_value/openMDR:contained_in/text())/openMDR:value_meaning_description
-                       order by $meaning ascending
-                       return $meaning, (: The sorting gives deterministic behaviour that is good for regression testing :)
-                       " | "
-                   )
-                 }
-               </td>
-               <td>
-               {permissible-value:begin_date($permissible_value)}
-               </td>
-         </tr>
-   :)
-   
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')

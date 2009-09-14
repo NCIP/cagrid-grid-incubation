@@ -35,30 +35,30 @@
 		</query_service>
 		<query_service name="openMDR"
 			class="org.cagrid.ws.query.RestQueryService"
-			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/dataElementListSearch.xquery"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementListSearch.xquery"
 			cache_collection_id="openMDR" cache="false" cache_provider="HibernateCacheProvider"
 			category="CDE" connection_type="REST" requestSequence="openMDR_REST_query"
 			digestSequence="add_namespace">
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
-			<webUrl>http://129.67.150.47:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+			<webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="openMDR-Local-Terminology"
 			class="org.cagrid.ws.query.RestQueryService"
-			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/terminology.xquery"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/terminology.xquery"
 			cache_collection_id="openMDR-Local-Terminology" cache="false"
-			cache_provider="HibernateCacheProvider" category="CONCEPT"
+			cache_provider="HibernateCacheProvider" category="LOCALCONCEPT"
 			connection_type="REST" requestSequence="openMDR_REST_query"
 			digestSequence="add_namespace">
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
-			<webUrl>http://129.67.150.47:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+			<webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="openMDR-with-Classification"
 			class="org.cagrid.ws.query.RestQueryService"
-			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/dataElementListSearchByClassification.xquery"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementListSearchByClassification.xquery"
 			cache_collection_id="openMDR-with-Classification" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="openMDR_SKOS_REST_query"
@@ -66,22 +66,22 @@
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
-			<webUrl>https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="openMDR-Classification-Schemes"
 			class="org.cagrid.ws.query.RestQueryService"
-			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/listClassificationSchemes.xquery"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/listClassificationSchemes.xquery"
 			cache_collection_id="openMDR-Classification-Schemes" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="no_arg_REST" digestSequence="add_namespace">
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
-			<webUrl>https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 		<query_service name="openMDR-Classification-Tree"
 			class="org.cagrid.ws.query.RestQueryService"
-			serviceUrl="http://129.67.150.47:8080/exist/rest/db/mdr/services/simpleClassificationTree.xquery"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/simpleClassificationTree.xquery"
 			cache_collection_id="openMDR-Classification-Tree" cache="false"
 			cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME"
 			connection_type="REST" requestSequence="openMDR_Classification_Tree"
@@ -89,7 +89,7 @@
 			<title>Metadata Registry (openMDR)</title>
 			<description>Metadata Registry (openMDR)
 			</description>
-			<webUrl>https://129.67.150.47:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
 		</query_service>
 	</resources>
 	<cache_config>

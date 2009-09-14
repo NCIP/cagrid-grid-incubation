@@ -251,9 +251,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $action := request:get-parameter('update','')
    let $meanings := request:get-parameter('meanings','')
    
-   
-   return
-   
+   return   
       lib-rendering:txfrm-webpage(
       $title,
       if ($action='Store')
