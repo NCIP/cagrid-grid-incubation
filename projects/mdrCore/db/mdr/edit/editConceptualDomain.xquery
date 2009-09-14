@@ -283,14 +283,13 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true')) 
    let $imeanings := $element//openMDR:value_meaning_description
-   let $log := util:log-system-err($imeanings)
-   
    let $begins := $element//openMDR:value_meaning_begin_date/text()
-   let $log := util:log-system-err($begins)
-
    let $ends := $element//openMDR:value_meaning_end_date/text()      
    let $ivalue_meaning_begin_date := $element//openMDR:ivalue_meaning_begin_date                  
-
+    (:
+   let $log := util:log-system-err($imeanings)
+   let $log := util:log-system-err($begins)
+    :)
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')

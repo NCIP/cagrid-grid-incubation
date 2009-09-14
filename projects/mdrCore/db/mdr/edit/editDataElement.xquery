@@ -224,14 +224,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $updating := request:get-parameter('updating','')
    let $title as xs:string := concat("Editing DataElement ", $id)
    let $element := lib-util:mdrElement("data_element",$id)
-   let $log := util:log-system-err($element)
 
    let $action := request:get-parameter('update','')
-   let $log := util:log-system-err($action)
-   
-   let $ireg-auth := string($element/@item_registration_authority_identifier)
-   let $log := util:log-system-err($ireg-auth)
-   
+   let $ireg-auth := string($element/@item_registration_authority_identifier)   
    let $iadministrative-note := string($element//openMDR:administrative_note)
    let $iadministrative-status := string($element//openMDR:administrative_status)
    let $iadministered-by := string($element//openMDR:administered_by)
@@ -244,19 +239,21 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
-
-   let $log := util:log-system-err($iregistered-by)
-
    let $idata_element_concept_id := $element//openMDR:expressing/text()
    let $ivalue_domain_id := $element//openMDR:representing/text()
    let $iexample := $element//openMDR:data_element_example_item/text()
    let $iprecision := $element//openMDR:data_element_precision/text()
-   
+   (:
+   let $log := util:log-system-err($element)
+   let $log := util:log-system-err($action)
+   let $log := util:log-system-err($ireg-auth)
+   let $log := util:log-system-err($iregistered-by)   
     let $log := util:log-system-err($idata_element_concept_id)
     let $log := util:log-system-err($ivalue_domain_id)
     let $log := util:log-system-err($iexample)
     let $log := util:log-system-err($iprecision)
-
+    :)
+    
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')

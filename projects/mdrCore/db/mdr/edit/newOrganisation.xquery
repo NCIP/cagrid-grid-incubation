@@ -106,7 +106,7 @@ declare function local:input-page(
                     <td><input type="text" name="org_name"></input></td>
                   </tr>,
                   <tr>
-                  	<td class="left_header_cell">Organization Email Address</td>
+                  	<td class="left_header_cell">Organization Mail Address</td>
                     <td><input type="text" name="org_mail_address"></input></td>
                   </tr>
  
@@ -125,7 +125,7 @@ declare function local:input-page(
                     <td><input type="text" name="contact-title"></input></td>
                   </tr>,
                    <tr>
-                  	<td class="left_header_cell">Information</td>
+                  	<td class="left_header_cell">Information:Email/Phone</td>
                     <td><input type="text" name="contact-information"></input></td>
                   </tr>
  
