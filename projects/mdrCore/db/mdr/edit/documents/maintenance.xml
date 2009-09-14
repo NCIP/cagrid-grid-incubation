@@ -95,6 +95,7 @@
 		<uri>../edit/supported_datatype.xquery
 		</uri>
 	</function>
+	<!-- 
 	<function>
 		<title>Browse Representation classes supported by this metadata
 			repository</title>
@@ -105,7 +106,8 @@
 		<uri>../edit/supported_representation_class.xquery
 		</uri>
 	</function>
-	<function>
+	 -->
+	 <function>
 		<title>Report on inconsistent IDs</title>
 		<description>List and link to documents with inconsistent
 			identifiers and names</description>
@@ -119,6 +121,7 @@
 		<uri>../edit/reportDuplicateIDs.xquery
 		</uri>
 	</function>
+	<!-- 
 	<function>
 		<title>Fix names</title>
 		<description>Updates administered items that do not have a name
@@ -127,6 +130,7 @@
 		<uri>../edit/fixNoPreferredNames.xquery
 		</uri>
 	</function>
+	 -->
 	<function>
 		<title>Report on Broken Links</title>
 		<description>Reports on broken links in the metadata registry
