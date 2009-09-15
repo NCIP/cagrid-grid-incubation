@@ -131,9 +131,67 @@ namespace QueryServiceControl
             //statusMsg.Text = "Initializing...";
             SetStatus("Initializing...");
 
+            InitServiceURL();
+            
             btnSearch.Enabled = false;
             btnSearchCLS.Enabled = false;
             bgWorker.RunWorkerAsync();
+        }
+
+        private void InitServiceURL()
+        {
+            System.Collections.Specialized.StringCollection userURLs = 
+                global::QueryServiceControl.Properties.Settings.Default.User_QueryServiceControl_QueryServiceManager_MDRQueryService;
+
+            String lastUsedURL = global::QueryServiceControl.Properties.Settings.Default.Last_QueryServiceControl_QueryServiceManager_MDRQueryService;
+
+            cbServiceUrls.Items.Clear();
+
+            int selectedIndex = 0;
+            cbServiceUrls.Items.Add(global::QueryServiceControl.Properties.Settings.Default.QueryServiceControl_QueryServiceManager_MDRQueryService);
+
+            if (userURLs != null)
+            {
+                for (int i = 0; i < userURLs.Count; i++)
+                {
+                    cbServiceUrls.Items.Add(userURLs[i]);
+                    if (lastUsedURL.Equals(userURLs[i]))
+                    {
+                        selectedIndex = i + 1;
+                    }
+                }
+            }
+
+            cbServiceUrls.SelectedIndex = selectedIndex;
+        }
+
+        private void UpdateUserServiceURL()
+        {
+            String inputURL = cbServiceUrls.Text;
+            String appURL = global::QueryServiceControl.Properties.Settings.Default.QueryServiceControl_QueryServiceManager_MDRQueryService;
+            System.Collections.Specialized.StringCollection userURLs = global::QueryServiceControl.Properties.Settings.Default.User_QueryServiceControl_QueryServiceManager_MDRQueryService;
+
+            bool changes = false;
+            if (!inputURL.Equals(appURL, StringComparison.CurrentCultureIgnoreCase))
+            {
+                if (userURLs == null) 
+                    userURLs = new System.Collections.Specialized.StringCollection();
+
+                if (!userURLs.Contains(inputURL))
+                {
+                    userURLs.Add(inputURL);
+                    global::QueryServiceControl.Properties.Settings.Default.User_QueryServiceControl_QueryServiceManager_MDRQueryService = userURLs;
+                    changes = true;
+                }
+            }
+
+            global::QueryServiceControl.Properties.Settings.Default.Last_QueryServiceControl_QueryServiceManager_MDRQueryService = inputURL;
+            global::QueryServiceControl.Properties.Settings.Default.Save();
+
+            if (changes)
+            {
+                InitServiceURL();
+            }
         }
 
         private void InitResources()
@@ -272,7 +330,9 @@ namespace QueryServiceControl
                     req.query.startIndex = currentPage * pageSize;
                 }
                 req.query.numResults = pageSize + 1;
-                
+
+                qsm.Url = cbServiceUrls.Text;
+
                 lastResult = qsm.query(req);
                 if (lastResult == null || lastResult.Items == null || lastResult.Items.Length <= 0)
                 {
@@ -303,6 +363,10 @@ namespace QueryServiceControl
                 SetErrorStatus("Query failed");
             }
             this.Cursor = Cursors.Default;
+
+            // Update service URLs combo box to remember any new
+            // URL specified by the user
+            UpdateUserServiceURL();
         }
 
         private void listResults(object[] results, ListBox target)
@@ -824,6 +888,14 @@ namespace QueryServiceControl
         private void txtTerm_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnCleanURLs_Click(object sender, EventArgs e)
+        {
+            global::QueryServiceControl.Properties.Settings.Default.User_QueryServiceControl_QueryServiceManager_MDRQueryService
+                = new System.Collections.Specialized.StringCollection();
+            global::QueryServiceControl.Properties.Settings.Default.Save();
+            InitServiceURL();
         }
     }
 
