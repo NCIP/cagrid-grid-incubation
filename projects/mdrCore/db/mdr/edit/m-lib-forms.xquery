@@ -113,7 +113,8 @@ declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$
       lib-forms:blank-filler(),
      for $item in lib-util:mdrElements('context')
       let $name:= data($item//openMDR:name/text())
-      let $id:= data($item//openMDR:context_identifier/text())
+      let $id := concat(data($item//openMDR:Context/@item_registration_authority_identifier),'-', data($item//openMDR:Context/@data_identifier),'-',data($item//openMDR:Context/@version))
+      (:let $id:= data($item//openMDR:context_identifier/text()):)      
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
    }
