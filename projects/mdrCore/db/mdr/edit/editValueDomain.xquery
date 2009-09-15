@@ -9,18 +9,11 @@ xquery version "1.0";
  :
  : Copyright                The cagrid consortium
  :
- : Module overview          Creates and property and displays list
+ : Module overview          Edit Value Domain
  :
  :)
  
 (:~
- :    @author Steve Harris
- :    @version 0.1
- :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
- :
  :    @author Rakesh Dhaval
  :    @version 3.0
  :    allows editing the DataElementConcept
@@ -76,6 +69,8 @@ declare function local:value_domain(
    $sources as xs:string*,
    $preferred as xs:string?,
    $conceptual_domain_id as xs:string?,
+   $enum_datatype as xs:string?,
+   $enum_uom as xs:string?,
    $values as xs:string*
    ) as xs:boolean
 {
@@ -108,7 +103,9 @@ declare function local:value_domain(
                          element openMDR:contained_in {$concept_domain//openMDR:value_meaning_identifier[$pos]/text()}
                        }
              ),
-            element openMDR:representing {$conceptual_domain_id}
+            element openMDR:representing {$conceptual_domain_id},
+            element openMDR:value_domain_datatype {$enum_datatype},
+            element openMDR:value_domain_unit_of_measure {$enum_uom}
     )
   
    (: compose the document :)
@@ -157,6 +154,8 @@ declare function local:input-page(
    $action as xs:string?,
    $preferred as xs:string?,
    $conceptual_domain_id as xs:string?,
+   $enum_datatype as xs:string?,
+   $enum_uom as xs:string?,
    $values as xs:string*
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
@@ -214,11 +213,11 @@ declare function local:input-page(
                            <tr><td class="row-header-cell" colspan="6">Value Domain</td></tr>,
                            <tr>
                                <td class="left_header_cell">Value Domain Data Type</td>
-                               <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
+                               <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', $enum_datatype)}</td>
                            </tr>,
                            <tr>
                                <td class="left_header_cell">Value Domain Unit of Measure</td>
-                               <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
+                               <td collspan="3">{lib-forms:make-select-uom('enum_uom',$enum_uom)}</td>
                            </tr>,                   
                            if ($concept_domain//openMDR:value_meaning_description > '') 
                            then 
@@ -298,6 +297,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
+   let $ienum_datatype := $element//openMDR:value_domain_datatype
+   let $ienum_uom := $element//openMDR:value_domain_unit_of_measure
    
    (: let $iconceptual_domain_id  := $element//openMDR:conceptual_domain_id   
     let test := element//openMDR:contained_in/text())/openMDR:value_meaning_description
@@ -321,6 +322,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $preferred := request:get-parameter('preferred','')
    let $conceptual_domain_id as xs:string? := request:get-parameter('conceptual_domain_id','')
    let $values := request:get-parameter('values',())
+   let $enum_datatype := request:get-parameter('enum_datatype','')
+   let $enum_uom := request:get-parameter('enum_uom','')
 
    return
       lib-rendering:txfrm-webpage(
@@ -346,6 +349,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $sources,
                      $preferred,
                      $conceptual_domain_id,
+                     $enum_datatype,
+                     $enum_uom,
                      $values
                   )
             ) 
@@ -368,6 +373,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action,
                      $preferred,
                      $conceptual_domain_id,
+                     $enum_datatype,
+                     $enum_uom,
                      $values
                   )
                )
@@ -394,6 +401,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $preferred,
                $conceptual_domain_id,
+               $enum_datatype,
+               $enum_uom,
                $values
                )
          ) else (
@@ -416,6 +425,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $ipreferred,
                $iconceptual_domain_id,
+               $ienum_datatype,
+               $ienum_uom,
                $ivalues
                )
          )
