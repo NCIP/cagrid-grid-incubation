@@ -52,6 +52,8 @@ declare function local:value_domain(
    $sources as xs:string*,
    $preferred as xs:string?,
    $conceptual_domain_id as xs:string?,
+   $enum_datatype as xs:string?,
+   $enum_uom as xs:string?,
    $values as xs:string*
    ) as xs:boolean
 {
@@ -60,8 +62,7 @@ declare function local:value_domain(
    let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
    let $doc-name := concat($new-identifier,'.xml')
    let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
-   let $log := util:log-system-err($concept_domain)
-
+   
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
@@ -83,8 +84,11 @@ declare function local:value_domain(
                          element openMDR:contained_in {$concept_domain//openMDR:value_meaning_identifier[$pos]/text()}
                        }
              ),
-            element openMDR:representing {$conceptual_domain_id}
-   )         
+            element openMDR:representing {$conceptual_domain_id},
+            element openMDR:value_domain_datatype {$enum_datatype},
+            element openMDR:value_domain_unit_of_measure {$enum_uom}
+
+)         
    
    (: compose the document :)
    let $document := (
@@ -130,6 +134,8 @@ declare function local:input-page(
    $action as xs:string?,
    $preferred as xs:string?,
    $conceptual_domain_id as xs:string?,
+   $enum_datatype as xs:string?,
+   $enum_uom as xs:string?,
    $values as xs:string*
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
@@ -262,9 +268,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $action := request:get-parameter('update','')
    let $conceptual_domain_id as xs:string? := request:get-parameter('conceptual_domain_id','')
    let $values := request:get-parameter('values',())
-   
+   let $enum_datatype := request:get-parameter('enum_datatype','')
+   let $enum_uom := request:get-parameter('enum_uom','')
+   (:
    let $log := util:log-system-err($values)
-
+   let $log := util:log-system-err($enum_datatype)
+   let $log := util:log-system-err($enum_uom)
+    :)
+    
    return   
       lib-rendering:txfrm-webpage(
       $title,
@@ -288,6 +299,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $sources,
                      $preferred,
                      $conceptual_domain_id,
+                     $enum_datatype,
+                     $enum_uom,
                      $values
                   )
             ) 
@@ -309,6 +322,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action,
                      $preferred,
                      $conceptual_domain_id,
+                     $enum_datatype,
+                     $enum_uom,
                      $values
                   )
                )
@@ -331,6 +346,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $preferred,
                $conceptual_domain_id,
+               $enum_datatype,
+               $enum_uom,               
                $values
                )
          )
