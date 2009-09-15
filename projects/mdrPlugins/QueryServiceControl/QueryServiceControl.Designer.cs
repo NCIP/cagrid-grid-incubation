@@ -55,6 +55,9 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabFreeText = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnCleanURLs = new System.Windows.Forms.Button();
+            this.cbServiceUrls = new System.Windows.Forms.ComboBox();
             this.tabClassified = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelClassification = new System.Windows.Forms.TableLayoutPanel();
             this.grpClassificationResults = new System.Windows.Forms.GroupBox();
@@ -88,6 +91,7 @@
             this.tabControl.SuspendLayout();
             this.tabFreeText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
             this.tabClassified.SuspendLayout();
             this.tableLayoutPanelClassification.SuspendLayout();
             this.grpClassificationResults.SuspendLayout();
@@ -107,7 +111,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTerm.Location = new System.Drawing.Point(83, 33);
             this.txtTerm.Name = "txtTerm";
-            this.txtTerm.Size = new System.Drawing.Size(188, 20);
+            this.txtTerm.Size = new System.Drawing.Size(210, 20);
             this.txtTerm.TabIndex = 0;
             this.txtTerm.TextChanged += new System.EventHandler(this.txtTerm_TextChanged);
             this.txtTerm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTerm_KeyPress);
@@ -130,7 +134,7 @@
             this.grpControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpControls.Location = new System.Drawing.Point(3, 3);
             this.grpControls.Name = "grpControls";
-            this.grpControls.Size = new System.Drawing.Size(280, 104);
+            this.grpControls.Size = new System.Drawing.Size(302, 104);
             this.grpControls.TabIndex = 2;
             this.grpControls.TabStop = false;
             this.grpControls.Text = "Controls";
@@ -152,7 +156,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(274, 85);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(296, 85);
             this.tableLayoutPanel4.TabIndex = 4;
             // 
             // cbResources
@@ -163,7 +167,7 @@
             this.cbResources.FormattingEnabled = true;
             this.cbResources.Location = new System.Drawing.Point(3, 3);
             this.cbResources.Name = "cbResources";
-            this.cbResources.Size = new System.Drawing.Size(268, 21);
+            this.cbResources.Size = new System.Drawing.Size(290, 21);
             this.cbResources.TabIndex = 2;
             // 
             // statusMsg
@@ -193,7 +197,7 @@
             this.grpResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpResults.Location = new System.Drawing.Point(3, 113);
             this.grpResults.Name = "grpResults";
-            this.grpResults.Size = new System.Drawing.Size(280, 333);
+            this.grpResults.Size = new System.Drawing.Size(302, 318);
             this.grpResults.TabIndex = 3;
             this.grpResults.TabStop = false;
             this.grpResults.Text = "Results";
@@ -219,7 +223,7 @@
             this.tableLayoutPanelResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelResults.Size = new System.Drawing.Size(274, 314);
+            this.tableLayoutPanelResults.Size = new System.Drawing.Size(296, 299);
             this.tableLayoutPanelResults.TabIndex = 1;
             // 
             // lstResults
@@ -230,7 +234,7 @@
             this.lstResults.HorizontalScrollbar = true;
             this.lstResults.Location = new System.Drawing.Point(3, 3);
             this.lstResults.Name = "lstResults";
-            this.lstResults.Size = new System.Drawing.Size(268, 277);
+            this.lstResults.Size = new System.Drawing.Size(290, 251);
             this.lstResults.TabIndex = 0;
             this.lstResults.SelectedIndexChanged += new System.EventHandler(this.updateDetails);
             // 
@@ -238,7 +242,7 @@
             // 
             this.btnUse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUse.Enabled = false;
-            this.btnUse.Location = new System.Drawing.Point(197, 287);
+            this.btnUse.Location = new System.Drawing.Point(219, 272);
             this.btnUse.Name = "btnUse";
             this.btnUse.Size = new System.Drawing.Size(74, 22);
             this.btnUse.TabIndex = 1;
@@ -248,8 +252,9 @@
             // 
             // btnBack
             // 
+            this.btnBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBack.Enabled = false;
-            this.btnBack.Location = new System.Drawing.Point(3, 287);
+            this.btnBack.Location = new System.Drawing.Point(31, 272);
             this.btnBack.MinimumSize = new System.Drawing.Size(28, 22);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(28, 22);
@@ -261,7 +266,7 @@
             // btnForward
             // 
             this.btnForward.Enabled = false;
-            this.btnForward.Location = new System.Drawing.Point(43, 287);
+            this.btnForward.Location = new System.Drawing.Point(65, 272);
             this.btnForward.MinimumSize = new System.Drawing.Size(28, 22);
             this.btnForward.Name = "btnForward";
             this.btnForward.Size = new System.Drawing.Size(28, 22);
@@ -274,7 +279,7 @@
             // 
             this.btnAnnotate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAnnotate.Enabled = false;
-            this.btnAnnotate.Location = new System.Drawing.Point(78, 287);
+            this.btnAnnotate.Location = new System.Drawing.Point(100, 272);
             this.btnAnnotate.Name = "btnAnnotate";
             this.btnAnnotate.Size = new System.Drawing.Size(108, 22);
             this.btnAnnotate.TabIndex = 4;
@@ -286,9 +291,9 @@
             // 
             this.grpDetails.Controls.Add(this.tabControlDetails);
             this.grpDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpDetails.Location = new System.Drawing.Point(3, 452);
+            this.grpDetails.Location = new System.Drawing.Point(3, 437);
             this.grpDetails.Name = "grpDetails";
-            this.grpDetails.Size = new System.Drawing.Size(280, 334);
+            this.grpDetails.Size = new System.Drawing.Size(302, 318);
             this.grpDetails.TabIndex = 4;
             this.grpDetails.TabStop = false;
             this.grpDetails.Text = "Details";
@@ -303,7 +308,7 @@
             this.tabControlDetails.Location = new System.Drawing.Point(3, 16);
             this.tabControlDetails.Name = "tabControlDetails";
             this.tabControlDetails.SelectedIndex = 0;
-            this.tabControlDetails.Size = new System.Drawing.Size(274, 315);
+            this.tabControlDetails.Size = new System.Drawing.Size(296, 299);
             this.tabControlDetails.TabIndex = 1;
             // 
             // tabPageDef
@@ -312,7 +317,7 @@
             this.tabPageDef.Location = new System.Drawing.Point(4, 22);
             this.tabPageDef.Name = "tabPageDef";
             this.tabPageDef.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDef.Size = new System.Drawing.Size(266, 289);
+            this.tabPageDef.Size = new System.Drawing.Size(288, 273);
             this.tabPageDef.TabIndex = 0;
             this.tabPageDef.Text = "Definition";
             this.tabPageDef.UseVisualStyleBackColor = true;
@@ -324,7 +329,7 @@
             this.wbDetailsDef.Location = new System.Drawing.Point(3, 3);
             this.wbDetailsDef.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbDetailsDef.Name = "wbDetailsDef";
-            this.wbDetailsDef.Size = new System.Drawing.Size(260, 283);
+            this.wbDetailsDef.Size = new System.Drawing.Size(282, 267);
             this.wbDetailsDef.TabIndex = 0;
             // 
             // tabPagePropsValues
@@ -333,7 +338,7 @@
             this.tabPagePropsValues.Location = new System.Drawing.Point(4, 22);
             this.tabPagePropsValues.Name = "tabPagePropsValues";
             this.tabPagePropsValues.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePropsValues.Size = new System.Drawing.Size(266, 289);
+            this.tabPagePropsValues.Size = new System.Drawing.Size(288, 273);
             this.tabPagePropsValues.TabIndex = 1;
             this.tabPagePropsValues.Text = "Props/Values";
             this.tabPagePropsValues.UseVisualStyleBackColor = true;
@@ -344,7 +349,7 @@
             this.wbDetailsPropsValues.Location = new System.Drawing.Point(3, 3);
             this.wbDetailsPropsValues.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbDetailsPropsValues.Name = "wbDetailsPropsValues";
-            this.wbDetailsPropsValues.Size = new System.Drawing.Size(260, 283);
+            this.wbDetailsPropsValues.Size = new System.Drawing.Size(282, 267);
             this.wbDetailsPropsValues.TabIndex = 0;
             // 
             // tabOcProps
@@ -352,7 +357,7 @@
             this.tabOcProps.Controls.Add(this.wbOcProps);
             this.tabOcProps.Location = new System.Drawing.Point(4, 22);
             this.tabOcProps.Name = "tabOcProps";
-            this.tabOcProps.Size = new System.Drawing.Size(266, 289);
+            this.tabOcProps.Size = new System.Drawing.Size(288, 273);
             this.tabOcProps.TabIndex = 3;
             this.tabOcProps.Text = "OC/Props";
             this.tabOcProps.UseVisualStyleBackColor = true;
@@ -363,7 +368,7 @@
             this.wbOcProps.Location = new System.Drawing.Point(0, 0);
             this.wbOcProps.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbOcProps.Name = "wbOcProps";
-            this.wbOcProps.Size = new System.Drawing.Size(266, 289);
+            this.wbOcProps.Size = new System.Drawing.Size(288, 273);
             this.wbOcProps.TabIndex = 0;
             // 
             // otherDetails
@@ -372,7 +377,7 @@
             this.otherDetails.Location = new System.Drawing.Point(4, 22);
             this.otherDetails.Name = "otherDetails";
             this.otherDetails.Padding = new System.Windows.Forms.Padding(3);
-            this.otherDetails.Size = new System.Drawing.Size(266, 289);
+            this.otherDetails.Size = new System.Drawing.Size(288, 273);
             this.otherDetails.TabIndex = 2;
             this.otherDetails.Text = "Other";
             this.otherDetails.UseVisualStyleBackColor = true;
@@ -383,7 +388,7 @@
             this.wbDetailsOther.Location = new System.Drawing.Point(3, 3);
             this.wbDetailsOther.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbDetailsOther.Name = "wbDetailsOther";
-            this.wbDetailsOther.Size = new System.Drawing.Size(260, 283);
+            this.wbDetailsOther.Size = new System.Drawing.Size(282, 267);
             this.wbDetailsOther.TabIndex = 0;
             // 
             // tabControl
@@ -394,7 +399,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(300, 821);
+            this.tabControl.Size = new System.Drawing.Size(322, 821);
             this.tabControl.TabIndex = 5;
             // 
             // tabFreeText
@@ -403,7 +408,7 @@
             this.tabFreeText.Location = new System.Drawing.Point(4, 22);
             this.tabFreeText.Name = "tabFreeText";
             this.tabFreeText.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFreeText.Size = new System.Drawing.Size(292, 795);
+            this.tabFreeText.Size = new System.Drawing.Size(314, 795);
             this.tabFreeText.TabIndex = 0;
             this.tabFreeText.Text = "Free Text";
             this.tabFreeText.UseVisualStyleBackColor = true;
@@ -417,15 +422,59 @@
             this.tableLayoutPanel3.Controls.Add(this.grpDetails, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.grpControls, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.grpResults, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel5, 0, 3);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 3;
+            this.tableLayoutPanel3.RowCount = 4;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 110F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(286, 789);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(308, 789);
             this.tableLayoutPanel3.TabIndex = 5;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
+            this.tableLayoutPanel5.Controls.Add(this.btnCleanURLs, 1, 0);
+            this.tableLayoutPanel5.Controls.Add(this.cbServiceUrls, 0, 0);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 761);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(302, 25);
+            this.tableLayoutPanel5.TabIndex = 6;
+            // 
+            // btnCleanURLs
+            // 
+            this.btnCleanURLs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCleanURLs.Location = new System.Drawing.Point(256, 3);
+            this.btnCleanURLs.Name = "btnCleanURLs";
+            this.btnCleanURLs.Size = new System.Drawing.Size(43, 19);
+            this.btnCleanURLs.TabIndex = 0;
+            this.btnCleanURLs.Text = "Reset";
+            this.btnCleanURLs.UseVisualStyleBackColor = true;
+            this.btnCleanURLs.Click += new System.EventHandler(this.btnCleanURLs_Click);
+            // 
+            // cbServiceUrls
+            // 
+            this.cbServiceUrls.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbServiceUrls.DropDownWidth = 356;
+            this.cbServiceUrls.FormattingEnabled = true;
+            this.cbServiceUrls.Location = new System.Drawing.Point(3, 3);
+            this.cbServiceUrls.Name = "cbServiceUrls";
+            this.cbServiceUrls.Size = new System.Drawing.Size(247, 21);
+            this.cbServiceUrls.TabIndex = 5;
             // 
             // tabClassified
             // 
@@ -433,7 +482,7 @@
             this.tabClassified.Location = new System.Drawing.Point(4, 22);
             this.tabClassified.Name = "tabClassified";
             this.tabClassified.Padding = new System.Windows.Forms.Padding(3);
-            this.tabClassified.Size = new System.Drawing.Size(292, 795);
+            this.tabClassified.Size = new System.Drawing.Size(314, 795);
             this.tabClassified.TabIndex = 1;
             this.tabClassified.Text = "Classification";
             this.tabClassified.UseVisualStyleBackColor = true;
@@ -454,7 +503,7 @@
             this.tableLayoutPanelClassification.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34F));
             this.tableLayoutPanelClassification.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33F));
             this.tableLayoutPanelClassification.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33F));
-            this.tableLayoutPanelClassification.Size = new System.Drawing.Size(286, 789);
+            this.tableLayoutPanelClassification.Size = new System.Drawing.Size(308, 789);
             this.tableLayoutPanelClassification.TabIndex = 0;
             // 
             // grpClassificationResults
@@ -463,7 +512,7 @@
             this.grpClassificationResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpClassificationResults.Location = new System.Drawing.Point(3, 271);
             this.grpClassificationResults.Name = "grpClassificationResults";
-            this.grpClassificationResults.Size = new System.Drawing.Size(280, 254);
+            this.grpClassificationResults.Size = new System.Drawing.Size(302, 254);
             this.grpClassificationResults.TabIndex = 3;
             this.grpClassificationResults.TabStop = false;
             this.grpClassificationResults.Text = "Results";
@@ -485,7 +534,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(274, 235);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(296, 235);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lstClassificationQueryResult
@@ -495,14 +544,14 @@
             this.lstClassificationQueryResult.FormattingEnabled = true;
             this.lstClassificationQueryResult.Location = new System.Drawing.Point(3, 3);
             this.lstClassificationQueryResult.Name = "lstClassificationQueryResult";
-            this.lstClassificationQueryResult.Size = new System.Drawing.Size(268, 199);
+            this.lstClassificationQueryResult.Size = new System.Drawing.Size(290, 199);
             this.lstClassificationQueryResult.TabIndex = 0;
             this.lstClassificationQueryResult.SelectedIndexChanged += new System.EventHandler(this.updateDetails);
             // 
             // btnCLSUse
             // 
             this.btnCLSUse.Enabled = false;
-            this.btnCLSUse.Location = new System.Drawing.Point(197, 208);
+            this.btnCLSUse.Location = new System.Drawing.Point(219, 208);
             this.btnCLSUse.Name = "btnCLSUse";
             this.btnCLSUse.Size = new System.Drawing.Size(74, 22);
             this.btnCLSUse.TabIndex = 1;
@@ -513,7 +562,7 @@
             // btnForwardCLS
             // 
             this.btnForwardCLS.Enabled = false;
-            this.btnForwardCLS.Location = new System.Drawing.Point(138, 208);
+            this.btnForwardCLS.Location = new System.Drawing.Point(160, 208);
             this.btnForwardCLS.MinimumSize = new System.Drawing.Size(28, 22);
             this.btnForwardCLS.Name = "btnForwardCLS";
             this.btnForwardCLS.Size = new System.Drawing.Size(28, 22);
@@ -525,7 +574,7 @@
             // btnBackCLS
             // 
             this.btnBackCLS.Enabled = false;
-            this.btnBackCLS.Location = new System.Drawing.Point(108, 208);
+            this.btnBackCLS.Location = new System.Drawing.Point(130, 208);
             this.btnBackCLS.MinimumSize = new System.Drawing.Size(28, 22);
             this.btnBackCLS.Name = "btnBackCLS";
             this.btnBackCLS.Size = new System.Drawing.Size(28, 22);
@@ -540,7 +589,7 @@
             this.grpClassificationScheme.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpClassificationScheme.Location = new System.Drawing.Point(3, 3);
             this.grpClassificationScheme.Name = "grpClassificationScheme";
-            this.grpClassificationScheme.Size = new System.Drawing.Size(280, 262);
+            this.grpClassificationScheme.Size = new System.Drawing.Size(302, 262);
             this.grpClassificationScheme.TabIndex = 2;
             this.grpClassificationScheme.TabStop = false;
             this.grpClassificationScheme.Text = "Classification Scheme";
@@ -561,7 +610,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(274, 243);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(296, 243);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // cbClassificationSchemes
@@ -572,7 +621,7 @@
             this.cbClassificationSchemes.FormattingEnabled = true;
             this.cbClassificationSchemes.Location = new System.Drawing.Point(3, 3);
             this.cbClassificationSchemes.Name = "cbClassificationSchemes";
-            this.cbClassificationSchemes.Size = new System.Drawing.Size(268, 21);
+            this.cbClassificationSchemes.Size = new System.Drawing.Size(290, 21);
             this.cbClassificationSchemes.TabIndex = 0;
             this.cbClassificationSchemes.SelectedIndexChanged += new System.EventHandler(this.cbClassificationSchemes_SelectedIndexChanged);
             // 
@@ -582,13 +631,13 @@
             this.classificationTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.classificationTree.Location = new System.Drawing.Point(3, 33);
             this.classificationTree.Name = "classificationTree";
-            this.classificationTree.Size = new System.Drawing.Size(268, 177);
+            this.classificationTree.Size = new System.Drawing.Size(290, 177);
             this.classificationTree.TabIndex = 0;
             this.classificationTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.classificationTree_NodeMouseDoubleClick);
             // 
             // btnSearchCLS
             // 
-            this.btnSearchCLS.Location = new System.Drawing.Point(197, 216);
+            this.btnSearchCLS.Location = new System.Drawing.Point(219, 216);
             this.btnSearchCLS.Name = "btnSearchCLS";
             this.btnSearchCLS.Size = new System.Drawing.Size(74, 23);
             this.btnSearchCLS.TabIndex = 1;
@@ -602,7 +651,7 @@
             this.statusMsgCLS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.statusMsgCLS.Location = new System.Drawing.Point(3, 213);
             this.statusMsgCLS.Name = "statusMsgCLS";
-            this.statusMsgCLS.Size = new System.Drawing.Size(188, 30);
+            this.statusMsgCLS.Size = new System.Drawing.Size(210, 30);
             this.statusMsgCLS.TabIndex = 2;
             // 
             // grpClassificationResultDetail
@@ -611,7 +660,7 @@
             this.grpClassificationResultDetail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpClassificationResultDetail.Location = new System.Drawing.Point(3, 531);
             this.grpClassificationResultDetail.Name = "grpClassificationResultDetail";
-            this.grpClassificationResultDetail.Size = new System.Drawing.Size(280, 255);
+            this.grpClassificationResultDetail.Size = new System.Drawing.Size(302, 255);
             this.grpClassificationResultDetail.TabIndex = 4;
             this.grpClassificationResultDetail.TabStop = false;
             this.grpClassificationResultDetail.Text = "Details";
@@ -624,7 +673,7 @@
             this.tabControlCLSDetails.Location = new System.Drawing.Point(3, 16);
             this.tabControlCLSDetails.Name = "tabControlCLSDetails";
             this.tabControlCLSDetails.SelectedIndex = 0;
-            this.tabControlCLSDetails.Size = new System.Drawing.Size(274, 236);
+            this.tabControlCLSDetails.Size = new System.Drawing.Size(296, 236);
             this.tabControlCLSDetails.TabIndex = 1;
             // 
             // tabPageCLSDetailsDef
@@ -633,7 +682,7 @@
             this.tabPageCLSDetailsDef.Location = new System.Drawing.Point(4, 22);
             this.tabPageCLSDetailsDef.Name = "tabPageCLSDetailsDef";
             this.tabPageCLSDetailsDef.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCLSDetailsDef.Size = new System.Drawing.Size(266, 210);
+            this.tabPageCLSDetailsDef.Size = new System.Drawing.Size(288, 210);
             this.tabPageCLSDetailsDef.TabIndex = 0;
             this.tabPageCLSDetailsDef.Text = "Definition";
             this.tabPageCLSDetailsDef.UseVisualStyleBackColor = true;
@@ -643,7 +692,7 @@
             this.wbClassificationQueryResultDef.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wbClassificationQueryResultDef.Location = new System.Drawing.Point(3, 3);
             this.wbClassificationQueryResultDef.Name = "wbClassificationQueryResultDef";
-            this.wbClassificationQueryResultDef.Size = new System.Drawing.Size(260, 204);
+            this.wbClassificationQueryResultDef.Size = new System.Drawing.Size(282, 204);
             this.wbClassificationQueryResultDef.TabIndex = 0;
             // 
             // tabPageCLSDetailsValueDomain
@@ -652,7 +701,7 @@
             this.tabPageCLSDetailsValueDomain.Location = new System.Drawing.Point(4, 22);
             this.tabPageCLSDetailsValueDomain.Name = "tabPageCLSDetailsValueDomain";
             this.tabPageCLSDetailsValueDomain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCLSDetailsValueDomain.Size = new System.Drawing.Size(266, 210);
+            this.tabPageCLSDetailsValueDomain.Size = new System.Drawing.Size(288, 210);
             this.tabPageCLSDetailsValueDomain.TabIndex = 1;
             this.tabPageCLSDetailsValueDomain.Text = "Values";
             this.tabPageCLSDetailsValueDomain.UseVisualStyleBackColor = true;
@@ -663,7 +712,7 @@
             this.wbClassificationQueryResultValueDomain.Location = new System.Drawing.Point(3, 3);
             this.wbClassificationQueryResultValueDomain.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbClassificationQueryResultValueDomain.Name = "wbClassificationQueryResultValueDomain";
-            this.wbClassificationQueryResultValueDomain.Size = new System.Drawing.Size(260, 204);
+            this.wbClassificationQueryResultValueDomain.Size = new System.Drawing.Size(282, 204);
             this.wbClassificationQueryResultValueDomain.TabIndex = 0;
             // 
             // QueryServiceControl
@@ -674,7 +723,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.tabControl);
             this.Name = "QueryServiceControl";
-            this.Size = new System.Drawing.Size(300, 821);
+            this.Size = new System.Drawing.Size(322, 821);
             this.Load += new System.EventHandler(this.QueryServiceControl_Load);
             this.grpControls.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -690,6 +739,7 @@
             this.tabControl.ResumeLayout(false);
             this.tabFreeText.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
             this.tabClassified.ResumeLayout(false);
             this.tableLayoutPanelClassification.ResumeLayout(false);
             this.grpClassificationResults.ResumeLayout(false);
@@ -754,5 +804,8 @@
         private System.Windows.Forms.ComboBox cbSearchType;
         private System.Windows.Forms.TabPage tabOcProps;
         private System.Windows.Forms.WebBrowser wbOcProps;
+        private System.Windows.Forms.ComboBox cbServiceUrls;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.Button btnCleanURLs;
     }
 }
