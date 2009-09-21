@@ -297,16 +297,22 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
-   let $ienum_datatype := $element//openMDR:value_domain_datatype
-   let $ienum_uom := $element//openMDR:value_domain_unit_of_measure
-   
-   (: let $iconceptual_domain_id  := $element//openMDR:conceptual_domain_id   
-    let test := element//openMDR:contained_in/text())/openMDR:value_meaning_description
-   :)
-   
    let $iconceptual_domain_id := $element//openMDR:representing/text()
    let $ivalues := $element//openMDR:value_item
    let $imeanings := $element//openMDR:conceptual_domain
+   let $ienum_datatype := $element//openMDR:value_domain_datatype
+   let $ienum_uom := $element//openMDR:value_domain_unit_of_measure
+   (:
+   let $log := util:log-system-err($ivalues)
+   let $log := util:log-system-err(value-meaning:value-meaning($element/openMDR:contained_in/text()/openMDR:value_meaning_description))
+
+   let $log := util:log-system-err($element//openMDR:contained_in)
+   let $log := util:log-system-err($element//openMDR:contained_in/text()/openMDR:value_meaning_description)
+   :)
+   
+   (: let test := element//openMDR:contained_in/text())/openMDR:value_meaning_description
+   :)
+   
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
