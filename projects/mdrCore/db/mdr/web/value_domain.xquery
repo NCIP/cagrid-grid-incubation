@@ -17,6 +17,9 @@ xquery version "1.0";
  :    
  :    @author Steve Harris
  :    @version 1.0
+ :
+ :    @author Rakesh Dhaval
+ :    @version 3.0
 ~ :)
 
 import module namespace 
@@ -52,6 +55,7 @@ declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
+declare namespace util="http://exist-db.org/xquery/util";
 (: Using eXist-predefined namespace: xmldb :)
 
 
@@ -61,9 +65,12 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
 session:create(),
 
 let $compound_id := request:get-parameter("compound_id", "")
-
 let $administered_item := lib-util:mdrElement("value_domain", $compound_id)
-
+     
+   (:
+   let $log := util:log-system-err($administered_item)
+   let $log := util:log-system-err(permissible-value:contained_in($administered_item))
+   let $log := util:log-system-err(permissible_value/openMDR:contained_in/text())/openMDR:value_meaning_description :)
 return
     if (request:get-parameter("as-xml",()))
     then (lib-rendering:as-xml($administered_item))
@@ -71,7 +78,9 @@ return
       let $administered_item_name := administered-item:preferred-name($administered_item)
       let $representation_class_id := xs:string($administered_item//openMDR:typed_by)
       let $conceptual_domain_id := $administered_item//openMDR:representing/text()
-      
+      let $conceptual_domain := lib-util:mdrElement("conceptual_domain", $conceptual_domain_id)
+      let $values := $administered_item//openMDR:value_item
+      let $permissible_value_begin_date := $administered_item//openMDR:permissible_value_begin_date     
       let $title:=concat('Value Domain: ',$administered_item_name)
    
       let $content := <div xmlns="http://www.w3.org/1999/xhtml">  {
@@ -93,37 +102,28 @@ return
                                <td><div class="admin_item_table_header">begin date</div></td>
                             </tr>
                             {
-                               for $permissible_value  in permissible-value:contained_in($administered_item)
-                                  let $value := value:used_in($permissible_value)
-                                  order by $value
-                                  return
-                                     <tr>
-                                           <td class="left_header_cell">
-                                             {if ($value) then value:item($value) else ()}
-                                           </td>
-
-                                           <td>
-                                             {
-                                               string-join(
-                                                   for $meaning in value-meaning:value-meaning($permissible_value/openMDR:contained_in/text())/openMDR:value_meaning_description
-                                                   order by $meaning ascending
-                                                   return $meaning, (: The sorting gives deterministic behaviour that is good for regression testing :)
-                                                   " | "
-                                               )
-                                             }
-                                           </td>
-                                           <td>
-                                           {permissible-value:begin_date($permissible_value)}
-                                           </td>
-                                     </tr>
-                      }
-                      </table>
+                            
+                               if ($conceptual_domain//openMDR:value_meaning_description > '') 
+                               then 
+                               (                                       
+                                    for $meaning at $pos in $conceptual_domain//openMDR:value_meaning_description
+                                    return (
+                                       <tr>
+                                          <td class="left_header_cell">{$values[$pos]}</td>
+                                          <td >{$meaning}</td>
+                                          <td >{$permissible_value_begin_date[$pos]/text()}</td>
+                                       </tr>
+                                    ) 
+                               ) 
+                               else () 
+                            
+                            }
+                        </table>
                     }
                     </td></tr>
                  </table>
               </div>
-            ),
-         
+            ),         
    
          lib-rendering:render_value_domain_common_properties($administered_item),
          lib-rendering:related-administered-items($administered_item),                
