@@ -36,6 +36,8 @@ declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+declare namespace util="http://exist-db.org/xquery/util";
+
 
 declare function local:value_domain(
    $reg-auth as xs:string,
@@ -61,8 +63,9 @@ declare function local:value_domain(
    let $data-identifier := lib-forms:generate-id()
    let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
    let $doc-name := concat($new-identifier,'.xml')
-   let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
-   
+   let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)   
+   let $value_meaning-identifier  := data($concept_domain//openMDR:value_meaning_identifier)
+  
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
@@ -81,14 +84,14 @@ declare function local:value_domain(
                          attribute permissible_value_identifier {lib-forms:generate-id()},
                          element openMDR:permissible_value_begin_date {current-date()},
                          element openMDR:value_item {$values[$pos]},
-                         element openMDR:contained_in {$concept_domain//openMDR:value_meaning_identifier[$pos]/text()}
+                         element openMDR:contained_in {$value_meaning-identifier[$pos]}
                        }
              ),
             element openMDR:representing {$conceptual_domain_id},
             element openMDR:value_domain_datatype {$enum_datatype},
             element openMDR:value_domain_unit_of_measure {$enum_uom}
 
-)         
+    )         
    
    (: compose the document :)
    let $document := (
@@ -204,7 +207,8 @@ declare function local:input-page(
                                         return (
                                            <tr>
                                               <td class="left_header_cell">Permissable Value {$pos}</td>
-                                              <td colspan="3" >{$meaning}</td><td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
+                                              <td colspan="3" >{$meaning}</td>
+                                              <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
                                            </tr>
                                         )
                                ) else ()
@@ -272,8 +276,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $enum_uom := request:get-parameter('enum_uom','')
    (:
    let $log := util:log-system-err($values)
-   let $log := util:log-system-err($enum_datatype)
-   let $log := util:log-system-err($enum_uom)
     :)
     
    return   
