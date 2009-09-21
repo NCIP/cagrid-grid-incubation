@@ -74,7 +74,6 @@ declare function local:conceptual-domain(
    $definitions as xs:string*,
    $sources as xs:string*,
    $preferred as xs:string?,
-   $value_meaning_begin_date as xs:string?,
    $meanings as xs:string*
    ) as xs:boolean
 {
@@ -100,7 +99,7 @@ declare function local:conceptual-domain(
                     if($meaning >'') then
                        element openMDR:Value_Meaning 
                        {
-                        element openMDR:value_meaning_begin_date {$value_meaning_begin_date},
+                        element openMDR:value_meaning_begin_date {current-date()},
                         element openMDR:value_meaning_description {$meaning},
                         element openMDR:value_meaning_identifier {$vmid}
                        }
@@ -151,7 +150,6 @@ declare function local:input-page(
    $sources as xs:string*,
    $action as xs:string?,
    $preferred as xs:string?,
-   $value_meaning_begin_date as xs:string?,
    $meanings as xs:string*
    ) 
    {
@@ -174,7 +172,7 @@ declare function local:input-page(
           <form name="edit_conceptual_domain" action="editConceptualDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
              {lib-forms:hidden-element('id',$id)}
-             {lib-forms:hidden-element('updating','updating')}
+             {lib-forms:hidden-element('updating','updating')}                     
              {lib-forms:edit-admin-item($reg-auth,
                      $administrative-note,
                      $administrative-status,
@@ -203,10 +201,10 @@ declare function local:input-page(
                       <td>{lib-forms:action-button('update', 'action' ,'')}</td>
                      </tr>,
                      <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>,     
-                     <tr>
-                      <td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>
+                     <tr><td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>                     
                      </tr>,
                      
+                              
                        for $meaning  at $pos in $meanings                                              
                        let $location := if($pos > $skip-uri-index and $skip-uri-index > 0) then (util:eval($pos - 1)) else ($pos)
                         where $pos != $skip-uri-index and $meaning > ""
@@ -283,13 +281,15 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true')) 
    let $imeanings := $element//openMDR:value_meaning_description
+   (:
    let $begins := $element//openMDR:value_meaning_begin_date/text()
    let $ends := $element//openMDR:value_meaning_end_date/text()      
-   let $ivalue_meaning_begin_date := $element//openMDR:ivalue_meaning_begin_date                  
-    (:
+    
    let $log := util:log-system-err($imeanings)
    let $log := util:log-system-err($begins)
-    :)
+   let $log := util:log-system-err($ivalue_meaning_begin_date)
+   :)
+   
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
@@ -303,7 +303,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
-   let $value_meaning_begin_date := request:get-parameter('value_meaning_begin_date','')
    let $meanings := request:get-parameter('meanings','')
    return
    
@@ -329,7 +328,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $definitions,
                      $sources,
                      $preferred,
-                     $value_meaning_begin_date,
                      $meanings
                   )
             ) 
@@ -351,7 +349,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $sources,
                      $action,
                      $preferred,
-                     $value_meaning_begin_date,
                      $meanings
                   )
                )
@@ -377,7 +374,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $sources,
                $action,
                $preferred,
-               $value_meaning_begin_date,
                $meanings
                )
          ) else (
@@ -399,11 +395,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $isources,
                $action,
                $ipreferred,
-               $ivalue_meaning_begin_date,
                $imeanings
                )
          )
        )
     )
        
+
 
