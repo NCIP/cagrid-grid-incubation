@@ -557,6 +557,7 @@ declare function lib-forms:edit-admin-item(
                        <td class="left_header_cell">Source</td>
                        <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
                     </tr>
+        <!--
         {
         if($names > '') then (
                     <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add this new name', 'action' ,'')}</td></tr>
@@ -564,7 +565,7 @@ declare function lib-forms:edit-admin-item(
                     <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>
         )
         }
-        
+        -->
               </table>
           </p>
       </div>
