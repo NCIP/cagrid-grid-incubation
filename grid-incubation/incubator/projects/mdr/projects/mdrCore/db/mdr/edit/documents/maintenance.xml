@@ -36,7 +36,7 @@
 		</uri>
 	</function>
 	<function>
-		<title>Create a new reference document</title>
+		<title>Create reference document</title>
 		<description>Import a .PDF or .DOC into the metadata repository
 			and
 			create a curation record so that it can be referred to
@@ -45,7 +45,7 @@
 		</uri>
 	</function>
 	<function>
-		<title>Create a new object class</title>
+		<title>Create object class</title>
 		<description>Create a new object class - a concept or concept
 			expression - describing
 			an real world object whose properties can be measured by data elements
@@ -53,7 +53,7 @@
 		<uri>../edit/newObjectClass.xquery</uri>
 	</function>
 	<function>
-		<title>Create a new concept relationship</title>
+		<title>Create concept relationship</title>
 		<description>Create a new concept relationship - a concept
 			relationship joins 2 or more concepts together by some relationship
 		</description>
@@ -61,20 +61,20 @@
 		</uri>
 	</function>
 	<function>
-		<title>Create a new conceptual domain</title>
+		<title>Create conceptual domain</title>
 		<description>Create a new conceptual domain and add/edit value
 			domains.</description>
 		<uri>../edit/newConceptualDomain.xquery
 		</uri>
 	</function>
 	<function>
-		<title>Create a new value domain</title>
+		<title>Create value domain</title>
 		<description>Create a new value domain and add/edit permissable
 			values</description>
 		<uri>../edit/newValueDomain.xquery</uri>
 	</function>
 	<function>
-		<title>Create a new property</title>
+		<title>Create property</title>
 		<description>Create a new property describing attributes or
 			properties
 			of real world objects that can be measured
@@ -82,7 +82,7 @@
 		<uri>../edit/newProperty.xquery</uri>
 	</function>
 	<function>
-		<title>Create a new context</title>
+		<title>Create context</title>
 		<description>Create a new context a partition in the registry in
 			which
 			data elements may be named differently</description>
@@ -139,13 +139,13 @@
 		</uri>
 	</function>
 	<function>
-		<title>Organisations</title>
+		<title>Maintain Organizations</title>
 		<description>Mangage organisations in the metadata registry
 		</description>
 		<uri>../web/organisations.xquery</uri>
 	</function>
 	<function>
-		<title>Create a new Organization</title>
+		<title>Create Organization</title>
 		<description>Add organizations in the metadata registry
 		</description>
 		<uri>../edit/newOrganisation.xquery</uri>
