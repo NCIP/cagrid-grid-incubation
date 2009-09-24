@@ -273,6 +273,26 @@ declare function local:success-page()
          <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
          <p><a href="../xquery/newValueDomain.xquery">Create another Value Domain</a></p> 
       </div>
+       <div xmlns="http://www.w3.org/1999/xhtml">
+           <table class="layout">
+              <tr>
+                 <td>
+                    Value Domain modified. 
+                 </td>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+                <td><a href='maintenance.xquery'>Return to maintenance menu</a>
+                </td>
+              </tr>
+                 <tr>
+                <td><a href="newValueDomain.xquery">Create another Value Domain</a>
+                </td>
+              </tr>
+            </table>
+      </div>
+
 };
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";

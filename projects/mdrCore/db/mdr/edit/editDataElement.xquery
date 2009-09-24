@@ -210,10 +210,24 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-      <div>
-         <p>DataElement modified</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newDataElement.xquery">Create another DataElement class</a></p>    
+       <div xmlns="http://www.w3.org/1999/xhtml">
+           <table class="layout">
+              <tr>
+                 <td>
+                    DataElement modified. 
+                 </td>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+                <td><a href='maintenance.xquery'>Return to maintenance menu</a>
+                </td>
+              </tr>
+                 <tr>
+                <td><a href="newDataElement.xquery">Create another Data Element</a>
+                </td>
+              </tr>
+            </table>
       </div>
 };
 
