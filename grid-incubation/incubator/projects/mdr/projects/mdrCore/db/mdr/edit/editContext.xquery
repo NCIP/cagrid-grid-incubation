@@ -56,6 +56,8 @@ declare function local:success-page()
                 Editing Context is not supported. 
              </td>
           </tr>
+              <tr>
+              </tr>
           <tr>
             <td><a href='maintenance.xquery'>Return to maintenance menu</a>
             </td>
@@ -65,8 +67,6 @@ declare function local:success-page()
             </td>
           </tr>
         </table>
-        
-       
       </div>
 };
 

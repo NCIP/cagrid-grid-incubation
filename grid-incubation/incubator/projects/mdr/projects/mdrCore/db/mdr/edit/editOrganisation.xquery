@@ -160,10 +160,24 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-      <div>
-         <p>Property modified</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newOrganisation.xquery">Create another Organization</a></p>    
+       <div xmlns="http://www.w3.org/1999/xhtml">
+           <table class="layout">
+              <tr>
+                 <td>
+                    Organization modified. 
+                 </td>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+                <td><a href='maintenance.xquery'>Return to maintenance menu</a>
+                </td>
+              </tr>
+                 <tr>
+                <td><a href="newOrganisation.xquery">Create another Organization</a>
+                </td>
+              </tr>
+            </table>
       </div>
 };
 
