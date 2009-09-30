@@ -74,12 +74,18 @@ declare function local:conceptual-domain(
    $definitions as xs:string*,
    $sources as xs:string*,
    $preferred as xs:string?,
-   $meanings as xs:string*
+   $meanings as xs:string*,
+   $value_meaning_identifiers as xs:string*
    ) as xs:boolean
 {
    let $version := lib-forms:substring-after-last($id,'-')
    let $vmid := substring-after(lib-forms:substring-before-last($id,'-'),'-')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+   (:
+   let $log := util:log-system-err($meanings)
+   let $log := util:log-system-err($value_meaning_identifiers)
+   let $log := util:log-system-err(count($value_meaning_identifiers))
+   :)
 
    let $doc-name := concat($id,'.xml')
 
@@ -101,7 +107,7 @@ declare function local:conceptual-domain(
                        {
                         element openMDR:value_meaning_begin_date {current-date()},
                         element openMDR:value_meaning_description {$meaning},
-                        element openMDR:value_meaning_identifier {$vmid}
+                        element openMDR:value_meaning_identifier {$value_meaning_identifiers[$pos]}
                        }
                        else()
                     )
@@ -150,7 +156,8 @@ declare function local:input-page(
    $sources as xs:string*,
    $action as xs:string?,
    $preferred as xs:string?,
-   $meanings as xs:string*
+   $meanings as xs:string*,
+   $value_meaning_identifiers as xs:string*
    ) 
    {
        let $skip-name := substring-after($action,'delete naming entry')
@@ -205,7 +212,7 @@ declare function local:input-page(
                      </tr>,
                      
                               
-                       for $meaning  at $pos in $meanings                                              
+                       for $meaning at $pos in $meanings                   
                        let $location := if($pos > $skip-uri-index and $skip-uri-index > 0) then (util:eval($pos - 1)) else ($pos)
                         where $pos != $skip-uri-index and $meaning > ""
                         return (
@@ -213,6 +220,7 @@ declare function local:input-page(
                               <td class="left_header_cell">Value {$location} Meaning</td>
                               <td>{lib-forms:input-element('meanings', 60, $meaning)}</td>
                               <td>{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
+                              <td>{lib-forms:hidden-element('value_meaning_identifiers',$value_meaning_identifiers[$pos])} </td>
                            </tr>
                            ),
                            <tr>
@@ -295,15 +303,13 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true')) 
    let $imeanings := $element//openMDR:value_meaning_description
+   let $ivalue_meaning_identifiers := $element//openMDR:Value_Meaning/openMDR:value_meaning_identifier/text()
    (:
-   let $begins := $element//openMDR:value_meaning_begin_date/text()
-   let $ends := $element//openMDR:value_meaning_end_date/text()      
-    
    let $log := util:log-system-err($imeanings)
-   let $log := util:log-system-err($begins)
-   let $log := util:log-system-err($ivalue_meaning_begin_date)
-   :)
-   
+   let $log := util:log-system-err($ivalue_meaning_identifiers)   
+   let $log := util:log-system-err(count($imeanings))
+   :)   
+
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
@@ -318,6 +324,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
    let $meanings := request:get-parameter('meanings','')
+   let $value_meaning_identifiers := request:get-parameter('value_meaning_identifiers','')
    return
    
       lib-rendering:txfrm-webpage(
@@ -342,7 +349,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $definitions,
                      $sources,
                      $preferred,
-                     $meanings
+                     $meanings,
+                     $value_meaning_identifiers
                   )
             ) 
          then (local:success-page())
@@ -363,7 +371,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $sources,
                      $action,
                      $preferred,
-                     $meanings
+                     $meanings,
+                     $value_meaning_identifiers
                   )
                )
          )
@@ -388,7 +397,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $sources,
                $action,
                $preferred,
-               $meanings
+               $meanings,
+               $value_meaning_identifiers
                )
          ) else (
                local:input-page
@@ -409,11 +419,13 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $isources,
                $action,
                $ipreferred,
-               $imeanings
+               $imeanings,
+               $ivalue_meaning_identifiers
                )
          )
        )
     )
        
+
 
 
