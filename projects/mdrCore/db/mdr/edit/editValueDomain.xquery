@@ -81,7 +81,7 @@ declare function local:value_domain(
    let $doc-name := concat($id,'.xml')
    let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
    let $permissible-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')    
-    
+   let $value_meaning_identifier := $concept_domain//openMDR:value_meaning_identifier/text()
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
@@ -100,7 +100,7 @@ declare function local:value_domain(
                          attribute permissible_value_identifier {$permissible-identifier},
                          element openMDR:permissible_value_begin_date {current-date()},
                          element openMDR:value_item {$values[$pos]},
-                         element openMDR:contained_in {$concept_domain//openMDR:value_meaning_identifier[$pos]/text()}
+                         element openMDR:contained_in {$value_meaning_identifier[$pos]}
                        }
              ),
             element openMDR:representing {$conceptual_domain_id},
@@ -232,7 +232,7 @@ declare function local:input-page(
                                            <tr>
                                               <td class="left_header_cell">Permissable Value {$pos}</td>
                                               <td colspan="3" >{$meaning}</td>
-                                              <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
+                                              <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>                                       
                                            </tr>
                                         ) 
                            ) 
@@ -268,11 +268,6 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-      <div>
-         <p>Property modified</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newValueDomain.xquery">Create another Value Domain</a></p> 
-      </div>
        <div xmlns="http://www.w3.org/1999/xhtml">
            <table class="layout">
               <tr>
@@ -317,22 +312,26 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
-   let $iconceptual_domain_id := $element//openMDR:representing/text()
-   let $ivalues := $element//openMDR:value_item
-   let $imeanings := $element//openMDR:conceptual_domain
-   let $ienum_datatype := $element//openMDR:value_domain_datatype
-   let $ienum_uom := $element//openMDR:value_domain_unit_of_measure
-   (:
-   let $log := util:log-system-err($ivalues)
-   let $log := util:log-system-err(value-meaning:value-meaning($element/openMDR:contained_in/text()/openMDR:value_meaning_description))
 
-   let $log := util:log-system-err($element//openMDR:contained_in)
-   let $log := util:log-system-err($element//openMDR:contained_in/text()/openMDR:value_meaning_description)
-   :)
-   
-   (: let test := element//openMDR:contained_in/text())/openMDR:value_meaning_description
-   :)
-   
+    let $iconceptual_domain_id := $element//openMDR:representing/text()
+    let $iconceptual_domain := lib-util:mdrElement("conceptual_domain",$iconceptual_domain_id)
+    let $ivalues := $element//openMDR:value_item
+    let $ienum_datatype := $element//openMDR:value_domain_datatype
+    let $ienum_uom := $element//openMDR:value_domain_unit_of_measure
+    
+    (:
+    let $icontained_in_identifier := $element//openMDR:contained_in
+    let $log := util:log-system-err($iconceptual_domain) 
+    let $log := util:log-system-err($ivalues)
+    let $log := util:log-system-err($element//openMDR:contained_in)
+    let $log := util:log-system-err($iconceptual_domain_id)
+    let $log := util:log-system-err(value-meaning:value-meaning($element/openMDR:contained_in/text()/openMDR:value_meaning_description))
+    let $log := util:log-system-err($element//openMDR:contained_in/text()/openMDR:value_meaning_description)
+    let test := element//openMDR:contained_in/text())/openMDR:value_meaning_description
+    for $meaning at $pos in $iconceptual_domain//openMDR:value_meaning_description
+       let $log := util:log-system-err($meaning)
+    :)      
+    
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
@@ -346,11 +345,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
-   let $conceptual_domain_id as xs:string? := request:get-parameter('conceptual_domain_id','')
+   let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
    let $values := request:get-parameter('values',())
    let $enum_datatype := request:get-parameter('enum_datatype','')
    let $enum_uom := request:get-parameter('enum_uom','')
-
+   
    return
       lib-rendering:txfrm-webpage(
       $title,
@@ -402,7 +401,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $enum_datatype,
                      $enum_uom,
                      $values
-                  )
+                     )
                )
          )
       else (
@@ -456,8 +455,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $ivalues
                )
          )
-       )
-       
+       )    
     )
        
 
