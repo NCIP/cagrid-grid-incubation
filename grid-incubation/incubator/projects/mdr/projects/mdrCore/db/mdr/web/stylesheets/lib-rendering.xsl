@@ -1281,11 +1281,13 @@
                             <xsl:with-param name="id" select="//openMDR:Data_Element_Concept//openMDR:data_element_concept_object_class"/>
                         </xsl:call-template>
                     </td>
+                    <!--  
                     <td>
                         <xsl:call-template name="uri-resolver">
                             <xsl:with-param name="urn" select="$oc-uri"/>
                         </xsl:call-template>
                     </td>
+                    -->
                 </tr>
                 <tr>
                     <td class="left_header_cell">Property measured</td>
@@ -1296,11 +1298,13 @@
                             <xsl:with-param name="id" select="//openMDR:Data_Element_Concept//openMDR:data_element_concept_property"/>
                         </xsl:call-template>
                     </td>
+                    <!--  
                     <td>
                         <xsl:call-template name="uri-resolver">
                             <xsl:with-param name="urn" select="$p-uri"/>
                         </xsl:call-template>
                     </td>
+                    -->
                 </tr>
                 <tr>
                     <td class="left_header_cell">Typed by representation class</td>
