@@ -518,7 +518,9 @@
             </td>
         </tr>
     </xsl:template>
-    <!-- maintenance webpage -->
+    <!-- maintenance webpage old version -->
+    <!-- 
+    
     <xsl:template match="functions">
         <table>
             <xsl:apply-templates>
@@ -538,6 +540,41 @@
             </td>
         </tr>
     </xsl:template>
+     -->
+    
+    <!-- maintenance webpage -->    
+    <xsl:template match="functions">
+        <table >
+            <xsl:apply-templates>
+                <xsl:sort select="title"/>
+            </xsl:apply-templates>
+        </table>
+    </xsl:template> 
+    <xsl:template match="subheading">
+        <table border="0" cellpadding="4" class="layout">
+            <tr>
+                <th colspan="2">
+                    <xsl:value-of select="@title"/>
+                </th>
+            </tr>
+            <xsl:apply-templates/>
+        </table>        
+    </xsl:template> 
+    <xsl:template match="function">    
+        <tr>
+            <td class="left_header_cell">
+                <a href="{uri}">                                          
+                        <xsl:value-of select="title"/>
+                   </a>
+            </td>
+            <td class="">
+                <xsl:value-of select="description"/>
+            </td>
+        </tr>          
+        <xsl:text>
+        </xsl:text>
+    </xsl:template>
+    
     <!--display test results-->
     <xsl:template match="test-results">
         <div class="content_one_pane_two_menu">
