@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ivy-module version="2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+	<info organisation="UAMS" module="soulwing-CAS" revision="${project.version}">
+		<license name="caGrid" url="http://cagrid.org/wiki/CaGrid:LICENSE-1.3" />
+		<description>Soulwing CAS</description>
+	</info>
+
+  <configurations>
+    <!-- Public Configurations-->
+    <conf name="default" visibility="public"/>
+    <conf name="impl-test" visibility="private"/>
+    <conf name="impl" visibility="private" extends="default"/>
+  </configurations>
+  
+   <publications>
+    <artifact name="soulwingCAS-core" conf="impl" type="jar"/>
+  </publications>
+
+    <dependencies>
+    	<dependency org="apache" name="commons-logging" rev="1.1" conf="default" />
+	    <dependency org="apache" name="catalina" rev="5.5.23" conf="default" />
+    	<dependency org="soulwing" name="casclient" rev="0.5.3" conf="default" />
+    	<dependency org="soulwing" name="casclient-tomcat-ext" rev="0.5.3" conf="default" />
+    	<dependency org="apache" name="servlet-api" rev="5.0" conf="impl-test->default"/>
+        <dependency org="junit" name="junit" rev="4.4" conf="impl-test->default"/>
+    </dependencies>
+</ivy-module>

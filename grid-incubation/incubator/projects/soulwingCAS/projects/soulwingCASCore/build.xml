@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<project name="soulwingCAS" basedir="." default="all"
+	xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property environment="env" />
+	<property file="${basedir}/project.properties" />
+	<!-- required for most caGrid projects, but not for this Soulwing 
+	<property name="globus.dir" value="${env.GLOBUS_LOCATION}" />
+	<fail unless="env.GLOBUS_LOCATION" message="You must set the environment variable GLOBUS_LOCATION to the directory in which you have Globus installed." />
+	-->
+	
+	<property name="antfiles" location="${basedir}/../../antfiles" />
+	
+	<!-- build with debugging information -->
+	<property name="java.debug" value="on" />
+	<!-- enforce java 1.5 compliance at build time -->
+	<property name="java.source" value="1.5" />
+
+	<!-- Use caGrid 1.3 configuration-->
+	<import file="${antfiles}/ivy/ivy-def-${repository.version}.xml" />
+
+	<!-- Input Directories -->
+	<property name="ext.dir" value="${basedir}/ext/lib/jars"/>
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="src.dir" value="${basedir}/src/java" />
+	<property name="test.src.dir" location="${basedir}/test/src/java"/>
+	<property name="antfiles.dir" location="${antfiles}" />
+	<property name="antfiles.lib.dir" location="${antfiles}/lib" />
+ 
+	<!-- Output Directories -->
+	<property name="build.dir" location="${basedir}/build"/>
+	<property name="build.src.dest" location="${build.dir}/classes"/>
+	<property name="build.test.dest" location="${build.dir}/test/classes"/>
+	<property name="build.lib.dir" location="${build.dir}/lib" />
+	<property name="test.logs.dir" location="${basedir}/test/logs"/>
+
+	<!-- Output Information -->
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="project.jar.prefix" value="${project.name}-" />
+	<property name="project.jar.suffix" value="-${project.version}.jar" />
+	
+	<!-- jar names -->
+	<property name="core.jar.name" value="${project.jar.prefix}core${project.jar.suffix}" />
+	<property name="tests.jar.name" value="${project.jar.prefix}test${project.jar.suffix}" />
+
+	<!-- jar files -->
+	<property name="core.jar.file" value="${build.lib.dir}/${core.jar.name}" />
+	<property name="tests.jar.file" value="${build.lib.dir}/${tests.jar.name}" />
+
+	<!-- import the test build file -->
+	<import file="test/test.xml" />
+
+	<!-- IVY targets -->
+	<target name="define-ant-tasks" depends="init-ivy">
+		<taskdef resource="net/sf/antcontrib/antlib.xml" loaderref="artifact">
+			<classpath>
+				<fileset dir="${antfiles.lib.dir}">
+					<include name="ant.jar" />
+				</fileset>
+				<fileset dir="${antfiles.lib.dir}">
+					<include name="ant-contrib*.jar" />
+				</fileset>
+			</classpath>
+		</taskdef>
+		<property name="defined.anttasks" value="true" />
+	</target>
+
+	<target name="resolve" description="--> retrieve dependencies with ivy">
+	        <ivy:retrieve />
+		    <ivy:report todir="${build.lib.dir}"/>
+	</target>
+
+	<!-- main build / run classpath -->
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${build.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${ext.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<!-- <fileset dir="${globus.dir}/lib">
+			<include name="*.jar" />
+			<exclude name="caGrid-*.jar" />
+		</fileset> -->
+	</path>
+	
+	<!-- Run Classpath -->
+	<path id="run.classpath">
+		<path refid="build.classpath" />
+		<pathelement location="${build.dir}" />
+	</path>
+	
+
+	<!-- compiles the tests -->
+	<target name="buildTests" depends="build" description="Compile the project test cases">
+		<javac srcdir="${test.src.dir}" destdir="${build.test.dest}" debug="${java.debug}">
+			<include name="**/*.java"/>
+			<classpath refid="build.classpath"/>
+		</javac>
+	</target>
+	
+
+	<!-- jars the test classes and source -->
+	<target name="jarTests" depends="buildTests" description="Builds and jars tests">
+		<jar destfile="${tests.jar.file}">
+			<fileset dir="${build.test.dest}">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${test.src.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!-- Create required directories -->
+        <target name="init">
+        	<mkdir dir="${build.dir}"/>
+			<mkdir dir="${build.src.dest}" />
+			<mkdir dir="${build.test.dest}" />
+			<mkdir dir="${build.lib.dir}" />
+			<mkdir dir="${test.logs.dir}" />
+        	<mkdir dir="${ext.dir}" />
+        </target>
+
+	<target name="build" depends="init,define-ant-tasks,resolve" description="Compile the project">
+		<javac srcdir="${src.dir}" destdir="${build.src.dest}" debug="${java.debug}">
+			<include name="**/*.java"/>
+			<classpath refid="build.classpath"/>
+		</javac>
+	</target>
+
+	<target name="run" depends="jar" description="Compile and run the project">
+		<!--
+		<java classname="edu.uams.soulwing.cas.client..." classpathref="run.classpath" fork="yes">
+			<jvmarg value="..." />
+		</java>
+		-->
+	</target>
+
+	<target name="clean" description="Cleans the project">
+		<delete dir="${build.dir}" failonerror="false" />
+		<delete dir="${test.logs.dir}" failonerror="false" />
+		<delete failonerror="false">
+			<fileset dir="${lib.dir}" includes="**/*.jar"/>
+		</delete>
+	</target>
+	
+	
+	<!-- jars the common classes and source -->
+	<target name="jar" depends="build" description="Builds and jars">
+		<jar destfile="${core.jar.file}">
+			<fileset dir="${build.src.dest}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+
+        <target name="all" depends="jar, jarTests" description="Clean and build core and tests."/>
+</project>
