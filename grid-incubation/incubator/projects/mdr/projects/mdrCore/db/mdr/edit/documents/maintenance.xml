@@ -130,6 +130,22 @@
             <uri>../MDG/registry-schema.xquery</uri>
         </function>
     </subheading>
+    <subheading title="Administration">
+        <function>
+            <title>Manage Users</title>
+            <description>Manage users in the metadata registry
+            </description>
+            <uri>../edit/admin.xql?panel=users
+            </uri>
+        </function>
+          <function>
+            <title>System Status</title>
+            <description>Show Status of the metadata registry server
+            </description>
+            <uri>../edit/xqueries.xql?panel=users
+            </uri>
+        </function>
+    </subheading>
 </functions>
 	<!--
 		<function> 
