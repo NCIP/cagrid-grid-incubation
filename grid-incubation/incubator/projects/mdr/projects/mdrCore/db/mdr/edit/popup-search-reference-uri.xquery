@@ -47,7 +47,7 @@ let $element as xs:string := xs:string(request:get-parameter("element", ""))
 let $form-name as xs:string := xs:string(request:get-parameter("form-name", ""))
 let $phrase as xs:string := xs:string(request:get-parameter("phrase", ""))
 let $start as xs:int := xs:int(request:get-parameter("start", 0))
-let $count as xs:int := xs:int(request:get-parameter("count", 10))
+let $count as xs:int := xs:int(request:get-parameter("count", 100))
 
 let $concepts := if ($phrase)
                             then lib-qs:query($resource, (), $phrase, $start, $count)//rs:concept
@@ -87,11 +87,13 @@ return
                       then concat("urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:", tokenize($concept/rs:names/rs:id, '-')[last()])
                       else $concept/rs:names/rs:id
                   let $name := $concept/rs:names/rs:preferred
+                  let $definition := $concept/rs:definition
+
                   return
                   <tr class="light-rule">
-                          <td style="vertical-align:top;width:350px;padding:5px;">{$id}</td>
-                          <td style="vertical-align:top;width:400px;padding:5px;">{$name}</td>
-                          <td style="vertical-align:top;">{local:action-button($id, $element, "use this term", $name)}</td>
+                         <td style="vertical-align:top;width:250px;padding:5px;">{$id}</td>
+                          <td style="vertical-align:top;width:600px;padding:5px;">{$name}: {$definition}</td>
+                          <td style="vertical-align:top;width:100px;padding:5px;">{local:action-button($id, $element, "use this term", $name)}</td>     
                   </tr>
              }
             </table>
