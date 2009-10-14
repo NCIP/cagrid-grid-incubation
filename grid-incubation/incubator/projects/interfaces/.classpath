@@ -94,6 +94,11 @@
 	<classpathentry kind="lib" path="lib/google-collect-snapshot-20071022.jar"/>
 	<classpathentry kind="lib" path="lib/qdox-1.7-20070527.154641-2.jar"/>
 	<classpathentry kind="lib" path="lib/spring.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/caGrid-advertisement-1.2.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/globus_wsrf_mds_aggregator_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/globus_wsrf_mds_aggregator.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/globus_wsrf_servicegroup_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/test/jars/globus_wsrf_servicegroup.jar"/>
 	<classpathentry kind="var" path="ANT_HOME/lib/ant.jar"/>
 	<classpathentry kind="var" path="ANT_HOME/lib/ant-launcher.jar"/>
 	<classpathentry kind="var" path="ANT_HOME/lib/ant-nodeps.jar"/>

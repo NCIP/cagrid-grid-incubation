@@ -15,7 +15,7 @@ public class <%= getCaGridService().getMainService().getName() %>ApplicationCont
     Services.registerService("<%= getCaGridService().getMainService().getPackageName() %>.<%= getCaGridService().getMainService().getName() %>Impl");
   }
 
-  private static ApplicationContext applicationContext;
+  private static FileSystemXmlApplicationContext applicationContext;
 
   public static void init(<%= getCaGridService().getMainService().getName() %>Configuration serviceConfiguration) throws RemoteException
   {
@@ -25,6 +25,7 @@ public class <%= getCaGridService().getMainService().getName() %>ApplicationCont
       {
         String applicationContextPath = "file:" + serviceConfiguration.getApplicationContext();
         applicationContext = new FileSystemXmlApplicationContext(applicationContextPath);
+        applicationContext.registerShutdownHook();
         Services.setApplicationContext(applicationContext);
       }
       catch(Exception e) 

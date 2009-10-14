@@ -31,6 +31,7 @@
      <!-- No need to test to depend on junit, it is in GLOBUS_LOCATION/lib -->
      <dependency rev="latest.integration" org="caGrid" name="core" conf="interfaces-extension->default;test->test"/>
      <dependency rev="latest.integration" org="caGrid" name="testing" conf="test->system"/>
+     <dependency rev="latest.integration" org="caGrid" name="advertisement" conf="spring-client->default"/> 
      <dependency rev="latest.integration" org="caGrid" name="introduce" conf="interfaces-extension->extension;spring-extension->extension" /> 
      
      <dependency rev="1.3.2" org="apache" name="commons-io" conf="interfaces-extension->default" />

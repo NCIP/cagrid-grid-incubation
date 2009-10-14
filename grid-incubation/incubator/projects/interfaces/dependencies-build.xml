@@ -14,7 +14,9 @@
   </taskdef>
 -->
 
-  <property name="ivy-shared-targets.file" location="${basedir}/../../antfiles/ivy/ivy-shared-targets.xml" />
+
+  <property name="ivy-shared-targets.file" location="${basedir}/../../antfiles/ivy/ivy-shared-targets${repository.version.suffix}.xml" />
+  <!-- <property name="ivy-shared-targets.file" location="${basedir}/../../antfiles/ivy/ivy-shared-targets.xml" /> -->
   <import file="${ivy-shared-targets.file}" />
 
   <target name="do.resolve-dependencies" depends="pre.resolve-dependencies">
