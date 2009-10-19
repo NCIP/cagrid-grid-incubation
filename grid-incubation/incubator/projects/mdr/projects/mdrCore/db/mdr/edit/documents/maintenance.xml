@@ -135,6 +135,24 @@
             <title>Manage Users</title>
             <description>Manage users in the metadata registry
             </description>
+            <uri>../edit/admin.xquery
+            </uri>
+        </function>
+          <function>
+            <title>System Status</title>
+            <description>Show Status of the metadata registry server
+            </description>
+            <uri>../edit/status.xquery
+            </uri>
+        </function>
+    </subheading>
+</functions>
+	<!--
+	 <subheading title="Administration">
+        <function>
+            <title>Manage Users</title>
+            <description>Manage users in the metadata registry
+            </description>
             <uri>../edit/admin.xql?panel=users
             </uri>
         </function>
@@ -146,8 +164,6 @@
             </uri>
         </function>
     </subheading>
-</functions>
-	<!--
 		<function> 
 			<title>Create a classification scheme</title>
 				<description>Creates a new classification scheme and uploads its SKOS file
