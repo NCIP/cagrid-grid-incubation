@@ -20,6 +20,17 @@ if (starts-with($urn,"urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:"))
             and $uri/@return=$return-type
             return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
         )
+    else if (starts-with($urn,"US-NCICB-CACORE-EVS-DESCLOGICCONCEPT"))
+    then (
+        let $urn := concat("urn:",$urn)
+        for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
+        let $resource-urn := data($resource/@urn)
+        return
+            for $uri in $resource/cgResolver:uri  
+            where $uri/@rank = "1"
+            and $uri/@return=$return-type
+            return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
+        )
     else if (starts-with($urn,"US-NCICB-CACORE-EVS-METATHESAURUSCONCEPT"))
     then (
         let $urn := concat("urn:",$urn)
