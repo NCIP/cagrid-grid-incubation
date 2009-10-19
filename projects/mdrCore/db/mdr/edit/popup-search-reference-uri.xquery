@@ -82,10 +82,13 @@ return
           <table class="layout">
             {
                   for $concept in $concepts
+                  let $id := $concept/rs:names/rs:id
+                  (:
                   let $id := 
                       if (starts-with($concept/rs:names/rs:id, 'US-NCICB-CACORE-EVS-DESCLOGICCONCEPT'))
                       then concat("urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:", tokenize($concept/rs:names/rs:id, '-')[last()])
                       else $concept/rs:names/rs:id
+                  :)
                   let $name := $concept/rs:names/rs:preferred
                   let $definition := $concept/rs:definition
 
