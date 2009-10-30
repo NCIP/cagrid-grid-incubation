@@ -24,6 +24,7 @@
   </publications>
 
     <dependencies>
+    <dependency org="caGrid" name="core" rev="1.3" conf="default->test"/>
 	<!-- example dependency
     	<dependency org="apache" name="commons-logging" rev="1.1" conf="default" />
 	-->
