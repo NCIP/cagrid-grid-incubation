@@ -1,5 +1,6 @@
 package org.cagrid.i2b2.ontomapper.processor;
 
+import gov.nih.nci.cagrid.cqlquery.LogicalOperator;
 import gov.nih.nci.cagrid.data.QueryProcessingException;
 
 import java.sql.Connection;
@@ -44,6 +45,17 @@ public class I2B2DataAccessManager {
     }
     
     
+    /**
+     * Gets all attribute values from the various fact data tables for a given class
+     * 
+     * @param className
+     *      The name of the class for which to obtain fact data
+     * @return
+     *      A Map from Attribute name to a list of fact data entries.  The order of
+     *      these entries corresponds to the order in which objects are found in
+     *      the database.  All lists are of the same length.
+     * @throws QueryProcessingException
+     */
     public Map<String, List<FactDataEntry>> getAttributeValues(String className) throws QueryProcessingException {
         // get all the attribute names and their associated CDEs
         Map<String, Long> attributeCdes = null;
@@ -69,30 +81,39 @@ public class I2B2DataAccessManager {
             attributeEntries.put(attributeName, entries);
         }
         
-        /* Not sure where I was going with this...
-        // each encounter_num is a "new object instance"
-        Comparator<FactDataEntry> entryComparator = new Comparator<FactDataEntry>() {
-            public int compare(FactDataEntry o1, FactDataEntry o2) {
-                return o1.getEncounterNumber().compareTo(o2.getEncounterNumber());
-            }
-        };
-        // sort each attribute value list
-        for (LinkedList<FactDataEntry> attributeValues : attributeEntries.values()) {
-            Collections.sort(attributeValues, entryComparator);
-        }
-        // get a definitive set of all involved encounter numbers
-        SortedSet<Integer> encounterNumbers = new TreeSet<Integer>();
-        for (LinkedList<FactDataEntry> attributeValues : attributeEntries.values()) {
-            for (FactDataEntry entry : attributeValues) {
-                encounterNumbers.add(entry.getEncounterNumber());
-            }
-        }
-        */
-        
         return attributeEntries;
     }
     
     
+    /**
+     * Gets attribute values of a given data type restricted by a map
+     * of required attribute values
+     * 
+     * @param className
+     *      The name of the data type
+     * @param restrictAttributes
+     *      A map from attribute name to a list of values which must be satisfied
+     * @param operator
+     *      The logical operation to perform on the attribute values' presence
+     * @return
+     * @throws QueryProcessingException
+     */
+    public Map<String, List<FactDataEntry>> getAttributeValues(String className, Map<String, List<String>> restrictAttributes, LogicalOperator operator) throws QueryProcessingException {
+        // TODO: this
+        return null;
+    }
+    
+    
+    /**
+     * Gets a list of values of an attribute of a data type
+     * 
+     * @param className
+     *      The class name of the data type
+     * @param attributeName
+     *      The name of the attribute of that data type
+     * @return
+     * @throws QueryProcessingException
+     */
     public List<Object> getAttributeValues(String className, String attributeName) throws QueryProcessingException {
         // get fact table entries
         List<FactDataEntry> entries = getAttribteEntries(className, attributeName);
@@ -232,17 +253,6 @@ public class I2B2DataAccessManager {
             }
         }
         return entries;
-    }
-    
-    
-    private Map<String, List<String>> getPathsForAttributeCdes(Map<String, Long> attributeCdes) throws QueryProcessingException {
-        Map<String, List<String>> attributePaths = new HashMap<String, List<String>>();
-        for (String attributeName : attributeCdes.keySet()) {
-            Long cde = attributeCdes.get(attributeName);
-            List<String> paths = getPathsForCde(cde);
-            attributePaths.put(attributeName, paths);
-        }
-        return attributePaths;
     }
     
     
