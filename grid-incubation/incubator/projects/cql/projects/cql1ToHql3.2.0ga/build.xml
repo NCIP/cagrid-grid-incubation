@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<project name="cql1toHql3.2.0ga" basedir="." default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property environment="env" />
+	<property file="${basedir}/project.properties" />
+	
+	<property name="antfiles" location="${basedir}/../../antfiles" />
+	
+	<!-- build with debugging information -->
+	<property name="java.debug" value="on" />
+	<!-- enforce java 1.5 compliance at build time -->
+	<property name="java.source" value="1.5" />
+
+	<!-- Use caGrid 1.3 configuration-->
+	<import file="${antfiles}/ivy/ivy-def-${repository.version}.xml" />
+
+	<!-- Input Directories -->
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="ext.lib.dir" value="${basedir}/ext/dependencies/jars"/>
+	<property name="src.dir" value="${basedir}/src/java" />
+	<property name="test.src.dir" location="${basedir}/test/src/java"/>
+	<property name="antfiles.dir" location="${antfiles}" />
+	<property name="antfiles.lib.dir" location="${antfiles}/lib" />
+ 
+	<!-- Output Directories -->
+	<property name="build.dir" location="${basedir}/build"/>
+	<property name="build.src.dest" location="${build.dir}/classes"/>
+	<property name="build.test.dest" location="${build.dir}/test/classes"/>
+	<property name="build.lib.dir" location="${build.dir}/lib" />
+	<property name="test.logs.dir" location="${basedir}/test/logs"/>
+
+	<!-- Output Information -->
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="project.jar.prefix" value="${project.name}-" />
+	<property name="project.jar.suffix" value="-${project.version}.jar" />
+	
+	<!-- jar names -->
+	<property name="core.jar.name" value="${project.jar.prefix}core${project.jar.suffix}" />
+	<property name="tests.jar.name" value="${project.jar.prefix}test${project.jar.suffix}" />
+
+	<!-- jar files -->
+	<property name="core.jar.file" value="${build.lib.dir}/${core.jar.name}" />
+	<property name="tests.jar.file" value="${build.lib.dir}/${tests.jar.name}" />
+
+	<!-- build file for stub generation -->
+	<property name="ant.build.stubs" location="${globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
+
+	<!-- import the test build file -->
+	<import file="test/test.xml" />
+	
+	<!-- main build / run classpath -->
+	<path id="base.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${globus.dir}/lib">
+			<include name="*.jar" />
+			<exclude name="caGrid-*.jar" />
+		</fileset>
+	</path>
+	
+	<!-- Run Classpath -->
+	<path id="run.classpath">
+		<path refid="base.classpath" />
+		<pathelement location="${build.src.dest}"/>
+	</path>
+	
+	<!-- test classpath -->
+	<path id="test.classpath">
+		<path refid="run.classpath"/>
+	</path>
+
+	<!-- IVY targets -->
+	<target name="define-ant-tasks" depends="init-ivy">
+		<taskdef resource="net/sf/antcontrib/antlib.xml" loaderref="artifact">
+			<classpath>
+				<fileset dir="${antfiles.lib.dir}">
+					<include name="ant.jar" />
+				</fileset>
+				<fileset dir="${antfiles.lib.dir}">
+					<include name="ant-contrib*.jar" />
+				</fileset>
+			</classpath>
+		</taskdef>
+		<property name="defined.anttasks" value="true" />
+	</target>	
+		
+	<!-- Create required directories -->
+ 	<target name="init">
+    	<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.src.dest}" />
+		<mkdir dir="${build.test.dest}" />
+		<mkdir dir="${build.lib.dir}" />
+		<mkdir dir="${test.logs.dir}" />
+    </target>
+	
+
+	<target name="clean" description="Cleans the project">
+		<delete dir="${build.dir}" failonerror="false" />
+		<delete dir="${test.logs.dir}" failonerror="false" />
+	</target>
+	
+	
+	<!-- compiles the main source -->
+	<target name="build" depends="init, define-ant-tasks" description="Compile the project">
+		<javac srcdir="${src.dir}" destdir="${build.src.dest}" debug="${java.debug}" source="${java.source}">
+			<include name="**/*.java"/>
+			<classpath refid="base.classpath"/>
+		</javac>
+	</target>
+		
+
+	<!-- compiles the tests -->
+	<target name="buildTests" depends="build" description="Compile the project test cases">
+		<javac srcdir="${test.src.dir}" destdir="${build.test.dest}" debug="${java.debug}" source="${java.source}">
+			<include name="**/*.java"/>
+			<classpath refid="test.classpath"/>
+		</javac>
+	</target>
+	
+	
+	<!-- jars the common classes and source -->
+	<target name="jar" depends="build" description="Builds and jars">
+		<jar destfile="${core.jar.file}">
+			<fileset dir="${build.src.dest}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!-- jars the test classes and source -->
+	<target name="jarTests" depends="buildTests" description="Builds and jars tests">
+		<jar destfile="${tests.jar.file}">
+			<fileset dir="${build.test.dest}">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${test.src.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+		</jar>
+	</target>
+
+    <target name="all" depends="jar, jarTests" description="Clean and build core and tests."/>
+</project>

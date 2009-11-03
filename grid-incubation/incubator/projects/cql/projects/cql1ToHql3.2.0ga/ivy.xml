@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ivy-module version="2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+	<info organisation="caGrid" module="cql1toHql3.2.0ga" revision="${project.version}">
+		<license name="caGrid" url="http://cagrid.org/wiki/CaGrid:LICENSE-1.3" />
+		<description>An implementation of CQL against Hibernate 3.2.0ga</description>
+	</info>
+
+	<configurations>
+		<!-- private configurations -->
+		<conf name="impl-test" visibility="private" extends="test" />
+		<conf name="impl" visibility="private" extends="core" />
+
+		<!-- Public Configurations-->
+		<conf name="core" visibility="public"/>
+		<conf name="test" visibility="public"/>
+	</configurations>
+
+	<publications>
+		<artifact name="cql1toHql3.2.0ga-core" conf="core" type="jar"/>
+		<artifact name="cql1toHql3.2.0ga-test" conf="test" type="jar"/>
+	</publications>
+
+	<dependencies>
+		<dependency org="caGrid" name="core" rev="1.3" conf="core->default;test->test" />
+		<dependency org="caGrid" name="cqlCore" rev="latest.integration" conf="core->beans"/>
+	</dependencies>
+</ivy-module>
