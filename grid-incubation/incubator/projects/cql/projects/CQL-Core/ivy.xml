@@ -10,7 +10,7 @@
 
 	<configurations>
 		<!-- private configurations -->
-		<conf name="impl-test" visibility="private" />
+		<conf name="impl-test" visibility="private" extends="test" />
 		<conf name="impl" visibility="private" extends="core" />
 
 		<!-- Public Configurations-->
@@ -19,6 +19,8 @@
 		<conf name="cql1-schemas" visibility="public" />
 		<conf name="cql2-schemas" visibility="public" />
 		<conf name="schemas" visibility="public" extends="cql1-schemas, cql2-schemas" />
+		
+		<conf name="test" visibility="public"/>
 	</configurations>
 
 	<publications>
@@ -38,6 +40,7 @@
 	</publications>
 
 	<dependencies>
-		<dependency org="caGrid" name="core" rev="1.3" conf="core->test" />
+		<dependency org="caGrid" name="core" rev="1.3" conf="core->default;test->test" />
+		<dependency org="caGrid" name="metadatautils" rev="1.3" conf="core->default"/>
 	</dependencies>
 </ivy-module>
