@@ -76,10 +76,12 @@
 		<property name="defined.anttasks" value="true" />
 	</target>
 
-	<target name="resolve" description="--> retrieve dependencies with ivy">
+	<!--
+	<target name="resolve" description="retrieve dependencies with ivy">
 	        <ivy:retrieve />
 		    <ivy:report todir="${build.lib.dir}"/>
 	</target>
+	-->
 
 	<!-- main build / run classpath -->
 	<path id="base.classpath">
@@ -167,7 +169,7 @@
 	
 	
 	<!-- compiles the main source -->
-	<target name="build" depends="init, define-ant-tasks, resolve, buildBeans" description="Compile the project">
+	<target name="build" depends="init, define-ant-tasks, buildBeans" description="Compile the project">
 		<javac srcdir="${src.dir}" destdir="${build.src.dest}" debug="${java.debug}" source="${java.source}">
 			<include name="**/*.java"/>
 			<classpath refid="build.classpath"/>
