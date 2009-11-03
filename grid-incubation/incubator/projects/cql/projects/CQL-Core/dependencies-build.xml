@@ -17,6 +17,20 @@
 		<ivy:retrieve conf="impl" pattern="${ivy.resolved.artifacts.dir}/dependencies/[type]/[artifact](.[ext])" type="wsdl,xsd" />
 		<ivy:retrieve conf="impl-test" pattern="${ivy.resolved.artifacts.dir}/dependencies/test/[type]s/[originalname](.[ext])" sync="true" type="jar" />
 	</target>
+	
+	<!-- Overloaded to support multiple artifact patterns  -->
+	<target name="do.publish" depends="pre.publish">
+		<publish-artifacts>
+			<artifacts-list>
+				<artifacts pattern="${ivy.generated.artifacts.dir}/lib/[artifact]-[revision].[ext]" />
+				<artifacts pattern="${basedir}/schemas/cql_1.0/[artifact].[ext]" />
+				<artifacts pattern="${basedir}/schemas/cql_2.0/[artifact].[ext]" />
+				<!--
+				<artifacts pattern="${basedir}/schemas/dcql_2.0/[artifact].[ext]" />
+				-->
+			</artifacts-list>
+		</publish-artifacts>
+	</target>
 
 </project>
 

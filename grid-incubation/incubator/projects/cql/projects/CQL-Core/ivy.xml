@@ -8,26 +8,36 @@
 		<description>The core schemas, beans, and support libraries for CQL</description>
 	</info>
 
-  <configurations>
-    <!-- private configurations -->
-    <conf name="impl-test" visibility="private"/>
-    <conf name="impl" visibility="private" extends="default"/>
+	<configurations>
+		<!-- private configurations -->
+		<conf name="impl-test" visibility="private" />
+		<conf name="impl" visibility="private" extends="core" />
 
-    <!-- Public Configurations-->
-    <conf name="default" visibility="public"/>    
-  </configurations>
-  
-   <publications>
-	<!-- example publication
-	<artifact name="soulwingCAS-core" conf="impl" type="jar"/>
-	-->
-  </publications>
+		<!-- Public Configurations-->
+		<conf name="core" visibility="public" extends="beans" />
+		<conf name="beans" visibility="public" />
+		<conf name="cql1-schemas" visibility="public" />
+		<conf name="cql2-schemas" visibility="public" />
+		<conf name="schemas" visibility="public" extends="cql1-schemas, cql2-schemas" />
+	</configurations>
 
-    <dependencies>
-    <dependency org="caGrid" name="core" rev="1.3" conf="default->test"/>
-	<!-- example dependency
-    	<dependency org="apache" name="commons-logging" rev="1.1" conf="default" />
-	-->
+	<publications>
+		<artifact name="cqlCore-core" conf="core" type="jar"/>
+		<artifact name="cqlCore-beans" conf="beans" type="jar"/>
 
-    </dependencies>
+		<artifact name="1_gov.nih.nci.cagrid.CQLQuery" conf="cql1-schemas" type="xsd" />
+		<artifact name="1_gov.nih.nci.cagrid.CQLResultSet" conf="cql1-schemas" type="xsd" />
+
+		<artifact name="Aggregations" conf="cql2-schemas" type="xsd" />
+		<artifact name="AssociationPopulationSpec" conf="cql2-schemas" type="xsd" />
+		<artifact name="CQLAttribute" conf="cql2-schemas" type="xsd" />
+		<artifact name="CQLQueryComponents" conf="cql2-schemas" type="xsd" />
+		<artifact name="CQLQueryModifier" conf="cql2-schemas" type="xsd" />
+		<artifact name="CQLQueryResults" conf="cql2-schemas" type="xsd" />
+		<artifact name="Predicates" conf="cql2-schemas" type="xsd" />
+	</publications>
+
+	<dependencies>
+		<dependency org="caGrid" name="core" rev="1.3" conf="core->test" />
+	</dependencies>
 </ivy-module>
