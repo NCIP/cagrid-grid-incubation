@@ -3,7 +3,9 @@
 
 	<property environment="env" />
 	<property file="${basedir}/project.properties" />
-	
+	<property name="globus.dir" value="${env.GLOBUS_LOCATION}" />
+	<fail unless="env.GLOBUS_LOCATION" message="You must set the environment variable GLOBUS_LOCATION to the directory in which you have Globus Java WS-Core installed." />
+		
 	<property name="antfiles" location="${basedir}/../../antfiles" />
 	
 	<!-- build with debugging information -->
@@ -50,9 +52,6 @@
 	
 	<!-- main build / run classpath -->
 	<path id="base.classpath">
-		<fileset dir="${lib.dir}">
-			<include name="*.jar"/>
-		</fileset>
 		<fileset dir="${ext.lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
