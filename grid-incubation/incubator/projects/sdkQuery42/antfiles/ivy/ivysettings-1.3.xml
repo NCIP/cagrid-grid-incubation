@@ -30,15 +30,6 @@
   </macrodef>
   <resolvers>
     <chain name="caGrid-incubator-ivy-resolver" returnFirst="true">
-      <!-- First, try developer's local integration repository-->
-      <cagrid-incubator-fs-resolver repo.dir="${integration.repository.dir}" name="caGrid-incubator-local-integration-fs"/>
-      
-      <!-- Then, use the integration repository -->
-      <cagrid-incubator-fs-resolver repo.dir="${repository.dir}" name="caGrid-incubator-local-fs"/>
-
-      <!-- Try the developer's local caGrid dependency repository-->
-      <cagrid-fs-resolver repo.dir="${cagrid.repository.dir}" name="caGrid-local-fs"/>
-      
       <!-- Try the developer's local caGrid integration repository-->
       <cagrid-fs-resolver repo.dir="${cagrid.integration.repository.dir}" name="caGrid-local-integration-fs"/>
 
@@ -49,6 +40,18 @@
 		<artifact pattern="http://software.cagrid.org/repository-1.3/[organisation]/[module]/[revision]/[artifact].[ext]"/>
 	  </url>
 	  
+	  <!-- caGrid 1.3.0.2 (pre) release repositories 
+	  <url name="remote-caGrid-ivy-resolver-1.3.0.2-repository" cache="cache1.3">
+		<ivy pattern="http://quality.cagrid.org/job/caGrid-1.3.0.2-Release/lastStableBuild/caGrid/repository/[organisation]/[module]/ivy-[revision].xml"/>
+		<artifact pattern="http://quality.cagrid.org/job/caGrid-1.3.0.2-Release/lastStableBuild/caGrid/repository/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+		<artifact pattern="http://quality.cagrid.org/job/caGrid-1.3.0.2-Release/lastStableBuild/caGrid/repository/[organisation]/[module]/[revision]/[artifact].[ext]"/>
+	  </url>
+	  <url name="remote-caGrid-ivy-resolver-1.3.0.2-integration-repository" cache="cache1.3">
+		<ivy pattern="http://quality.cagrid.org/job/caGrid-1.3.0.2-Release/lastStableBuild/caGrid/integration-repository/[organisation]/[module]/ivy-[revision].xml"/>
+		<artifact pattern="http://quality.cagrid.org/job/caGrid-1.3.0.2-Release/lastStableBuild/caGrid/integration-repository/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+		<artifact pattern="http://quality.cagrid.org/job/caGrid-1.3.0.2-Release/lastStableBuild/caGrid/integration-repository/[organisation]/[module]/[revision]/[artifact].[ext]"/>
+	  </url>
+	  -->
     </chain>
   </resolvers>
 </ivysettings>
