@@ -17,6 +17,7 @@
     <conf name="processor" visibility="public" extends="stubs" />
     <conf name="style" visibility="public" extends="processor" />
     <conf name="test" visibility="public" extends="style,impl-test" />
+    <conf name="package" visibility="public"/>
   </configurations>
 
 
@@ -24,6 +25,7 @@
     <artifact name="caGrid-${ivy.module}-processor" conf="processor" type="jar" />
     <artifact name="caGrid-${ivy.module}-style" conf="style" type="jar" />
     <artifact name="caGrid-${ivy.module}-tests" conf="test" type="jar" />
+    <artifact name="caGrid-${ivy.module}-style" conf="package" type="zip"/>
   </publications>
 
 

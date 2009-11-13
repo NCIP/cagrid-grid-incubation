@@ -23,6 +23,7 @@
 
 	<!-- build output dirs -->
 	<property name="build.dir" location="build" />
+	<property name="build.style.dir" location="${build.dir}/style"/>
 	<property name="build.style.dest" location="${build.dir}/style/classes" />
 	<property name="build.processor.dest" location="${build.dir}/processor/classes" />
 	<property name="build.dirs.list" value="${build.processor.dest},${build.style.dest}"/>
@@ -35,7 +36,7 @@
 	<!-- jar files -->
 	<property name="style.jar.file" value="${build.jars.dir}/${style.jar.name}" />
 	<property name="processor.jar.file" value="${build.jars.dir}/${processor.jar.name}" />
-
+	
 	<!-- source directories -->
 	<property name="style.src.dir" location="${basedir}/src/java/style" />
 	<property name="processor.src.dir" location="${basedir}/src/java/processor" />
@@ -66,9 +67,11 @@
 	<property name="ant.build.stubs" location="${globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
 
 	<!-- style related stuff -->
-	<property name="introduce.extensions.dir" location="../introduce/extensions" />
+	<property name="introduce.dir" location="../introduce/extensions" />
 	<property name="style.info.dir" location="${basedir}/style"/>
-	<property name="style.dest.dir" location="${introduce.extensions.dir}/data/styles/cacore42" />
+	<property name="style.dest.dir" value="extensions/data/styles/cacore42" />
+	<property name="style.package.dir" location="${build.style.dir}/package"/>
+	<property name="style.zip" location="${style.package.dir}/${project.name}-style-${project.version}.zip"/>
 
 	<!-- SDK remote and local libraries needed for builds -->
 	<!-- TODO: evaluate if these are still the same as for SDK 4.1 -->
@@ -123,7 +126,9 @@
 	<target name="init" depends="unpackSdk">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.jars.dir}" />
+		<mkdir dir="${build.style.dir}"/>
 		<mkdir dir="${build.style.dest}" />
+		<mkdir dir="${style.package.dir}"/>
 		<mkdir dir="${build.processor.dest}" />
 		<mkdir dir="${test.classes.dir}" />
 	</target>
@@ -201,21 +206,27 @@
 
 
 	<!-- installs the service style -->
-	<target name="installServiceStyle" description="Installs the SDK 4.2 data service style">
+	<target name="installServiceStyle" depends="packageStyle" description="Installs the SDK 4.2 data service style">
 		<echo message="Installing Data Service Style SDK v 4.2" />
 		<!-- some properties for the install -->
 		<!-- make requisite directories -->
 		<delete dir="${style.dest.dir}" />
-		<mkdir dir="${style.dest.dir}" />
-		<mkdir dir="${style.dest.dir}/lib" />
+		<!-- unzip the package zip to Introduce -->
+		<unzip src="${style.zip}" dest="${introduce.dir}" overwrite="true"/>
+	</target>
+	
+	
+	<target name="packageStyle" description="Creates the style package for deployment to Introduce">
+		<echo message="Packaging Data Service Style SDK v 4.2"/>
+		<mkdir dir="${style.package.dir}/temp"/>
 		<!-- copy in the info -->
-		<copy todir="${style.dest.dir}">
+		<copy todir="${style.package.dir}/temp/${style.dest.dir}">
 			<fileset dir="${style.info.dir}">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 		<!-- copy in the style's jar file -->
-		<copy todir="${style.dest.dir}/lib">
+		<copy todir="${style.package.dir}/temp/${style.dest.dir}/lib">
 			<!-- the style itself and query processor -->
 			<fileset dir="${build.jars.dir}">
 				<include name="*.jar" />
@@ -228,6 +239,8 @@
 				<include name="sdk-client-framework-4.2.jar"/>
 			</fileset>
 		</copy>
+		<zip destfile="${style.zip}" basedir="${style.package.dir}/temp/"/>
+		<delete dir="${style.package.dir}/temp"/>
 	</target>
 
 
@@ -242,5 +255,5 @@
 
 
 	<!-- build and jar everything -->
-	<target name="all" depends="jarProcessor, jarStyle, jarTests" description="Builds and jars all the classes in the project" />
+	<target name="all" depends="jarProcessor, jarStyle, jarTests, packageStyle" description="Builds and jars all the classes in the project" />
 </project>

@@ -12,9 +12,17 @@
 
 	<target name="do.resolve-dependencies" depends="pre.resolve-dependencies">
 		<ivy:retrieve conf="style" pattern="${ivy.resolved.artifacts.dir}/dependencies/[type]s/[originalname](.[ext])" sync="true" type="jar,zip"/>
-				
 		<ivy:retrieve conf="impl-test" pattern="${ivy.resolved.artifacts.dir}/dependencies/test/jars/[originalname](.[ext])" sync="true" type="jar" />
 		<ivy:retrieve conf="impl-test" pattern="${ivy.resolved.artifacts.dir}/dependencies/test/xml/[artifact](.[ext])" sync="true" type="xml" />
+	</target>
+	
+	<target name="do.publish" depends="pre.publish">
+		<publish-artifacts>
+			<artifacts-list>
+				<artifacts pattern="${ivy.generated.artifacts.dir}/lib/[artifact]-[revision].[ext]" />
+				<artifacts pattern="${ivy.generated.artifacts.dir}/style/package/[artifact]-[revision].[ext]"/>
+			</artifacts-list>
+		</publish-artifacts>
 	</target>
 </project>
 
