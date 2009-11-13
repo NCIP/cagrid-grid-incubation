@@ -71,7 +71,7 @@
 	<property name="style.info.dir" location="${basedir}/style"/>
 	<property name="style.dest.dir" value="extensions/data/styles/cacore42" />
 	<property name="style.package.dir" location="${build.style.dir}/package"/>
-	<property name="style.zip" location="${style.package.dir}/${project.name}-style-${project.version}.zip"/>
+	<property name="style.zip" location="${style.package.dir}/${project.name}-package-${project.version}.zip"/>
 
 	<!-- SDK remote and local libraries needed for builds -->
 	<!-- TODO: evaluate if these are still the same as for SDK 4.1 -->
