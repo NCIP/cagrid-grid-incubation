@@ -1,22 +1,22 @@
 <project name="ivy-definitions" xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<dirname property="ivy-definitions.basedir" file="${ant.file.ivy-definitions}" />
-	<property name="project.root.dir" location="${ivy-definitions.basedir}/../.." />
-
+	<property name="project.root.dir" location="${ivy-definitions.basedir}/../../../.." />
+	
 	<property name="ivy.jar.dir" value="${ivy-definitions.basedir}/lib" />
 	<path id="ivy.lib.path">
 		<fileset dir="${ivy.jar.dir}" includes="ivy-*.jar" />
 	</path>
 
-        <!--The first is the repository.dir property, which is where the external libraries caGrid needs are stored, and the second is the integration.repository.dir which is where caGrid projects publish themselves when built such that other caGrid projects can depend on them. -->
+    <!--The first is the repository.dir property, which is where the external libraries caGrid needs are stored, and the second is the integration.repository.dir which is where caGrid projects publish themselves when built such that other caGrid projects can depend on them. -->
 	<!-- setup ivy default configuration with some custom info -->
 	<property name="repository.dir" location="${project.root.dir}/repository" />
 	<property name="integration.repository.dir" location="${project.root.dir}/integration-repository" />
 
-        <!-- set ivy repositories for caGrid -->
+    <!-- set ivy repositories for caGrid -->
 	<property name="cagrid.repository.dir" location="${project.root.dir}/cagrid-repository" />
 	<property name="cagrid.integration.repository.dir" location="${project.root.dir}/cagrid-integration-repository" />
-        
+    
 
 	<target name="init-ivy" unless="ivy.initialized">
 		<!-- NOTE: I used to just do this at parse time, but there is a bug in Ant versions < 1.7 
@@ -25,7 +25,7 @@
 		-->
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" loaderRef="ivy.loader" />
 
-		<ivy:settings id="ivy.instance" file="${project.root.dir}/antfiles/ivy/ivysettings-1.3.xml" override="true" />
+		<ivy:settings id="ivy.instance" file="${basedir}/antfiles/ivy/ivysettings-1.3.xml" override="true" />
 		<property name="ivy.initialized" location="true" />
 	</target>
 </project>
