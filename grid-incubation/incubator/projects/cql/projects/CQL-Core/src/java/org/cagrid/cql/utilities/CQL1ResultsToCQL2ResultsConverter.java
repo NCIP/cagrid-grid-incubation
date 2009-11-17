@@ -14,13 +14,12 @@ import org.cagrid.cql2.results.TargetAttribute;
  */
 public class CQL1ResultsToCQL2ResultsConverter {
 
-    // TODO: maybe make this private and the methods static?
-    public CQL1ResultsToCQL2ResultsConverter() {
-        super();
+    private CQL1ResultsToCQL2ResultsConverter() {
+        // prevents instantiation
     }
     
     
-    public CQLQueryResults convertResults(gov.nih.nci.cagrid.cqlresultset.CQLQueryResults cqlResults) {
+    public static CQLQueryResults convertResults(gov.nih.nci.cagrid.cqlresultset.CQLQueryResults cqlResults) {
         CQLQueryResults newResults = new CQLQueryResults();
         newResults.setTargetClassname(cqlResults.getTargetClassname());
         if (cqlResults.getObjectResult() != null) {
@@ -46,14 +45,14 @@ public class CQL1ResultsToCQL2ResultsConverter {
     }
     
     
-    private CQLObjectResult convertObjectResult(gov.nih.nci.cagrid.cqlresultset.CQLObjectResult oldObjectResult) {
+    private static CQLObjectResult convertObjectResult(gov.nih.nci.cagrid.cqlresultset.CQLObjectResult oldObjectResult) {
         CQLObjectResult newObjectResult = new CQLObjectResult();
         newObjectResult.set_any(oldObjectResult.get_any());
         return newObjectResult;
     }
     
     
-    private CQLAttributeResult convertAttributeResult(gov.nih.nci.cagrid.cqlresultset.CQLAttributeResult oldAttributeResult) {
+    private static CQLAttributeResult convertAttributeResult(gov.nih.nci.cagrid.cqlresultset.CQLAttributeResult oldAttributeResult) {
         CQLAttributeResult newAttributeResult = new CQLAttributeResult();
         if (oldAttributeResult.getAttribute() != null) {
             TargetAttribute[] newTAs = new TargetAttribute[oldAttributeResult.getAttribute().length];
@@ -66,7 +65,7 @@ public class CQL1ResultsToCQL2ResultsConverter {
     }
     
     
-    private TargetAttribute convertTargetAttribute(gov.nih.nci.cagrid.cqlresultset.TargetAttribute oldTa) {
+    private static TargetAttribute convertTargetAttribute(gov.nih.nci.cagrid.cqlresultset.TargetAttribute oldTa) {
         TargetAttribute newTa = new TargetAttribute(oldTa.getName(), oldTa.getValue());
         return newTa;
     }
