@@ -29,17 +29,15 @@ import module namespace
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
 
 session:create(),
-let $compound_id := request:get-parameter("compound_id", "")
-
-let $administered_item := lib-util:mdrElement("property",$compound_id)
-return
-    if (request:get-parameter("as-xml",()))
-    then (lib-rendering:as-xml($administered_item))
-   else(
-      let $reference_uri := data($administered_item//openMDR:reference_uri)
-      let $title:=concat('Property: ',administered-item:preferred-name($administered_item))
-         
-      let $content as element(div) := 
+    let $compound_id := request:get-parameter("compound_id", "")
+    let $administered_item := lib-util:mdrElement("property",$compound_id)
+    let $title:=concat('Property: ',administered-item:preferred-name($administered_item))
+    return
+        if (request:get-parameter("as-xml",()))
+        then (lib-rendering:as-xml($administered_item))
+        else(
+            let $reference_uri := data($administered_item//openMDR:reference_uri)         
+            let $content as element(div) := 
                <div xmlns="http://www.w3.org/1999/xhtml"> {
                      if ($administered_item//openMDR:reference_uri)
                      then
@@ -47,7 +45,12 @@ return
                       <div class="section">
                           <table class="section">
                           <tr><td colspan="2"><div class="admin_item_section_header">Property Specific Attributes</div></td></tr>
-                          <tr><td  class="left_header_cell">Reference URI</td><td>{lib-uri-resolution:html-anchor($reference_uri)}</td></tr>
+                          {
+                            for $reference_uris in $administered_item//openMDR:reference_uri
+                            let $reference_uri := data($reference_uris//openMDR:reference_uri)
+                            return
+                                <tr><td  class="left_header_cell">Reference URI</td><td>{lib-uri-resolution:html-anchor($reference_uri)}</td></tr>
+                          }    
                          </table>
                       </div>
                       )

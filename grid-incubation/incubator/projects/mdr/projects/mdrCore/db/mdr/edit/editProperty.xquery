@@ -1,7 +1,7 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new property webpage and XQuery
+ : Module Name:             edit property webpage and XQuery
  :
  : Module Version           2.0
  :
@@ -60,7 +60,7 @@ declare function local:property(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $uri as xs:string?,
+   $uris as xs:string*,
    $preferred as xs:string?
    ) as xs:boolean
 {
@@ -79,8 +79,10 @@ declare function local:property(
                     $definitions,
                     $preferred,
                     $sources), 
-
-                  element openMDR:reference_uri {$uri})
+                    
+                    for $u in $uris
+                    return
+                    element openMDR:reference_uri {$u})
 
 
    
@@ -116,15 +118,15 @@ declare function local:input-page(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $property_uri as xs:string?,
+   $property_uri as xs:string*,
    $action as xs:string?,
    $preferred as xs:string?
-   ) {
-   let $skip-name := substring-after($action,'delete naming entry')
-   let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+   ) 
+   {
 
+   let $skip-uri := substring-after($action,'delete uri entry')
+   let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
    return
-
    <div xmlns="http://www.w3.org/1999/xhtml">
    
       <table class="layout">
@@ -153,22 +155,62 @@ declare function local:input-page(
                      $sources,
                      $preferred,
                      $action)}
-                     
-                     
-                <table class="section">
-               
+                   
+                <table class="section">       
+                       
                     <tr>
                        <td class="row-header-cell" colspan="6">Property specific properties</td>
                     </tr>
-                   
-                            <tr>
-                               <td class="left_header_cell">uri</td>
+                       {                     
+                         for $u at $pos in $property_uri
+                         where $pos != $skip-uri-index and $u > ""
+                         return 
+                            (
+                                if($pos > $skip-uri-index and $skip-uri-index > 0) 
+                                then (
+                                    <tr>
+                                    <td class="left_header_cell">Concept Reference {util:eval($pos - 1)}</td>
+                                    <td colspan="5">
+                                       {
+                                          lib-forms:find-concept-id('property_uri','get concept',$u),
+                                          lib-forms:action-button(concat('delete uri entry ',util:eval($pos - 1)), 'action' ,'')
+                                       }
+                                    </td>
+                                    </tr>
+                                ) 
+                                else (
+                                   <tr>
+                                      <td class="left_header_cell">Concept Reference {$pos}</td>
+                                      <td colspan="5">
+                                         {
+                                            lib-forms:find-concept-id('property_uri','get concept',$u),
+                                            lib-forms:action-button(concat('delete uri entry ',$pos), 'action' ,'')
+                                         }
+                                      </td>
+                                   </tr>
+                                )
+                          
+                           )
+                     }
+                     {
+                           if($action = 'add another concept') then (
+                           <tr>
+                               <td class="left_header_cell">New Concept Reference</td>
                                <td colspan="5">
-                                  {
-                                     lib-forms:find-concept-id('property_uri','get concept',$property_uri)
-                                  }
+                                  {lib-forms:find-concept-id('property_uri','get concept','')}
+                                  <br></br>
+                                  {lib-forms:action-button('add another concept', 'action' ,'')}
                                </td>
                             </tr>
+                           ) else (
+                           <tr>
+                               <td class="left_header_cell">New Concept Reference</td>
+                               <td colspan="5">
+                                  {lib-forms:action-button('add another concept', 'action' ,'')}
+                               </td>
+                            </tr>
+                           )
+                    }
                     
                       <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
                  </table>
@@ -227,9 +269,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $inames := $element//openMDR:name
    let $idefinitions := $element//openMDR:definition_text
    let $isources := $element//openMDR:definition_source_reference
-   let $iproperty_uri := string($element//openMDR:reference_uri)
+   let $iproperty_uri := $element//openMDR:reference_uri
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
-   
+   let $iaction := request:get-parameter('update','')
+
+   let $log:= util:log-system-out($iproperty_uri)
 
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
@@ -243,10 +287,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
-   let $property_uri := request:get-parameter('property_uri','')
+   let $property_uri := request:get-parameter('property_uri',())
    let $preferred := request:get-parameter('preferred','')
-   
-   
+   let $action := request:get-parameter('update','')
+      
    return
    
       lib-rendering:txfrm-webpage(
