@@ -1,5 +1,4 @@
 xquery version "1.0";
-
 (: ~
  : Module Name:             new property webpage and XQuery
  :
@@ -22,6 +21,7 @@ xquery version "1.0";
  :     now allows searching for concept terms 
 ~ :)
 
+
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
@@ -39,12 +39,11 @@ xquery version "1.0";
     at "../edit/m-lib-make-admin-item.xquery";     
 
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace xdt = "http://xdt.gate2.net/v1.0";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
-
-
 
 declare function local:property(
    $reg-auth as xs:string,
@@ -59,7 +58,7 @@ declare function local:property(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $uri as xs:string?,
+   $uris as xs:string*,
    $preferred as xs:string?
    ) as xs:boolean
 {
@@ -79,11 +78,9 @@ declare function local:property(
                     $definitions,
                     $preferred,
                     $sources), 
-                   if($uri > '') 
-                   then (
-                   element openMDR:reference_uri {$uri})
-                   else ()
-                   )
+                    for $u in $uris
+                    return
+                        element openMDR:reference_uri {$u})
    
    (: compose the document :)
    let $document :=
@@ -110,36 +107,32 @@ declare function local:input-page(
    $administered-by  as xs:string?,
    $submitted-by  as xs:string?,
    $registered-by  as xs:string?,
-   $context-ids  as xs:string*,
+   $context-ids as xs:string*,
    $country-identifiers as xs:string*,
    $language-identifiers as xs:string*,
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $property_uri as xs:string?,
+   $property_uri as xs:string*,
    $action as xs:string?,
    $preferred as xs:string?
    ) {
    
-   let $skip-name := substring-after($action,'delete naming entry')
+   let $skip-name := substring-after($action,'delete uri entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
    return
    <div xmlns="http://www.w3.org/1999/xhtml">
    
-  
                      
       <table class="layout">
           <tr>
              <td>
                 This form will allow you to create a new property in the metadata repository
              </td>
-          </tr>
-         
+          </tr>        
           <tr><td>
           <form name="new_property" action="newProperty.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
-             <div class="section">
-             
-              
+             <div class="section">            
            {lib-forms:edit-admin-item($reg-auth,
                      $administrative-note,
                      $administrative-status,
@@ -161,12 +154,46 @@ declare function local:input-page(
                     <tr>
                        <td class="row-header-cell" colspan="6">Property class specific properties</td>
                     </tr>
-                    
+                                        {   
+                         for $u at $pos in $property_uri
+                         where $pos != $skip-name-index and $u > ""
+                         return 
+                         (
+                         if($pos > $skip-name-index and $skip-name-index > 0) 
+                         then (
+                            <tr>
+                               <td class="left_header_cell">Concept Reference {util:eval($pos - 1)}</td>
+                               <td colspan="5">
+                                  {
+                                     lib-forms:find-concept-id('property_uri','get concept',$u),
+                                     lib-forms:action-button(concat('delete uri entry ',util:eval($pos - 1)), 'action' ,'')
+                                  }
+                               </td>
+                            </tr>
+                         ) else (
+                            <tr>
+                               <td class="left_header_cell">Concept Reference {$pos}</td>
+                               <td colspan="5">
+                                  {
+                                     lib-forms:find-concept-id('property_uri','get concept',$u),
+                                     lib-forms:action-button(concat('delete uri entry ',$pos), 'action' ,'')
+                                  }
+                               </td>
+                            </tr>
+                         )
+                          
+                         )
+                     }
+                     
                             <tr>
                                <td class="left_header_cell">uri</td>
                                <td colspan="5">
                                   {
-                                     lib-forms:find-concept-id('property_uri','get concept',$property_uri)
+                                     lib-forms:find-concept-id('property_uri','get concept','')
+                                  }
+                                   <br></br>
+                                  {
+                                     lib-forms:action-button('add another concept', 'action' ,'')
                                   }
                                </td>
                             </tr>
@@ -195,6 +222,7 @@ declare function local:success-page()
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
  
    session:create(),
+   
    let $title as xs:string := "Creating a New Property"
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
@@ -208,7 +236,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $names := request:get-parameter('names',())
    let $definitions := request:get-parameter('definitions',())
    let $sources := request:get-parameter('sources',())
-   let $property_uri := request:get-parameter('property_uri','')
+   let $property_uri := request:get-parameter('property_uri',())
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
    
@@ -279,4 +307,5 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $preferred
                )
          )
+
 
