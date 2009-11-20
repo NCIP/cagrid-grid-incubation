@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 /** 
  *  CQL2ParameterizedHQL
  *  Converter utility to turn CQL into HQL using positional parameters 
- *  compatible with Hibernate 3.2.0ga for use with caCORE SDK 4
+ *  compatible with Hibernate 3.2.0ga
  * 
  * @author David Ervin
  * 
@@ -69,7 +69,7 @@ public class CQL2ParameterizedHQL {
 	
 	/**
 	 * Converts CQL to parameterized HQL suitable for use with 
-     * Hibernate v3.2.0ga and the caCORE SDK version 4.0
+     * Hibernate v3.2.0ga
 	 * 
 	 * @param query
 	 * 		The query to convert
