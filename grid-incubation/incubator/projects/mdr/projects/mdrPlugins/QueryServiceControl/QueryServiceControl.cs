@@ -733,7 +733,8 @@ namespace QueryServiceControl
                     }
 
                     // Take care of object classes/properties
-                    if (dataelement.objectclass.Length > 0 || dataelement.property.Length > 0)
+                    if ((dataelement.objectclass != null && dataelement.objectclass.Length > 0) || 
+                        (dataelement.property != null && dataelement.property.Length > 0))
                     {
                         String tableStr = "<table style=\"width: 100%;border: 1px solid #ddd;border-collapse: collapse;\"><tr><th style=\"background-color: #ddd;color: #000;text-align: left;padding: 5px;\">Type</th><th style=\"background-color: #ddd;color: #000;text-align: left;padding: 5px;\">Name</th><th style=\"background-color: #ddd;color: #000;text-align: left;padding: 5px;\">Concept(s)</th></tr>";
                   
