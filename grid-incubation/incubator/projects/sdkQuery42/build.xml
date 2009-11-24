@@ -44,10 +44,9 @@
 	<!-- libraries -->
 	<property name="ext.lib.dir" location="${basedir}/ext/dependencies/jars" />
 	<property name="ext.test.lib.dir" location="${basedir}/ext/dependencies/test/jars" />
-	<property name="ext.zip.dir" location="${basedir}/ext/dependencies/zips" />
-
+	
 	<!-- sdk artifacts -->
-	<property name="sdk.zip.file" location="${ext.zip.dir}/sdk42-example-trimmed.zip" />
+	<property name="sdk.zip.file" location="${basedir}/sdk/sdk42-example-trimmed.zip" />
 	<property name="sdk.unpack.dir" location="${build.dir}/sdk-example-project" />
 	<property name="sdk.output.package.dir" location="${sdk.unpack.dir}/example-project/target/dist/exploded/output/example/package" />
 	<property name="ext.remote-client.dir" location="${sdk.output.package.dir}/remote-client" />
