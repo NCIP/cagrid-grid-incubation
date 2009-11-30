@@ -158,13 +158,20 @@ declare function lib-util:getResourceLocation($resource-name as xs:string, $file
 
 
 
+(: --- perform case insensitive search --- :)
+declare function lib-util:search($mdr-element-type as xs:string, $phrase as xs:string) as element()* 
+{
+   for $doc in lib-util:mdrElements($mdr-element-type)[.//openMDR:registration_status/text() != 'Superseded'][.//openMDR:name[contains(lower-case(.),lower-case($phrase))]] 
+   return $doc      
+};
 
-
+(: replaced by above
 declare function lib-util:search($mdr-element-type as xs:string, $phrase as xs:string) as element()* 
 {
    for $doc in lib-util:mdrElements($mdr-element-type)[.//openMDR:registration_status/text() != 'Superseded'][.//openMDR:name[contains(.,$phrase)]] 
    return $doc      
 };
+:)
 
 declare function lib-util:searchWithClassification($mdr-element-type as xs:string, $classified-by as xs:anyURI, $phrase as xs:string) as element()* 
 {
