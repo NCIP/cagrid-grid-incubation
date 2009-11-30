@@ -2,6 +2,7 @@ module namespace lib-uri-resolution="http://www.cagrid.org/xquery/library/resolv
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace cgResolver = "http://www.cagrid.org/schema/cgResolver";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
+declare namespace util="http://exist-db.org/xquery/util";
 
 import module namespace 
 lib-util="http://www.cagrid.org/xquery/library/util" 
@@ -49,11 +50,13 @@ if (starts-with($urn,"urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:"))
 
 declare function lib-uri-resolution:html-anchor($urn as xs:string, $return-type as xs:string) as element(a)
 {
+let $log:= util:log-system-err($urn)
+let $log:= util:log-system-err(lib-uri-resolution:resolve($urn, $return-type))
 let $uri as xs:anyURI := lib-uri-resolution:resolve($urn, $return-type)
-
 return
    element a {
       attribute href {$uri},
+      attribute target {"_blank"},
       $urn
       }
 };
