@@ -49,10 +49,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
 declare option exist:output-size-limit "20000";
 
 session:create(),
-    
 let $compound_id := request:get-parameter("compound_id", "")
+(:for $administered_item in lib-util:mdrElement("conceptual_domain",$compound_id):)
 
-for $administered_item in lib-util:mdrElement("conceptual_domain",$compound_id)
+let $administered_item := lib-util:mdrElement("conceptual_domain",$compound_id)
     let $dimensionality := string($administered_item//openMDR:dimensionality) 
     let $title:= concat('Conceptual Domain: ', administered-item:preferred-name($administered_item))
     return
