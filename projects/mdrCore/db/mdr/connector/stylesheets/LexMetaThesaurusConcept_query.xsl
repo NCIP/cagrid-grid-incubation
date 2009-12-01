@@ -10,7 +10,7 @@
                         <xsl:value-of select="concat('[Abbreviation=', normalize-space(.), ']')"/>
                     </xsl:for-each>
                 </xsl:variable>
-                <xsl:value-of select="concat(/q:query/q:serviceUrl, '?query=org.LexGrid.concepts.Concept,org.LexGrid.commonTypes.EntityDescription&amp;org.LexGrid.commonTypes.EntityDescription[@_content=*',replace(/q:query/q:term, ' ', '%20'),'*]&amp;codingSchemeName=NCI_MetaThesaurus&amp;codingSchemeVersion=200904&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)"/>
+                <xsl:value-of select="concat(/q:query/q:serviceUrl, '?query=org.LexGrid.concepts.Concept,org.LexGrid.commonTypes.EntityDescription&amp;org.LexGrid.commonTypes.EntityDescription[@_content=*',replace(/q:query/q:term, ' ', '%20'),'*]&amp;codingSchemeName=NCI_MetaThesaurus&amp;codingSchemeVersion=200904&amp;pageSize=50&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)"/>
              	<!--
              	 <xsl:value-of
                     select="concat(/q:query/q:serviceUrl, '?query=MetaThesaurusConcept&MetaThesaurusConcept[name=*',replace(/q:query/q:term, ' ', '%20'),'*]/Source', $sources ,'&startIndex=',/q:query/q:startIndex,'&resultCounter=',/q:query/q:numResults)"
@@ -19,7 +19,7 @@
             </xsl:when>
             <!-- this does not actually work because the query does not allow for src object -->
             <xsl:when test="normalize-space(/q:query/q:src/text()) != ''">
-                <xsl:value-of select="concat(/q:query/q:serviceUrl, '?query=org.LexGrid.concepts.Concept,org.LexGrid.commonTypes.EntityDescription&amp;org.LexGrid.commonTypes.EntityDescription[@_content=*',replace(/q:query/q:term, ' ', '%20'),'*]&amp;codingSchemeName=NCI_MetaThesaurus&amp;codingSchemeVersion=200904&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)"/>
+                <xsl:value-of select="concat(/q:query/q:serviceUrl, '?query=org.LexGrid.concepts.Concept,org.LexGrid.commonTypes.EntityDescription&amp;org.LexGrid.commonTypes.EntityDescription[@_content=*',replace(/q:query/q:term, ' ', '%20'),'*]&amp;codingSchemeName=NCI_MetaThesaurus&amp;codingSchemeVersion=200904&amp;pageSize=50&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)"/>
              	 <!-- <xsl:value-of
                     select="concat(/q:query/q:serviceUrl, '?query=MetaThesaurusConcept&MetaThesaurusConcept[name=*',replace(/q:query/q:term, ' ', '%20'),'*]/Source[Abbreviation=', /q:query/q:src,']&startIndex=',/q:query/q:startIndex,'&resultCounter=',/q:query/q:numResults)"
                 />
@@ -27,7 +27,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:if test="/q:query/q:term">
-                    <xsl:value-of select="concat(/q:query/q:serviceUrl, '?query=org.LexGrid.concepts.Concept,org.LexGrid.commonTypes.EntityDescription&amp;org.LexGrid.commonTypes.EntityDescription[@_content=*',replace(/q:query/q:term, ' ', '%20'),'*]&amp;codingSchemeName=NCI_MetaThesaurus&amp;codingSchemeVersion=200904&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)"/>
+                    <xsl:value-of select="concat(/q:query/q:serviceUrl, '?query=org.LexGrid.concepts.Concept,org.LexGrid.commonTypes.EntityDescription&amp;org.LexGrid.commonTypes.EntityDescription[@_content=*',replace(/q:query/q:term, ' ', '%20'),'*]&amp;codingSchemeName=NCI_MetaThesaurus&amp;codingSchemeVersion=200904&amp;pageSize=50&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)"/>
              	 <!-- 
                 <xsl:value-of
                     select="concat(/q:query/q:serviceUrl, '?query=MetaThesaurusConcept&MetaThesaurusConcept[name=*',replace(/q:query/q:term, ' ', '%20'),'*]&startIndex=',/q:query/q:startIndex,'&resultCounter=',/q:query/q:numResults)"
