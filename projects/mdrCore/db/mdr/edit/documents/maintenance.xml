@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../stylesheets/maintenance.xsl"?>
 <functions>
-    <subheading title="Create Objects">         
+    <subheading title="Maintenance">
         <function>
             <title>Organization</title>
             <description>Add organizations in the metadata registry
@@ -37,7 +37,7 @@
                 of real world objects that can be measured
                 by data elements within this metadata repository</description>
             <uri>../edit/newProperty.xquery</uri>
-        </function>     
+        </function>
         <function>
             <title>Value Domain</title>
             <description>Create a new value domain and add/edit permissable
@@ -66,7 +66,7 @@
                 by administered items</description>
             <uri>../edit/newReferenceDocument.xquery
             </uri>
-        </function>        
+        </function>
         <function>
             <title>Concept Relationship</title>
             <description>Create a new concept relationship - a concept
@@ -75,22 +75,13 @@
             <uri>../edit/newConceptRelationship.xquery
             </uri>
         </function>
-    </subheading>
-    
-    <subheading title="Maintain Objects">
         <function>
             <title>Datatypes</title>
             <description>View and maintain the datatypes available to the
                 curators of this metadata repository</description>
             <uri>../edit/supported_datatype.xquery
             </uri>
-        </function>
-        <function>
-            <title>Organizations</title>
-            <description>Mangage organisations in the metadata registry
-            </description>
-            <uri>../web/organisations.xquery</uri>
-        </function>
+        </function>      
         <function>
             <title>Units of Measure</title>
             <description>View and maintain the units of measure available to
@@ -100,7 +91,6 @@
             </uri>
         </function>
     </subheading>
-
     <subheading title="Reports">
         <function>
             <title>Report on Broken Links</title>
@@ -132,13 +122,19 @@
     </subheading>
     <subheading title="Administration">
         <function>
+            <title>Organizations</title>
+            <description>Mangage organisations in the metadata registry
+            </description>
+            <uri>../web/organisations.xquery</uri>
+        </function>
+        <function>
             <title>Manage Users</title>
             <description>Manage users in the metadata registry
             </description>
             <uri>../edit/admin.xquery
             </uri>
         </function>
-          <function>
+        <function>
             <title>System Status</title>
             <description>Show Status of the metadata registry server
             </description>
@@ -147,23 +143,8 @@
         </function>
     </subheading>
 </functions>
-	<!--
-	 <subheading title="Administration">
-        <function>
-            <title>Manage Users</title>
-            <description>Manage users in the metadata registry
-            </description>
-            <uri>../edit/admin.xql?panel=users
-            </uri>
-        </function>
-          <function>
-            <title>System Status</title>
-            <description>Show Status of the metadata registry server
-            </description>
-            <uri>../edit/xqueries.xql?panel=users
-            </uri>
-        </function>
-    </subheading>
+
+<!-- 
 		<function> 
 			<title>Create a classification scheme</title>
 				<description>Creates a new classification scheme and uploads its SKOS file
@@ -173,14 +154,12 @@
 		<function>
 			<title>Run test suite</title> 
 			<description>Runs the selenium testsuite for the registry</description>
-			<uri>../selenium/core/TestRunner.html?test=../../tests/TestSuite.html&amp;resultsUrl=../postResults</uri>
+			<uri>../selenium/core/TestRunner.html?test=../../tests/TestSuite.html&resultsUrl=../postResults</uri>
 		</function> 
 		<function> <title>Create data element</title>
 			<description>Simple form for recording a data element and value domain for later curation</description>
 			<uri>../edit/newDataElementReduced.xquery</uri> 
 		</function>
-	-->
-		<!-- commented by Rakesh Dhaval on 10/01/2009
 	<function>
 		<title>Browse Representation classes supported by this metadata
 			repository</title>
@@ -199,4 +178,4 @@
 		<uri>../edit/fixNoPreferredNames.xquery
 		</uri>
 	</function>
-	 -->
+-->
