@@ -56,6 +56,8 @@ declare function local:value_domain(
    $conceptual_domain_id as xs:string?,
    $enum_datatype as xs:string?,
    $enum_uom as xs:string?,
+   $char_quantity as xs:string?,
+   $value_domain_format as xs:string?,
    $values as xs:string*
    ) as xs:boolean
 {
@@ -89,10 +91,11 @@ declare function local:value_domain(
              ),
             element openMDR:representing {$conceptual_domain_id},
             element openMDR:value_domain_datatype {$enum_datatype},
-            element openMDR:value_domain_unit_of_measure {$enum_uom}
-
-    )         
-   
+            element openMDR:value_domain_unit_of_measure {$enum_uom},
+            element openMDR:value_domain_maximum_character_quantity{$char_quantity},
+            element openMDR:value_domain_format{$value_domain_format}
+    )
+ 
    (: compose the document :)
    let $document := (
      if($values > '' ) then (
@@ -139,6 +142,8 @@ declare function local:input-page(
    $conceptual_domain_id as xs:string?,
    $enum_datatype as xs:string?,
    $enum_uom as xs:string?,
+   $char_quantity as xs:string?,
+   $value_domain_format as xs:string?,
    $values as xs:string*
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
@@ -192,11 +197,20 @@ declare function local:input-page(
                                <tr>
                                    <td class="left_header_cell">Value Domain Data Type</td>
                                    <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
-                               </tr>,
+                               </tr>,                          
                                <tr>
                                    <td class="left_header_cell">Value Domain Unit of Measure</td>
                                    <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
+                               </tr>,                         
+                                  <tr>
+                                   <td class="left_header_cell">Value Domain Format (E.g. MM-DD-YYYY)</td>
+                                   <td collspan="3"><input type="text" name="value_domain_format"></input></td>
+                               </tr>,                               
+                                  <tr>
+                                   <td class="left_header_cell">Value Domain Maximum Character Count</td>
+                                   <td collspan="3"><input type="text" name="char_quantity"></input></td>
                                </tr>,
+                                                             
                                if($concept_domain//openMDR:value_meaning_description > '') 
                                then 
                                (
@@ -274,9 +288,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $values := request:get-parameter('values',())
    let $enum_datatype := request:get-parameter('enum_datatype','')
    let $enum_uom := request:get-parameter('enum_uom','')
-   (:
-   let $log := util:log-system-err($values)
-    :)
+   let $char_quantity := request:get-parameter('char_quantity','')
+   let $value_domain_format := request:get-parameter('value_domain_format','')
+   (: let $log := util:log-system-err($values) :)
     
    return   
       lib-rendering:txfrm-webpage(
@@ -303,6 +317,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $conceptual_domain_id,
                      $enum_datatype,
                      $enum_uom,
+                     $char_quantity,
+                     $value_domain_format,
                      $values
                   )
             ) 
@@ -326,6 +342,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $conceptual_domain_id,
                      $enum_datatype,
                      $enum_uom,
+                     $char_quantity,
+                     $value_domain_format,
                      $values
                   )
                )
@@ -349,7 +367,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $preferred,
                $conceptual_domain_id,
                $enum_datatype,
-               $enum_uom,               
+               $enum_uom,
+               $char_quantity,
+               $value_domain_format,
                $values
                )
          )
