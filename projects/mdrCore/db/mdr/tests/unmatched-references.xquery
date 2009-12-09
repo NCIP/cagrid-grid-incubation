@@ -110,7 +110,9 @@ return
                      attribute to {'datatype'},
                      attribute id {$id},
                      xs:string($value-domain//openMDR:value_domain_datatype)
-                     },
+                     }
+            (:
+                     ,
             for $value-domain in $value-domains
             let $id := lib-util:mdrElementId($value-domain)
             where empty(lib-util:mdrElement('representation_class',$value-domain//openMDR:typed_by)//openMDR:administered_item_administration_record)
@@ -133,7 +135,7 @@ return
                      attribute id {$id},
                      xs:string($value-domain//openMDR:value_domain_unit_of_measure)
                      }       
-         
+          :)
             }  
          </broken-refs>
          ) 
