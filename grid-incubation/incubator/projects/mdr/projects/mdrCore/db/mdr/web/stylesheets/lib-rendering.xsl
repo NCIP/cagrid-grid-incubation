@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:include href="lib-rendering-new.xsl"/>
     <xsl:output method="html" media-type="text/html" indent="yes" doctype-public="-//W3C//DTD XHTML 1,0 Transitional//EN" doctype-system="http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd" omit-xml-declaration="no" exclude-result-prefixes="openMDR dc iaaaterm xs rdf cgResolver skos dcterms ISO11179"/>
     
@@ -193,7 +193,6 @@
             </td>
         </tr>
     </xsl:template>
-    
     <xsl:template match="value_domain" mode="result-set-body">
         <xsl:variable name="class" select="@class"/>
         <tr valign="top" class="{$class}">
@@ -226,7 +225,6 @@
             </td>
         </tr>
     </xsl:template>
-    
     <xsl:template match="values" mode="tabular-data-element-display">
         <xsl:choose>
             <xsl:when test="data-type">
@@ -518,9 +516,10 @@
             </td>
         </tr>
     </xsl:template>
-    <!-- maintenance webpage old version -->
-    <!-- 
     
+    <!-- maintenance webpage -->
+    
+    <!-- Works: commenting for tab rendering below
     <xsl:template match="functions">
         <table>
             <xsl:apply-templates>
@@ -528,28 +527,6 @@
             </xsl:apply-templates>
         </table>
     </xsl:template>
-    <xsl:template match="function">
-        <tr>
-            <td>
-                <a href="{uri}">
-                    <xsl:value-of select="title"/>
-                </a>
-            </td>
-            <td>
-                <xsl:value-of select="description"/>
-            </td>
-        </tr>
-    </xsl:template>
-     -->
-    
-    <!-- maintenance webpage -->    
-    <xsl:template match="functions">
-        <table >
-            <xsl:apply-templates>
-                <xsl:sort select="title"/>
-            </xsl:apply-templates>
-        </table>
-    </xsl:template> 
     <xsl:template match="subheading">
         <table border="0" cellpadding="4" class="layout">
             <tr>
@@ -558,22 +535,62 @@
                 </th>
             </tr>
             <xsl:apply-templates/>
-        </table>        
-    </xsl:template> 
-    <xsl:template match="function">    
+        </table>
+    </xsl:template>
+    <xsl:template match="function">
         <tr>
             <td class="left_header_cell">
-                <a href="{uri}">                                          
-                        <xsl:value-of select="title"/>
-                   </a>
+                <a href="{uri}">
+                    <xsl:value-of select="title"/>
+                </a>
             </td>
             <td class="">
                 <xsl:value-of select="description"/>
             </td>
-        </tr>          
+        </tr>
         <xsl:text>
         </xsl:text>
     </xsl:template>
+    -->
+    
+    <!-- Rearranging the Maintenance Page in tabs-->
+    <xsl:template match="functions">
+        <table class="section" border="0" cellpadding="4">    
+            <table class="section">
+                <tr>
+                    <td>
+                        <div class="tabber">
+            <xsl:apply-templates select="subheading"/>
+                        </div>
+                    </td>
+                </tr>                
+            </table>
+        </table>         
+    </xsl:template>               
+    <xsl:template match="subheading">
+        <div class="tabbertab">
+            <p>
+                <h2>   
+                    <xsl:value-of select="@title"/>                                                                   
+                </h2> 
+            </p>
+            <xsl:apply-templates select="function"/>
+        </div>
+    </xsl:template>  
+    <xsl:template match="function">
+        <table class="section">
+            <tr>
+                <td class="left_header_cell">
+                    <a href="{uri}">
+                        <xsl:value-of select="title"/>
+                    </a>
+                </td>
+                <td colspan="5">
+                    <xsl:value-of select="description"/> 
+                </td>
+            </tr>
+        </table>
+   </xsl:template>
     
     <!--display test results-->
     <xsl:template match="test-results">
