@@ -16,9 +16,10 @@ xquery version "1.0";
  
 (:~
  :    @author Rakesh Dhaval
- :    @version 0.1
+      @author Puneet Mathur
+ :    @version 0.2
  :
- :    Edit Context information 
+ :    Display System Status 
 ~ :)
 
   import module namespace 
@@ -40,11 +41,23 @@ xquery version "1.0";
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
+declare namespace request="http://exist-db.org/xquery/request"; 
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
 
+declare namespace system = "http://exist-db.org/xquery/system";
+declare namespace status = "http://exist-db.org/xquery/admin-interface/status";
+
+declare function status:status-line($key as xs:string, $value as xs:string) as element()
+{
+    <tr>
+        <td class="key">{$key}:</td>
+        <td>{$value}</td>
+    </tr>
+};
    
+ 
 declare function local:success-page() 
 {
    let $calling-page := request:get-parameter("calling-page","")
@@ -53,11 +66,37 @@ declare function local:success-page()
        <table class="layout">
           <tr>
              <td>
-                System Status Coming soon... 
+                This Page Displays the <i> System Status </i> 
              </td>
           </tr>
-              <tr>
-              </tr>
+          <tr/>
+            <tr><th colspan="2">General</th></tr>
+            {
+                status:status-line("eXist Version", system:get-version()),
+                status:status-line("eXist Build", system:get-build()),
+                status:status-line("eXist Home", system:get-exist-home()),
+                status:status-line("SVN Revision", system:get-revision()),
+                status:status-line("Java Vendor", util:system-property("java.vendor")),
+                status:status-line("Java Version", util:system-property("java.version")),
+                status:status-line("Operating System", 
+                    concat(util:system-property("os.name"), " ", util:system-property("os.version"),
+                        " ", util:system-property("os.arch"))
+                )
+            }
+            <tr/><tr/><tr/><tr/>
+            <tr><th colspan="2">Memory Usage</th></tr>
+            {
+                    let $max := system:get-memory-max() idiv 1024,
+                    $current := system:get-memory-total() idiv 1024,
+                    $free := system:get-memory-free() idiv 1024
+                return (
+                    status:status-line("Max. Memory", concat($max, "K")),
+                    status:status-line("Current Total", concat($current, "K")),
+                    status:status-line("Free", concat($free, "K"))
+                )
+            }
+            <tr> </tr>
+            <tr> </tr>
           <tr>
             <td><a href='maintenance.xquery'>Return to maintenance menu</a>
             </td>
@@ -67,11 +106,12 @@ declare function local:success-page()
 };
 
 
+
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
  
    session:create(),
    let $id := request:get-parameter('id','')
-   let $title as xs:string := concat(" System Status", $id)
+   let $title as xs:string := concat("System Status", $id)
 
 
    return 
