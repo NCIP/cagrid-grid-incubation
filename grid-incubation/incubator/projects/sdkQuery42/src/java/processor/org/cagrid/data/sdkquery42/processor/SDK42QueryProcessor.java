@@ -130,7 +130,7 @@ public class SDK42QueryProcessor extends CQLQueryProcessor {
                     for (Object o : rawResults) {
                         Object[] array = null;
                         if (o == null) {
-                            o = new Object[attributeNames.length];
+                            array = new Object[attributeNames.length];
                         } else if (o.getClass().isArray()) {
                             array = (Object[]) o;
                         } else {
