@@ -131,7 +131,7 @@
             <title>Manage Users</title>
             <description>Manage users in the metadata registry
             </description>
-            <uri>../edit/admin.xquery
+            <uri>../edit/manageUsers.xquery
             </uri>
         </function>
         <function>
