@@ -1,6 +1,3 @@
-
-
-
 xquery version "1.0";
 
 (: ~
@@ -53,26 +50,8 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-   
-      	(:
-      	
-      	 <div xmlns="http://www.w3.org/1999/xhtml" >
-               <tr>
-              		  <td> { local: validateUser() }
-               	 </td>
-               </tr>
-      	 
-  
-              
-               <tr>
-              		  <td> { local:process() }
-               	 </td>
-              </tr>
-             
-      	</div>   
-        :)
         
-        if(local: validateUser()=true()) then
+        if(local:validateUser()=true()) then
         (
         	local:process()
         )
@@ -96,62 +75,81 @@ declare function local:success-page()
 
 };
 
+
 declare function local:new-user() as element()*
 {
+    
     let $name := request:get-parameter("name", ()),
     $grp := request:get-parameter("groups", ()),
-    $groups := $grp,
- 
+    $groups := if ($grp) then
+        (
+            if(contains($grp, ",")) then
+            (
+                tokenize($grp, "\s*,\s*")
+            )
+            else
+            (
+                $grp
+            )
+        )else(),
     $pass1 := request:get-parameter("pass1", ""),
     $pass2 := request:get-parameter("pass2", "")
     return
     
-    if($pass1 != $pass2) then
+    if($name eq "") then
+    (
+    	 <div xmlns="http://www.w3.org/1999/xhtml">
+	<b>Error : UserName is missing !!!!</b>
+	<br/><br/> {local:correct-user(-1, $name, $grp)}
+	</div>
+    )
+   (: 
+   else if($name != "") then
+   (
+                for $user in doc("/db/system/users.xml")//users/user
+                    let $stored_username := xs:string($user/@name)
+ 	 return(
+ 	 	if($name eq $stored_username) then
+ 	 	(
+ 	 	    	 <div xmlns="http://www.w3.org/1999/xhtml">
+			<b>Error : UserName Already Exists !! Chooose a different Username!!!!</b>
+			<br/><br/> {local:correct-user(-1, $name, $grp)}
+			</div>
+		)
+		else()
+	   )
+	
+   ) :)
+    
+    else if($grp eq "") then
+    (
+    	<div xmlns="http://www.w3.org/1999/xhtml">
+	<b>Error : GroupName is missing !! Please specify atleast one group!!!!!</b>
+	<br/><br/> {local:correct-user(-1, $name, $grp)}
+	</div>
+		            
+    	
+    )
+    
+    else if($pass1 != $pass2 or $pass1 eq "") then
         (
-               local:correct-user(-1, $name, $grp)
+    	<div xmlns="http://www.w3.org/1999/xhtml">
+	<b>Error : Either Password is missing or Passwords are not identical !!!!</b>
+	<br/><br/> {local:correct-user(-1, $name, $grp)}
+	</div>
+	
         )
         else(
-            (:  xmldb:create-user($name, $pass1, $grp, $home) 
-            xmldb:create-user("cde", "newtest", "qwert", "") 
-	local:testform(),
-	local:display():)
-	
-	 <div xmlns="http://www.w3.org/1999/xhtml" >
-               <tr>
-              		  <td> { xmldb:create-user($name, $pass1, $grp, "") }
-               	 </td>
-               </tr>
-      	 
-  
-              
-               <tr>
-              		  <td>{ local:display() }
-               	 </td>
-              </tr>
-      	</div>
+        
+            xmldb:create-user($name, $pass1, $groups, ""),
+            <div xmlns="http://www.w3.org/1999/xhtml">
+            <b>User "{$name}" Created !!! </b><br/><br/>{local:display()}
+            </div>
 	
           )  
-           (:
-        local:testform(),
-        
-         <div xmlns="http://www.w3.org/1999/xhtml">
-        <table class="layout">  
-          <tr>
-            <b> Account Created</b>
-            
-          </tr>
-          <tr/><tr/>
-          <tr>
-            <a href='manageUsers.xquery'>Return to User Management</a>
-            
-          </tr>
-         </table>
-         </div>	:)
-         
- 	
-        
 };
 
+        
 
 declare function local:display() 
 {
@@ -188,15 +186,34 @@ declare function local:display()
         </table>
         {
                 let $action := request:get-parameter("action", ""),
-                $uid := request:get-parameter("uid", "") return
-	 if($action eq "New User") then
-                (
-                       local:edit-user(-1, "", "")
-                       
-                 )else
-                 (
-                  	(:        local:testform()  :)
-                 )
+                $uid := request:get-parameter("uid", ()) return
+                if($action eq "Edit") then
+                    (
+                            if(empty($uid) )then
+ 	             (
+		            <div xmlns="http://www.w3.org/1999/xhtml">
+		            <be/><br/><b>Error : Select a User to Update !!!!</b>
+		            </div>
+	            )
+      	          else
+	            (  
+                         		let $user := doc("/db/system/users.xml")//users/user[@uid = $uid] return
+        			if( ($user/@name) eq "admin" and xmldb:get-current-user() != "admin" ) then
+	      	              (
+		            		<div xmlns="http://www.w3.org/1999/xhtml">
+		           		<br/><br/> <b>Error : You do not have permission to Edit the Admin User !!!!</b>
+		            		</div>
+	       	             )       
+       	             	          else(         		
+                         		local:edit-user(xs:integer($uid), $user/@name, string-join($user/group, ", "))
+                         	          )
+                           )
+                    )
+                    else if($action eq "New User") then
+                    (
+                        local:edit-user(-1, "", "")
+                    )else()
+
         }
          <br/><a href='maintenance.xquery'>Return to maintenance menu</a>
      </form>
@@ -244,21 +261,36 @@ declare function local:edit-user($uid as xs:integer, $name as xs:string, $groups
             <td>Repeat:</td>
             <td colspan="2"><input type="password" name="pass2"/></td>
         </tr>
+         
+         {
+            if($uid ge 0) then
+            (
+                <td colspan="3"><input type="checkbox" name="nopass"/> Leave password unchanged.</td>
+            )else()
+        }
 
         <tr>
         {
             if($uid lt 0) then
             (
-                <td colspan="3"><input type="submit" name="action" value="Create"/></td>
+                <td colspan="3">
+                <input type="submit" name="action" value="Create"/>
+	<input type="submit" name="action" value="Cancel"/></td>
             )
-            else()
+            else
+            (
+                <td colspan="3">
+                <input type="submit" name="action" value="Change"/>
+	 <input type="submit" name="action" value="Cancel"/></td>                
+            )
+             
         }
         </tr>
         <input type="hidden" name="uid" value="{$uid}"/>
     </table>
     </div>
  };
-
+ 
 declare function local:process()  as element()*
 {
     let $action := request:get-parameter("action", "") ,
@@ -269,110 +301,31 @@ declare function local:process()  as element()*
         (
             local:new-user()
         )
-        (:
-        else
+       else if($action eq "Change") then
         (
-        	request:set-current-user($session_user,$current_user) ,  
-        	
-      	local:display()
-      	<div xmlns="http://www.w3.org/1999/xhtml" >
-               <tr>
-              		  <td> Current User : { xmldb:get-current-user() }
-               	 </td>
-               </tr>
-      	 
-  
-              
-               <tr>
-              		  <td> Session User : {$session_user }
-               	 </td>
-              </tr>
-              
-               <tr>
-              		  <td>{xmldb:get-permissions('/db/system')}
-               	 </td>
-              </tr>
-              
-               <tr>
-              		  <td>{xmldb:permissions-to-string(511)}
-               	 </td>
-              </tr>
-              
-              
-      	</div>
-      	
-        )   
-        else
-        (
-              	<div xmlns="http://www.w3.org/1999/xhtml" >
-               <tr>
-              		  <td> Current User : { xmldb:get-current-user() }
-               	 </td>
-               </tr>
-      	 
-  
-              
-               <tr>
-              		  <td>{xmldb:get-permissions('/db/system')}
-               	 </td>
-              </tr>
-              
-               <tr>
-              		  <td>{xmldb:permissions-to-string(504)}
-               	 </td>
-              </tr>
-    
-              
-               <tr>
-              		  <td>{ xmldb:set-collection-permissions('/db/system', 'rty','"dba', 511) }
-               	 </td>
-              </tr>
-                           
-              
-      	</div>
+            local:update-user()
         )
-:)
-        
+
+         else if($action eq "Remove") then
+        (
+            local:remove-user()
+        )  
+        else if($action eq "Cancel") then
+        (
+    	   <div xmlns="http://www.w3.org/1999/xhtml">
+	       {local:display()}
+	   </div>
+            
+        )      
         else(
-              	<div xmlns="http://www.w3.org/1999/xhtml" >
-
-      	 
-  
-                <tr>
-              		  <td>  { local:display() }
-               	 </td>
-               </tr>
-             
-              
-      	</div>
+    	   <div xmlns="http://www.w3.org/1999/xhtml">
+	       {local:display()}
+	       </div>
         )
         
 };
 
-declare function local:testform() 
-{
 
-        <div xmlns="http://www.w3.org/1999/xhtml" >
-           <form name="login" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
-               <table class="login" cellpadding="5">
-                   <tr>
-                       <th colspan="2" align="left">Please Login</th>
-                   </tr>
-                   <tr>
-                       <td align="left">Username:</td>
-                       <td><input name="user" type="text" size="20"/></td>
-                   </tr>
-                   <tr>
-                       <td align="left">Password:</td>
-                       <td><input name="pass" type="password" size="20"/></td>
-                   </tr>
-                   <tr>
-                       <td colspan="2" align="left"><input type="submit" value="login"/></td>
-                   </tr>
-               </table>
-           </form>
-        </div>
-};
 
 declare function local:validateUser() as xs:boolean
 {
@@ -398,6 +351,94 @@ declare function local:validateUser() as xs:boolean
           )
           
 
+};
+
+declare function local:update-user() as element()*
+{
+
+    let $name := request:get-parameter("name", ()),
+    $grp := request:get-parameter("groups", ()),
+    $groups := if ($grp) then
+        (
+            if(contains($grp, ",")) then
+            (
+                tokenize($grp, "\s*,\s*")
+            )
+            else
+            (
+                $grp
+            )
+        )else(),
+    $pass1 := request:get-parameter("pass1", ""),
+    $pass2 := request:get-parameter("pass2", ""),
+    $nopass := request:get-parameter("nopass", ()),
+    $pass := if($nopass) then () else $pass1,
+    $uid := request:get-parameter("uid", "") return
+    
+        if(not($nopass) and $pass1 ne $pass2)then
+        (
+            <div class="error">Passwords are not identical.</div>,
+            local:correct-user($uid, $name, $grp)
+        )
+        else if(empty($groups)) then
+        (
+            <div class="error">Please specify one group at least.</div>,
+            local:correct-user($uid, $name, $grp)
+        )
+        else
+        (
+            xmldb:change-user($name, $pass, $groups, ""),
+            
+            if(xmldb:get-current-user() eq $name) then
+            (
+                session:set-attribute("password", $pass)
+            )else(),
+            
+            <div xmlns="http://www.w3.org/1999/xhtml">
+            <b>User "{$name}" Updated !!! </b><br/><br/>{local:display()}
+            </div>
+        )
+       
+};
+
+declare function local:remove-user() 
+{
+    if(empty(request:get-parameter("uid", ())) )then
+    (
+            <div xmlns="http://www.w3.org/1999/xhtml">
+            <b>Error : Select a User to Remove !!!!</b>
+            <br/><br/><a href='manageUsers.xquery'>Return to User Management</a>
+            </div>
+    )
+   else
+   (    
+    let $uid := request:get-parameter("uid", ()),
+    $name := doc("/db/system/users.xml")//user[@uid = $uid]/@name cast as xs:string return
+        
+        if($name eq xmldb:get-current-user() or $name eq "admin") then
+        (
+            <div xmlns="http://www.w3.org/1999/xhtml">
+            <b>You cannot remove the Admin User or Current User!!!!</b>
+            <br/><br/><a href='manageUsers.xquery'>Return to User Management</a>
+            </div>
+        )
+        else if (xmldb:is-admin-user($name) and xmldb:get-current-user() != "admin") then
+        (
+            <div xmlns="http://www.w3.org/1999/xhtml">
+            <b>You do not have the permission to remove the user of "dba" group!!!!</b>
+            <br/><br/><a href='manageUsers.xquery'>Return to User Management</a>
+            </div>    
+        	
+      )
+      else
+      (
+
+      	   <div xmlns="http://www.w3.org/1999/xhtml">
+            <b>User "{$name}" Removed !!! </b><br/><br/>{local:display()}
+            </div>
+            
+        )
+     )
 };
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
