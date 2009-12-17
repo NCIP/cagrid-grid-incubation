@@ -32,6 +32,11 @@
             </definition>
         </concept>
     </xsl:template>
+    <xsl:template match="recordCounter">
+        <recordCounter>
+            <xsl:value-of select="."/>
+        </recordCounter>
+    </xsl:template>    
 	<!-- Filter out extra nodes -->
     <xsl:template match="SemanticTypeVector|AssociationCollection|RoleCollection|Vocabulary|SecurityToken|TreeNode|EdgeProperties|HasChildren|HasParents|InverseAssociationCollection|InverseRoleCollection"/>
 </xsl:stylesheet>

@@ -45,7 +45,8 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-</xsl:stylesheet><!-- 
+</xsl:stylesheet>
+<!-- 
     http://lexevsapi.nci.nih.gov/lexevsapi50/GetXML?query=org.LexGrid.concepts.Concept,org.LexGrid.commonTypes.EntityDescription&org.LexGrid.commonTypes.EntityDescription[@_content=*pinephrine*]&startIndex=0&resultCounter=50&codingSchemeName=NCI_MetaThesaurus&codingSchemeVersion=200904
     codingSchemeVersion=200904    
 -->
