@@ -64,11 +64,6 @@ declare function local:success-page()
    return
       <div xmlns="http://www.w3.org/1999/xhtml">
        <table class="layout">
-          <tr>
-             <td>
-                This Page Displays the <i> System Status </i> 
-             </td>
-          </tr>
           <tr/>
             <tr><th colspan="2">General</th></tr>
             {
