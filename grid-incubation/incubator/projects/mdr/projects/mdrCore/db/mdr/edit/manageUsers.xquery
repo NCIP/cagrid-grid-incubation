@@ -149,12 +149,18 @@ declare function local:new-user() as element()*
           )  
 };
 
-        
-
-declare function local:display() 
+ declare function local:do-display() as node()?
 {
-          
-      <div>
+    let $uid := request:get-parameter("uid", ())
+    return
+        if (empty($uid)) then
+            local:display()
+        else ()
+};       
+
+declare function local:display() as node()?
+{
+     <div>
       <form  method="get" action="{session:encode-url(request:get-uri())}">
         <table cellpadding="5" id="browse">
             <tr>
@@ -189,10 +195,10 @@ declare function local:display()
                 $uid := request:get-parameter("uid", ()) return
                 if($action eq "Edit") then
                     (
-                            if(empty($uid) )then
+                            if(empty($uid) or xs:integer($uid) le 0)then
  	             (
 		            <div xmlns="http://www.w3.org/1999/xhtml">
-		            <be/><br/><b>Error : Select a User to Update !!!!</b>
+		            <br/><b>Error : Select a User to Update !!!!</b>
 		            </div>
 	            )
       	          else
@@ -331,7 +337,7 @@ declare function local:validateUser() as xs:boolean
 {
    let $hostname :=  request:get-hostname() 
    
-   let $resource_location := concat("xmldb:exist://", $hostname, ":8080/exist/xmlrpc/db")
+   let $resource_location := concat("xmldb:exist://", "localhost", ":8080/exist/xmlrpc/db")
    let $user := session:get-attribute("username")
    let $password := session:get-attribute("password")
    let $is-ssl :=  lib-util:checkSSL()
@@ -403,7 +409,7 @@ declare function local:update-user() as element()*
 
 declare function local:remove-user() 
 {
-    if(empty(request:get-parameter("uid", ())) )then
+    if(empty(request:get-parameter("uid", ())) or xs:integer(request:get-parameter("uid", ())) le 0 )then
     (
             <div xmlns="http://www.w3.org/1999/xhtml">
             <b>Error : Select a User to Remove !!!!</b>
