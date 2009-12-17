@@ -50,8 +50,10 @@ if (starts-with($urn,"urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:"))
 
 declare function lib-uri-resolution:html-anchor($urn as xs:string, $return-type as xs:string) as element(a)
 {
+(:
 let $log:= util:log-system-err($urn)
 let $log:= util:log-system-err(lib-uri-resolution:resolve($urn, $return-type))
+:)
 let $uri as xs:anyURI := lib-uri-resolution:resolve($urn, $return-type)
 return
    element a {

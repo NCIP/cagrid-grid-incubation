@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" version="2.0">
+<xsl:stylesheet xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" omit-xml-declaration="yes"/>
     <xsl:strip-space elements="*"/>
     <xsl:template match="/">
@@ -7,10 +7,20 @@
     </xsl:template>
     <xsl:template match="queryResponse">
         <result-set>
+            <xsl:apply-templates select="recordCounter"/>
             <xsl:apply-templates select="class"/>
             <xsl:apply-templates select="next"/>
             <xsl:apply-templates select="pages"/>
         </result-set>
+    </xsl:template>
+
+    <!-- Removing duplicate recordCounter Nodes -->
+    <xsl:template match="recordCounter">
+        <xsl:for-each select=".[not(.=preceding::recordCounter)]">
+            <recordCounter>
+                <xsl:value-of select="."/>
+            </recordCounter>
+        </xsl:for-each>
     </xsl:template>
     <xsl:template match="class">
         <xsl:element name="{@name}">
@@ -64,8 +74,9 @@
                 </page>
             </xsl:for-each>
         </pages>
-    </xsl:template>   
-    
+    </xsl:template>
+</xsl:stylesheet>
+
 <!--    
     <xsl:template match="pages">
         <pages>
@@ -77,7 +88,7 @@
         </pages>
     </xsl:template>    
 -->
-</xsl:stylesheet><!--
+<!--
     <xsl:template match="pages">         
     <xsl:for-each select="page">
     <page>
@@ -86,9 +97,7 @@
     </a>
     </page>
     </xsl:for-each>        
-    </xsl:template>    
-    
-    
+    </xsl:template>   
     <xsl:template match="pages">
     <xsl:element name="pages">          
         <page>
@@ -99,7 +108,8 @@
         </pagelink>
     </xsl:element>
 </xsl:template>
---><!-- 
+-->
+<!-- 
     <xsl:for-each select="page">
     <page>
     <xsl:value-of select="page"/>
@@ -109,8 +119,8 @@
     <xsl:value-of select="pagelink"/>
 </pagelink>
 </xsl:for-each>
-
---><!--
+-->
+<!--
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" version="2.0">
     <xsl:output indent="yes" omit-xml-declaration="yes"/>
     <xsl:strip-space elements="*"/>
@@ -160,8 +170,9 @@
         </xsl:element>
     </xsl:template>
 </xsl:stylesheet>
---><!-- orig
- 
+-->
+
+<!-- orig 
 <xsl:stylesheet xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" omit-xml-declaration="yes"/>
     <xsl:strip-space elements="*"/>
