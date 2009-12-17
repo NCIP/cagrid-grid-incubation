@@ -24,7 +24,7 @@
                 <script src="../classification/stylesheets/treeview.js" type="text/javascript"/>
                 
                 <script type="text/javascript" src="../web/tabs/tabber.js"></script>
-                <link rel="stylesheet" href="../web/tabs/tabs.css" TYPE="text/css" MEDIA="screen"/>    
+                <link rel="stylesheet" href="../web/tabs/tabs.css" type="text/css" media="screen"/>    
                 
                 <link rel="search" type="application/opensearchdescription+xml" title="Data Element Search" href="../web/cde_search.xquery"/>
 
