@@ -53,14 +53,58 @@ declare function local:success-page()
         
         if(local:validateUser()=true()) then
         (
-        	local:process()
+           
+               <div xmlns="http://www.w3.org/1999/xhtml">
+	           <p>This section will allow you to manage the different users wih their respective roles. The following actions can be performed:
+               <br/>1. Add a New User
+               <br/>2. Edit an existing user 
+               <br/>3. Remove a user<br/>
+               <br/>A user can exist in one of the following three different roles :
+               <br/>1. dba
+               <br/>2. user
+               <br/>3. guest
+               </p>
+	           
+	           <table cellpadding="5" id="browse">
+            <tr>
+                
+                <th>Action</th>
+                <th>dba</th>
+                <th>user</th>
+                <th>guest</th>
+            </tr>
+            <tr>
+                <td>New User</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>            
+
+            <tr>
+                <td>Edit User</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>No</td>
+            </tr> 
+            
+            <tr>
+                <td>Remove User</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>No</td>
+            </tr> 
+            </table>
+         <p><b>Note:</b> "Admin" is the superuser with dba role and has got all the privileges. Any other user with 
+         dba role cannot Edit or Remove Admin user.</p>    
+         {local:process()}
+	     </div>
         )
         else(
         
         <div xmlns="http://www.w3.org/1999/xhtml">
-       <table>
+        <table>
           <tr>
-            <td><b>Access Denied !! Only users of "dba" group have access</b>
+            <td><span style="color:red"><b>Error : Access Denied !! Only users of "dba" group have access</b></span>
             </td>
           </tr>
           <tr/><tr/><tr/><tr/>
@@ -76,7 +120,7 @@ declare function local:success-page()
 };
 
 
-declare function local:new-user() as element()*
+declare function local:create-user() as element()*
 {
     
     let $name := request:get-parameter("name", ()),
@@ -98,8 +142,8 @@ declare function local:new-user() as element()*
     
     if($name eq "") then
     (
-    	 <div xmlns="http://www.w3.org/1999/xhtml">
-	<b>Error : UserName is missing !!!!</b>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+	<span style="color:red"><b>Error : UserName is missing !!!!</b></span>
 	<br/><br/> {local:correct-user(-1, $name, $grp)}
 	</div>
     )
@@ -124,7 +168,7 @@ declare function local:new-user() as element()*
     else if($grp eq "") then
     (
     	<div xmlns="http://www.w3.org/1999/xhtml">
-	<b>Error : GroupName is missing !! Please specify atleast one group!!!!!</b>
+	<span style="color:red"><b>Error : GroupName is missing !! Please specify atleast one group!!!!!</b></span>
 	<br/><br/> {local:correct-user(-1, $name, $grp)}
 	</div>
 		            
@@ -134,7 +178,7 @@ declare function local:new-user() as element()*
     else if($pass1 != $pass2 or $pass1 eq "") then
         (
     	<div xmlns="http://www.w3.org/1999/xhtml">
-	<b>Error : Either Password is missing or Passwords are not identical !!!!</b>
+	<span style="color:red"><b>Error : Either Password is missing or Passwords are not identical !!!!</b></span>
 	<br/><br/> {local:correct-user(-1, $name, $grp)}
 	</div>
 	
@@ -143,25 +187,17 @@ declare function local:new-user() as element()*
         
             xmldb:create-user($name, $pass1, $groups, ""),
             <div xmlns="http://www.w3.org/1999/xhtml">
-            <b>User "{$name}" Created !!! </b><br/><br/>{local:display()}
+            <span style="color:green"><b>Success: User "{$name}" Created !!! </b></span>
+            <br/><br/>{local:display()}
             </div>
 	
           )  
 };
 
- declare function local:do-display() as node()?
-{
-    let $uid := request:get-parameter("uid", ())
-    return
-        if (empty($uid)) then
-            local:display()
-        else ()
-};       
-
-declare function local:display() as node()?
+declare function local:display() 
 {
      <div>
-      <form  method="get" action="{session:encode-url(request:get-uri())}">
+      <form>
         <table cellpadding="5" id="browse">
             <tr>
                 <th/>
@@ -190,39 +226,9 @@ declare function local:display() as node()?
                 </td>
             </tr>
         </table>
-        {
-                let $action := request:get-parameter("action", ""),
-                $uid := request:get-parameter("uid", ()) return
-                if($action eq "Edit") then
-                    (
-                            if(empty($uid) or xs:integer($uid) le 0)then
- 	             (
-		            <div xmlns="http://www.w3.org/1999/xhtml">
-		            <br/><b>Error : Select a User to Update !!!!</b>
-		            </div>
-	            )
-      	          else
-	            (  
-                         		let $user := doc("/db/system/users.xml")//users/user[@uid = $uid] return
-        			if( ($user/@name) eq "admin" and xmldb:get-current-user() != "admin" ) then
-	      	              (
-		            		<div xmlns="http://www.w3.org/1999/xhtml">
-		           		<br/><br/> <b>Error : You do not have permission to Edit the Admin User !!!!</b>
-		            		</div>
-	       	             )       
-       	             	          else(         		
-                         		local:edit-user(xs:integer($uid), $user/@name, string-join($user/group, ", "))
-                         	          )
-                           )
-                    )
-                    else if($action eq "New User") then
-                    (
-                        local:edit-user(-1, "", "")
-                    )else()
 
-        }
          <br/><a href='maintenance.xquery'>Return to maintenance menu</a>
-     </form>
+    </form>
      </div>
 } ;
 
@@ -281,7 +287,7 @@ declare function local:edit-user($uid as xs:integer, $name as xs:string, $groups
             (
                 <td colspan="3">
                 <input type="submit" name="action" value="Create"/>
-	<input type="submit" name="action" value="Cancel"/></td>
+	            <input type="submit" name="action" value="Cancel"/></td>
             )
             else
             (
@@ -305,14 +311,43 @@ declare function local:process()  as element()*
     return
         if($action eq "Create") then
         (
-            local:new-user()
+            local:create-user()
+        )
+        else if($action eq "New User") then
+        (
+            local:correct-user(-1, "", "")
         )
        else if($action eq "Change") then
         (
             local:update-user()
         )
+        else if($action eq "Edit") then
+        (
+            let $uid := request:get-parameter("uid", ()) return
+            if(empty($uid) or xs:integer($uid) le 0)then
+ 	        (
+		            <div xmlns="http://www.w3.org/1999/xhtml">
+		            <br/><span style="color:red"><b>Error : Select a User to Update !!!!</b></span><br/><br/>{local:display()}
+		            </div>
+	         )
+      	     else
+	         (  
+               		let $user := doc("/db/system/users.xml")//users/user[@uid = $uid] return
+        			if( ($user/@name) eq "admin" and xmldb:get-current-user() != "admin" ) then
+	      	        (
+		            		<div xmlns="http://www.w3.org/1999/xhtml">
+		           		    <br/><br/><span style="color:red"><b>Error : You do not have permission to Edit the Admin User !!!!</b></span>
+		            		<br/><br/>{local:display()}
+		            		</div>
+	       	        )       
+       	            else(  
+       	             	     local:correct-user(xs:integer($uid), $user/@name, string-join($user/group, ", "))
+		            )
+                           
+              )
 
-         else if($action eq "Remove") then
+            )
+        else if($action eq "Remove") then
         (
             local:remove-user()
         )  
@@ -401,7 +436,7 @@ declare function local:update-user() as element()*
             )else(),
             
             <div xmlns="http://www.w3.org/1999/xhtml">
-            <b>User "{$name}" Updated !!! </b><br/><br/>{local:display()}
+            <span style="color:green"><b>Success : User "{$name}" Updated !!! </b></span><br/><br/>{local:display()}
             </div>
         )
        
@@ -412,8 +447,8 @@ declare function local:remove-user()
     if(empty(request:get-parameter("uid", ())) or xs:integer(request:get-parameter("uid", ())) le 0 )then
     (
             <div xmlns="http://www.w3.org/1999/xhtml">
-            <b>Error : Select a User to Remove !!!!</b>
-            <br/><br/><a href='manageUsers.xquery'>Return to User Management</a>
+            <span style="color:red"><b>Error : Select a User to Remove !!!!</b></span>
+            <br/><br/>{local:display()}
             </div>
     )
    else
@@ -424,15 +459,15 @@ declare function local:remove-user()
         if($name eq xmldb:get-current-user() or $name eq "admin") then
         (
             <div xmlns="http://www.w3.org/1999/xhtml">
-            <b>You cannot remove the Admin User or Current User!!!!</b>
-            <br/><br/><a href='manageUsers.xquery'>Return to User Management</a>
+            <span style="color:red"><b>Error : You cannot remove the Admin User or Current User!!!!</b></span>
+            <br/><br/>{local:display()}
             </div>
         )
         else if (xmldb:is-admin-user($name) and xmldb:get-current-user() != "admin") then
         (
             <div xmlns="http://www.w3.org/1999/xhtml">
-            <b>You do not have the permission to remove the user of "dba" group!!!!</b>
-            <br/><br/><a href='manageUsers.xquery'>Return to User Management</a>
+            <span style="color:red"><b>Error : You do not have the permission to remove the user of "dba" group!!!!</b></span>
+            <br/><br/>{local:display()}
             </div>    
         	
       )
@@ -440,8 +475,10 @@ declare function local:remove-user()
       (
 
       	   <div xmlns="http://www.w3.org/1999/xhtml">
-            <b>User "{$name}" Removed !!! </b><br/><br/>{local:display()}
-            </div>
+           { xmldb:delete-user($name) }
+           <span style="color:green"><b>Success : User "{$name}" Removed !!! </b></span>
+           <br/><br/>{local:display()}
+           </div>
             
         )
      )
