@@ -80,7 +80,7 @@ public class MDRUtils {
 		try {
 			if (publicId != null) {
 				MDRQueryClient client = new MDRQueryClient(
-						"http://mdr.ctsa.cagrid.org:8081/wsrf/services/cagrid/MDRQuery");
+						"http://localhost:8090/wsrf/services/cagrid/MDRQuery");
 				Query query = new Query();
 				query.setId(publicId);
 				query.setVersion(version);
@@ -177,9 +177,10 @@ public class MDRUtils {
 
 		System.out.println("Input String: US-NCICB-CACORE-CADSR-2436860-1.0");
 		DataElement de[] = mdrparser.getDataElements();
-
+		/*
 		if (de != null) {
 			System.out.println("ConceptCollection:");
+			
 			for (int i = 0; i < de.length; i++) {
 				ConceptCollection cc = de[i].getConceptCollection();
 				ConceptRef[] crf = cc.getConceptRef();
@@ -190,5 +191,6 @@ public class MDRUtils {
 				}
 			}
 		}
+		*/
 	}
 }
