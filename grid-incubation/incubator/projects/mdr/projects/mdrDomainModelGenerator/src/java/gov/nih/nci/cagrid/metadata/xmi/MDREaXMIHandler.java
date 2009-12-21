@@ -243,8 +243,10 @@ class MDREaXMIHandler extends BaseXMIHandler {
     		ArrayList<String> valueDomainConceptArr = new ArrayList<String>();
         	MDRUtils mdrutils = new MDRUtils(value,"caDSR");
         	DataElement[] de=mdrutils.getDataElements();
+			
 			if (de!=null)
 			{
+			/*
 				for (int i=0;i<de.length;i++)
 				{
 					ConceptCollection cc = de[i].getConceptCollection();
@@ -257,7 +259,8 @@ class MDREaXMIHandler extends BaseXMIHandler {
 			        	conceptArr.add(crf[j].getId());
 					}						
 				}
-				LOG.debug("\tPropertyConceptCodes=" + conceptArr);
+				*/
+				//LOG.debug("\tPropertyConceptCodes=" + conceptArr);
 				/*
 				for (int i = 0; i < de.length; i++) {
 					Values v = de[i].getValues();
@@ -285,6 +288,7 @@ class MDREaXMIHandler extends BaseXMIHandler {
 				}
 				*/
 			}
+			
         } 
     }
     
