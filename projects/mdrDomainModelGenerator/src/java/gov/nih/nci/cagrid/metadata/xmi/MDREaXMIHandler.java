@@ -249,6 +249,7 @@ class MDREaXMIHandler extends BaseXMIHandler {
 			/*
 				for (int i=0;i<de.length;i++)
 				{
+					/*
 					ConceptCollection cc = de[i].getConceptCollection();
 					ConceptRef[] crf = cc.getConceptRef();
 					for (int j = 0; j < crf.length; j++) 
@@ -257,9 +258,10 @@ class MDREaXMIHandler extends BaseXMIHandler {
 			        	addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_PREFERRED_NAME, Long.toString(currentAttribute.getPublicID()), crf[j].getName(),j);
 			        	addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_DEFINITION, Long.toString(currentAttribute.getPublicID()), crf[j].getDefinition(),j);
 			        	conceptArr.add(crf[j].getId());
-					}						
+					}
+					*/						
 				}
-				*/
+				
 				//LOG.debug("\tPropertyConceptCodes=" + conceptArr);
 				/*
 				for (int i = 0; i < de.length; i++) {
@@ -288,8 +290,6 @@ class MDREaXMIHandler extends BaseXMIHandler {
 				}
 				*/
 			}
-			
-        } 
     }
     
     
