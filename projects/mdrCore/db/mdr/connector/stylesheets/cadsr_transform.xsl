@@ -93,7 +93,7 @@
         </valid-value>
     </xsl:template>
     
-    <xsl:template match="gov.nih.nci.cadsr.domain.DataElementConcept/objectClass/gov.nih.nci.cadsr.domain.ObjectClass">
+    <xsl:template match="gov.nih.nci.cadsr.domain.DataElementConcept/objectClass/gov.nih.nci.cadsr.domain.ObjectClass|gov.nih.nci.cadsr.domain.ObjectClass">
         <!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
         <object-class>
             <names>
@@ -189,5 +189,5 @@
     
     <!-- Filter out extra nodes -->
     <!-- removed dataElementConcept| -->
-    <xsl:template match="questionCollection|workflowStatusDescription|unresolvedIssue|registrationStatus|publicID|concept|origin|modifiedBy|latestVersionIndicator|endDate|deletedIndicator|dateModified|dateCreated|createdBy|changeNote|beginDate|version|prequestionCollection|dataElementDerivationCollection|parentDataElementRelationshipsCollection|derivedDataElement|childDataElementRelationshipsCollection|context|administeredComponentClassSchemeItemCollection|designationCollection|referenceDocumentCollection|administeredComponentContactCollection|definitionCollection|validValueCollection|parentValueDomainRelationshipCollection|dataElementCollection|childValueDomainRelationshipCollection|childDataElementConceptRelationshipCollection|represention|conceptualDomain"/>
+    <xsl:template match="recordCounter|questionCollection|workflowStatusDescription|unresolvedIssue|registrationStatus|publicID|concept|origin|modifiedBy|latestVersionIndicator|endDate|deletedIndicator|dateModified|dateCreated|createdBy|changeNote|beginDate|version|prequestionCollection|dataElementDerivationCollection|parentDataElementRelationshipsCollection|derivedDataElement|childDataElementRelationshipsCollection|context|administeredComponentClassSchemeItemCollection|designationCollection|referenceDocumentCollection|administeredComponentContactCollection|definitionCollection|validValueCollection|parentValueDomainRelationshipCollection|dataElementCollection|childValueDomainRelationshipCollection|childDataElementConceptRelationshipCollection|represention|conceptualDomain"/>
 </xsl:stylesheet>
