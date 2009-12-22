@@ -14,6 +14,8 @@
 				<xs:element ref="node" />
 				<xs:element ref="classification_scheme" maxOccurs="unbounded" />
 				<xs:element ref="pages" maxOccurs="unbounded" />
+				<xs:element ref="next" maxOccurs="unbounded" />				
+				
 			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
@@ -222,5 +224,22 @@
 		name="pageurl" type="xs:string" minOccurs="0"
 		maxOccurs="unbounded"></xs:element> </xs:sequence> </xs:complexType>
 	-->
+	<xs:element name="next" type="next" />
+	<xs:complexType name="next">
+		<xs:sequence>
+			<xs:element name="nextname" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded"></xs:element>
+			<xs:element name="nexturl" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- 
+				   <next>
+      <nextname>NEXT 10 RECORDS &gt;&gt;&gt; </nextname>
+      <nexturl>http://cadsrapi.nci.nih.gov/cadsrapi40/GetXML?query=ObjectClass&amp;ObjectClass[longName=*protein*]&amp;startIndex=10&amp;resultCounter=10</nexturl>
+   </next>
+				 -->
+				 
 
 </xs:schema>
