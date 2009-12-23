@@ -59,7 +59,7 @@
           
       </xsl:template>
     
-    <xsl:template match="NonenumeratedValueDomain">
+    <xsl:template match="NonenumeratedValueDomain|gov.nih.nci.cadsr.domain.NonenumeratedValueDomain">
         <!--<values xmlns="http://cagrid.org/schema/result-set">-->
         <values>
             <non-enumerated>
@@ -71,7 +71,7 @@
         </values>
     </xsl:template>
     
-    <xsl:template match="gov.nih.nci.cadsr.domain.EnumeratedValueDomain">
+    <xsl:template match="gov.nih.nci.cadsr.domain.EnumeratedValueDomain|EnumeratedValueDomain">
         <!--<values xmlns="http://cagrid.org/schema/result-set">-->
         <values>
             <enumerated>
