@@ -55,11 +55,8 @@ declare function local:success-page()
         (
            
                <div xmlns="http://www.w3.org/1999/xhtml">
-	           <p>This section will allow you to manage the different users wih their respective roles. The following actions can be performed:
-               <br/>1. Add a New User
-               <br/>2. Edit an existing user 
-               <br/>3. Remove a user<br/>
-               <br/>A user can exist in one of the following three different roles :
+	           <p>This section will allow you to manage the different users wih their respective roles.
+                A user can exist in one of thollowing three different roles :
                <br/>1. dba
                <br/>2. user
                <br/>3. guest
@@ -147,7 +144,7 @@ declare function local:create-user() as element()*
 	<br/><br/> {local:correct-user(-1, $name, $grp)}
 	</div>
     )
-   (: 
+   
    else if($name != "") then
    (
                 for $user in doc("/db/system/users.xml")//users/user
@@ -155,15 +152,15 @@ declare function local:create-user() as element()*
  	 return(
  	 	if($name eq $stored_username) then
  	 	(
- 	 	    	 <div xmlns="http://www.w3.org/1999/xhtml">
-			<b>Error : UserName Already Exists !! Chooose a different Username!!!!</b>
-			<br/><br/> {local:correct-user(-1, $name, $grp)}
+ 	 	    <div xmlns="http://www.w3.org/1999/xhtml">
+			<span style="color:red"><b>Error : UserName Already Exists !! Chooose a different Username!!!!</b></span>
+			<br/><br/> {local:correct-user(-1, "", "")}
 			</div>
 		)
 		else()
 	   )
 	
-   ) :)
+   )
     
     else if($grp eq "") then
     (
@@ -339,7 +336,14 @@ declare function local:process()  as element()*
 		           		    <br/><br/><span style="color:red"><b>Error : You do not have permission to Edit the Admin User !!!!</b></span>
 		            		<br/><br/>{local:display()}
 		            		</div>
-	       	        )       
+	       	        ) 
+	       	        else if(($user/@name) eq xmldb:get-current-user() ) then
+	       	        (
+		            		<div xmlns="http://www.w3.org/1999/xhtml">
+		           		    <br/><br/><span style="color:red"><b>Error : You cannot Edit the Current Logged In User !!!!</b></span>
+		            		<br/><br/>{local:display()}
+		            		</div>	       	       
+	       	        )
        	            else(  
        	             	     local:correct-user(xs:integer($uid), $user/@name, string-join($user/group, ", "))
 		            )
@@ -372,14 +376,14 @@ declare function local:validateUser() as xs:boolean
 {
    let $hostname :=  request:get-hostname() 
    
-   let $resource_location := concat("xmldb:exist://", "localhost", ":8080/exist/xmlrpc/db")
+   let $database-uri := xs:string("xmldb:exist:///db")
    let $user := session:get-attribute("username")
    let $password := session:get-attribute("password")
    let $is-ssl :=  lib-util:checkSSL()
    return
            if(xmldb:is-admin-user($user)) then
            (
-            	if (xmldb:login($resource_location, $user, $password))
+            	if (xmldb:login($database-uri, $user, $password))
               then (
 		true()
 	)
@@ -414,17 +418,28 @@ declare function local:update-user() as element()*
     $pass2 := request:get-parameter("pass2", ""),
     $nopass := request:get-parameter("nopass", ()),
     $pass := if($nopass) then () else $pass1,
-    $uid := request:get-parameter("uid", "") return
+    $uid := request:get-parameter("uid", ()) return
     
         if(not($nopass) and $pass1 ne $pass2)then
         (
-            <div class="error">Passwords are not identical.</div>,
-            local:correct-user($uid, $name, $grp)
+            <div xmlns="http://www.w3.org/1999/xhtml">
+        	<span style="color:red"><b>Error : Passwords are not identical!!!!</b></span>
+        	<br/><br/> {local:correct-user(xs:integer($uid), $name, $grp)}
+        	</div>      
+        )
+        else if(not($nopass) and $pass eq "" )then
+        (
+            <div xmlns="http://www.w3.org/1999/xhtml">
+        	<span style="color:red"><b>Error : Please enter the Password or check the Leave Password Unchanged!!!!</b></span>
+        	<br/><br/> {local:correct-user(xs:integer($uid), $name, $grp)}
+        	</div>       
         )
         else if(empty($groups)) then
         (
-            <div class="error">Please specify one group at least.</div>,
-            local:correct-user($uid, $name, $grp)
+             <div xmlns="http://www.w3.org/1999/xhtml">
+        	<span style="color:red"><b>Error : Please specify one group at least!!!!</b></span>
+        	<br/><br/> {local:correct-user(xs:integer($uid), $name, $grp)}
+        	</div>        
         )
         else
         (
@@ -463,6 +478,7 @@ declare function local:remove-user()
             <br/><br/>{local:display()}
             </div>
         )
+        (:
         else if (xmldb:is-admin-user($name) and xmldb:get-current-user() != "admin") then
         (
             <div xmlns="http://www.w3.org/1999/xhtml">
@@ -470,7 +486,7 @@ declare function local:remove-user()
             <br/><br/>{local:display()}
             </div>    
         	
-      )
+      ) :)
       else
       (
 
