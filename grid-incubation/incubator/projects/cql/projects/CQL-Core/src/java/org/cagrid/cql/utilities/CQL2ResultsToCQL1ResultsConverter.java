@@ -46,10 +46,9 @@ public class CQL2ResultsToCQL1ResultsConverter {
     
     private static CQLObjectResult convertObjectResult(org.cagrid.cql2.results.CQLObjectResult newObject) throws ResultsConversionException {
         CQLObjectResult oldObject = new CQLObjectResult();
-        // TODO: verify no associations populated
         MessageElement elem = newObject.get_any()[0];
-        
-        oldObject.set_any(newObject.get_any());
+        // TODO: verify no associations populated        
+        oldObject.set_any(new MessageElement[] {elem});
         return oldObject;
     }
     
