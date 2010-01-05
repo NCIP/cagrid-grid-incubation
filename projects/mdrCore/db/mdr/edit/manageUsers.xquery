@@ -144,7 +144,7 @@ declare function local:create-user() as element()*
 	<br/><br/> {local:correct-user(-1, $name, $grp)}
 	</div>
     )
-   
+   (:
    else if($name != "") then
    (
                 for $user in doc("/db/system/users.xml")//users/user
@@ -160,7 +160,7 @@ declare function local:create-user() as element()*
 		else()
 	   )
 	
-   )
+   ) :)
     
     else if($grp eq "") then
     (
@@ -337,13 +337,13 @@ declare function local:process()  as element()*
 		            		<br/><br/>{local:display()}
 		            		</div>
 	       	        ) 
-	       	        else if(($user/@name) eq xmldb:get-current-user() ) then
+	       	        (:else if(($user/@name) eq xmldb:get-current-user() ) then
 	       	        (
 		            		<div xmlns="http://www.w3.org/1999/xhtml">
 		           		    <br/><br/><span style="color:red"><b>Error : You cannot Edit the Current Logged In User !!!!</b></span>
 		            		<br/><br/>{local:display()}
 		            		</div>	       	       
-	       	        )
+	       	        ) :)
        	            else(  
        	             	     local:correct-user(xs:integer($uid), $user/@name, string-join($user/group, ", "))
 		            )
