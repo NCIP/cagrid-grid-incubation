@@ -17,7 +17,9 @@ import gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -239,57 +241,16 @@ class MDREaXMIHandler extends BaseXMIHandler {
         	LOG.debug("\tConceptCode tag original:"+tag+"; Public Id original: "+ String.valueOf(currentAttribute.getPublicID())+"; Value original: "+ value);            
         	addSemanticMetadata(tag, String.valueOf(currentAttribute.getPublicID()), value);
         } else if (tag.startsWith(XMIConstants.XMI_TAG_PROPERTY_CDE_REF)) {
-        	ArrayList<String> conceptArr = new ArrayList<String>();
-    		ArrayList<String> valueDomainConceptArr = new ArrayList<String>();
         	MDRUtils mdrutils = new MDRUtils(value,"caDSR");
-        	DataElement[] de=mdrutils.getDataElements();
-			
-			if (de!=null)
-			{
-			/*
-				for (int i=0;i<de.length;i++)
-				{
-					/*
-					ConceptCollection cc = de[i].getConceptCollection();
-					ConceptRef[] crf = cc.getConceptRef();
-					for (int j = 0; j < crf.length; j++) 
-					{
-						addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_CODE, Long.toString(currentAttribute.getPublicID()), crf[j].getId(),j);
-			        	addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_PREFERRED_NAME, Long.toString(currentAttribute.getPublicID()), crf[j].getName(),j);
-			        	addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_DEFINITION, Long.toString(currentAttribute.getPublicID()), crf[j].getDefinition(),j);
-			        	conceptArr.add(crf[j].getId());
-					}
-					*/						
-				}
-				
-				//LOG.debug("\tPropertyConceptCodes=" + conceptArr);
-				/*
-				for (int i = 0; i < de.length; i++) {
-					Values v = de[i].getValues();
-					
-					if (v.getEnumerated()!=null)
-					{
-						if (v.getEnumerated().getValidValue().length > 0) 
-						{
-							ValidValue[] vv = v.getEnumerated().getValidValue();
-							for (int k = 0; k < vv.length; k++) {
-							ConceptCollection cc = vv[k]
-									.getConceptCollection();
-							ConceptRef[] crf = cc.getConceptRef();
-							for (int j = 0; j < crf.length; j++) 
-							{
-								valueDomainConceptArr.add(crf[j].getId());
-							}
-						}
-					}
-						System.out.println("ConceptCollection for Value Domain(ObjectClassPropertyConceptCodes): "+valueDomainConceptArr); 
-					}
-					else
-						  System.out.println("No ObjectClassPropertyConceptCodes found!"); 
-						  
-				}
-				*/
-			}
+    		List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
+    		listConceptRef = mdrutils.getConceptRefs();
+    		for (int l=0;l<listConceptRef.size();l++)
+            {
+    			addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_CODE, Long.toString(currentAttribute.getPublicID()), ((ConceptRef)listConceptRef.get(l)).getId(),l);
+	        	addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_PREFERRED_NAME, Long.toString(currentAttribute.getPublicID()), ((ConceptRef)listConceptRef.get(l)).getName(),l);
+	        	addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_DEFINITION, Long.toString(currentAttribute.getPublicID()), ((ConceptRef)listConceptRef.get(l)).getDefinition(),l);
+            }
+		}
     }
     
     

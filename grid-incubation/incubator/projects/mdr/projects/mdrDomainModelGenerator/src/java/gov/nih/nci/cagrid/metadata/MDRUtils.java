@@ -4,9 +4,14 @@ package gov.nih.nci.cagrid.metadata;
 import gov.nih.nci.cagrid.common.Utils;
 
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +21,8 @@ import org.cancergrid.schema.query.Query;
 import org.cancergrid.schema.result_set.ConceptCollection;
 import org.cancergrid.schema.result_set.ConceptRef;
 import org.cancergrid.schema.result_set.DataElement;
+import org.cancergrid.schema.result_set.ObjectClass;
+import org.cancergrid.schema.result_set.Property;
 import org.cancergrid.schema.result_set.ResultSet;
 
 /**
@@ -67,20 +74,22 @@ public class MDRUtils {
 
 	  /**
      * This method queries the MDR and returns the DataElement Array
+	 * @return 
      * 	
      * @return 	org.cancergrid.schema.result_set.DataElement
      */
-	public DataElement[] getDataElements() {	
-//		ArrayList<String> conceptArr = new ArrayList<String>();
-//		ArrayList<String> valueDomainConceptArr = new ArrayList<String>();
+	public  List<ConceptRef> getConceptRefs() {	
 		DataElement dataElement[]=null;
-		
+		Vector<ConceptRef> vectorConceptRef = new Vector<ConceptRef>();
+		Set<ConceptRef> setConceptRef = new HashSet<ConceptRef>();
+        List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
+
 		// query grid service and return DataElements Array
 		LOG.debug("Running the Grid Service Client Now...");
 		try {
 			if (publicId != null) {
 				MDRQueryClient client = new MDRQueryClient(
-						"http://localhost:8090/wsrf/services/cagrid/MDRQuery");
+						"http://localhost:8080/wsrf/services/cagrid/MDRQuery");
 				Query query = new Query();
 				query.setId(publicId);
 				query.setVersion(version);
@@ -89,58 +98,58 @@ public class MDRUtils {
 				query.setNumResults(100);
 				ResultSet results = client.query(query);
 				dataElement = results.getDataElement();
-/*
+				/*
 				PrintWriter pw = new PrintWriter(System.out);
 				Utils.serializeObject(results, results.getTypeDesc()
 						.getXmlType(), pw);						
-
-				
+				*/
 				if (dataElement!=null)
 				{
-					System.out.println("ConceptCollection:");
-					for (int i=0;i<dataElement.length;i++)
+					for (int numDataElement=0;numDataElement<dataElement.length;numDataElement++)
 					{
-						dataElementCollection.add(dataElement[i]);
-						ConceptCollection cc = dataElement[i].getConceptCollection();
-						ConceptRef[] crf = cc.getConceptRef();
-							for (int j = 0; j < crf.length; j++) {
-							System.out.println("Id: "+crf[j].getId());
-							System.out.println("Name: "+crf[j].getName());
-							System.out.println("Definition: "+crf[j].getDefinition());
-							conceptArr.add(crf[j].getId());
-						}						
-					}
-					System.out.println("PropertyConceptCodes: "+conceptArr); 
-					System.out.println("ConceptCollection for Value Domain:");
-					for (int i = 0; i < dataElement.length; i++) {
-						Values v = dataElement[i].getValues();
-						if (v.getEnumerated()!=null)
+						ObjectClass[] objClass = dataElement[numDataElement].getObjectClass();
+						for (int numObjectClass=0;numObjectClass<objClass.length;numObjectClass++)
 						{
-							if (v.getEnumerated().getValidValue().length > 0) {
-							ValidValue[] vv = v.getEnumerated().getValidValue();
-								for (int k = 0; k < vv.length; k++) {
-								ConceptCollection cc = vv[k]
-										.getConceptCollection();
-								ConceptRef[] crf = cc.getConceptRef();
-								for (int j = 0; j < crf.length; j++) {
-									valueDomainConceptArr.add(crf[j].getId());
-								}
+							ConceptRef[] conRef  = objClass[numObjectClass].getConceptCollection().getConceptRef();
+							for (int numConRef=0;numConRef<conRef.length;numConRef++)
+							{
+								vectorConceptRef.addElement(conRef[numConRef]);
+								setConceptRef.add(conRef[numConRef]);
 							}
+						
 						}
-							System.out.println("ObjectClassPropertyConceptCodes: "+valueDomainConceptArr); 
-						}
-						else
-							  System.out.println("No ObjectClassPropertyConceptCodes found!"); 
+						
+						Property[] propClass = dataElement[numDataElement].getProperty();
+						for (int numPropertyClass=0;numPropertyClass<propClass.length;numPropertyClass++)
+						{
+							ConceptRef[] conRef  = propClass[numPropertyClass].getConceptCollection().getConceptRef();
+							for (int numConRef=0;numConRef<conRef.length;numConRef++)
+							{
+								vectorConceptRef.addElement(conRef[numConRef]);
+								setConceptRef.add(conRef[numConRef]);
+
+							}
+						
+						}	
 					}
-				}
-*/				
+					
+				    listConceptRef.addAll(setConceptRef);
+				    /*
+				    for (int l=0;l<listConceptRef.size();l++)
+			        {
+						System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getId());
+						System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getName());
+						System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getDefinition());
+			        }
+			        */					
+					}			
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		return dataElement;
+		return listConceptRef;
 	}
 
 	public String getCountryName() {
@@ -169,28 +178,21 @@ public class MDRUtils {
 
 	
 	  public static void main(String[] args) {
-		MDRUtils mdrparser = new MDRUtils("US-NCICB-CACORE-CADSR-2179683-2.0",
-				"caDSR"); // has NO enumerated values
-		// MDRUtils mdrparser = new
-		// MDRUtils("US-NCICB-CACORE-CADSR-2436860-1.0", "caDSR"); //has
-		// enumerated values
-
+		//MDRUtils mdrparser = new MDRUtils("US-NCICB-CACORE-CADSR-2179683-2.0","caDSR"); 
+		// has NO enumerated values
+		
+		MDRUtils mdrparser = new MDRUtils("US-NCICB-CACORE-CADSR-2436860-1.0", "caDSR"); 
+		//has enumerated values
+		//US-NCICB-CACORE-CADSR-2436860-1.0 Participant Identifier
+		
 		System.out.println("Input String: US-NCICB-CACORE-CADSR-2436860-1.0");
-		DataElement de[] = mdrparser.getDataElements();
-		/*
-		if (de != null) {
-			System.out.println("ConceptCollection:");
-			
-			for (int i = 0; i < de.length; i++) {
-				ConceptCollection cc = de[i].getConceptCollection();
-				ConceptRef[] crf = cc.getConceptRef();
-				for (int j = 0; j < crf.length; j++) {
-					System.out.println("Id: " + crf[j].getId());
-					System.out.println("Name: " + crf[j].getName());
-					System.out.println("Definition: " + crf[j].getDefinition());
-				}
-			}
-		}
-		*/
+		List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
+		listConceptRef = mdrparser.getConceptRefs();
+		for (int l=0;l<listConceptRef.size();l++)
+        {
+			System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getId());
+			System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getName());
+			System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getDefinition());
+        }
 	}
 }
