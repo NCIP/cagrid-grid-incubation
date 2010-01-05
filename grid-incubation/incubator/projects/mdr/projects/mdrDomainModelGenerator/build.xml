@@ -217,9 +217,30 @@
     <!-- ============================================================== -->
     <!-- Run the Domain model Generator                                             -->
     <!-- ============================================================== -->
+
+	<target name="getXMIFile" unless="xmiFile">
+		<input message="Information Model (XMI) file to be Parsed" defaultvalue="Test.xmi" addproperty="xmiFile">
+		</input>
+	</target>
+
+	<target name="getDomainFile" unless="domainFile">
+		<echo message="Please make sure you enter the actual values you want to configure" />
+		<input message="Domain model File Name to be generated" defaultvalue="Test.xml" addproperty="domainFile">
+		</input>
+	</target>
+
+	<target name="getProjectName" unless="projectName">
+		<input message="Project Name" defaultvalue="Testproject" addproperty="projectName">
+		</input>
+	</target>
+
+	<target name="getProjectVersion" unless="projectVersion">
+		<input message="Project Version" defaultvalue="1.0" addproperty="projectVersion">
+		</input>
+	</target>
+
 	
-	
-    <target name="run" description="Run the domain model generator. Input required: xmiFile domainFile projectName projectVersion" >
+    <target name="run" depends="getXMIFile,getDomainFile,getProjectName,getProjectVersion" description="Run the domain model generator. Input required: xmiFile domainFile projectName projectVersion" >
 	  <!--  <java classname ="" jar="${jar.dir}/${project.name}-${project.version}.jar" fork="true"/> -->
     	<echo message="XMI file to be Parsed: ${xmiFile}" />
     	<echo message="Domain model File to be generated: ${domainFile}" />
