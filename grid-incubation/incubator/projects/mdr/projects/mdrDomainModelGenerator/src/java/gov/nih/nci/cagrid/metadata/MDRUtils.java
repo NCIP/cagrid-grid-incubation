@@ -1,24 +1,17 @@
 package gov.nih.nci.cagrid.metadata;
 
 
-import gov.nih.nci.cagrid.common.Utils;
-
-import java.io.PrintWriter;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.cagrid.mdrq.client.MDRQueryClient;
 import org.cancergrid.schema.query.Query;
-import org.cancergrid.schema.result_set.ConceptCollection;
 import org.cancergrid.schema.result_set.ConceptRef;
 import org.cancergrid.schema.result_set.DataElement;
 import org.cancergrid.schema.result_set.ObjectClass;
@@ -47,9 +40,6 @@ public class MDRUtils {
 	public String version;
 	private static final Log LOG = LogFactory.getLog(MDRUtils.class);   
 	   
-//	ArrayList<DataElement> dataElementCollection = new ArrayList();
-//	ArrayList<ConceptCollection> conceptCollection = new ArrayList();
-
 	public MDRUtils(String mdrURN, String resourceName) {
 		MDRId = mdrURN;
 

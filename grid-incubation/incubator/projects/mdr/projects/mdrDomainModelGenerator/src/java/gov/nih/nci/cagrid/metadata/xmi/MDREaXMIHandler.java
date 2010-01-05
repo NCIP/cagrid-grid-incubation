@@ -2,7 +2,6 @@ package gov.nih.nci.cagrid.metadata.xmi;
 
 
 import gov.nih.nci.cagrid.metadata.MDRUtils;
-
 import gov.nih.nci.cagrid.metadata.common.SemanticMetadata;
 import gov.nih.nci.cagrid.metadata.common.UMLAttribute;
 import gov.nih.nci.cagrid.metadata.common.UMLClass;
@@ -15,19 +14,12 @@ import gov.nih.nci.cagrid.metadata.dataservice.UMLClassReference;
 import gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cancergrid.schema.result_set.ConceptCollection;
 import org.cancergrid.schema.result_set.ConceptRef;
-import org.cancergrid.schema.result_set.DataElement;
-import org.cancergrid.schema.result_set.ValidValue;
-import org.cancergrid.schema.result_set.Values;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
