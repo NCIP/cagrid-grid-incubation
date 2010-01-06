@@ -24,8 +24,10 @@ import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -33,6 +35,8 @@ import org.cagrid.openmdr.ws.cache.CacheManager;
 import org.cagrid.openmdr.ws.config.QueryServiceConfig;
 import org.cancergrid.schema.config.Query_service;
 import org.cancergrid.schema.query.Query;
+import org.cancergrid.schema.query.QueryFilter;
+import org.cancergrid.schema.result_set.DataElement;
 import org.cancergrid.schema.result_set.ResultSet;
 
 
@@ -172,6 +176,9 @@ public class QueryServiceManager {
 
             // Query resource
             ResultSet results = queryOp.query(qr);
+            
+            // Apply any filters
+            filter(qr.getQueryFilter(), results );
 
             if (results == null) {
                 result_set.setStatus("Result not found.");
@@ -194,8 +201,31 @@ public class QueryServiceManager {
         }
     }
 
+    // This method is destructive (it overwrites results)
+    protected void filter(QueryFilter queryFilter, ResultSet results) {
+		if (queryFilter == null)
+			return;
+		
+		filterByContext(queryFilter.getContext(), results);
+	}
 
-    public org.cancergrid.schema.config.Query_service getQueryServiceInfo(String resource) {
+    // This method is destructive (it overwrites results)
+	protected void filterByContext(String context, ResultSet results) {
+		if (context == null || context.length() == 0) {
+			return;
+		}
+		
+		List<DataElement> newDataElements = new ArrayList<DataElement>();
+		for(DataElement de : results.getDataElement()) {
+			if (de.getContext().equalsIgnoreCase(context)) {
+				newDataElements.add(de);
+			}
+		}
+		
+		results.setDataElement(newDataElements.toArray(new DataElement[newDataElements.size()]));
+	}
+
+	public org.cancergrid.schema.config.Query_service getQueryServiceInfo(String resource) {
         return resources.get(resource);
     }
 

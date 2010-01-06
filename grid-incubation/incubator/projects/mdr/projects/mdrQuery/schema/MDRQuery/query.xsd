@@ -6,6 +6,13 @@
 	<xs:import namespace="http://cagrid.org/schema/config"
 		schemaLocation="config.xsd" />
 
+   <xs:element name="queryFilter" type="queryFilter" />
+	<xs:complexType name="queryFilter">
+		<xs:sequence>
+			<xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:element name="query" type="query" />
 	<xs:complexType name="query">
 		<xs:sequence>
@@ -28,6 +35,7 @@
 				default="0" />
 			<xs:element name="numResults" type="xs:int" minOccurs="0"
 				default="10" />
+			<xs:element ref="queryFilter" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
 
