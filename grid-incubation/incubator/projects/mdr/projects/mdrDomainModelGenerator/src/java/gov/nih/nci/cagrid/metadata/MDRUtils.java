@@ -1,9 +1,13 @@
 package gov.nih.nci.cagrid.metadata;
 
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -38,6 +42,7 @@ public class MDRUtils {
 	public String registryName;
 	public String publicId;
 	public String version;
+	public String mdrQueryURL;
 	private static final Log LOG = LogFactory.getLog(MDRUtils.class);   
 	   
 	public MDRUtils(String mdrURN, String resourceName) {
@@ -74,12 +79,31 @@ public class MDRUtils {
 		Set<ConceptRef> setConceptRef = new HashSet<ConceptRef>();
         List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
 
+        Properties properties = new Properties(); 
+	  	try {
+	  		FileInputStream fin = new FileInputStream("./mdrQuery.properties");
+	  		properties.load(fin); 
+		  	mdrQueryURL = properties.getProperty("mdrQueryUrl"); 
+	  	} 
+	  	
+  		catch(FileNotFoundException fnf)
+	  	{
+  			System.out.println("File : mdrQuery.properties Not Found!! Please check for the file!!!!");
+  			System.out.println("Using default mdrQueryUrl : File : http://localhost:8080/wsrf/services/cagrid/MDRQuery ");
+  			mdrQueryURL = "http://localhost:8080/wsrf/services/cagrid/MDRQuery";
+	  	}
+  		catch (IOException e) {  
+  			System.out.println("Some IO Exception occurred. Please again!!!!");
+  			System.out.println("Using default mdrQueryUrl : File : http://localhost:8080/wsrf/services/cagrid/MDRQuery ");
+  			mdrQueryURL = "http://localhost:8080/wsrf/services/cagrid/MDRQuery";
+  		}
+
 		// query grid service and return DataElements Array
 		LOG.debug("Running the Grid Service Client Now...");
 		try {
 			if (publicId != null) {
-				MDRQueryClient client = new MDRQueryClient(
-						"http://localhost:8080/wsrf/services/cagrid/MDRQuery");
+
+				MDRQueryClient client = new MDRQueryClient(mdrQueryURL);
 				Query query = new Query();
 				query.setId(publicId);
 				query.setVersion(version);
