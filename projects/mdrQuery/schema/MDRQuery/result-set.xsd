@@ -6,6 +6,8 @@
 	<xs:complexType name="result-set">
 		<xs:sequence>
 			<xs:element name="status" type="xs:string" />
+			<xs:element ref="pages" minOccurs="0" maxOccurs="1" />
+            <xs:element ref="next" minOccurs="0" maxOccurs="1" />
 			<xs:choice minOccurs="0">
 				<xs:element ref="concept" maxOccurs="unbounded" />
 				<xs:element ref="data-element" maxOccurs="unbounded" />
@@ -13,9 +15,6 @@
 				<xs:element ref="object-class" maxOccurs="unbounded" />
 				<xs:element ref="node" />
 				<xs:element ref="classification_scheme" maxOccurs="unbounded" />
-				<xs:element ref="pages" maxOccurs="unbounded" />
-				<xs:element ref="next" maxOccurs="unbounded" />				
-				
 			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
@@ -71,6 +70,7 @@
 		<xs:complexContent>
 			<xs:extension base="common-info">
 				<xs:sequence>
+               <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
 					<xs:element ref="values" />
 					<!--<xs:element ref="conceptCollection" minOccurs="0"/>-->
 					<xs:element ref="object-class" maxOccurs="unbounded" />
