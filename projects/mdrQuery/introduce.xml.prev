@@ -12,9 +12,12 @@
    <ns2:SchemaElement type="enumerated" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="meaning" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="names" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="next" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="node" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="non-enumerated" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="object-class" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="page" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="pages" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="properties" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="property" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="result-set" xsi:type="ns2:SchemaElementType"/>
@@ -23,6 +26,7 @@
   </ns2:Namespace>
   <ns2:Namespace location="./query.xsd" namespace="http://cagrid.org/schema/query" packageName="org.cancergrid.schema.query" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="query" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="queryFilter" xsi:type="ns2:SchemaElementType"/>
   </ns2:Namespace>
   <ns2:Namespace location="./config.xsd" namespace="http://cagrid.org/schema/config" packageName="org.cancergrid.schema.config" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="cache_config" xsi:type="ns2:SchemaElementType"/>
