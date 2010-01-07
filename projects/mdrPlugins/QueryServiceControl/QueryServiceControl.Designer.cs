@@ -78,6 +78,8 @@
             this.wbClassificationQueryResultDef = new System.Windows.Forms.WebBrowser();
             this.tabPageCLSDetailsValueDomain = new System.Windows.Forms.TabPage();
             this.wbClassificationQueryResultValueDomain = new System.Windows.Forms.WebBrowser();
+            this.txtContext = new System.Windows.Forms.TextBox();
+            this.lblContext = new System.Windows.Forms.Label();
             this.grpControls.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.grpResults.SuspendLayout();
@@ -120,7 +122,7 @@
             // 
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearch.Location = new System.Drawing.Point(3, 63);
+            this.btnSearch.Location = new System.Drawing.Point(3, 93);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(74, 20);
             this.btnSearch.TabIndex = 1;
@@ -134,7 +136,7 @@
             this.grpControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpControls.Location = new System.Drawing.Point(3, 3);
             this.grpControls.Name = "grpControls";
-            this.grpControls.Size = new System.Drawing.Size(302, 104);
+            this.grpControls.Size = new System.Drawing.Size(302, 135);
             this.grpControls.TabIndex = 2;
             this.grpControls.TabStop = false;
             this.grpControls.Text = "Controls";
@@ -145,18 +147,21 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Controls.Add(this.cbResources, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.statusMsg, 1, 2);
             this.tableLayoutPanel4.Controls.Add(this.txtTerm, 1, 1);
-            this.tableLayoutPanel4.Controls.Add(this.btnSearch, 0, 2);
             this.tableLayoutPanel4.Controls.Add(this.cbSearchType, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.txtContext, 1, 2);
+            this.tableLayoutPanel4.Controls.Add(this.statusMsg, 1, 3);
+            this.tableLayoutPanel4.Controls.Add(this.btnSearch, 0, 3);
+            this.tableLayoutPanel4.Controls.Add(this.lblContext, 0, 2);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowCount = 4;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(296, 85);
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(296, 116);
             this.tableLayoutPanel4.TabIndex = 4;
             // 
             // cbResources
@@ -173,7 +178,7 @@
             // statusMsg
             // 
             this.statusMsg.AutoSize = true;
-            this.statusMsg.Location = new System.Drawing.Point(83, 62);
+            this.statusMsg.Location = new System.Drawing.Point(83, 92);
             this.statusMsg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
             this.statusMsg.Name = "statusMsg";
             this.statusMsg.Size = new System.Drawing.Size(0, 13);
@@ -195,9 +200,9 @@
             this.grpResults.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grpResults.Controls.Add(this.tableLayoutPanelResults);
             this.grpResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpResults.Location = new System.Drawing.Point(3, 113);
+            this.grpResults.Location = new System.Drawing.Point(3, 144);
             this.grpResults.Name = "grpResults";
-            this.grpResults.Size = new System.Drawing.Size(302, 318);
+            this.grpResults.Size = new System.Drawing.Size(302, 303);
             this.grpResults.TabIndex = 3;
             this.grpResults.TabStop = false;
             this.grpResults.Text = "Results";
@@ -223,7 +228,7 @@
             this.tableLayoutPanelResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelResults.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelResults.Size = new System.Drawing.Size(296, 299);
+            this.tableLayoutPanelResults.Size = new System.Drawing.Size(296, 284);
             this.tableLayoutPanelResults.TabIndex = 1;
             // 
             // lstResults
@@ -234,7 +239,7 @@
             this.lstResults.HorizontalScrollbar = true;
             this.lstResults.Location = new System.Drawing.Point(3, 3);
             this.lstResults.Name = "lstResults";
-            this.lstResults.Size = new System.Drawing.Size(290, 251);
+            this.lstResults.Size = new System.Drawing.Size(290, 238);
             this.lstResults.TabIndex = 0;
             this.lstResults.SelectedIndexChanged += new System.EventHandler(this.updateDetails);
             // 
@@ -242,7 +247,7 @@
             // 
             this.btnUse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUse.Enabled = false;
-            this.btnUse.Location = new System.Drawing.Point(219, 272);
+            this.btnUse.Location = new System.Drawing.Point(219, 257);
             this.btnUse.Name = "btnUse";
             this.btnUse.Size = new System.Drawing.Size(74, 22);
             this.btnUse.TabIndex = 1;
@@ -254,7 +259,7 @@
             // 
             this.btnBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBack.Enabled = false;
-            this.btnBack.Location = new System.Drawing.Point(31, 272);
+            this.btnBack.Location = new System.Drawing.Point(31, 257);
             this.btnBack.MinimumSize = new System.Drawing.Size(28, 22);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(28, 22);
@@ -266,7 +271,7 @@
             // btnForward
             // 
             this.btnForward.Enabled = false;
-            this.btnForward.Location = new System.Drawing.Point(65, 272);
+            this.btnForward.Location = new System.Drawing.Point(65, 257);
             this.btnForward.MinimumSize = new System.Drawing.Size(28, 22);
             this.btnForward.Name = "btnForward";
             this.btnForward.Size = new System.Drawing.Size(28, 22);
@@ -279,7 +284,7 @@
             // 
             this.btnAnnotate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAnnotate.Enabled = false;
-            this.btnAnnotate.Location = new System.Drawing.Point(100, 272);
+            this.btnAnnotate.Location = new System.Drawing.Point(100, 257);
             this.btnAnnotate.Name = "btnAnnotate";
             this.btnAnnotate.Size = new System.Drawing.Size(108, 22);
             this.btnAnnotate.TabIndex = 4;
@@ -291,9 +296,9 @@
             // 
             this.grpDetails.Controls.Add(this.tabControlDetails);
             this.grpDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpDetails.Location = new System.Drawing.Point(3, 437);
+            this.grpDetails.Location = new System.Drawing.Point(3, 453);
             this.grpDetails.Name = "grpDetails";
-            this.grpDetails.Size = new System.Drawing.Size(302, 318);
+            this.grpDetails.Size = new System.Drawing.Size(302, 303);
             this.grpDetails.TabIndex = 4;
             this.grpDetails.TabStop = false;
             this.grpDetails.Text = "Details";
@@ -308,7 +313,7 @@
             this.tabControlDetails.Location = new System.Drawing.Point(3, 16);
             this.tabControlDetails.Name = "tabControlDetails";
             this.tabControlDetails.SelectedIndex = 0;
-            this.tabControlDetails.Size = new System.Drawing.Size(296, 299);
+            this.tabControlDetails.Size = new System.Drawing.Size(296, 284);
             this.tabControlDetails.TabIndex = 1;
             // 
             // tabPageDef
@@ -317,7 +322,7 @@
             this.tabPageDef.Location = new System.Drawing.Point(4, 22);
             this.tabPageDef.Name = "tabPageDef";
             this.tabPageDef.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDef.Size = new System.Drawing.Size(288, 273);
+            this.tabPageDef.Size = new System.Drawing.Size(288, 258);
             this.tabPageDef.TabIndex = 0;
             this.tabPageDef.Text = "Definition";
             this.tabPageDef.UseVisualStyleBackColor = true;
@@ -329,7 +334,7 @@
             this.wbDetailsDef.Location = new System.Drawing.Point(3, 3);
             this.wbDetailsDef.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbDetailsDef.Name = "wbDetailsDef";
-            this.wbDetailsDef.Size = new System.Drawing.Size(282, 267);
+            this.wbDetailsDef.Size = new System.Drawing.Size(282, 252);
             this.wbDetailsDef.TabIndex = 0;
             // 
             // tabPagePropsValues
@@ -427,7 +432,7 @@
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 4;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 141F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -444,11 +449,11 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
             this.tableLayoutPanel5.Controls.Add(this.btnCleanURLs, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.cbServiceUrls, 0, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 761);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 762);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(302, 25);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(302, 24);
             this.tableLayoutPanel5.TabIndex = 6;
             // 
             // btnCleanURLs
@@ -458,7 +463,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCleanURLs.Location = new System.Drawing.Point(256, 3);
             this.btnCleanURLs.Name = "btnCleanURLs";
-            this.btnCleanURLs.Size = new System.Drawing.Size(43, 19);
+            this.btnCleanURLs.Size = new System.Drawing.Size(43, 18);
             this.btnCleanURLs.TabIndex = 0;
             this.btnCleanURLs.Text = "Reset";
             this.btnCleanURLs.UseVisualStyleBackColor = true;
@@ -715,6 +720,29 @@
             this.wbClassificationQueryResultValueDomain.Size = new System.Drawing.Size(282, 204);
             this.wbClassificationQueryResultValueDomain.TabIndex = 0;
             // 
+            // txtContext
+            // 
+            this.txtContext.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtContext.Location = new System.Drawing.Point(83, 63);
+            this.txtContext.Name = "txtContext";
+            this.txtContext.Size = new System.Drawing.Size(210, 20);
+            this.txtContext.TabIndex = 5;
+            // 
+            // lblContext
+            // 
+            this.lblContext.AutoSize = true;
+            this.lblContext.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblContext.Location = new System.Drawing.Point(34, 60);
+            this.lblContext.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.lblContext.Name = "lblContext";
+            this.lblContext.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lblContext.Size = new System.Drawing.Size(46, 30);
+            this.lblContext.TabIndex = 6;
+            this.lblContext.Text = "Context:";
+            this.lblContext.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // QueryServiceControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -807,5 +835,7 @@
         private System.Windows.Forms.ComboBox cbServiceUrls;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Button btnCleanURLs;
+        private System.Windows.Forms.TextBox txtContext;
+        private System.Windows.Forms.Label lblContext;
     }
 }

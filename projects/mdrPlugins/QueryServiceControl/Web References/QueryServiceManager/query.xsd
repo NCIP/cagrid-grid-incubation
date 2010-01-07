@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:cfg="http://cagrid.org/schema/config" xmlns="http://cagrid.org/schema/query" elementFormDefault="qualified" targetNamespace="http://cagrid.org/schema/query" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="config.xsd" namespace="http://cagrid.org/schema/config" />
+  <xs:element name="queryFilter" type="queryFilter" />
+  <xs:complexType name="queryFilter">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="context" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:element name="query" type="query" />
   <xs:complexType name="query">
     <xs:sequence>
@@ -16,6 +22,7 @@
       </xs:choice>
       <xs:element minOccurs="0" default="0" name="startIndex" type="xs:int" />
       <xs:element minOccurs="0" default="10" name="numResults" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" ref="queryFilter" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
