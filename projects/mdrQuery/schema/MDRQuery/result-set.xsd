@@ -70,7 +70,7 @@
 		<xs:complexContent>
 			<xs:extension base="common-info">
 				<xs:sequence>
-               <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
 					<xs:element ref="values" />
 					<!--<xs:element ref="conceptCollection" minOccurs="0"/>-->
 					<xs:element ref="object-class" maxOccurs="unbounded" />
@@ -146,6 +146,7 @@
 		<xs:complexContent>
 			<xs:extension base="common-info">
 				<xs:sequence>
+				    <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
 					<xs:element ref="conceptCollection" minOccurs="0" />
 				</xs:sequence>
 			</xs:extension>
@@ -176,6 +177,7 @@
 		<xs:complexContent>
 			<xs:extension base="common-info">
 				<xs:sequence>
+				    <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
 					<xs:element ref="conceptCollection" minOccurs="0" />
 				</xs:sequence>
 			</xs:extension>

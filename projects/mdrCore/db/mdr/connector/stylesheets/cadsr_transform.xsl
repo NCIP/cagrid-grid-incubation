@@ -41,6 +41,9 @@
             <registration-status>
                 <xsl:value-of select="registrationStatus"/>
             </registration-status>
+            <context>
+                <xsl:value-of select="context/gov.nih.nci.cadsr.domain.Context/name"/>
+            </context>
             <xsl:apply-templates select="valueDomain"/>
             <!--
                 <xsl:apply-templates select="dataElementConcept/DataElementConcept/objectClass/ObjectClass"/>
@@ -122,11 +125,14 @@
             <registration-status>
                 <xsl:value-of select="registrationStatus"/>
             </registration-status>
+            <context>
+                <xsl:value-of select="context/gov.nih.nci.cadsr.domain.Context/name"/>
+            </context>
             <xsl:apply-templates select="conceptDerivationRule"/>
         </object-class>
     </xsl:template>
     
-    <xsl:template match="gov.nih.nci.cadsr.domain.DataElementConcept/property/gov.nih.nci.cadsr.domain.Property">
+    <xsl:template match="gov.nih.nci.cadsr.domain.DataElementConcept/property/gov.nih.nci.cadsr.domain.Property|gov.nih.nci.cadsr.domain.Property">
         <!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
         <property>
             <names>
@@ -155,6 +161,9 @@
             <registration-status>
                 <xsl:value-of select="registrationStatus"/>
             </registration-status>
+            <context>
+                <xsl:value-of select="context/gov.nih.nci.cadsr.domain.Context/name"/>
+            </context>
             <xsl:apply-templates select="conceptDerivationRule"/>
         </property>
     </xsl:template>
