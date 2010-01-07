@@ -8,8 +8,8 @@
   <types>
     <xs:schema xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://mdrq.cagrid.org/MDRQuery" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:import schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" />
-      <xs:import schemaLocation="./config.xsd" namespace="http://cagrid.org/schema/config" />
       <xs:import schemaLocation="./result-set.xsd" namespace="http://cagrid.org/schema/result-set" />
+      <xs:import schemaLocation="./config.xsd" namespace="http://cagrid.org/schema/config" />
       <xs:import schemaLocation="./xsd/cagrid/types/security/security.xsd" namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" />
       <xs:import schemaLocation="./query.xsd" namespace="http://cagrid.org/schema/query" />
       <xs:import schemaLocation="./MDRQueryTypes.xsd" namespace="http://mdrq.cagrid.org/MDRQuery/types" />

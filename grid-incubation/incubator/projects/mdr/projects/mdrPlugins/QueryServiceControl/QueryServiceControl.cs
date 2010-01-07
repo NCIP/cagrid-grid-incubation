@@ -299,6 +299,7 @@ namespace QueryServiceControl
                 wbDetailsDef.DocumentText = "";
                 wbDetailsPropsValues.DocumentText = "";
                 wbOcProps.DocumentText = "";
+                wbDetailsOther.DocumentText = "";
 
                 SetStatus("Querying...Please wait...");
                 this.Cursor = Cursors.WaitCursor;
@@ -319,6 +320,12 @@ namespace QueryServiceControl
                     req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[] {
                         global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.id
                     };
+                }
+
+                if (txtContext.Text.Length > 0)
+                {
+                    req.query.queryFilter = new global::QueryServiceControl.QueryServiceManager.queryFilter();
+                    req.query.queryFilter.context = txtContext.Text;
                 }
 
                 if (currentPage == 0)
@@ -604,6 +611,7 @@ namespace QueryServiceControl
                 string values = "";
                 string other = "";
                 string workflow = null;
+                string context = null;
 
                 QueryServiceManager.commoninfo ci = null;
 
@@ -648,29 +656,6 @@ namespace QueryServiceControl
                     definition = "<div style=\"font-size: 14px; text-aligh: justify;\">" + definition + "</div>";
                 }
 
-                string otherHTML = "<div style=\"font-size: 14px; text-aligh: justify;\">";
-                otherHTML += other;
-
-                if (ci.workflowstatus == null || ci.workflowstatus.Length == 0)
-                {
-                    workflow = "Workflow Status: None supplied";
-                }
-                else
-                {
-                    workflow = "Workflow Status: " + ci.workflowstatus;
-                }
-                otherHTML += "<br><br>" + workflow + "</div>";
-
-                if (sender.Equals(lstClassificationQueryResult))
-                {
-                    wbClassificationQueryResultDef.DocumentText = definition;
-                }
-                else if (sender.Equals(lstResults))
-                {
-                    wbDetailsDef.DocumentText = definition;
-                    wbDetailsOther.DocumentText = otherHTML;
-                }
-
                 QueryServiceManager.dataelement dataelement = ci as QueryServiceManager.dataelement;
                 QueryServiceManager.objectclass objectclass = ci as QueryServiceManager.objectclass;
                 QueryServiceManager.property property = ci as QueryServiceManager.property;
@@ -678,6 +663,8 @@ namespace QueryServiceControl
 
                 if (dataelement != null)
                 {
+                    context = dataelement.context;
+
                     QueryServiceManager.enumerated en = dataelement.values.Item as QueryServiceManager.enumerated;
                     QueryServiceManager.nonenumerated nen = dataelement.values.Item as QueryServiceManager.nonenumerated;
 
@@ -767,9 +754,15 @@ namespace QueryServiceControl
                 {
                     QueryServiceManager.conceptRef[] concepts = null;
                     if (objectclass != null)
+                    {
+                        context = objectclass.context;
                         concepts = objectclass.conceptCollection;
+                    }
                     else
+                    {
+                        context = property.context;
                         concepts = property.conceptCollection;
+                    }
 
                     if (concepts != null && concepts.Length > 0)
                     {
@@ -802,6 +795,36 @@ namespace QueryServiceControl
                                
                         wbDetailsPropsValues.DocumentText = values;
                     }
+                }
+
+                string otherHTML = "<div style=\"font-size: 14px; text-aligh: justify;\">";
+                otherHTML += other;
+
+                if (ci.workflowstatus == null || ci.workflowstatus.Length == 0)
+                {
+                    workflow = "Workflow Status: None supplied";
+                }
+                else
+                {
+                    workflow = "Workflow Status: " + ci.workflowstatus;
+                }
+                otherHTML += "<br><br>" + workflow;
+
+                if (context != null)
+                {
+                    otherHTML += "<br><br>Context: " + context;
+                }
+                
+                otherHTML += "</div>";
+
+                if (sender.Equals(lstClassificationQueryResult))
+                {
+                    wbClassificationQueryResultDef.DocumentText = definition;
+                }
+                else if (sender.Equals(lstResults))
+                {
+                    wbDetailsDef.DocumentText = definition;
+                    wbDetailsOther.DocumentText = otherHTML;
                 }
             }
             catch (Exception ex)

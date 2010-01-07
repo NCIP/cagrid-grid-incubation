@@ -4,11 +4,13 @@
   <xs:complexType name="result-set">
     <xs:sequence>
       <xs:element name="status" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" ref="pages" />
+      <xs:element minOccurs="0" maxOccurs="1" ref="next" />
       <xs:choice minOccurs="0">
         <xs:element maxOccurs="unbounded" ref="concept" />
         <xs:element maxOccurs="unbounded" ref="data-element" />
-        <xs:element maxOccurs="unbounded" ref="object-class" />
         <xs:element maxOccurs="unbounded" ref="property" />
+        <xs:element maxOccurs="unbounded" ref="object-class" />
         <xs:element ref="node" />
         <xs:element maxOccurs="unbounded" ref="classification_scheme" />
       </xs:choice>
@@ -57,8 +59,8 @@
     <xs:complexContent mixed="false">
       <xs:extension base="common-info">
         <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="context" type="xs:string" />
           <xs:element ref="values" />
-          <xs:element minOccurs="0" ref="conceptCollection" />
           <xs:element maxOccurs="unbounded" ref="object-class" />
           <xs:element maxOccurs="unbounded" ref="property" />
         </xs:sequence>
@@ -129,6 +131,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="common-info">
         <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="context" type="xs:string" />
           <xs:element minOccurs="0" ref="conceptCollection" />
         </xs:sequence>
       </xs:extension>
@@ -156,6 +159,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="common-info">
         <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="context" type="xs:string" />
           <xs:element minOccurs="0" ref="conceptCollection" />
         </xs:sequence>
       </xs:extension>
@@ -174,6 +178,26 @@
       <xs:element name="source" type="xs:string" />
       <xs:element minOccurs="0" name="name" type="xs:string" />
       <xs:element minOccurs="0" name="definition" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="pages" type="pages" />
+  <xs:complexType name="pages">
+    <xs:sequence>
+      <xs:element ref="page" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="page" type="page" />
+  <xs:complexType name="page">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="pagenum" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="pageurl" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="next" type="next" />
+  <xs:complexType name="next">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="nextname" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="nexturl" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
