@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:param name="user" select="guest"/>
     <xsl:param name="title" select="title"/>
     <xsl:param name="footer">true</xsl:param>
@@ -19,15 +18,11 @@
             <head>
                 <link rel="stylesheet" href="../web/stylesheets/main.css" type="text/css"/>
                 <link rel="stylesheet" href="../web/stylesheets/mdr.css" type="text/css"/>
-                
                 <link rel="stylesheet" href="../classification/stylesheets/treeview.css" type="text/css"/>
                 <script src="../classification/stylesheets/treeview.js" type="text/javascript"/>
-                
-                <script type="text/javascript" src="../web/tabs/tabber.js"></script>
-                <link rel="stylesheet" href="../web/tabs/tabs.css" type="text/css" media="screen"/>    
-                
+                <script type="text/javascript" src="../web/tabs/tabber.js"/>
+                <link rel="stylesheet" href="../web/tabs/tabs.css" type="text/css" media="screen"/>
                 <link rel="search" type="application/opensearchdescription+xml" title="Data Element Search" href="../web/cde_search.xquery"/>
-
                 <script src="../web/stylesheets/web.js" type="text/javascript"/>
                 <title>
                     <xsl:value-of select="$title"/>
@@ -53,64 +48,63 @@
     <!-- page header rendering-->
     <xsl:template name="page-header">
         <div>
-         <table width="100%">
-             <tr align="left" valign="top">
-             <td>
-               <table>
-                 <tr>
+            <table width="100%">
+                <tr align="left" valign="top">
                     <td>
-                        <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">contents</xsl:with-param>
-                            <xsl:with-param name="alt">contents</xsl:with-param>
-                            <xsl:with-param name="link">../web/contents.xquery</xsl:with-param>
-                        </xsl:call-template>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">search</xsl:with-param>
-                            <xsl:with-param name="alt">search</xsl:with-param>
-                            <xsl:with-param name="link">../web/search.xquery</xsl:with-param>
-                        </xsl:call-template>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">reference documents</xsl:with-param>
-                            <xsl:with-param name="alt">reference documents</xsl:with-param>
-                            <xsl:with-param name="link">../web/reference-document-management.xquery</xsl:with-param>
-                        </xsl:call-template>
-                    </td>
-                </tr>
-                    <xsl:choose>
-                        <xsl:when test="$user='guest'">
-                        </xsl:when>
-                        <xsl:otherwise>
+                        <table>
                             <tr>
-                            <td>
-                                <xsl:call-template name="css-rollover-button">
-                                    <xsl:with-param name="text">maintenance</xsl:with-param>
-                                    <xsl:with-param name="alt">maintenance</xsl:with-param>
-                                    <xsl:with-param name="link">../edit/maintenance.xquery</xsl:with-param>
-                                </xsl:call-template>
-                            </td>
-                           </tr>    
-                        </xsl:otherwise>
-                    </xsl:choose>
-              </table>
-            </td>
-              <td valign="top" align="left">
-                <a href="../web/homepage.xquery">
-                  <img src="../web/images/mdr.jpg" alt="openMDR"/>
-                </a>
-              </td>
-              <td align="right" valign="top">
-                <xsl:call-template name="welcome"/>
-              </td>
-            </tr>
-         </table>
+                                <td>
+                                    <xsl:call-template name="css-rollover-button">
+                                        <xsl:with-param name="text">contents</xsl:with-param>
+                                        <xsl:with-param name="alt">contents</xsl:with-param>
+                                        <xsl:with-param name="link">../web/contents.xquery</xsl:with-param>
+                                    </xsl:call-template>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <xsl:call-template name="css-rollover-button">
+                                        <xsl:with-param name="text">search</xsl:with-param>
+                                        <xsl:with-param name="alt">search</xsl:with-param>
+                                        <xsl:with-param name="link">../web/search.xquery</xsl:with-param>
+                                    </xsl:call-template>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <xsl:call-template name="css-rollover-button">
+                                        <xsl:with-param name="text">reference documents</xsl:with-param>
+                                        <xsl:with-param name="alt">reference documents</xsl:with-param>
+                                        <xsl:with-param name="link">../web/reference-document-management.xquery</xsl:with-param>
+                                    </xsl:call-template>
+                                </td>
+                            </tr>
+                            <xsl:choose>
+                                <xsl:when test="$user='guest'"/>
+                                <xsl:otherwise>
+                                    <tr>
+                                        <td>
+                                            <xsl:call-template name="css-rollover-button">
+                                                <xsl:with-param name="text">maintenance</xsl:with-param>
+                                                <xsl:with-param name="alt">maintenance</xsl:with-param>
+                                                <xsl:with-param name="link">../edit/maintenance.xquery</xsl:with-param>
+                                            </xsl:call-template>
+                                        </td>
+                                    </tr>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </table>
+                    </td>
+                    <td valign="top" align="left">
+                        <a href="../web/homepage.xquery">
+                            <img src="../web/images/mdr.jpg" alt="openMDR"/>
+                        </a>
+                    </td>
+                    <td align="right" valign="top">
+                        <xsl:call-template name="welcome"/>
+                    </td>
+                </tr>
+            </table>
         </div>
     </xsl:template>
     
@@ -121,7 +115,9 @@
                 <a href="../web/login.xquery">login</a>
             </xsl:when>
             <xsl:otherwise>
-                Welcome: <xsl:value-of select="$user"/> <br/> <a href="../web/login.xquery">logout</a>
+                Welcome: <xsl:value-of select="$user"/>
+                <br/>
+                <a href="../web/login.xquery">logout</a>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -151,7 +147,7 @@
     
     <!-- renders the copyright notice on the bottom of the page-->
     <xsl:template name="copyright">
-        <p class="copyright">  </p>
+        <p class="copyright"/>
     </xsl:template>
     <xsl:template name="css-rollover-button">
         <xsl:param name="link"/>
@@ -311,6 +307,11 @@
         <form id="index" action="{action}" method="get">
             <input type="hidden" name="start" value="{start}"/>
             <input type="hidden" name="extent" value="{extent}"/>
+            <input type="hidden" name="previous" value="{previous}"/>
+            <input type="hidden" name="next" value="{next}"/>
+            <input type="hidden" name="last" value="{last}"/>
+            <input type="hidden" name="count" value="{count}"/>
+            <input type="hidden" name="recordlimit" value="{recordlimit}"/>
             <input type="hidden" name="letter" value="{letter}"/>
             <input type="hidden" name="type" value="{type}"/>
             <input type="hidden" name="showScheme" value="{show-scheme}"/>
@@ -330,30 +331,30 @@
                         <xsl:choose>
                             <xsl:when test="start=1"> there are no previous pages </xsl:when>
                             <xsl:otherwise>
-                                <a href="{concat('javascript:showPage(', start - extent, ',' , extent,')')}">previous page</a>
+                                <a href="{concat('javascript:showPage(', previous, ',' , extent,')')}">previous page</a>
                             </xsl:otherwise>
                         </xsl:choose>
                     </td>
                     <td align="center">
                         <xsl:choose>
-                            <xsl:when test="start+extent&gt;=count"> there are no following pages </xsl:when>
+                            <xsl:when test="start+extent&gt;count"> there are no following pages </xsl:when>
                             <xsl:otherwise>
-                                <a href="{concat('javascript:showPage(', start + extent, ',' ,extent,')')}">next page</a>
+                                <a href="{concat('javascript:showPage(', next, ',' ,extent,')')}">next page</a>
                             </xsl:otherwise>
                         </xsl:choose>
                     </td>
-                    <td align="center">
+                    <td type="button" align="center">
                         <xsl:choose>
-                            <xsl:when test="start+extent&gt;=count"> this is the last page </xsl:when>
+                            <xsl:when test="start+extent&gt;count"> this is the last page </xsl:when>
                             <xsl:otherwise>
-                                <a href="{concat('javascript:showPage(', count - extent, ',' ,extent,')')}">last page</a>
+                                <a href="{concat('javascript:showPage(', last, ',' ,extent,')')}">last page</a>
                             </xsl:otherwise>
                         </xsl:choose>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4" align="center">records <xsl:value-of select="start"/> to
-                        <xsl:value-of select="start + extent - 1"/> of <xsl:value-of select="count"/>
+                        <xsl:value-of select="recordlimit"/> of <xsl:value-of select="count"/>
                     </td>
                 </tr>
             </table>
