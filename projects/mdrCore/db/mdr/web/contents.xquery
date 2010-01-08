@@ -22,6 +22,7 @@ declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
+declare namespace util="http://exist-db.org/xquery/util";
 
 import module namespace 
 lib-util="http://www.cagrid.org/xquery/library/util" 
@@ -96,6 +97,7 @@ let $content as element()* :=
         then lib-rendering:admin-item($displayed-items)
         else()
     )
+    
 return
     lib-rendering:txfrm-webpage($title, 
         element content-by-letter {
@@ -105,12 +107,13 @@ return
             element action {'contents.xquery'},
             element previous {if ($start - $extent < 1) then (1) else ($start - $extent)},
             element next {$start + $extent},
-            element last {$count-all-items - $extent},
+            element last { ($count-all-items mod $extent) * $extent +1},
             element type {$type},
             element letter {$letter},
             element start {$start},
             element extent {$extent},
-            element count {$count-all-items}
+            element count {$count-all-items},
+            element recordlimit {if ($start + $extent <= $count-all-items) then ($start + $extent - 1) else ($count-all-items)}
         }
         }}
     )
