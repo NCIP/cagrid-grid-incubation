@@ -98,11 +98,12 @@ return
             element action {'search.xquery'},
             element previous {if ($start - $extent < 1) then (1) else ($start - $extent)},
             element next {$start + $extent},
-            element last {$count-all-items - $extent},
+            element last { ($count-all-items mod $extent) * $extent +1},
             element type {$type},
             element start {$start},
             element extent {$extent},
             element count {$count-all-items},
+            element recordlimit {if ($start + $extent <= $count-all-items) then ($start + $extent - 1) else ($count-all-items)},
             element phrase {$phrase}
         }
         }}
