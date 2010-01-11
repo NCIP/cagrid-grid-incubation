@@ -19,6 +19,28 @@
 				address NCI's needs for controlled vocabulary.</description>
             <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
         </query_service>
+        <query_service name="EVS-ConceptIdentifier" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://lexevsapi51.nci.nih.gov/lexevsapi51/GetXML" cache_collection_id="EVS-ConceptIdentifier" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPTID" connection_type="REST" requestSequence="LexEVSConceptId_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
+            <title>NCI Enterprise Vocabulary Services (EVS)</title>
+            <description>The NCI EVS is a set of services and resources that
+                address NCI's needs for controlled vocabulary.</description>
+            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
+        </query_service>
+        <!--
+        <query_service name="EVS-ConceptIdentifier" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementSummary.xquery" cache_collection_id="EVS-ConceptIdentifier" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPTID" connection_type="REST" requestSequence="LexEVSConceptId_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
+            <title>NCI Enterprise Vocabulary Services (EVS)</title>
+            <description>The NCI EVS is a set of services and resources that
+                address NCI's needs for controlled vocabulary.</description>
+            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
+        </query_service>
+        -->
+        <!-- 
+            <query_service name="EVS-ConceptIdentifier" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementSummary.xquery" cache_collection_id="EVS-ConceptIdentifier" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPTID" connection_type="REST" requestSequence="LexEVSConceptId_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform add_namespace">
+            <title>NCI Enterprise Vocabulary Services (EVS)</title>
+            <description>The NCI EVS is a set of services and resources that
+            address NCI's needs for controlled vocabulary.</description>
+            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
+            </query_service>
+        -->
         <!-- Temporarily disabling it while the OSU EVS Server is being redone
         <query_service name="OSU-EVS-DescLogicConcept" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://lexgrid-dev.ctsa.cagrid.org:8081/lexevsapi50/GetXML" cache_collection_id="EVS-DescLogicConcept" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPT" connection_type="REST" requestSequence="LexEVSDescLogicConcept_query" digestSequence="LexEVSDescLogicConcept_construct fixtag LexEVSDescLogicConcept_transform add_namespace">
             <title>NCI Enterprise Vocabulary Services (EVS)</title>
@@ -63,30 +85,7 @@
 			</description>
             <webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
         </query_service>
-        <!-- The cabio API's have been de-commissioned
-            <query_service name="EVS-DescLogicConcept"
-            class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
-            cache_collection_id="EVS-DescLogicConcept" cache="false"
-            cache_provider="HibernateCacheProvider" category="CONCEPT"
-            connection_type="REST" requestSequence="DescLogicConcept_query"
-            digestSequence="DescLogicConcept_construct fixtag DescLogicConcept_transform add_namespace">
-            <title>NCI Enterprise Vocabulary Services (EVS)</title>
-            <description>The NCI EVS is a set of services and resources that
-            address NCI's needs for controlled vocabulary.</description>
-            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
-            </query_service>
-            <query_service name="EVS-MetaThesaurusConcept"
-            class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
-            cache_collection_id="EVS-MetaThesaurusConcept" cache="false"
-            cache_provider="HibernateCacheProvider" category="CONCEPT"
-            connection_type="REST" requestSequence="MetaThesaurusConcept_query"
-            digestSequence="MetaThesaurusConcept_construct fixtag MetaThesaurusConcept_transform add_namespace">
-            <title>NCI Enterprise Vocabulary Services (EVS)</title>
-            <description>The NCI EVS is a set of services and resources that
-            address NCI's needs for controlled vocabulary.</description>
-            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
-            </query_service>
-        -->
+
     </resources>
     <cache_config>
 		<!--

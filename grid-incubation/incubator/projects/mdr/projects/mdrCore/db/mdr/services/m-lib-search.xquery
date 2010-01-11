@@ -36,6 +36,16 @@ import module namespace
 import module namespace
 value-meaning="http://www.cagrid.org/xquery/library/value-meaning"
 at "../library/m-value-meaning.xquery";
+
+import module namespace 
+      lib-qs="http://www.cagrid.org/xquery/library/query_service" 
+      at "../connector/m-lib-qs.xquery";  
+
+declare namespace session="http://exist-db.org/xquery/session";
+declare namespace rs="http://cagrid.org/schema/result-set";
+declare namespace op="http://www.w3.org/2002/11/xquery-operators";
+declare namespace c="http://cagrid.org/schema/config";
+declare namespace q="http://cagrid.org/schema/query";
    
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
@@ -318,6 +328,121 @@ declare function lib-search:dataElementListSearch($term as xs:string, $start as 
    return
        $content
           
+};
+
+declare function lib-search:dataElementSummary($term as xs:string, $start as xs:integer, $num as xs:integer) as node() 
+{
+   let $all-admin-items := 
+       for $sorted in lib-util:search("data_element", $term)
+       let $preferred-name := $sorted//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
+       order by $preferred-name 
+       return 
+           $sorted
+
+    let $count-all-admin-items := count($all-admin-items)    
+
+    let $content as element() :=
+        <result-set>
+           {
+              for $administered-item at $record-id in $all-admin-items
+                 let $administered-item-id := lib-util:mdrElementId($administered-item)
+                 let $value-domain-id := data($administered-item//openMDR:representing)
+                 let $value-domain := lib-util:mdrElement("value_domain",$value-domain-id)
+                 let $data-element-concept-id := data($administered-item//openMDR:expressing)
+                 let $data-element-concept := lib-util:mdrElement("data_element_concept",$data-element-concept-id)
+                 let $object-class-id := data($data-element-concept//openMDR:data_element_concept_object_class)
+                 let $object-class := lib-util:mdrElement("object_class",$object-class-id)
+                 let $property-class-id := data($data-element-concept//openMDR:data_element_concept_property)
+                 let $property-class := lib-util:mdrElement("property",$property-class-id)                   
+                 let $data-type := lib-util:mdrElement("data_type", data($value-domain//openMDR:value_domain_datatype))
+                 let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//openMDR:value_domain_unit_of_measure))
+                 let $preferred-name := data($administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name)
+             where $record-id >= $start and $record-id <= $start + $num 
+             return
+                   element data-element
+                   {
+                      element names 
+                      {
+                          element id {$administered-item-id},
+                          element preferred {$preferred-name},
+                          element all-names 
+                          {
+                              for $name in $administered-item//openMDR:name
+                              where data($name) != $preferred-name  
+                              return element name {data($name)}
+                          }
+                      },
+                     element definition {administered-item:preferred-definition($administered-item)},
+                     element values 
+                     {
+                         if (value-domain:type($value-domain) = 'enumerated value domain')
+                         then
+                             element enumerated 
+                             {
+                                 for $value in $value-domain//openMDR:containing
+                                 where $value/openMDR:value_item >""
+                                 order by $value/openMDR:value_item
+                                 return
+                                     element valid-value
+                                     {
+                                         element code {data($value/openMDR:value_item)},
+                                         element meaning {data(value-meaning:value-meaning($value/openMDR:contained_in)//openMDR:value_meaning_description)}
+                                     }
+                              }
+                          else
+                          element non-enumerated
+                          {
+                             element data-type {data($data-type//openMDR:datatype_name)},
+                             element units 
+                             {
+                                if (data($uom//openMDR:unit_of_measure_name)>"")
+                                then (data($uom//openMDR:unit_of_measure_name))
+                                else ("(not applicable)")}
+                            }
+                       },
+                       element object-class
+                       {
+                          element conceptCollection{
+                           let $resource := lib-qs:selectResource-form('CONCEPTID')
+                           let $request:=""
+                           
+                           for $u in $object-class//openMDR:reference_uri
+                               let $phrase-id := tokenize(data($u),'-')[last()]
+                               let $conceptRef :=
+                               if ($request != "") 
+                                    then (lib-qs:query($request,$resource))
+                                else  
+                                if ($phrase-id != "") 
+                                    then (lib-qs:query($resource, (), $phrase-id, $start, $num))
+                                else ()                             
+                           return
+                                $conceptRef    
+                           }
+                        },
+                       
+                       element property
+                       {
+                          element conceptCollection{
+                           let $resource := lib-qs:selectResource-form('CONCEPTID')
+                           let $request:=""                     
+                           for $u in $property-class//openMDR:reference_uri
+                               let $phrase-id := tokenize(data($u),'-')[last()]
+                               let $conceptRef :=
+                               if ($request != "") 
+                                    then (lib-qs:query($request,$resource))
+                                else  
+                                if ($phrase-id != "") 
+                                    then (lib-qs:query($resource, (), $phrase-id, $start, $num))
+                                else ()                             
+                           return
+                           $conceptRef                                                    
+                           }
+                        }
+                   }
+            }
+        </result-set>   
+   return
+       $content
 };
 
 (: Classification:)
