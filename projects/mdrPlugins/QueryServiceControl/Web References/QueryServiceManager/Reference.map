@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/MDRQuery/xsd/cagrid/types/security/security.xsd" filename="security.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/wsrf/faults/WS-BaseFaults.xsd" filename="WS-BaseFaults.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/MDRQuery/query.xsd" filename="query.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.18:8080/wsrf/share/schema/MDRQuery/MDRQuery.wsdl" filename="MDRQuery.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/MDRQuery/config.xsd" filename="config.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/ws/xml.xsd" filename="xml.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/MDRQuery/result-set.xsd" filename="result-set.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.18:8080/wsrf/share/schema/MDRQuery/MDRQuery_bindings.wsdl" filename="MDRQuery0.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.18:8080/wsrf/share/schema/wsrf/notification/WS-BaseN.wsdl" filename="WS-BaseNotification.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/MDRQuery/MDRQueryTypes.xsd" filename="MDRQueryTypes.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.18:8080/wsrf/share/schema/MDRQuery/ServiceSecurity.wsdl" filename="ServiceSecurity.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.18:8080/wsrf/share/schema/wsrf/lifetime/WS-ResourceLifetime.wsdl" filename="WS-ResourceLifetime.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.18:8080/wsrf/services/cagrid/MDRQuery?wsdl" filename="MDRQuery1.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.18:8080/wsrf/share/schema/wsrf/faults/WS-BaseFaults.wsdl" filename="BaseFaults.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.18:8080/wsrf/share/schema/wsrf/properties/WS-ResourceProperties.wsdl" filename="WS-ResourceProperties.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/ws/addressing/WS-Addressing.xsd" filename="WS-Addressing.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/wsrf/notification/WS-BaseN.xsd" filename="WS-BaseN.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/wsrf/lifetime/WS-ResourceLifetime.xsd" filename="WS-ResourceLifetime.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.18:8080/wsrf/share/schema/wsrf/properties/WS-ResourceProperties.xsd" filename="WS-ResourceProperties.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.81:8080/wsrf/share/schema/MDRQuery/MDRQuery.wsdl" filename="MDRQuery.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.81:8080/wsrf/share/schema/wsrf/faults/WS-BaseFaults.wsdl" filename="BaseFaults.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.81:8080/wsrf/share/schema/MDRQuery/ServiceSecurity.wsdl" filename="ServiceSecurity.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/MDRQuery/config.xsd" filename="config.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/ws/addressing/WS-Addressing.xsd" filename="WS-Addressing.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/MDRQuery/xsd/cagrid/types/security/security.xsd" filename="security.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/MDRQuery/MDRQueryTypes.xsd" filename="MDRQueryTypes.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.81:8080/wsrf/share/schema/wsrf/lifetime/WS-ResourceLifetime.wsdl" filename="WS-ResourceLifetime.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.81:8080/wsrf/share/schema/wsrf/properties/WS-ResourceProperties.wsdl" filename="WS-ResourceProperties.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/wsrf/faults/WS-BaseFaults.xsd" filename="WS-BaseFaults.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.81:8080/wsrf/share/schema/MDRQuery/MDRQuery_bindings.wsdl" filename="MDRQuery0.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.81:8080/wsrf/services/cagrid/MDRQuery?wsdl" filename="MDRQuery1.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/MDRQuery/query.xsd" filename="query.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/ws/xml.xsd" filename="xml.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/MDRQuery/result-set.xsd" filename="result-set.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.1.81:8080/wsrf/share/schema/wsrf/notification/WS-BaseN.wsdl" filename="WS-BaseNotification.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/wsrf/properties/WS-ResourceProperties.xsd" filename="WS-ResourceProperties.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/wsrf/lifetime/WS-ResourceLifetime.xsd" filename="WS-ResourceLifetime.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://172.16.1.81:8080/wsrf/share/schema/wsrf/notification/WS-BaseN.xsd" filename="WS-BaseN.xsd" />
   </Results>
 </DiscoveryClientResultsFile>

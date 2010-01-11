@@ -33,8 +33,10 @@
             this.grpControls = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.cbResources = new System.Windows.Forms.ComboBox();
-            this.statusMsg = new System.Windows.Forms.Label();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
+            this.txtContext = new System.Windows.Forms.TextBox();
+            this.statusMsg = new System.Windows.Forms.Label();
+            this.lblContext = new System.Windows.Forms.Label();
             this.grpResults = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanelResults = new System.Windows.Forms.TableLayoutPanel();
             this.lstResults = new System.Windows.Forms.ListBox();
@@ -78,8 +80,6 @@
             this.wbClassificationQueryResultDef = new System.Windows.Forms.WebBrowser();
             this.tabPageCLSDetailsValueDomain = new System.Windows.Forms.TabPage();
             this.wbClassificationQueryResultValueDomain = new System.Windows.Forms.WebBrowser();
-            this.txtContext = new System.Windows.Forms.TextBox();
-            this.lblContext = new System.Windows.Forms.Label();
             this.grpControls.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.grpResults.SuspendLayout();
@@ -175,6 +175,26 @@
             this.cbResources.Size = new System.Drawing.Size(290, 21);
             this.cbResources.TabIndex = 2;
             // 
+            // cbSearchType
+            // 
+            this.cbSearchType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbSearchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSearchType.FormattingEnabled = true;
+            this.cbSearchType.Location = new System.Drawing.Point(3, 33);
+            this.cbSearchType.Name = "cbSearchType";
+            this.cbSearchType.Size = new System.Drawing.Size(74, 21);
+            this.cbSearchType.TabIndex = 4;
+            // 
+            // txtContext
+            // 
+            this.txtContext.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtContext.Location = new System.Drawing.Point(83, 63);
+            this.txtContext.Name = "txtContext";
+            this.txtContext.Size = new System.Drawing.Size(210, 20);
+            this.txtContext.TabIndex = 5;
+            // 
             // statusMsg
             // 
             this.statusMsg.AutoSize = true;
@@ -185,15 +205,18 @@
             this.statusMsg.TabIndex = 3;
             this.statusMsg.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // cbSearchType
+            // lblContext
             // 
-            this.cbSearchType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbSearchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(3, 33);
-            this.cbSearchType.Name = "cbSearchType";
-            this.cbSearchType.Size = new System.Drawing.Size(74, 21);
-            this.cbSearchType.TabIndex = 4;
+            this.lblContext.AutoSize = true;
+            this.lblContext.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblContext.Location = new System.Drawing.Point(34, 60);
+            this.lblContext.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.lblContext.Name = "lblContext";
+            this.lblContext.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lblContext.Size = new System.Drawing.Size(46, 30);
+            this.lblContext.TabIndex = 6;
+            this.lblContext.Text = "Context:";
+            this.lblContext.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // grpResults
             // 
@@ -343,7 +366,7 @@
             this.tabPagePropsValues.Location = new System.Drawing.Point(4, 22);
             this.tabPagePropsValues.Name = "tabPagePropsValues";
             this.tabPagePropsValues.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePropsValues.Size = new System.Drawing.Size(288, 273);
+            this.tabPagePropsValues.Size = new System.Drawing.Size(288, 258);
             this.tabPagePropsValues.TabIndex = 1;
             this.tabPagePropsValues.Text = "Props/Values";
             this.tabPagePropsValues.UseVisualStyleBackColor = true;
@@ -354,7 +377,7 @@
             this.wbDetailsPropsValues.Location = new System.Drawing.Point(3, 3);
             this.wbDetailsPropsValues.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbDetailsPropsValues.Name = "wbDetailsPropsValues";
-            this.wbDetailsPropsValues.Size = new System.Drawing.Size(282, 267);
+            this.wbDetailsPropsValues.Size = new System.Drawing.Size(282, 252);
             this.wbDetailsPropsValues.TabIndex = 0;
             // 
             // tabOcProps
@@ -362,7 +385,7 @@
             this.tabOcProps.Controls.Add(this.wbOcProps);
             this.tabOcProps.Location = new System.Drawing.Point(4, 22);
             this.tabOcProps.Name = "tabOcProps";
-            this.tabOcProps.Size = new System.Drawing.Size(288, 273);
+            this.tabOcProps.Size = new System.Drawing.Size(288, 258);
             this.tabOcProps.TabIndex = 3;
             this.tabOcProps.Text = "OC/Props";
             this.tabOcProps.UseVisualStyleBackColor = true;
@@ -373,7 +396,7 @@
             this.wbOcProps.Location = new System.Drawing.Point(0, 0);
             this.wbOcProps.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbOcProps.Name = "wbOcProps";
-            this.wbOcProps.Size = new System.Drawing.Size(288, 273);
+            this.wbOcProps.Size = new System.Drawing.Size(288, 258);
             this.wbOcProps.TabIndex = 0;
             // 
             // otherDetails
@@ -382,7 +405,7 @@
             this.otherDetails.Location = new System.Drawing.Point(4, 22);
             this.otherDetails.Name = "otherDetails";
             this.otherDetails.Padding = new System.Windows.Forms.Padding(3);
-            this.otherDetails.Size = new System.Drawing.Size(288, 273);
+            this.otherDetails.Size = new System.Drawing.Size(288, 258);
             this.otherDetails.TabIndex = 2;
             this.otherDetails.Text = "Other";
             this.otherDetails.UseVisualStyleBackColor = true;
@@ -393,7 +416,7 @@
             this.wbDetailsOther.Location = new System.Drawing.Point(3, 3);
             this.wbDetailsOther.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbDetailsOther.Name = "wbDetailsOther";
-            this.wbDetailsOther.Size = new System.Drawing.Size(282, 267);
+            this.wbDetailsOther.Size = new System.Drawing.Size(282, 252);
             this.wbDetailsOther.TabIndex = 0;
             // 
             // tabControl
@@ -415,7 +438,7 @@
             this.tabFreeText.Padding = new System.Windows.Forms.Padding(3);
             this.tabFreeText.Size = new System.Drawing.Size(314, 795);
             this.tabFreeText.TabIndex = 0;
-            this.tabFreeText.Text = "Free Text";
+            this.tabFreeText.Text = "MDR Query";
             this.tabFreeText.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel3
@@ -719,29 +742,6 @@
             this.wbClassificationQueryResultValueDomain.Name = "wbClassificationQueryResultValueDomain";
             this.wbClassificationQueryResultValueDomain.Size = new System.Drawing.Size(282, 204);
             this.wbClassificationQueryResultValueDomain.TabIndex = 0;
-            // 
-            // txtContext
-            // 
-            this.txtContext.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtContext.Location = new System.Drawing.Point(83, 63);
-            this.txtContext.Name = "txtContext";
-            this.txtContext.Size = new System.Drawing.Size(210, 20);
-            this.txtContext.TabIndex = 5;
-            // 
-            // lblContext
-            // 
-            this.lblContext.AutoSize = true;
-            this.lblContext.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblContext.Location = new System.Drawing.Point(34, 60);
-            this.lblContext.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.lblContext.Name = "lblContext";
-            this.lblContext.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblContext.Size = new System.Drawing.Size(46, 30);
-            this.lblContext.TabIndex = 6;
-            this.lblContext.Text = "Context:";
-            this.lblContext.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // QueryServiceControl
             // 
