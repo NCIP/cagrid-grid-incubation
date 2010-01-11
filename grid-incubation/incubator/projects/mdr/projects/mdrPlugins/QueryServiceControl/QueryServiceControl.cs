@@ -30,6 +30,7 @@ namespace QueryServiceControl
 
         private String TERM_SEARCH_TYPE = "Term";
         private String ID_SEARCH_TYPE = "Id";
+        private String EXACTTERM_SEARCH_TYPE = "Exact Term";
 
         public QueryServiceControl()
         {
@@ -55,6 +56,7 @@ namespace QueryServiceControl
 
             // Set default search type to "Term"
             cbSearchType.Items.Add(TERM_SEARCH_TYPE);
+            cbSearchType.Items.Add(EXACTTERM_SEARCH_TYPE);
             cbSearchType.Items.Add(ID_SEARCH_TYPE);
             cbSearchType.SelectedItem = TERM_SEARCH_TYPE;
         }
@@ -313,6 +315,12 @@ namespace QueryServiceControl
                 if (cbSearchType.SelectedItem.Equals(TERM_SEARCH_TYPE)) {
                     req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[] {
                         global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.term
+                    };
+                }
+                else if (cbSearchType.SelectedItem.Equals(EXACTTERM_SEARCH_TYPE))
+                {
+                    req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[] {
+                        global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.exactTerm
                     };
                 }
                 else
@@ -921,6 +929,7 @@ namespace QueryServiceControl
             global::QueryServiceControl.Properties.Settings.Default.Save();
             InitServiceURL();
         }
+
     }
 
     public class QueryListItem
