@@ -3,7 +3,7 @@
  to the source control repository, as it is local configuration specific
 -->
 <config>
-    <common port="8080"/>
+    <common port="9090"/>
     <secure port="8443"/>
     <root path="/db/mdr"/>
 </config>
