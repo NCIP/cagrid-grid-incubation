@@ -51,7 +51,8 @@ declare function lib-qs:selectResource-form($type) as node()*
 declare function lib-qs:query($request as xs:string, $resource as xs:string) as node()?
 {
    let $qs := doc("/db/mdr/connector/config.xml")/c:config/c:resources/c:query_service[@name=$resource]
-   (:let $log := util:log-system-err($request):)
+      let $log := util:log-system-out('INNER')
+   let $log := util:log-system-out($request)
     return
     if ($request)  
     then
@@ -96,7 +97,7 @@ declare function lib-qs:query($resource as xs:string, $src as xs:string?, $term 
         if ($qs/@connection_type = "REST")
         then
             (: Generate resource specific query :)
-            let $request := lib-qs:chain-transform($query, tokenize(data($qs/@requestSequence), ' '))    
+            let $request := lib-qs:chain-transform($query, tokenize(data($qs/@requestSequence), ' '))   
             (: Query the resource:)
             let $content := httpclient:get(xs:anyURI($request), xs:boolean("false"), ())/httpclient:body/*
             return
