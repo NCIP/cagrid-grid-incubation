@@ -221,7 +221,6 @@ return
                     
                     for $page in $pages/rs:page
                         let $pagelink:= encode-for-uri($page/rs:pageurl)
-                        let $log:= util:log-system-err($pagelink)
                         let $pagenum:= $page/rs:pagenum
                     return
                        <td style="vertical-align:top;width:250px;padding:5px;">
