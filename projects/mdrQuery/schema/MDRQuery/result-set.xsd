@@ -15,6 +15,7 @@
 				<xs:element ref="object-class" maxOccurs="unbounded" />
 				<xs:element ref="node" />
 				<xs:element ref="classification_scheme" maxOccurs="unbounded" />
+				<xs:element ref="context" maxOccurs="unbounded" />
 			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
@@ -31,6 +32,15 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:element name="context" type="context" />
+	<xs:complexType name="context">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="version" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
 	<xs:element name="definition" type="definition" />
 	<xs:complexType name="definition">
 		<xs:sequence>
@@ -70,7 +80,7 @@
 		<xs:complexContent>
 			<xs:extension base="common-info">
 				<xs:sequence>
-                    <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
+                    <xs:element ref="context" />
 					<xs:element ref="values" />
 					<!--<xs:element ref="conceptCollection" minOccurs="0"/>-->
 					<xs:element ref="object-class" maxOccurs="unbounded" />
@@ -146,7 +156,7 @@
 		<xs:complexContent>
 			<xs:extension base="common-info">
 				<xs:sequence>
-				    <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
+				    <xs:element ref="context" minOccurs="0" maxOccurs="1" />
 					<xs:element ref="conceptCollection" minOccurs="0" />
 				</xs:sequence>
 			</xs:extension>
@@ -177,7 +187,7 @@
 		<xs:complexContent>
 			<xs:extension base="common-info">
 				<xs:sequence>
-				    <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1" />
+				    <xs:element ref="context" minOccurs="0" maxOccurs="1" />
 					<xs:element ref="conceptCollection" minOccurs="0" />
 				</xs:sequence>
 			</xs:extension>

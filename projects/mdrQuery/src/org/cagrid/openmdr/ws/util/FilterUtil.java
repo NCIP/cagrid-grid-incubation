@@ -43,7 +43,7 @@ public class FilterUtil {
 		
 		List<Property> newProps = new ArrayList<Property>();
 		for(Property p : props) {
-			if (p.getContext().equalsIgnoreCase(context)) {
+			if (p.getContext().getName().equalsIgnoreCase(context)) {
 				newProps.add(p);
 			}
 		}
@@ -62,7 +62,7 @@ public class FilterUtil {
 		
 		List<ObjectClass> newObjectClasses = new ArrayList<ObjectClass>();
 		for(ObjectClass oc : ocs) {
-			if (oc.getContext().equalsIgnoreCase(context)) {
+			if (oc.getContext().getName().equalsIgnoreCase(context)) {
 				newObjectClasses.add(oc);
 			}
 		}
@@ -82,7 +82,7 @@ public class FilterUtil {
 		
 		List<DataElement> newDataElements = new ArrayList<DataElement>();
 		for(DataElement de : des) {
-			if (de.getContext().equalsIgnoreCase(context)) {
+			if (de.getContext().getName().equalsIgnoreCase(context)) {
 				newDataElements.add(de);
 			}
 		}

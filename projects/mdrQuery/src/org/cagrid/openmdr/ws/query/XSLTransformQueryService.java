@@ -79,19 +79,19 @@ public abstract class XSLTransformQueryService implements QueryOperation {
      * ChainTransformer to process messages
      */
     protected ChainTransformer transform = null;
-
+    
     /**
      * Sequence of labels for specifying templates to use in transforming query
      * request to vocabulary/metadata service specific format.
      */
     protected List<String> requestSequence = null;
-
+    
     /**
      * Sequence of labels for specifying templates to use in transforming query
      * response from vocabulary/metadata service to a common format.
      */
     protected List<String> digestSequence = null;
-
+    
     /**
      * Configuration information
      */
@@ -103,13 +103,12 @@ public abstract class XSLTransformQueryService implements QueryOperation {
     public XSLTransformQueryService(File transformTemplatesDir) {
         this.transformTemplatesDir = transformTemplatesDir;
         transform = new ChainTransformer();
-    }
+     }
 
 
     public XSLTransformQueryService(File transformTemplatesDir, QueryMode mode) {
-        this.transformTemplatesDir = transformTemplatesDir;
+    	this(transformTemplatesDir);
         qMode = mode;
-        transform = new ChainTransformer();
     }
 
 
@@ -142,7 +141,10 @@ public abstract class XSLTransformQueryService implements QueryOperation {
             if (content == null) {
                 return null;
             }
-            String result = generateDigest(content);
+            String result = generateQueryDigest(content);
+            if (result == null) {
+            	return null;
+            }
             ResultSet rs = (ResultSet) Utils.deserializeObject(new StringReader(result), ResultSet.class);
             return rs;
         } catch (Exception e) {
@@ -151,7 +153,6 @@ public abstract class XSLTransformQueryService implements QueryOperation {
             return null;
         }
     }
-
 
     /**
      * Set the query mode of this service
@@ -198,8 +199,7 @@ public abstract class XSLTransformQueryService implements QueryOperation {
     public List<String> getDigestSequence() {
         return digestSequence;
     }
-
-
+    
     /**
      * Create a new digest transform sequence
      * 
@@ -209,20 +209,10 @@ public abstract class XSLTransformQueryService implements QueryOperation {
      *            configuration to use
      */
     public void setDigestSequence(List<String> seq, QueryServiceConfig config) {
-        try {
-            this.digestSequence = seq;
-            this.config = config;
-
-            for (String s : digestSequence) {
-                transform.addTemplate(s, ChainTransformer.createTemplate(new File(transformTemplatesDir
-                    .getAbsolutePath()
-                     + File.separator + s + ".xsl").getAbsolutePath()));
-            }
-        } catch (Exception e) {
-            LOG.error("Fail to create digest transform sequence: " + e);
-        }
+    	this.digestSequence = seq;
+        this.config = config;
+        setSequence(this.digestSequence, transform);
     }
-
 
     /**
      * Reinitialize the digest transform sequence
@@ -230,7 +220,6 @@ public abstract class XSLTransformQueryService implements QueryOperation {
     public void resetDigestSequence() {
         setDigestSequence(digestSequence, config);
     }
-
 
     /**
      * Get the transform sequence for the request phase
@@ -241,7 +230,6 @@ public abstract class XSLTransformQueryService implements QueryOperation {
         return requestSequence;
     }
 
-
     /**
      * Create a new request sequence
      * 
@@ -251,19 +239,10 @@ public abstract class XSLTransformQueryService implements QueryOperation {
      *            configuration to use
      */
     public void setRequestSequence(List<String> seq, QueryServiceConfig config) {
-        try {
-            this.requestSequence = seq;
-            this.config = config;
-            for (String s : requestSequence) {
-                transform.addTemplate(s, ChainTransformer.createTemplate(new File(transformTemplatesDir
-                    .getAbsolutePath()
-                    + File.separator + s + ".xsl").getAbsolutePath()));
-            }
-        } catch (Exception e) {
-            LOG.error("Fail to create request transform sequence: " + e);
-        }
+        this.requestSequence = seq;
+        this.config = config;
+        setSequence(this.requestSequence, transform);
     }
-
 
     /**
      * Reinitialize the request transform sequence
@@ -271,7 +250,6 @@ public abstract class XSLTransformQueryService implements QueryOperation {
     public void resetRequestSequence() {
         setRequestSequence(requestSequence, config);
     }
-
 
     /**
      * Initialize request by adding vocabulary/metadata services specific
@@ -301,7 +279,6 @@ public abstract class XSLTransformQueryService implements QueryOperation {
      */
     protected abstract String executeQuery(Query query);
 
-
     /**
      * Transform query response to a common format
      * 
@@ -309,12 +286,27 @@ public abstract class XSLTransformQueryService implements QueryOperation {
      *            query response to transform
      * @return query response transformed into common format
      */
-    protected String generateDigest(String content) {
-        if (digestSequence != null && digestSequence.size() > 0) {
-            return transform.applyTemplates(content, digestSequence);
+    protected String generateQueryDigest(String content) {
+    	return generateDigest(content, this.digestSequence, transform);
+    }
+    
+    private String generateDigest(String content, List<String> seq, ChainTransformer aTransform) {
+    	if (seq != null && seq.size() > 0) {
+            return aTransform.applyTemplates(content, seq);
         } else {
             return content;
         }
     }
 
+    private void setSequence(List<String> seq, ChainTransformer aTransform) {
+        try {
+            for (String s : seq) {
+                aTransform.addTemplate(s, ChainTransformer.createTemplate(new File(transformTemplatesDir
+                    .getAbsolutePath()
+                     + File.separator + s + ".xsl").getAbsolutePath()));
+            }
+        } catch (Exception e) {
+            LOG.error("Fail to create transform sequence: " + e);
+        }
+    }
 }

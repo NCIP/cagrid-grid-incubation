@@ -90,5 +90,6 @@
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/jasciidammit-1.1.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/service/jars/saxon9.jar"/>
+	<classpathentry kind="var" path="GT4_LOCATION"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

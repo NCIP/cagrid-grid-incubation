@@ -7,6 +7,7 @@
    <ns2:SchemaElement type="concept" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="conceptCollection" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="conceptRef" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="context" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="data-element" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="definition" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="enumerated" xsi:type="ns2:SchemaElementType"/>
@@ -23,6 +24,10 @@
    <ns2:SchemaElement type="result-set" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="valid-value" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="values" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="./context.xsd" namespace="http://cagrid.org/schema/context" packageName="org.cancergrid.schema.context" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="context" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="contextList" xsi:type="ns2:SchemaElementType"/>
   </ns2:Namespace>
   <ns2:Namespace location="./query.xsd" namespace="http://cagrid.org/schema/query" packageName="org.cancergrid.schema.query" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="query" xsi:type="ns2:SchemaElementType"/>

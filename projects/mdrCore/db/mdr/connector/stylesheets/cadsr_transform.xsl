@@ -12,6 +12,15 @@
             <xsl:apply-templates select="@*|*|text()|comment()"/>
         </xsl:copy>
     </xsl:template>
+    
+    <xsl:template match="gov.nih.nci.cadsr.domain.Context">
+    	<context>
+            <name><xsl:value-of select="name"/></name>
+            <description><xsl:value-of select="description"/></description>
+            <version><xsl:value-of select="version"/></version>
+        </context>
+    </xsl:template>
+    
     <xsl:template match="gov.nih.nci.cadsr.domain.DataElement">
         <!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
         <data-element>
@@ -41,9 +50,7 @@
             <registration-status>
                 <xsl:value-of select="registrationStatus"/>
             </registration-status>
-            <context>
-                <xsl:value-of select="context/gov.nih.nci.cadsr.domain.Context/name"/>
-            </context>
+            <xsl:apply-templates select="context/gov.nih.nci.cadsr.domain.Context"/>
             <xsl:apply-templates select="valueDomain"/>
             <!--
                 <xsl:apply-templates select="dataElementConcept/DataElementConcept/objectClass/ObjectClass"/>
@@ -125,9 +132,7 @@
             <registration-status>
                 <xsl:value-of select="registrationStatus"/>
             </registration-status>
-            <context>
-                <xsl:value-of select="context/gov.nih.nci.cadsr.domain.Context/name"/>
-            </context>
+            <xsl:apply-templates select="context/gov.nih.nci.cadsr.domain.Context"/>
             <xsl:apply-templates select="conceptDerivationRule"/>
         </object-class>
     </xsl:template>
@@ -161,9 +166,7 @@
             <registration-status>
                 <xsl:value-of select="registrationStatus"/>
             </registration-status>
-            <context>
-                <xsl:value-of select="context/gov.nih.nci.cadsr.domain.Context/name"/>
-            </context>
+            <xsl:apply-templates select="context/gov.nih.nci.cadsr.domain.Context"/>
             <xsl:apply-templates select="conceptDerivationRule"/>
         </property>
     </xsl:template>
