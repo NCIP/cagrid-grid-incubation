@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<definitions xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:ns1="http://cagrid.org/schema/query" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:ns3="http://mdrq.cagrid.org/MDRQuery/types" xmlns:tns="http://mdrq.cagrid.org/MDRQuery" xmlns:wns0="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:ns0="http://cagrid.org/schema/result-set" xmlns:ns2="http://cagrid.org/schema/config" xmlns:wns1="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" name="MDRQuery" targetNamespace="http://mdrq.cagrid.org/MDRQuery" xmlns="http://schemas.xmlsoap.org/wsdl/">
+<definitions xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:ns4="http://mdrq.cagrid.org/MDRQuery/types" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:ns1="http://cagrid.org/schema/context" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:tns="http://mdrq.cagrid.org/MDRQuery" xmlns:ns3="http://cagrid.org/schema/config" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:ns0="http://cagrid.org/schema/result-set" xmlns:ns2="http://cagrid.org/schema/query" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wns0="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" name="MDRQuery" targetNamespace="http://mdrq.cagrid.org/MDRQuery" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
   <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
@@ -19,7 +19,7 @@
             <xs:element name="query">
               <xs:complexType>
                 <xs:sequence>
-                  <xs:element minOccurs="1" maxOccurs="1" ref="ns1:query" />
+                  <xs:element minOccurs="1" maxOccurs="1" ref="ns2:query" />
                 </xs:sequence>
               </xs:complexType>
             </xs:element>
@@ -41,14 +41,14 @@
       <xs:element name="GetQueryResourcesResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="1" ref="ns2:resources" />
+            <xs:element minOccurs="1" maxOccurs="1" ref="ns3:resources" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="MDRQueryResourceProperties">
         <xs:complexType>
           <xs:sequence>
-            <xs:element ref="ns2:resources" />
+            <xs:element ref="ns3:resources" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -76,25 +76,25 @@
       <output wsa:Action="http://mdrq.cagrid.org/MDRQuery/GetQueryResourcesResponse" message="tns:GetQueryResourcesResponse" />
     </operation>
     <wsdl:operation name="GetMultipleResourceProperties" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-      <wsdl:input wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" name="GetMultipleResourcePropertiesRequest" message="wsrpw:GetMultipleResourcePropertiesRequest" />
-      <wsdl:output wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourcePropertiesResponse" name="GetMultipleResourcePropertiesResponse" message="wsrpw:GetMultipleResourcePropertiesResponse" />
-      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
-      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+      <wsdl:input wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" name="GetMultipleResourcePropertiesRequest" message="wns0:GetMultipleResourcePropertiesRequest" />
+      <wsdl:output wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourcePropertiesResponse" name="GetMultipleResourcePropertiesResponse" message="wns0:GetMultipleResourcePropertiesResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wns0:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wns0:InvalidResourcePropertyQNameFault" />
     </wsdl:operation>
     <wsdl:operation name="GetResourceProperty" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-      <wsdl:input wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourceProperty" name="GetResourcePropertyRequest" message="wsrpw:GetResourcePropertyRequest" />
-      <wsdl:output wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourcePropertyResponse" name="GetResourcePropertyResponse" message="wsrpw:GetResourcePropertyResponse" />
-      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
-      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+      <wsdl:input wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourceProperty" name="GetResourcePropertyRequest" message="wns0:GetResourcePropertyRequest" />
+      <wsdl:output wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourcePropertyResponse" name="GetResourcePropertyResponse" message="wns0:GetResourcePropertyResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wns0:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wns0:InvalidResourcePropertyQNameFault" />
     </wsdl:operation>
     <wsdl:operation name="QueryResourceProperties" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-      <wsdl:input wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourceProperties" name="QueryResourcePropertiesRequest" message="wsrpw:QueryResourcePropertiesRequest" />
-      <wsdl:output wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourcePropertiesResponse" name="QueryResourcePropertiesResponse" message="wsrpw:QueryResourcePropertiesResponse" />
-      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
-      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
-      <wsdl:fault name="UnknownQueryExpressionDialectFault" message="wsrpw:UnknownQueryExpressionDialectFault" />
-      <wsdl:fault name="InvalidQueryExpressionFault" message="wsrpw:InvalidQueryExpressionFault" />
-      <wsdl:fault name="QueryEvaluationErrorFault" message="wsrpw:QueryEvaluationErrorFault" />
+      <wsdl:input wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourceProperties" name="QueryResourcePropertiesRequest" message="wns0:QueryResourcePropertiesRequest" />
+      <wsdl:output wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourcePropertiesResponse" name="QueryResourcePropertiesResponse" message="wns0:QueryResourcePropertiesResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wns0:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wns0:InvalidResourcePropertyQNameFault" />
+      <wsdl:fault name="UnknownQueryExpressionDialectFault" message="wns0:UnknownQueryExpressionDialectFault" />
+      <wsdl:fault name="InvalidQueryExpressionFault" message="wns0:InvalidQueryExpressionFault" />
+      <wsdl:fault name="QueryEvaluationErrorFault" message="wns0:QueryEvaluationErrorFault" />
     </wsdl:operation>
     <operation name="getServiceSecurityMetadata">
       <input wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" message="wns1:GetServiceSecurityMetadataRequest" />

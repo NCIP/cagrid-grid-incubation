@@ -34,9 +34,9 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.cbResources = new System.Windows.Forms.ComboBox();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
-            this.txtContext = new System.Windows.Forms.TextBox();
             this.statusMsg = new System.Windows.Forms.Label();
             this.lblContext = new System.Windows.Forms.Label();
+            this.btnContextList = new System.Windows.Forms.Button();
             this.grpResults = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanelResults = new System.Windows.Forms.TableLayoutPanel();
             this.lstResults = new System.Windows.Forms.ListBox();
@@ -80,6 +80,7 @@
             this.wbClassificationQueryResultDef = new System.Windows.Forms.WebBrowser();
             this.tabPageCLSDetailsValueDomain = new System.Windows.Forms.TabPage();
             this.wbClassificationQueryResultValueDomain = new System.Windows.Forms.WebBrowser();
+            this.cbContextList = new System.Windows.Forms.ComboBox();
             this.grpControls.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.grpResults.SuspendLayout();
@@ -111,6 +112,7 @@
             this.txtTerm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.SetColumnSpan(this.txtTerm, 2);
             this.txtTerm.Location = new System.Drawing.Point(83, 33);
             this.txtTerm.Name = "txtTerm";
             this.txtTerm.Size = new System.Drawing.Size(210, 20);
@@ -143,16 +145,18 @@
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel4.Controls.Add(this.cbResources, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.txtTerm, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.cbSearchType, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.txtContext, 1, 2);
             this.tableLayoutPanel4.Controls.Add(this.statusMsg, 1, 3);
             this.tableLayoutPanel4.Controls.Add(this.btnSearch, 0, 3);
             this.tableLayoutPanel4.Controls.Add(this.lblContext, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.btnContextList, 2, 2);
+            this.tableLayoutPanel4.Controls.Add(this.cbContextList, 1, 2);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -166,7 +170,7 @@
             // 
             // cbResources
             // 
-            this.tableLayoutPanel4.SetColumnSpan(this.cbResources, 2);
+            this.tableLayoutPanel4.SetColumnSpan(this.cbResources, 3);
             this.cbResources.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cbResources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbResources.FormattingEnabled = true;
@@ -174,6 +178,7 @@
             this.cbResources.Name = "cbResources";
             this.cbResources.Size = new System.Drawing.Size(290, 21);
             this.cbResources.TabIndex = 2;
+            this.cbResources.SelectedIndexChanged += new System.EventHandler(this.cbResources_SelectedIndexChanged);
             // 
             // cbSearchType
             // 
@@ -184,16 +189,6 @@
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(74, 21);
             this.cbSearchType.TabIndex = 4;
-            // 
-            // txtContext
-            // 
-            this.txtContext.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtContext.Location = new System.Drawing.Point(83, 63);
-            this.txtContext.Name = "txtContext";
-            this.txtContext.Size = new System.Drawing.Size(210, 20);
-            this.txtContext.TabIndex = 5;
             // 
             // statusMsg
             // 
@@ -217,6 +212,16 @@
             this.lblContext.TabIndex = 6;
             this.lblContext.Text = "Context:";
             this.lblContext.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // btnContextList
+            // 
+            this.btnContextList.Location = new System.Drawing.Point(219, 63);
+            this.btnContextList.Name = "btnContextList";
+            this.btnContextList.Size = new System.Drawing.Size(74, 23);
+            this.btnContextList.TabIndex = 7;
+            this.btnContextList.Text = "Get List";
+            this.btnContextList.UseVisualStyleBackColor = true;
+            this.btnContextList.Click += new System.EventHandler(this.btnContextList_Click);
             // 
             // grpResults
             // 
@@ -743,6 +748,18 @@
             this.wbClassificationQueryResultValueDomain.Size = new System.Drawing.Size(282, 204);
             this.wbClassificationQueryResultValueDomain.TabIndex = 0;
             // 
+            // cbContextList
+            // 
+            this.cbContextList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbContextList.FormattingEnabled = true;
+            this.cbContextList.Location = new System.Drawing.Point(83, 63);
+            this.cbContextList.Name = "cbContextList";
+            this.cbContextList.Size = new System.Drawing.Size(130, 21);
+            this.cbContextList.TabIndex = 8;
+            this.cbContextList.DropDownClosed += new System.EventHandler(this.cbContextList_DropDownClosed);
+            // 
             // QueryServiceControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -835,7 +852,8 @@
         private System.Windows.Forms.ComboBox cbServiceUrls;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Button btnCleanURLs;
-        private System.Windows.Forms.TextBox txtContext;
         private System.Windows.Forms.Label lblContext;
+        private System.Windows.Forms.Button btnContextList;
+        private System.Windows.Forms.ComboBox cbContextList;
     }
 }

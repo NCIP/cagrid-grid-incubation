@@ -390,6 +390,7 @@ namespace QueryServiceControl.QueryServiceManager {
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("contextList", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("exactTerm", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("id", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("term", typeof(string))]
@@ -454,6 +455,9 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/query", IncludeInSchema=false)]
     public enum ItemsChoiceType {
+        
+        /// <remarks/>
+        contextList,
         
         /// <remarks/>
         exactTerm,
@@ -1281,6 +1285,51 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
+    public partial class context {
+        
+        private string nameField;
+        
+        private string versionField;
+        
+        private string descriptionField;
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string version {
+            get {
+                return this.versionField;
+            }
+            set {
+                this.versionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.4927")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class definition {
         
         private string valueField;
@@ -1526,12 +1575,12 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cagrid.org/schema/result-set")]
     public partial class property : commoninfo {
         
-        private string contextField;
+        private context contextField;
         
         private conceptRef[] conceptCollectionField;
         
         /// <remarks/>
-        public string context {
+        public context context {
             get {
                 return this.contextField;
             }
@@ -1560,12 +1609,12 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.Xml.Serialization.XmlTypeAttribute(TypeName="object-class", Namespace="http://cagrid.org/schema/result-set")]
     public partial class objectclass : commoninfo {
         
-        private string contextField;
+        private context contextField;
         
         private conceptRef[] conceptCollectionField;
         
         /// <remarks/>
-        public string context {
+        public context context {
             get {
                 return this.contextField;
             }
@@ -1594,7 +1643,7 @@ namespace QueryServiceControl.QueryServiceManager {
     [System.Xml.Serialization.XmlTypeAttribute(TypeName="data-element", Namespace="http://cagrid.org/schema/result-set")]
     public partial class dataelement : commoninfo {
         
-        private string contextField;
+        private context contextField;
         
         private values valuesField;
         
@@ -1603,7 +1652,7 @@ namespace QueryServiceControl.QueryServiceManager {
         private property[] propertyField;
         
         /// <remarks/>
-        public string context {
+        public context context {
             get {
                 return this.contextField;
             }
@@ -1785,6 +1834,7 @@ namespace QueryServiceControl.QueryServiceManager {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("classification_scheme", typeof(classification_scheme))]
         [System.Xml.Serialization.XmlElementAttribute("concept", typeof(concept))]
+        [System.Xml.Serialization.XmlElementAttribute("context", typeof(context))]
         [System.Xml.Serialization.XmlElementAttribute("data-element", typeof(dataelement))]
         [System.Xml.Serialization.XmlElementAttribute("node", typeof(node))]
         [System.Xml.Serialization.XmlElementAttribute("object-class", typeof(objectclass))]
