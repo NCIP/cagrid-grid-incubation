@@ -13,6 +13,7 @@
         <xs:element maxOccurs="unbounded" ref="object-class" />
         <xs:element ref="node" />
         <xs:element maxOccurs="unbounded" ref="classification_scheme" />
+        <xs:element maxOccurs="unbounded" ref="context" />
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
@@ -23,6 +24,14 @@
       <xs:element minOccurs="0" ref="definition" />
       <xs:element minOccurs="0" name="workflow-status" type="xs:string" />
       <xs:element minOccurs="0" name="registration-status" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="context" type="context" />
+  <xs:complexType name="context">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="version" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="description" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="definition" type="definition" />
@@ -59,7 +68,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="common-info">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="1" name="context" type="xs:string" />
+          <xs:element ref="context" />
           <xs:element ref="values" />
           <xs:element maxOccurs="unbounded" ref="object-class" />
           <xs:element maxOccurs="unbounded" ref="property" />
@@ -131,7 +140,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="common-info">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="1" name="context" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" ref="context" />
           <xs:element minOccurs="0" ref="conceptCollection" />
         </xs:sequence>
       </xs:extension>
@@ -159,7 +168,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="common-info">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="1" name="context" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" ref="context" />
           <xs:element minOccurs="0" ref="conceptCollection" />
         </xs:sequence>
       </xs:extension>

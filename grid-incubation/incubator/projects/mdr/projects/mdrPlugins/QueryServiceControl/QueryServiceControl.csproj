@@ -71,6 +71,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextBean.cs" />
+    <Compile Include="ContextBeanComparer.cs" />
     <Compile Include="ResponseControl.xaml.cs">
       <DependentUpon>ResponseControl.xaml</DependentUpon>
     </Compile>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using System.Collections;
 
 namespace QueryServiceControl
 {
@@ -22,6 +23,7 @@ namespace QueryServiceControl
         protected QueryServiceManager.resultset lastResult = null;
         protected QueryServiceManager.resultset lastClassificationQueryResult = null;
         protected XmlNamespaceManager nsmanager = null;
+        protected Hashtable contextHash = new Hashtable();
         protected int currentPage = 0;
         protected int pageSize = 20;
 
@@ -31,6 +33,8 @@ namespace QueryServiceControl
         private String TERM_SEARCH_TYPE = "Term";
         private String ID_SEARCH_TYPE = "Id";
         private String EXACTTERM_SEARCH_TYPE = "Exact Term";
+
+        private System.Windows.Forms.ToolTip tooltip;
 
         public QueryServiceControl()
         {
@@ -129,6 +133,10 @@ namespace QueryServiceControl
 
         private void QueryServiceControl_Load(object sender, EventArgs e)
         {
+            this.tooltip = new ToolTip();
+            this.cbContextList.DrawMode = DrawMode.OwnerDrawFixed;
+            this.cbContextList.DrawItem += new DrawItemEventHandler(cbContextList_DrawItem);
+
             //statusMsg.ForeColor = Color.Blue;
             //statusMsg.Text = "Initializing...";
             SetStatus("Initializing...");
@@ -138,6 +146,60 @@ namespace QueryServiceControl
             btnSearch.Enabled = false;
             btnSearchCLS.Enabled = false;
             bgWorker.RunWorkerAsync();
+        }
+
+        private void cbContextList_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            String text = null;
+
+            String resource = cbResources.SelectedValue.ToString();
+            if (resource == null)
+            {
+                return;
+            }
+
+            List<ContextBean> ctxList = (List<ContextBean>)contextHash[resource];
+            if (ctxList == null)
+            {
+                return;
+            }
+
+            String selectedValue = cbContextList.GetItemText(cbContextList.Items[e.Index]);
+            if (selectedValue == null)
+            {
+                return;
+            }
+
+            foreach (ContextBean bean in ctxList)
+            {
+                if (bean.Name.Equals(selectedValue))
+                {
+                    text = bean.Tooltip;
+                    break;
+                }
+            }
+
+            if (text == null)
+            {
+                return;
+            }
+
+            e.DrawBackground();
+            using (SolidBrush br = new SolidBrush(e.ForeColor))
+            {
+                e.Graphics.DrawString(selectedValue, e.Font, br, e.Bounds);
+            }
+
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                this.tooltip.Show(text, cbContextList, e.Bounds.Right, e.Bounds.Bottom);
+            }
+            else
+            {
+                this.tooltip.Hide(cbContextList);
+            }
+
+            e.DrawFocusRectangle();
         }
 
         private void InitServiceURL()
@@ -292,10 +354,8 @@ namespace QueryServiceControl
                     return;
                 }
 
-                btnUse.Enabled = false;
-                btnAnnotate.Enabled = false;
-                btnBack.Enabled = false;
-                btnForward.Enabled = false;
+                setButtonsState(false);
+    
                 lstResults.Items.Clear();
                 lstResults.Update();
                 wbDetailsDef.DocumentText = "";
@@ -330,10 +390,10 @@ namespace QueryServiceControl
                     };
                 }
 
-                if (txtContext.Text.Length > 0)
+                if (cbContextList.Text.Length > 0)
                 {
                     req.query.queryFilter = new global::QueryServiceControl.QueryServiceManager.queryFilter();
-                    req.query.queryFilter.context = txtContext.Text;
+                    req.query.queryFilter.context = cbContextList.Text;
                 }
 
                 if (currentPage == 0)
@@ -611,6 +671,20 @@ namespace QueryServiceControl
             return definition;
         }
 
+        private String buildContextStr( global::QueryServiceControl.QueryServiceManager.context context )
+        {
+            if (context == null) {
+                return null;
+            }
+
+            return context.name 
+                + " "
+                + context.version 
+                + " ("
+                + context.description
+                + ")";
+        }
+
         private void updateDetails(object sender, EventArgs e)
         {
             try
@@ -671,8 +745,8 @@ namespace QueryServiceControl
 
                 if (dataelement != null)
                 {
-                    context = dataelement.context;
-
+                    context = buildContextStr(dataelement.context);
+                   
                     QueryServiceManager.enumerated en = dataelement.values.Item as QueryServiceManager.enumerated;
                     QueryServiceManager.nonenumerated nen = dataelement.values.Item as QueryServiceManager.nonenumerated;
 
@@ -763,12 +837,12 @@ namespace QueryServiceControl
                     QueryServiceManager.conceptRef[] concepts = null;
                     if (objectclass != null)
                     {
-                        context = objectclass.context;
+                        context = buildContextStr(objectclass.context);
                         concepts = objectclass.conceptCollection;
                     }
                     else
                     {
-                        context = property.context;
+                        context = buildContextStr(property.context);
                         concepts = property.conceptCollection;
                     }
 
@@ -928,6 +1002,106 @@ namespace QueryServiceControl
                 = new System.Collections.Specialized.StringCollection();
             global::QueryServiceControl.Properties.Settings.Default.Save();
             InitServiceURL();
+        }
+
+        private void setButtonsState(Boolean state)
+        {
+            btnUse.Enabled = state;
+            btnAnnotate.Enabled = state;
+            btnBack.Enabled = state;
+            btnForward.Enabled = state;
+        }
+
+        private List<ContextBean> queryContextList()
+        {
+            List<ContextBean> ctxList = new List<ContextBean>();
+
+            try
+            {
+                SetStatus("Querying...Please wait...");
+                this.Cursor = Cursors.WaitCursor;
+
+                QueryServiceManager.QueryRequestQuery req = new global::QueryServiceControl.QueryServiceManager.QueryRequestQuery();
+                req.query = new QueryServiceManager.query();
+                req.query.resource = cbResources.SelectedValue.ToString();
+
+                req.query.Items = new string[] { req.query.resource };
+
+                req.query.ItemsElementName = new global::QueryServiceControl.QueryServiceManager.ItemsChoiceType[] {
+                        global::QueryServiceControl.QueryServiceManager.ItemsChoiceType.contextList
+                    };
+
+                qsm.Url = cbServiceUrls.Text;
+
+                QueryServiceManager.resultset result = qsm.query(req);
+                if (result == null || result.Items == null || result.Items.Length <= 0)
+                {
+                    SetStatus("No result");
+                    this.Cursor = Cursors.Default;
+                    return ctxList;
+                }
+
+                // add default empty context
+                ctxList.Add(new ContextBean());
+
+                foreach (QueryServiceManager.context ctx in result.Items)
+                {
+                    ctxList.Add(new ContextBean(ctx));
+                }
+
+                ctxList.Sort(new ContextBeanComparer());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("queryContextList failed: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetErrorStatus("Query failed");
+            }
+
+            // Update service URLs combo box to remember any new
+            // URL specified by the user
+            UpdateUserServiceURL();
+
+            SetStatus("Query completed");
+
+            this.Cursor = Cursors.Default;
+
+            return ctxList;
+        }
+
+        private void btnContextList_Click(object sender, EventArgs e)
+        {
+            String resource = cbResources.SelectedValue.ToString();
+            List<ContextBean> ctxList = (List<ContextBean>)contextHash[resource];
+            if (ctxList == null)
+            {
+                ctxList = queryContextList();
+                contextHash.Add(resource, ctxList);
+            }
+
+            cbContextList.DataSource = ctxList;
+            cbContextList.ValueMember = "Name";
+            cbContextList.DisplayMember = "Name";  
+        }
+
+        private void cbContextList_DropDownClosed(object sender, EventArgs e)
+        {
+            this.tooltip.Hide(cbContextList);
+        }
+
+        private void cbResources_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            String resource = cbResources.SelectedValue.ToString();
+            List<ContextBean> ctxList = (List<ContextBean>)contextHash[resource];
+            if (ctxList == null)
+            {
+                ctxList = new List<ContextBean>();
+            }
+
+            cbContextList.Text = "";
+            cbContextList.DataSource = ctxList;
+            cbContextList.ValueMember = "Name";
+            cbContextList.DisplayMember = "Name";
+
         }
 
     }
