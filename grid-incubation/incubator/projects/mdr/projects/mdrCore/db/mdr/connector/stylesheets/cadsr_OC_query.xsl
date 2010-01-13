@@ -20,6 +20,11 @@
 			<xsl:value-of
 				select="concat(/q:query/q:serviceUrl, '?query=ObjectClass&amp;ObjectClass[longName=*', replace(/q:query/q:term, ' ', '%20'),'*]&amp;startIndex=',/q:query/q:startIndex,'&amp;resultCounter=',/q:query/q:numResults)" />
 		</xsl:if>
+    	
+    	<xsl:if test="/q:query/q:contextList">
+    		<xsl:value-of
+    			select="concat(/q:query/q:serviceUrl, '?query=Context&amp;Context')" />
+    	</xsl:if>
 		
     </xsl:template>
 

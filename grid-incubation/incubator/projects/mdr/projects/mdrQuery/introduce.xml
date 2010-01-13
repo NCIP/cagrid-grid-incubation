@@ -7,6 +7,7 @@
    <ns2:SchemaElement type="concept" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="conceptCollection" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="conceptRef" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="context" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="data-element" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="definition" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="enumerated" xsi:type="ns2:SchemaElementType"/>

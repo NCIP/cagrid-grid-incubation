@@ -14,11 +14,12 @@
     <agg:AggregatorConfig xsi:type="agg:AggregatorConfig">
       <agg:GetMultipleResourcePropertiesPollType
 			xmlns:ns0="http://cagrid.org/schema/result-set"
-			xmlns:ns2="http://cagrid.org/schema/config"
+			xmlns:ns3="http://cagrid.org/schema/config"
 			xmlns:xs="http://www.w3.org/2001/XMLSchema"
-			xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"
-			xmlns:ns1="http://cagrid.org/schema/query"
-			xmlns:ns3="http://mdrq.cagrid.org/MDRQuery/types">
+			xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"
+			xmlns:ns1="http://cagrid.org/schema/context"
+			xmlns:ns2="http://cagrid.org/schema/query"
+			xmlns:ns4="http://mdrq.cagrid.org/MDRQuery/types">
         <!-- Specifies that the index should refresh information
             every 300000 milliseconds (once every 5 minutes) -->
         <agg:PollIntervalMillis>INDEX_REFRESH</agg:PollIntervalMillis>
