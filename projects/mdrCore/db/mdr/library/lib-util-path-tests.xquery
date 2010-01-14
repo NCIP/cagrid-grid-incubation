@@ -102,8 +102,8 @@ let $tests3 := (
     let $identifier := 
         (for $element in collection(lib-util:getCollectionPath('data_element'))[.//openMDR:registration_status ne 'Superseded'][1]/*
         return concat(
-            xs:string($element//@item_registration_authority_identifier), '-', 
-            xs:string($element//@data_identifier), '-', 
+            xs:string($element//@item_registration_authority_identifier), '_', 
+            xs:string($element//@data_identifier), '_', 
             xs:string($element//@version)))
         
     return        

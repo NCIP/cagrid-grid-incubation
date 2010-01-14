@@ -63,7 +63,7 @@ declare function local:value_domain(
 {
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
-   let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
+   let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
    let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)   
    let $value_meaning-identifier  := data($concept_domain//openMDR:value_meaning_identifier)

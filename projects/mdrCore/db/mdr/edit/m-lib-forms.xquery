@@ -113,7 +113,7 @@ declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$
       lib-forms:blank-filler(),
      for $item in lib-util:mdrElements('context')
       let $name:= data($item//openMDR:name/text())
-      let $id := concat(data($item//openMDR:Context/@item_registration_authority_identifier),'-', data($item//openMDR:Context/@data_identifier),'-',data($item//openMDR:Context/@version))
+      let $id := concat(data($item//openMDR:Context/@item_registration_authority_identifier),'_', data($item//openMDR:Context/@data_identifier),'_',data($item//openMDR:Context/@version))
       (:let $id:= data($item//openMDR:context_identifier/text()):)      
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
@@ -1426,7 +1426,7 @@ declare function lib-forms:treeview-document() as node()
 
 declare function lib-forms:increment-version($admin-item-identifier as xs:string) as xs:string
 {
-    let $version as xs:string := lib-forms:substring-after-last($admin-item-identifier, '-')
+    let $version as xs:string := lib-forms:substring-after-last($admin-item-identifier, '_')
     let $new-version as xs:string :=
        if (matches($version,'.\..\..'))
        then (       
@@ -1436,5 +1436,5 @@ declare function lib-forms:increment-version($admin-item-identifier as xs:string
        else xs:string(floor(xs:double($version)*100 + 1) div 100) 
              
     return
-        concat(lib-forms:substring-before-last($admin-item-identifier, '-'), '-', $new-version)
+        concat(lib-forms:substring-before-last($admin-item-identifier, '_'), '_', $new-version)
 };

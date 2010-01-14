@@ -44,7 +44,7 @@ declare function lib-util:mdrElementId($element as element()) as xs:string?
                         then xs:string($element//@rating-identifier)
                         else 
                            if ($element//@data_identifier)
-                           then (concat(xs:string($element//@item_registration_authority_identifier), '-', xs:string($element//@data_identifier), '-', xs:string($element//@version)))
+                           then (concat(xs:string($element//@item_registration_authority_identifier), '_', xs:string($element//@data_identifier), '_', xs:string($element//@version)))
                            else ('oops')
                            
 

@@ -56,8 +56,8 @@ declare function local:organization(
    ) as xs:boolean
 {
     
-   let $version := lib-forms:substring-after-last($id,'-')
-   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+   let $version := lib-forms:substring-after-last($id,'_')
+   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $doc-name := concat($id,'.xml')
            
    (: compose the document :)

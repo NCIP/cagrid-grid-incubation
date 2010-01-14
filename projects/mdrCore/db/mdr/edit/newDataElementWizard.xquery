@@ -401,12 +401,12 @@ let $data-identifier-cd := lib-forms:generate-id()
 let $data-identifier-oc := lib-forms:generate-id()
 let $data-identifier-pr := lib-forms:generate-id()
 
-let $full-identifier-de := concat($registration-authority, '-', $data-identifier-de, '-', $version)
-let $full-identifier-vd := concat($registration-authority, '-', $data-identifier-vd, '-', $version)
-let $full-identifier-dec := concat($registration-authority, '-', $data-identifier-dec, '-', $version)
-let $full-identifier-cd := concat($registration-authority, '-', $data-identifier-cd, '-', $version)
-let $full-identifier-oc := concat($registration-authority, '-', $data-identifier-oc, '-', $version)
-let $full-identifier-pr := concat($registration-authority, '-', $data-identifier-pr, '-', $version)
+let $full-identifier-de := concat($registration-authority, '_', $data-identifier-de, '_', $version)
+let $full-identifier-vd := concat($registration-authority, '_', $data-identifier-vd, '_', $version)
+let $full-identifier-dec := concat($registration-authority, '_', $data-identifier-dec, '_', $version)
+let $full-identifier-cd := concat($registration-authority, '_', $data-identifier-cd, '_', $version)
+let $full-identifier-oc := concat($registration-authority, '_', $data-identifier-oc, '_', $version)
+let $full-identifier-pr := concat($registration-authority, '_', $data-identifier-pr, '_', $version)
 
 let $administration-record := lib-make-admin-item:administration-record(
         $administrative-note,

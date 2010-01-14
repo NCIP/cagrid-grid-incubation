@@ -137,10 +137,10 @@
     <xsl:template name="admin-item-identifier">
         <xsl:choose>
             <xsl:when test="//openMDR:data_element_complete">
-                <xsl:value-of select="/openMDR:data_element_complete/openMDR:Data_Element/@item_registration_authority_identifier"/>-<xsl:value-of select="/openMDR:data_element_complete/openMDR:Data_Element/@data_identifier"/>-<xsl:value-of select="//openMDR:data_element_complete/openMDR:Data_Element/@version"/>
+                <xsl:value-of select="/openMDR:data_element_complete/openMDR:Data_Element/@item_registration_authority_identifier"/>_<xsl:value-of select="/openMDR:data_element_complete/openMDR:Data_Element/@data_identifier"/>_<xsl:value-of select="//openMDR:data_element_complete/openMDR:Data_Element/@version"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="//@item_registration_authority_identifier"/> -<xsl:value-of select="//@data_identifier"/> -<xsl:value-of select="//@version"/>
+                <xsl:value-of select="//@item_registration_authority_identifier"/> _<xsl:value-of select="//@data_identifier"/> _<xsl:value-of select="//@version"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>

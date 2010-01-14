@@ -78,9 +78,10 @@ declare function local:conceptual-domain(
    $value_meaning_identifiers as xs:string*
    ) as xs:boolean
 {
-   let $version := lib-forms:substring-after-last($id,'-')
-   let $vmid := substring-after(lib-forms:substring-before-last($id,'-'),'-')
-   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+   let $version := lib-forms:substring-after-last($id,'_')
+   let $vmid := substring-after(lib-forms:substring-before-last($id,'_'),'_')
+   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
+   
    (:
    let $log := util:log-system-err($meanings)
    let $log := util:log-system-err($value_meaning_identifiers)

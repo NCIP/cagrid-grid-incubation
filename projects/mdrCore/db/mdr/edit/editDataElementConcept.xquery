@@ -75,12 +75,12 @@ declare function local:data_element_concept(
    let $object_class_uri := request:get-parameter('object_class_uri','')
    let $property_uri := request:get-parameter('property_uri','')
 
-   let $data-identifier-oc := substring-after(lib-forms:substring-before-last($id,'-'),'-')   
-   let $data-identifier-pr := substring-after(lib-forms:substring-before-last($id,'-'),'-')
-   let $full-identifier-oc := concat($reg-auth, '-', $data-identifier-oc, '-', $version)
-   let $full-identifier-pr := concat($reg-auth, '-', $data-identifier-pr, '-', $version)
-   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
-   let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
+   let $data-identifier-oc := substring-after(lib-forms:substring-before-last($id,'_'),'_')   
+   let $data-identifier-pr := substring-after(lib-forms:substring-before-last($id,'_'),'_')
+   let $full-identifier-oc := concat($reg-auth, '_', $data-identifier-oc, '_', $version)
+   let $full-identifier-pr := concat($reg-auth, '_', $data-identifier-pr, '_', $version)
+   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
+   let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
  
    let $content := (
            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),

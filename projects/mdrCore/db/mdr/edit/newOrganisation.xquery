@@ -44,11 +44,11 @@ declare function local:organisation(
 {
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
-   let $new-identifier := concat( $data-identifier, '-', $version)
+   let $new-identifier := concat( $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
   
-    let $organization-identifier := concat(lib-forms:generate-id(),'-',$version)
-	let $contact-identifier := concat(lib-forms:generate-id(),'-',$version)
+    let $organization-identifier := concat(lib-forms:generate-id(),'_',$version)
+	let $contact-identifier := concat(lib-forms:generate-id(),'_',$version)
   
    (: compose the document :)
    let $document :=

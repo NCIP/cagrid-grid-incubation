@@ -78,11 +78,11 @@ declare function local:value_domain(
 {
                     
              
-   let $version := lib-forms:substring-after-last($id,'-')
-   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')
+   let $version := lib-forms:substring-after-last($id,'_')
+   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $doc-name := concat($id,'.xml')
    let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
-   let $permissible-identifier := substring-after(lib-forms:substring-before-last($id,'-'),'-')    
+   let $permissible-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')    
    let $value_meaning_identifier := $concept_domain//openMDR:value_meaning_identifier/text()
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),

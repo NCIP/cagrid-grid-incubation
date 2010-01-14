@@ -11,7 +11,7 @@ declare variable $local:document external;
 (: log the trigger details to the log file :)  
 let $new-id := 
     util:catch( "java.lang.Exception",
-        concat($local:document//@item_registration_authority_identifier, '-', $local:document//@data_identifier, '-', $local:document//@version),
+        concat($local:document//@item_registration_authority_identifier, '_', $local:document//@data_identifier, '_', $local:document//@version),
         ())
 
 return
@@ -20,7 +20,7 @@ return
         if ($local:document//openMDR:administered_item_administration_record)
         then (
             for $old_version in collection($local:collectionName)[.//openMDR:registration_status != 'Superseded']
-            let $old-id := concat($old_version//@item_registration_authority_identifier, '-', $old_version//@data_identifier, '-', $old_version//@version)
+            let $old-id := concat($old_version//@item_registration_authority_identifier, '_', $old_version//@data_identifier, '_', $old_version//@version)
             where 
                 $old_version//@item_registration_authority_identifier = $local:document//@item_registration_authority_identifier and 
                 $old_version//@data_identifier = $local:document//@data_identifier and
