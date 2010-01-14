@@ -16,7 +16,7 @@
 		<!--<concept xmlns="http://cagrid.org/schema/result-set">-->
         <concept>
             <names>
-                <id>US-NCICB-CACORE-EVS-DESCLOGICCONCEPT-<xsl:value-of select="_entityCode"/>
+                <id>lexevsapi.nci.nih.gov_EVS-DescLogicConcept_<xsl:value-of select="_entityCode"/>
                 </id>
                 <preferred>
                     <xsl:value-of select="_presentationList/org.LexGrid.concepts.Presentation[_isPreferred='true']/_value/org.LexGrid.commonTypes.Text/_content"/>
