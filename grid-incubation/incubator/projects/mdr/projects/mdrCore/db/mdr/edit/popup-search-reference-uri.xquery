@@ -42,12 +42,12 @@ declare function local:action-button($value as xs:string, $control as xs:string,
       attribute name {"update"},
       attribute value {$text},
       attribute onclick {
-      concat("window.opener.document.getElementById('",$control,"').value='",$value,"';",
+      concat("{self.close();", "window.opener.document.getElementById('",$control,"').value='",$value,"';",
             "window.opener.document.getElementById('", $control, "-div').innerHTML='",$name,"';",
-            "self.close()")}
+            "}")}
       }
    
-}; 
+};  
 
 declare option exist:serialize "media-type=text/html";
 session:create(),
