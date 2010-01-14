@@ -95,28 +95,7 @@ namespace QueryServiceControl
         {
             if (e.Error == null)
             {
-                if (resources != null)
-                {
-                    cbResources.DataSource = resources;
-                    cbResources.DisplayMember = "name";
-                    cbResources.ValueMember = "name";
-                    cbResources.SelectedIndex = 0;
-                }
-
-                if (classification_schemes != null)
-                {
-                    cbClassificationSchemes.DataSource = classification_schemes;
-                    cbClassificationSchemes.DisplayMember = "Value";
-                    cbClassificationSchemes.ValueMember = "uri";
-                    cbClassificationSchemes.SelectedIndex = 0;
-                    updateClassification_Tree();
-                }
-
-                btnSearch.Enabled = true;
-                btnSearchCLS.Enabled = true;
-
-                //statusMsg.Text = "";
-                SetStatus("");
+                InitResourceDropDown();
             }
             else
             {
@@ -146,6 +125,32 @@ namespace QueryServiceControl
             btnSearch.Enabled = false;
             btnSearchCLS.Enabled = false;
             bgWorker.RunWorkerAsync();
+        }
+
+        private void InitResourceDropDown()
+        {
+            if (resources != null)
+            {
+                cbResources.DataSource = resources;
+                cbResources.DisplayMember = "name";
+                cbResources.ValueMember = "name";
+                cbResources.SelectedIndex = 0;
+            }
+
+            if (classification_schemes != null)
+            {
+                cbClassificationSchemes.DataSource = classification_schemes;
+                cbClassificationSchemes.DisplayMember = "Value";
+                cbClassificationSchemes.ValueMember = "uri";
+                cbClassificationSchemes.SelectedIndex = 0;
+                updateClassification_Tree();
+            }
+
+            btnSearch.Enabled = true;
+            btnSearchCLS.Enabled = true;
+
+            //statusMsg.Text = "";
+            SetStatus("");
         }
 
         private void cbContextList_DrawItem(object sender, DrawItemEventArgs e)
@@ -262,6 +267,12 @@ namespace QueryServiceControl
         {
             try
             {
+                String lastUsedURL = global::QueryServiceControl.Properties.Settings.Default.Last_QueryServiceControl_QueryServiceManager_MDRQueryService;
+                if (lastUsedURL != null && lastUsedURL.Length > 0)
+                {
+                    qsm.Url = lastUsedURL;
+                }
+
                 resources = qsm.getQueryResources().ToList<QueryServiceManager.query_service>();
                 //OSUMC - don't display concept (EVS) resources
                 //resources.RemoveAll(NotDataElementAndNotConcept);
@@ -671,17 +682,17 @@ namespace QueryServiceControl
             return definition;
         }
 
-        private String buildContextStr( global::QueryServiceControl.QueryServiceManager.context context )
+        private String BuildContextStr( global::QueryServiceControl.QueryServiceManager.context context )
         {
             if (context == null) {
                 return null;
             }
 
             return context.name 
-                + " "
-                + context.version 
                 + " ("
-                + context.description
+                + context.description 
+                + ", Version "
+                + context.version
                 + ")";
         }
 
@@ -745,7 +756,7 @@ namespace QueryServiceControl
 
                 if (dataelement != null)
                 {
-                    context = buildContextStr(dataelement.context);
+                    context = BuildContextStr(dataelement.context);
                    
                     QueryServiceManager.enumerated en = dataelement.values.Item as QueryServiceManager.enumerated;
                     QueryServiceManager.nonenumerated nen = dataelement.values.Item as QueryServiceManager.nonenumerated;
@@ -837,12 +848,12 @@ namespace QueryServiceControl
                     QueryServiceManager.conceptRef[] concepts = null;
                     if (objectclass != null)
                     {
-                        context = buildContextStr(objectclass.context);
+                        context = BuildContextStr(objectclass.context);
                         concepts = objectclass.conceptCollection;
                     }
                     else
                     {
-                        context = buildContextStr(property.context);
+                        context = BuildContextStr(property.context);
                         concepts = property.conceptCollection;
                     }
 
@@ -1102,6 +1113,13 @@ namespace QueryServiceControl
             cbContextList.ValueMember = "Name";
             cbContextList.DisplayMember = "Name";
 
+        }
+
+        private void btnGo_Click(object sender, EventArgs e)
+        {
+            UpdateUserServiceURL();
+            InitResources();
+            InitResourceDropDown();
         }
 
     }
