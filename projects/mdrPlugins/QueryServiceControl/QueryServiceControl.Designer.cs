@@ -37,6 +37,7 @@
             this.statusMsg = new System.Windows.Forms.Label();
             this.lblContext = new System.Windows.Forms.Label();
             this.btnContextList = new System.Windows.Forms.Button();
+            this.cbContextList = new System.Windows.Forms.ComboBox();
             this.grpResults = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanelResults = new System.Windows.Forms.TableLayoutPanel();
             this.lstResults = new System.Windows.Forms.ListBox();
@@ -58,8 +59,9 @@
             this.tabFreeText = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnCleanURLs = new System.Windows.Forms.Button();
             this.cbServiceUrls = new System.Windows.Forms.ComboBox();
+            this.btnCleanURLs = new System.Windows.Forms.Button();
+            this.btnConnect = new System.Windows.Forms.Button();
             this.tabClassified = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelClassification = new System.Windows.Forms.TableLayoutPanel();
             this.grpClassificationResults = new System.Windows.Forms.GroupBox();
@@ -80,7 +82,6 @@
             this.wbClassificationQueryResultDef = new System.Windows.Forms.WebBrowser();
             this.tabPageCLSDetailsValueDomain = new System.Windows.Forms.TabPage();
             this.wbClassificationQueryResultValueDomain = new System.Windows.Forms.WebBrowser();
-            this.cbContextList = new System.Windows.Forms.ComboBox();
             this.grpControls.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.grpResults.SuspendLayout();
@@ -141,7 +142,7 @@
             this.grpControls.Size = new System.Drawing.Size(302, 135);
             this.grpControls.TabIndex = 2;
             this.grpControls.TabStop = false;
-            this.grpControls.Text = "Controls";
+            this.grpControls.Text = "Resources";
             // 
             // tableLayoutPanel4
             // 
@@ -222,6 +223,18 @@
             this.btnContextList.Text = "Get List";
             this.btnContextList.UseVisualStyleBackColor = true;
             this.btnContextList.Click += new System.EventHandler(this.btnContextList_Click);
+            // 
+            // cbContextList
+            // 
+            this.cbContextList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbContextList.FormattingEnabled = true;
+            this.cbContextList.Location = new System.Drawing.Point(83, 63);
+            this.cbContextList.Name = "cbContextList";
+            this.cbContextList.Size = new System.Drawing.Size(130, 21);
+            this.cbContextList.TabIndex = 8;
+            this.cbContextList.DropDownClosed += new System.EventHandler(this.cbContextList_DropDownClosed);
             // 
             // grpResults
             // 
@@ -472,17 +485,31 @@
             this.tableLayoutPanel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel5.ColumnCount = 2;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84F));
+            this.tableLayoutPanel5.ColumnCount = 3;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
-            this.tableLayoutPanel5.Controls.Add(this.btnCleanURLs, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.cbServiceUrls, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.btnCleanURLs, 2, 0);
+            this.tableLayoutPanel5.Controls.Add(this.btnConnect, 1, 0);
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 762);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(302, 24);
             this.tableLayoutPanel5.TabIndex = 6;
+            // 
+            // cbServiceUrls
+            // 
+            this.cbServiceUrls.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbServiceUrls.DropDownWidth = 356;
+            this.cbServiceUrls.FormattingEnabled = true;
+            this.cbServiceUrls.Location = new System.Drawing.Point(3, 3);
+            this.cbServiceUrls.Name = "cbServiceUrls";
+            this.cbServiceUrls.Size = new System.Drawing.Size(193, 21);
+            this.cbServiceUrls.TabIndex = 5;
             // 
             // btnCleanURLs
             // 
@@ -497,17 +524,18 @@
             this.btnCleanURLs.UseVisualStyleBackColor = true;
             this.btnCleanURLs.Click += new System.EventHandler(this.btnCleanURLs_Click);
             // 
-            // cbServiceUrls
+            // btnConnect
             // 
-            this.cbServiceUrls.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbServiceUrls.DropDownWidth = 356;
-            this.cbServiceUrls.FormattingEnabled = true;
-            this.cbServiceUrls.Location = new System.Drawing.Point(3, 3);
-            this.cbServiceUrls.Name = "cbServiceUrls";
-            this.cbServiceUrls.Size = new System.Drawing.Size(247, 21);
-            this.cbServiceUrls.TabIndex = 5;
+            this.btnConnect.Location = new System.Drawing.Point(202, 3);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(48, 18);
+            this.btnConnect.TabIndex = 6;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnGo_Click);
             // 
             // tabClassified
             // 
@@ -748,18 +776,6 @@
             this.wbClassificationQueryResultValueDomain.Size = new System.Drawing.Size(282, 204);
             this.wbClassificationQueryResultValueDomain.TabIndex = 0;
             // 
-            // cbContextList
-            // 
-            this.cbContextList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbContextList.FormattingEnabled = true;
-            this.cbContextList.Location = new System.Drawing.Point(83, 63);
-            this.cbContextList.Name = "cbContextList";
-            this.cbContextList.Size = new System.Drawing.Size(130, 21);
-            this.cbContextList.TabIndex = 8;
-            this.cbContextList.DropDownClosed += new System.EventHandler(this.cbContextList_DropDownClosed);
-            // 
             // QueryServiceControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -855,5 +871,6 @@
         private System.Windows.Forms.Label lblContext;
         private System.Windows.Forms.Button btnContextList;
         private System.Windows.Forms.ComboBox cbContextList;
+        private System.Windows.Forms.Button btnConnect;
     }
 }
