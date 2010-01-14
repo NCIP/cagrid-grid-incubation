@@ -1119,13 +1119,13 @@
     </xsl:template>
     <xsl:template match="openMDR:input_to">
         <xsl:variable name="reg-auth">
-            <xsl:value-of select="concat(substring-before(@deriving,'-'),'-',substring-before(substring-after(@deriving,'-'),'-'))"/>
+            <xsl:value-of select="concat(substring-before(@deriving,'_'),'_',substring-before(substring-after(@deriving,'_'),'_'))"/>
         </xsl:variable>
         <xsl:variable name="data-ident">
-            <xsl:value-of select="substring-before(substring-after(@deriving,concat($reg-auth,'-')),'-')"/>
+            <xsl:value-of select="substring-before(substring-after(@deriving,concat($reg-auth,'_')),'_')"/>
         </xsl:variable>
         <xsl:variable name="ver">
-            <xsl:value-of select="substring-after(@deriving,concat($reg-auth,'-',$data-ident,'-'))"/>
+            <xsl:value-of select="substring-after(@deriving,concat($reg-auth,'_',$data-ident,'_'))"/>
         </xsl:variable>
         <xsl:variable name="related-name">
             <xsl:value-of select="//asserted-here/openMDR:Data_Element[@item_registration_authority_identifier=$reg-auth and @data_identifier=$data-ident and @version=$ver]//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>
@@ -1154,8 +1154,7 @@
         </xsl:variable>
         <tr>
             <td>
-                <xsl:value-of select="@item_registration_authority_identifier"/>-<xsl:value-of select="@data_identifier"/>
-                <xsl:value-of select="@version"/>
+                <xsl:value-of select="@item_registration_authority_identifier"/>_<xsl:value-of select="@data_identifier"/>_<xsl:value-of select="@version"/>
             </td>
             <td>
                 <xsl:value-of select="openMDR:having/openMDR:containing[openMDR:preferred_designation='true']/openMDR:name"/>

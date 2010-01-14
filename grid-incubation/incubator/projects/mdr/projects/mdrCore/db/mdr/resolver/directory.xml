@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cgResolver:resolver xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="directory.xsd">
-    <cgResolver:resource urn="urn:US-NCICB-CACORE-EVS-DESCLOGICCONCEPT-">
+    <cgResolver:resource urn="urn:lexevsapi.nci.nih.gov_EVS-DescLogicConcept_">
         <cgResolver:uri rank="1" return="html">http://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI%20Thesaurus&amp;code=</cgResolver:uri>
     </cgResolver:resource>
-    <cgResolver:resource urn="urn:US-NCICB-CACORE-EVS-METATHESAURUSCONCEPT-">
+    <cgResolver:resource urn="urn:lexevsapi.nci.nih.gov_EVS-MetaThesaurusConcept_">
         <cgResolver:uri rank="1" return="html">http://ncim.nci.nih.gov/ncimbrowser/ConceptReport.jsp?dictionary=NCI%20MetaThesaurus&amp;code=</cgResolver:uri>
     </cgResolver:resource>    
     <cgResolver:resource urn="urn:lsid:ebi.embl.org:embl:">

@@ -20,7 +20,7 @@
         <!--<concept xmlns="http://cagrid.org/schema/result-set">-->
         <concept>
             <names>
-                <id>US-NCICB-CACORE-EVS-METATHESAURUSCONCEPT-<xsl:value-of select="Cui"/></id>
+                <id>lexevsapi.nci.nih.gov_EVS-MetaThesaurusConcept_<xsl:value-of select="Cui"/></id>
                 <preferred>
                     <xsl:value-of select="Name"/>
                 </preferred>

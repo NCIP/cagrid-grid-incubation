@@ -63,11 +63,11 @@ declare function local:DataElementConcept(
    let $data-identifier-oc := lib-forms:generate-id()
    let $data-identifier-pr := lib-forms:generate-id()
  
-   let $full-identifier-oc := concat($reg-auth, '-', $data-identifier-oc, '-', $version)
-   let $full-identifier-pr := concat($reg-auth, '-', $data-identifier-pr, '-', $version)
+   let $full-identifier-oc := concat($reg-auth, '_', $data-identifier-oc, '_', $version)
+   let $full-identifier-pr := concat($reg-auth, '_', $data-identifier-pr, '_', $version)
 
    let $data-identifier := lib-forms:generate-id()
-   let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
+   let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),

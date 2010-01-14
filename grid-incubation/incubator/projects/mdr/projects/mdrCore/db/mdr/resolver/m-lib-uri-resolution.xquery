@@ -21,7 +21,7 @@ if (starts-with($urn,"urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:"))
             and $uri/@return=$return-type
             return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
         )
-    else if (starts-with($urn,"US-NCICB-CACORE-EVS-DESCLOGICCONCEPT"))
+    else if (starts-with($urn,"lexevsapi.nci.nih.gov_EVS-DescLogicConcept"))
     then (
         let $urn := concat("urn:",$urn)
         for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
@@ -32,7 +32,7 @@ if (starts-with($urn,"urn:lsid:ncicb.nci.nih.gov:nci-thesaurus:"))
             and $uri/@return=$return-type
             return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
         )
-    else if (starts-with($urn,"US-NCICB-CACORE-EVS-METATHESAURUSCONCEPT"))
+    else if (starts-with($urn,"lexevsapi.nci.nih.gov_EVS-MetaThesaurusConcept"))
     then (
         let $urn := concat("urn:",$urn)
         for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]

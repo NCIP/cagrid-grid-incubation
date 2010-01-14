@@ -51,7 +51,7 @@ declare function local:organisation(
 {
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
-   let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
+   let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
   
 	 let $organization-identifier := lib-forms:generate-id()

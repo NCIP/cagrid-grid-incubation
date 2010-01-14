@@ -407,7 +407,7 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                            let $request:=""
                            
                            for $u in $object-class//openMDR:reference_uri
-                               let $phrase-id := tokenize(data($u),'-')[last()]
+                               let $phrase-id := tokenize(data($u),'_')[last()]
                                let $conceptRef :=
                                if ($request != "") 
                                     then (lib-qs:query($request,$resource))
@@ -426,7 +426,7 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                            let $resource := lib-qs:selectResource-form('CONCEPTID')
                            let $request:=""                     
                            for $u in $property-class//openMDR:reference_uri
-                               let $phrase-id := tokenize(data($u),'-')[last()]
+                               let $phrase-id := tokenize(data($u),'_')[last()]
                                let $conceptRef :=
                                if ($request != "") 
                                     then (lib-qs:query($request,$resource))

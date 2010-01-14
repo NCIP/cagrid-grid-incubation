@@ -60,7 +60,7 @@ declare function local:DataElement(
    let $precision := request:get-parameter('precision','')
 
    let $data-identifier := lib-forms:generate-id()
-   let $new-identifier := concat($reg-auth, '-', $data-identifier, '-', $version)
+   let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),

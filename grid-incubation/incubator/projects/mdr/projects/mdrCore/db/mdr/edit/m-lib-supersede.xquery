@@ -15,7 +15,7 @@ import module namespace
 (: this is really easy actually :)
 declare function lib-supersede:admin-item($collection as xs:string, $reg-auth-id as xs:string, $data-id as xs:string, $version as xs:string)
 {
-   let $new-id := concat($reg-auth-id, '-', $data-id, '-', $version)
+   let $new-id := concat($reg-auth-id, '_', $data-id, '_', $version)
    let $admin-item as node() := lib-util:mdrElement($collection, $new-id)
    return
        lib-supersede:admin-item($admin-item)   

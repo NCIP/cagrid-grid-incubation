@@ -25,7 +25,7 @@
         <!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
         <data-element>
             <names>
-                <id>US-NCICB-CACORE-CADSR-<xsl:value-of select="publicID"/>-<xsl:value-of select="version"/>
+                <id>cabio.nci.nih.gov_<xsl:value-of select="publicID"/>_<xsl:value-of select="version"/>
                 </id>
                 <preferred>
                     <xsl:value-of select="longName"/>
@@ -107,7 +107,7 @@
         <!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
         <object-class>
             <names>
-                <id>US-NCICB-CACORE-CADSR-<xsl:value-of select="publicID"/>-<xsl:value-of select="version"/>
+                <id>cabio.nci.nih.gov_<xsl:value-of select="publicID"/>_<xsl:value-of select="version"/>
                 </id>
                 <preferred>
                     <xsl:value-of select="longName"/>
@@ -141,7 +141,7 @@
         <!--<data-element xmlns="http://cagrid.org/schema/result-set">-->
         <property>
             <names>
-                <id>US-NCICB-CACORE-CADSR-<xsl:value-of select="publicID"/>-<xsl:value-of select="version"/>
+                <id>cabio.nci.nih.gov_<xsl:value-of select="publicID"/>_<xsl:value-of select="version"/>
                 </id>
                 <preferred>
                     <xsl:value-of select="longName"/>
