@@ -28,8 +28,8 @@
 			type="xsl" />
 		<artifact name="stylesheets/cadsr_transform" conf="stylesheets"
 			type="xsl" />
-		<artifact name="stylesheets/openMDR_Classification_Tree" conf="stylesheets"
-			type="xsl" />
+		<artifact name="stylesheets/openMDR_Classification_Tree"
+			conf="stylesheets" type="xsl" />
 		<artifact name="stylesheets/openMDR_query" conf="stylesheets"
 			type="xsl" />
 		<artifact name="stylesheets/openMDR_REST_query" conf="stylesheets"
@@ -62,6 +62,28 @@
 		<artifact name="stylesheets/MetaThesaurusConcept_transform"
 			conf="stylesheets" type="xsl" />
 		<artifact name="stylesheets/no_arg_REST" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexEVSConceptId_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexEVSConceptId_construct" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexEVSConceptId_fixtag" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexEVSConceptId_transform" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexEVSDescLogicConcept_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexEVSDescLogicConcept_construct" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexEVSDescLogicConcept_transform" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_query" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_construct" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_fixtag" conf="stylesheets"
+			type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_transform" conf="stylesheets"
 			type="xsl" />
 	</publications>
 
