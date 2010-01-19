@@ -65,9 +65,6 @@
 		<copy overwrite="true" file="jetty.xml" tofile="${exist.dir}/tools/jetty/etc/jetty.xml">
 		</copy>	
 		
-		<replace file="${exist.dir}/index.html" token="${prev_dbPort}" value="${dbport}"/>
-		<replace file="${exist.dir}/index.html" token="${prev_dbHost}" value="${dbhost}"/>
-		
 	 	<echo message="DB Properties have been updated" />
 
 	</target>
@@ -151,9 +148,7 @@
 		</xdb:store>
 		
 		<replace file="./db/mdr/config.xml" token="${prev_dbPort}" value="${dbport}"/>
-		
-		<replace file="index.html" token="${prev_dbPort}" value="${dbport}"/>
-		<replace file="index.html" token="${prev_dbHost}" value="${dbhost}"/>
+
 		
 		<copy overwrite="true" file="index.html" tofile="${exist.dir}/index.html">
 		</copy>
