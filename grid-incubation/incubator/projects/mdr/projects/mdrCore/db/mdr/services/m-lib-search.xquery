@@ -330,6 +330,7 @@ declare function lib-search:dataElementListSearch($term as xs:string, $start as 
           
 };
 
+
 declare function lib-search:dataElementSummary($term as xs:string, $start as xs:integer, $num as xs:integer) as node() 
 {
    let $all-admin-items := 
@@ -357,6 +358,10 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                  let $data-type := lib-util:mdrElement("data_type", data($value-domain//openMDR:value_domain_datatype))
                  let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//openMDR:value_domain_unit_of_measure))
                  let $preferred-name := data($administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name)
+                 let $context-id := data($administered-item//openMDR:having//openMDR:context_identifier)
+                 let $context := lib-util:mdrElement("context",$context-id)
+                 
+                 let $log:= util:log-system-out($context-id)
              where $record-id >= $start and $record-id <= $start + $num 
              return
                    element data-element
@@ -372,7 +377,26 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                               return element name {data($name)}
                           }
                       },
-                     element definition {administered-item:preferred-definition($administered-item)},
+                     element definition {
+                        element value{
+                            administered-item:preferred-definition($administered-item)
+                        },
+                         element source{
+                            element abbreviation{
+                            },
+                            element code{
+                                data($administered-item//openMDR:having//openMDR:containing//openMDR:definition_source_reference)                                
+                            },
+                            element description{
+                            }
+                        }
+                     },
+                     element context
+                     {
+                        element name {data($context//openMDR:having//openMDR:containing//openMDR:name)},
+                        element version {data($context/@version)},
+                        element description {data($context//openMDR:having//openMDR:containing//openMDR:definition_text)}
+                     },
                      element values 
                      {
                          if (value-domain:type($value-domain) = 'enumerated value domain')
@@ -390,18 +414,19 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                                      }
                               }
                           else
-                          element non-enumerated
-                          {
-                             element data-type {data($data-type//openMDR:datatype_name)},
-                             element units 
+                             element non-enumerated
                              {
-                                if (data($uom//openMDR:unit_of_measure_name)>"")
-                                then (data($uom//openMDR:unit_of_measure_name))
-                                else ("(not applicable)")}
-                            }
+                                element data-type {data($data-type//openMDR:datatype_name)},
+                                element units 
+                                {
+                                   if (data($uom//openMDR:unit_of_measure_name)>"")
+                                   then (data($uom//openMDR:unit_of_measure_name))
+                                   else ("(not applicable)")}
+                               }
                        },
                        element object-class
                        {
+                       
                           element conceptCollection{
                            let $resource := lib-qs:selectResource-form('CONCEPTID')
                            let $request:=""
@@ -444,6 +469,7 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
    return
        $content
 };
+
 
 (: Classification:)
 declare function local:searchCDEByClassification($phrase as xs:string, $classified-by as xs:anyURI) as element()*
