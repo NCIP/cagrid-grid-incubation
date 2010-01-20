@@ -343,7 +343,7 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
     let $count-all-admin-items := count($all-admin-items)    
 
     let $content as element() :=
-        <result-set>
+        <result-set namespace="http://cagrid.org/schema/result-set">
            {
               for $administered-item at $record-id in $all-admin-items
                  let $administered-item-id := lib-util:mdrElementId($administered-item)
@@ -375,7 +375,7 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                               for $name in $administered-item//openMDR:name
                               where data($name) != $preferred-name  
                               return element name {data($name)}
-                          }
+                          }                    
                       },
                      element definition {
                         element value{
@@ -391,6 +391,14 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                             }
                         }
                      },
+                     element workflow-status
+                      {
+                            data($administered-item//openMDR:administered_item_administration_record//openMDR:administrative_status)
+                      },
+                     element registration-status
+                      {
+                            data($administered-item//openMDR:administered_item_administration_record//openMDR:registration_status)
+                      },
                      element context
                      {
                         element name {data($context//openMDR:having//openMDR:containing//openMDR:name)},
