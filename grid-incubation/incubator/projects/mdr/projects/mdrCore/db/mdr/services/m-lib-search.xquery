@@ -330,22 +330,43 @@ declare function lib-search:dataElementListSearch($term as xs:string, $start as 
           
 };
 
-
-declare function lib-search:dataElementSummary($term as xs:string, $start as xs:integer, $num as xs:integer) as node() 
+(: Returns Data Element Summary :)
+declare function lib-search:dataElementSummary($term as xs:string, $exactTerm as xs:string, $publicId as xs:string, $start as xs:integer, $num as xs:integer) as node() 
 {
-   let $all-admin-items := 
-       for $sorted in lib-util:search("data_element", $term)
-       let $preferred-name := $sorted//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
-       order by $preferred-name 
-       return 
-           $sorted
-
+       let $all-admin-items := 
+        if($publicId != "" and $term = "")
+            then(
+                for $sorted in lib-util:mdrElement("data_element", $publicId)
+                let $preferred-name := $sorted//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
+                order by $preferred-name 
+                return 
+                    $sorted
+                )
+        else if($publicId="" and $term !="")
+            then(
+                for $sorted in lib-util:search("data_element", $term)
+                let $preferred-name := $sorted//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
+                order by $preferred-name 
+                return 
+                    $sorted
+               )
+        else if($publicId="" and $exactTerm !="")
+            then(
+                for $sorted in lib-util:exactSearch("data_element", $exactTerm)
+                let $preferred-name := $sorted//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name
+                order by $preferred-name 
+                return 
+                    $sorted
+               )
+        else()
+   
     let $count-all-admin-items := count($all-admin-items)    
 
     let $content as element() :=
         <result-set namespace="http://cagrid.org/schema/result-set">
            {
               for $administered-item at $record-id in $all-admin-items
+             
                  let $administered-item-id := lib-util:mdrElementId($administered-item)
                  let $value-domain-id := data($administered-item//openMDR:representing)
                  let $value-domain := lib-util:mdrElement("value_domain",$value-domain-id)
@@ -353,15 +374,16 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                  let $data-element-concept := lib-util:mdrElement("data_element_concept",$data-element-concept-id)
                  let $object-class-id := data($data-element-concept//openMDR:data_element_concept_object_class)
                  let $object-class := lib-util:mdrElement("object_class",$object-class-id)
+                 let $object-class-preferred-name := data($object-class//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name)
                  let $property-class-id := data($data-element-concept//openMDR:data_element_concept_property)
-                 let $property-class := lib-util:mdrElement("property",$property-class-id)                   
+                 let $property-class := lib-util:mdrElement("property",$property-class-id)
+                 let $property-class-preferred-name := data($property-class//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name)
                  let $data-type := lib-util:mdrElement("data_type", data($value-domain//openMDR:value_domain_datatype))
                  let $uom := lib-util:mdrElement("unit_of_measure", data($value-domain//openMDR:value_domain_unit_of_measure))
                  let $preferred-name := data($administered-item//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name)
                  let $context-id := data($administered-item//openMDR:having//openMDR:context_identifier)
                  let $context := lib-util:mdrElement("context",$context-id)
                  
-                 let $log:= util:log-system-out($context-id)
              where $record-id >= $start and $record-id <= $start + $num 
              return
                    element data-element
@@ -434,7 +456,39 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                        },
                        element object-class
                        {
-                       
+                               element names 
+                              {
+                                  element id {$object-class-id},
+                                  element preferred {$object-class-preferred-name},
+                                  element all-names 
+                                  {
+                                      for $name in $object-class//openMDR:name
+                                      where data($name) != $object-class-preferred-name
+                                      return element name {data($name)}
+                                  }                    
+                              },
+                             element definition {
+                                element value{
+                                    administered-item:preferred-definition($object-class)
+                                },
+                                 element source{
+                                    element abbreviation{
+                                    },
+                                    element code{
+                                        data($object-class//openMDR:having//openMDR:containing//openMDR:definition_source_reference)                                
+                                    },
+                                    element description{
+                                    }
+                                }
+                             },
+                             element workflow-status
+                              {
+                                    data($object-class//openMDR:administered_item_administration_record//openMDR:administrative_status)
+                              },
+                             element registration-status
+                              {
+                                    data($object-class//openMDR:administered_item_administration_record//openMDR:registration_status)
+                              },
                           element conceptCollection{
                            let $resource := lib-qs:selectResource-form('CONCEPTID')
                            let $request:=""
@@ -455,6 +509,39 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                        
                        element property
                        {
+                            element names 
+                              {
+                                  element id {$property-class-id},
+                                  element preferred {$property-class-preferred-name},
+                                  element all-names 
+                                  {
+                                      for $name in $property-class//openMDR:name
+                                      where data($name) != $property-class-preferred-name
+                                      return element name {data($name)}
+                                  }                    
+                              },
+                             element definition {
+                                element value{
+                                    administered-item:preferred-definition($property-class)
+                                },
+                                 element source{
+                                    element abbreviation{
+                                    },
+                                    element code{
+                                        data($property-class//openMDR:having//openMDR:containing//openMDR:definition_source_reference)                                
+                                    },
+                                    element description{
+                                    }
+                                }
+                             },
+                             element workflow-status
+                              {
+                                    data($property-class//openMDR:administered_item_administration_record//openMDR:administrative_status)
+                              },
+                             element registration-status
+                              {
+                                    data($property-class//openMDR:administered_item_administration_record//openMDR:registration_status)
+                              },
                           element conceptCollection{
                            let $resource := lib-qs:selectResource-form('CONCEPTID')
                            let $request:=""                     
@@ -472,6 +559,35 @@ declare function lib-search:dataElementSummary($term as xs:string, $start as xs:
                            }
                         }
                    }
+            }
+        </result-set>   
+   return
+       $content
+};
+
+(: Returns a list of all the contexts present in the metadata registry :)
+declare function lib-search:contextList($term as xs:string) as node() 
+{
+
+    let $all-contexts :=  
+        for $sorted in lib-util:mdrDocuments("context")
+        let $preferred-name := data($sorted//openMDR:containing[openMDR:preferred_designation='true']/openMDR:name)
+        order by $preferred-name 
+    return 
+           $sorted
+    let $count-allcontexts := count($all-contexts)    
+
+    let $content as element() :=
+        <result-set namespace="http://cagrid.org/schema/result-set">
+           {
+              for $context at $record-id in $all-contexts
+              return
+                 element context
+                 {
+                    element name {data($context//openMDR:having//openMDR:containing//openMDR:name)},
+                    element version {data($context//@version)},
+                    element description {data($context//openMDR:having//openMDR:containing//openMDR:definition_text)}
+                 }                  
             }
         </result-set>   
    return
