@@ -205,6 +205,7 @@ declare function local:input-page(
                         </tr>
                         {
                         let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
+                        
                         return                    
                         if ($conceptual_domain_id > '' or $conceptual_domain_id eq "Cancel") 
                         then (                       
@@ -257,7 +258,6 @@ declare function local:input-page(
                     ) 
                     else (
                                  <tr>
-                                    <td>{util:log-system-out(concat("else_id : ",$conceptual_domain_id) )}</td>
                                     <td class="left_header_cell">Choose Conceptual Domain</td>
                                     <td align="left">{lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id,'edit_value_domain', 'Select Relationship')}</td>   
                                </tr>                
@@ -266,7 +266,11 @@ declare function local:input-page(
                </table>
                     <table class="section">
                           <tr><td class="row-header-cell" colspan="6">Store</td></tr>
-                          <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                          <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td>
+                          <td colspan="4"><input type="submit"  name="update" value="Cancel" 
+                              onClick= "{concat("window.open('../web/value_domain.xquery?compound_id=", $id, "');")}" /></td>   
+
+                          </tr>    
                     </table>
               </div>
           </form>
@@ -334,6 +338,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
     let $ienum_uom := $element//openMDR:value_domain_unit_of_measure
     let $ichar_quantity := $element//openMDR:value_domain_maximum_character_quantity
     let $ivalue_domain_format := $element//openMDR:value_domain_format
+    
     (:
     let $icontained_in_identifier := $element//openMDR:contained_in
     let $log := util:log-system-err($iconceptual_domain) 
