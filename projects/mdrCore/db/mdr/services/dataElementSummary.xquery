@@ -34,7 +34,7 @@ declare option exist:serialize "method=xml media-type=text/xml";
 session:create(),
 let $term := request:get-parameter("term", "")
 let $exactTerm := request:get-parameter("exactTerm", "")
-let $publicId := request:get-parameter("publicId","")
+let $publicId := request:get-parameter("publicID","")
 let $start as xs:integer := xs:integer(request:get-parameter("start", 0))
 let $num as xs:integer := xs:integer(request:get-parameter("num", 10))
 return

@@ -9,7 +9,7 @@
             <xsl:value-of select="concat(/q:query/q:serviceUrl, '/dataElementSummary.xquery?term=', replace(/q:query/q:term, ' ', '%20'),'&amp;start=',/q:query/q:startIndex,'&amp;num=',/q:query/q:numResults)"/>
         </xsl:if>
         <xsl:if test="/q:query/q:exactTerm">
-            <xsl:value-of select="concat(/q:query/q:serviceUrl, '/dataElementSummary.xquery?term=', replace(/q:query/q:exactTerm, ' ', '%20'),'&amp;start=',/q:query/q:startIndex,'&amp;num=',/q:query/q:numResults)"/>
+            <xsl:value-of select="concat(/q:query/q:serviceUrl, '/dataElementSummary.xquery?exactTerm=', replace(/q:query/q:exactTerm, ' ', '%20'),'&amp;start=',/q:query/q:startIndex,'&amp;num=',/q:query/q:numResults)"/>
         </xsl:if>
         <xsl:if test="/q:query/q:contextList">
             <xsl:value-of select="concat(/q:query/q:serviceUrl, '/contextList.xquery')"/>
