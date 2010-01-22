@@ -59,7 +59,7 @@
 		</query_service>
 		<query_service name="openMDR"
 			class="org.cagrid.openmdr.ws.query.RestQueryService"
-			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementSummary.xquery"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services"
 			cache_collection_id="openMDR" cache="false"
 			cache_provider="HibernateCacheProvider" 
 			category="CDE" connection_type="REST"
