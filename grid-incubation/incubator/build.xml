@@ -144,6 +144,8 @@
 
 
 	<target name="all" depends="prepare,clean" description="compile, jar and publish all projects in the right order">
+		
+		<!-- build projects that depend on top-level ant/ivy configuration-->
 		<for parallel="false" param="project.buildfile" trim="true">
 			<path refid="ivy.projects.list" />
 			<sequential>
@@ -153,6 +155,15 @@
 				</ant>
 			</sequential>
 		</for>
+		
+		<!-- build projects that have their own set of projects and ant/ivy configurations -->
+		<for list="${independent.projects}" parallel="false" param="project.name" trim="true">
+	    	<sequential>
+	            <echo message="Build project: @{project.name}." />
+	    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
+	    		<ant inheritAll="false" dir="${basedir}/projects/@{project.name}" antfile="build.xml" target="all" />
+	    	</sequential>
+      	</for>
 	</target>
 
 
