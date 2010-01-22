@@ -210,6 +210,42 @@ declare function lib-forms:make-select-admin-item($collection as xs:string, $sel
       lib-forms:popup-search($collection, $select-name)
 };
 
+declare function lib-forms:make-select-form-admin-item($collection as xs:string, $select-name as xs:string, $received-value as xs:string, 
+$form-name as xs:string, $button-name as xs:string) as node()*
+{
+    element input {
+      attribute type {'text'},
+   
+      attribute name {$select-name},
+      attribute id {$select-name},
+      attribute value {$received-value},
+      attribute size {'70%'}
+      },
+      element div {
+         attribute id {concat($select-name,'-div')},
+         administered-item:preferred-name($collection,$received-value)
+      },
+      lib-forms:popup-form-search($collection, $select-name, $form-name, $button-name)     
+};
+
+declare function lib-forms:make-select-admin-item($collection as xs:string, $select-name as xs:string, $received-value as xs:string, $source_formname as xs:string) as node()*
+{
+   element input {
+      attribute type {'text'},
+   
+      attribute name {$select-name},
+      attribute id {$select-name},
+      attribute value {$received-value},
+      attribute value {$source_formname},
+      attribute size {'97%'}
+      },
+      element div {
+         attribute id {concat($select-name,'-div')},
+         administered-item:preferred-name($collection,$received-value)
+      },
+      lib-forms:popup-search($collection, $select-name)
+};
+
 declare function lib-forms:make-select-refdoc($control-name as xs:string, $received-value as xs:string) as node()
 {
    element select {
@@ -1336,13 +1372,11 @@ declare function lib-forms:repeating-group(
       </div>
 };
 
-
-
 declare function lib-forms:popup-search($type as xs:string, $control as xs:string) as element()
 {
    element input {
       attribute type {'button'},
-      attribute value {'update relationship'},
+      attribute value {'select relationship'},
       attribute class {'cgButton'},
       attribute onclick {
          concat("window.open('popup-search-relationship.xquery?control=",
@@ -1355,12 +1389,26 @@ declare function lib-forms:popup-search($type as xs:string, $control as xs:strin
 };
 
 
-
-
-
-
-
-
+declare function lib-forms:popup-form-search($type as xs:string, $control as xs:string, 
+$form-name as xs:string, $button-name as xs:string) as element() 
+{
+   element input {
+      attribute type {'submit'},
+      attribute name {"update"},
+      attribute value {$button-name},
+      attribute class {'cgButton'},
+      attribute onclick {
+         concat("window.open('popup-search-relationship.xquery?control=",
+            $control, 
+            "&amp;type=",
+            $type,
+            "&amp;form-name=",
+            $form-name,
+            "','Popup_Window','resizable=yes,width=1000,height=350,menubar=no,left=100,top=100')")
+            }
+   }
+   
+};
 
 
 (:treeview utility functions:)
