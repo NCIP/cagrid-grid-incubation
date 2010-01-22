@@ -169,5 +169,14 @@
 		</for>
 	</target>
 
+    <target name="build-independent-projects" depends="prepare">
+    	<for list="${independent.projects}" parallel="false" param="project.name" trim="true">
+	    	<sequential>
+	            <echo message="Testing project @{project.name}." />
+	    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
+	    		<ant inheritAll="false" dir="${basedir}/projects/@{project.name}" antfile="build.xml" target="all" />
+	    	</sequential>
+      	</for>
+    </target>
 
 </project>
