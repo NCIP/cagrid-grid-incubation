@@ -15,6 +15,7 @@ xquery version "1.0";
  
 (:~
  :    @author Rakesh Dhaval
+ :    @author Puneet Mathur
  :    @version 3.0
  :    allows editing the DataElementConcept
 ~ :)
@@ -47,6 +48,7 @@ xquery version "1.0";
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
+declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -75,9 +77,7 @@ declare function local:value_domain(
    $value_domain_format as xs:string?,
    $values as xs:string*
    ) as xs:boolean
-{
-                    
-             
+{        
    let $version := lib-forms:substring-after-last($id,'_')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $doc-name := concat($id,'.xml')
@@ -206,11 +206,13 @@ declare function local:input-page(
                         {
                         let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
                         return                    
-                        if ($conceptual_domain_id > '') 
+                        if ($conceptual_domain_id > '' or $conceptual_domain_id eq "Cancel") 
                         then (                       
                            <tr>
                                 <td class="left_header_cell">Conceptual Domain ID</td>
                                 <td align="left">{$conceptual_domain_id}</td>
+                                <td>{session:set-attribute("old_cd_id", $conceptual_domain_id)}</td>
+                                <td>{lib-forms:popup-form-search('conceptual_domain','conceptual_domain_id','edit_value_domain', 'Change Relationship')}</td>                                       
                                 <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
                            </tr>,
                            <tr>
@@ -254,15 +256,11 @@ declare function local:input-page(
                            else () 
                     ) 
                     else (
-                           <tr>
-                                <td class="left_header_cell">Choose Conceptual Domain</td>
-                                <td align="left">
-                                {                                    
-                                    lib-forms:make-select-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id)
-                                }
-                                </td>
-                                <td>{lib-forms:action-button('select', 'action','')}</td>                                
-                           </tr>                    
+                                 <tr>
+                                    <td>{util:log-system-out(concat("else_id : ",$conceptual_domain_id) )}</td>
+                                    <td class="left_header_cell">Choose Conceptual Domain</td>
+                                    <td align="left">{lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id,'edit_value_domain', 'Select Relationship')}</td>   
+                               </tr>                
                    )
                }    
                </table>
@@ -328,7 +326,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $isources := $element//openMDR:definition_source_reference
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
 
-    let $iconceptual_domain_id := $element//openMDR:representing/text()
+    let $iconceptual_domain_id := if($element//openMDR:representing/text() > '') 
+                                    then ($element//openMDR:representing/text()) else ("")
     let $iconceptual_domain := lib-util:mdrElement("conceptual_domain",$iconceptual_domain_id)
     let $ivalues := $element//openMDR:value_item
     let $ienum_datatype := $element//openMDR:value_domain_datatype
@@ -367,6 +366,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $enum_uom := request:get-parameter('enum_uom','')
    let $char_quantity := request:get-parameter('char_quantity','')
    let $value_domain_format := request:get-parameter('value_domain_format','')
+   
    return
       lib-rendering:txfrm-webpage(
       $title,
@@ -425,10 +425,71 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      )
                )
          )
-      else (
+       else if ($action='Change Relationship')
+         then(
+               let $conceptual_domain_id as xs:string? := ""     
+             
+               return
+               local:input-page
+               (
+               '',
+               $id,
+               $reg-auth,
+               $administrative-note,
+               $administrative-status,
+               $administered-by,
+               $submitted-by,
+               $registered-by,
+               $context-ids,
+               $country-identifiers,
+               $language-identifiers,
+               $names,
+               $definitions,
+               $sources,
+               $action,
+               $preferred,
+               $conceptual_domain_id,
+               $enum_datatype,
+               $enum_uom,
+               $char_quantity,
+               $value_domain_format,
+               $values
+               )
+         )
+         else if($conceptual_domain_id eq "Cancel")
+         then(  
+               local:input-page
+               (
+               '',
+               $id,
+               $reg-auth,
+               $administrative-note,
+               $administrative-status,
+               $administered-by,
+               $submitted-by,
+               $registered-by,
+               $context-ids,
+               $country-identifiers,
+               $language-identifiers,
+               $names,
+               $definitions,
+               $sources,
+               $action,
+               $preferred,
+               session:get-attribute("old_cd_id"),
+               $enum_datatype,
+               $enum_uom,
+               $char_quantity,
+               $value_domain_format,
+               $values
+               ),
+               session:set-attribute("old_cd_id", $iconceptual_domain_id)
+        ) 
+        else (         
          if ($updating ='updating')
          then (
-      local:input-page
+         
+         local:input-page
                (
                '',
                $id,
