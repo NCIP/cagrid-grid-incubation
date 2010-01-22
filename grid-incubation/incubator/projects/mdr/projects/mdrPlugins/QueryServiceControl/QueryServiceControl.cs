@@ -824,7 +824,8 @@ namespace QueryServiceControl
                             for(int i=0; i < oc.conceptCollection.Length;i++)
                             {
                                 if (i > 0) concepts += ", ";
-                                concepts += oc.conceptCollection[i].name;
+                                concepts += oc.conceptCollection[i].name +
+                                    " (" + oc.conceptCollection[i].id + ")";
                             }
                             tableStr += "<tr><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">Object Class</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + oc.names.preferred + "</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + concepts + "</td></tr>";
                         }
@@ -835,7 +836,8 @@ namespace QueryServiceControl
                             for (int i = 0; i < prop.conceptCollection.Length; i++)
                             {
                                 if (i > 0) concepts += ", ";
-                                concepts += prop.conceptCollection[i].name;
+                                concepts += prop.conceptCollection[i].name +
+                                    " (" + prop.conceptCollection[i].id + ")";
                             }
                             tableStr += "<tr><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">Property</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + prop.names.preferred + "</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + concepts + "</td></tr>";
                         }

@@ -405,7 +405,7 @@
             this.tabOcProps.Name = "tabOcProps";
             this.tabOcProps.Size = new System.Drawing.Size(288, 258);
             this.tabOcProps.TabIndex = 3;
-            this.tabOcProps.Text = "OC/Props";
+            this.tabOcProps.Text = "ObjectClass/Props";
             this.tabOcProps.UseVisualStyleBackColor = true;
             // 
             // wbOcProps
