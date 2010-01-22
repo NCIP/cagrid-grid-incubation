@@ -232,7 +232,7 @@ declare function local:input-page(
                                         )
                                ) else ()
                             ) 
-                            else (
+                            else ( 
                                  <tr>
                                     <td class="left_header_cell">Choose Conceptual Domain</td>
                                     <td align="left">{lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id,'new_value_domain', 'Select Relationship')}</td>
@@ -272,7 +272,6 @@ declare function local:success-page()
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
 
    session:create(),
-   session:set-attribute("old_cd_id", ""),
    let $title as xs:string := "Creating a New Value Domain"
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
