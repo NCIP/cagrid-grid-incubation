@@ -8,6 +8,7 @@ xquery version "1.0";
   
 (:~
  :    @author Rakesh Dhaval
+      @author Puneet Mathur
  :    @version 0.1
 ~ :)
 
@@ -34,6 +35,7 @@ xquery version "1.0";
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
+declare namespace request="http://exist-db.org/xquery/request"; 
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -178,15 +180,18 @@ declare function local:input-page(
                      $action)}
                      
                      <table class="section">
-                        <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr> 
+                        <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>                                                
                         {  
                             let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
                             return
                         
-                            if ($conceptual_domain_id > '') then (                   
+                            if ($conceptual_domain_id > '' or $conceptual_domain_id eq "Cancel") then (                   
                                <tr>
+                                    
                                     <td class="left_header_cell">Conceptual Domain ID</td>
                                     <td align="left">{$conceptual_domain_id}</td>
+                                    <td>{session:set-attribute("old_cd_id", $conceptual_domain_id)}</td>
+                                    <td>{lib-forms:popup-form-search('conceptual_domain','conceptual_domain_id','new_value_domain', 'Change Relationship')}</td>                             
                                     <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
                                </tr>,
                                <tr>
@@ -210,7 +215,7 @@ declare function local:input-page(
                                    <td class="left_header_cell">Value Domain Maximum Character Count</td>
                                    <td collspan="3"><input type="text" name="char_quantity"></input></td>
                                </tr>,
-                                                             
+                               
                                if($concept_domain//openMDR:value_meaning_description > '') 
                                then 
                                (
@@ -228,10 +233,9 @@ declare function local:input-page(
                                ) else ()
                             ) 
                             else (
-                                <tr>
+                                 <tr>
                                     <td class="left_header_cell">Choose Conceptual Domain</td>
-                                    <td align="left">{lib-forms:make-select-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id)}</td>
-                                    <td>{lib-forms:action-button('select', 'action','')}</td>
+                                    <td align="left">{lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id,'new_value_domain', 'Select Relationship')}</td>
                                </tr>
                             )
                         }
@@ -266,8 +270,9 @@ declare function local:success-page()
 };
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
- 
+
    session:create(),
+   session:set-attribute("old_cd_id", ""),
    let $title as xs:string := "Creating a New Value Domain"
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
@@ -291,7 +296,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $char_quantity := request:get-parameter('char_quantity','')
    let $value_domain_format := request:get-parameter('value_domain_format','')
    (: let $log := util:log-system-err($values) :)
-    
+   
    return   
       lib-rendering:txfrm-webpage(
       $title,
@@ -348,7 +353,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                   )
                )
          )
-      else local:input-page
+      else if ($action='Change Relationship')
+      then(
+            
+            let $conceptual_domain_id as xs:string? := ""
+            return local:input-page
                (
                '',
                $reg-auth,
@@ -373,4 +382,59 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $values
                )
          )
-
+         else if($conceptual_domain_id eq "Cancel")
+         then(
+               local:input-page
+               (
+               '',
+               $reg-auth,
+               $administrative-note,
+               $administrative-status,
+               $administered-by,
+               $submitted-by,
+               $registered-by,
+               $context-ids,
+               $country-identifiers,
+               $language-identifiers,
+               $names,
+               $definitions,
+               $sources,
+               $action,
+               $preferred,
+               session:get-attribute("old_cd_id"),
+               $enum_datatype,
+               $enum_uom,
+               $char_quantity,
+               $value_domain_format,
+               $values
+               ),
+               session:set-attribute("old_cd_id", "")
+               
+          ) else(
+          local:input-page
+               (
+               '',
+               $reg-auth,
+               $administrative-note,
+               $administrative-status,
+               $administered-by,
+               $submitted-by,
+               $registered-by,
+               $context-ids,
+               $country-identifiers,
+               $language-identifiers,
+               $names,
+               $definitions,
+               $sources,
+               $action,
+               $preferred,
+               $conceptual_domain_id,
+               $enum_datatype,
+               $enum_uom,
+               $char_quantity,
+               $value_domain_format,
+               $values
+               )
+          )
+        
+     )
