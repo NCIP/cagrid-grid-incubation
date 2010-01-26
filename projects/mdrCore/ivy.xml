@@ -16,75 +16,41 @@
 	</configurations>
 
 	<publications>
-		<artifact name="stylesheets/add_namespace" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/cadsr_construct" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/cadsr_OC_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/cadsr_prop_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/cadsr_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/cadsr_transform" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/openMDR_Classification_Tree"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/openMDR_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/openMDR_REST_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/openMDR_SKOS_REST_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/openMDR_transform" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/CombinatorialQuery_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/CombinatorialQuery_transform"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/config_filter" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/DescLogicConcept_construct" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/DescLogicConcept_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/DescLogicConcept_transform" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/direct-copy" conf="stylesheets"
-			type="xsl" />
+		<artifact name="stylesheets/add_namespace" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/cadsr_construct" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/cadsr_OC_query" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/cadsr_prop_query" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/cadsr_query" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/cadsr_transform" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/CombinatorialQuery_query" conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/CombinatorialQuery_transform"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/config_filter" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/DescLogicConcept_construct" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/DescLogicConcept_query" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/DescLogicConcept_transform" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/direct-copy" conf="stylesheets"	type="xsl" />
 		<artifact name="stylesheets/fixtag" conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/MetaThesaurusConcept_construct"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/MetaThesaurusConcept_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/MetaThesaurusConcept_sources"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/MetaThesaurusConcept_transform"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/no_arg_REST" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/LexEVSConceptId_query" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/LexEVSConceptId_construct" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/LexEVSConceptId_fixtag" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/LexEVSConceptId_transform" conf="stylesheets"
-			type="xsl" />
-		<artifact name="stylesheets/LexEVSDescLogicConcept_query"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/LexEVSDescLogicConcept_construct"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/LexEVSDescLogicConcept_transform"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/LexMetaThesaurusConcept_query"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/LexMetaThesaurusConcept_construct"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/LexMetaThesaurusConcept_fixtag"
-			conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/LexMetaThesaurusConcept_transform"
-			conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/LexEVSConceptId_query" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/LexEVSConceptId_construct" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/LexEVSConceptId_fixtag" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/LexEVSConceptId_transform" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/LexEVSDescLogicConcept_query"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/LexEVSDescLogicConcept_construct"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/LexEVSDescLogicConcept_transform"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_query"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_construct"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_fixtag"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_transform"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/MetaThesaurusConcept_construct"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/MetaThesaurusConcept_query" conf="stylesheets"		type="xsl" />
+		<artifact name="stylesheets/MetaThesaurusConcept_sources"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/MetaThesaurusConcept_transform"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/no_arg_REST" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/openMDR_Classification_Tree"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/openMDR_query" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/openMDR_REST_query" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/openMDR_SKOS_REST_query" conf="stylesheets"	type="xsl" />
+		<artifact name="stylesheets/openMDR_transform" conf="stylesheets"	type="xsl" />
 	</publications>
 
 	<dependencies>
