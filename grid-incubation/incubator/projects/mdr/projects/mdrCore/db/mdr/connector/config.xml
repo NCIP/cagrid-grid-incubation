@@ -1,61 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <config xmlns="http://cagrid.org/schema/config">
-    <resources>
-         <query_service name="caDSR"
-			class="org.cagrid.ws.query.RestQueryService"
-			serviceUrl="http://cadsrapi.nci.nih.gov/cadsrapi40/GetXML"
-			cache_collection_id="caDSR" cache="false"
-			cache_provider="HibernateCacheProvider" 
-			category="CDE" connection_type="REST"
-			requestSequence="cadsr_query" digestSequence="cadsr_construct fixtag cadsr_transform add_namespace">
-			<title>NCI Cancer Data Standards Repository (caDSR)</title>
-			<description>NCICB Resource for Common Data Elements</description>
-			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr</webUrl>			
-		</query_service>
-		
-        <query_service name="EVS-DescLogicConcept" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://lexevsapi.nci.nih.gov/lexevsapi50/GetXML" cache_collection_id="EVS-DescLogicConcept" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPT" connection_type="REST" requestSequence="LexEVSDescLogicConcept_query" digestSequence="LexEVSDescLogicConcept_construct fixtag LexEVSDescLogicConcept_transform add_namespace">
-            <title>NCI Enterprise Vocabulary Services (EVS)</title>
-            <description>The NCI EVS is a set of services and resources that
-                address NCI's needs for controlled vocabulary.</description>
-            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
-        </query_service>
-        <query_service name="EVS-MetaThesaurusConcept" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://lexevsapi.nci.nih.gov/lexevsapi50/GetXML" cache_collection_id="EVS-MetaThesaurusConcept" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPT" connection_type="REST" requestSequence="LexMetaThesaurusConcept_query" digestSequence="LexMetaThesaurusConcept_construct fixtag LexMetaThesaurusConcept_transform add_namespace">
-            <title>NCI Enterprise Vocabulary Services (EVS)</title>
-            <description>The NCI EVS is a set of services and resources that
-                address NCI's needs for controlled vocabulary.</description>
-            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
-        </query_service>
-        <query_service name="EVS-ConceptIdentifier" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://lexevsapi51.nci.nih.gov/lexevsapi51/GetXML" cache_collection_id="EVS-ConceptIdentifier" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPTID" connection_type="REST" requestSequence="LexEVSConceptId_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
-            <title>NCI Enterprise Vocabulary Services (EVS)</title>
-            <description>The NCI EVS is a set of services and resources that
-                address NCI's needs for controlled vocabulary.</description>
-            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
-        </query_service>
-        <query_service name="openMDR" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://localhost:8080/exist/rest/db/mdr/services" cache_collection_id="openMDR" cache="false" cache_provider="HibernateCacheProvider" category="CDE" connection_type="REST" requestSequence="openMDR_REST_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
-            <title>Metadata Registry (openMDR)</title>
-            <description>Metadata Registry (openMDR)
-            </description>
-            <webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
-        </query_service>
-       
-		      
-        <!-- Temporarily disabling it while the OSU EVS Server is being redone
-            <query_service name="OSU-EVS-DescLogicConcept" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://lexgrid-dev.ctsa.cagrid.org:8081/lexevsapi50/GetXML" cache_collection_id="EVS-DescLogicConcept" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPT" connection_type="REST" requestSequence="LexEVSDescLogicConcept_query" digestSequence="LexEVSDescLogicConcept_construct fixtag LexEVSDescLogicConcept_transform add_namespace">
-            <title>NCI Enterprise Vocabulary Services (EVS)</title>
-            <description>The NCI EVS is a set of services and resources that
-            address NCI's needs for controlled vocabulary.</description>
-            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
-            </query_service>
-            <query_service name="OSU-EVS-MetaThesaurusConcept" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://lexgrid.ctsa.cagrid.org:8081/lexevsapi50/GetXML" cache_collection_id="EVS-MetaThesaurusConcept" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPT" connection_type="REST" requestSequence="LexMetaThesaurusConcept_query" digestSequence="LexMetaThesaurusConcept_construct fixtag LexMetaThesaurusConcept_transform add_namespace">
-            <title>NCI Enterprise Vocabulary Services (EVS)</title>
-            <description>The NCI EVS is a set of services and resources that
-            address NCI's needs for controlled vocabulary.</description>
-            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
-            </query_service>
-        -->
-
-        <!--
-            <query_service name="caDSR"
+	<resources>
+		<!-- original
+		<query_service name="caDSR"
 			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://cadsrapi.nci.nih.gov/cadsrapi40/GetXML"
 			cache_collection_id="caDSR" cache="false"
@@ -65,21 +11,37 @@
 			<title>NCI Cancer Data Standards Repository (caDSR)</title>
 			<description>NCICB Resource for Common Data Elements</description>
 			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr</webUrl>			
-			</query_service>
-		
-            <query_service name="caDSR" 
-        	class="org.cagrid.ws.query.RestQueryService" 
-        	serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML" 
-        	cache_collection_id="caDSR" cache="false" 
-        	cache_provider="HibernateCacheProvider" 
-        	category="CDE" connection_type="REST" 
-        	requestSequence="cadsr_query" digestSequence="cadsr_construct fixtag cadsr_transform add_namespace">
-            <title>NCI Cancer Data Standards Repository (caDSR)</title>
-            <description>NCICB Resource for Common Data Elements
-            </description>
-            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr</webUrl>
+		</query_service>
+		-->
+		  <query_service name="caDSR"
+         	identifier_prefix="cabio.nci.nih.gov"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
+			serviceUrl="http://cadsrapi.nci.nih.gov/cadsrapi40/GetXML"
+			cache_collection_id="caDSR" cache="false"
+			cache_provider="HibernateCacheProvider" 
+			category="CDE" connection_type="REST"
+			requestSequence="cadsr_query" digestSequence="cadsr_construct fixtag cadsr_transform add_namespace">
+			<title>NCI Cancer Data Standards Repository (caDSR)</title>
+			<description>NCICB Resource for Common Data Elements</description>
+			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr</webUrl>			
+		</query_service> 
+        <query_service name="EVS-ConceptIdentifier" 
+         	identifier_prefix=""
+	        class="org.cagrid.openmdr.ws.query.RestQueryService" 
+	        serviceUrl="http://lexevsapi51.nci.nih.gov/lexevsapi51/GetXML" 
+	        cache_collection_id="EVS-ConceptIdentifier" cache="false" 
+	        cache_provider="HibernateCacheProvider" 
+	        category="CONCEPTID" connection_type="REST" 
+	        requestSequence="LexEVSConceptId_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
+            <title>NCI Enterprise Vocabulary Services (EVS)</title>
+            <description>The NCI EVS is a set of services and resources that
+                address NCI's needs for controlled vocabulary.</description>
+            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
         </query_service>
-        <query_service name="caDSR-ObjectClass"
+		
+		
+		<!-- original
+		<query_service name="caDSR-ObjectClass"
 			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://cadsrapi.nci.nih.gov/cadsrapi40/GetXML"
 			cache_collection_id="caDSR-ObjectClass" cache="false"
@@ -101,30 +63,136 @@
 			<description>NCICB Resource for Common Data Elements</description>
 			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr</webUrl>			
 		</query_service>
-        <query_service name="openMDR-Local-Terminology" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/terminology.xquery" cache_collection_id="openMDR-Local-Terminology" cache="false" cache_provider="HibernateCacheProvider" category="LOCALCONCEPT" connection_type="REST" requestSequence="openMDR_REST_query" digestSequence="add_namespace">
+		-->
+		<!-- original
+		<query_service name="EVS-DescLogicConcept"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
+			serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
+			cache_collection_id="EVS-DescLogicConcept" cache="false"
+			cache_provider="HibernateCacheProvider"
+			category="CONCEPT" connection_type="REST"
+			requestSequence="DescLogicConcept_query"
+			digestSequence="DescLogicConcept_construct fixtag DescLogicConcept_transform add_namespace">
+			<title>NCI Enterprise Vocabulary Services (EVS)</title>
+			<description>The NCI EVS is a set of services and resources that address NCI's needs for controlled vocabulary.</description>
+			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>			
+		</query_service>
+		<query_service name="EVS-MetaThesaurusConcept"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
+			serviceUrl="http://cabio.nci.nih.gov/cacore32/GetXML"
+			cache_collection_id="EVS-MetaThesaurusConcept" cache="false"
+			cache_provider="HibernateCacheProvider"
+			category="CONCEPT" connection_type="REST"
+			requestSequence="MetaThesaurusConcept_query"
+			digestSequence="MetaThesaurusConcept_construct fixtag MetaThesaurusConcept_transform add_namespace">
+			<title>NCI Enterprise Vocabulary Services (EVS)</title>
+			<description>The NCI EVS is a set of services and resources that address NCI's needs for controlled vocabulary.</description>
+			<webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>			
+		</query_service>
+		-->
+		 <query_service name="EVS-DescLogicConcept" 
+         	identifier_prefix="lexevsapi.nci.nih.gov_EVS-DescLogicConcept"
+	        class="org.cagrid.openmdr.ws.query.RestQueryService" 
+	        serviceUrl="http://lexevsapi.nci.nih.gov/lexevsapi50/GetXML" 
+	        cache_collection_id="EVS-DescLogicConcept" cache="false" 
+	        cache_provider="HibernateCacheProvider" 
+	        category="CONCEPT" connection_type="REST" 
+	        requestSequence="LexEVSDescLogicConcept_query" digestSequence="LexEVSDescLogicConcept_construct fixtag LexEVSDescLogicConcept_transform add_namespace">
+            <title>NCI Enterprise Vocabulary Services (EVS)</title>
+            <description>The NCI EVS is a set of services and resources that
+                address NCI's needs for controlled vocabulary.</description>
+            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
+        </query_service>
+        <query_service name="EVS-MetaThesaurusConcept" 
+         	identifier_prefix="lexevsapi.nci.nih.gov_EVS-MetaThesaurusConcept"
+	        class="org.cagrid.openmdr.ws.query.RestQueryService" 
+	        serviceUrl="http://lexevsapi.nci.nih.gov/lexevsapi50/GetXML" 
+	        cache_collection_id="EVS-MetaThesaurusConcept" cache="false" 
+	        cache_provider="HibernateCacheProvider" 
+	        category="CONCEPT" connection_type="REST" 
+	        requestSequence="LexMetaThesaurusConcept_query" digestSequence="LexMetaThesaurusConcept_construct fixtag LexMetaThesaurusConcept_transform add_namespace">
+            <title>NCI Enterprise Vocabulary Services (EVS)</title>
+            <description>The NCI EVS is a set of services and resources that
+                address NCI's needs for controlled vocabulary.</description>
+            <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
+      </query_service>
+      <!-- original
+	  <query_service name="openMDR" 
+        	identifier_prefix="cagrid.org"
+        	class="org.cagrid.openmdr.ws.query.RestQueryService" 
+        	serviceUrl="http://localhost:9090/exist/rest/db/mdr/services" 
+        	cache_collection_id="openMDR" cache="false" 
+        	cache_provider="HibernateCacheProvider" 
+        	category="CDE" connection_type="REST" 
+        	requestSequence="openMDR_REST_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
             <title>Metadata Registry (openMDR)</title>
             <description>Metadata Registry (openMDR)
             </description>
             <webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
-        </query_service>
-        <query_service name="openMDR-with-Classification" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementListSearchByClassification.xquery" cache_collection_id="openMDR-with-Classification" cache="false" cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME" connection_type="REST" requestSequence="openMDR_SKOS_REST_query" digestSequence="add_namespace">
+        </query_service>	
+		-->
+		<query_service name="openMDR" 
+        	identifier_prefix="cagrid.org"
+        	class="org.cagrid.ws.query.RestQueryService" 
+        	serviceUrl="http://localhost:9090/exist/rest/db/mdr/services" 
+        	cache_collection_id="openMDR" cache="false" 
+        	cache_provider="HibernateCacheProvider" 
+        	category="CDE" connection_type="REST" 
+        	requestSequence="openMDR_REST_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
             <title>Metadata Registry (openMDR)</title>
             <description>Metadata Registry (openMDR)
             </description>
-            <webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
-        </query_service>
-        <query_service name="openMDR-Classification-Schemes" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/listClassificationSchemes.xquery" cache_collection_id="openMDR-Classification-Schemes" cache="false" cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME" connection_type="REST" requestSequence="no_arg_REST" digestSequence="add_namespace">
-            <title>Metadata Registry (openMDR)</title>
-            <description>Metadata Registry (openMDR)
-            </description>
-            <webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
-        </query_service>
-        <query_service name="openMDR-Classification-Tree" class="org.cagrid.ws.query.RestQueryService" serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/simpleClassificationTree.xquery" cache_collection_id="openMDR-Classification-Tree" cache="false" cache_provider="HibernateCacheProvider" category="CLASSIFICATION_SCHEME" connection_type="REST" requestSequence="openMDR_Classification_Tree" digestSequence="add_namespace">
-            <title>Metadata Registry (openMDR)</title>
-            <description>Metadata Registry (openMDR)
-            </description>
-            <webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
-        </query_service>
-        -->
-    </resources>
+            <webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+        </query_service>		
+        <!-- 
+		<query_service name="openMDR-Local-Terminology"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/terminology.xquery"
+			cache_collection_id="openMDR-Local-Terminology" cache="false"
+			cache_provider="HibernateCacheProvider" 
+			category="CONCEPT" connection_type="REST"
+			requestSequence="openMDR_REST_query"
+			digestSequence="add_namespace">
+			<title>OpenMDR Metadata Registry (openMDR)</title>
+			<description>OpenMDR Metadata Registry (openMDR)</description>
+			<webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+		</query_service>
+		<query_service name="openMDR-with-Classification"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/dataElementListSearchByClassification.xquery"
+			cache_collection_id="openMDR-with-Classification" cache="false"
+			cache_provider="HibernateCacheProvider" 
+			category="CLASSIFICATION_SCHEME" connection_type="REST"
+			requestSequence="openMDR_SKOS_REST_query"
+			digestSequence="add_namespace">
+			<title>OpenMDR Metadata Registry (openMDR)</title>
+			<description>OpenMDR Metadata Registry (openMDR)</description>
+			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+		</query_service>
+		<query_service name="openMDR-Classification-Schemes"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/listClassificationSchemes.xquery"
+			cache_collection_id="openMDR-Classification-Schemes" cache="false"
+			cache_provider="HibernateCacheProvider" 
+			category="CLASSIFICATION_SCHEME" connection_type="REST"
+			requestSequence="no_arg_REST"
+			digestSequence="add_namespace">
+			<title>OpenMDR Metadata Registry (openMDR)</title>
+			<description>OpenMDR Metadata Registry (openMDR)</description>
+			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+		</query_service>
+		<query_service name="openMDR-Classification-Tree"
+			class="org.cagrid.openmdr.ws.query.RestQueryService"
+			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/simpleClassificationTree.xquery"
+			cache_collection_id="openMDR-Classification-Tree" cache="false"
+			cache_provider="HibernateCacheProvider" 
+			category="CLASSIFICATION_SCHEME" connection_type="REST"
+			requestSequence="openMDR_Classification_Tree"
+			digestSequence="add_namespace">
+			<title>OpenMDR Metadata Registry (openMDR)</title>
+			<description>OpenMDR Metadata Registry (openMDR)</description>
+			<webUrl>https://localhost:8443/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
+		</query_service>
+		-->
+	</resources>
 </config>
