@@ -1,12 +1,15 @@
 package gov.nih.nci.cagrid.metadata;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -15,6 +18,10 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.mdrq.client.MDRQueryClient;
+import org.cagrid.openmdr.ws.cache.CacheManager;
+import org.cagrid.openmdr.ws.config.QueryServiceConfig;
+import org.cancergrid.schema.config.Config;
+import org.cancergrid.schema.config.Query_service;
 import org.cancergrid.schema.query.Query;
 import org.cancergrid.schema.result_set.ConceptRef;
 import org.cancergrid.schema.result_set.DataElement;
@@ -36,32 +43,27 @@ public class MDRUtils {
 
 	public String MDRId;
 	public String resourceName;
-	public String countryName;
-	public String organizationName;
-	public String softwareProject;
-	public String registryName;
+	public String identifier_prefix;
 	public String publicId;
 	public String version;
 	public String mdrQueryURL;
 	private static final Log LOG = LogFactory.getLog(MDRUtils.class);   
 	   
-	public MDRUtils(String mdrURN, String resourceName) {
+	public MDRUtils(String mdrURN) {
 		MDRId = mdrURN;
+		   System.out.println("MDRId:"+MDRId);
 
 		if (MDRId != null) {
-			StringTokenizer st = new StringTokenizer(MDRId, "-");
+			StringTokenizer st = new StringTokenizer(MDRId, "_");
 			int tokenCount = st.countTokens();
-			if (tokenCount == 6) {
-				this.countryName = st.nextToken();
-				this.organizationName = st.nextToken();
-				this.softwareProject = st.nextToken();
-				this.registryName = st.nextToken();
+			if (tokenCount == 3) {
+				this.identifier_prefix = st.nextToken();
 				this.publicId = st.nextToken();
 				this.version = st.nextToken();
 				LOG.debug("\tDataElement String: " + mdrURN);
 			} else {
-				LOG.debug("\tThe input MDR Id should comprise of: CountryName-OrganizationName-SoftwareProject-RegistryName-PublicId-Version");
-				LOG.debug("\tExample: US-NCICB-CACORE-CADSR-2404655-1.0");
+				LOG.debug("\tThe input MDR Id should comprise of: Identifier_prefix_PublicId_Version");
+				LOG.debug("\tExample: cabio.nci.nih.gov_2404655_1.0");
 			}
 		}
 
@@ -74,11 +76,11 @@ public class MDRUtils {
      * @return 	org.cancergrid.schema.result_set.DataElement
      */
 	public  List<ConceptRef> getConceptRefs() {	
+
 		DataElement dataElement[]=null;
 		Vector<ConceptRef> vectorConceptRef = new Vector<ConceptRef>();
 		Set<ConceptRef> setConceptRef = new HashSet<ConceptRef>();
         List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
-
         Properties properties = new Properties(); 
 	  	try {
 	  		FileInputStream fin = new FileInputStream("./mdrQuery.properties");
@@ -97,7 +99,42 @@ public class MDRUtils {
   			System.out.println("Using default mdrQueryUrl : File : http://localhost:8080/wsrf/services/cagrid/MDRQuery ");
   			mdrQueryURL = "http://localhost:8080/wsrf/services/cagrid/MDRQuery";
   		}
+  		
+  		try 
+  		{
+  			 QueryServiceConfig config = new QueryServiceConfig(new File("./etc/config.xml"));
+  			 Map<String, Query_service> qrs = config.listAvailableServices();
+  			 Set entries = qrs.entrySet();
+  			 Iterator iterator = entries.iterator();
+  		     while (iterator.hasNext()) {
+  		       Map.Entry entry = (Map.Entry)iterator.next();
+  		       //System.out.println(entry.getKey() + " : " + entry.getValue());
+  		       Query_service info = config.getQueryServiceInfo(entry.getKey().toString());
+  		       System.out.println("info.getIdentifier_prefix():"+info.getIdentifier_prefix());
 
+  		       if (info.getIdentifier_prefix().equalsIgnoreCase(identifier_prefix))
+  		       {	
+  		    	   System.out.println("info.getName() Inner:"+info.getName());
+  		    	   if(info.getName().equalsIgnoreCase("openMDR"))
+  		    	   {
+  		    		   System.out.println("MDRId22:"+MDRId);
+  		    		   resourceName = info.getName();
+  		    		   publicId = MDRId;
+  		    	   }
+  		       }
+
+  		     }
+  		   //Query_service info1 = config.getQueryServiceInfo("openMDR");
+  		   //System.out.println(info1.getName()+";"+info1.getServiceUrl());
+		      
+  		     
+  	  		 
+  	  	} 
+  		catch (Exception e) {
+             LOG.error("QueryServiceManager: " + e);
+         }
+  		
+  		 
 		// query grid service and return DataElements Array
 		LOG.debug("Running the Grid Service Client Now...");
 		try {
@@ -108,7 +145,7 @@ public class MDRUtils {
 				query.setId(publicId);
 				query.setVersion(version);
 				LOG.debug("\tFinding Concepts for CDE PublicId: " + publicId);
-				query.setResource("caDSR");
+				query.setResource(resourceName);
 				query.setNumResults(100);
 				ResultSet results = client.query(query);
 				dataElement = results.getDataElement();
@@ -166,21 +203,10 @@ public class MDRUtils {
 		return listConceptRef;
 	}
 
-	public String getCountryName() {
-		return this.countryName;
+	public String getRegistrationAuthority() {
+		return this.identifier_prefix;
 	}
 
-	public String getOrganizationName() {
-		return this.organizationName;
-	}
-
-	public String getSoftwareProjectName() {
-		return this.softwareProject;
-	}
-
-	public String getRegistryName() {
-		return this.registryName;
-	}
 
 	public String getPublicId() {
 		return this.publicId;
@@ -194,12 +220,16 @@ public class MDRUtils {
 	  public static void main(String[] args) {
 		//MDRUtils mdrparser = new MDRUtils("US-NCICB-CACORE-CADSR-2179683-2.0","caDSR"); 
 		// has NO enumerated values
+//		  cagrid.org_55c515b8-06d2-4c2d-9010-f6f9ed974ae8_0.1
+	//	  cabio.nci.nih.gov_ID_version
+		  
+		//MDRUtils mdrparser = new MDRUtils("cabio.nci.nih.gov_2436860_1.0"); 
 		
-		MDRUtils mdrparser = new MDRUtils("US-NCICB-CACORE-CADSR-2436860-1.0", "caDSR"); 
+		MDRUtils mdrparser = new MDRUtils("cagrid.org_55c515b8-06d2-4c2d-9010-f6f9ed974ae8_0.1"); 
+		
 		//has enumerated values
 		//US-NCICB-CACORE-CADSR-2436860-1.0 Participant Identifier
 		
-		System.out.println("Input String: US-NCICB-CACORE-CADSR-2436860-1.0");
 		List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
 		listConceptRef = mdrparser.getConceptRefs();
 		for (int l=0;l<listConceptRef.size();l++)
@@ -208,5 +238,6 @@ public class MDRUtils {
 			System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getName());
 			System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getDefinition());
         }
+		
 	}
 }

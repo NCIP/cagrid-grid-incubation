@@ -233,7 +233,7 @@ class MDREaXMIHandler extends BaseXMIHandler {
         	LOG.debug("\tConceptCode tag original:"+tag+"; Public Id original: "+ String.valueOf(currentAttribute.getPublicID())+"; Value original: "+ value);            
         	addSemanticMetadata(tag, String.valueOf(currentAttribute.getPublicID()), value);
         } else if (tag.startsWith(XMIConstants.XMI_TAG_PROPERTY_CDE_REF)) {
-        	MDRUtils mdrutils = new MDRUtils(value,"caDSR");
+        	MDRUtils mdrutils = new MDRUtils(value);
     		List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
     		listConceptRef = mdrutils.getConceptRefs();
     		for (int l=0;l<listConceptRef.size();l++)
