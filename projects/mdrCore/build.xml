@@ -84,6 +84,15 @@
 		
 		<copy overwrite="true" file="jetty.xml" tofile="${exist.dir}/tools/jetty/etc/jetty.xml">
 		</copy>
+		
+		<replace file="./db/mdr/config.xml" token="${prev_dbPort}" value="${dbport}"/>
+		
+		<replace file="./db/mdr/connector/config.xml" token="${prev_dbPort}" value="${dbport}"/>
+		<replace file="./db/mdr/connector/config.xml" token="${prev_dbHost}" value="${dbhost}"/>
+		<copy overwrite="true" file="./db/mdr/connector/config.xml" tofile="../mdrQuery/etc/config.xml">
+		</copy>		
+		<copy overwrite="true" file="./db/mdr/connector/config.xml" tofile="../mdrDomainModelGenerator/etc/config.xml">
+		</copy>
 
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db" collection="mdr" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr" collection="data" />
@@ -146,9 +155,6 @@
 				<include name="config/**/*" />
 			</fileset>
 		</xdb:store>
-		
-		<replace file="./db/mdr/config.xml" token="${prev_dbPort}" value="${dbport}"/>
-
 		
 		<copy overwrite="true" file="index.html" tofile="${exist.dir}/index.html">
 		</copy>
