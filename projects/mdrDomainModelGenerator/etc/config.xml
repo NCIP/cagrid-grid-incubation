@@ -133,18 +133,20 @@
 		-->
 		<query_service name="openMDR" 
         	identifier_prefix="cagrid.org"
-        	class="org.cagrid.ws.query.RestQueryService" 
-        	serviceUrl="http://localhost:9090/exist/rest/db/mdr/services" 
+        	class="org.cagrid.openmdr.ws.query.RestQueryService" 
+        	serviceUrl="http://localhost:8080/exist/rest/db/mdr/services" 
         	cache_collection_id="openMDR" cache="false" 
         	cache_provider="HibernateCacheProvider" 
         	category="CDE" connection_type="REST" 
-        	requestSequence="openMDR_REST_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
+        	requestSequence="openMDR_REST_query" digestSequence="">
             <title>Metadata Registry (openMDR)</title>
             <description>Metadata Registry (openMDR)
             </description>
             <webUrl>http://localhost:8080/exist/rest/db/mdr/resources/xquery/homepage.xquery</webUrl>
         </query_service>		
         <!-- 
+                	requestSequence="openMDR_REST_query" digestSequence="LexEVSConceptId_construct LexEVSConceptId_fixtag LexEVSConceptId_transform">
+        
 		<query_service name="openMDR-Local-Terminology"
 			class="org.cagrid.openmdr.ws.query.RestQueryService"
 			serviceUrl="http://localhost:8080/exist/rest/db/mdr/services/terminology.xquery"
