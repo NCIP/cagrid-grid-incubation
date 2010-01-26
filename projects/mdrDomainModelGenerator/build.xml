@@ -259,21 +259,21 @@
 
 		<echo message="Please make sure you enter the actual values you want to configure" />
 		
-		<input message="Database Host" defaultvalue="localhost" addproperty="host">
+		<input message="Query Service Host" defaultvalue="localhost" addproperty="host">
 		</input>
 		
-		<input message="Database Port" defaultvalue="8080" addproperty="port">
+		<input message="Query Service Port" defaultvalue="8080" addproperty="port">
 		</input>
 
 		
 		<!-- Read the MDR Query History properties -->
 		<property file="mdrQuery.properties" />
 		
-		<echo message="Previous Host : ${prev_host}" />
-		<echo message="Previous Port : ${prev_port}" />
+		<echo message="Previous Query Service Host : ${prev_host}" />
+		<echo message="Previous Query Service Port : ${prev_port}" />
 			
-		<echo message="Entered Host : ${host}" />
-		<echo message="Entered Port : ${port}" />
+		<echo message="Entered Query Service Host : ${host}" />
+		<echo message="Entered Query Service Port : ${port}" />
 		
 		<replace file="mdrQuery.properties" token="${prev_host}" value="${host}"/>
 		<replace file="mdrQuery.properties" token="${prev_port}" value="${port}"/>
