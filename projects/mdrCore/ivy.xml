@@ -39,7 +39,7 @@
 		<artifact name="stylesheets/LexEVSDescLogicConcept_transform"	conf="stylesheets" type="xsl" />
 		<artifact name="stylesheets/LexMetaThesaurusConcept_query"	conf="stylesheets" type="xsl" />
 		<artifact name="stylesheets/LexMetaThesaurusConcept_construct"	conf="stylesheets" type="xsl" />
-		<artifact name="stylesheets/LexMetaThesaurusConcept_fixtag"	conf="stylesheets" type="xsl" />
+		<artifact name="stylesheets/LexMetaThesaurusConcept_sources"	conf="stylesheets" type="xsl" />
 		<artifact name="stylesheets/LexMetaThesaurusConcept_transform"	conf="stylesheets" type="xsl" />
 		<artifact name="stylesheets/MetaThesaurusConcept_construct"	conf="stylesheets" type="xsl" />
 		<artifact name="stylesheets/MetaThesaurusConcept_query" conf="stylesheets"		type="xsl" />
