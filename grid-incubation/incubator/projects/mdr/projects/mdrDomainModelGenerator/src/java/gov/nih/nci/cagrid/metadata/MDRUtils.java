@@ -49,9 +49,9 @@ public class MDRUtils {
 	public String mdrQueryURL;
 	private static final Log LOG = LogFactory.getLog(MDRUtils.class);   
 	   
-	public MDRUtils(String mdrURN) {
+	public void idTokenizer(String mdrURN) {
 		MDRId = mdrURN;
-		   System.out.println("MDRId:"+MDRId);
+		   System.out.println("Processing PublicId: "+MDRId);
 
 		if (MDRId != null) {
 			StringTokenizer st = new StringTokenizer(MDRId, "_");
@@ -200,7 +200,8 @@ public class MDRUtils {
 
 	
 	  public static void main(String[] args) {
-		MDRUtils mdrparser = new MDRUtils("cabio.nci.nih.gov_2436860_1.0"); 
+		MDRUtils mdrparser = new MDRUtils();
+		mdrparser.idTokenizer("cabio.nci.nih.gov_2436860_1.0");
 		//MDRUtils mdrparser = new MDRUtils("cagrid.org_55c515b8-06d2-4c2d-9010-f6f9ed974ae8_0.1"); 
 		
 		List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
