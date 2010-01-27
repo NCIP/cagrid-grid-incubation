@@ -91,11 +91,32 @@ namespace QueryServiceControl
             search(sender, e);
         }
 
+        void PreInitResources()
+        {
+            this.Cursor = Cursors.WaitCursor;
+            btnSearch.Enabled = false;
+            btnSearchCLS.Enabled = false;
+            btnContextList.Enabled = false;
+
+            SetStatus("Please wait. Initializing...");
+        }
+
+        void PostInitResources()
+        {
+            this.Cursor = Cursors.Default;
+            btnSearch.Enabled = true;
+            btnSearchCLS.Enabled = true;
+            btnContextList.Enabled = true;
+
+            SetStatus("");
+        }
+
         void bgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error == null)
             {
                 InitResourceDropDown();
+                PostInitResources();
             }
             else
             {
@@ -118,12 +139,11 @@ namespace QueryServiceControl
 
             //statusMsg.ForeColor = Color.Blue;
             //statusMsg.Text = "Initializing...";
-            SetStatus("Initializing...");
+
+            PreInitResources();
 
             InitServiceURL();
-            
-            btnSearch.Enabled = false;
-            btnSearchCLS.Enabled = false;
+
             bgWorker.RunWorkerAsync();
         }
 
@@ -145,12 +165,6 @@ namespace QueryServiceControl
                 cbClassificationSchemes.SelectedIndex = 0;
                 updateClassification_Tree();
             }
-
-            btnSearch.Enabled = true;
-            btnSearchCLS.Enabled = true;
-
-            //statusMsg.Text = "";
-            SetStatus("");
         }
 
         private void cbContextList_DrawItem(object sender, DrawItemEventArgs e)
@@ -280,7 +294,27 @@ namespace QueryServiceControl
             }
             catch (Exception e)
             {
-                MessageBox.Show("Fail to initialize query resources.");
+                String errMsg = "Failed to initialize MDR query resources.\n";
+                Boolean stack = true;
+
+                if (e.Message != null && e.Message.Length > 0) {
+                    errMsg += "\n[" + e.Message + "]";
+                }
+
+                if (e.InnerException != null) {
+                    if (e.InnerException.Message != null && e.InnerException.Message.Length > 0) {
+                        errMsg += "\n[" + e.InnerException.Message + "]"
+                            + "\n\n" + e.InnerException.StackTrace;
+                        stack = false;
+                    }
+                }
+
+                if (stack)
+                {
+                    errMsg += "\n\n" + e.StackTrace;
+                }
+
+                MessageBox.Show(errMsg);
             }
         }
 
@@ -1119,9 +1153,19 @@ namespace QueryServiceControl
 
         private void btnGo_Click(object sender, EventArgs e)
         {
-            UpdateUserServiceURL();
-            InitResources();
-            InitResourceDropDown();
+            PreInitResources();
+
+            try
+            {
+                UpdateUserServiceURL();
+                InitResources();
+                InitResourceDropDown();
+            }
+            catch (Exception)
+            {
+            }
+
+            PostInitResources();
         }
 
     }
