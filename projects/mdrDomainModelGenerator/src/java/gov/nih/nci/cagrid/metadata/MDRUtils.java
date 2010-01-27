@@ -99,7 +99,6 @@ public class MDRUtils {
   			System.out.println("Using default mdrQueryUrl : File : http://localhost:8080/wsrf/services/cagrid/MDRQuery ");
   			mdrQueryURL = "http://localhost:8080/wsrf/services/cagrid/MDRQuery";
   		}
-  		
   		try 
   		{
   			 QueryServiceConfig config = new QueryServiceConfig(new File("./etc/config.xml"));
@@ -108,33 +107,25 @@ public class MDRUtils {
   			 Iterator iterator = entries.iterator();
   		     while (iterator.hasNext()) {
   		       Map.Entry entry = (Map.Entry)iterator.next();
-  		       //System.out.println(entry.getKey() + " : " + entry.getValue());
-  		       Query_service info = config.getQueryServiceInfo(entry.getKey().toString());
-  		       System.out.println("info.getIdentifier_prefix():"+info.getIdentifier_prefix());
-
-  		       if (info.getIdentifier_prefix().equalsIgnoreCase(identifier_prefix))
-  		       {	
-  		    	   System.out.println("info.getName() Inner:"+info.getName());
-  		    	   if(info.getName().equalsIgnoreCase("openMDR"))
-  		    	   {
-  		    		   System.out.println("MDRId22:"+MDRId);
-  		    		   resourceName = info.getName();
-  		    		   publicId = MDRId;
-  		    	   }
+  		       Query_service info = config.getQueryServiceInfo(entry.getKey().toString());      
+  		       if((info.getIdentifier_prefix())!=null)
+  		       {
+	  		       if (info.getIdentifier_prefix().equalsIgnoreCase(identifier_prefix))
+	  		       {		  		    		   
+	  		    	   resourceName = info.getName();
+	  		    	   if(info.getName().equalsIgnoreCase("openMDR"))
+	  		    	   {
+	  		    		   publicId = MDRId;
+	  		    	   }
+	  		       }
   		       }
 
-  		     }
-  		   //Query_service info1 = config.getQueryServiceInfo("openMDR");
-  		   //System.out.println(info1.getName()+";"+info1.getServiceUrl());
-		      
-  		     
-  	  		 
+  		     }	 
   	  	} 
   		catch (Exception e) {
              LOG.error("QueryServiceManager: " + e);
          }
   		
-  		 
 		// query grid service and return DataElements Array
 		LOG.debug("Running the Grid Service Client Now...");
 		try {
@@ -183,16 +174,7 @@ public class MDRUtils {
 						
 						}	
 					}
-					
 				    listConceptRef.addAll(setConceptRef);
-				    /*
-				    for (int l=0;l<listConceptRef.size();l++)
-			        {
-						System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getId());
-						System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getName());
-						System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getDefinition());
-			        }
-			        */					
 					}			
 			}
 
@@ -218,17 +200,8 @@ public class MDRUtils {
 
 	
 	  public static void main(String[] args) {
-		//MDRUtils mdrparser = new MDRUtils("US-NCICB-CACORE-CADSR-2179683-2.0","caDSR"); 
-		// has NO enumerated values
-//		  cagrid.org_55c515b8-06d2-4c2d-9010-f6f9ed974ae8_0.1
-	//	  cabio.nci.nih.gov_ID_version
-		  
-		//MDRUtils mdrparser = new MDRUtils("cabio.nci.nih.gov_2436860_1.0"); 
-		
-		MDRUtils mdrparser = new MDRUtils("cagrid.org_55c515b8-06d2-4c2d-9010-f6f9ed974ae8_0.1"); 
-		
-		//has enumerated values
-		//US-NCICB-CACORE-CADSR-2436860-1.0 Participant Identifier
+		MDRUtils mdrparser = new MDRUtils("cabio.nci.nih.gov_2436860_1.0"); 
+		//MDRUtils mdrparser = new MDRUtils("cagrid.org_55c515b8-06d2-4c2d-9010-f6f9ed974ae8_0.1"); 
 		
 		List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
 		listConceptRef = mdrparser.getConceptRefs();
