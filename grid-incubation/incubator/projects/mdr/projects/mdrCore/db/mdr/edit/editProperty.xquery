@@ -212,7 +212,10 @@ declare function local:input-page(
                            )
                     }
                     
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td>
+                      <td colspan="4"><input type="button"  name="update" value="Cancel" 
+                              onClick= "{concat("location.href='../web/property.xquery?compound_id=", $id, "';")}" /></td>
+                      </tr>    
                  </table>
               </div>
           </form>
