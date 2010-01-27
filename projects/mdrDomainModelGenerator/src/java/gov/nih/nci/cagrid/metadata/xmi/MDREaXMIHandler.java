@@ -44,6 +44,7 @@ class MDREaXMIHandler extends BaseXMIHandler {
     private String pkg = "";
     private boolean handlingAttribute = false;
     private UMLAttribute currentAttribute = null;
+	MDRUtils mdrutils = new MDRUtils();
 
     public MDREaXMIHandler(XMIParser parser) {
         super(parser);
@@ -233,7 +234,7 @@ class MDREaXMIHandler extends BaseXMIHandler {
         	LOG.debug("\tConceptCode tag original:"+tag+"; Public Id original: "+ String.valueOf(currentAttribute.getPublicID())+"; Value original: "+ value);            
         	addSemanticMetadata(tag, String.valueOf(currentAttribute.getPublicID()), value);
         } else if (tag.startsWith(XMIConstants.XMI_TAG_PROPERTY_CDE_REF)) {
-        	MDRUtils mdrutils = new MDRUtils(value);
+        	mdrutils.idTokenizer(value);
     		List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
     		listConceptRef = mdrutils.getConceptRefs();
     		for (int l=0;l<listConceptRef.size();l++)
