@@ -761,6 +761,8 @@ namespace QueryServiceControl.QueryServiceManager {
         
         private string nameField;
         
+        private string identifier_prefixField;
+        
         private category categoryField;
         
         private bool categoryFieldSpecified;
@@ -822,6 +824,17 @@ namespace QueryServiceControl.QueryServiceManager {
             }
             set {
                 this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string identifier_prefix {
+            get {
+                return this.identifier_prefixField;
+            }
+            set {
+                this.identifier_prefixField = value;
             }
         }
         
@@ -961,6 +974,9 @@ namespace QueryServiceControl.QueryServiceManager {
         
         /// <remarks/>
         CLASSIFICATION_SCHEME,
+        
+        /// <remarks/>
+        CONCEPTID,
         
         /// <remarks/>
         UNKNOWN,

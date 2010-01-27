@@ -21,6 +21,7 @@
       <xs:element name="webUrl" type="xs:anyURI" />
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="identifier_prefix" type="xs:string" />
     <xs:attribute name="category" type="category" />
     <xs:attribute name="class" type="xs:string" />
     <xs:attribute name="serviceUrl" type="xs:string" />
@@ -51,6 +52,7 @@
       <xs:enumeration value="CONCEPT" />
       <xs:enumeration value="CDE" />
       <xs:enumeration value="CLASSIFICATION_SCHEME" />
+      <xs:enumeration value="CONCEPTID" />
       <xs:enumeration value="UNKNOWN" />
     </xs:restriction>
   </xs:simpleType>

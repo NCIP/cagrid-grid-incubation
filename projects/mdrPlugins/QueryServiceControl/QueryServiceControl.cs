@@ -278,7 +278,7 @@ namespace QueryServiceControl
                 //resources.RemoveAll(NotDataElementAndNotConcept);
                 resources.RemoveAll(NotDataElement);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 MessageBox.Show("Fail to initialize query resources.");
             }
