@@ -138,7 +138,7 @@
         	cache_collection_id="openMDR" cache="false" 
         	cache_provider="HibernateCacheProvider" 
         	category="CDE" connection_type="REST" 
-        	requestSequence="openMDR_REST_query" digestSequence="">
+        	requestSequence="openMDR_REST_query" digestSequence="openMDR_construct">
             <title>Metadata Registry (openMDR)</title>
             <description>Metadata Registry (openMDR)
             </description>
