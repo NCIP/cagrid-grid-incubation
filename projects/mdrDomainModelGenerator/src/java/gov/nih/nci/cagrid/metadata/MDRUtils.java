@@ -49,6 +49,15 @@ public class MDRUtils {
 	public String mdrQueryURL;
 	private static final Log LOG = LogFactory.getLog(MDRUtils.class);   
 	   
+	public MDRUtils() {	
+		this.MDRId = "";
+		this.resourceName = "";
+		this.identifier_prefix = "";
+		this.publicId = "";
+		this.version = "";
+		this.mdrQueryURL = "";
+	}
+
 	public void idTokenizer(String mdrURN) {
 		MDRId = mdrURN;
 		   System.out.println("Processing PublicId: "+MDRId);
