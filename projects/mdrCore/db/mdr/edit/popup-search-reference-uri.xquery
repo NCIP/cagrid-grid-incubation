@@ -87,7 +87,12 @@ return
                            {lib-qs:selectResource-form('CONCEPT')}
                       </select>
                   </td>
-                  <td><input type="submit" value="Submit query" class="cgButton"/></td>
+                  
+                  <div id='processImg'>
+                  <img src="../web/images/process-loader.gif" onload="document.getElementById('processImg').style.display = 'none';" />
+                  </div>
+                  
+                  <td><input type="submit" value="Submit query" class="cgButton" onclick="document.getElementById('processImg').style.display = '';"/></td>
                </tr>       
             </table>
             <ul>
@@ -96,6 +101,7 @@ return
                     </font>
                 </li>
             </ul>
+
             
             <table class="layout">
             {                                   
