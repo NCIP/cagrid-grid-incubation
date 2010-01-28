@@ -231,18 +231,29 @@ namespace QueryServiceControl
             cbServiceUrls.Items.Clear();
 
             int selectedIndex = 0;
-            cbServiceUrls.Items.Add(global::QueryServiceControl.Properties.Settings.Default.QueryServiceControl_QueryServiceManager_MDRQueryService);
+
+            if (lastUsedURL != null && lastUsedURL.Length > 0)
+            {
+                cbServiceUrls.Items.Add(lastUsedURL);
+            }
+
+            String defaultURL = global::QueryServiceControl.Properties.Settings.Default.QueryServiceControl_QueryServiceManager_MDRQueryService;
+            if (lastUsedURL == null || !defaultURL.Equals(lastUsedURL))
+            {
+                cbServiceUrls.Items.Add(defaultURL);
+            }
 
             if (userURLs != null)
             {
                 for (int i = 0; i < userURLs.Count; i++)
                 {
-                    cbServiceUrls.Items.Add(userURLs[i]);
-                    if (lastUsedURL.Equals(userURLs[i]))
+                    if (lastUsedURL != null &&
+                          userURLs[i].Equals(lastUsedURL))
                     {
-                        selectedIndex = i + 1;
+                        continue;
                     }
-                }
+                    cbServiceUrls.Items.Add(userURLs[i]);
+                 }
             }
 
             cbServiceUrls.SelectedIndex = selectedIndex;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wsdl:definitions xmlns:binding="http://mdrq.cagrid.org/MDRQuery/bindings" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="MDRQuery" targetNamespace="http://mdrq.cagrid.org/MDRQuery/service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-  <wsdl:import namespace="http://mdrq.cagrid.org/MDRQuery/bindings" location="http://localhost:8080/wsrf/share/schema/MDRQuery/MDRQuery_bindings.wsdl" />
+  <wsdl:import namespace="http://mdrq.cagrid.org/MDRQuery/bindings" location="http://mdr.triadcommunity.org:9090/wsrf/share/schema/MDRQuery/MDRQuery_bindings.wsdl" />
   <wsdl:types />
   <wsdl:service name="MDRQueryService">
     <wsdl:port name="MDRQueryPortTypePort" binding="binding:MDRQueryPortTypeSOAPBinding">
-      <soap:address location="http://localhost:8080/wsrf/services/cagrid/MDRQuery" />
+      <soap:address location="http://mdr.triadcommunity.org:9090/wsrf/services/cagrid/MDRQuery" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
