@@ -164,5 +164,17 @@
 		</for>
 	</target>
 
+	<target name="installExist">
+	    <mkdir dir="temp"/>
+		<property name="verify.dir" location="./temp" />
+		<java
+			jar="./resource/eXist-setup-1.2.6-rev9165.jar"
+	        fork="true"
+	        failonerror="true">
+			<arg line="-p ${verify.dir}" />
+	    </java>
+	</target>
+	
+	<target name="testBuild" depends="installExist, all" description="Tests the Build in temporary EXIST_HOME" />
 
 </project>
