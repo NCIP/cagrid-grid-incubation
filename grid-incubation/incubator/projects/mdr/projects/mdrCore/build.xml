@@ -160,6 +160,8 @@
 			</fileset>
 		</xdb:store>
 		
+		<replace file="./db/mdr/config.xml" token="${prev_dbPort}" value="${dbport}"/>
+		
 		<copy overwrite="true" file="index.html" tofile="${exist.dir}/index.html">
 		</copy>
 		
