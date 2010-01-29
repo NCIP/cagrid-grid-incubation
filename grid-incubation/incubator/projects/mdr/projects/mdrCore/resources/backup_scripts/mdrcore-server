@@ -1,0 +1,31 @@
+#!/bin/sh
+
+#File Name of the backup directory- A file tar.gz with the same name will be created as backup file
+TARGET_FILENAME=mdrCore-server
+#path where Exist Database in installed
+EXIST_HOME=/home/mdrcore/ext/db
+#path where backups are stored on the client server
+BACKUP_HOME=mdrCore_backups
+
+# backup and copy the database files and server directory structure to a remote server
+# To use SSH with authentication key instead of password 
+# Generate the authentication key on client server: ssh-keygen
+# Install the public key on the target server: ssh-copy-id -i .ssh/id_rsa.pub backups@remotehost.com
+
+#backup server host where the backup files need to be copied/ scp'd
+TARGET_SERVER=127.0.0.1
+#backup server user account for which public key has already been installed
+TARGET_USER_ACCOUNT=backupuser
+#backup server directory where the tarred backup files from mdrCore server is copied to 
+TARGET_BACKUP_DIRECTORY=/home/backupuser/triad_mdrCore_backups
+
+
+#Do Not Make any changes below this
+cp -r $EXIST_HOME /$BACKUP_HOME/$TARGET_FILENAME
+FILENAME=$TARGET_FILENAME.`date +"%Y%m%d%H%M%S"`.tar
+echo Creating $FILENAME
+tar -cf /$BACKUP_HOME/$FILENAME -C / $BACKUP_HOME/$TARGET_FILENAME
+#rm /$BACKUP_HOME/$TARGET_FILENAME
+gzip /$BACKUP_HOME/$FILENAME
+rm -rf /$BACKUP_HOME/$TARGET_FILENAME
+scp -r /$BACKUP_HOME/$FILENAME.gz $TARGET_USER_ACCOUNT@$TARGET_SERVER:$TARGET_BACKUP_DIRECTORY
