@@ -164,7 +164,38 @@
 		</for>
 	</target>
 
-	<target name="installExist">
+	<target name="checkExistInstall">
+		<condition property="exist.not.installed">
+			<not>
+				<and>
+					<available file="temp/exist.jar" />
+					<available file="temp/exist-optional.jar" />
+					<available file="temp/lib/core/antlr-2.7.6.jar" />
+					<available file="temp/lib/core/commons-collections-3.1.jar" />
+					<available file="temp/lib/core/commons-logging-1.0.4.jar" />
+					<available file="temp/lib/core/commons-pool-1.4.jar" />
+					<available file="temp/lib/core/excalibur-cli-1.0.jar" />
+					<available file="temp/lib/core/jEdit-syntax.jar" />
+					<available file="temp/lib/core/javax.servlet-1.4.jar" />
+					<available file="temp/lib/core/jgroups-all.jar" />
+					<available file="temp/lib/core/jline-0_9_5.jar" />
+					<available file="temp/lib/core/jta.jar" />
+					<available file="temp/lib/core/log4j-1.2.15.jar" />
+					<available file="temp/lib/core/quartz-1.6.0.jar" />
+					<available file="temp/lib/core/stax-api-1.0.1.jar" />
+					<available file="temp/lib/core/sunxacml.jar" />
+					<available file="temp/lib/core/ws-commons-util-1.0.2.jar" />
+					<available file="temp/lib/core/xmldb.jar" />
+					<available file="temp/lib/core/xmlrpc-client-3.1.1.jar" />
+					<available file="temp/lib/core/xmlrpc-common-3.1.1.jar" />
+					<available file="temp/lib/core/xmlrpc-server-3.1.1.jar" />
+				</and>
+			</not>
+		</condition>
+	</target>
+	
+	<target name="installExist" if="exist.not.installed">
+		
 	    <mkdir dir="temp"/>
 		<property name="verify.dir" location="./temp" />
 		<java
@@ -175,6 +206,6 @@
 	    </java>
 	</target>
 	
-	<target name="testBuild" depends="installExist, all" description="Tests the Build in temporary EXIST_HOME" />
+	<target name="testBuild" depends="checkExistInstall,installExist, all" description="Tests the Build in temporary EXIST_HOME" />
 
 </project>
