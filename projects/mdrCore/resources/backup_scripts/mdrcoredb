@@ -1,0 +1,36 @@
+#!/bin/sh
+
+#set the values according to your environment
+#path where Exist Database in installed
+EXIST_HOME=/home/mdrcore/ext/db
+#path where backups are stored on the client server
+BACKUP_HOME=mdrCore_backups
+#eXistdb database server Host Name 
+DBSERVER=localhost
+#eXistdb database server port number
+DBPORT=8080
+#eXistdb database server user
+DBUSER=admin
+#eXistdb database server password
+DBPASS=12345
+
+# backup and copy the database files and server directory structure to a remote server
+# To use SSH with authentication key instead of password 
+# Generate the authentication key on client server: ssh-keygen
+# Install the public key on the target server: ssh-copy-id -i .ssh/id_rsa.pub backups@remotehost.com
+
+#backup server host where the backup files need to be copied/ scp'd
+TARGET_SERVER=127.0.0.1
+#backup server user account for which public key has already been installed
+TARGET_USER_ACCOUNT=backupuser
+#backup server directory where the tarred backup files from mdrCore server is copied to 
+TARGET_BACKUP_DIRECTORY=/home/backupuser/triad_mdrCore_backups
+
+
+#Do Not Make any changes below this
+$EXIST_HOME/bin/backup.sh -u $DBUSER -p $DBPASS -b /db -d /$BACKUP_HOME -ouri=xmldb:exist://$DBSERVER:$DBPORT/exist/xmlrpc
+FILENAME=mdrcoredb_daily_`date +"%Y%m%d%H%M%S"`.tar.gz
+echo Tarring and gzipping $FILENAME
+tar -czf  /$BACKUP_HOME/$FILENAME -C / $BACKUP_HOME/db
+rm -r /$BACKUP_HOME/db
+scp -r /$BACKUP_HOME/$FILENAME $TARGET_USER_ACCOUNT@$TARGET_SERVER:$TARGET_BACKUP_DIRECTORY
