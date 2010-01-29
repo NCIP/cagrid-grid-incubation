@@ -164,8 +164,17 @@
 	    		<ant inheritAll="false" dir="${basedir}/projects/@{project.name}" antfile="build.xml" target="all" />
 	    	</sequential>
       	</for>
+		
+		<!-- mdr is a special case due to the eXist install -->
+		<!-- mder is a special case due to the eXist install -->
+				<for list="${mdr.project}" parallel="false" param="project.name" trim="true">
+			    	<sequential>
+			            <echo message="Testing project @{project.name}." />
+			    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
+			    		<ant inheritAll="false" dir="${basedir}/projects/@{project.name}" antfile="build.xml" target="testBuild" />
+			    	</sequential>
+		      	</for>
 	</target>
-
 
 	<target name="clean" depends="prepare" description="Delete repository, ivy cache, and clean all projects's generated and resolved artificats.">
 		<delete dir="${integration.repository.dir}" />
