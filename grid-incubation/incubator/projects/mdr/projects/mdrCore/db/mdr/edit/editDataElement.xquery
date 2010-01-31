@@ -154,7 +154,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="edit_dataelement" action="editDataElement.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="edit_dataelement" action="editDataElement.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
              <div class="section">
                 {lib-forms:hidden-element('id',$id)}
                 {lib-forms:hidden-element('updating','updating')}

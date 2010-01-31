@@ -125,6 +125,7 @@ declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$
 declare function lib-forms:select-from-simpleType-enum($simple-type-name as xs:string, $select-name as xs:string, $useDocumentation as xs:boolean, $received-value as xs:string) as node()
 {
    element select {
+      attribute id {$select-name},
       attribute name {$select-name},
       lib-forms:blank-filler(),
       for $enumeration in collection(lib-util:schemaPath())//xs:simpleType[@name=$simple-type-name]//xs:enumeration
@@ -151,6 +152,7 @@ declare function lib-forms:select-filler($id as xs:string?, $name as xs:string?,
 declare function lib-forms:make-select-submitted_by($received-value as xs:string) as node()
 {
    element select {
+      attribute id {'submitted-by'},
       attribute name {'submitted-by'}, 
       lib-forms:blank-filler(),      
       for $item in lib-util:mdrElements('organization')//openMDR:Contact 
@@ -164,6 +166,7 @@ declare function lib-forms:make-select-submitted_by($received-value as xs:string
 declare function lib-forms:make-select-administered_by($received-value as xs:string) as node()
 {
    element select {
+      attribute id {'administered-by'},
       attribute name {'administered-by'},
       lib-forms:blank-filler(),      
       for $item in lib-util:mdrElements('organization')//openMDR:Contact 
@@ -177,6 +180,7 @@ declare function lib-forms:make-select-administered_by($received-value as xs:str
 declare function lib-forms:make-select-registered_by($received-value as xs:string) as node()
 {
 element select {
+    attribute id {'registered-by'},
    attribute name {'registered-by'},
    lib-forms:blank-filler(),
    for $reg-auth in lib-util:mdrElements('registration_authority')//openMDR:Registration_Authority
@@ -219,7 +223,7 @@ $form-name as xs:string, $button-name as xs:string) as node()*
       attribute name {$select-name},
       attribute id {$select-name},
       attribute value {$received-value},
-      attribute size {'70%'}
+      attribute size {'97%'}
       },
       element div {
          attribute id {concat($select-name,'-div')},
@@ -274,6 +278,7 @@ declare function lib-forms:make-select-value-meaning($select-name as xs:string, 
 declare function lib-forms:make-select-registration-authority($received-value as xs:string) as node()
 {
    element select {
+      attribute id {'registration-authority'},
       attribute name {'registration-authority'},
       lib-forms:blank-filler(),
       for $item in lib-util:mdrElements('registration_authority')
@@ -456,6 +461,7 @@ declare function lib-forms:edit-admin-item(
 ){
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+   let $test as xs:string? := ""
    return
    
 <table class="section">
@@ -463,7 +469,7 @@ declare function lib-forms:edit-admin-item(
    <tr>
    <td>
    <div class="tabber">
-     <div class="tabbertab">
+     <div id='validate'class="tabbertab">
          <h2>Administered Item Metadata</h2>
          <p>
             <table class="section">
@@ -472,7 +478,7 @@ declare function lib-forms:edit-admin-item(
                 <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
                 <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
                 <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
-                <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>
+                <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>        
             </table>
           </p>
      </div>
