@@ -160,7 +160,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_value_domain" action="newValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="new_value_domain" action="newValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
              <div class="section">
              
               
@@ -247,7 +247,7 @@ declare function local:input-page(
                               <tr>
                                 <td class="left_header_cell"></td>
                                 <td><input type="submit" name="update" value="Store"/></td>
-                                <td colspan="4"><input type="submit" name="update" value="Clear"/></td>
+                                <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                               </tr>    
                         </table>
               </div>

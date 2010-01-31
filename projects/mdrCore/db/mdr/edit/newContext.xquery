@@ -129,7 +129,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_context" action="newContext.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="new_context" action="newContext.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
              <div class="section">
              
              {lib-forms:edit-admin-item($reg-auth,
@@ -148,7 +148,8 @@ declare function local:input-page(
                      $action)}
                      
                 <table class="section">
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td>
+                      <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td></tr>    
                  </table>
               </div>
           </form>
