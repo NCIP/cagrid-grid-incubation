@@ -6,7 +6,7 @@ declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 (:~
  : links-ref
  :
- : Copyright (C) 2007 The OpenMDR Consortium
+ : Copyright (C) 2007 The CancerGrid Consortium
  : @author Maria Lin
  :)
 
