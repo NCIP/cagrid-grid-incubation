@@ -51,12 +51,13 @@ public class MDRQueryClient extends MDRQueryClientBase implements MDRQueryI {
             if (!(args.length < 2)) {
                 if (args[0].equals("-url")) {
                     MDRQueryClient client = new MDRQueryClient(args[1]);
-                    // place client calls here if you want to use this main as a
-                    // test....
-
                     Query query = new Query();
+                	//Query for CDE's matching keyword 'Cancer' in caDSR
                     query.setTerm("Cancer");
                     query.setResource("caDSR");
+                	//Query for CDE's matching keyword 'Gender' in openMDR
+                    //query.setTerm("Gender");
+                    //query.setResource("openMDR");
                     query.setNumResults(10);
                     ResultSet results = client.query(query);
                     PrintWriter pw = new PrintWriter(System.out);
