@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     12th Feb 2008
  :
- : Copyright                The cagrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          maintains reference documents
  :

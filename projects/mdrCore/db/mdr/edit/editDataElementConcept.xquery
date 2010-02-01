@@ -1,17 +1,25 @@
+
 xquery version "1.0";
 
 (: ~
- : Module Name:             new DataElementConcept webpage and XQuery
+ : Module Name:             edit data element concept webpage and XQuery
  :
  : Module Version           2.0
  :
- : Date                     25 March 2009
+ : Date                     31st July 2009
  :
- : Copyright                caGrid
+ : Copyright                The cagrid consortium
  :
- : Module overview          Creates a new DataElementConcept
+ : Module overview          edit data element concept information
  :
  :)
+ 
+(:~
+ :    @author Rakesh Dhaval
+ :    @version 0.1
+ :
+ :    Edit Data Element Concept information 
+~ :)
  
 
   import module namespace 

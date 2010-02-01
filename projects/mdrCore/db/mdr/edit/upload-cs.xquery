@@ -6,7 +6,7 @@ xquery version "1.0";
 :
 : Date                     06 Nov 2008
 :
-: Copyright                The cagrid consortium
+ : Copyright               The cancergrid consortium
 :
 : Module overview          Loads a classification scheme into the registry
 :

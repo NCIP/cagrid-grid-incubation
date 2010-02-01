@@ -1,7 +1,7 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             edit context webpage and XQuery
+ : Module Name:             user management webpage and XQuery
  :
  : Module Version           2.0
  :
@@ -9,7 +9,7 @@ xquery version "1.0";
  :
  : Copyright                The cagrid consortium
  :
- : Module overview          edit context information
+ : Module overview          user management information
  :
  :)
  

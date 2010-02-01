@@ -4,7 +4,7 @@ xquery version "1.0";
  : Module Name:             maintenance.xquery
  : Module Version           4
  : Date                     11th November 2006
- : Copyright                The cagrid consortium
+ : Copyright                The cancergrid consortium
  : Module overview          maintenance functions
  :
  :)
@@ -19,6 +19,7 @@ xquery version "1.0";
  :   content creation via infopath deprecated
  :
 ~ :)
+
 
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";

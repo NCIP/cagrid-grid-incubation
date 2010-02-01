@@ -5,6 +5,12 @@ xquery version "1.0";
  :
  : Module overview          Creates and conceptual domain and displays list
  :)
+(:~
+ :    @author Rakesh Dhaval
+ :    @version 0.1
+ :
+ :    Edit Data Element Concept information 
+~ :)
 
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"

@@ -1,10 +1,25 @@
+
 xquery version "1.0";
 
 (: ~
- : Module Name:             new conceptual domain webpage and XQuery
+ : Module Name:             edit context webpage and XQuery
  :
- : Module overview          Creates and conceptual domain and displays list
+ : Module Version           2.0
+ :
+ : Date                     31st July 2009
+ :
+ : Copyright                The cagrid consortium
+ :
+ : Module overview          Conceptual Domain information
+ :
  :)
+ 
+(:~
+ :    @author Rakesh Dhaval
+ :    @version 0.1
+ :
+ :    Conceptual Domain information 
+~ :)
 
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"

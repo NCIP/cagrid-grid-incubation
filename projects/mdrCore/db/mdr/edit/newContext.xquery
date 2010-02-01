@@ -14,14 +14,13 @@ xquery version "1.0";
  :)
  
 (:~
- :    @author Steve Harris
+ :    @author Rakesh Dhaval
  :    @version 0.1
  :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
+ :    New Context information 
 ~ :)
-
+ 
+ 
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";

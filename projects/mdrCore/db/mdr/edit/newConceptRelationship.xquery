@@ -1,27 +1,24 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new Concept webpage and XQuery
+ : Module Name:             new Concept Relationship and XQuery
  :
  : Module Version           2.0
  :
- : Date                               25th October 2006
+ : Date                     25th October 2006
  :
- : Copyright                       The cagrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          Creates and Concept Relationship and displays list
  :
  :)
  
-(:~
- :    @author Steve Harris
+ (:~
+ :    @author Rakesh Dhaval
  :    @version 0.1
  :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms
+ :    allows creation and display of Concept Relationship
 ~ :)
-
   
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"
