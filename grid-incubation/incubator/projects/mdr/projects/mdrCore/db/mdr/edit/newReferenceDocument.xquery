@@ -149,10 +149,10 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-      <div>
+   <div xmlns="http://www.w3.org/1999/xhtml">   
          <p>Reference Document created</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newReferenceDocument.xquery">Create reference document</a></p>    
+         <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
+         <p><a href="../edit/newReferenceDocument.xquery">Create reference document</a></p>    
       </div>
 };
 

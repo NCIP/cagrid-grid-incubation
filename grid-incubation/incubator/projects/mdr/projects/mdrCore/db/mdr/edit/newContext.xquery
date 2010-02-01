@@ -162,10 +162,10 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-      <div>
+   <div xmlns="http://www.w3.org/1999/xhtml">   
          <p>Context class created</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newContext.xquery">Create another context</a></p>    
+         <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
+         <p><a href="../edit/newContext.xquery">Create another context</a></p>    
       </div>
 };
 
