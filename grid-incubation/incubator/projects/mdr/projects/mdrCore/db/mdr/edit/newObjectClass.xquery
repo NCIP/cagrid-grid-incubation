@@ -1,13 +1,13 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new ObjectClass webpage and XQuery
+ : Module Name:             new object class webpage and XQuery
  :
  : Module Version           2.0
  :
  : Date                               25th October 2006
  :
- : Copyright                       The cagrid consortium
+ : Copyright                       The cancergrid consortium
  :
  : Module overview          Creates and Object Class and displays list
  :

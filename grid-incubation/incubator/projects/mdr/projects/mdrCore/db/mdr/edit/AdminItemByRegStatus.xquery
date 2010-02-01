@@ -4,7 +4,7 @@ xquery version "1.0";
  : Module Name:             Items by registration status webpage
  : Module Version           0.1
  : Date                     2nd October 2006
- : Copyright                The cagrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          Lists all data elements and assets of a particular registration status
  :
@@ -15,6 +15,7 @@ xquery version "1.0";
  :
  :    @author Steve Harris
 ~ :)
+
 
 import module namespace lib-util="http://www.cagrid.org/xquery/library/util"
   at "../library/m-lib-util.xquery";

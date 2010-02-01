@@ -1,3 +1,4 @@
+
 xquery version "1.0";
 
 (: ~
@@ -5,21 +6,19 @@ xquery version "1.0";
  :
  : Module Version           2.0
  :
- : Date                     31st July 2007
+ : Date                     31st July 2009
  :
  : Copyright                The cagrid consortium
  :
- : Module overview          Creates and property and displays list
+ : Module overview          edit property information
  :
  :)
  
 (:~
- :    @author Steve Harris
+ :    @author Rakesh Dhaval
  :    @version 0.1
  :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
+ :    Edit Property information 
 ~ :)
 
   import module namespace 

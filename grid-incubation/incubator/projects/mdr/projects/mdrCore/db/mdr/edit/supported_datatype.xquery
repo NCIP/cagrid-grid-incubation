@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               22nd September 2006
  :
- : Copyright                       The cagrid consortium
+ : Copyright               The cancergrid consortium
  :
  : Module overview         maintains datatype resources
  :

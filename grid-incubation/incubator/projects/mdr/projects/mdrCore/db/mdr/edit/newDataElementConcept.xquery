@@ -1,18 +1,22 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             new DataElementConcept webpage and XQuery
+ : Module Name:             new data element concept XQuery
  :
- : Module Version           2.0
+ : Module Version           1.0
  :
- : Date                     25 March 2009
+ : Date                     17th September 2007
  :
- : Copyright                caGrid
+ : Copyright                The cancergrid consortium
  :
- : Module overview          Creates a new DataElementConcept
+ : Module overview          Creates a DEC and optionally an object class and property
  :
  :)
  
+(:~
+ :    @author Steve Harris
+ :    @version 0.1
+~ :)
 
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"
@@ -239,7 +243,7 @@ declare function local:input-page(
             </table>
                      
                 <table class="section">
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>    
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td></tr>    
                  </table>
               </div>
           </form>

@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               26th October 2006
  :
- : Copyright                       The cagrid consortium
+ : Copyright               The cancergrid consortium
  :
  : Module overview         Displays supported representation classes
  :

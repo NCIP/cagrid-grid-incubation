@@ -1,25 +1,24 @@
+
 xquery version "1.0";
 
 (: ~
- : Module Name:             new object class webpage and XQuery
+ : Module Name:             edit object class webpage and XQuery
  :
  : Module Version           2.0
  :
- : Date                     31st July 2007
+ : Date                     31st July 2009
  :
  : Copyright                The cagrid consortium
  :
- : Module overview          Creates and object class  and displays list
+ : Module overview          edit object class information
  :
  :)
  
 (:~
- :    @author Steve Harris
+ :    @author Rakesh Dhaval
  :    @version 0.1
  :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
+ :    Edit Object Class information 
 ~ :)
 
   import module namespace 

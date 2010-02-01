@@ -6,7 +6,7 @@ xquery version "1.0";
 :
 : Date                     08 Jul 2008
 :
-: Copyright                The cagrid consortium
+: Copyright                The cancergrid consortium
 :
 : Module overview          Finds a reference uri for an administered item
 :

@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                    26th October 2006
  :
- : Copyright               The cagrid consortium
+ : Copyright               The cancergrid consortium
  :
  : Module overview         Supersedes an administered item with another.  
  :                         Used for consolidating the metadata repository

@@ -1,4 +1,5 @@
 xquery version "1.0";
+
 (: ~
  : Module Name:             new property webpage and XQuery
  :
@@ -6,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     31st July 2007
  :
- : Copyright                The cagrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          Creates and property and displays list
  :

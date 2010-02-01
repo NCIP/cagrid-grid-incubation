@@ -2,7 +2,7 @@ xquery version "1.0";
 
 
 (: ~
- : Module Name:             edit DataElement webpage and XQuery
+ : Module Name:             edit organization webpage and XQuery
  :
  : Module Version           3.0
  :
