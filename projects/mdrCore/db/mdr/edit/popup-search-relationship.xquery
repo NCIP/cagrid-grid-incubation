@@ -146,11 +146,14 @@ return
          <form name='select-item' class='cagridForm' action='popup-search-relationship.xquery'>
             <input type='hidden' name='type' value='{$type}'/>
             <input type='hidden' name='control' value='{$control}'/>
+            <div id='processImg' align="center">
+                <img src="../web/images/process-loader.gif"  onload="document.getElementById('processImg').style.display = 'none';" />
+            </div>
             <table class="layout">
                <tr>
                   <td>Search Phrase</td>
                   <td><input type='text' name='phrase' value='{$phrase}'/></td>
-                  <td><input type="submit" value="Submit query" class="cgButton"/></td>
+                  <td><input type="submit" value="Submit query" class="cgButton" onclick="document.getElementById('processImg').style.display = '';"/></td>
                </tr>
                {
                let $documents := lib-util:search($type, $phrase)
