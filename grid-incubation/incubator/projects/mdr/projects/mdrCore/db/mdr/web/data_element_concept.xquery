@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                            21st July 2006
  :
- : Copyright                    The cagrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview         Renders a Data element concept for viewing by the
  :                                    user of the metadata repository

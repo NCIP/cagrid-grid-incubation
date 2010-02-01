@@ -6,7 +6,7 @@ xquery version "1.0";
  :
  : Date                               22nd January 2008
  :
- : Copyright                      The cagrid consortium
+ : Copyright                      The cancergrid consortium
  :
  : Module overview         Provides the header for the model page
  :

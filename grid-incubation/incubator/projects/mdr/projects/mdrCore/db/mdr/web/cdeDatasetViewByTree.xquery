@@ -7,7 +7,7 @@ xquery version "1.0";
 :
 : Date                     06 March 2007
 :
-: Copyright                The cagrid consortium
+: Copyright                The cancergrid consortium
 :
 : Module overview          Returns a reduced, tabular view on data elements
 :

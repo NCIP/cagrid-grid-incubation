@@ -97,7 +97,7 @@
                     </td>
                     <td valign="top" align="left">
                         <a href="../web/homepage.xquery">
-                            <img src="../web/images/mdr.jpg" alt="openMDR"/>
+                            <img src="../web/images/mdr.jpg" alt="openMDR"  style="border: 1px white solid;"/>
                         </a>
                     </td>
                     <td align="right" valign="top">

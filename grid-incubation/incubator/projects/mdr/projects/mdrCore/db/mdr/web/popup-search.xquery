@@ -7,7 +7,7 @@ xquery version "1.0";
 :
 : Date                     11 feb 2008
 :
-: Copyright                The cagrid consortium
+: Copyright                The cancergrid consortium
 :
 : Module overview          Finds a document to place on the end of a relationship
 :
