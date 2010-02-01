@@ -28,7 +28,7 @@
         <query_service name="EVS-ConceptIdentifier" 
          	identifier_prefix=""
 	        class="org.cagrid.openmdr.ws.query.RestQueryService" 
-	        serviceUrl="http://lexevsapi51.nci.nih.gov/lexevsapi51/GetXML" 
+	        serviceUrl="http://lexevsapi.nci.nih.gov/lexevsapi50/GetXML" 
 	        cache_collection_id="EVS-ConceptIdentifier" cache="false" 
 	        cache_provider="HibernateCacheProvider" 
 	        category="CONCEPTID" connection_type="REST" 
