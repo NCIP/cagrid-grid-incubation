@@ -216,10 +216,10 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-      <div>
+   <div xmlns="http://www.w3.org/1999/xhtml">   
          <p>Property class created</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newProperty.xquery">Create another property class</a></p>    
+         <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
+         <p><a href="../edit/newProperty.xquery">Create another property class</a></p>    
       </div>
 };
 
