@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                            12th September 2006
  :
- : Copyright                    The cagrid consortium
+ : Copyright                    The cancergrid consortium
  :
  : Module overview        Returns a complete data element, together with all supporting classes including
  :                                       its value domain, data element concept, conceptual domain, object class

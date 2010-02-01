@@ -6,7 +6,7 @@ xquery version "1.0";
  :
  : Date                               12th September 2006
  :
- : Copyright                      The cagrid consortium
+ : Copyright                      The cancergrid consortium
  :
  : Module overview         Initial entry point into the metadata repository
  :

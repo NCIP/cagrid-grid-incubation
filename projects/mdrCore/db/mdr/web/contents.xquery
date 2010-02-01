@@ -7,7 +7,7 @@ xquery version "1.0";
 :
 : Date                     13 October 2009
 :
-: Copyright                The cagrid consortium
+: Copyright                The cancergrid consortium
 :
 : Module overview          Returns a reduced, tabular view on administered items
 :

@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     24th April 2008
  :
- : Copyright                The cagrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          Displays organisations and links to organisation editing pages
  :
