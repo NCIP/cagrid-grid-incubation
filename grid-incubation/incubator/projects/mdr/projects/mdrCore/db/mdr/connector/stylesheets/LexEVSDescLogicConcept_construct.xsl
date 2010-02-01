@@ -4,10 +4,6 @@
     <xsl:strip-space elements="*"/>
     <xsl:template match="/">
         <xsl:apply-templates select="//queryResponse"/>
-        <!--
-        <xsl:apply-templates
-            select="doc(concat(/parameters/url, '?query=DescLogicConcept&DescLogicConcept[name=',/parameters/term,']&startIndex=',/parameters/startIndex,'&resultCounter=',/parameters/resultCounter))/xlink:httpQuery/queryResponse"/>
-            -->
     </xsl:template>
     <xsl:template match="*|@*|comment()">
         <xsl:copy>
