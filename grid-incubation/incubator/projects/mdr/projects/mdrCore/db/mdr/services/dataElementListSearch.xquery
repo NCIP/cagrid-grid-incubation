@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                               31st October 2006
  :
- : Copyright                       The cagrid consortium
+ : Copyright                       The cancergrid consortium
  :
  : Module overview          outputs the expected message for the trial designer plug-in
  :

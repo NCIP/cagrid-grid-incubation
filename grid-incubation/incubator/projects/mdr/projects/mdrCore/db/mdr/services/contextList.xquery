@@ -1,7 +1,7 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             trial designer xml document
+ : Module Name:             context list xml document
  :
  : Module Version           1.0
  :
@@ -9,7 +9,7 @@ xquery version "1.0";
  :
  : Copyright                       The cagrid consortium
  :
- : Module overview          outputs the expected message for the trial designer plug-in
+ : Module overview          context list for outputs the expected message for the trial designer plug-in
  :
  :)
  
