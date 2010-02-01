@@ -7,7 +7,7 @@ declare namespace xsl= "http://www.w3.org/1999/XSL/Transform";
 (:~
  : links-crawler
  :
- : Copyright (C) 2007 The OpenMDR Consortium
+ : Copyright (C) 2007 The CancerGrid Consortium
  : @author Maria Lin
  :)
 
