@@ -168,7 +168,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_value_domain" action="newValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
+          <form name="new_value_domain" action="newValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
              
               
@@ -254,7 +254,7 @@ declare function local:input-page(
                               </tr>
                               <tr>
                                 <td class="left_header_cell"></td>
-                                <td><input type="submit" name="update" value="Store"/></td>
+                                <td><input type="submit" name="update" value="Store" onClick="return validate_adminItems ()"/></td>
                                 <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                               </tr>    
                         </table>
@@ -270,10 +270,10 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-      <div>
+     <div xmlns="http://www.w3.org/1999/xhtml">   
          <p>Value Domain class created</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newValueDomain.xquery">Create another value domain</a></p>    
+         <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
+         <p><a href="../edit/newValueDomain.xquery">Create another value domain</a></p>    
       </div>
 };
 
@@ -302,7 +302,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $enum_uom := request:get-parameter('enum_uom','')
    let $char_quantity := request:get-parameter('char_quantity','')
    let $value_domain_format := request:get-parameter('value_domain_format','')
-   (: let $log := util:log-system-err($values) :)
    
    return   
       lib-rendering:txfrm-webpage(
