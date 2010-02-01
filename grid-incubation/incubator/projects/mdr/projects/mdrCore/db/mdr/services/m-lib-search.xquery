@@ -363,7 +363,7 @@ declare function lib-search:dataElementSummary($term as xs:string, $exactTerm as
     let $count-all-admin-items := count($all-admin-items)    
 
     let $content as element() :=
-        <result-set namespace="http://cagrid.org/schema/result-set">
+        <result-set xmlns="http://cagrid.org/schema/result-set">
            {
               for $administered-item at $record-id in $all-admin-items
              
