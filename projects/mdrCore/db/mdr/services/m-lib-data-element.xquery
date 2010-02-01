@@ -6,7 +6,7 @@ module namespace lib-der="http://www.cagrid.org/xquery/library/data-element-redu
 : Module Name         module for data element creation functions            
 : Module Version     1.0
 : Date                         6th May 2008
-: Copyright                The cagrid consortium
+: Copyright                The cancergrid consortium
 : Module overview  Support functions for data element creation
 :
 :)

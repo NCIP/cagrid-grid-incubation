@@ -1,22 +1,20 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             trial designer xml document
+ : Module Name:             Data Element Summary service
  :
  : Module Version           1.0
  :
- : Date                               31st October 2006
+ : Date                     26 November 2009
  :
- : Copyright                       The cagrid consortium
+ : Copyright                The cagrid consortium
  :
- : Module overview          outputs the expected message for the trial designer plug-in
+ : Module overview          openMDR REST service outputs the Data Element Summary
  :
  :)
  
 (:~
- :    @author Steve Harris
- :    @author Andrew Tsui
- :    @author Maria Lin
+ :    @author Rakesh Dhaval
  :    @version 0.1
 ~ :)
 
