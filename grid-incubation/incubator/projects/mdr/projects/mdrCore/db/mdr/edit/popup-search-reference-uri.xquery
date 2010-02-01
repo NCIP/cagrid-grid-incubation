@@ -60,11 +60,6 @@ let $start as xs:int := xs:int(request:get-parameter("start", 0))
 let $count as xs:int := xs:int(request:get-parameter("count", 50))
 let $request as xs:string := xs:string(request:get-parameter("request",""))
 
-(:
-let $log := util:log-system-out($element)
-let $log := util:log-system-out($control)
-:)
-
 return
     <html>
       <head>
@@ -88,7 +83,7 @@ return
                       </select>
                   </td>
                   
-                  <div id='processImg'>
+                  <div id='processImg' align="center">
                   <img src="../web/images/process-loader.gif" onload="document.getElementById('processImg').style.display = 'none';" />
                   </div>
                   
