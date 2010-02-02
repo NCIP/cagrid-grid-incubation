@@ -1,8 +1,8 @@
-The Ohio State University Open Source Software License openMDR 1.0RC1
+The Ohio State University Open Source Software License openMDR 0.5 Beta
 
 Copyright Notice.
 Copyright 2010  The Ohio State University Research Foundation ("OSURF").
-The openMDR 1.0RC1 software was created with NIH funding and is part of the CTSA initiative.
+The openMDR 0.5 Beta software was created with NIH funding and is part of the CTSA initiative.
 The software subject to this notice and license includes both human readable
 source code form and machine readable, binary, object code form (the "openMDR
 Software").
