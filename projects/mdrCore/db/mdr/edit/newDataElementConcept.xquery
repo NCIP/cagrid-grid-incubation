@@ -190,7 +190,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_DataElementConcept" action="newDataElementConcept.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
+          <form name="new_DataElementConcept" action="newDataElementConcept.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
              
              {lib-forms:edit-admin-item($reg-auth,
@@ -218,32 +218,69 @@ declare function local:input-page(
               <tr>
                   <td class="left_header_cell"> </td>
                   <td align="left" colspan="2"><i> or select existing </i> 
-                  {lib-forms:make-select-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''))}
+                  {
+                    if(request:get-parameter('object_class_id','') eq "Cancel")  then (
+                        lib-forms:make-select-form-admin-item('object_class','object_class_id', session:get-attribute("object_class_id"),'new_DataElementConcept', 'Change Relationship'),
+                        session:set-attribute("object_class_id", "") 
+                    )
+                    else if(request:get-parameter('object_class_id','') != "")  then (
+                        session:set-attribute("object_class_id", request:get-parameter('object_class_id','')),
+                        lib-forms:make-select-form-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''),'new_DataElementConcept', 'Change Relationship')
+                    )
+                    else(
+                       lib-forms:make-select-form-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''),'new_DataElementConcept', 'Select Relationship') 
+                  )
+                  }
                   </td>
                </tr>
                <tr>
                   <td class="left_header_cell">Property URI</td>
                   <td align="left" colspan="2">
-                     {lib-forms:find-concept-id('property_uri','get property concept',request:get-parameter('property_uri',''))}
+                  {lib-forms:find-concept-id('property_uri','get property concept',request:get-parameter('property_uri',''))}
                   </td>
               </tr>
               <tr>
                   <td class="left_header_cell"> </td>
                   <td align="left" colspan="2"><i> or select existing </i> 
-                     {lib-forms:make-select-admin-item('property','property_id', request:get-parameter('property_id',''))}
+                  {
+                    if(request:get-parameter('property_id','') eq "Cancel")  then (
+                        lib-forms:make-select-form-admin-item('property','property_id', session:get-attribute("property_id"),'new_DataElementConcept', 'Change Relationship'),
+                        session:set-attribute("property_id", "") )
+                    
+                    else if(request:get-parameter('property_id','') != "")  then (
+                        session:set-attribute("property_id", request:get-parameter('property_id','')),
+                        lib-forms:make-select-form-admin-item('property','property_id', request:get-parameter('property_id',''),'new_DataElementConcept', 'Change Relationship'))
+                    
+                    else(
+                       lib-forms:make-select-form-admin-item('property','property_id', request:get-parameter('property_id',''),'new_DataElementConcept', 'Select Relationship') 
+                  )                 
+                  }
                   </td>
                </tr>
                
                 <tr>
                   <td class="left_header_cell">Conceptual Domain</td>
                   <td align="left" colspan="2">
-                     {lib-forms:make-select-admin-item('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))}
+                  {
+                    if(request:get-parameter('conceptual_domain_id','') eq "Cancel")  then (
+                        lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', session:get-attribute("conceptual_domain_id"),'new_DataElementConcept', 'Change Relationship'),
+                        session:set-attribute("conceptual_domain_id", "") )
+                    
+                    else if(request:get-parameter('conceptual_domain_id','') != "")  then (
+                        session:set-attribute("conceptual_domain_id", request:get-parameter('conceptual_domain_id','')),
+                        lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''),'new_DataElementConcept', 'Change Relationship'))
+                    
+                    else(
+                       lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''),'new_DataElementConcept', 'Select Relationship') 
+                  )                 
+                  }
                   </td>
                </tr>
             </table>
                      
                 <table class="section">
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td></tr>    
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store" onClick="return validate_adminItems ()"/></td>
+                      <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td></tr>    
                  </table>
               </div>
           </form>
@@ -257,7 +294,7 @@ declare function local:success-page()
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
-   <div xmlns="http://www.w3.org/1999/xhtml">   
+      <div xmlns="http://www.w3.org/1999/xhtml">
          <p>DataElementConcept class created</p>
          <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
          <p><a href="../edit/newDataElementConcept.xquery">Create another DataElementConcept</a></p>    
@@ -282,7 +319,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
-   
+
    return
    
       lib-rendering:txfrm-webpage(

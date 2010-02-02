@@ -198,7 +198,7 @@ declare function local:input-page(
                                     
                                     <td class="left_header_cell">Conceptual Domain ID</td>
                                     <td align="left">{$conceptual_domain_id}</td>
-                                    <td>{session:set-attribute("old_cd_id", $conceptual_domain_id)}</td>
+                                    <td>{session:set-attribute("conceptual_domain_id", $conceptual_domain_id)}</td>
                                     <td>{lib-forms:popup-form-search('conceptual_domain','conceptual_domain_id','new_value_domain', 'Change Relationship')}</td>                             
                                     <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
                                </tr>,
@@ -407,14 +407,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $sources,
                $action,
                $preferred,
-               session:get-attribute("old_cd_id"),
+               session:get-attribute("conceptual_domain_id"),
                $enum_datatype,
                $enum_uom,
                $char_quantity,
                $value_domain_format,
                $values
                ),
-               session:set-attribute("old_cd_id", "")
+               session:set-attribute("conceptual_domain_id", "")
                
           ) else(
           local:input-page

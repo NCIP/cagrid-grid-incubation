@@ -16,6 +16,7 @@ xquery version "1.0";
  
 (:~
  :    @author Rakesh Dhaval
+ :    @author Puneet Mathur
  :    @version 0.1
  :
  :    Edit Data Element information 
@@ -40,6 +41,7 @@ xquery version "1.0";
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
+declare namespace request="http://exist-db.org/xquery/request"; 
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -173,7 +175,19 @@ declare function local:input-page(
               <tr>
                   <td class="left_header_cell">Data Element Concept</td>
                   <td align="left" colspan="2">
-                  {lib-forms:make-select-admin-item('data_element_concept','data_element_concept_id', $data_element_concept_id)}
+                  {
+                    if($data_element_concept_id eq "Cancel")  then (
+                        lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', session:get-attribute("data_element_concept_id"),'edit_dataelement', 'Change Relationship'),
+                        session:set-attribute("data_element_concept_id", "") )
+                    
+                    else if($data_element_concept_id != "")  then (
+                        session:set-attribute("data_element_concept_id", $data_element_concept_id),
+                        lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', $data_element_concept_id,'edit_dataelement', 'Change Relationship'))
+                    
+                    else(
+                       lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', $data_element_concept_id,'edit_dataelement', 'Select Relationship') 
+                  )
+                  }                  
                   </td>
                   <td>
                     <a href='../edit/editDataElementConcept.xquery?id={$data_element_concept_id}'>Edit</a>
@@ -182,7 +196,19 @@ declare function local:input-page(
                <tr>
                   <td class="left_header_cell">Value Domain</td>
                   <td align="left" colspan="2">
-                     {lib-forms:make-select-admin-item('value_domain','value_domain_id', $value_domain_id)}
+                  {
+                    if($value_domain_id eq "Cancel")  then (
+                        lib-forms:make-select-form-admin-item('value_domain','value_domain_id', session:get-attribute("value_domain_id"),'edit_dataelement', 'Change Relationship'),
+                        session:set-attribute("value_domain_id", "") )
+                    
+                    else if($value_domain_id != "")  then (
+                        session:set-attribute("value_domain_id", $value_domain_id),
+                        lib-forms:make-select-form-admin-item('value_domain','value_domain_id', $value_domain_id,'edit_dataelement', 'Change Relationship'))
+                    
+                    else(
+                       lib-forms:make-select-form-admin-item('value_domain','value_domain_id', $value_domain_id,'edit_dataelement', 'Select Relationship') 
+                  )
+                  }                 
                   <td>
                     <a href='../edit/editValueDomain.xquery?id={$value_domain_id}'>Edit</a>
                   </td>
@@ -254,16 +280,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $ivalue_domain_id := $element//openMDR:representing/text()
    let $iexample := $element//openMDR:data_element_example_item/text()
    let $iprecision := $element//openMDR:data_element_precision/text()
-   (:
-   let $log := util:log-system-err($element)
-   let $log := util:log-system-err($action)
-   let $log := util:log-system-err($ireg-auth)
-   let $log := util:log-system-err($iregistered-by)   
-    let $log := util:log-system-err($idata_element_concept_id)
-    let $log := util:log-system-err($ivalue_domain_id)
-    let $log := util:log-system-err($iexample)
-    let $log := util:log-system-err($iprecision)
-    :)
     
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')

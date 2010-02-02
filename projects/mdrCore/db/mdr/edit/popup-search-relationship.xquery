@@ -105,7 +105,7 @@ declare function local:cancel-button($form-name as xs:string, $control as xs:str
 };
 declare function local:popup-close($form-name as xs:string, $control as xs:string, $value as xs:string) 
 {
-      if(session:get-attribute("old_cd_id") > '') then(
+      if( session:get-attribute($control) > '' ) then(
         attribute onunload {
             concat(
                 "{window.opener.document.getElementById('", $control, "').value='", $value, "';",
@@ -142,7 +142,10 @@ return
 
       </head>
       <body>
-         {local:popup-close($form-name, $control, "Cancel")}
+         {if($form-name > "") then
+              (session:set-attribute("current_form", $form-name) )
+           else(),
+           local:popup-close(session:get-attribute("current_form"), $control, "Cancel")}
          <form name='select-item' class='cagridForm' action='popup-search-relationship.xquery'>
             <input type='hidden' name='type' value='{$type}'/>
             <input type='hidden' name='control' value='{$control}'/>
@@ -153,7 +156,8 @@ return
                <tr>
                   <td>Search Phrase</td>
                   <td><input type='text' name='phrase' value='{$phrase}'/></td>
-                  <td><input type="submit" value="Submit query" class="cgButton" onclick="document.getElementById('processImg').style.display = '';"/></td>
+                  <td><input type="submit" value="Submit query" class="cgButton"
+                       onclick="{concat("document.getElementById('", "processImg" , "').style.display = ''; window.opener.document.", session:get-attribute("current_form"), ".submit();")}"/></td>
                </tr>
                {
                let $documents := lib-util:search($type, $phrase)
@@ -169,7 +173,7 @@ return
                         element td {$id},
                         element td {$name},
                         element td {
-                        local:action-button($id, $control, "use this document",$name, $form-name)
+                        local:action-button($id, $control, "use this document",$name, session:get-attribute("current_form"))
                         } 
                      },                     
                   <tr>
