@@ -124,7 +124,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_DataElement" action="newDataElement.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
+          <form name="new_DataElement" action="newDataElement.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
              
              {lib-forms:edit-admin-item($reg-auth,
@@ -146,13 +146,37 @@ declare function local:input-page(
               <tr>
                   <td class="left_header_cell">Data Element Concept</td>
                   <td align="left" colspan="2">
-                  {lib-forms:make-select-admin-item('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''))}
+                  {
+                    if(request:get-parameter('data_element_concept_id','') eq "Cancel")  then (
+                        lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', session:get-attribute("data_element_concept_id"),'new_DataElement', 'Change Relationship'),
+                        session:set-attribute("data_element_concept_id", "") )
+                    
+                    else if(request:get-parameter('data_element_concept_id','') != "")  then (
+                        session:set-attribute("data_element_concept_id", request:get-parameter('data_element_concept_id','')),
+                        lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''),'new_DataElement', 'Change Relationship'))
+                    
+                    else(
+                       lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''),'new_DataElement', 'Select Relationship') 
+                  )
+                  }
                   </td>
                </tr>
                <tr>
                   <td class="left_header_cell">Value Domain</td>
                   <td align="left" colspan="2">
-                     {lib-forms:make-select-admin-item('value_domain','value_domain_id', request:get-parameter('value_domain_id',''))}
+                  {
+                    if(request:get-parameter('value_domain_id','') eq "Cancel")  then (
+                        lib-forms:make-select-form-admin-item('value_domain','value_domain_id', session:get-attribute("value_domain_id"),'new_DataElement', 'Change Relationship'),
+                        session:set-attribute("value_domain_id", "") )
+                    
+                    else if(request:get-parameter('value_domain_id','') != "")  then (
+                        session:set-attribute("value_domain_id", request:get-parameter('value_domain_id','')),
+                        lib-forms:make-select-form-admin-item('value_domain','value_domain_id', request:get-parameter('value_domain_id',''),'new_DataElement', 'Change Relationship'))
+                    
+                    else(
+                       lib-forms:make-select-form-admin-item('value_domain','value_domain_id', request:get-parameter('value_domain_id',''),'new_DataElement', 'Select Relationship') 
+                  )
+                  }
                   </td>
               </tr>
               <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, request:get-parameter('example',''))}</td></tr>
@@ -160,7 +184,7 @@ declare function local:input-page(
             </table>
                      
                 <table class="section">
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td>
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store" onClick="return validate_adminItems ()"/></td>
                       <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td></tr>    
                  </table>
               </div>

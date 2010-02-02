@@ -232,9 +232,9 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div xmlns="http://www.w3.org/1999/xhtml">   
-         <p>Property class created</p>
+         <p>Conceptual Domain created</p>
          <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../edit/newConceptualDoamin.xquery">Create another Conceptual Domain</a></p>    
+         <p><a href="../edit/newConceptualDomain.xquery">Create another Conceptual Domain</a></p>    
       </div>
 };
 

@@ -212,7 +212,7 @@ declare function local:input-page(
                            <tr>
                                 <td class="left_header_cell">Conceptual Domain ID</td>
                                 <td align="left">{$conceptual_domain_id}</td>
-                                <td>{session:set-attribute("old_cd_id", $conceptual_domain_id)}</td>
+                                <td>{session:set-attribute("conceptual_domain_id", $conceptual_domain_id)}</td>
                                 <td>{lib-forms:popup-form-search('conceptual_domain','conceptual_domain_id','edit_value_domain', 'Change Relationship')}</td>                                       
                                 <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
                            </tr>,
@@ -337,20 +337,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
     let $ienum_datatype := $element//openMDR:value_domain_datatype
     let $ienum_uom := $element//openMDR:value_domain_unit_of_measure
     let $ichar_quantity := $element//openMDR:value_domain_maximum_character_quantity
-    let $ivalue_domain_format := $element//openMDR:value_domain_format
-    
-    (:
-    let $icontained_in_identifier := $element//openMDR:contained_in
-    let $log := util:log-system-err($iconceptual_domain) 
-    let $log := util:log-system-err($ivalues)
-    let $log := util:log-system-err($element//openMDR:contained_in)
-    let $log := util:log-system-err($iconceptual_domain_id)
-    let $log := util:log-system-err(value-meaning:value-meaning($element/openMDR:contained_in/text()/openMDR:value_meaning_description))
-    let $log := util:log-system-err($element//openMDR:contained_in/text()/openMDR:value_meaning_description)
-    let test := element//openMDR:contained_in/text())/openMDR:value_meaning_description
-    for $meaning at $pos in $iconceptual_domain//openMDR:value_meaning_description
-       let $log := util:log-system-err($meaning)
-    :)      
+    let $ivalue_domain_format := $element//openMDR:value_domain_format  
     
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
@@ -481,14 +468,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $sources,
                $action,
                $preferred,
-               session:get-attribute("old_cd_id"),
+               session:get-attribute("conceptual_domain_id"),
                $enum_datatype,
                $enum_uom,
                $char_quantity,
                $value_domain_format,
                $values
                ),
-               session:set-attribute("old_cd_id", $iconceptual_domain_id)
+               session:set-attribute("conceptual_domain_id", $iconceptual_domain_id)
         ) 
         else (         
          if ($updating ='updating')
