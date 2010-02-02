@@ -15,15 +15,8 @@ xquery version "1.0";
  :)
  
 (:~
- :    @author Steve Harris
- :    @version 0.1
- :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms 
- :    
  :    @author Rakesh Dhaval
- :    @version 3.0
+ :    @version 1.0
  :    allows editing the DataElementConcept
 ~ :)
 
@@ -81,12 +74,6 @@ declare function local:conceptual-domain(
    let $version := lib-forms:substring-after-last($id,'_')
    let $vmid := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
-   
-   (:
-   let $log := util:log-system-err($meanings)
-   let $log := util:log-system-err($value_meaning_identifiers)
-   let $log := util:log-system-err(count($value_meaning_identifiers))
-   :)
 
    let $doc-name := concat($id,'.xml')
 

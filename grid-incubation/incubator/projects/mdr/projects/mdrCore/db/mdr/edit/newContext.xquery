@@ -17,7 +17,7 @@ xquery version "1.0";
  :    @author Rakesh Dhaval
  :    @version 0.1
  :
- :    New Context information 
+ : Module overview          New Context information 
 ~ :)
  
  

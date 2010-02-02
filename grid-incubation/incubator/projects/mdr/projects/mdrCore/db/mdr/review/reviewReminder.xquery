@@ -5,7 +5,7 @@ xquery version "1.0";
  :
  : Date                     24th January 2007
  :
- : Copyright                The cagrid consortium
+ : Copyright                The canrcegrid consortium
  :
  : Module overview          allows a user to record their comments on a resource
  :

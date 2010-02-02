@@ -4,7 +4,7 @@ xquery version "1.0";
  : Module Name:             Review results webpage
  : Module Version           0.1
  : Date                     22nd January 2007
- : Copyright                The cagrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          Reports on the approval of a data element
  :

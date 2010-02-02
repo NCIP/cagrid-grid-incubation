@@ -4,7 +4,7 @@ xquery version "1.0";
  : Module Name:             Representation Class Summary
  : Module Version           1.0
  : Date                     5th December 2006
- : Copyright               The cancergrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          Displays supported representation classes
  :)

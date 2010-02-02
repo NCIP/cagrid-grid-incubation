@@ -5,9 +5,9 @@ xquery version "1.0";
  :
  : Module Version           1.0
  :
- : Date                               31st October 2006
+ : Date                     31st October 2006
  :
- : Copyright                       The cagrid consortium
+ : Copyright                The cagrid consortium
  :
  : Module overview          context list for outputs the expected message for the trial designer plug-in
  :

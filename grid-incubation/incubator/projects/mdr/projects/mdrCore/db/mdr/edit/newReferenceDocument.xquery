@@ -3,25 +3,16 @@ xquery version "1.0";
 (: ~
  : Module Name:             new object class webpage and XQuery
  :
- : Module Version           2.0
+ : Module Version           1.0
  :
- : Date                               25th October 2006
+ : Date                     25th October 2009
  :
- : Copyright                       The cagrid consortium
+ : Copyright                The cangrid consortium
  :
- : Module overview          Creates and Object Class and displays list
+ : Module overview          Creates reference documents
  :
  :)
  
-(:~
- :    @author Steve Harris
- :    @version 0.1
- :
- :    @author Steve Harris
- :    @version 2.0
- :     now allows searching for concept terms
-~ :)
-
   
   import module namespace 
   lib-forms="http://www.cagrid.org/xquery/library/forms"

@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     19th January 2007
  :
- : Copyright                The cagrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          allows a user to record their comments on a resource
  :

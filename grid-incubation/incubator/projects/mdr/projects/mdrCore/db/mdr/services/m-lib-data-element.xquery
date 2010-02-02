@@ -3,11 +3,11 @@ xquery version "1.0";
 module namespace lib-der="http://www.cagrid.org/xquery/library/data-element-reduced";
 
 (: ~
-: Module Name         module for data element creation functions            
-: Module Version     1.0
-: Date                         6th May 2008
-: Copyright                The cancergrid consortium
-: Module overview  Support functions for data element creation
+: Module Name           module for data element creation functions            
+: Module Version        1.0
+: Date                  6th May 2008
+: Copyright             The cancergrid consortium
+: Module overview       Support functions for data element creation
 :
 :)
 
