@@ -189,9 +189,11 @@ declare function local:input-page(
                   )
                   }                  
                   </td>
+                  <!--
                   <td>
                     <a href='../edit/editDataElementConcept.xquery?id={$data_element_concept_id}'>Edit</a>
                   </td>
+                  -->
                </tr>
                <tr>
                   <td class="left_header_cell">Value Domain</td>
@@ -208,10 +210,12 @@ declare function local:input-page(
                     else(
                        lib-forms:make-select-form-admin-item('value_domain','value_domain_id', $value_domain_id,'edit_dataelement', 'Select Relationship') 
                   )
-                  }                 
+                  }   
+                  <!--
                   <td>
                     <a href='../edit/editValueDomain.xquery?id={$value_domain_id}'>Edit</a>
                   </td>
+                  -->
                   </td>
               </tr>
               <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, $example)}</td></tr>
