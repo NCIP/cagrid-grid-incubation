@@ -7,7 +7,7 @@ xquery version "1.0";
  :
  : Date                     21st October 2008
  :
- : Copyright                The cagrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          Creates fieldnames for elements that don't have them....
  :

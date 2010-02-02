@@ -5,9 +5,9 @@ xquery version "1.0";
  :
  : Module Version           1.0
  :
- : Date                               19th March 2008
+ : Date                     19th March 2008
  :
- : Copyright                       The cancergrid consortium
+ : Copyright                The cancergrid consortium
  :
  : Module overview          outputs the expected message for the trial designer plug-in
  :

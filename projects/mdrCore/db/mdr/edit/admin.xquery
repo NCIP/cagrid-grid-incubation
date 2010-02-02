@@ -2,7 +2,7 @@
 xquery version "1.0";
 
 (: ~
- : Module Name:             edit context webpage and XQuery
+ : Module Name:             admin webpage and XQuery
  :
  : Module Version           2.0
  :
@@ -10,7 +10,7 @@ xquery version "1.0";
  :
  : Copyright                The cagrid consortium
  :
- : Module overview          edit context information
+ : Module overview          admin information
  :
  :)
  
@@ -18,7 +18,7 @@ xquery version "1.0";
  :    @author Rakesh Dhaval
  :    @version 0.1
  :
- :    Edit Context information 
+ :    Admin Page  
 ~ :)
 
   import module namespace 
