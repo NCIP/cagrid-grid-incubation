@@ -18,6 +18,7 @@ return
    lib-rendering:txfrm-webpage('broken references', 
          <broken-refs>
             {
+            (:
             for $data-element in $data-elements
             let $id := lib-util:mdrElementId($data-element)
             where empty(lib-util:mdrElement('representation_class',$data-element//openMDR:typed_by)//openMDR:administered_item_administration_record)
@@ -28,6 +29,8 @@ return
                   attribute id {$id},
                   xs:string($data-element//openMDR:typed_by)
                   },
+            
+            :)
             for $data-element in $data-elements
             let $id := lib-util:mdrElementId($data-element)
             where empty(lib-util:mdrElement('value_domain',$data-element//openMDR:representing)//openMDR:administered_item_administration_record)
