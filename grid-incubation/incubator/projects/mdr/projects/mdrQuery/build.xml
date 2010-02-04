@@ -351,15 +351,14 @@
 		<echo message="================================================================================" />
 	</target>
 	
-	<target name="configMDRQuery">
-		
+	<target name="configRunClient" description="configure the client to run against mdrQuery Service">		
 
-		<echo message="Please make sure you enter the actual values you want to configure" />
+		<echo message="Enter the values where mdrQuery Service is deployed" />
 		
-		<input message="Database Host" defaultvalue="localhost" addproperty="host">
+		<input message="mdrQuery Service Host" defaultvalue="localhost" addproperty="host">
 		</input>
 		
-		<input message="Database Port" defaultvalue="8080" addproperty="port">
+		<input message="mdrQuery Service Port" defaultvalue="8080" addproperty="port">
 		</input>
 
 		

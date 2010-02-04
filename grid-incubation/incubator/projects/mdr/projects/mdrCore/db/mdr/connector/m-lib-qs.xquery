@@ -51,9 +51,7 @@ declare function lib-qs:selectResource-form($type) as node()*
 declare function lib-qs:query($request as xs:string, $resource as xs:string) as node()?
 {
    let $qs := doc("/db/mdr/connector/config.xml")/c:config/c:resources/c:query_service[@name=$resource]
-      let $log := util:log-system-out('INNER')
-   let $log := util:log-system-out($request)
-    return
+   return
     if ($request)  
     then
             (: Query the resource:)

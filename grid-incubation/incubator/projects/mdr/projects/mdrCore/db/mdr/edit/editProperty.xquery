@@ -275,8 +275,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $ipreferred := string(fn:index-of($element//openMDR:preferred_designation,'true'))
    let $iaction := request:get-parameter('update','')
 
-   let $log:= util:log-system-out($iproperty_uri)
-
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')

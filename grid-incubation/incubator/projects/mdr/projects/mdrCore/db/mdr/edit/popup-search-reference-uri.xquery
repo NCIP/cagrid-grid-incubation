@@ -273,7 +273,6 @@ return
                             then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:concept)
                     else ()
                   for $concept in $concepts
-                  let $log:=util:log-system-out($concept)
                   let $id := $concept/rs:names/rs:id
                   let $name := $concept/rs:names/rs:preferred
                   let $definition := $concept/rs:definition

@@ -67,6 +67,7 @@
             <uri>../edit/newReferenceDocument.xquery
             </uri>
         </function>
+        <!-- 
         <function>
             <title>Concept Relationship</title>
             <description>Create a new concept relationship - a concept
@@ -75,6 +76,7 @@
             <uri>../edit/newConceptRelationship.xquery
             </uri>
         </function>
+         -->
         <function>
             <title>Datatypes</title>
             <description>View and maintain the datatypes available to the
