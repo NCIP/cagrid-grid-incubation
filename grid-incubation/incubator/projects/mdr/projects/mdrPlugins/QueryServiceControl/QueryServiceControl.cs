@@ -63,6 +63,9 @@ namespace QueryServiceControl
             cbSearchType.Items.Add(EXACTTERM_SEARCH_TYPE);
             cbSearchType.Items.Add(ID_SEARCH_TYPE);
             cbSearchType.SelectedItem = TERM_SEARCH_TYPE;
+
+            //Rakesh wants to get rid of the Use button
+            btnUse.Hide();
         }
 
         void searchCLSWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -446,7 +449,7 @@ namespace QueryServiceControl
                     };
                 }
 
-                if (cbContextList.Text.Length > 0)
+                if (cbContextList.Text.Length > 0 && !cbContextList.Text.Equals("All"))
                 {
                     req.query.queryFilter = new global::QueryServiceControl.QueryServiceManager.queryFilter();
                     req.query.queryFilter.context = cbContextList.Text;
@@ -1100,7 +1103,7 @@ namespace QueryServiceControl
                 }
 
                 // add default empty context
-                ctxList.Add(new ContextBean());
+                ctxList.Add(new ContextBean("All", "", ""));
 
                 foreach (QueryServiceManager.context ctx in result.Items)
                 {
@@ -1177,6 +1180,11 @@ namespace QueryServiceControl
             }
 
             PostInitResources();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

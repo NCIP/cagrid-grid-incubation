@@ -11,7 +11,10 @@ namespace QueryServiceControl
         private String version = "";
         private String description = "";
 
-        public ContextBean() { 
+        public ContextBean(String aName, String aVersion, String aDescription) {
+            name = aName;
+            version = aVersion;
+            description = aDescription;
         }
         
         public ContextBean(QueryServiceManager.context ctx) {
@@ -48,7 +51,22 @@ namespace QueryServiceControl
         {
             get
             {
-                return Description + ", Version " + Version;
+                String str = "";
+                if (Description.Length > 0)
+                {
+                    str += Description;
+                }
+
+                if (Version.Length > 0)
+                {
+                    if (str.Length > 0)
+                    {
+                        str += ", ";
+                    }
+                    str += Version;
+                }
+
+                return str;
             }
         }
     }
