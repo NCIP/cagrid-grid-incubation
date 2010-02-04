@@ -388,7 +388,7 @@ declare function lib-forms:radio($name as xs:string, $value as xs:string, $recei
          attribute type {'radio'},
          attribute name {$name},
          attribute value {$value},
-         if ($received-value = 'true') then (attribute checked {'checked'}) else ()
+         if ($received-value eq 'true') then (attribute checked {'checked'}) else ()
          }
       
 };
@@ -473,11 +473,11 @@ declare function lib-forms:edit-admin-item(
          <h2>Administered Item Metadata</h2>
          <p>
             <table class="section">
-                <tr><td class="left_header_cell">Registration Authority</td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
-                <tr><td class="left_header_cell">Registered by</td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
-                <tr><td class="left_header_cell">Administered by</td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
-                <tr><td class="left_header_cell">Submitted by</td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
-                <tr><td class="left_header_cell">Administrative Status</td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+                <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+                <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
+                <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
+                <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
+                <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
                 <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>        
             </table>
           </p>
@@ -504,7 +504,7 @@ declare function lib-forms:edit-admin-item(
                 </tr>
                 
                 <tr>
-                   <td class="left_header_cell">Name</td>
+                   <td class="left_header_cell">Name <font color="red">*</font></td>
                    <td colspan="5">
                       {lib-forms:input-element('names',70,$name)}
                    </td>
@@ -513,7 +513,11 @@ declare function lib-forms:edit-admin-item(
                 <tr>
                    <td class="left_header_cell">Preferred</td>
                    <td>
+                   <!--
                       {lib-forms:radio('preferred', xs:string($pos), xs:string(($preferred = xs:string($pos))))}
+                   -->
+                      {lib-forms:radio('preferred', xs:string($pos), 'true')}
+                   
                    </td>
                 </tr>
         
@@ -568,7 +572,7 @@ declare function lib-forms:edit-admin-item(
                     </tr>
                     
                     <tr>
-                       <td class="left_header_cell">Name</td>
+                       <td class="left_header_cell">Name <font color="red">*</font></td>
                        <td colspan="5">
                           {lib-forms:input-element('names',70,'')}
                        </td>
@@ -577,7 +581,7 @@ declare function lib-forms:edit-admin-item(
                     <tr>
                        <td class="left_header_cell">Preferred</td>
                        <td>
-                          {lib-forms:radio('preferred', '1', '')}
+                          {lib-forms:radio('preferred', '1', 'true')}
                        </td>
                     </tr>
             
@@ -677,7 +681,7 @@ declare function lib-forms:edit-admin-item(
                 </tr>
                 
                 <tr>
-                   <td class="left_header_cell">Name</td>
+                   <td class="left_header_cell">Name <font color="red">*</font></td>
                    <td colspan="5">
                       {lib-forms:input-element('names',70,$name)}
                    </td>
@@ -686,7 +690,10 @@ declare function lib-forms:edit-admin-item(
                 <tr>
                    <td class="left_header_cell">Preferred</td>
                    <td>
+                   <!--
                       {lib-forms:radio('preferred', xs:string($pos), xs:string(($preferred = xs:string($pos))))}
+                   -->
+                      {lib-forms:radio('preferred', xs:string($pos), 'true')}
                    </td>
                 </tr>
         
@@ -741,7 +748,7 @@ declare function lib-forms:edit-admin-item(
                     </tr>
                     
                     <tr>
-                       <td class="left_header_cell">Name</td>
+                       <td class="left_header_cell">Name <font color="red">*</font></td>
                        <td colspan="5">
                           {lib-forms:input-element('names',70,'')}
                        </td>

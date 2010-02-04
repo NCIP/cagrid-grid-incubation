@@ -88,7 +88,6 @@ declare function local:cancel-button($form-name as xs:string, $control as xs:str
       attribute type {"submit"},
       attribute name {"update"},
       attribute value {$text},
-      util:log-system-out(concat("cbutton : ",session:get-attribute("old_cd_id")) ),
       if(session:get-attribute("old_cd_id") > '') then(
         attribute onclick {
             concat(

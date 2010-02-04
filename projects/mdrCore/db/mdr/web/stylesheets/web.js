@@ -52,10 +52,11 @@ function validate_adminItems ()
     adminby = document.getElementById('administered-by');
     submitby = document.getElementById('submitted-by');
     adminstatus = document.getElementById('administrative-status');
+    names = document.getElementById('names');
     
     if (regauth.options[regauth.selectedIndex].value == "")
     { 
-        errors[i] = "Registration Authority. " ;
+        errors[i] = "Registration Authority" ;
         i = i+1;
         valid = false;
         
@@ -63,31 +64,35 @@ function validate_adminItems ()
     
     if (regby.options[regby.selectedIndex].value == "")
     { 
-        errors[i] = "Registered By. " ;
+        errors[i] = "Registered By" ;
         i++;
     }
 
     if (adminby.options[adminby.selectedIndex].value == "")
     { 
-        errors[i] = "Administered By. " ;
+        errors[i] = "Administered By" ;
         i++;
     }
     
     if (submitby.options[submitby.selectedIndex].value == "")
     { 
-        errors[i] = "Submitted By. " ;
+        errors[i] = "Submitted By" ;
         i++;
     }
 
     if (adminstatus.options[adminstatus.selectedIndex].value == "")
     { 
-        errors[i] = "Administrative Status. " ;
+        errors[i] = "Administrative Status" ;
         i++;
     }
-    
+    if (names.value == "")
+    { 
+        errors[i] = "Name" ;
+        i++;
+    }
     if(errors.length>0)
     {
-        errMsg = "Please select the following Administered items :- \n ";
+        errMsg = "Please make sure you enter/select the following items :- \n ";
         for(j=0; j<errors.length; j++){
             errMsg = errMsg + "\n" + errors[j];
         }

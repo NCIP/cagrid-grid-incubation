@@ -224,7 +224,6 @@
 	</target>
 
 	<target name="getDomainFile" unless="domainFile">
-		<echo message="Please make sure you enter the actual values you want to configure" />
 		<input message="Domain model File Name to be generated" defaultvalue="Test.xml" addproperty="domainFile">
 		</input>
 	</target>
@@ -254,10 +253,9 @@
     	    </java>
     </target>
 
-	<target name="configMDRQuery">
-		
+	<target name="configMDRQuery" description="configure mdrQuery Service values for Domain Model Generator to run against">
 
-		<echo message="Please make sure you enter the actual values you want to configure" />
+		<echo message="Enter the values where mdrQuery Service is deployed" />
 		
 		<input message="Query Service Host" defaultvalue="localhost" addproperty="host">
 		</input>
