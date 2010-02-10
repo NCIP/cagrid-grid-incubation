@@ -107,7 +107,7 @@ return
             element action {'contents.xquery'},
             element previous {if ($start - $extent < 1) then (1) else ($start - $extent)},
             element next {$start + $extent},
-            element last { ($count-all-items mod $extent) * $extent +1},
+            element last { if( ($count-all-items mod $extent)=0) then ((($count-all-items idiv $extent) - 1) * $extent + 1) else( ( ($count-all-items idiv $extent) * $extent) + 1) },
             element type {$type},
             element letter {$letter},
             element start {$start},
