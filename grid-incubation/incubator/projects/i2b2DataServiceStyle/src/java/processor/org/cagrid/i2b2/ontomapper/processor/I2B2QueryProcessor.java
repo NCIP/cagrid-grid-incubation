@@ -1,7 +1,9 @@
 package org.cagrid.i2b2.ontomapper.processor;
 
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.cqlquery.Attribute;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
+import gov.nih.nci.cagrid.cqlquery.Predicate;
 import gov.nih.nci.cagrid.cqlresultset.CQLQueryResults;
 import gov.nih.nci.cagrid.data.InitializationException;
 import gov.nih.nci.cagrid.data.MalformedQueryException;
@@ -24,10 +26,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -197,7 +201,7 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
                 values, className, new String[] {attributeName});
         } else {
             // objects
-            List<Object> values = getObjectValues(className);
+            List<Object> values = getObjectValues(cqlQuery.getTarget());
             try {
                 results = CQLResultsCreationUtil.createObjectResults(values, className, getClassToQnameMappings());
             } catch (ResultsCreationException ex) {
@@ -211,8 +215,12 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     }
     
     
-    private List<Object> getObjectValues(String className) throws QueryProcessingException {
+    private List<Object> getObjectValues(gov.nih.nci.cagrid.cqlquery.Object targetObject) throws QueryProcessingException {
+        String className = targetObject.getName();
         Map<String, List<FactDataEntry>> attributeValues = dataAccessManager.getAttributeValues(className);
+        if (targetObject.getAttribute() != null) {
+            filterAgainstAttribute(targetObject.getAttribute(), attributeValues);
+        }
         Map<Integer, Object> objectInstances = new HashMap<Integer, Object>(); // by encounter num
         Class<?> clazz = null;
         try {
@@ -252,6 +260,63 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
         List<Object> instances = new ArrayList<Object>();
         instances.addAll(objectInstances.values());
         return instances;
+    }
+    
+    
+    private void filterAgainstAttribute(Attribute attribute, Map<String, List<FactDataEntry>> data) {
+        // get an iterator to each data entry list
+        List<Iterator<FactDataEntry>> dataEntryIterators = new ArrayList<Iterator<FactDataEntry>>(data.size());
+        Iterator<FactDataEntry> attributeValueIterator = null;
+        for (String name : data.keySet()) {
+            // if the iterator represents data for the filter attribute, keep it separate
+            Iterator<FactDataEntry> valueIterator = data.get(name).iterator();
+            if (attribute.getName().equals(name)) {
+                attributeValueIterator = valueIterator;
+            } else {
+                dataEntryIterators.add(valueIterator);
+            }
+        }
+        // iterate the values for the attribute we're filtering.
+        // If the value must be removed, remove it for all the iterators too
+        while (attributeValueIterator.hasNext()) {
+            FactDataEntry entry = attributeValueIterator.next();
+            // increment all iterators
+            for (Iterator<FactDataEntry> iter : dataEntryIterators) {
+                iter.next();
+            }
+            if (!matches(attribute, entry)) {
+                // remove this row
+                attributeValueIterator.remove();
+                for (Iterator<FactDataEntry> iter : dataEntryIterators) {
+                    iter.remove();
+                }
+            }
+        }
+    }
+    
+    
+    private boolean matches(Attribute attribute, FactDataEntry entry) {
+        Predicate predicate = attribute.getPredicate();
+        if (Predicate.IS_NOT_NULL.equals(predicate)) {
+            return entry.getActualValueAsString() != null;
+        } else if (Predicate.IS_NULL.equals(predicate)) {
+            return entry.getActualValueAsString() == null;
+        } else if (Predicate.EQUAL_TO.equals(predicate)) {
+            return attribute.getValue().equals(entry.getActualValueAsString());
+        } else if (Predicate.NOT_EQUAL_TO.equals(predicate)) {
+            return !attribute.getValue().equals(entry.getActualValueAsString());
+        } else if (Predicate.LIKE.equals(predicate)) {
+            return Pattern.matches(attribute.getValue(), entry.getActualValueAsString());
+        } else if (Predicate.GREATER_THAN.equals(predicate)) {
+            return entry.getActualValueAsString() == null || attribute.getValue().compareTo(entry.getActualValueAsString()) == 1;
+        } else if (Predicate.GREATER_THAN_EQUAL_TO.equals(predicate)) {
+            return entry.getActualValueAsString() == null || attribute.getValue().compareTo(entry.getActualValueAsString()) >= 0;
+        } else if (Predicate.LESS_THAN.equals(predicate)) {
+            return entry.getActualValueAsString() == null || attribute.getValue().compareTo(entry.getActualValueAsString()) == -1;
+        } else if (Predicate.LESS_THAN_EQUAL_TO.equals(predicate)) {
+            return entry.getActualValueAsString() == null || attribute.getValue().compareTo(entry.getActualValueAsString()) <= 0;
+        }
+        throw new IllegalArgumentException("Predicate " + predicate.getValue() + " is not supported");
     }
     
     
@@ -342,8 +407,8 @@ public class I2B2QueryProcessor extends CQLQueryProcessor {
     
     private void checkCurrentCapabilities(CQLQuery cqlQuery) throws MalformedQueryException {
         gov.nih.nci.cagrid.cqlquery.Object target = cqlQuery.getTarget();
-        if (target.getAssociation() != null || target.getAttribute() != null || target.getGroup() != null) {
-            throw new MalformedQueryException("Only top-level query targets are allowed");
+        if (target.getAssociation() != null || target.getGroup() != null) {
+            throw new MalformedQueryException("Only top-level query targets (optionally with attributes) are allowed");
         }
         if (cqlQuery.getQueryModifier() != null) {
             if (cqlQuery.getQueryModifier().getDistinctAttribute() == null) {
