@@ -15,7 +15,8 @@ xquery version "1.0";
  :)
  
 (:~
- :    @author Rakesh Dhaval
+ :    @author Rakesh Dhaval 
+ :    @author Puneet Mathur
  :    @version 0.1
  :
  :    Edit Object Class information 
@@ -49,6 +50,7 @@ declare function local:property(
    $reg-auth as xs:string,
    $administrative-note as xs:string,
    $administrative-status as xs:string,
+   $creation-date as xs:string,
    $administered-by as xs:string,
    $submitted-by as xs:string,
    $registered-by as xs:string,
@@ -67,7 +69,7 @@ declare function local:property(
    let $doc-name := concat($id,'.xml')
 
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -236,17 +238,17 @@ declare function local:success-page()
            <table class="layout">
               <tr>
                  <td>
-                    Object Class modified. 
+                    Object Class <b>{request:get-parameter('names',())}</b> modified 
                  </td>
               </tr>
               <tr>
               </tr>
               <tr>
-                <td><a href='maintenance.xquery'>Return to maintenance menu</a>
+                <td><a href='../web/contents.xquery?start=1&amp;extent=5&amp;previous=1&amp;next=6&amp;last=1&amp;count=0&amp;recordlimit=0&amp;letter=&amp;type=object_class'>View existing Object Classes</a>
                 </td>
               </tr>
                  <tr>
-                <td><a href="newObjectClass.xquery">Create another Object Class</a>
+                <td><a href="newObjectClass.xquery">Create New Object Class</a>
                 </td>
               </tr>
             </table>
@@ -264,6 +266,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $ireg-auth := string($element/@item_registration_authority_identifier)
    let $iadministrative-note := string($element//openMDR:administrative_note)
    let $iadministrative-status := string($element//openMDR:administrative_status)
+   let $creation-date := string($element//openMDR:creation_date)
    let $iadministered-by := string($element//openMDR:administered_by)
    let $isubmitted-by := string($element//openMDR:submitted_by)
    let $iregistered-by := string($element//openMDR:registered_by)
@@ -308,6 +311,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $reg-auth,
                      $administrative-note,
                      $administrative-status,
+                     $creation-date,
                      $administered-by,
                      $submitted-by,
                      $registered-by,

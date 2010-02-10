@@ -60,6 +60,7 @@ declare function local:value_domain(
    $reg-auth as xs:string,
    $administrative-note as xs:string,
    $administrative-status as xs:string,
+   $creation-date as xs:string,
    $administered-by as xs:string,
    $submitted-by as xs:string,
    $registered-by as xs:string,
@@ -85,7 +86,7 @@ declare function local:value_domain(
    let $permissible-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')    
    let $value_meaning_identifier := $concept_domain//openMDR:value_meaning_identifier/text()
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -289,17 +290,17 @@ declare function local:success-page()
            <table class="layout">
               <tr>
                  <td>
-                    Value Domain modified. 
+                    Value Domain <b>{request:get-parameter('names',())}</b> modified
                  </td>
               </tr>
               <tr>
               </tr>
               <tr>
-                <td><a href='maintenance.xquery'>Return to maintenance menu</a>
+                <td><a href='../web/contents.xquery?start=1&amp;extent=5&amp;previous=1&amp;next=6&amp;last=1&amp;count=0&amp;recordlimit=0&amp;letter=&amp;type=value_domain'>View existing Value Domains</a>
                 </td>
               </tr>
                  <tr>
-                <td><a href="newValueDomain.xquery">Create another Value Domain</a>
+                <td><a href="newValueDomain.xquery">Create New Value Domain</a>
                 </td>
               </tr>
             </table>
@@ -342,6 +343,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
+   let $creation-date := string($element//openMDR:creation_date)
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
@@ -372,6 +374,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $reg-auth,
                      $administrative-note,
                      $administrative-status,
+                     $creation-date,
                      $administered-by,
                      $submitted-by,
                      $registered-by,

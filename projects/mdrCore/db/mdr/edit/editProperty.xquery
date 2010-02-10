@@ -16,6 +16,7 @@ xquery version "1.0";
  
 (:~
  :    @author Rakesh Dhaval
+ :    @author Puneet Mathur
  :    @version 0.1
  :
  :    Edit Property information 
@@ -40,6 +41,7 @@ xquery version "1.0";
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
+declare namespace request="http://exist-db.org/xquery/request"; 
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -50,6 +52,7 @@ declare function local:property(
    $reg-auth as xs:string,
    $administrative-note as xs:string,
    $administrative-status as xs:string,
+   $creation-date as xs:string,
    $administered-by as xs:string,
    $submitted-by as xs:string,
    $registered-by as xs:string,
@@ -68,7 +71,7 @@ declare function local:property(
    let $doc-name := concat($id,'.xml')
 
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -232,17 +235,17 @@ declare function local:success-page()
            <table class="layout">
               <tr>
                  <td>
-                    Property modified. 
+                    Property <b>{request:get-parameter('names',())}</b> modified
                  </td>
               </tr>
               <tr>
               </tr>
               <tr>
-                <td><a href='maintenance.xquery'>Return to maintenance menu</a>
+                <td><a href='../web/contents.xquery?start=1&amp;extent=5&amp;previous=1&amp;next=6&amp;last=1&amp;count=0&amp;recordlimit=0&amp;letter=&amp;type=property'>View existing Property Classes</a>
                 </td>
               </tr>
                  <tr>
-                <td><a href="newProperty.xquery">Create another Property</a>
+                <td><a href="newProperty.xquery">Create New Property</a>
                 </td>
               </tr>
             </table>
@@ -278,6 +281,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
    let $administrative-status := request:get-parameter('administrative-status','')
+   let $creation-date := string($element//openMDR:creation_date)
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
@@ -305,6 +309,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $reg-auth,
                      $administrative-note,
                      $administrative-status,
+                     $creation-date,
                      $administered-by,
                      $submitted-by,
                      $registered-by,
