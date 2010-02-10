@@ -29,7 +29,6 @@
 	</target>
 
 	<target name="getDBPort" unless="dbport">
-		<echo message="Please make sure you enter the actual values you want to configure" />
 		<input message="Database Port" defaultvalue="8080" addproperty="dbport">
 		</input>
 	</target>
