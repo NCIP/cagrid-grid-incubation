@@ -39,6 +39,7 @@ xquery version "1.0";
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
 declare namespace session="http://exist-db.org/xquery/session";
+declare namespace request="http://exist-db.org/xquery/request"; 
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 

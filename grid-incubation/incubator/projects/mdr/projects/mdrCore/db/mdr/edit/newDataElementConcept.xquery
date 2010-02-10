@@ -40,6 +40,7 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+declare namespace datetime = "http://exist-db.org/xquery/datetime";
 
 declare function local:DataElementConcept(
    $reg-auth as xs:string,
@@ -75,7 +76,7 @@ declare function local:DataElementConcept(
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss"),'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -98,7 +99,7 @@ let $object-class :=
    (
    element openMDR:Object_Class {
         lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-oc,$version),
-         lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+         lib-make-admin-item:administration-record($administrative-note,$administrative-status,datetime:format-dateTime(current-dateTime(),'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -116,7 +117,7 @@ let $property :=
    (
     element openMDR:Property {
         lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-pr,$version),
-         lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+         lib-make-admin-item:administration-record($administrative-note,$administrative-status,datetime:format-dateTime(current-dateTime(),'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -295,8 +296,8 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div xmlns="http://www.w3.org/1999/xhtml">
-         <p>DataElementConcept class created</p>
-         <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
+         <p>DataElementConcept <b>{request:get-parameter('names',())}</b> class created</p>
+         <p><a href="../edit/maintenance.xquery">Return to Maintenance Menu</a></p>    
          <p><a href="../edit/newDataElementConcept.xquery">Create another DataElementConcept</a></p>    
       </div>
 };

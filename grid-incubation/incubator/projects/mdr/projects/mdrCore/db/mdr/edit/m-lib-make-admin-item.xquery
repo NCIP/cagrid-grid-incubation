@@ -7,7 +7,7 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace util="http://exist-db.org/xquery/util";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace request="http://exist-db.org/xquery/request";
-
+declare namespace datetime="http://exist-db.org/xquery/datetime";
 import module namespace 
 lib-rendering="http://www.cagrid.org/xquery/library/rendering" 
 at "../web/m-lib-rendering.xquery";
@@ -23,15 +23,16 @@ at "../library/m-administered-item.xquery";
 declare function lib-make-admin-item:administration-record(
     $administrative-note as xs:string,
     $administrative-status as xs:string,
+    $creation-date,
     $registration-status as xs:string
     ) as element(openMDR:administered_item_administration_record)
 {
     element openMDR:administered_item_administration_record {
         element openMDR:administrative_note {$administrative-note},
         element openMDR:administrative_status {$administrative-status},
-        element openMDR:creation_date {current-date()},
-        element openMDR:effective_date {current-date()},
-        element openMDR:last_change_date {current-date()},
+        element openMDR:creation_date {$creation-date},
+        element openMDR:effective_date {$creation-date},
+        element openMDR:last_change_date {datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")},
         element openMDR:registration_status {$registration-status}
     }
 };

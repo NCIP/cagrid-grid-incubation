@@ -7,6 +7,7 @@ xquery version "1.0";
  :)
 (:~
  :    @author Rakesh Dhaval
+ :    @author Puneet Mathur
  :    @version 0.1
  :
  :    Edit Data Element Concept information 
@@ -35,6 +36,7 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
+declare namespace datetime = "http://exist-db.org/xquery/datetime";
 
 declare function local:conceptual-domain(
    $reg-auth as xs:string,
@@ -61,7 +63,7 @@ declare function local:conceptual-domain(
 
    let $content := (
             
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss"),'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -232,8 +234,8 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div xmlns="http://www.w3.org/1999/xhtml">   
-         <p>Conceptual Domain created</p>
-         <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
+         <p>Conceptual Domain <b>{request:get-parameter('names',())}</b> created</p>
+         <p><a href="../edit/maintenance.xquery">Return to Maintenance Menu</a></p>    
          <p><a href="../edit/newConceptualDomain.xquery">Create another Conceptual Domain</a></p>    
       </div>
 };
