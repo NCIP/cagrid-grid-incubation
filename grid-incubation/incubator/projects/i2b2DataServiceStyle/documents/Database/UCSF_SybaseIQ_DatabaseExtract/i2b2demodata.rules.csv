@@ -1,0 +1,4 @@
+symbol	field	compare	value	action
+IBM  	price   	gt	100             	sell 
+MSFT 	volume  	gt	65000000        	buy  
+CSCO 	change  	gt	3               	sell 

@@ -1,0 +1,3 @@
+C_DOMAIN_ID	C_PROJECT_PATH	C_OWNER_ID	C_DB_FULLSCHEMA	C_DB_DATASOURCE	C_DB_SERVERTYPE	C_DB_NICENAME	C_DB_TOOLTIP	C_COMMENT	C_ENTRY_DATE	C_CHANGE_DATE	C_STATUS_CD
+demo	/demo/	@	i2b2demodata	java:QueryToolDS	SQLSERVER	Demo	null	null	null	null	null
+Demo	/Demo/	@	i2b2demodata	java:QueryToolDS	SQLSERVER	Demo	null	null	null	null	null

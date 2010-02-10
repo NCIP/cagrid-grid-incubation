@@ -1,0 +1,13 @@
+MAP_ID	MAP_NAME	CONCEPT_PATH	TARGET_ENCODING	MAP_PATH	MAP_DESC	IMPORT_DATE	UPDATE_DATE	UPLOAD_USER	UPDATE_USER	LAST_RUN_DATE
+1003	idrSybase	\i2b2\Demographics\Zip codes\Arizona\Tempe\85289\	SN	xml/idrSybase.xml	null	2008-11-10 10:32:16.0	null	null	null	2009-04-01 00:00:00.0
+1004	idrSybaseAgg	\i2b2\Demographics\Zip codes\Arizona\Tempe\85289\	LN	xml\idrSybaseAgg.xml	null	2008-11-10 10:32:16.0	null	null	null	2009-04-01 00:00:00.0
+1005	testMap1	\BIRN\oasis\Images\Averaged Images\Sagittal\	SN	xml/testMap1.xml	null	2008-10-10 11:11:11.0	null	null	null	null
+1006	testMap2	\BIRN\oasis\Images\Averaged Images\Sagittal\	LN	xml/testMap2.xml	null	2008-10-10 11:11:11.0	null	null	null	null
+1007	testMap3	\BIRN\oasis\Images\Atlas Registered\Coronal\	LN	xml/testMap3.xml	null	2008-10-10 11:11:11.0	null	null	null	null
+1008	testMap4	\BIRN\oasis\Images\Atlas Registered\Coronal\	SN	xml/testMap3.xml	null	2008-10-10 11:11:11.0	null	null	null	null
+1009	ZipAggMap	\i2b2\test\beefydinky\Glycemic_Med_Name	HL7	xml\ZipAggMap.xml		2009-04-01 00:00:00.0	2009-04-01 00:00:00.0	NULL	NULL	2009-04-01 00:00:00.0
+1010	HSDB518ti	\0TrialBank\0000000518\AversanoTh\00trial-id\	None	xml\HSDBMapper518ti.xml	null	2009-07-27 00:00:00.0	null	null	null	2009-07-29 00:00:00.0
+1011	HSDB518st	\0TrialBank\0000000518\AversanoTh\studytitle\	None	xml\HSDBMapper518st.xml	null	2009-07-27 00:00:00.0	null	null	null	2009-07-29 00:00:00.0
+1012	HSDB518pr	\0TrialBank\0000000518\AversanoTh\0projerole\	None	xml\HSDBMapper518pr.xml	null	2009-07-27 00:00:00.0	null	null	null	2009-07-29 00:00:00.0
+1013	HSDB518ln	\0TrialBank\0000000518\AversanoTh\0last-name\	None	xml\HSDBMapper518ln.xml	null	2009-07-27 00:00:00.0	null	null	null	2009-07-29 00:00:00.0
+1014	HSDB518fn	\0TrialBank\0000000518\AversanoTh\first-name\	None	xml\HSDBMapper518fn.xml	null	2009-07-27 00:00:00.0	null	null	null	2009-07-29 00:00:00.0

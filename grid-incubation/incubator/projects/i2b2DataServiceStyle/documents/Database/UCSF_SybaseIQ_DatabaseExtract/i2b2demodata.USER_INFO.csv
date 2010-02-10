@@ -1,0 +1,23 @@
+USER_ID	USER_NAME	USER_TITLE	USER_DEPARTMENT	USER_ADDRESS	USER_PHONE	USER_EMAIL	RESEARCH_FOCUS	REQUESTER_NAME	REQUESTER_TITLE	REQUESTER_DEPARTMENT	REQUESTER_ADDRESS	REQUESTER_PHONE	REQUESTER_EMAIL	CREATE_USER	UPDATE_USER	CREATE_DATE	UPDATE_DATE
+test	test			test	null			test			test	null		null	null	null	null
+Robert	Robert				null							null		null	null	null	null
+New	New				null							null		null	null	null	null
+New2	New2				null							null		null	null	null	null
+New3	New3				null							null		null	null	null	null
+Test5	Test5			Test5	null			test5				null		null	null	null	null
+Test7	Test7				null			Test7				null		null	null	null	null
+principal	principal			principal	null							null		null	null	null	null
+newtest	newtest				null							null		null	null	null	null
+Test11	Test11				null	Test11		Test11				null	Test11	null	null	null	null
+Test14	Test14			Test14	null			Test14			Test14	null		null	null	null	null
+					null							null		null	null	null	null
+Test16	Test16				null							null		null	null	null	null
+Test20	Test20				null			Test20				null		null	null	null	null
+First	First				null			First				null		null	null	null	null
+Hillari Allen	Hillari Allen	PI			null			Hillari Allen	PI			null		null	null	null	null
+test25	test25				null			test25				null		null	null	null	null
+Test	Test				null			Test				null		null	null	null	null
+KMobed	KMobed	RA	OAAIS-ARS		null			KMobed	RA	OAAIS-ARS		null		null	null	null	null
+Test29	Test29				null			Test29				null		null	null	null	null
+Ketty Mobed	Ketty Mobed	Research Analyst	OAAIS - ARS		4765920	ketty.mobed@ucsf.edu	IDR	Ketty Mobed	Research Analyst	OAAIS - ARS		4765920	ketty.mobed@ucsf.edu	null	null	null	null
+Test54	Test54				null			Test54				null		null	null	null	null

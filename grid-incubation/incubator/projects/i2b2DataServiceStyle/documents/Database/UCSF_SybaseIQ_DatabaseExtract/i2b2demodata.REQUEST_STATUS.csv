@@ -1,0 +1,3 @@
+REQUEST_STATUS_CD	REQUEST_STATUS_DESC	CREATE_USER	UPDATE_USER	CREATE_DATE	UPDATE_DATE
+P	Pending	null	null	null	null
+C	Completed	null	null	null	null
