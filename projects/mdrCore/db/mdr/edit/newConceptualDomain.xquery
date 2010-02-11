@@ -147,7 +147,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_value_domain" action="newConceptualDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
+          <form name="new_value_domain" action="newConceptualDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              <div class="section">
                          
            {lib-forms:edit-admin-item($reg-auth,
@@ -216,7 +216,7 @@ declare function local:input-page(
                  <table class="section">     
                       <tr><td class="row-header-cell" colspan="6">Store</td></tr>
                       <tr><td class="left_header_cell"></td>
-                         <td><input type="submit" name="update" value="Store"/></td>
+                         <td><input type="submit" name="update" value="Store" onSubmit="return validate_adminItems ()"/></td>
                          <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>  
                       </tr>  
                  </table>

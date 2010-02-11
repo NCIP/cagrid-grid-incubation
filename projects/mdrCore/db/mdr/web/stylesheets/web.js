@@ -103,4 +103,48 @@ function validate_adminItems ()
     return valid;
 }
 
+function validate_Organization()
+{
+    valid = true;
+    errors = new Array();
+    i=0;
+ 
+    orgname = document.getElementsByName('org_name')[0].value;
+    contactname = document.getElementsByName('contact-name')[0].value;
+    contactinformation = document.getElementsByName('contact-information')[0].value;
+
+    if (orgname == "")
+    { 
+        errors[i] = "Organization Name" ;
+        i = i+1;
+        valid = false;
+        
+    }
+    
+    if (contactname == "")
+    { 
+        errors[i] = "Contact Name" ;
+        i++;
+    }
+
+    if (contactinformation == "")
+    { 
+        errors[i] = "Contact Information" ;
+        i++;
+    }
+    if(errors.length>0)
+    {
+        errMsg = "Please make sure you enter/select the following items :- \n ";
+        for(j=0; j<errors.length; j++){
+            errMsg = errMsg + "\n" + errors[j];
+        }
+        alert(errMsg);
+        valid = false;
+    }    
+    
+    return valid;
+}
+
+
+
 
