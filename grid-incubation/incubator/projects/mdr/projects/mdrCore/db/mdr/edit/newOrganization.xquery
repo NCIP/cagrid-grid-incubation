@@ -125,7 +125,7 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_organisation" action="newOrganisation.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="new_organisation" action="newOrganisation.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_Organization ()">
              <div class="section">
              {lib-forms:edit-admin-item-only($reg-auth,
                      $administrative-note,
@@ -143,7 +143,7 @@ declare function local:input-page(
              		<tr><td class="row-header-cell" colspan="6">Organization</td></tr>
                 {
                 	<tr>
-                  	<td class="left_header_cell">Organization Name</td>
+                  	<td class="left_header_cell">Organization Name <font color="red"> *</font></td>
                     <td><input type="text" name="org_name"></input></td>
                   </tr>,
                   <tr>
@@ -158,7 +158,7 @@ declare function local:input-page(
              		<tr><td class="row-header-cell" colspan="6">Contact</td></tr>
                 {
                 	<tr>
-                  	<td class="left_header_cell">Name</td>
+                  	<td class="left_header_cell">Name <font color="red"> *</font></td>
                     <td><input type="text" name="contact-name"></input></td>
                   </tr>,
                   <tr>
@@ -166,7 +166,7 @@ declare function local:input-page(
                     <td><input type="text" name="contact-title"></input></td>
                   </tr>,
                    <tr>
-                  	<td class="left_header_cell">Information</td>
+                  	<td class="left_header_cell">Information <font color="red"> *</font></td>
                     <td><input type="text" name="contact-information"></input></td>
                   </tr>
  
@@ -178,7 +178,7 @@ declare function local:input-page(
                       <tr>
                       	<td class="left_header_cell"></td>
                       	<td><input type="submit" name="update" value="Store"/></td>
-                      	<td colspan="4"><input type="submit" name="update" value="Clear"/></td>
+                      	<td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                       </tr>    
                  </table>
               </div>
@@ -194,8 +194,8 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
    <div xmlns="http://www.w3.org/1999/xhtml">   
-         <p>Organization created</p>
-         <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
+         <p>Organization created <b>{request:get-parameter('names',())}</b> created</p>
+         <p><a href="../edit/maintenance.xquery">Return to Maintenance Menu</a></p>    
          <p><a href="../edit/newOrganisation.xquery">Create another Organization</a></p>    
       </div>
 };

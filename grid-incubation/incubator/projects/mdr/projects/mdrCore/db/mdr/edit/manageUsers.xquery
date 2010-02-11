@@ -106,7 +106,7 @@ declare function local:success-page()
           </tr>
           <tr/><tr/><tr/><tr/>
           <tr>
-            <td><a href='maintenance.xquery'>Return to maintenance menu</a>
+            <td><a href='maintenance.xquery'>Return to Maintenance Menu</a>
             </td>
           </tr>
          </table>
@@ -224,7 +224,7 @@ declare function local:display()
             </tr>
         </table>
 
-         <br/><a href='maintenance.xquery'>Return to maintenance menu</a>
+         <br/><a href='maintenance.xquery'>Return to Maintenance Menu</a>
     </form>
      </div>
 } ;
