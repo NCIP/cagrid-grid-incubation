@@ -51,14 +51,17 @@ declare function local:organisation(
    
    ) as xs:boolean
 {
+   let $element := lib-util:mdrElements("registration_authority")
+   let $reg-auth :=  data($element//openMDR:organization_identifier)
+   
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
-   let $new-identifier := concat( $data-identifier, '_', $version)
+   let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
   
-    let $organization-identifier := concat(lib-forms:generate-id(),'_',$version)
-	let $contact-identifier := concat(lib-forms:generate-id(),'_',$version)
-  
+    let $organization-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
+	let $contact-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
+
    (: compose the document :)
    let $document :=
             element openMDR:Organization {
