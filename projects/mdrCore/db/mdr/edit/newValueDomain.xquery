@@ -77,9 +77,9 @@ declare function local:value_domain(
    let $doc-name := concat($new-identifier,'.xml')
    let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)   
    let $value_meaning-identifier  := data($concept_domain//openMDR:value_meaning_identifier)
-  
+   let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss"),'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -94,7 +94,7 @@ declare function local:value_domain(
                     return (
                        element openMDR:containing {
                          attribute permissible_value_identifier {lib-forms:generate-id()},
-                         element openMDR:permissible_value_begin_date {current-date()},
+                         element openMDR:permissible_value_begin_date {$creation-date},
                          element openMDR:value_item {$values[$pos]},
                          element openMDR:contained_in {$value_meaning-identifier[$pos]}
                        }

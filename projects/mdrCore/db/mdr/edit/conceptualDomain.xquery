@@ -68,7 +68,7 @@ declare function local:conceptual-domain(
 
    let $content := (
             
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss"),'Recorded'),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -84,7 +84,7 @@ declare function local:conceptual-domain(
                   where $meaning > ""
                     return
                         element openMDR:Value_Meaning {
-                          element openMDR:value_meaning_begin_date {current-date()},
+                          element openMDR:value_meaning_begin_date {$creation-date},
                           element openMDR:value_meaning_description {$meaning},
                           element openMDR:value_meaning_identifier {$vmid}
                         }
@@ -253,9 +253,9 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
       <div>
-         <p>Property class created</p>
-         <p><a href="../xquery/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../xquery/newConceptualDoamin.xquery">Create another Conceptual Domain</a></p>    
+         <p>Conceptual Domain created</p>
+         <p><a href="../edit/maintenance.xquery">Return to Maintenance Menu</a></p>    
+         <p><a href="../edit/newConceptualDoamin.xquery">Create another Conceptual Domain</a></p>    
       </div>
 };
 

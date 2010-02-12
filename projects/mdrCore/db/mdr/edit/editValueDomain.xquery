@@ -101,7 +101,7 @@ declare function local:value_domain(
                     return (
                        element openMDR:containing {
                          attribute permissible_value_identifier {$permissible-identifier},
-                         element openMDR:permissible_value_begin_date {current-date()},
+                         element openMDR:permissible_value_begin_date {$creation-date},
                          element openMDR:value_item {$values[$pos]},
                          element openMDR:contained_in {$value_meaning_identifier[$pos]}
                        }

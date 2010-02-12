@@ -63,9 +63,9 @@ declare function local:DataElement(
 
    let $data-identifier := lib-forms:generate-id()
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
-   
+   let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss"),'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),            
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
