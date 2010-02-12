@@ -93,6 +93,16 @@
                                     </tr>
                                 </xsl:otherwise>
                             </xsl:choose>
+                             <tr>
+                                <td>
+                                    <xsl:call-template name="css-rollover-button">
+                                        <xsl:with-param name="text">openMDR wiki</xsl:with-param>
+                                        <xsl:with-param name="alt">openMDR wiki</xsl:with-param>
+                                        <xsl:with-param name="link">https://cagrid.org/display/MDR/Home</xsl:with-param>
+                                        <xsl:with-param name="target">_blank</xsl:with-param>
+                                    </xsl:call-template>
+                                </td>
+                            </tr>
                         </table>
                     </td>
                     <td valign="top" align="left">
