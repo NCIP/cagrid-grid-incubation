@@ -96,7 +96,7 @@ declare function local:conceptual-domain(
                     if($meaning >'') then
                        element openMDR:Value_Meaning 
                        {
-                        element openMDR:value_meaning_begin_date {current-date()},
+                        element openMDR:value_meaning_begin_date {$creation-date},
                         element openMDR:value_meaning_description {$meaning},
                         element openMDR:value_meaning_identifier {$value_meaning_identifiers[$pos]}
                        }
