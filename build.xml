@@ -2,22 +2,22 @@
 <!-- ================================================================= -->
 <!-- caGrid Master build file                                          -->
 <!-- ================================================================= -->
-<project name="caGrid-Incubation-Master" basedir="." default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
-	<dirname property="caGrid-Incubation-Master.basedir" file="${ant.file.caGrid-Incubation-Master}" />
+<project name="caGrid-ISO-Incubation-Master" basedir="." default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<dirname property="caGrid-ISO-Incubation-Master.basedir" file="${ant.file.caGrid-ISO-Incubation-Master}" />
 
 	<!-- Give user the chance to override properties -->
 	<property environment="env" />
 	<property file="build.properties" />
 	<!-- Load in project listings -->
-	<property file="${caGrid-Incubation-Master.basedir}/project.properties" />
+	<property file="${caGrid-ISO-Incubation-Master.basedir}/project.properties" />
 
 	<import file="antfiles/ivy/ivy-def-1.3.xml" />
 
 	<!-- Layout info -->
-	<property name="projects.dir" location="${caGrid-Incubation-Master.basedir}/projects" />
-	<property name="test.dir" location="${caGrid-Incubation-Master.basedir}/test" />
-	<property name="build.dir" location="${caGrid-Incubation-Master.basedir}/build" />
-	<property name="antfiles.dir" location="${caGrid-Incubation-Master.basedir}/antfiles" />
+	<property name="projects.dir" location="${caGrid-ISO-Incubation-Master.basedir}/projects" />
+	<property name="test.dir" location="${caGrid-ISO-Incubation-Master.basedir}/test" />
+	<property name="build.dir" location="${caGrid-ISO-Incubation-Master.basedir}/build" />
+	<property name="antfiles.dir" location="${caGrid-ISO-Incubation-Master.basedir}/antfiles" />
 
 	<property name="antfiles.lib.dir" location="${antfiles.dir}/lib" />
 	<property name="test.lib.dir" location="${test.dir}/lib" />
@@ -33,7 +33,7 @@
 
 	<!-- IMPORT THE UTILITIES TARGETS -->
 	<import file="${antfiles.dir}/target-grid.xml" />
-
+	<import file="${test.dir}/test.xml" />
 
 	<!-- =============================================================== -->
 	<!-- Bootstrap the build by setting up the structure                 -->
@@ -71,10 +71,10 @@
 	<target name="check-project-name">
 		<fail unless="single.project.name" message="The expected property, 'single.project.name' was not defined!" />
 		<condition property="single.project.name.invalid">
-				<equals arg1="${single.project.name}" arg2="" trim="true" />
-					<not>
-						<available file="${projects.dir}/${single.project.name}" type="dir" />
-					</not>
+			<equals arg1="${single.project.name}" arg2="" trim="true" />
+			<not>
+				<available file="${projects.dir}/${single.project.name}" type="dir" />
+			</not>
 		</condition>
 		<fail if="single.project.name.invalid" message="The expected property, 'single.project.name' was not defined as a valid project name!  The value was: [${single.project.name}]" />
 	</target>
@@ -154,7 +154,7 @@
 	<target name="clean" depends="prepare" description="Delete repository, ivy cache, and clean all projects's generated and resolved artificats.">
 		<delete dir="${integration.repository.dir}" />
 		<!--<ivy:cleancache/>  just delete the local cache, not the remote one-->
-		<delete dir="${user.dir}/.cache-local"/>
+		<delete dir="${user.dir}/.cache-local" />
 
 		<for parallel="true" param="project.buildfile" trim="true" threadcount="10">
 			<path refid="ivy.projects.list" />
@@ -164,6 +164,5 @@
 			</sequential>
 		</for>
 	</target>
-
 
 </project>

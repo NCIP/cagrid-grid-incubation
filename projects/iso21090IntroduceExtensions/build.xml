@@ -55,7 +55,7 @@
 	<path id="run.classpath">
 		<path refid="build.classpath" />
 		<fileset dir="${jar.dir}">
-			<include name="*.jar"/>
+			<include name="*.jar" />
 		</fileset>
 	</path>
 
@@ -203,7 +203,9 @@
 	</target>
 
 
-	<property name="introduce.extensions.dir" location="../introduce/extensions" />
+	<property name="introduce.extensions.dir" value="${env.CAGRID_HOME}/projects/introduce/extensions" />
+	<!--<property name="introduce.extensions.dir" location="../introduce/extensions" />-->
+
 	<target name="installIntroduceExtensions" description="Installs the caDSR extensions into Introduce (you must build first).">
 		<delete dir="${introduce.extensions.dir}/ISO21090-discovery" />
 		<mkdir dir="${introduce.extensions.dir}/ISO21090-discovery" />
