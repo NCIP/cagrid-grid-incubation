@@ -20,8 +20,17 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
     @Override
     public NamespaceType[] createNamespaceType(File arg0, NamespaceReplacementPolicy arg1, MultiEventProgressBar arg2) {
-        // TODO Auto-generated method stub
         return null;
+        
+        // check the namespace replacement policy and see what to do if the stuff we plan to add already exists
+        //if (replacementPolicy.equals(NamespaceReplacementPolicy.IGNORE)) {
+
+        //copy the schemas
+        
+        //create the namespace types with commontools
+        
+        //walk thru them and configure the serializers
+        
     }
 
 }

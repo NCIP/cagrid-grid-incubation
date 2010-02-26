@@ -3,5 +3,13 @@
  <ns1:DiscoveryExtensionDescription displayName="ISO21090" name="ISO21090-discovery">
   <!--<ns1:DiscoveryToolsPanelExtension>org.cagrid.iso21090.portal.discovery.ISO21090DiscoveryComponent</ns1:DiscoveryToolsPanelExtension>-->
   <ns1:DiscoveryPanelExtension>org.cagrid.iso21090.portal.discovery.ISO21090TypeSelectionComponent</ns1:DiscoveryPanelExtension>
+   <ns1:Properties>
+   <ns1:Property key="ISO21090_DATATYPES_NAMESPACE" displayName="ISO 21090 Datatypes Namespace" description="The ISO 21090 Namespace" value="uri:iso.org:21090"/>
+   <ns1:Property key="ISO21090_DATATYPES_PACKAGE" displayName="ISO 21090 Datatypes Java Package" description="The Java package name to use for the ISO 21090 Namespace" value="org.iso._21090"/>
+   
+   <ns1:Property key="ISO21090_EXTENSION_NAMESPACE" displayName="ISO 21090 Datatypes Extension Namespace" description="The ISO 21090 Extension Namespace" value="http://iso21090.nci.nih.gov"/>
+   <ns1:Property key="ISO21090_EXTENSION_PACKAGE" displayName="ISO 21090 Datatypes Extension Java Package" description="The Java package name to use for the ISO 21090 Extension Namespace" value="gov.nih.nci.iso21090.extensions"/>
+   
+  </ns1:Properties>
  </ns1:DiscoveryExtensionDescription>
 </ns1:ExtensionDescription>
