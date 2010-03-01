@@ -1,0 +1,871 @@
+<!--  
+<CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="OR">
+			<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+				<Attribute name="armName" value="redcap" predicate="LIKE" />
+			</Association>
+			<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+				<Attribute name="formName" value="redcap%" predicate="LIKE" />
+			</Association>
+
+			<Attribute name="projectName" value="redcap_test%"
+				predicate="LIKE" />
+
+		</Group>
+	</Target>
+
+</CQLQuery>
+ 
+-->
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="AND">
+			<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+				<Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
+					<Association roleName="EventsCalendarRefs"
+						name="org.cagrid.redcap.EventsCalendar">
+						<Attribute name="calId" value="2" predicate="EQUAL_TO" />
+					</Association>
+				</Association>
+			</Association>
+			<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+				<Attribute name="formName" value="%" predicate="LIKE" />
+			</Association>
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="AND">
+			<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+				<Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
+
+				</Association>
+			</Association>
+			<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+				<Attribute name="formName" value="%" predicate="LIKE" />
+			</Association>
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+<!-- --> <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects" />
+</CQLQuery> 
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventArms" />
+
+</CQLQuery> -->
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Events" />
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventsCalendar" />
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Forms" />
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Data" />
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Attribute name="projectName" value="red%" predicate="LIKE" />
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventArms">
+		<Attribute name="armName" value="visit%" predicate="LIKE" />
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventsCalendar">
+		<Attribute name="calId" value="1" predicate="NOT_EQUAL_TO" />
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Forms">
+		<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Data">
+		<Attribute name="eventId" value="21" predicate="EQUAL_TO" />
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects" />
+	<QueryModifier countOnly="true" />
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventArms" />
+	<QueryModifier countOnly="true" />
+</CQLQuery> -->
+
+
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Events" />
+	<QueryModifier countOnly="true" />
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Forms" />
+	<QueryModifier countOnly="true" />
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Data" />
+	<QueryModifier countOnly="true" />
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Attribute name="projectName" value="test%" predicate="LIKE" />
+	</Target>
+	<QueryModifier countOnly="false">
+		<DistinctAttribute>projectName</DistinctAttribute>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventArms">
+		<Attribute name="armId" value="1" predicate="EQUAL_TO" />
+	</Target>
+	<QueryModifier countOnly="false">
+		<DistinctAttribute>armName</DistinctAttribute>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Events">
+		<Attribute name="eventId" value="1" predicate="EQUAL_TO" />
+	</Target>
+	<QueryModifier countOnly="false">
+		<DistinctAttribute>eventName</DistinctAttribute>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventsCalendar">
+		<Attribute name="calId" value="1" predicate="EQUAL_TO" />
+	</Target>
+	<QueryModifier countOnly="false">
+		<DistinctAttribute>projectId</DistinctAttribute>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Forms">
+		<Attribute name="projectId" value="1" predicate="EQUAL_TO" />
+	</Target>
+	<QueryModifier countOnly="false">
+		<DistinctAttribute>formName</DistinctAttribute>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Attribute name="projectName" value="red%" predicate="LIKE" />
+	</Target>
+	<QueryModifier countOnly="false">
+		<AttributeNames>projectName</AttributeNames>
+		<AttributeNames>projectId</AttributeNames>
+		<AttributeNames>appTitle</AttributeNames>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventArms">
+		<Attribute name="armId" value="7" predicate="EQUAL_TO" />
+	</Target>
+	<QueryModifier countOnly="false">
+		<AttributeNames>projectId</AttributeNames>
+		<AttributeNames>armName</AttributeNames>
+		<AttributeNames>armId</AttributeNames>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+			<Attribute name="projectId" value="7" predicate="EQUAL_TO" />
+		</Association>
+	</Target>
+	<QueryModifier countOnly="false">
+		<DistinctAttribute>projectName</DistinctAttribute>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventArms">
+		<Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
+			<Attribute name="eventName" value="red%" predicate="LIKE" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Events">
+		<Association roleName="FormsRefsCollection" name="org.cagrid.redcap.Forms">
+			<Attribute name="formName" value="%" predicate="LIKE" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Events">
+		<Association roleName="EventsCalendarRefs" name="org.cagrid.redcap.EventsCalendar">
+			<Attribute name="calId" value="1" predicate="GREATER_THAN" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+			<Attribute name="formName" value="redcap%" predicate="LIKE" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Forms">
+		<Association roleName="FormsRef" name="org.cagrid.redcap.Data">
+			<Attribute name="projectId" value="6" predicate="EQUAL_TO" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association roleName="eventsCalendarRef" name="org.cagrid.redcap.EventsCalendar">
+			<Attribute name="calId" value="1" predicate="EQUAL_TO" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventArms">
+		<Association roleName="projectsRef" name="org.cagrid.redcap.Projects">
+			<Attribute name="projectId" value="7" predicate="EQUAL_TO" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Data">
+		<Association roleName="DataRef" name="org.cagrid.redcap.Forms">
+			<Attribute name="formName" value="redcap%" predicate="LIKE" />
+
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Forms">
+		<Association roleName="projectsFormsRef" name="org.cagrid.redcap.Projects">
+			<Attribute name="projectId" value="7" predicate="EQUAL_TO" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Forms">
+		<Association roleName="EventsRefsCollection" name="org.cagrid.redcap.Events">
+			<Attribute name="eventName" value="redcap%" predicate="LIKE" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Events">
+		<Association roleName="eventArmRefs" name="org.cagrid.redcap.EventArms">
+			<Attribute name="projectId" value="7" predicate="EQUAL_TO" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventsCalendar">
+		<Association roleName="EventsCollection" name="org.cagrid.redcap.Events">
+			<Attribute name="eventName" value="redcap%" predicate="LIKE" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventsCalendar">
+		<Association roleName="projectsCalendarRef" name="org.cagrid.redcap.Projects">
+			<Attribute name="projectName" value="pat%" predicate="LIKE" />
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.EventArms">
+		<Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
+			<Association roleName="EventsCalendarRefs" name="org.cagrid.redcap.EventsCalendar">
+				<Attribute name="calId" value="2" predicate="EQUAL_TO" />
+			</Association>
+		</Association>
+	</Target>
+	<QueryModifier countOnly="false">
+		<DistinctAttribute>armName</DistinctAttribute>
+	</QueryModifier>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+			<Association roleName="FormsRef" name="org.cagrid.redcap.Data">
+				<Attribute name="fieldName" value="last%" predicate="LIKE" />
+			</Association>
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+			<Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
+				<Association roleName="FormsRefsCollection" name="org.cagrid.redcap.Forms">
+					<Association roleName="FormsRef" name="org.cagrid.redcap.Data">
+						<Attribute name="fieldName" value="pat%" predicate="LIKE" />
+					</Association>
+				</Association>
+			</Association>
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+			<Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
+				<Association roleName="EventsCalendarRefs" name="org.cagrid.redcap.EventsCalendar">
+					<Attribute name="calId" value="5" predicate="EQUAL_TO" />
+				</Association>
+			</Association>
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association name="org.cagrid.redcap.Forms" roleName="formsRefCollection">
+			<Association roleName="FormsRef" name="org.cagrid.redcap.Data">
+				<Group logicRelation="AND">
+					
+					<Attribute name="projectId" predicate="EQUAL_TO" value="1" />
+					
+					<Attribute name="projectId" predicate="EQUAL_TO" value="1" />
+				</Group>
+			</Association>
+		</Association>
+	</Target>
+	
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+			<Group logicRelation="AND">
+				<Attribute name="armId" value="1" predicate="GREATER_THAN" />
+				<Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
+					<Attribute name="eventName" value="visit%" predicate="LIKE" />
+				</Association>
+			</Group>
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association name="org.cagrid.redcap.Forms" roleName="formsRefCollection">
+			<Group logicRelation="AND">
+				
+				<Attribute name="projectId" predicate="EQUAL_TO" value="1" />
+				
+				<Attribute name="formName" predicate="LIKE" value="%" />
+			</Group>
+		</Association>
+	</Target>
+	
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+			<Group logicRelation="AND">
+				<Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
+					<Group logicRelation="AND">
+						<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+							<Attribute name="formName" value="%" predicate="LIKE" />
+						</Association>
+						<Attribute name="eventName" value="%" predicate="LIKE" />
+					</Group>
+				</Association>
+				<Attribute name="armId" value="1" predicate="EQUAL_TO" />
+			</Group>
+		</Association>
+	</Target>
+	
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Association name="org.cagrid.redcap.Forms" roleName="formsRefCollection">
+			<Group logicRelation="AND">
+				<Attribute name="projectId" predicate="EQUAL_TO" value="1" />
+				<Group logicRelation="AND">
+					<Attribute name="projectId" predicate="EQUAL_TO" value="1" />
+					<Attribute name="formName" predicate="LIKE" value="%" />
+				</Group>
+			</Group>
+		</Association>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="AND">
+			<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+				<Attribute name="projectId" value="2" predicate="EQUAL_TO" />
+			</Association>
+			<Attribute name="projectName" value="redcap%" predicate="LIKE" />
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="AND">
+			<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+				<Attribute name="projectId" value="2" predicate="EQUAL_TO" />
+			</Association>
+			<Attribute name="projectName" value="red%" predicate="LIKE" />
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="AND">
+			<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+				<Attribute name="armId" value="1" predicate="EQUAL_TO" />
+			</Association>
+			<Group logicRelation="OR">
+				<Attribute name="projectName" value="red%" predicate="LIKE" />
+				<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+			</Group>
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="AND">
+			<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+				<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+			</Association>
+			<Group logicRelation="OR">
+				<Attribute name="projectName" value="red%" predicate="LIKE" />
+				<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+			</Group>
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="AND">
+			<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+			<Group logicRelation="OR">
+				<Attribute name="projectName" value="red%" predicate="LIKE" />
+				<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+			</Group>
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="AND">
+			<Attribute name="projectName" value="redcap%" predicate="LIKE" />
+			<Attribute name="appTitle" value="RED%" predicate="LIKE" />
+			<Attribute name="institution" value="Van%" predicate="LIKE" />
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="OR">
+			<Group logicRelation="AND">
+				<Attribute name="projectName" value="%" predicate="LIKE" />
+				<Attribute name="projectId" value="7" predicate="EQUAL_TO" />
+			</Group>
+			<Group logicRelation="AND">
+				<Attribute name="appTitle" value="%" predicate="LIKE" />
+				<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+			</Group>
+
+		</Group>
+	</Target>
+</CQLQuery> -->
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Forms">
+		<Group logicRelation="AND">
+			<Group logicRelation="OR">
+				<Attribute name="formName" value="%" predicate="LIKE" />
+				<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+			</Group>
+			<Group logicRelation="OR">
+				<Attribute name="fieldName" value="%" predicate="LIKE" />
+				<Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+			</Group>
+			<Attribute name="projectId" value="7" predicate="EQUAL_TO" />
+		</Group>
+	</Target>
+	
+</CQLQuery> -->
+
+
+
+
+
+
+
+
+<!--  <CQLQuery xmlns="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<Target name="org.cagrid.redcap.Projects">
+		<Group logicRelation="OR">
+			<Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+				<Attribute name="armName" value="redcap" predicate="LIKE" />
+			</Association>
+			<Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+				<Attribute name="formName" value="redcap%" predicate="LIKE" />
+			</Association>
+
+			<Attribute name="projectName" value="redcap_test%"
+				predicate="LIKE" />
+
+		</Group>
+	</Target>
+
+</CQLQuery> -->
+         
+       
+ 

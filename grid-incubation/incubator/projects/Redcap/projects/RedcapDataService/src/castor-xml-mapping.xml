@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+	<class name="org.cagrid.redcap.Projects" identity="id">
+		<map-to xml="projects" ns-uri="http://redcap.cagrid.org/Redcap" />
+		<field name="AllowPkEdit" type="integer">
+			<bind-xml name="allowPkEdit" node="attribute" />
+		</field>
+		<field name="AppTitle" type="java.lang.String">
+			<bind-xml name="appTitle" node="attribute" />
+		</field>
+		<field name="AuthMeth" type="java.lang.String">
+			<bind-xml name="authMeth" node="attribute" />
+		</field>
+		<field name="AutoIncSet" type="integer">
+			<bind-xml name="autoIncSet" node="attribute" />
+		</field>
+		<field name="ContextDetail" type="java.lang.String">
+			<bind-xml name="contextDetail" node="attribute" />
+		</field>
+		<field name="CountProject" type="integer">
+			<bind-xml name="countProject" node="attribute" />
+		</field>
+		<field name="CreatedBy" type="java.lang.String">
+			<bind-xml name="createdBy" node="attribute" />
+		</field>
+		<field name="CreationTime" type="java.util.Date">
+			<bind-xml name="creationTime" node="attribute" />
+		</field>
+		<field name="CustomDataEntryNote" type="java.lang.String">
+			<bind-xml name="customDataEntryNote" node="attribute" />
+		</field>
+		<field name="CustomIndexPageNote" type="java.lang.String">
+			<bind-xml name="customIndexPageNote" node="attribute" />
+		</field>
+		<field name="CustomReports" type="java.lang.String">
+			<bind-xml name="customReports" node="attribute" />
+		</field>
+		<field name="CustomText1" type="java.lang.String">
+			<bind-xml name="customText1" node="attribute" />
+		</field>
+		<field name="CustomText2" type="java.lang.String">
+			<bind-xml name="customText2" node="attribute" />
+		</field>
+		<field name="DateShiftMax" type="integer">
+			<bind-xml name="dateShiftMax" node="attribute" />
+		</field>
+		<field name="DoubleDataEntry" type="integer">
+			<bind-xml name="doubleDataEntry" node="attribute" />
+		</field>
+		<field name="DraftMode" type="integer">
+			<bind-xml name="draftMode" node="attribute" />
+		</field>
+		<field name="EnableAlterRecordPulldown" type="integer">
+			<bind-xml name="enableAlterRecordPulldown" node="attribute" />
+		</field>
+		<field name="GrantCite" type="java.lang.String">
+			<bind-xml name="grantCite" node="attribute" />
+		</field>
+		<field name="HeaderLogo" type="java.lang.String">
+			<bind-xml name="headerLogo" node="attribute" />
+		</field>
+		<field name="InactiveTime" type="java.util.Date">
+			<bind-xml name="inactiveTime" node="attribute" />
+		</field>
+		<field name="Institution" type="java.lang.String">
+			<bind-xml name="institution" node="attribute" />
+		</field>
+		<field name="Investigators" type="java.lang.String">
+			<bind-xml name="investigators" node="attribute" />
+		</field>
+		<field name="IsChildOf" type="java.lang.String">
+			<bind-xml name="isChildOf" node="attribute" />
+		</field>
+		<field name="Online_offline" type="integer">
+			<bind-xml name="online_offline" node="attribute" />
+		</field>
+		<field name="OrderIdBy" type="java.lang.String">
+			<bind-xml name="orderIdBy" node="attribute" />
+		</field>
+		<field name="ProductionTime" type="java.util.Date">
+			<bind-xml name="productionTime" node="attribute" />
+		</field>
+		<field name="ProjectContactEmail" type="java.lang.String">
+			<bind-xml name="projectContactEmail" node="attribute" />
+		</field>
+		<field name="ProjectContactProdChangesName" type="java.lang.String">
+			<bind-xml name="projectContactProdChangesName" node="attribute" />
+		</field>
+		<field name="ProjectId" type="integer">
+			<bind-xml name="projectId" node="attribute" />
+		</field>
+		<field name="ProjectName" type="java.lang.String">
+			<bind-xml name="projectName" node="attribute" />
+		</field>
+		<field name="ProjectNote" type="java.lang.String">
+			<bind-xml name="projectNote" node="attribute" />
+		</field>
+		<field name="PulldownConcatItem1" type="java.lang.String">
+			<bind-xml name="pulldownConcatItem1" node="attribute" />
+		</field>
+		<field name="PulldownConcatItem2" type="java.lang.String">
+			<bind-xml name="pulldownConcatItem2" node="attribute" />
+		</field>
+		<field name="PulldownConcatItem3" type="java.lang.String">
+			<bind-xml name="pulldownConcatItem3" node="attribute" />
+		</field>
+		<field name="Purpose" type="java.lang.String">
+			<bind-xml name="purpose" node="attribute" />
+		</field>
+		<field name="PurposeOther" type="java.lang.String">
+			<bind-xml name="purposeOther" node="attribute" />
+		</field>
+		<field name="RecordDeleteFlag" type="integer">
+			<bind-xml name="recordDeleteFlag" node="attribute" />
+		</field>
+		<field name="RecordSelect1" type="java.lang.String">
+			<bind-xml name="recordSelect1" node="attribute" />
+		</field>
+		<field name="RecordSelect2" type="java.lang.String">
+			<bind-xml name="recordSelect2" node="attribute" />
+		</field>
+		<field name="RepeatForms" type="integer">
+			<bind-xml name="repeatForms" node="attribute" />
+		</field>
+		<field name="ReportBuilder" type="java.lang.String">
+			<bind-xml name="reportBuilder" node="attribute" />
+		</field>
+		<field name="Salt" type="java.lang.String">
+			<bind-xml name="salt" node="attribute" />
+		</field>
+		<field name="Scheduling" type="integer">
+			<bind-xml name="scheduling" node="attribute" />
+		</field>
+		<field name="ShowWhichRecords" type="integer">
+			<bind-xml name="showWhichRecords" node="attribute" />
+		</field>
+		<field name="SiteOrgType" type="java.lang.String">
+			<bind-xml name="siteOrgType" node="attribute" />
+		</field>
+		<field name="Status" type="integer">
+			<bind-xml name="status" node="attribute" />
+		</field>
+
+	</class>
+
+	<class name="org.cagrid.redcap.Forms" identity="id">
+		<map-to xml="forms" ns-uri="http://redcap.cagrid.org/Redcap" />
+		<field name="FieldName" type="java.lang.String">
+			<bind-xml name="fieldName" node="attribute" />
+		</field>
+		<field name="FieldOrder" type="float">
+			<bind-xml name="fieldOrder" node="attribute" />
+		</field>
+		<field name="FormName" type="java.lang.String">
+			<bind-xml name="formName" node="attribute" />
+		</field>
+		<field name="ProjectId" type="integer">
+			<bind-xml name="projectId" node="attribute" />
+		</field>
+	</class>
+
+	<class name="org.cagrid.redcap.EventsCalendar" identity="id">
+		<map-to xml="eventsCalendar" ns-uri="http://redcap.cagrid.org/Redcap" />
+		<field name="CalId" type="integer">
+			<bind-xml name="calId" node="attribute" />
+		</field>
+		<field name="EventDate" type="java.util.Date">
+			<bind-xml name="eventDate" node="attribute" />
+		</field>
+		<field name="EventId" type="integer">
+			<bind-xml name="eventId" node="attribute" />
+		</field>
+		<field name="EventStatus" type="integer">
+			<bind-xml name="eventStatus" node="attribute" />
+		</field>
+		<field name="EventTime" type="java.lang.String">
+			<bind-xml name="eventTime" node="attribute" />
+		</field>
+		<field name="GroupId" type="java.lang.String">
+			<bind-xml name="groupId" node="attribute" />
+		</field>
+		<field name="Notes" type="java.lang.String">
+			<bind-xml name="notes" node="attribute" />
+		</field>
+		<field name="NoteType" type="java.lang.String">
+			<bind-xml name="noteType" node="attribute" />
+		</field>
+		<field name="ProjectId" type="integer">
+			<bind-xml name="projectId" node="attribute" />
+		</field>
+		<field name="Record" type="java.lang.String">
+			<bind-xml name="record" node="attribute" />
+		</field>
+	</class>
+
+	<class name="org.cagrid.redcap.Events" identity="id">
+		<map-to xml="events" ns-uri="http://redcap.cagrid.org/Redcap" />
+		<field name="EventId" type="integer">
+			<bind-xml name="eventId" node="attribute" />
+		</field>
+		<field name="EventName" type="java.lang.String">
+			<bind-xml name="eventName" node="attribute" />
+		</field>
+	</class>
+
+	<class name="org.cagrid.redcap.EventArms" identity="id">
+		<map-to xml="eventArms" ns-uri="http://redcap.cagrid.org/Redcap" />
+		<field name="ArmId" type="integer">
+			<bind-xml name="armId" node="attribute" />
+		</field>
+		<field name="ArmName" type="java.lang.String">
+			<bind-xml name="armName" node="attribute" />
+		</field>
+		<field name="ArmNum" type="integer">
+			<bind-xml name="armNum" node="attribute" />
+		</field>
+		<field name="ProjectId" type="integer">
+			<bind-xml name="projectId" node="attribute" />
+		</field>
+	</class>
+
+	<class name="org.cagrid.redcap.Data" identity="id">
+		<map-to xml="data" ns-uri="http://redcap.cagrid.org/Redcap" />
+		<field name="EventId" type="integer">
+			<bind-xml name="eventId" node="attribute" />
+		</field>
+		<field name="FieldName" type="java.lang.String">
+			<bind-xml name="fieldName" node="attribute" />
+		</field>
+		<field name="ProjectId" type="integer">
+			<bind-xml name="projectId" node="attribute" />
+		</field>
+		<field name="Record" type="integer">
+			<bind-xml name="record" node="attribute" />
+		</field>
+		<field name="Value" type="java.lang.String">
+			<bind-xml name="value" node="attribute" />
+		</field>
+	</class>
+</mapping>

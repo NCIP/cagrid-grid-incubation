@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="BMITest-PC" name="org.cagrid.redcap.cql.test.RedcapClientTest" tests="1" time="4.37" timestamp="2010-02-24T02:14:16">
+  <properties>
+    <property name="file.encoding.pkg" value="sun.io" />
+    <property name="env.PROMPT" value="$P$G" />
+    <property name="env.RoxioCentral" value="C:\Program Files\Common Files\Roxio Shared\10.0\Roxio Central36\" />
+    <property name="java.home" value="C:\Program Files\Java\jdk1.5.0_22\jre" />
+    <property name="test.src.dir" value="test/src" />
+    <property name="env.DFSTRACINGON" value="FALSE" />
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.5.0_22\jre\lib\endorsed" />
+    <property name="env.USERNAME" value="Administrator" />
+    <property name="src.dir" value="src" />
+    <property name="ext.globus.dir" value="D:\CustomDownloads\Installed\Globus\ws-core-4.0.3" />
+    <property name="sun.os.patch.level" value="Service Pack 2" />
+    <property name="java.vendor.url" value="http://java.sun.com/" />
+    <property name="env.COMPUTERNAME" value="BMITEST-PC" />
+    <property name="java.version" value="1.5.0_22" />
+    <property name="ant.file.Developer Modified Build File" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\dev-build.xml" />
+    <property name="ant.contrib.location" value="tools/lib/ant-contrib-1.0b3.jar" />
+    <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi" />
+    <property name="env.USERPROFILE" value="C:\Users\Administrator" />
+    <property name="javadoc.dir" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build/javadoc" />
+    <property name="introduce.skeleton.namespace.domain" value="http://redcap.cagrid.org/RedcapDataService" />
+    <property name="test.lib.dir" value="test/lib" />
+    <property name="env.SystemRoot" value="C:\Windows" />
+    <property name="introduce.ns.excludes" value=" -x http://redcap.cagrid.org/Redcap -x gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.service -x gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata -x http://gov.nih.nci.cagrid.data/DataServiceExceptions -x gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security -x gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" />
+    <property name="user.name" value="Administrator" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="sun.jnu.encoding" value="Cp1252" />
+    <property name="java.runtime.name" value="Java(TM) 2 Runtime Environment, Standard Edition" />
+    <property name="schema.dest" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build\schema" />
+    <property name="env.LOCALAPPDATA" value="C:\Users\Administrator\AppData\Local" />
+    <property name="lib.dir" value="lib" />
+    <property name="tools.lib.dir" value="tools/lib" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="test.jar.name" value="RedcapDataService-tests.jar" />
+    <property name="user.timezone" value="" />
+    <property name="path.separator" value=";" />
+    <property name="client.jar.name" value="RedcapDataService-client.jar" />
+    <property name="env.PROCESSOR_IDENTIFIER" value="x86 Family 6 Model 15 Stepping 11, GenuineIntel" />
+    <property name="env._JAVACMD" value="C:\Program Files\Java\jdk1.5.0_22\bin\java.exe" />
+    <property name="file.encoding" value="Cp1252" />
+    <property name="jar.prefix" value="RedcapDataService" />
+    <property name="junit.results.dir" value="test/logs/junit" />
+    <property name="introduce.soap.binding.excludes" value=" http://redcap.cagrid.org/Redcap" />
+    <property name="env.NUMBER_OF_PROCESSORS" value="2" />
+    <property name="env.APPDATA" value="C:\Users\Administrator\AppData\Roaming" />
+    <property name="ant.file" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build.xml" />
+    <property name="test.log.dir" value="test/logs" />
+    <property name="java.io.tmpdir" value="C:\Users\ADMINI~1\AppData\Local\Temp\" />
+    <property name="user.language" value="en" />
+    <property name="env.SystemDrive" value="C:" />
+    <property name="line.separator" value="
+" />
+    <property name="garjars.id" value="garjars" />
+    <property name="java.debug" value="on" />
+    <property name="ant.file.build-deploy file" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build-deploy.xml" />
+    <property name="introduce.skeleton.service.name" value="RedcapDataService" />
+    <property name="tools.dir" value="tools" />
+    <property name="schema.src" value="D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\share\schema" />
+    <property name="java.vm.info" value="mixed mode, sharing" />
+    <property name="env.DEFLOGDIR" value="C:\ProgramData\McAfee\DesktopProtection" />
+    <property name="sun.desktop" value="windows" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="ant.file.run-tools file" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\run-tools.xml" />
+    <property name="common.jar.name" value="RedcapDataService-common.jar" />
+    <property name="ant.file.Introduce Master Build File" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build.xml" />
+    <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" />
+    <property name="build.stubs" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build-stubs.xml" />
+    <property name="env.LOGONSERVER" value="\\BMITEST-PC" />
+    <property name="introduce.skeleton.timestamp" value="1266855464230" />
+    <property name="stubs.src" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build\stubs-RedcapDataService\src" />
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob" />
+    <property name="build.dest" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build\classes" />
+    <property name="test.build.dest" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build/test/classes" />
+    <property name="env.PUBLIC" value="C:\Users\Public" />
+    <property name="ant.version" value="Apache Ant version 1.7.0 compiled on December 13 2006" />
+    <property name="env.USERDOMAIN" value="BMITest-PC" />
+    <property name="env.PROCESSOR_LEVEL" value="6" />
+    <property name="env.windir" value="C:\Windows" />
+    <property name="os.name" value="Windows Vista" />
+    <property name="java.specification.vendor" value="Sun Microsystems Inc." />
+    <property name="stubs.dest" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build\stubs-RedcapDataService\classes" />
+    <property name="env.TMP" value="C:\Users\ADMINI~1\AppData\Local\Temp" />
+    <property name="java.vm.name" value="Java HotSpot(TM) Client VM" />
+    <property name="env.ProgramData" value="C:\ProgramData" />
+    <property name="env.OS" value="Windows_NT" />
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.5.0_22\jre\bin;.;C:\Windows\system32;C:\Windows;C:\Program Files\Java\jdk1.5.0_22\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files\Common Files\Roxio Shared\DLLShared\;C:\Program Files\Common Files\Roxio Shared\10.0\DLLShared\;C:\Program Files\Common Files\Adobe\AGL;D:\CustomDownloads\Installed\MySQLServer5.0\bin;D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0\bin;D:\CustomDownloads\Installed\Sun\SDK\jdk\bin" />
+    <property name="env.TRACE_FORMAT_SEARCH_PATH" value="\\NTREL202.ntdev.corp.microsoft.com\4F18C3A5-CA09-4DBD-B6FC-219FDD4C6BE0\TraceFormat" />
+    <property name="ant.file.developers-build-deploy file" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\dev-build-deploy.xml" />
+    <property name="ant.java.version" value="1.5" />
+    <property name="basedir" value="C:\REDCAP_HANDSON\CODE\RedcapDataService" />
+    <property name="java.class.version" value="49.0" />
+    <property name="ant.home" value="D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0" />
+    <property name="introduce.skeleton.services.list" value="RedcapDataService" />
+    <property name="env.Path" value="C:\Program Files\Java\jdk1.5.0_22\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files\Common Files\Roxio Shared\DLLShared\;C:\Program Files\Common Files\Roxio Shared\10.0\DLLShared\;C:\Program Files\Common Files\Adobe\AGL;D:\CustomDownloads\Installed\MySQLServer5.0\bin;D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0\bin;D:\CustomDownloads\Installed\Sun\SDK\jdk\bin" />
+    <property name="env.HOMEDRIVE" value="C:" />
+    <property name="build.packages" value="D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\share\globus_wsrf_common\build-packages.xml" />
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.5.0_22\jre\bin" />
+    <property name="build.dir" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build" />
+    <property name="env.PROCESSOR_REVISION" value="0f0b" />
+    <property name="env.VSEDEFLOGDIR" value="C:\ProgramData\McAfee\DesktopProtection" />
+    <property name="sun.management.compiler" value="HotSpot Client Compiler" />
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment" />
+    <property name="user.variant" value="" />
+    <property name="stubs.jar.name" value="RedcapDataService-stubs.jar" />
+    <property name="ant.project.name" value="Introduce Master Build File" />
+    <property name="schema.dir" value="schema" />
+    <property name="GT4.ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration" />
+    <property name="introduce.skeleton.destination.dir" value="C:\REDCAP_HANDSON\CODE\RedcapDataService" />
+    <property name="java.vm.specification.version" value="1.0" />
+    <property name="env.GLOBUS_LOCATION" value="D:\CustomDownloads\Installed\Globus\ws-core-4.0.3" />
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit" />
+    <property name="introduce.skeleton.extensions" value="cagrid_metadata,data" />
+    <property name="build.lib.dir" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build\lib" />
+    <property name="sun.cpu.isalist" value="pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86" />
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.5.0_22\jre\lib\ext" />
+    <property name="garschema.id" value="garschema" />
+    <property name="os.version" value="6.0" />
+    <property name="user.home" value="C:\Users\Administrator" />
+    <property name="java.vm.vendor" value="Sun Microsystems Inc." />
+    <property name="mappings.file" value="C:\REDCAP_HANDSON\CODE\RedcapDataService/namespace2package.mappings" />
+    <property name="garetc.id" value="garetc" />
+    <property name="env.JAVA_HOME" value="C:\Program Files\Java\jdk1.5.0_22" />
+    <property name="stubs.dir" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build\stubs-RedcapDataService" />
+    <property name="user.dir" value="C:\REDCAP_HANDSON\CODE\RedcapDataService" />
+    <property name="schema.path" value="RedcapDataService" />
+    <property name="env.FP_NO_HOST_CHECK" value="NO" />
+    <property name="test.dir" value="test" />
+    <property name="tomcat.dir" value="D:\CustomDownloads\Installed\apache-tomcat-5.5.27_Test\apache-tomcat-5.5.27" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="env._USE_CLASSPATH" value="no" />
+    <property name="env.ALLUSERSPROFILE" value="C:\ProgramData" />
+    <property name="env.PROCESSOR_ARCHITECTURE" value="x86" />
+    <property name="java.vm.version" value="1.5.0_22-b03" />
+    <property name="java.class.path" value="C:\REDCAP_HANDSON\CODE\RedcapDataService\build\test\classes;C:\REDCAP_HANDSON\CODE\RedcapDataService\build\classes;C:\REDCAP_HANDSON\CODE\RedcapDataService\build\stubs-RedcapDataService\classes;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\RedcapQueryProcessor.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\ant-antlr-1.6.5.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\antlr-2.7.6.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\asm.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-Introduce-serviceTools-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-ServiceSecurityProvider-client-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-ServiceSecurityProvider-common-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-ServiceSecurityProvider-service-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-ServiceSecurityProvider-stubs-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-advertisement-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-caDSR-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-caDSR-tests-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-core-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-core-resources-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-data-common-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-data-cql-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-data-service-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-data-stubs-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-data-tools-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-data-utils-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-data-validation-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-metadata-common-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-metadata-data-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-metadata-security-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-metadata-validator-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\caGrid-metadatautils-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\castor-1.0.2.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\cglib-2.1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\commons-dbcp-1.2.2.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\commons-pool-1.3.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\cql1toHql3.2.0ga-core-1.0.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\dom4j-1.6.1.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\ejb3-persistence.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\globus_wsrf_mds_aggregator.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\globus_wsrf_mds_aggregator_stubs.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\globus_wsrf_servicegroup.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\globus_wsrf_servicegroup_stubs.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\hibernate-3.2.0.ga.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\hibernate-annotations.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\hibernate-commons-annotations.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\jdom-1.0.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\jta.jar;C:\REDCAP_HANDSON\CODE\RedcapDataService\lib\mysql-connector-java-5.1.10-bin.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\addressing-1.0.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\axis-url.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\axis.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\bootstrap.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\cog-axis.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\cog-jglobus.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\cog-tomcat.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\cog-url.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\commonj.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\commons-beanutils.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\commons-cli-2.0.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\commons-collections-3.0.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\commons-digester.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\commons-discovery.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\commons-logging.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\concurrent.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\cryptix-asn1.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\cryptix.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\cryptix32.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_resolution_service.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_resolution_stubs_java.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_resolution_test.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_transfer_service.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_transfer_stubs_java.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_transfer_test.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_usage_core.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_usage_packets_common.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\globus_wsrf_tools_test.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\jaxrpc.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\jce-jdk13-125.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\jgss.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\junit.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\log4j-1.2.8.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\naming-common.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\naming-factory.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\naming-java.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\naming-resources.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\opensaml.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\puretls.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\resolver.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\saaj.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\servlet.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsdl4j.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_common.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_registry.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_registry_stubs.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_samples_authzService.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_samples_authzService_stubs.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_samples_counter.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_samples_counter_stubs.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_samples_mgmt.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_samples_mgmt_stubs.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_core_stubs.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_provider_jce.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_test.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_test_interop.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_test_interop_stubs.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_test_unit.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_test_unit_stubs.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wsrf_tools.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\wss4j.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\xalan.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\xercesImpl.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\xml-apis.jar;D:\CustomDownloads\Installed\Globus\ws-core-4.0.3\lib\xmlsec.jar;D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0\lib\ant-launcher.jar;D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0\lib\ant.jar;D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0\lib\ant-junit.jar" />
+    <property name="env.HOMEPATH" value="\Users\Administrator" />
+    <property name="ant.library.dir" value="D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0\lib" />
+    <property name="os.arch" value="x86" />
+    <property name="env.SESSIONNAME" value="Console" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="env.CommonProgramFiles" value="C:\Program Files\Common Files" />
+    <property name="ant.core.lib" value="D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0\lib\ant.jar" />
+    <property name="env.ProgramFiles" value="C:\Program Files" />
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc." />
+    <property name="file.separator" value="\" />
+    <property name="introduce.skeleton.resource.options" value="main,singleton,identifiable,resourcePropertyManagement" />
+    <property name="java.runtime.version" value="1.5.0_22-b03" />
+    <property name="env.ANT_CMD_LINE_ARGS" value="test" />
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.5.0_22\jre\lib\rt.jar;C:\Program Files\Java\jdk1.5.0_22\jre\lib\i18n.jar;C:\Program Files\Java\jdk1.5.0_22\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.5.0_22\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.5.0_22\jre\lib\jce.jar;C:\Program Files\Java\jdk1.5.0_22\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.5.0_22\jre\classes" />
+    <property name="env.ComSpec" value="C:\Windows\system32\cmd.exe" />
+    <property name="env.TEMP" value="C:\Users\ADMINI~1\AppData\Local\Temp" />
+    <property name="user.country" value="US" />
+    <property name="env.ANT_HOME" value="D:\CustomDownloads\Installed\Ant\apache-ant-1.7.0" />
+    <property name="etc.dir" value="etc" />
+    <property name="service.jar.name" value="RedcapDataService-service.jar" />
+    <property name="env.CAGRID_HOME" value="D:\CustomDownloads\Installed\caGrid\caGrid" />
+    <property name="service.name" value="RedcapDataService" />
+    <property name="java.vendor" value="Sun Microsystems Inc." />
+    <property name="env.CATALINA_HOME" value="D:\CustomDownloads\Installed\apache-tomcat-5.5.27_Test\apache-tomcat-5.5.27" />
+    <property name="java.specification.version" value="1.5" />
+    <property name="jboss.dir" value="${env.JBOSS_HOME}" />
+    <property name="sun.arch.data.model" value="32" />
+  </properties>
+  <testcase classname="org.cagrid.redcap.cql.test.RedcapClientTest" name="testQuery" time="4.004" />
+  <system-out><![CDATA[<ns2:projects allowPkEdit="0" appTitle="REDCap Demo Database" authMeth="none" autoIncSet="0" countProject="0" creationTime="2009-11-23T18:14:26.000-05:00" dateShiftMax="364" doubleDataEntry="0" draftMode="1" enableAlterRecordPulldown="0" grantCite="1 UL1 RR024975 from NCRR/NIH" headerLogo="http://www.mc.vanderbilt.edu/victr/secure/redcap/vumc.png" institution="Vanderbilt University" online_offline="1" productionTime="2009-11-23T18:14:26.000-05:00" projectContactEmail="janey.wang@vanderbilt.edu" projectContactProdChangesName="Janey Wang (343-3712)" projectId="1" projectName="redcap_demo_45a9f3" recordDeleteFlag="0" repeatForms="0" salt="776d2e3d1c" scheduling="0" showWhichRecords="0" siteOrgType="Vanderbilt Institute for Clinical and Translational Research" status="1" xmlns:ns2="http://redcap.cagrid.org/Redcap"/>
+
+<ns3:projects allowPkEdit="0" appTitle="REDCap Demo Database (Longitudinal) - Drug Trial" authMeth="none" autoIncSet="0" countProject="0" creationTime="2009-11-23T18:14:26.000-05:00" dateShiftMax="364" doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0" grantCite="1 UL1 RR024975 from NCRR/NIH" headerLogo="http://www.mc.vanderbilt.edu/victr/secure/redcap/vumc.png" institution="Vanderbilt University" online_offline="1" productionTime="2009-11-23T18:14:26.000-05:00" projectContactEmail="janey.wang@vanderbilt.edu" projectContactProdChangesName="Janey Wang (343-3712)" projectId="2" projectName="redcap_demo_85a943" recordDeleteFlag="0" repeatForms="1" salt="640061a51a" scheduling="0" showWhichRecords="0" siteOrgType="Vanderbilt Institute for Clinical and Translational Research" status="1" xmlns:ns3="http://redcap.cagrid.org/Redcap"/>
+
+<ns4:projects allowPkEdit="0" appTitle="MyTestDB" authMeth="none" autoIncSet="0" countProject="1" createdBy="1" creationTime="2009-12-02T04:50:47.000-05:00" dateShiftMax="364" doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0" grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg" institution="The Ohio State University" online_offline="1" projectContactEmail="manirupa.das@osumc.edu" projectContactProdChangesName="Manirupa Das" projectId="3" projectName="mytestdb" purpose="0" purposeOther="" recordDeleteFlag="0" repeatForms="0" reportBuilder="$query_array[1]['__TITLE__'] = &quot;UserReport&quot;; $query_array[1]['__ORDERBY1__'] = &quot; study_id ASC&quot;; $query_array[1]['study_id'] = &quot;study_id != '0'&quot;; $query_array[1]['first_name'] = &quot;&quot;; $query_array[1]['last_name'] = &quot;&quot;; $query_array[1]['dob'] = &quot;&quot;; $query_array[1]['sex'] = &quot;&quot;; $query_array[1]['address'] = &quot;&quot;; $query_array[1]['phone_number'] = &quot;&quot;; $query_array[1]['work'] = &quot;&quot;; $query_array[1]['street'] = &quot;&quot;; $query_array[1]['work_city'] = &quot;&quot;; $query_array[1]['state'] = &quot;&quot;; $query_array[1]['upload'] = &quot;&quot;; $query_array[1]['shipping_first_name'] = &quot;&quot;; $query_array[1]['shipping_last_name'] = &quot;&quot;; $query_array[1]['shipping_street'] = &quot;&quot;; $query_array[1]['shipping_city'] = &quot;&quot;; $query_array[1]['shipping_state'] = &quot;&quot;; $query_array[1]['shipping_country'] = &quot;&quot;; $query_array[2]['__TITLE__'] = &quot;User Information Report&quot;; $query_array[2]['user_id'] = &quot;&quot;; $query_array[2]['user_name'] = &quot;&quot;; $query_array[2]['email'] = &quot;&quot;; $query_array[2]['accept_emails'] = &quot;&quot;; $query_array[2]['employment_status'] = &quot;&quot;; $query_array[2]['employer'] = &quot;&quot;; $query_array[2]['business'] = &quot;&quot;; $query_array[2]['address1'] = &quot;&quot;; $query_array[2]['address2'] = &quot;&quot;; $query_array[2]['state'] = &quot;&quot;; $query_array[2]['country'] = &quot;&quot;; $query_array[2]['zip'] = &quot;&quot;; $query_array[2]['home_phone'] = &quot;&quot;;  " salt="1e7f4d4dec" scheduling="0" showWhichRecords="1" siteOrgType="Center for Clinical and Translational Science" status="0" xmlns:ns4="http://redcap.cagrid.org/Redcap"/>
+
+<ns5:projects allowPkEdit="0" appTitle="TestDatabase2" authMeth="none" autoIncSet="0" countProject="1" createdBy="1" creationTime="2009-12-03T03:19:06.000-05:00" dateShiftMax="364" doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0" grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg" institution="The Ohio State University" online_offline="1" projectContactEmail="manirupa.das@osumc.edu" projectContactProdChangesName="Manirupa Das" projectId="4" projectName="testdatabase2" purpose="0" recordDeleteFlag="0" repeatForms="0" salt="c5720065fb" scheduling="0" showWhichRecords="0" siteOrgType="Center for Clinical and Translational Science" status="0" xmlns:ns5="http://redcap.cagrid.org/Redcap"/>
+
+<ns6:projects allowPkEdit="0" appTitle="Patient" authMeth="none" autoIncSet="0" countProject="1" createdBy="1" creationTime="2009-12-10T05:50:34.000-05:00" dateShiftMax="364" doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0" grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg" institution="The Ohio State University" online_offline="1" projectContactEmail="manirupa.das@osumc.edu" projectContactProdChangesName="Manirupa Das" projectId="5" projectName="patient" purpose="0" recordDeleteFlag="0" repeatForms="1" salt="2c5ce1642d" scheduling="1" showWhichRecords="0" siteOrgType="Center for Clinical and Translational Science" status="0" xmlns:ns6="http://redcap.cagrid.org/Redcap"/>
+
+<ns7:projects allowPkEdit="0" appTitle="TESTDB1" authMeth="none" autoIncSet="0" countProject="1" createdBy="1" creationTime="2010-01-19T21:36:57.000-05:00" dateShiftMax="364" doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0" grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg" institution="The Ohio State University" online_offline="1" projectContactEmail="manirupa.das@osumc.edu" projectContactProdChangesName="Manirupa Das" projectId="6" projectName="testdb1" purpose="0" recordDeleteFlag="0" repeatForms="1" salt="d446879f29" scheduling="1" showWhichRecords="0" siteOrgType="Center for Clinical and Translational Science" status="0" xmlns:ns7="http://redcap.cagrid.org/Redcap"/>
+
+<ns8:projects allowPkEdit="0" appTitle="Redcap_Test_Project" authMeth="none" autoIncSet="0" countProject="1" createdBy="1" creationTime="2010-02-11T03:07:12.000-05:00" dateShiftMax="364" doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0" grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg" institution="The Ohio State University" online_offline="1" projectContactEmail="manirupa.das@osumc.edu" projectContactProdChangesName="Manirupa Das" projectId="7" projectName="redcap_test_project" purpose="0" recordDeleteFlag="0" repeatForms="1" salt="b9aca26846" scheduling="1" showWhichRecords="0" siteOrgType="Center for Clinical and Translational Science" status="0" xmlns:ns8="http://redcap.cagrid.org/Redcap"/>
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
