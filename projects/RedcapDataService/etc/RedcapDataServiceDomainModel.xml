@@ -1,0 +1,201 @@
+<ns1:DomainModel projectDescription="RedcapDataService" projectLongName="RedcapDataService" projectShortName="RedcapDataService" projectVersion="1.0" xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice">
+ <ns1:exposedUMLAssociationCollection>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="FormsRef">
+     <ns1:UMLClassReference refid="EAID_271DFAAF_1998_4c7a_95CF_A6671990B7D8"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="DataRef">
+     <ns1:UMLClassReference refid="EAID_241DE5C2_B3B8_44a9_BA69_34470D1635AE"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="formsRefCollection">
+     <ns1:UMLClassReference refid="EAID_241DE5C2_B3B8_44a9_BA69_34470D1635AE"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="projectsFormsRef">
+     <ns1:UMLClassReference refid="EAID_E5094B9F_281A_419e_A4D8_25848E313FFC"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="FormsRefsCollection">
+     <ns1:UMLClassReference refid="EAID_241DE5C2_B3B8_44a9_BA69_34470D1635AE"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="EventsRefsCollection">
+     <ns1:UMLClassReference refid="EAID_74FD36AE_5DDE_4b50_BB9C_E1441321A64B"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="1" roleName="eventFormsCollection">
+     <ns1:UMLClassReference refid="EAID_74FD36AE_5DDE_4b50_BB9C_E1441321A64B"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="eventArmRefs">
+     <ns1:UMLClassReference refid="EAID_4073BF04_BC19_42d9_9B3B_B8DEA7990D48"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="1" roleName="eventArmsCollection">
+     <ns1:UMLClassReference refid="EAID_4073BF04_BC19_42d9_9B3B_B8DEA7990D48"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="projectsRef">
+     <ns1:UMLClassReference refid="EAID_E5094B9F_281A_419e_A4D8_25848E313FFC"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="EventsCalendarRefs">
+     <ns1:UMLClassReference refid="EAID_909C136D_375E_4d2e_9FC4_D3D46E67A28F"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="EventsCollection">
+     <ns1:UMLClassReference refid="EAID_74FD36AE_5DDE_4b50_BB9C_E1441321A64B"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="eventsCalendarRef">
+     <ns1:UMLClassReference refid="EAID_909C136D_375E_4d2e_9FC4_D3D46E67A28F"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="1" roleName="projectsCalendarRef">
+     <ns1:UMLClassReference refid="EAID_E5094B9F_281A_419e_A4D8_25848E313FFC"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+ </ns1:exposedUMLAssociationCollection>
+ <ns1:exposedUMLClassCollection>
+  <ns1:UMLClass allowableAsTarget="true" className="Forms" id="EAID_241DE5C2_B3B8_44a9_BA69_34470D1635AE" packageName="org.cagrid.redcap" projectName="RedcapDataService" projectVersion="1.0">
+   <ns2:umlAttributeCollection xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="branchingLogic" publicID="617875556" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementEnum" publicID="-510470715" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementLabel" publicID="-800473573" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementNote" publicID="-1025323651" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementPreceedingHeader" publicID="-292342350" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementType" publicID="1340223562" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementValidationCheck" publicID="-969960328" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementValidationMax" publicID="934775686" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementValidationMin" publicID="-1749730924" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="elementValidationType" publicID="2041298447" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="fieldName" publicID="138929265" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.Float" name="fieldOrder" publicID="1694358635" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="fieldPhi" publicID="1939572485" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.Integer" name="fieldReq" publicID="-1916849759" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="fieldUnits" publicID="-1872798615" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="formMenuDescription" publicID="-798797324" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="formName" publicID="1780026822" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.Integer" name="projectId" publicID="-1301155124" version="1.0"/>
+   </ns2:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Data" id="EAID_271DFAAF_1998_4c7a_95CF_A6671990B7D8" packageName="org.cagrid.redcap" projectName="RedcapDataService" projectVersion="1.0">
+   <ns3:umlAttributeCollection xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns3:UMLAttribute dataTypeName="java.lang.Integer" name="eventId" publicID="-497503757" version="1.0"/>
+    <ns3:UMLAttribute dataTypeName="java.lang.String" name="fieldName" publicID="1239952637" version="1.0"/>
+    <ns3:UMLAttribute dataTypeName="java.lang.Integer" name="projectId" publicID="-446589786" version="1.0"/>
+    <ns3:UMLAttribute dataTypeName="java.lang.String" name="record" publicID="-1703881652" version="1.0"/>
+    <ns3:UMLAttribute dataTypeName="java.lang.String" name="value" publicID="187220374" version="1.0"/>
+   </ns3:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="EventArms" id="EAID_4073BF04_BC19_42d9_9B3B_B8DEA7990D48" packageName="org.cagrid.redcap" projectName="RedcapDataService" projectVersion="1.0">
+   <ns4:umlAttributeCollection xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns4:UMLAttribute dataTypeName="java.lang.Integer" name="armId" publicID="-851380119" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="armName" publicID="270467725" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.Integer" name="armNum" publicID="662414597" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.Integer" name="projectId" publicID="1131675915" version="1.0"/>
+   </ns4:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Events" id="EAID_74FD36AE_5DDE_4b50_BB9C_E1441321A64B" packageName="org.cagrid.redcap" projectName="RedcapDataService" projectVersion="1.0">
+   <ns5:umlAttributeCollection xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns5:UMLAttribute dataTypeName="java.lang.Integer" name="eventId" publicID="-1916345233" version="1.0"/>
+    <ns5:UMLAttribute dataTypeName="java.lang.String" name="eventName" publicID="-1167680722" version="1.0"/>
+   </ns5:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="EventsCalendar" id="EAID_909C136D_375E_4d2e_9FC4_D3D46E67A28F" packageName="org.cagrid.redcap" projectName="RedcapDataService" projectVersion="1.0">
+   <ns6:umlAttributeCollection xmlns:ns6="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns6:UMLAttribute dataTypeName="java.util.Date" name="baselineDate" publicID="-970362211" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.Integer" name="calId" publicID="-387396272" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.util.Date" name="eventDate" publicID="-1554252636" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.Integer" name="eventId" publicID="-1767811880" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.Integer" name="eventStatus" publicID="-2091064690" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="eventTime" publicID="-86579382" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="groupId" publicID="-1588866903" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="notes" publicID="-933382796" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="noteType" publicID="-853864063" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.Integer" name="projectId" publicID="1720380261" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="record" publicID="-1713187069" version="1.0"/>
+   </ns6:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="Projects" id="EAID_E5094B9F_281A_419e_A4D8_25848E313FFC" packageName="org.cagrid.redcap" projectName="RedcapDataService" projectVersion="1.0">
+   <ns7:umlAttributeCollection xmlns:ns7="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="allowPkEdit" publicID="1243859329" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="appTitle" publicID="261114879" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="authMeth" publicID="1794089375" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="autoIncSet" publicID="399729114" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="contextDetail" publicID="-2134409820" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="countProject" publicID="-95982471" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="createdBy" publicID="-1899867472" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.util.Date" name="creationTime" publicID="701185255" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="customDataEntryNote" publicID="1376173742" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="customIndexPageNote" publicID="1179877230" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="customReports" publicID="-1098339978" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="customText1" publicID="-1612892458" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="customText2" publicID="-2008014669" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="dateShiftMax" publicID="1318221179" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="doubleDataEntry" publicID="-1919738721" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="draftMode" publicID="-1166814305" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="enableAlterRecordPulldown" publicID="1931873154" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="grantCite" publicID="-2138183290" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="headerLogo" publicID="-1389490509" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.util.Date" name="inactiveTime" publicID="2056776347" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="institution" publicID="1804682872" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="investigators" publicID="-721427683" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="isChildOf" publicID="-2081872502" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="online_offline" publicID="-954233282" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="orderIdBy" publicID="-566709632" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.util.Date" name="productionTime" publicID="1917663317" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="projectContactEmail" publicID="-1137538735" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="projectContactProdChangesName" publicID="-122320001" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="projectId" publicID="-286627112" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="projectName" publicID="1269202568" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="projectNote" publicID="-532760525" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="pulldownConcatItem1" publicID="1939077262" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="pulldownConcatItem2" publicID="541970708" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="pulldownConcatItem3" publicID="-1233027970" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="purpose" publicID="-1084962834" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="purposeOther" publicID="-1867764636" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="recordDeleteFlag" publicID="-987409928" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="recordSelect1" publicID="464548529" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="recordSelect2" publicID="996948321" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="repeatForms" publicID="-2143214242" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="reportBuilder" publicID="-364811691" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="salt" publicID="1586461570" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="scheduling" publicID="2053324393" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="showWhichRecords" publicID="217179679" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="siteOrgType" publicID="-1548996533" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.Integer" name="status" publicID="-2119286253" version="1.0"/>
+   </ns7:umlAttributeCollection>
+  </ns1:UMLClass>
+ </ns1:exposedUMLClassCollection>
+ <ns1:umlGeneralizationCollection/>
+</ns1:DomainModel>

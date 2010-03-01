@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://redcap.cagrid.org/Redcap"
+	 xmlns:tns="http://redcap.cagrid.org/Redcap"
+	elementFormDefault="qualified">
+
+	<xsd:element name="Forms" type="tns:Forms" />
+	<xsd:element name="Data" type="tns:Data" />
+	<xsd:element name="Events" type="tns:Events" />
+	<xsd:element name="EventsCalendar" type="tns:EventsCalendar" />
+	<xsd:element name="Projects" type="tns:Projects" />
+	<xsd:element name="EventArms" type="tns:EventArms" />
+
+	<xsd:complexType name="Forms">
+		<xsd:sequence>
+			<xsd:element name="formsRef" type="tns:Data" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="EventsRefsCollection" type="tns:Events"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="projectsFormsRef" type="tns:Projects"
+				minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="branchingLogic" type="xsd:string" />
+		<xsd:attribute name="elementEnum" type="xsd:string" />
+		<xsd:attribute name="elementLabel" type="xsd:string" />
+		<xsd:attribute name="elementNote" type="xsd:string" />
+		<xsd:attribute name="elementPreceedingHeader" type="xsd:string" />
+		<xsd:attribute name="elementType" type="xsd:string" />
+		<xsd:attribute name="elementValidationCheck" type="xsd:string" />
+		<xsd:attribute name="elementValidationMax" type="xsd:string" />
+		<xsd:attribute name="elementValidationMin" type="xsd:string" />
+		<xsd:attribute name="elementValidationType" type="xsd:string" />
+		<xsd:attribute name="fieldName" type="xsd:string" />
+		<xsd:attribute name="fieldOrder" type="xsd:float" />
+		<xsd:attribute name="fieldPhi" type="xsd:string" />
+		<xsd:attribute name="fieldReq" type="xsd:int" />
+		<xsd:attribute name="fieldUnits" type="xsd:string" />
+		<xsd:attribute name="formMenuDescription" type="xsd:string" />
+		<xsd:attribute name="formName" type="xsd:string" />
+		<xsd:attribute name="projectId" type="xsd:int" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Data">
+		<xsd:sequence>
+			<xsd:element name="dataRef" type="tns:Forms"
+				minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="eventId" type="xsd:int" />
+		<xsd:attribute name="fieldName" type="xsd:string" />
+		<xsd:attribute name="projectId" type="xsd:int" />
+		<xsd:attribute name="record" type="xsd:int" />
+		<xsd:attribute name="value" type="xsd:string" />
+	</xsd:complexType>
+
+
+	<xsd:complexType name="EventArms">
+		<xsd:sequence>
+			<xsd:element name="eventFormsCollection" type="tns:Events"
+				minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="projectsRef" type="tns:Projects"
+				minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="armId" type="xsd:int" />
+		<xsd:attribute name="armName" type="xsd:string" />
+		<xsd:attribute name="armNum" type="xsd:int" />
+		<xsd:attribute name="projectId" type="xsd:int" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Events">
+		<xsd:sequence>
+			<xsd:element name="EventsCalendarRefs" type="tns:EventsCalendar"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="FormsRefsCollection" type="tns:Forms"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="eventArmRefs" type="tns:EventArms"
+				minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="eventId" type="xsd:int" />
+		<xsd:attribute name="eventName" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="EventsCalendar">
+		<xsd:sequence>
+			<xsd:element name="EventsCollection" type="tns:Events"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:element name="projectsCalendarRef" type="tns:Projects"
+				minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="baselineDate" type="xsd:date" />
+		<xsd:attribute name="calId" type="xsd:int" />
+		<xsd:attribute name="eventDate" type="xsd:date" />
+		<xsd:attribute name="eventId" type="xsd:int" />
+		<xsd:attribute name="eventStatus" type="xsd:int" />
+		<xsd:attribute name="eventTime" type="xsd:string" />
+		<xsd:attribute name="groupId" type="xsd:string" />
+		<xsd:attribute name="notes" type="xsd:string" />
+		<xsd:attribute name="noteType" type="xsd:string" />
+		<xsd:attribute name="projectId" type="xsd:int" />
+		<xsd:attribute name="record" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Projects">
+		<xsd:sequence>
+			<xsd:element name="eventArmsCollection" type="tns:EventArms"
+				minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="eventsCalendarRef" type="tns:EventsCalendar"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="formsRefCollection" type="tns:Forms"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+			<xsd:attribute name="allowPkEdit" type="xsd:int"/>
+			<xsd:attribute name="appTitle" type="xsd:string" />
+			<xsd:attribute name="authMeth" type="xsd:string" />
+			<xsd:attribute name="autoIncSet" type="xsd:int"/>
+			<xsd:attribute name="contextDetail" type="xsd:string" />
+			<xsd:attribute name="countProject" type="xsd:int" />
+			<xsd:attribute name="createdBy" type="xsd:string"/>
+			<xsd:attribute name="creationTime" type="xsd:date"/>
+			<xsd:attribute name="customDataEntryNote" type="xsd:string" />
+			<xsd:attribute name="customIndexPageNote" type="xsd:string" />
+			<xsd:attribute name="customReports" type="xsd:string"/>
+			<xsd:attribute name="customText1" type="xsd:string"/>
+			<xsd:attribute name="customText2" type="xsd:string" />
+			<xsd:attribute name="dateShiftMax" type="xsd:int" />
+			<xsd:attribute name="doubleDataEntry" type="xsd:int"/>
+			<xsd:attribute name="draftMode" type="xsd:int" />
+			<xsd:attribute name="enableAlterRecordPulldown" type="xsd:int"/>
+			<xsd:attribute name="grantCite" type="xsd:string" />
+			<xsd:attribute name="headerLogo" type="xsd:string" />
+			<xsd:attribute name="inactiveTime" type="xsd:date" />
+			<xsd:attribute name="institution" type="xsd:string" />
+			<xsd:attribute name="investigators" type="xsd:string" />
+			<xsd:attribute name="isChildOf" type="xsd:string"/>
+			<xsd:attribute name="online_offline" type="xsd:int"/>
+			<xsd:attribute name="orderIdBy" type="xsd:string"/>
+			<xsd:attribute name="productionTime" type="xsd:date" />
+			<xsd:attribute name="projectContactEmail" type="xsd:string" />
+			<xsd:attribute name="projectContactProdChangesName" type="xsd:string" />
+			<xsd:attribute name="projectId" type="xsd:int" />
+			<xsd:attribute name="projectName" type="xsd:string"/>
+			<xsd:attribute name="projectNote" type="xsd:string" />
+			<xsd:attribute name="pulldownConcatItem1" type="xsd:string" />
+			<xsd:attribute name="pulldownConcatItem2" type="xsd:string" />
+			<xsd:attribute name="pulldownConcatItem3" type="xsd:string" />
+			<xsd:attribute name="purpose" type="xsd:string" />
+			<xsd:attribute name="purposeOther" type="xsd:string"/>
+			<xsd:attribute name="recordDeleteFlag" type="xsd:int" />
+			<xsd:attribute name="recordSelect1" type="xsd:string" />
+			<xsd:attribute name="recordSelect2" type="xsd:string"/>
+			<xsd:attribute name="repeatForms" type="xsd:int" />
+			<xsd:attribute name="reportBuilder" type="xsd:string"/>
+			<xsd:attribute name="salt" type="xsd:string" />
+			<xsd:attribute name="scheduling" type="xsd:int" />
+			<xsd:attribute name="showWhichRecords" type="xsd:int"/>
+			<xsd:attribute name="siteOrgType" type="xsd:string" />
+			<xsd:attribute name="status" type="xsd:int"/>
+	</xsd:complexType>
+
+
+</xsd:schema>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:ServiceMetadata xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata">
+  <ns1:serviceDescription>
+    <ns2:Service xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.service" description="" name="RedcapDataService" version="1.3">
+      <ns2:pointOfContactCollection>
+        <ns3:PointOfContact xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" affiliation="" email="" firstName="" lastName="" phoneNumber="" role="" />
+      </ns2:pointOfContactCollection>
+      <ns2:serviceContextCollection>
+        <ns2:ServiceContext description="" name="RedcapDataService">
+          <ns2:operationCollection>
+            <ns2:Operation description="" name="GetMultipleResourceProperties">
+              <ns2:inputParameterCollection />
+              <ns2:faultCollection />
+            </ns2:Operation>
+            <ns2:Operation description="" name="GetResourceProperty">
+              <ns2:inputParameterCollection />
+              <ns2:faultCollection />
+            </ns2:Operation>
+            <ns2:Operation description="" name="QueryResourceProperties">
+              <ns2:inputParameterCollection />
+              <ns2:faultCollection />
+            </ns2:Operation>
+            <ns2:Operation description="" name="getServiceSecurityMetadata">
+              <ns2:inputParameterCollection />
+              <ns2:Output xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" qName="ns4:ServiceSecurityMetadata" dimensionality="1" isArray="false">
+                <ns5:UMLClass xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" className="ServiceSecurityMetadata" description="An instance of the Security Service Metadata." id="802E1430-D6CA-0353-E040-BB89AD430BC1" packageName="gov.nih.nci.cagrid.metadata.security" projectName="caGrid_Metadata_Models" projectVersion="1">
+                  <ns5:umlAttributeCollection />
+                  <ns5:SemanticMetadata conceptCode="C80736" conceptDefinition="A software system providing a public need." conceptName="Software Service" order="2" />
+                  <ns5:SemanticMetadata conceptCode="C25669" conceptDefinition="Security; freedom from anxiety or fear." conceptName="Security" order="1" />
+                  <ns5:SemanticMetadata conceptCode="C52095" conceptDefinition="Data about data; information that describes another set of data." conceptName="Metadata" order="0" />
+                </ns5:UMLClass>
+              </ns2:Output>
+              <ns2:faultCollection />
+            </ns2:Operation>
+            <ns2:Operation description="The standard caGrid Data Service query method." name="query">
+              <ns2:inputParameterCollection>
+                <ns2:InputParameter xmlns:ns6="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery" qName="ns6:CQLQuery" dimensionality="1" index="0" isArray="false" isRequired="false" name="cqlQuery" />
+              </ns2:inputParameterCollection>
+              <ns2:Output xmlns:ns7="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLResultSet" qName="ns7:CQLQueryResultCollection" dimensionality="1" isArray="false" />
+              <ns2:faultCollection>
+                <ns2:Fault description="Thrown when an error occurs in processing a CQL query" name="QueryProcessingException" />
+                <ns2:Fault description="Thrown when a query is found to be improperly formed" name="MalformedQueryException" />
+              </ns2:faultCollection>
+            </ns2:Operation>
+          </ns2:operationCollection>
+          <ns2:contextPropertyCollection>
+            <ns2:ContextProperty description="" name="{gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata}ServiceMetadata" />
+            <ns2:ContextProperty description="" name="{gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice}DomainModel" />
+          </ns2:contextPropertyCollection>
+        </ns2:ServiceContext>
+      </ns2:serviceContextCollection>
+      <ns8:SemanticMetadata xmlns:ns8="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" conceptCode="C63541" conceptDefinition="A service available on a system that coordinates resources that are not subject to central control, using open, general purpose protocols and interfaces to deliver nontrivial qualities of services." conceptName="Grid Service" order="0" />
+      <ns9:SemanticMetadata xmlns:ns9="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" conceptCode="C63544" conceptDefinition="A web service which accepts as input a query targeted at a data resource addressable by the system and returns information to the client in the form of one or more data objects." conceptName="Data Grid Service" order="1" />
+    </ns2:Service>
+  </ns1:serviceDescription>
+  <ns1:hostingResearchCenter>
+    <ns10:ResearchCenter xmlns:ns10="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" displayName="" shortName="">
+      <ns10:Address country="" locality="" postalCode="" stateProvince="" street1="" street2="" />
+      <ns10:ResearchCenterDescription description="" homepageURL="" imageURL="" rssNewsURL="" />
+      <ns10:pointOfContactCollection>
+        <ns10:PointOfContact affiliation="" email="" firstName="" lastName="" phoneNumber="" role="" />
+      </ns10:pointOfContactCollection>
+    </ns10:ResearchCenter>
+  </ns1:hostingResearchCenter>
+</ns1:ServiceMetadata>
+
