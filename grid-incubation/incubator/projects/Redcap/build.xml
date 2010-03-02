@@ -11,8 +11,11 @@
 	<!-- Load in project listings -->
 	<property file="${caGrid-Incubation-Master.basedir}/project.properties" />
 
+	<property name="test.dir" location="${caGrid-Incubation-Master.basedir}/test" />
+	
 	<import file="antfiles/ivy/ivy-def-1.3.xml" />
-
+	<import file="${test.dir}/test.xml" />
+	
 	<!-- Layout info -->
 	<property name="projects.dir" location="${caGrid-Incubation-Master.basedir}/projects" />
 	<property name="test.dir" location="${caGrid-Incubation-Master.basedir}/test" />
