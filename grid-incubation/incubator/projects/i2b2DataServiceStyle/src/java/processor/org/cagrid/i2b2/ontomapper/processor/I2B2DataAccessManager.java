@@ -256,6 +256,15 @@ public class I2B2DataAccessManager {
     }
     
     
+    /**
+     * Gets the concept paths in the I2B2 database
+     * which are mapped to a caBIG CDE
+     * 
+     * @param cde
+     *      The CDE id
+     * @return
+     * @throws QueryProcessingException
+     */
     private List<String> getPathsForCde(Long cde) throws QueryProcessingException {
         LOG.debug("Looking up paths for CDE " + cde);
         List<String> paths = new LinkedList<String>();
