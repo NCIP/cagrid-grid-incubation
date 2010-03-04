@@ -167,10 +167,10 @@
      <ns4:ProviderInformation providerClass="gov.nih.nci.cagrid.data.service.globus.DataServiceProviderImpl"/>
     </ns4:Method>
    </ns4:Methods>
-   <ns24:ResourcePropertiesList xsi:type="ns24:ResourcePropertiesListType" xmlns:ns24="gme://gov.nih.nci.cagrid.introduce/1/Resources">
-    <ns24:ResourceProperty qName="ns25:ServiceMetadata" fileLocation="serviceMetadata.xml" populateFromFile="true" register="true" xsi:type="ns24:ResourcePropertyType" xmlns:ns25="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata"/>
-    <ns24:ResourceProperty qName="ns26:DomainModel" fileLocation="domainModel.xml" populateFromFile="false" register="true" xsi:type="ns24:ResourcePropertyType" xmlns:ns26="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice"/>
-   </ns24:ResourcePropertiesList>
+   <ns18:ResourcePropertiesList xsi:type="ns18:ResourcePropertiesListType" xmlns:ns18="gme://gov.nih.nci.cagrid.introduce/1/Resources">
+    <ns18:ResourceProperty qName="ns19:ServiceMetadata" description="" fileLocation="serviceMetadata.xml" populateFromFile="true" register="true" xsi:type="ns18:ResourcePropertyType" xmlns:ns19="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata"/>
+    <ns18:ResourceProperty qName="ns20:DomainModel" description="" fileLocation="RedcapDataServiceDomainModel.xml" populateFromFile="true" register="true" xsi:type="ns18:ResourcePropertyType" xmlns:ns20="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice"/>
+   </ns18:ResourcePropertiesList>
    <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
     <ns3:Main xsi:type="ns3:Main"/>
     <ns3:Singleton xsi:type="ns3:Singleton"/>
@@ -179,10 +179,10 @@
    </ns3:ResourceFrameworkOptions>
   </ns3:Service>
  </ns3:Services>
- <ns27:Extensions xsi:type="ns27:ExtensionsType" xmlns:ns27="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ns27:Extension name="cagrid_metadata" version="1.3" xsi:type="ns27:ExtensionType"/>
-  <ns27:Extension name="data" version="1.3" xsi:type="ns27:ExtensionType">
-   <ns27:ExtensionData>
+ <ns21:Extensions xsi:type="ns21:ExtensionsType" xmlns:ns21="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns21:Extension name="cagrid_metadata" version="1.3" xsi:type="ns21:ExtensionType"/>
+  <ns21:Extension name="data" version="1.3" xsi:type="ns21:ExtensionType">
+   <ns21:ExtensionData>
     <ns22:Data xsi:type="ns22:Data" xmlns:ns22="http://CQL.caBIG/1/gov.nih.nci.cagrid.data.extension">
          <ns22:AdditionalLibraries xsi:type="ns22:AdditionalLibraries">
           <ns22:JarName xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">RedcapQueryProcessor.jar</ns22:JarName>
@@ -193,24 +193,42 @@
 
          <ns23:DataServiceAuditors xsi:type="ns23:DataServiceAuditors" xmlns:ns23="http://gov.nih.nci.cagrid.data/Auditing"/>
 
-         <ns22:ModelInformation source="none" xsi:type="ns22:ModelInformation"/>
+         <ns22:ModelInformation source="preBuilt" xsi:type="ns22:ModelInformation">
+          <ns24:UMLProjectIdentifer identifier="RedcapDataService" version="1.0" xsi:type="ns24:UMLProjectIdentifer" xmlns:ns24="gme://caGrid.caBIG/1.0/org.cagrid.mms.domain"/>
+
+          <ns22:ModelPackage packageName="org.cagrid.redcap" xsi:type="ns22:ModelPackage">
+           <ns22:ModelClass selected="true" shortClassName="Forms" targetable="true" xsi:type="ns22:ModelClass"/>
+
+           <ns22:ModelClass selected="true" shortClassName="Data" targetable="true" xsi:type="ns22:ModelClass"/>
+
+           <ns22:ModelClass selected="true" shortClassName="EventArms" targetable="true" xsi:type="ns22:ModelClass"/>
+
+           <ns22:ModelClass selected="true" shortClassName="Events" targetable="true" xsi:type="ns22:ModelClass"/>
+
+           <ns22:ModelClass selected="true" shortClassName="EventsCalendar" targetable="true" xsi:type="ns22:ModelClass"/>
+
+           <ns22:ModelClass selected="true" shortClassName="Projects" targetable="true" xsi:type="ns22:ModelClass"/>
+
+      </ns22:ModelPackage>
+
+     </ns22:ModelInformation>
 
     </ns22:Data>
-   </ns27:ExtensionData>
-  </ns27:Extension>
- </ns27:Extensions>
- <ns28:ServiceProperties xmlns:ns28="gme://gov.nih.nci.cagrid.introduce/1/Property">
-  <ns28:Property description="" isFromETC="false" key="queryProcessorClass" value="org.cagrid.redcap.processor.RedcapQueryProcessor"/>
-  <ns28:Property description="The location of the server-config.wsdd file" isFromETC="true" key="serverConfigLocation" value="server-config.wsdd"/>
-  <ns28:Property description="The name of the class to use for CQL query structure validation" isFromETC="false" key="dataService_cqlValidatorClass" value="gov.nih.nci.cagrid.data.cql.validation.ObjectWalkingCQLValidator"/>
-  <ns28:Property description="The name of the class to use for CQL validation against a domain model" isFromETC="false" key="dataService_domainModelValidatorClass" value="gov.nih.nci.cagrid.data.cql.validation.DomainModelValidator"/>
-  <ns28:Property description="" isFromETC="false" key="dataService_validateCqlFlag" value="true"/>
-  <ns28:Property description="" isFromETC="false" key="dataService_validateDomainModelFlag" value="true"/>
-  <ns28:Property description="The name of the file containing the class name to QName mapping" isFromETC="true" key="dataService_classMappingsFilename" value="classToQname.xml"/>
-  <ns28:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcDriverName" value=""/>
-  <ns28:Property description="" isFromETC="true" key="cqlQueryProcessorConfig_domainModelFileName" value="RedcapDataServiceDomainModel.xml"/>
-  <ns28:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcPassword" value=""/>
-  <ns28:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcConnectString" value=""/>
-  <ns28:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcUserName" value=""/>
- </ns28:ServiceProperties>
+   </ns21:ExtensionData>
+  </ns21:Extension>
+ </ns21:Extensions>
+ <ns22:ServiceProperties xmlns:ns22="gme://gov.nih.nci.cagrid.introduce/1/Property">
+  <ns22:Property description="" isFromETC="false" key="queryProcessorClass" value="org.cagrid.redcap.processor.RedcapQueryProcessor"/>
+  <ns22:Property description="The location of the server-config.wsdd file" isFromETC="true" key="serverConfigLocation" value="server-config.wsdd"/>
+  <ns22:Property description="The name of the class to use for CQL query structure validation" isFromETC="false" key="dataService_cqlValidatorClass" value="gov.nih.nci.cagrid.data.cql.validation.ObjectWalkingCQLValidator"/>
+  <ns22:Property description="The name of the class to use for CQL validation against a domain model" isFromETC="false" key="dataService_domainModelValidatorClass" value="gov.nih.nci.cagrid.data.cql.validation.DomainModelValidator"/>
+  <ns22:Property description="" isFromETC="false" key="dataService_validateCqlFlag" value="true"/>
+  <ns22:Property description="" isFromETC="false" key="dataService_validateDomainModelFlag" value="true"/>
+  <ns22:Property description="The name of the file containing the class name to QName mapping" isFromETC="true" key="dataService_classMappingsFilename" value="classToQname.xml"/>
+  <ns22:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcDriverName" value="com.mysql.jdbc.Driver"/>
+  <ns22:Property description="" isFromETC="true" key="cqlQueryProcessorConfig_domainModelFileName" value="RedcapDataServiceDomainModel.xml"/>
+  <ns22:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcPassword" value="password"/>
+  <ns22:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcConnectString" value="jdbc:mysql://ipaddress:3306/redcap"/>
+  <ns22:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcUserName" value="username"/>
+ </ns22:ServiceProperties>
 </ns1:ServiceDescription>
