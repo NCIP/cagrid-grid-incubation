@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ns1:DomainModel projectDescription="RedcapDataService" projectLongName="RedcapDataService" projectShortName="RedcapDataService" projectVersion="1.0" xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice">
  <ns1:exposedUMLAssociationCollection>
   <ns1:UMLAssociation bidirectional="true">
