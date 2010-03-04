@@ -2,12 +2,19 @@
 <xs:schema targetNamespace="http://redcap.cagrid.org/RedcapDataService/CQLResultTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
     
     <!-- Exposed Objects' schemas are imported here -->
+	<xs:import namespace="http://redcap.cagrid.org/Redcap" schemaLocation="./RedcapDataService.xsd"/>
 
 
 
     <xs:group name="PermissibleCQLObjectResults">
         <xs:choice>        
         <!-- element references to exposed objects -->
+		<xs:element ref="ns0:Forms" xmlns:ns0="http://redcap.cagrid.org/Redcap"/>
+		<xs:element ref="ns0:Data" xmlns:ns0="http://redcap.cagrid.org/Redcap"/>
+		<xs:element ref="ns0:EventArms" xmlns:ns0="http://redcap.cagrid.org/Redcap"/>
+		<xs:element ref="ns0:Events" xmlns:ns0="http://redcap.cagrid.org/Redcap"/>
+		<xs:element ref="ns0:EventsCalendar" xmlns:ns0="http://redcap.cagrid.org/Redcap"/>
+		<xs:element ref="ns0:Projects" xmlns:ns0="http://redcap.cagrid.org/Redcap"/>
  
         </xs:choice>
     </xs:group>
