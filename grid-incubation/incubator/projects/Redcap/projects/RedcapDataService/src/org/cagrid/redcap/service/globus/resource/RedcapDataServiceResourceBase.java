@@ -344,7 +344,7 @@ public abstract class RedcapDataServiceResourceBase extends ReflectionResource i
     	protected void populateResourceProperties() {
 	
 		loadServiceMetadataFromFile();
-	
+		loadDomainModelFromFile();
 	}
 
 

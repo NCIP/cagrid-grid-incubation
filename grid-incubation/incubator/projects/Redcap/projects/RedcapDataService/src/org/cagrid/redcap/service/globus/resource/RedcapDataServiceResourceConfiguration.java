@@ -15,7 +15,7 @@ public class RedcapDataServiceResourceConfiguration {
 	private boolean performRegistration;
 
 	private String serviceMetadataFile;
-
+	private String domainModelFile;
 
 
 	public boolean shouldPerformRegistration() {
@@ -49,4 +49,12 @@ public class RedcapDataServiceResourceConfiguration {
 		this.serviceMetadataFile = serviceMetadataFile;
 	}
 		
+	public String getDomainModelFile() {
+		return domainModelFile;
+	}
+	
+	
+	public void setDomainModelFile(String domainModelFile) {
+		this.domainModelFile = domainModelFile;
+	}
 }
