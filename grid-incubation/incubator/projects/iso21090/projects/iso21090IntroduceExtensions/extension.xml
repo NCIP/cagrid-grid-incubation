@@ -6,9 +6,12 @@
    <ns1:Properties>
    <ns1:Property key="ISO21090_DATATYPES_NAMESPACE" displayName="ISO 21090 Datatypes Namespace" description="The ISO 21090 Namespace" value="uri:iso.org:21090"/>
    <ns1:Property key="ISO21090_DATATYPES_PACKAGE" displayName="ISO 21090 Datatypes Java Package" description="The Java package name to use for the ISO 21090 Namespace" value="org.iso._21090"/>
+   <ns1:Property key="ISO21090_DATATYPES_FILENAME" displayName="ISO 21090 Datatypes Schema Filename" description="The name of the file containing the ISO 21090 datatypes" value="ISO_datatypes_Narrative.xsd"/>
+   
    
    <ns1:Property key="ISO21090_EXTENSION_NAMESPACE" displayName="ISO 21090 Datatypes Extension Namespace" description="The ISO 21090 Extension Namespace" value="http://iso21090.nci.nih.gov"/>
    <ns1:Property key="ISO21090_EXTENSION_PACKAGE" displayName="ISO 21090 Datatypes Extension Java Package" description="The Java package name to use for the ISO 21090 Extension Namespace" value="gov.nih.nci.iso21090.extensions"/>
+   <ns1:Property key="ISO21090_EXTENSION_FILENAME" displayName="ISO 21090 Datatypes Extension Schema Filename" description="The name of the file containing the ISO 21090 datatypes extensions" value="ISO_extensions.xsd"/>
    
   </ns1:Properties>
  </ns1:DiscoveryExtensionDescription>
