@@ -26,6 +26,11 @@
 	<property name="ext.targetgrid.dir" location="${ext.dir}/target_grid" />
 	<property name="ext.test.lib.dir" location="${ext.dir}/dependencies/test/jars" />
 
+	<!--TODO: fix these paths once resolving Ivy from commmon project -->
+	<property name="ext.iso.xsd.dir" location="${basedir}/schema" />
+	<property name="ext.iso.lib.dir" location="${basedir}/lib" />
+
+
 	<!-- testing stuff -->
 	<property name="test.dir" location="${basedir}/test" />
 	<property name="test.src.dir" location="${test.dir}/src" />
@@ -195,8 +200,10 @@
 	<target name="installIntroduceExtensions" description="Installs the ISO21090 extensions into Introduce (you must build first).">
 		<delete dir="${introduce.extensions.dir}/ISO21090-discovery" />
 		<mkdir dir="${introduce.extensions.dir}/ISO21090-discovery" />
+
+		<!-- Install the exension -->
 		<copy todir="${introduce.extensions.dir}/ISO21090-discovery" file="extension.xml" />
-		<copy todir="${introduce.extensions.dir}/lib">
+		<copy todir="${introduce.extensions.dir}/lib" overwrite="true">
 			<fileset dir="${ext.lib.dir}">
 				<include name="*.jar" />
 				<exclude name="${cagrid.master.jar.prefix}*Introduce*.jar" />
@@ -205,6 +212,22 @@
 				<include name="*.jar" />
 			</fileset>
 		</copy>
+
+		<!-- Copy the XSDs -->
+		<copy todir="${introduce.extensions.dir}/ISO21090-discovery/schema">
+			<fileset dir="${ext.iso.xsd.dir}">
+				<include name="*.xsd" />
+			</fileset>
+		</copy>
+		
+		<!-- Copy the jars -->
+		<copy todir="${introduce.extensions.dir}/ISO21090-discovery/lib">
+			<fileset dir="${ext.iso.lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+
 	</target>
 
 	<!-- ============================================================== -->

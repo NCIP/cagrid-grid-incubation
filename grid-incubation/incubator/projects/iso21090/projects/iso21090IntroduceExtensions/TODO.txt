@@ -1,0 +1,18 @@
+
+Need to retrieve the XSDs from ivy from the common project.
+  * I considered pulling them from GME, but the code in this repo will be specific to the current structure/contents
+    and will not be able to adapt to XSD changes, so shouldn't leverage them in a way in which they could change
+  *update the build.xml installIntroduceExtensions
+
+Need to retrieve the jars from ivy from the common project.
+  *update the build.xml installIntroduceExtensions
+  
+Investigate the use of JAXB schema annotations for configuring JAXB, rather than via mapping file
+https://jaxb.dev.java.net/guide/Customizing_Java_packages.html
+
+Make a pretty welcome/explanation panel
+
+
+Longer Term:
+Look into hooking transformers directly into jaxb:
+https://jaxb.dev.java.net/guide/Using_different_datatypes.html
