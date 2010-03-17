@@ -4,6 +4,7 @@ import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.common.portal.MultiEventProgressBar;
 import gov.nih.nci.cagrid.introduce.beans.configuration.NamespaceReplacementPolicy;
 import gov.nih.nci.cagrid.introduce.beans.extension.DiscoveryExtensionDescriptionType;
+import gov.nih.nci.cagrid.introduce.beans.extension.PropertiesProperty;
 import gov.nih.nci.cagrid.introduce.beans.namespace.NamespaceType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.NamespacesType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.SchemaElementType;
@@ -13,27 +14,65 @@ import gov.nih.nci.cagrid.introduce.extension.ExtensionsLoader;
 import gov.nih.nci.cagrid.introduce.extension.utils.ExtensionUtilities;
 import gov.nih.nci.cagrid.introduce.portal.modification.discovery.NamespaceTypeDiscoveryComponent;
 
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.TitledBorder;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.iso21090.portal.discovery.constants.Constants;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import java.awt.GridLayout;
 
 
 @SuppressWarnings("serial")
 public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryComponent {
     private static final Log LOG = LogFactory.getLog(ISO21090TypeSelectionComponent.class);
 
+    private JPanel mainjPanel = null;
+
+    private JTextArea descriptionjTextArea = null;
+
+    private JPanel infoPanel = null;
+
+    private JTextField isoNSTextField = null;
+
+    private JLabel isoNSjLabel = null;
+
+    private JLabel extNSLabel = null;
+
+    private JTextField extNSjTextField = null;
+
 
     public ISO21090TypeSelectionComponent(DiscoveryExtensionDescriptionType descriptor, NamespacesType currentNamespaces) {
         super(descriptor, currentNamespaces);
+        initialize();
     }
 
 
-    protected String getISONamespace() {
-        return ExtensionTools.getProperty(getDescriptor().getProperties(), Constants.DATATYPES_NAMESPACE_KEY);
+    /**
+     * This method initializes this
+     */
+    private void initialize() {
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.setRows(1);
+        this.setLayout(gridLayout);
+        this.add(getMainjPanel(), null);
+    }
+
+
+    protected PropertiesProperty getISONamespaceProperty() {
+        return ExtensionTools.getPropertyObject(getDescriptor().getProperties(), Constants.DATATYPES_NAMESPACE_KEY);
     }
 
 
@@ -42,13 +81,13 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
     }
 
 
-    protected String getISOPackage() {
-        return ExtensionTools.getProperty(getDescriptor().getProperties(), Constants.DATATYPES_PACKAGE_KEY);
+    protected PropertiesProperty getISOPackageProperty() {
+        return ExtensionTools.getPropertyObject(getDescriptor().getProperties(), Constants.DATATYPES_PACKAGE_KEY);
     }
 
 
-    protected String getISOExtensionsNamespace() {
-        return ExtensionTools.getProperty(getDescriptor().getProperties(), Constants.EXTENSION_NAMESPACE_KEY);
+    protected PropertiesProperty getISOExtensionsNamespaceProperty() {
+        return ExtensionTools.getPropertyObject(getDescriptor().getProperties(), Constants.EXTENSION_NAMESPACE_KEY);
     }
 
 
@@ -57,8 +96,8 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
     }
 
 
-    protected String getISOExtensionsPackage() {
-        return ExtensionTools.getProperty(getDescriptor().getProperties(), Constants.EXTENSION_PACKAGE_KEY);
+    protected PropertiesProperty getISOExtensionsPackageProperty() {
+        return ExtensionTools.getPropertyObject(getDescriptor().getProperties(), Constants.EXTENSION_PACKAGE_KEY);
     }
 
 
@@ -68,10 +107,10 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
         // check the namespace replacement policy and see what to do if the
         // stuff we plan to add already exists
-        if (namespaceAlreadyExists(getISONamespace())) {
+        if (namespaceAlreadyExists(getISONamespaceProperty().getValue())) {
             if (replacementPolicy.equals(NamespaceReplacementPolicy.ERROR)) {
                 String error = "Namespace ("
-                    + getISONamespace()
+                    + getISONamespaceProperty().getValue()
                     + ") already exists, and policy was to error. Change the setting in the Preferences to REPLACE or IGNORE to avoid this error.";
                 LOG.error(error);
                 addError(error);
@@ -81,10 +120,10 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
                     + replacementPolicy.getValue());
             }
         }
-        if (namespaceAlreadyExists(getISOExtensionsNamespace())) {
+        if (namespaceAlreadyExists(getISOExtensionsNamespaceProperty().getValue())) {
             if (replacementPolicy.equals(NamespaceReplacementPolicy.ERROR)) {
                 String error = "Namespace ("
-                    + getISOExtensionsNamespace()
+                    + getISOExtensionsNamespaceProperty().getValue()
                     + ") already exists, and policy was to error. Change the setting in the Preferences to REPLACE or IGNORE to avoid this error.";
                 LOG.error(error);
                 addError(error);
@@ -121,12 +160,12 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         try {
             createdTypes[0] = CommonTools.createNamespaceType(copiedISOXSDFilename.getAbsolutePath(), schemaDir);
             createdTypes[0].setGenerateStubs(false);
-            createdTypes[0].setPackageName(getISOPackage());
+            createdTypes[0].setPackageName(getISOPackageProperty().getValue());
 
             createdTypes[1] = CommonTools.createNamespaceType(copiedISOExtensionsXSDFilename.getAbsolutePath(),
                 schemaDir);
             createdTypes[1].setGenerateStubs(false);
-            createdTypes[1].setPackageName(getISOExtensionsPackage());
+            createdTypes[1].setPackageName(getISOExtensionsPackageProperty().getValue());
         } catch (Exception e) {
             addError("Problem creating namespace types:" + e.getMessage());
             setErrorCauseThrowable(e);
@@ -210,6 +249,131 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
     protected void modifyClasspathFile(File[] libs, File serviceDirectory) throws Exception {
         File classpathFile = new File(serviceDirectory, ".classpath");
         ExtensionUtilities.syncEclipseClasspath(classpathFile, libs);
+    }
+
+
+    /**
+     * This method initializes mainjPanel
+     * 
+     * @return javax.swing.JPanel
+     */
+    private JPanel getMainjPanel() {
+        if (mainjPanel == null) {
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
+            GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+            gridBagConstraints1.gridx = 0;
+            gridBagConstraints1.fill = GridBagConstraints.BOTH;
+            gridBagConstraints1.weightx = 1.0;
+            gridBagConstraints1.weighty = 1.0;
+            gridBagConstraints1.ipadx = 2;
+            gridBagConstraints1.ipady = 2;
+            gridBagConstraints1.gridy = 1;
+            mainjPanel = new JPanel();
+            TitledBorder centerBorder = BorderFactory.createTitledBorder("ISO 21090 Datatypes and NCI Localizations");
+            centerBorder.setTitleFont(centerBorder.getTitleFont().deriveFont(Font.BOLD));
+            mainjPanel.setBorder(centerBorder);
+            mainjPanel.setLayout(new GridBagLayout());
+            mainjPanel.add(getInfoPanel(), gridBagConstraints1);
+            mainjPanel.add(getDescriptionjTextArea(), gridBagConstraints);
+        }
+        return mainjPanel;
+    }
+
+
+    /**
+     * This method initializes descriptionjTextArea
+     * 
+     * @return javax.swing.JTextArea
+     */
+    private JTextArea getDescriptionjTextArea() {
+        if (descriptionjTextArea == null) {
+            descriptionjTextArea = new JTextArea();
+            descriptionjTextArea.setEditable(false);
+            descriptionjTextArea.setFont(descriptionjTextArea.getFont().deriveFont(Font.ITALIC));
+            descriptionjTextArea.setLineWrap(true);
+            descriptionjTextArea.setWrapStyleWord(true);
+            // descriptionjTextArea.setPreferredSize(new Dimension(400, 50));
+            descriptionjTextArea
+                .setText("Clicking \"Add\" on this type will add the standard ISO Datatypes and NCI localizations to your service.  The types will be configured with custom serialization to leverage Java beans which will also be added to the service.");
+        }
+        return descriptionjTextArea;
+    }
+
+
+    /**
+     * This method initializes infoPanel
+     * 
+     * @return javax.swing.JPanel
+     */
+    private JPanel getInfoPanel() {
+        if (infoPanel == null) {
+            GridBagConstraints gridBagConstraints5 = new GridBagConstraints();
+            gridBagConstraints5.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints5.gridy = 1;
+            gridBagConstraints5.weightx = 1.0;
+            gridBagConstraints5.anchor = GridBagConstraints.WEST;
+            gridBagConstraints5.gridx = 1;
+            GridBagConstraints gridBagConstraints4 = new GridBagConstraints();
+            gridBagConstraints4.gridx = 0;
+            gridBagConstraints4.anchor = GridBagConstraints.WEST;
+            gridBagConstraints4.gridy = 1;
+            extNSLabel = new JLabel();
+            extNSLabel.setText(getISOExtensionsNamespaceProperty().getDisplayName());
+            GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
+            gridBagConstraints3.gridx = 0;
+            gridBagConstraints3.anchor = GridBagConstraints.WEST;
+            gridBagConstraints3.gridy = 0;
+            isoNSjLabel = new JLabel();
+            isoNSjLabel.setText(getISONamespaceProperty().getDisplayName());
+            GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
+            gridBagConstraints2.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints2.gridx = 1;
+            gridBagConstraints2.gridy = 0;
+            gridBagConstraints2.anchor = GridBagConstraints.WEST;
+            gridBagConstraints2.weightx = 1.0;
+            infoPanel = new JPanel();
+            TitledBorder border = BorderFactory.createTitledBorder("Type information");
+            infoPanel.setBorder(border);
+            infoPanel.setLayout(new GridBagLayout());
+            infoPanel.add(getIsoNSTextField(), gridBagConstraints2);
+            infoPanel.add(isoNSjLabel, gridBagConstraints3);
+            infoPanel.add(extNSLabel, gridBagConstraints4);
+            infoPanel.add(getExtNSjTextField(), gridBagConstraints5);
+        }
+        return infoPanel;
+    }
+
+
+    /**
+     * This method initializes isoNSTextField
+     * 
+     * @return javax.swing.JTextField
+     */
+    private JTextField getIsoNSTextField() {
+        if (isoNSTextField == null) {
+            isoNSTextField = new JTextField();
+            isoNSTextField.setEditable(false);
+            isoNSTextField.setText(getISONamespaceProperty().getValue());
+            isoNSTextField.setToolTipText(getISONamespaceProperty().getDescription());
+        }
+        return isoNSTextField;
+    }
+
+
+    /**
+     * This method initializes extNSjTextField
+     * 
+     * @return javax.swing.JTextField
+     */
+    private JTextField getExtNSjTextField() {
+        if (extNSjTextField == null) {
+            extNSjTextField = new JTextField();
+            extNSjTextField.setEditable(false);
+            extNSjTextField.setText(getISOExtensionsNamespaceProperty().getValue());
+            extNSjTextField.setToolTipText(getISOExtensionsNamespaceProperty().getDescription());
+        }
+        return extNSjTextField;
     }
 
 }
