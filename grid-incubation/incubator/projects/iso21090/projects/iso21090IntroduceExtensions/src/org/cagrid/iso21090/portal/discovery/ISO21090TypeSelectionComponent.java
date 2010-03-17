@@ -53,6 +53,14 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
     private JTextField extNSjTextField = null;
 
+    private JLabel isoPackagejLabel = null;
+
+    private JLabel extPackagejLabel = null;
+
+    private JTextField isoPackagejTextField = null;
+
+    private JTextField extPackagejTextField = null;
+
 
     public ISO21090TypeSelectionComponent(DiscoveryExtensionDescriptionType descriptor, NamespacesType currentNamespaces) {
         super(descriptor, currentNamespaces);
@@ -308,16 +316,40 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
      */
     private JPanel getInfoPanel() {
         if (infoPanel == null) {
+            GridBagConstraints gridBagConstraints9 = new GridBagConstraints();
+            gridBagConstraints9.anchor = GridBagConstraints.WEST;
+            gridBagConstraints9.gridy = 3;
+            gridBagConstraints9.gridx = 0;
+            GridBagConstraints gridBagConstraints8 = new GridBagConstraints();
+            gridBagConstraints8.anchor = GridBagConstraints.WEST;
+            gridBagConstraints8.gridy = 1;
+            gridBagConstraints8.gridx = 0;
+            GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
+            gridBagConstraints7.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints7.anchor = GridBagConstraints.WEST;
+            gridBagConstraints7.gridx = 1;
+            gridBagConstraints7.gridy = 3;
+            gridBagConstraints7.weightx = 1.0;
+            GridBagConstraints gridBagConstraints6 = new GridBagConstraints();
+            gridBagConstraints6.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints6.anchor = GridBagConstraints.WEST;
+            gridBagConstraints6.gridx = 1;
+            gridBagConstraints6.gridy = 1;
+            gridBagConstraints6.weightx = 1.0;
+            extPackagejLabel = new JLabel();
+            extPackagejLabel.setText(getISOExtensionsPackageProperty().getDisplayName());
+            isoPackagejLabel = new JLabel();
+            isoPackagejLabel.setText(getISOPackageProperty().getDisplayName());
             GridBagConstraints gridBagConstraints5 = new GridBagConstraints();
             gridBagConstraints5.fill = GridBagConstraints.HORIZONTAL;
-            gridBagConstraints5.gridy = 1;
+            gridBagConstraints5.gridy = 2;
             gridBagConstraints5.weightx = 1.0;
             gridBagConstraints5.anchor = GridBagConstraints.WEST;
             gridBagConstraints5.gridx = 1;
             GridBagConstraints gridBagConstraints4 = new GridBagConstraints();
             gridBagConstraints4.gridx = 0;
             gridBagConstraints4.anchor = GridBagConstraints.WEST;
-            gridBagConstraints4.gridy = 1;
+            gridBagConstraints4.gridy = 2;
             extNSLabel = new JLabel();
             extNSLabel.setText(getISOExtensionsNamespaceProperty().getDisplayName());
             GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
@@ -336,10 +368,14 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
             TitledBorder border = BorderFactory.createTitledBorder("Type information");
             infoPanel.setBorder(border);
             infoPanel.setLayout(new GridBagLayout());
-            infoPanel.add(getIsoNSTextField(), gridBagConstraints2);
             infoPanel.add(isoNSjLabel, gridBagConstraints3);
+            infoPanel.add(getIsoNSTextField(), gridBagConstraints2);
+            infoPanel.add(isoPackagejLabel, gridBagConstraints8);
+            infoPanel.add(getIsoPackagejTextField(), gridBagConstraints6);
             infoPanel.add(extNSLabel, gridBagConstraints4);
             infoPanel.add(getExtNSjTextField(), gridBagConstraints5);
+            infoPanel.add(extPackagejLabel, gridBagConstraints9);
+            infoPanel.add(getExtPackagejTextField(), gridBagConstraints7);
         }
         return infoPanel;
     }
@@ -374,6 +410,38 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
             extNSjTextField.setToolTipText(getISOExtensionsNamespaceProperty().getDescription());
         }
         return extNSjTextField;
+    }
+
+
+    /**
+     * This method initializes isoPackagejTextField	
+     * 	
+     * @return javax.swing.JTextField	
+     */
+    private JTextField getIsoPackagejTextField() {
+        if (isoPackagejTextField == null) {
+            isoPackagejTextField = new JTextField();
+            isoPackagejTextField.setEditable(false);
+            isoPackagejTextField.setText(getISOPackageProperty().getValue());
+            isoPackagejTextField.setToolTipText(getISOPackageProperty().getDescription());
+        }
+        return isoPackagejTextField;
+    }
+
+
+    /**
+     * This method initializes extPackagejTextField	
+     * 	
+     * @return javax.swing.JTextField	
+     */
+    private JTextField getExtPackagejTextField() {
+        if (extPackagejTextField == null) {
+            extPackagejTextField = new JTextField();
+            extPackagejTextField.setEditable(false);
+            extPackagejTextField.setText(getISOExtensionsPackageProperty().getValue());
+            extPackagejTextField.setToolTipText(getISOExtensionsPackageProperty().getDescription());
+        }
+        return extPackagejTextField;
     }
 
 }
