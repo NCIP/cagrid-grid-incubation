@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping xmlns="http://triadcommunity.org/i2b2/domain" xmlns:i2b2="http://triadcommunity.org/i2b2/domain">
+  <description>Castor mapping file for Triad i2b2 data service domain types</description>
+  <class name="org.cagrid.i2b2.domain.Visit">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Visit</description>
+    <map-to xml="i2b2:Visit" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
+    <field name="startDate" type="java.util.Date">
+      <bind-xml name="startDate" node="attribute" />
+    </field>
+    <field name="location" type="java.lang.String">
+      <bind-xml name="location" node="attribute" />
+    </field>
+    <field name="inOut" type="java.lang.String">
+      <bind-xml name="inOut" node="attribute" />
+    </field>
+    <field name="activeStatus" type="java.lang.String">
+      <bind-xml name="activeStatus" node="attribute" />
+    </field>
+    <field name="mapDataCollection" type="java.lang.Object" collection="arraylist">
+      <bind-xml name="i2b2:MapDataCollection" node="element" />
+    </field>
+    <field name="endDate" type="java.util.Date">
+      <bind-xml name="endDate" node="attribute" />
+    </field>
+    <field name="locationPath" type="java.lang.String">
+      <bind-xml name="locationPath" node="attribute" />
+    </field>
+    <field name="sourceSystemCd" type="java.lang.String">
+      <bind-xml name="sourceSystemCd" node="attribute" />
+    </field>
+    <field name="importDate" type="java.util.Date">
+      <bind-xml name="importDate" node="attribute" />
+    </field>
+    <field name="downloadDate" type="java.util.Date">
+      <bind-xml name="downloadDate" node="attribute" />
+    </field>
+    <field name="updateDate" type="java.util.Date">
+      <bind-xml name="updateDate" node="attribute" />
+    </field>
+  </class>
+  <!-- START HERE -->
+  <class name="org.cagrid.i2b2.domain.I2B2Type">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.I2B2Type</description>
+    <map-to xml="i2-b2-type" />
+    <field name="sourceSystemCd" type="java.lang.String">
+      <bind-xml name="source-system-cd" node="element" />
+    </field>
+    <field name="importDate" type="java.util.Date">
+      <bind-xml name="import-date" node="element" />
+    </field>
+    <field name="downloadDate" type="java.util.Date">
+      <bind-xml name="download-date" node="element" />
+    </field>
+    <field name="updateDate" type="java.util.Date">
+      <bind-xml name="update-date" node="element" />
+    </field>
+  </class>
+  <class name="org.cagrid.i2b2.domain.Patient">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Patient</description>
+    <map-to xml="patient" />
+    <field name="ageInYears" type="int">
+      <bind-xml name="age-in-years" node="attribute" />
+    </field>
+    <field name="zip" type="java.lang.String">
+      <bind-xml name="zip" node="element" />
+    </field>
+    <field name="cityStateZipPath" type="java.lang.String">
+      <bind-xml name="city-state-zip-path" node="element" />
+    </field>
+    <field name="vitalStatus" type="java.lang.String">
+      <bind-xml name="vital-status" node="element" />
+    </field>
+    <field name="mapDataCollection" type="java.lang.Object" collection="arraylist">
+      <bind-xml name="map-data-collection" node="element" />
+    </field>
+    <field name="language" type="java.lang.String">
+      <bind-xml name="language" node="element" />
+    </field>
+    <field name="race" type="java.lang.String">
+      <bind-xml name="race" node="element" />
+    </field>
+    <field name="birthDate" type="java.util.Date">
+      <bind-xml name="birth-date" node="element" />
+    </field>
+    <field name="observationCollection" type="java.lang.Object" collection="arraylist">
+      <bind-xml name="observation-collection" node="element" />
+    </field>
+    <field name="sex" type="java.lang.String">
+      <bind-xml name="sex" node="element" />
+    </field>
+    <field name="deathDate" type="java.util.Date">
+      <bind-xml name="death-date" node="element" />
+    </field>
+    <field name="sourceSystemCd" type="java.lang.String">
+      <bind-xml name="source-system-cd" node="element" />
+    </field>
+    <field name="importDate" type="java.util.Date">
+      <bind-xml name="import-date" node="element" />
+    </field>
+    <field name="downloadDate" type="java.util.Date">
+      <bind-xml name="download-date" node="element" />
+    </field>
+    <field name="updateDate" type="java.util.Date">
+      <bind-xml name="update-date" node="element" />
+    </field>
+  </class>
+  <class name="org.cagrid.i2b2.domain.Concept">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Concept</description>
+    <map-to xml="concept" />
+    <field name="conceptPath" type="java.lang.String">
+      <bind-xml name="concept-path" node="element" />
+    </field>
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="element" />
+    </field>
+    <field name="mapDataCollection" type="java.lang.Object" collection="arraylist">
+      <bind-xml name="map-data-collection" node="element" />
+    </field>
+    <field name="projectVersion" type="java.lang.Double">
+      <bind-xml name="project-version" node="element" />
+    </field>
+    <field name="encodingServiceURL" type="java.lang.String">
+      <bind-xml name="encoding-service-uRL" node="element" />
+    </field>
+    <field name="observation" type="org.cagrid.i2b2.domain.Observation">
+      <bind-xml name="observation" node="element" />
+    </field>
+    <field name="cdeVersion" type="java.lang.String">
+      <bind-xml name="cde-version" node="element" />
+    </field>
+    <field name="projectName" type="java.lang.String">
+      <bind-xml name="project-name" node="element" />
+    </field>
+    <field name="cdePublicId" type="java.lang.Double">
+      <bind-xml name="cde-public-id" node="element" />
+    </field>
+    <field name="sourceSystemCd" type="java.lang.String">
+      <bind-xml name="source-system-cd" node="element" />
+    </field>
+    <field name="importDate" type="java.util.Date">
+      <bind-xml name="import-date" node="element" />
+    </field>
+    <field name="downloadDate" type="java.util.Date">
+      <bind-xml name="download-date" node="element" />
+    </field>
+    <field name="updateDate" type="java.util.Date">
+      <bind-xml name="update-date" node="element" />
+    </field>
+  </class>
+  <class name="org.cagrid.i2b2.domain.Provider">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Provider</description>
+    <map-to xml="provider" />
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="element" />
+    </field>
+    <field name="sourceSystemCd" type="java.lang.String">
+      <bind-xml name="source-system-cd" node="element" />
+    </field>
+    <field name="importDate" type="java.util.Date">
+      <bind-xml name="import-date" node="element" />
+    </field>
+    <field name="downloadDate" type="java.util.Date">
+      <bind-xml name="download-date" node="element" />
+    </field>
+    <field name="updateDate" type="java.util.Date">
+      <bind-xml name="update-date" node="element" />
+    </field>
+  </class>
+  <class name="org.cagrid.i2b2.domain.Map">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Map</description>
+    <map-to xml="map" />
+    <field name="targetConceptPath" type="java.lang.String">
+      <bind-xml name="target-concept-path" node="element" />
+    </field>
+    <field name="releaseRepoName" type="java.lang.String">
+      <bind-xml name="release-repo-name" node="element" />
+    </field>
+    <field name="author" type="java.lang.String">
+      <bind-xml name="author" node="element" />
+    </field>
+    <field name="createDate" type="java.util.Date">
+      <bind-xml name="create-date" node="element" />
+    </field>
+    <field name="sourceSoftware" type="java.lang.String">
+      <bind-xml name="source-software" node="element" />
+    </field>
+    <field name="license" type="java.lang.String">
+      <bind-xml name="license" node="element" />
+    </field>
+    <field name="releaseURI" type="java.lang.String">
+      <bind-xml name="release-uRI" node="element" />
+    </field>
+    <field name="creator" type="java.lang.String">
+      <bind-xml name="creator" node="element" />
+    </field>
+    <field name="rightsHolder" type="java.lang.String">
+      <bind-xml name="rights-holder" node="element" />
+    </field>
+    <field name="etlScriptUrl" type="java.lang.String">
+      <bind-xml name="etl-script-url" node="element" />
+    </field>
+    <field name="licenseType" type="java.lang.String">
+      <bind-xml name="license-type" node="element" />
+    </field>
+    <field name="purpose" type="java.lang.String">
+      <bind-xml name="purpose" node="element" />
+    </field>
+    <field name="orgName" type="java.lang.String">
+      <bind-xml name="org-name" node="element" />
+    </field>
+    <field name="isLicenseRestricted" type="java.lang.Boolean">
+      <bind-xml name="is-license-restricted" node="element" />
+    </field>
+    <field name="contributor" type="java.lang.String">
+      <bind-xml name="contributor" node="element" />
+    </field>
+    <field name="orgType" type="java.lang.String">
+      <bind-xml name="org-type" node="element" />
+    </field>
+    <field name="curator" type="java.lang.String">
+      <bind-xml name="curator" node="element" />
+    </field>
+    <field name="releaseDate" type="java.util.Date">
+      <bind-xml name="release-date" node="element" />
+    </field>
+    <field name="releaseVersion" type="java.lang.String">
+      <bind-xml name="release-version" node="element" />
+    </field>
+    <field name="mapDataCollection" type="java.lang.Object" collection="arraylist">
+      <bind-xml name="map-data-collection" node="element" />
+    </field>
+  </class>
+  <class name="org.cagrid.i2b2.domain.MapData">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.MapData</description>
+    <map-to xml="map-data" />
+    <field name="map" type="org.cagrid.i2b2.domain.Map">
+      <bind-xml name="map" node="element" />
+    </field>
+    <field name="valueFlag" type="java.lang.String">
+      <bind-xml name="value-flag" node="element" />
+    </field>
+    <field name="concept" type="org.cagrid.i2b2.domain.Concept">
+      <bind-xml name="concept" node="element" />
+    </field>
+    <field name="quantity" type="java.lang.Double">
+      <bind-xml name="quantity" node="element" />
+    </field>
+    <field name="textValue" type="java.lang.String">
+      <bind-xml name="text-value" node="element" />
+    </field>
+    <field name="endDate" type="java.util.Date">
+      <bind-xml name="end-date" node="element" />
+    </field>
+    <field name="numericValue" type="java.lang.Double">
+      <bind-xml name="numeric-value" node="element" />
+    </field>
+    <field name="confidence" type="java.lang.Double">
+      <bind-xml name="confidence" node="element" />
+    </field>
+    <field name="units" type="java.lang.String">
+      <bind-xml name="units" node="element" />
+    </field>
+    <field name="patient" type="org.cagrid.i2b2.domain.Patient">
+      <bind-xml name="patient" node="element" />
+    </field>
+    <field name="visit" type="org.cagrid.i2b2.domain.Visit">
+      <bind-xml name="visit" node="element" />
+    </field>
+    <field name="location" type="java.lang.String">
+      <bind-xml name="location" node="element" />
+    </field>
+    <field name="sourceSystemCd" type="java.lang.String">
+      <bind-xml name="source-system-cd" node="element" />
+    </field>
+    <field name="importDate" type="java.util.Date">
+      <bind-xml name="import-date" node="element" />
+    </field>
+    <field name="downloadDate" type="java.util.Date">
+      <bind-xml name="download-date" node="element" />
+    </field>
+    <field name="updateDate" type="java.util.Date">
+      <bind-xml name="update-date" node="element" />
+    </field>
+  </class>
+  <class name="org.cagrid.i2b2.domain.Observation">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Observation</description>
+    <map-to xml="observation" />
+    <field name="valueFlag" type="java.lang.String">
+      <bind-xml name="value-flag" node="element" />
+    </field>
+    <field name="quantity" type="java.lang.Double">
+      <bind-xml name="quantity" node="element" />
+    </field>
+    <field name="textValue" type="java.lang.String">
+      <bind-xml name="text-value" node="element" />
+    </field>
+    <field name="endDate" type="java.util.Date">
+      <bind-xml name="end-date" node="element" />
+    </field>
+    <field name="numericValue" type="java.lang.Double">
+      <bind-xml name="numeric-value" node="element" />
+    </field>
+    <field name="confidence" type="java.lang.Double">
+      <bind-xml name="confidence" node="element" />
+    </field>
+    <field name="units" type="java.lang.String">
+      <bind-xml name="units" node="element" />
+    </field>
+    <field name="patient" type="org.cagrid.i2b2.domain.Patient">
+      <bind-xml name="patient" node="element" />
+    </field>
+    <field name="location" type="java.lang.String">
+      <bind-xml name="location" node="element" />
+    </field>
+    <field name="conceptCollection" type="java.lang.Object" collection="arraylist">
+      <bind-xml name="concept-collection" node="element" />
+    </field>
+    <field name="sourceSystemCd" type="java.lang.String">
+      <bind-xml name="source-system-cd" node="element" />
+    </field>
+    <field name="importDate" type="java.util.Date">
+      <bind-xml name="import-date" node="element" />
+    </field>
+    <field name="downloadDate" type="java.util.Date">
+      <bind-xml name="download-date" node="element" />
+    </field>
+    <field name="updateDate" type="java.util.Date">
+      <bind-xml name="update-date" node="element" />
+    </field>
+  </class>
+</mapping>
+
+

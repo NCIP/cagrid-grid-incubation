@@ -1,6 +1,9 @@
 package org.cagrid.i2b2.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import org.apache.commons.collections.CollectionUtils;
 
 
 public class Map {
@@ -24,6 +27,8 @@ public class Map {
     private String etlScriptUrl = null;
     private String releaseRepoName = null;
     private String targetConceptPath = null;
+    
+    private ArrayList<MapData> mapDataCollection = null;
 
 
     public Map() {
@@ -219,6 +224,16 @@ public class Map {
     public void setTargetConceptPath(String targetConceptPath) {
         this.targetConceptPath = targetConceptPath;
     }
+    
+    
+    public ArrayList<MapData> getMapDataCollection() {
+        return mapDataCollection;
+    }
+    
+    
+    public void setMapDataCollection(ArrayList<MapData> mapDataCollection) {
+        this.mapDataCollection = mapDataCollection;
+    }
 
 
     public int hashCode() {
@@ -233,6 +248,7 @@ public class Map {
         result = prime * result + ((isLicenseRestricted == null) ? 0 : isLicenseRestricted.hashCode());
         result = prime * result + ((license == null) ? 0 : license.hashCode());
         result = prime * result + ((licenseType == null) ? 0 : licenseType.hashCode());
+        result = prime * result + ((mapDataCollection == null) ? 0 : mapDataCollection.hashCode());
         result = prime * result + ((orgName == null) ? 0 : orgName.hashCode());
         result = prime * result + ((orgType == null) ? 0 : orgType.hashCode());
         result = prime * result + ((purpose == null) ? 0 : purpose.hashCode());
@@ -319,6 +335,13 @@ public class Map {
                 return false;
             }
         } else if (!licenseType.equals(other.licenseType)) {
+            return false;
+        }
+        if (mapDataCollection == null) {
+            if (other.mapDataCollection != null) {
+                return false;
+            }
+        } else if (!CollectionUtils.isEqualCollection(mapDataCollection, other.mapDataCollection)) {
             return false;
         }
         if (orgName == null) {

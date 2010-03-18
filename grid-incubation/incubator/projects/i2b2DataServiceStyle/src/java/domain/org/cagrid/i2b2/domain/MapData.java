@@ -13,6 +13,11 @@ public class MapData extends I2B2Type {
     private Date endDate = null;
     private String location = null;
     private Double confidence = null;
+    
+    private Visit visit = null;
+    private Patient patient = null;
+    private Concept concept = null;
+    private Map map = null;
 
 
     public MapData() {
@@ -98,19 +103,63 @@ public class MapData extends I2B2Type {
     public void setConfidence(Double confidence) {
         this.confidence = confidence;
     }
+    
+    
+    public Visit getVisit() {
+        return visit;
+    }
+    
+    
+    public void setVisit(Visit visit) {
+        this.visit = visit;
+    }
+    
+    
+    public Patient getPatient() {
+        return patient;
+    }
+    
+    
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+    
+    
+    public Concept getConcept() {
+        return concept;
+    }
+    
+    
+    public void setConcept(Concept concept) {
+        this.concept = concept;
+    }
+    
+    
+    public Map getMap() {
+        return map;
+    }
+    
+    
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
 
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
+        result = prime * result + ((concept == null) ? 0 : concept.hashCode());
         result = prime * result + ((confidence == null) ? 0 : confidence.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
+        result = prime * result + ((map == null) ? 0 : map.hashCode());
         result = prime * result + ((numericValue == null) ? 0 : numericValue.hashCode());
+        result = prime * result + ((patient == null) ? 0 : patient.hashCode());
         result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
         result = prime * result + ((textValue == null) ? 0 : textValue.hashCode());
         result = prime * result + ((units == null) ? 0 : units.hashCode());
         result = prime * result + ((valueFlag == null) ? 0 : valueFlag.hashCode());
+        result = prime * result + ((visit == null) ? 0 : visit.hashCode());
         return result;
     }
 
@@ -126,6 +175,13 @@ public class MapData extends I2B2Type {
             return false;
         }
         MapData other = (MapData) obj;
+        if (concept == null) {
+            if (other.concept != null) {
+                return false;
+            }
+        } else if (!concept.equals(other.concept)) {
+            return false;
+        }
         if (confidence == null) {
             if (other.confidence != null) {
                 return false;
@@ -147,11 +203,25 @@ public class MapData extends I2B2Type {
         } else if (!location.equals(other.location)) {
             return false;
         }
+        if (map == null) {
+            if (other.map != null) {
+                return false;
+            }
+        } else if (!map.equals(other.map)) {
+            return false;
+        }
         if (numericValue == null) {
             if (other.numericValue != null) {
                 return false;
             }
         } else if (!numericValue.equals(other.numericValue)) {
+            return false;
+        }
+        if (patient == null) {
+            if (other.patient != null) {
+                return false;
+            }
+        } else if (!patient.equals(other.patient)) {
             return false;
         }
         if (quantity == null) {
@@ -180,6 +250,13 @@ public class MapData extends I2B2Type {
                 return false;
             }
         } else if (!valueFlag.equals(other.valueFlag)) {
+            return false;
+        }
+        if (visit == null) {
+            if (other.visit != null) {
+                return false;
+            }
+        } else if (!visit.equals(other.visit)) {
             return false;
         }
         return true;

@@ -1,6 +1,9 @@
 package org.cagrid.i2b2.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import org.apache.commons.collections.CollectionUtils;
 
 
 public class Visit extends I2B2Type {
@@ -11,6 +14,8 @@ public class Visit extends I2B2Type {
     private String inOut = null;
     private String location = null;
     private String locationPath = null;
+    
+    private ArrayList<MapData> mapDataCollection = null;
 
 
     public Visit() {
@@ -76,6 +81,16 @@ public class Visit extends I2B2Type {
     public void setLocationPath(String locationPath) {
         this.locationPath = locationPath;
     }
+    
+    
+    public ArrayList<MapData> getMapDataCollection() {
+        return mapDataCollection;
+    }
+    
+    
+    public void setMapDataCollection(ArrayList<MapData> mapDataCollection) {
+        this.mapDataCollection = mapDataCollection;
+    }
 
 
     public int hashCode() {
@@ -86,6 +101,7 @@ public class Visit extends I2B2Type {
         result = prime * result + ((inOut == null) ? 0 : inOut.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((locationPath == null) ? 0 : locationPath.hashCode());
+        result = prime * result + ((mapDataCollection == null) ? 0 : mapDataCollection.hashCode());
         result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
         return result;
     }
@@ -135,6 +151,13 @@ public class Visit extends I2B2Type {
                 return false;
             }
         } else if (!locationPath.equals(other.locationPath)) {
+            return false;
+        }
+        if (mapDataCollection == null) {
+            if (other.mapDataCollection != null) {
+                return false;
+            }
+        } else if (!CollectionUtils.isEqualCollection(mapDataCollection, other.mapDataCollection)) {
             return false;
         }
         if (startDate == null) {

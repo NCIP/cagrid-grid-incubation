@@ -1,6 +1,9 @@
 package org.cagrid.i2b2.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import org.apache.commons.collections.CollectionUtils;
 
 
 /**
@@ -21,6 +24,9 @@ public class Patient extends I2B2Type {
     private String race = null;
     private String zip = null;
     private String cityStateZipPath = null;
+    
+    private ArrayList<MapData> mapDataCollection = null;
+    private ArrayList<Observation> observationCollection = null;
 
 
     public Patient() {
@@ -116,6 +122,26 @@ public class Patient extends I2B2Type {
     public void setCityStateZipPath(String cityStateZipPath) {
         this.cityStateZipPath = cityStateZipPath;
     }
+    
+    
+    public ArrayList<MapData> getMapDataCollection() {
+        return mapDataCollection;
+    }
+    
+    
+    public void setMapDataCollection(ArrayList<MapData> mapDataCollection) {
+        this.mapDataCollection = mapDataCollection;
+    }
+    
+    
+    public ArrayList<Observation> getObservationCollection() {
+        return observationCollection;
+    }
+    
+    
+    public void setObservationCollection(ArrayList<Observation> observationCollection) {
+        this.observationCollection = observationCollection;
+    }
 
 
     public int hashCode() {
@@ -126,6 +152,8 @@ public class Patient extends I2B2Type {
         result = prime * result + ((cityStateZipPath == null) ? 0 : cityStateZipPath.hashCode());
         result = prime * result + ((deathDate == null) ? 0 : deathDate.hashCode());
         result = prime * result + ((language == null) ? 0 : language.hashCode());
+        result = prime * result + ((mapDataCollection == null) ? 0 : mapDataCollection.hashCode());
+        result = prime * result + ((observationCollection == null) ? 0 : observationCollection.hashCode());
         result = prime * result + ((race == null) ? 0 : race.hashCode());
         result = prime * result + ((sex == null) ? 0 : sex.hashCode());
         result = prime * result + ((vitalStatus == null) ? 0 : vitalStatus.hashCode());
@@ -174,6 +202,20 @@ public class Patient extends I2B2Type {
                 return false;
             }
         } else if (!language.equals(other.language)) {
+            return false;
+        }
+        if (mapDataCollection == null) {
+            if (other.mapDataCollection != null) {
+                return false;
+            }
+        } else if (!CollectionUtils.isEqualCollection(mapDataCollection, other.mapDataCollection)) {
+            return false;
+        }
+        if (observationCollection == null) {
+            if (other.observationCollection != null) {
+                return false;
+            }
+        } else if (!CollectionUtils.isEqualCollection(observationCollection, other.observationCollection)) {
             return false;
         }
         if (race == null) {

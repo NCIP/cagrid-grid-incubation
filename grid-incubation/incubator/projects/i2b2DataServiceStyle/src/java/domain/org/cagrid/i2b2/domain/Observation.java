@@ -1,6 +1,9 @@
 package org.cagrid.i2b2.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import org.apache.commons.collections.CollectionUtils;
 
 
 public class Observation extends I2B2Type {
@@ -14,6 +17,8 @@ public class Observation extends I2B2Type {
     private String location = null;
     private Double confidence = null;
 
+    private Patient patient = null;
+    private ArrayList<Concept> conceptCollection = null;
 
     public Observation() {
         super();
@@ -98,15 +103,37 @@ public class Observation extends I2B2Type {
     public void setConfidence(Double confidence) {
         this.confidence = confidence;
     }
+    
+    
+    public Patient getPatient() {
+        return this.patient;
+    }
+    
+    
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+    
+    
+    public ArrayList<Concept> getConceptCollection() {
+        return conceptCollection;
+    }
+    
+    
+    public void setConceptCollection(ArrayList<Concept> conceptCollection) {
+        this.conceptCollection = conceptCollection;
+    }
 
 
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
+        result = prime * result + ((conceptCollection == null) ? 0 : conceptCollection.hashCode());
         result = prime * result + ((confidence == null) ? 0 : confidence.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((numericValue == null) ? 0 : numericValue.hashCode());
+        result = prime * result + ((patient == null) ? 0 : patient.hashCode());
         result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
         result = prime * result + ((textValue == null) ? 0 : textValue.hashCode());
         result = prime * result + ((units == null) ? 0 : units.hashCode());
@@ -126,6 +153,13 @@ public class Observation extends I2B2Type {
             return false;
         }
         Observation other = (Observation) obj;
+        if (conceptCollection == null) {
+            if (other.conceptCollection != null) {
+                return false;
+            }
+        } else if (!CollectionUtils.isEqualCollection(conceptCollection, other.conceptCollection)) {
+            return false;
+        }
         if (confidence == null) {
             if (other.confidence != null) {
                 return false;
@@ -152,6 +186,13 @@ public class Observation extends I2B2Type {
                 return false;
             }
         } else if (!numericValue.equals(other.numericValue)) {
+            return false;
+        }
+        if (patient == null) {
+            if (other.patient != null) {
+                return false;
+            }
+        } else if (!patient.equals(other.patient)) {
             return false;
         }
         if (quantity == null) {
