@@ -4,6 +4,8 @@ import java.util.Date;
 
 
 /**
+ * I2B2Type
+ * 
  * Abstract base class of I2B2 data types that handles some basic information
  * about each data instance
  * 
