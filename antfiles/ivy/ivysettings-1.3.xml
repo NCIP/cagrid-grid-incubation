@@ -3,7 +3,7 @@
   <settings defaultResolver="caGrid-incubator-ivy-resolver" circularDependencyStrategy="error" />
   <!--
     TODO: I had to set checkUpToDate="false" so target grids would resolve properly... The cache was
-    correct, but it was not copying artificats to projects if the previous date was newer than the
+    correct, but it was not copying artifacts to projects if the previous date was newer than the
     new date It should retrieve the necessary version regardless of the date... not sure why it does
     that.
   -->
