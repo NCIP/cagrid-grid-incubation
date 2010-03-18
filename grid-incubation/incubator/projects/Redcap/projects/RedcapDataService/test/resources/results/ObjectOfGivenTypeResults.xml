@@ -1,0 +1,104 @@
+<ns1:CQLQueryResultCollection
+	targetClassname="org.cagrid.redcap.Projects" xmlns:ns1="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLResultSet">
+	<ns1:ObjectResult>
+		<ns2:projects allowPkEdit="0" appTitle="REDCap Demo Database"
+			authMeth="none" autoIncSet="0" countProject="0"
+			creationTime="2009-11-23T18:14:26.000-05:00" dateShiftMax="364"
+			doubleDataEntry="0" draftMode="1" enableAlterRecordPulldown="0"
+			grantCite="1 UL1 RR024975 from NCRR/NIH" headerLogo="http://www.mc.vanderbilt.edu/victr/secure/redcap/vumc.png"
+			institution="Vanderbilt University" online_offline="1"
+			productionTime="2009-11-23T18:14:26.000-05:00" projectContactEmail="janey.wang@vanderbilt.edu"
+			projectContactProdChangesName="Janey Wang (343-3712)" projectId="1"
+			projectName="redcap_demo_45a9f3" recordDeleteFlag="0" repeatForms="0"
+			salt="776d2e3d1c" scheduling="0" showWhichRecords="0"
+			siteOrgType="Vanderbilt Institute for Clinical and Translational Research"
+			status="1" xmlns:ns2="http://redcap.cagrid.org/Redcap" />
+	</ns1:ObjectResult>
+	<ns1:ObjectResult>
+		<ns3:projects allowPkEdit="0"
+			appTitle="REDCap Demo Database (Longitudinal) - Drug Trial" authMeth="none"
+			autoIncSet="0" countProject="0" creationTime="2009-11-23T18:14:26.000-05:00"
+			dateShiftMax="364" doubleDataEntry="0" draftMode="0"
+			enableAlterRecordPulldown="0" grantCite="1 UL1 RR024975 from NCRR/NIH"
+			headerLogo="http://www.mc.vanderbilt.edu/victr/secure/redcap/vumc.png"
+			institution="Vanderbilt University" online_offline="1"
+			productionTime="2009-11-23T18:14:26.000-05:00" projectContactEmail="janey.wang@vanderbilt.edu"
+			projectContactProdChangesName="Janey Wang (343-3712)" projectId="2"
+			projectName="redcap_demo_85a943" recordDeleteFlag="0" repeatForms="1"
+			salt="640061a51a" scheduling="0" showWhichRecords="0"
+			siteOrgType="Vanderbilt Institute for Clinical and Translational Research"
+			status="1" xmlns:ns3="http://redcap.cagrid.org/Redcap" />
+	</ns1:ObjectResult>
+	<ns1:ObjectResult>
+		<ns4:projects allowPkEdit="0" appTitle="MyTestDB"
+			authMeth="none" autoIncSet="0" countProject="1" createdBy="1"
+			creationTime="2009-12-02T04:50:47.000-05:00" dateShiftMax="364"
+			doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0"
+			grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg"
+			institution="The Ohio State University" online_offline="1"
+			projectContactEmail="manirupa.das@osumc.edu"
+			projectContactProdChangesName="Manirupa Das" projectId="3"
+			projectName="mytestdb" purpose="0" purposeOther="" recordDeleteFlag="0"
+			repeatForms="0"
+			reportBuilder="$query_array[1]['__TITLE__'] = &quot;UserReport&quot;; $query_array[1]['__ORDERBY1__'] = &quot; study_id ASC&quot;; $query_array[1]['study_id'] = &quot;study_id != '0'&quot;; $query_array[1]['first_name'] = &quot;&quot;; $query_array[1]['last_name'] = &quot;&quot;; $query_array[1]['dob'] = &quot;&quot;; $query_array[1]['sex'] = &quot;&quot;; $query_array[1]['address'] = &quot;&quot;; $query_array[1]['phone_number'] = &quot;&quot;; $query_array[1]['work'] = &quot;&quot;; $query_array[1]['street'] = &quot;&quot;; $query_array[1]['work_city'] = &quot;&quot;; $query_array[1]['state'] = &quot;&quot;; $query_array[1]['upload'] = &quot;&quot;; $query_array[1]['shipping_first_name'] = &quot;&quot;; $query_array[1]['shipping_last_name'] = &quot;&quot;; $query_array[1]['shipping_street'] = &quot;&quot;; $query_array[1]['shipping_city'] = &quot;&quot;; $query_array[1]['shipping_state'] = &quot;&quot;; $query_array[1]['shipping_country'] = &quot;&quot;; $query_array[2]['__TITLE__'] = &quot;User Information Report&quot;; $query_array[2]['user_id'] = &quot;&quot;; $query_array[2]['user_name'] = &quot;&quot;; $query_array[2]['email'] = &quot;&quot;; $query_array[2]['accept_emails'] = &quot;&quot;; $query_array[2]['employment_status'] = &quot;&quot;; $query_array[2]['employer'] = &quot;&quot;; $query_array[2]['business'] = &quot;&quot;; $query_array[2]['address1'] = &quot;&quot;; $query_array[2]['address2'] = &quot;&quot;; $query_array[2]['state'] = &quot;&quot;; $query_array[2]['country'] = &quot;&quot;; $query_array[2]['zip'] = &quot;&quot;; $query_array[2]['home_phone'] = &quot;&quot;;  "
+			salt="1e7f4d4dec" scheduling="0" showWhichRecords="1"
+			siteOrgType="Center for Clinical and Translational Science" status="0"
+			xmlns:ns4="http://redcap.cagrid.org/Redcap" />
+	</ns1:ObjectResult>
+	<ns1:ObjectResult>
+		<ns5:projects allowPkEdit="0" appTitle="TestDatabase2"
+			authMeth="none" autoIncSet="0" countProject="1" createdBy="1"
+			creationTime="2009-12-03T03:19:06.000-05:00" dateShiftMax="364"
+			doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0"
+			grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg"
+			institution="The Ohio State University" online_offline="1"
+			projectContactEmail="manirupa.das@osumc.edu"
+			projectContactProdChangesName="Manirupa Das" projectId="4"
+			projectName="testdatabase2" purpose="0" recordDeleteFlag="0"
+			repeatForms="0" salt="c5720065fb" scheduling="0" showWhichRecords="0"
+			siteOrgType="Center for Clinical and Translational Science" status="0"
+			xmlns:ns5="http://redcap.cagrid.org/Redcap" />
+	</ns1:ObjectResult>
+	<ns1:ObjectResult>
+		<ns6:projects allowPkEdit="0" appTitle="Patient"
+			authMeth="none" autoIncSet="0" countProject="1" createdBy="1"
+			creationTime="2009-12-10T05:50:34.000-05:00" dateShiftMax="364"
+			doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0"
+			grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg"
+			institution="The Ohio State University" online_offline="1"
+			projectContactEmail="manirupa.das@osumc.edu"
+			projectContactProdChangesName="Manirupa Das" projectId="5"
+			projectName="patient" purpose="0" recordDeleteFlag="0" repeatForms="1"
+			salt="2c5ce1642d" scheduling="1" showWhichRecords="0"
+			siteOrgType="Center for Clinical and Translational Science" status="0"
+			xmlns:ns6="http://redcap.cagrid.org/Redcap" />
+	</ns1:ObjectResult>
+	<ns1:ObjectResult>
+		<ns7:projects allowPkEdit="0" appTitle="TESTDB1"
+			authMeth="none" autoIncSet="0" countProject="1" createdBy="1"
+			creationTime="2010-01-19T21:36:57.000-05:00" dateShiftMax="364"
+			doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0"
+			grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg"
+			institution="The Ohio State University" online_offline="1"
+			projectContactEmail="manirupa.das@osumc.edu"
+			projectContactProdChangesName="Manirupa Das" projectId="6"
+			projectName="testdb1" purpose="0" recordDeleteFlag="0" repeatForms="1"
+			salt="d446879f29" scheduling="1" showWhichRecords="0"
+			siteOrgType="Center for Clinical and Translational Science" status="0"
+			xmlns:ns7="http://redcap.cagrid.org/Redcap" />
+	</ns1:ObjectResult>
+	<ns1:ObjectResult>
+		<ns8:projects allowPkEdit="0" appTitle="Redcap_Test_Project"
+			authMeth="none" autoIncSet="0" countProject="1" createdBy="1"
+			creationTime="2010-02-11T03:07:12.000-05:00" dateShiftMax="364"
+			doubleDataEntry="0" draftMode="0" enableAlterRecordPulldown="0"
+			grantCite="Leukemia SPORE" headerLogo="http://trp.cancer.gov/images/spores.jpg"
+			institution="The Ohio State University" online_offline="1"
+			projectContactEmail="manirupa.das@osumc.edu"
+			projectContactProdChangesName="Manirupa Das" projectId="7"
+			projectName="redcap_test_project" purpose="0" recordDeleteFlag="0"
+			repeatForms="1" salt="b9aca26846" scheduling="1" showWhichRecords="0"
+			siteOrgType="Center for Clinical and Translational Science" status="0"
+			xmlns:ns8="http://redcap.cagrid.org/Redcap" />
+	</ns1:ObjectResult>
+</ns1:CQLQueryResultCollection>

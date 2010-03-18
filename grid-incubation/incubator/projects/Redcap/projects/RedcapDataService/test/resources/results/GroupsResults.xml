@@ -1,0 +1,18 @@
+<ns1:CQLQueryResultCollection
+	targetClassname="org.cagrid.redcap.Projects" xmlns:ns1="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLResultSet">
+	<ns1:ObjectResult>
+		<ns2:projects allowPkEdit="0"
+			appTitle="REDCap Demo Database (Longitudinal) - Drug Trial" authMeth="none"
+			autoIncSet="0" countProject="0" creationTime="2009-11-23T18:14:26.000-05:00"
+			dateShiftMax="364" doubleDataEntry="0" draftMode="0"
+			enableAlterRecordPulldown="0" grantCite="1 UL1 RR024975 from NCRR/NIH"
+			headerLogo="http://www.mc.vanderbilt.edu/victr/secure/redcap/vumc.png"
+			institution="Vanderbilt University" online_offline="1"
+			productionTime="2009-11-23T18:14:26.000-05:00" projectContactEmail="janey.wang@vanderbilt.edu"
+			projectContactProdChangesName="Janey Wang (343-3712)" projectId="2"
+			projectName="redcap_demo_85a943" recordDeleteFlag="0" repeatForms="1"
+			salt="640061a51a" scheduling="0" showWhichRecords="0"
+			siteOrgType="Vanderbilt Institute for Clinical and Translational Research"
+			status="1" xmlns:ns2="http://redcap.cagrid.org/Redcap" />
+	</ns1:ObjectResult>
+</ns1:CQLQueryResultCollection>

@@ -1,0 +1,6 @@
+<ns1:CQLQueryResultCollection
+	targetClassname="org.cagrid.redcap.EventArms" xmlns:ns1="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLResultSet">
+	<ns1:AttributeResult>
+		<ns1:Attribute name="armName" value="Visits" />
+	</ns1:AttributeResult>
+</ns1:CQLQueryResultCollection>
