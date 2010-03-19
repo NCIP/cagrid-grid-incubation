@@ -1,0 +1,112 @@
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by David W. Ervin (The Ohio State University / Department of Biomedical Informatics) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:i2b2="http://triadcommunity.org/i2b2/domain" targetNamespace="http://triadcommunity.org/i2b2/domain">
+	<xsd:complexType name="I2B2Type" abstract="true">
+		<xsd:attribute name="sourceSystemCd" type="xsd:string" use="optional"/>
+		<xsd:attribute name="importDate" type="xsd:date" use="optional"/>
+		<xsd:attribute name="downloadDate" type="xsd:date" use="optional"/>
+		<xsd:attribute name="updateDate" type="xsd:date" use="optional"/>
+	</xsd:complexType>
+	<xsd:element name="Visit" type="i2b2:Visit"/>
+	<xsd:complexType name="Visit">
+		<xsd:complexContent>
+			<xsd:extension base="i2b2:I2B2Type">
+				<xsd:attribute name="startDate" type="xsd:date" use="optional"/>
+				<xsd:attribute name="location" type="xsd:string" use="optional"/>
+				<xsd:attribute name="inOut" type="xsd:string" use="optional"/>
+				<xsd:attribute name="activeStatus" type="xsd:string" use="optional"/>
+				<xsd:attribute name="endDate" type="xsd:date" use="optional"/>
+				<xsd:attribute name="locationPath" type="xsd:string" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="Patient" type="i2b2:Patient"/>
+	<xsd:complexType name="Patient">
+		<xsd:complexContent>
+			<xsd:extension base="i2b2:I2B2Type">
+				<xsd:attribute name="ageInYears" type="xsd:integer" use="optional"/>
+				<xsd:attribute name="zip" type="xsd:string" use="optional"/>
+				<xsd:attribute name="cityStateZipPath" type="xsd:string" use="optional"/>
+				<xsd:attribute name="vitalStatus" type="xsd:string" use="optional"/>
+				<xsd:attribute name="language" type="xsd:string" use="optional"/>
+				<xsd:attribute name="race" type="xsd:string" use="optional"/>
+				<xsd:attribute name="birthDate" type="xsd:string" use="optional"/>
+				<xsd:attribute name="sex" type="xsd:string" use="optional"/>
+				<xsd:attribute name="deathDate" type="xsd:date" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="Concept" type="i2b2:Concept"/>
+	<xsd:complexType name="Concept">
+		<xsd:complexContent>
+			<xsd:extension base="i2b2:I2B2Type">
+				<xsd:attribute name="conceptPath" type="xsd:string" use="required"/>
+				<xsd:attribute name="name" type="xsd:string" use="required"/>
+				<xsd:attribute name="projectVersion" type="xsd:double" use="required"/>
+				<xsd:attribute name="encodingServiceURL" type="xsd:string" use="required"/>
+				<xsd:attribute name="cdeVersion" type="xsd:string" use="required"/>
+				<xsd:attribute name="projectName" type="xsd:string" use="required"/>
+				<xsd:attribute name="cdePublicId" type="xsd:double" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="Provider" type="i2b2:Provider"/>
+	<xsd:complexType name="Provider">
+		<xsd:complexContent>
+			<xsd:extension base="i2b2:I2B2Type">
+				<xsd:attribute name="name" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="MapData" type="i2b2:MapData"/>
+	<xsd:complexType name="MapData">
+		<xsd:complexContent>
+			<xsd:extension base="i2b2:I2B2Type">
+				<xsd:attribute name="valueFlag" type="xsd:string" use="optional"/>
+				<xsd:attribute name="quantity" type="xsd:double" use="optional"/>
+				<xsd:attribute name="textValue" type="xsd:string" use="optional"/>
+				<xsd:attribute name="endDate" type="xsd:date" use="optional"/>
+				<xsd:attribute name="numericValue" type="xsd:double" use="optional"/>
+				<xsd:attribute name="confidence" type="xsd:double" use="optional"/>
+				<xsd:attribute name="units" type="xsd:string" use="optional"/>
+				<xsd:attribute name="location" type="xsd:string" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="Observation" type="i2b2:Observation"/>
+	<xsd:complexType name="Observation">
+		<xsd:complexContent>
+			<xsd:extension base="i2b2:I2B2Type">
+				<xsd:attribute name="valueFlag" type="xsd:string" use="optional"/>
+				<xsd:attribute name="quantity" type="xsd:double" use="optional"/>
+				<xsd:attribute name="textValue" type="xsd:string" use="optional"/>
+				<xsd:attribute name="endDate" type="xsd:date" use="optional"/>
+				<xsd:attribute name="numericValue" type="xsd:double" use="optional"/>
+				<xsd:attribute name="confidence" type="xsd:double" use="optional"/>
+				<xsd:attribute name="units" type="xsd:string" use="optional"/>
+				<xsd:attribute name="location" type="xsd:string" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:element name="Map" type="i2b2:Map"/>
+	<xsd:complexType name="Map">
+		<xsd:attribute name="targetConceptPath" type="xsd:string" use="optional"/>
+		<xsd:attribute name="releaseRepoName" type="xsd:string" use="optional"/>
+		<xsd:attribute name="author" type="xsd:string" use="optional"/>
+		<xsd:attribute name="createDate" type="xsd:date" use="optional"/>
+		<xsd:attribute name="sourceSoftware" type="xsd:string" use="optional"/>
+		<xsd:attribute name="license" type="xsd:string" use="optional"/>
+		<xsd:attribute name="releaseURI" type="xsd:string" use="optional"/>
+		<xsd:attribute name="creator" type="xsd:string" use="optional"/>
+		<xsd:attribute name="rightsHolder" type="xsd:string" use="optional"/>
+		<xsd:attribute name="etlScriptURL" type="xsd:string" use="optional"/>
+		<xsd:attribute name="licenseType" type="xsd:string" use="optional"/>
+		<xsd:attribute name="purpose" type="xsd:string" use="optional"/>
+		<xsd:attribute name="orgName" type="xsd:string" use="optional"/>
+		<xsd:attribute name="isLicenseRestricted" type="xsd:boolean" use="optional"/>
+		<xsd:attribute name="contributor" type="xsd:string" use="optional"/>
+		<xsd:attribute name="orgType" type="xsd:string" use="optional"/>
+		<xsd:attribute name="curator" type="xsd:string" use="optional"/>
+		<xsd:attribute name="releaseDate" type="xsd:date" use="optional"/>
+		<xsd:attribute name="releaseVersion" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+</xsd:schema>
