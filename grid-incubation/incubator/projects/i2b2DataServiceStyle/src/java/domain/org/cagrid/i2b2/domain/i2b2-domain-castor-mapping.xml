@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mapping xmlns="http://triadcommunity.org/i2b2/domain" xmlns:i2b2="http://triadcommunity.org/i2b2/domain">
   <description>Castor mapping file for Triad i2b2 data service domain types</description>
-  <class name="org.cagrid.i2b2.domain.Visit">
+  <class name="org.cagrid.i2b2.domain.I2B2Type" verify-constructable="false">
+    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.I2B2Type</description>
+    <map-to xml="I2B2Type" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
+    <field name="sourceSystemCd" type="java.lang.String">
+      <bind-xml name="sourceSystemCd" node="attribute" />
+    </field>
+    <field name="importDate" type="java.util.Date">
+      <bind-xml name="importDate" node="attribute" />
+    </field>
+    <field name="downloadDate" type="java.util.Date">
+      <bind-xml name="downloadDate" node="attribute" />
+    </field>
+    <field name="updateDate" type="java.util.Date">
+      <bind-xml name="updateDate" node="attribute" />
+    </field>
+  </class>
+  <class name="org.cagrid.i2b2.domain.Visit" extends="org.cagrid.i2b2.domain.I2B2Type">
     <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Visit</description>
     <map-to xml="Visit" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
     <field name="startDate" type="java.util.Date">
@@ -25,37 +41,8 @@
     <field name="locationPath" type="java.lang.String">
       <bind-xml name="locationPath" node="attribute" />
     </field>
-    <field name="sourceSystemCd" type="java.lang.String">
-      <bind-xml name="sourceSystemCd" node="attribute" />
-    </field>
-    <field name="importDate" type="java.util.Date">
-      <bind-xml name="importDate" node="attribute" />
-    </field>
-    <field name="downloadDate" type="java.util.Date">
-      <bind-xml name="downloadDate" node="attribute" />
-    </field>
-    <field name="updateDate" type="java.util.Date">
-      <bind-xml name="updateDate" node="attribute" />
-    </field>
   </class>
-  <!-- START HERE -->
-  <class name="org.cagrid.i2b2.domain.I2B2Type" verify-constructable="false">
-    <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.I2B2Type</description>
-    <map-to xml="I2B2Type" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
-    <field name="sourceSystemCd" type="java.lang.String">
-      <bind-xml name="sourceSystemCd" node="attribute" />
-    </field>
-    <field name="importDate" type="java.util.Date">
-      <bind-xml name="importDate" node="attribute" />
-    </field>
-    <field name="downloadDate" type="java.util.Date">
-      <bind-xml name="downloadDate" node="attribute" />
-    </field>
-    <field name="updateDate" type="java.util.Date">
-      <bind-xml name="updateDate" node="attribute" />
-    </field>
-  </class>
-  <class name="org.cagrid.i2b2.domain.Patient">
+  <class name="org.cagrid.i2b2.domain.Patient" extends="org.cagrid.i2b2.domain.I2B2Type">
     <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Patient</description>
     <map-to xml="Patient" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
     <field name="ageInYears" type="int">
@@ -91,20 +78,8 @@
     <field name="deathDate" type="java.util.Date">
       <bind-xml name="deathDate" node="attribute" />
     </field>
-    <field name="sourceSystemCd" type="java.lang.String">
-      <bind-xml name="sourceSystemCd" node="attribute" />
-    </field>
-    <field name="importDate" type="java.util.Date">
-      <bind-xml name="importDate" node="attribute" />
-    </field>
-    <field name="downloadDate" type="java.util.Date">
-      <bind-xml name="downloadDate" node="attribute" />
-    </field>
-    <field name="updateDate" type="java.util.Date">
-      <bind-xml name="updateDate" node="attribute" />
-    </field>
   </class>
-  <class name="org.cagrid.i2b2.domain.Concept">
+  <class name="org.cagrid.i2b2.domain.Concept" extends="org.cagrid.i2b2.domain.I2B2Type">
     <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Concept</description>
     <map-to xml="Concept" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
     <field name="conceptPath" type="java.lang.String">
@@ -134,36 +109,12 @@
     <field name="cdePublicId" type="java.lang.Double">
       <bind-xml name="cdePublicId" node="attribute" />
     </field>
-    <field name="sourceSystemCd" type="java.lang.String">
-      <bind-xml name="sourceSystemCd" node="attribute" />
-    </field>
-    <field name="importDate" type="java.util.Date">
-      <bind-xml name="importDate" node="attribute" />
-    </field>
-    <field name="downloadDate" type="java.util.Date">
-      <bind-xml name="downloadDate" node="attribute" />
-    </field>
-    <field name="updateDate" type="java.util.Date">
-      <bind-xml name="updateDate" node="attribute" />
-    </field>
   </class>
-  <class name="org.cagrid.i2b2.domain.Provider">
+  <class name="org.cagrid.i2b2.domain.Provider" extends="org.cagrid.i2b2.domain.I2B2Type">
     <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Provider</description>
     <map-to xml="Provider" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
     <field name="name" type="java.lang.String">
       <bind-xml name="name" node="attribute" />
-    </field>
-    <field name="sourceSystemCd" type="java.lang.String">
-      <bind-xml name="sourceSystemCd" node="attribute" />
-    </field>
-    <field name="importDate" type="java.util.Date">
-      <bind-xml name="importDate" node="attribute" />
-    </field>
-    <field name="downloadDate" type="java.util.Date">
-      <bind-xml name="downloadDate" node="attribute" />
-    </field>
-    <field name="updateDate" type="java.util.Date">
-      <bind-xml name="updateDate" node="attribute" />
     </field>
   </class>
   <class name="org.cagrid.i2b2.domain.Map">
@@ -230,7 +181,7 @@
       <bind-xml name="i2b2:MapDataCollection" node="element" />
     </field>
   </class>
-  <class name="org.cagrid.i2b2.domain.MapData">
+  <class name="org.cagrid.i2b2.domain.MapData" extends="org.cagrid.i2b2.domain.I2B2Type">
     <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.MapData</description>
     <map-to xml="MapData" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
     <field name="map" type="org.cagrid.i2b2.domain.Map">
@@ -269,20 +220,8 @@
     <field name="location" type="java.lang.String">
       <bind-xml name="location" node="attribute" />
     </field>
-    <field name="sourceSystemCd" type="java.lang.String">
-      <bind-xml name="sourceSystemCd" node="attribute" />
-    </field>
-    <field name="importDate" type="java.util.Date">
-      <bind-xml name="importDate" node="attribute" />
-    </field>
-    <field name="downloadDate" type="java.util.Date">
-      <bind-xml name="downloadDate" node="attribute" />
-    </field>
-    <field name="updateDate" type="java.util.Date">
-      <bind-xml name="updateDate" node="attribute" />
-    </field>
   </class>
-  <class name="org.cagrid.i2b2.domain.Observation">
+  <class name="org.cagrid.i2b2.domain.Observation" extends="org.cagrid.i2b2.domain.I2B2Type">
     <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Observation</description>
     <map-to xml="Observation" ns-uri="http://triadcommunity.org/i2b2/domain" ns-prefix="i2b2"/>
     <field name="valueFlag" type="java.lang.String">
@@ -314,18 +253,6 @@
     </field>
     <field name="conceptCollection" type="java.lang.Object" collection="arraylist">
       <bind-xml name="i2b2:ConceptCollection" node="element" />
-    </field>
-    <field name="sourceSystemCd" type="java.lang.String">
-      <bind-xml name="sourceSystemCd" node="attribute" />
-    </field>
-    <field name="importDate" type="java.util.Date">
-      <bind-xml name="importDate" node="attribute" />
-    </field>
-    <field name="downloadDate" type="java.util.Date">
-      <bind-xml name="downloadDate" node="attribute" />
-    </field>
-    <field name="updateDate" type="java.util.Date">
-      <bind-xml name="updateDate" node="attribute" />
     </field>
   </class>
 </mapping>
