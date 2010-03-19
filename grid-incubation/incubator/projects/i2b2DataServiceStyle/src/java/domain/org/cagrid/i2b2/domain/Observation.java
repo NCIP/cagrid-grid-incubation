@@ -1,9 +1,6 @@
 package org.cagrid.i2b2.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-
-import org.apache.commons.collections.CollectionUtils;
 
 
 public class Observation extends I2B2Type {
@@ -18,7 +15,7 @@ public class Observation extends I2B2Type {
     private Double confidence = null;
 
     private Patient patient = null;
-    private ArrayList<Concept> conceptCollection = null;
+    private Concept concept = null;
 
     public Observation() {
         super();
@@ -115,20 +112,20 @@ public class Observation extends I2B2Type {
     }
     
     
-    public ArrayList<Concept> getConceptCollection() {
-        return conceptCollection;
+    public Concept getConcept() {
+        return concept;
     }
     
     
-    public void setConceptCollection(ArrayList<Concept> conceptCollection) {
-        this.conceptCollection = conceptCollection;
+    public void setConcept(Concept concept) {
+        this.concept = concept;
     }
 
 
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((conceptCollection == null) ? 0 : conceptCollection.hashCode());
+        result = prime * result + ((concept == null) ? 0 : concept.hashCode());
         result = prime * result + ((confidence == null) ? 0 : confidence.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
@@ -153,11 +150,11 @@ public class Observation extends I2B2Type {
             return false;
         }
         Observation other = (Observation) obj;
-        if (conceptCollection == null) {
-            if (other.conceptCollection != null) {
+        if (concept == null) {
+            if (other.concept != null) {
                 return false;
             }
-        } else if (!CollectionUtils.isEqualCollection(conceptCollection, other.conceptCollection)) {
+        } else if (!concept.equals(other.concept)) {
             return false;
         }
         if (confidence == null) {
