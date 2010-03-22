@@ -88,7 +88,7 @@
     <field name="name" type="java.lang.String">
       <bind-xml name="name" node="attribute" />
     </field>
-    <field name="mapDataCollection" type="java.lang.Object" collection="arraylist">
+    <field name="mapDataCollection" type="org.cagrid.i2b2.domain.MapData" collection="arraylist" transient="true">
       <bind-xml name="i2b2:MapData" location="i2b2:MapDataCollection" node="element" />
     </field>
     <field name="projectVersion" type="java.lang.Double">
@@ -251,8 +251,8 @@
     <field name="location" type="java.lang.String">
       <bind-xml name="location" node="attribute" />
     </field>
-    <field name="conceptCollection" type="java.lang.Object" collection="arraylist">
-      <bind-xml name="i2b2:Concept" location="i2b2:ConceptCollection" node="element" />
+    <field name="concept" type="org.cagrid.i2b2.domain.Concept">
+      <bind-xml name="i2b2:Concept" node="element" />
     </field>
   </class>
 </mapping>
