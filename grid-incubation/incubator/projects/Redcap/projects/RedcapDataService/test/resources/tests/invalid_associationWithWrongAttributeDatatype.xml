@@ -1,0 +1,11 @@
+<gov:CQLQuery xmlns:gov="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
+	<gov:Target name="org.cagrid.redcap.Projects">
+		<gov:Association roleName="eventArmsCollection"
+			name="org.cagrid.redcap.EventArms">
+			<gov:Attribute name="projectId" value="xyz" predicate="EQUAL_TO" />
+		</gov:Association>
+	</gov:Target>
+	<gov:QueryModifier countOnly="false">
+		<gov:DistinctAttribute>projectName</gov:DistinctAttribute>
+	</gov:QueryModifier>
+</gov:CQLQuery>
