@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="src/java/style"/>
 	<classpathentry kind="src" path="src/java/utils"/>
 	<classpathentry kind="src" path="test/src/java"/>
+	<classpathentry kind="src" path="src/java/domain"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/addressing-1.0.jar" sourcepath="/GT4_LOCATION/ws-core-4.0.3-src.zip"/>
 	<classpathentry kind="var" path="GT4_LOCATION/lib/axis-url.jar"/>

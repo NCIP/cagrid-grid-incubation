@@ -40,6 +40,7 @@
     <dependency rev="2.7" org="clarkware" name="jdepend" conf="test->*" />
     <dependency rev="4.4" org="junit" name="junit" conf="test->default" />
     <dependency rev="1.2.2" org="apache" name="commons-dbcp" conf="impl->default"/>
+    <dependency org="castor" name="castor" rev="1.0.2" conf="impl->*"/>
     
     <!-- only required for DB Copy stuff, can probably be removed later -->    
     <dependency rev="3.0.16-ga-bin" org="mysql" name="connector-java" conf="impl->default"/>
