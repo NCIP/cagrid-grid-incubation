@@ -55,6 +55,52 @@ public class InvokeClientStep extends BaseStep {
     	testGroupsWithAttributes();
     	testGroupsWithGroups();
     	testGroupsWithAssociations();
+    	
+    	//invalid queries
+    	testNonExistantTarget();
+        testNonExistantAssociation();
+        testNonExistantAttribute();
+        testAssociationWithWrongAttributeDatatype();
+    }
+    
+    private void testNonExistantTarget() {
+        LOG.debug("testNonExistantTarget");
+        CQLQuery query = loadQuery("invalid_nonExistantTarget.xml");
+        invokeInvalidQuery(query);
+    }
+    
+    private void testNonExistantAssociation() {
+        LOG.debug("testNonExistantAssociation");
+        CQLQuery query = loadQuery("invalid_nonExistantAssociation.xml");
+        invokeInvalidQuery(query);
+    }
+    
+    private void testNonExistantAttribute() {
+        LOG.debug("testNonExistantAttribute");
+        CQLQuery query = loadQuery("invalid_nonExistantAttribute.xml");
+        invokeInvalidQuery(query);
+    }
+    
+    private void testAssociationWithWrongAttributeDatatype() {
+        LOG.debug("testAssociationWithWrongAttributeDatatype");
+        CQLQuery query = loadQuery("invalid_associationWithWrongAttributeDatatype.xml");
+        invokeInvalidQuery(query);
+    }
+    
+    /**
+     * Executes a query, which is expected to be invalid and fail
+     * @param query
+     *      The expected invalid query
+     */
+    private void invokeInvalidQuery(CQLQuery query) {
+        DataServiceClient client = getServiceClient();
+        try {
+            client.query(query);
+            fail("Query returned results, should have failed");
+        } catch (Exception ex) {
+           LOG.info("Got Exception as expected");
+        	// expected
+        }
     }
     
     private void testObjectsOfGivenType() {
