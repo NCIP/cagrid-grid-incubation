@@ -1,0 +1,207 @@
+<ns1:DomainModel xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice">
+ <ns1:exposedUMLAssociationCollection>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="patient">
+     <ns1:UMLClassReference refid="8deaaefc-84b9-4822-b515-8ecfe1729a83"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="observation">
+     <ns1:UMLClassReference refid="991f7f48-e4f0-4f2d-b444-f4ebd1e75ec6"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="concept">
+     <ns1:UMLClassReference refid="abd0a87d-6290-4894-b870-1dbe8500cdec"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="mapDataCollection">
+     <ns1:UMLClassReference refid="991f7f48-e4f0-4f2d-b444-f4ebd1e75ec6"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="map">
+     <ns1:UMLClassReference refid="abd0a87d-6290-4894-b870-1dbe8500cdec"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="mapDataCollection">
+     <ns1:UMLClassReference refid="27b77cd8-1ccb-4c18-be66-a14797e857d3"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="mapDataCollection">
+     <ns1:UMLClassReference refid="983754ef-f3b5-45f0-9e79-33ef59bc76ae"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="visit">
+     <ns1:UMLClassReference refid="abd0a87d-6290-4894-b870-1dbe8500cdec"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="mapDataCollection">
+     <ns1:UMLClassReference refid="e151fb0a-aa48-4f7d-881e-10cc9d6c7579"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="patient">
+     <ns1:UMLClassReference refid="abd0a87d-6290-4894-b870-1dbe8500cdec"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+  <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="-1" minCardinality="0" roleName="observationCollection">
+     <ns1:UMLClassReference refid="e151fb0a-aa48-4f7d-881e-10cc9d6c7579"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="patient">
+     <ns1:UMLClassReference refid="8deaaefc-84b9-4822-b515-8ecfe1729a83"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+    <ns1:UMLAssociation bidirectional="true">
+   <ns1:targetUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="observation">
+     <ns1:UMLClassReference refid="991f7f48-e4f0-4f2d-b444-f4ebd1e75ec6"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:targetUMLAssociationEdge>
+   <ns1:sourceUMLAssociationEdge>
+    <ns1:UMLAssociationEdge maxCardinality="1" minCardinality="0" roleName="concept">
+     <ns1:UMLClassReference refid="8deaaefc-84b9-4822-b515-8ecfe1729a83"/>
+    </ns1:UMLAssociationEdge>
+   </ns1:sourceUMLAssociationEdge>
+  </ns1:UMLAssociation>
+ </ns1:exposedUMLAssociationCollection>
+ <ns1:exposedUMLClassCollection>
+  <ns1:UMLClass allowableAsTarget="true" className="org.cagrid.i2b2.domain.Concept" id="991f7f48-e4f0-4f2d-b444-f4ebd1e75ec6" packageName="org.cagrid.i2b2.domain" projectName="TRIAD i2b2" projectVersion="1.0">
+   <ns2:umlAttributeCollection xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="conceptPath" publicID="1499324753" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="name" publicID="1540130155" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.Double" name="cdePublicId" publicID="715606606" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="cdeVersion" publicID="683084762" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="projectName" publicID="403016362" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.Double" name="projectVersion" publicID="-1780648833" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="encodingServiceURL" publicID="-1092036655" version="1.0"/>
+   </ns2:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="org.cagrid.i2b2.domain.I2B2Type" id="c3104490-c71d-450c-a2c8-b93f419c3866" packageName="org.cagrid.i2b2.domain" projectName="TRIAD i2b2" projectVersion="1.0">
+   <ns3:umlAttributeCollection xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns3:UMLAttribute dataTypeName="java.util.Date" name="updateDate" publicID="261526311" version="1.0"/>
+    <ns3:UMLAttribute dataTypeName="java.util.Date" name="downloadDate" publicID="1666992998" version="1.0"/>
+    <ns3:UMLAttribute dataTypeName="java.util.Date" name="importDate" publicID="2124840707" version="1.0"/>
+    <ns3:UMLAttribute dataTypeName="java.lang.String" name="sourceSystemCd" publicID="1221381931" version="1.0"/>
+   </ns3:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="org.cagrid.i2b2.domain.Map" id="27b77cd8-1ccb-4c18-be66-a14797e857d3" packageName="org.cagrid.i2b2.domain" projectName="TRIAD i2b2" projectVersion="1.0">
+   <ns4:umlAttributeCollection xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="author" publicID="749847123" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="creator" publicID="-1114545998" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="curator" publicID="-2085962664" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="contributor" publicID="1338933539" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.util.Date" name="createDate" publicID="-1839610092" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="license" publicID="-906533747" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="licenseType" publicID="437026787" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.Boolean" name="isLicenseRestricted" publicID="354236284" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.util.Date" name="releaseDate" publicID="-852053863" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="releaseURI" publicID="643084265" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="releaseVersion" publicID="-1967642851" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="rightsHolder" publicID="-1696350613" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="purpose" publicID="-216269344" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="orgName" publicID="951282767" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="orgType" publicID="951075008" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="sourceSoftware" publicID="-39714068" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="etlScriptUrl" publicID="-691200953" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="releaseRepoName" publicID="-1705896310" version="1.0"/>
+    <ns4:UMLAttribute dataTypeName="java.lang.String" name="targetConceptPath" publicID="-372522846" version="1.0"/>
+   </ns4:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="org.cagrid.i2b2.domain.MapData" id="abd0a87d-6290-4894-b870-1dbe8500cdec" packageName="org.cagrid.i2b2.domain" projectName="TRIAD i2b2" projectVersion="1.0">
+   <ns5:umlAttributeCollection xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns5:UMLAttribute dataTypeName="java.lang.Double" name="numericValue" publicID="-2142144634" version="1.0"/>
+    <ns5:UMLAttribute dataTypeName="java.lang.String" name="textValue" publicID="240066982" version="1.0"/>
+    <ns5:UMLAttribute dataTypeName="java.lang.String" name="valueFlag" publicID="463074685" version="1.0"/>
+    <ns5:UMLAttribute dataTypeName="java.lang.Double" name="quantity" publicID="-1130990357" version="1.0"/>
+    <ns5:UMLAttribute dataTypeName="java.lang.String" name="units" publicID="1196058767" version="1.0"/>
+    <ns5:UMLAttribute dataTypeName="java.util.Date" name="endDate" publicID="-1378707383" version="1.0"/>
+    <ns5:UMLAttribute dataTypeName="java.lang.String" name="location" publicID="2125471669" version="1.0"/>
+    <ns5:UMLAttribute dataTypeName="java.lang.Double" name="confidence" publicID="1049714412" version="1.0"/>
+   </ns5:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="org.cagrid.i2b2.domain.Observation" id="8deaaefc-84b9-4822-b515-8ecfe1729a83" packageName="org.cagrid.i2b2.domain" projectName="TRIAD i2b2" projectVersion="1.0">
+   <ns6:umlAttributeCollection xmlns:ns6="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns6:UMLAttribute dataTypeName="java.lang.Double" name="numericValue" publicID="2142336650" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="textValue" publicID="-240820054" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="valueFlag" publicID="-442895231" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.Double" name="quantity" publicID="-999525133" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="units" publicID="950577039" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.util.Date" name="endDate" publicID="-751773867" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.String" name="location" publicID="-2104467527" version="1.0"/>
+    <ns6:UMLAttribute dataTypeName="java.lang.Double" name="confidence" publicID="1114742516" version="1.0"/>
+   </ns6:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="org.cagrid.i2b2.domain.Patient" id="e151fb0a-aa48-4f7d-881e-10cc9d6c7579" packageName="org.cagrid.i2b2.domain" projectName="TRIAD i2b2" projectVersion="1.0">
+   <ns7:umlAttributeCollection xmlns:ns7="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="vitalStatus" publicID="1203119134" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.util.Date" name="birthDate" publicID="939954733" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.util.Date" name="deathDate" publicID="1046273378" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="sex" publicID="-1947878010" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="int" name="ageInYears" publicID="-1840565326" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="language" publicID="538240088" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="race" publicID="-1950766383" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="zip" publicID="-1947850687" version="1.0"/>
+    <ns7:UMLAttribute dataTypeName="java.lang.String" name="cityStateZipPath" publicID="-1311941824" version="1.0"/>
+   </ns7:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="org.cagrid.i2b2.domain.Provider" id="d124167f-2e67-48a5-a396-fdac9d351755" packageName="org.cagrid.i2b2.domain" projectName="TRIAD i2b2" projectVersion="1.0">
+   <ns8:umlAttributeCollection xmlns:ns8="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns8:UMLAttribute dataTypeName="java.lang.String" name="name" publicID="-406094573" version="1.0"/>
+   </ns8:umlAttributeCollection>
+  </ns1:UMLClass>
+  <ns1:UMLClass allowableAsTarget="true" className="org.cagrid.i2b2.domain.Visit" id="983754ef-f3b5-45f0-9e79-33ef59bc76ae" packageName="org.cagrid.i2b2.domain" projectName="TRIAD i2b2" projectVersion="1.0">
+   <ns9:umlAttributeCollection xmlns:ns9="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns9:UMLAttribute dataTypeName="java.lang.String" name="activeStatus" publicID="1458790564" version="1.0"/>
+    <ns9:UMLAttribute dataTypeName="java.util.Date" name="startDate" publicID="714156092" version="1.0"/>
+    <ns9:UMLAttribute dataTypeName="java.util.Date" name="endDate" publicID="1270024277" version="1.0"/>
+    <ns9:UMLAttribute dataTypeName="java.lang.String" name="inOut" publicID="-1510155243" version="1.0"/>
+    <ns9:UMLAttribute dataTypeName="java.lang.String" name="location" publicID="2052038585" version="1.0"/>
+    <ns9:UMLAttribute dataTypeName="java.lang.String" name="locationPath" publicID="-15034750" version="1.0"/>
+   </ns9:umlAttributeCollection>
+  </ns1:UMLClass>
+ </ns1:exposedUMLClassCollection>
+ <ns1:umlGeneralizationCollection>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="991f7f48-e4f0-4f2d-b444-f4ebd1e75ec6"/>
+   <ns1:superClassReference refid="c3104490-c71d-450c-a2c8-b93f419c3866"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="abd0a87d-6290-4894-b870-1dbe8500cdec"/>
+   <ns1:superClassReference refid="c3104490-c71d-450c-a2c8-b93f419c3866"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="8deaaefc-84b9-4822-b515-8ecfe1729a83"/>
+   <ns1:superClassReference refid="c3104490-c71d-450c-a2c8-b93f419c3866"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="e151fb0a-aa48-4f7d-881e-10cc9d6c7579"/>
+   <ns1:superClassReference refid="c3104490-c71d-450c-a2c8-b93f419c3866"/>
+  </ns1:UMLGeneralization>
+  <ns1:UMLGeneralization>
+   <ns1:subClassReference refid="983754ef-f3b5-45f0-9e79-33ef59bc76ae"/>
+   <ns1:superClassReference refid="c3104490-c71d-450c-a2c8-b93f419c3866"/>
+  </ns1:UMLGeneralization>
+ </ns1:umlGeneralizationCollection>
+</ns1:DomainModel>
+
