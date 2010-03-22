@@ -32,3 +32,20 @@ REDCap Configuration:
 For more information please check the REDCap Users Guide at
 
 https://www.cagrid.org/display/rcds/Users+Guide
+
+For running system tests TEMPORARILY: (until configured to automatically test using Hudson)
+==============================================================================
+1. Edit the target named test in dev-build.xml
+2. Add redcapDBsetup in depends attribute for target test: This will setup the DB for testing 
+when the test target is run.
+3.uncomment the line <include name="**/*StoryBook.java" /> and comment other *.Test.java, *.SampleTest.java, *.TestCase.java above it.
+4. Add the containers to be tested against under ext/dependencies/resources.
+So it should have:
+ext\dependencies\resources\containers\minimal-secure-tomcat-5.0.28-with-globus-4.0.3.zip
+ext\dependencies\resources\containers\minimal-tomcat-5.0.28-with-globus-4.0.3.zip
+ext\dependencies\resources\containers\minimal-ws-core-enum-4.0.3.zip
+5. Testing is done using non secured tomcat container only for now.
+6. run> ant test for complete Redcap project
+
+
+
