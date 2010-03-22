@@ -22,6 +22,7 @@
 	<property name="build.dir" location="build" />
 	<property name="build.style.dest" location="${build.dir}/style/classes" />
 	<property name="build.processor.dest" location="${build.dir}/processor/classes" />
+	<property name="build.domain.dest" location="${build.dir}/domain/classes"/>
 	<property name="build.utils.dest" location="${build.dir}/utils/classes"/>
 	<property name="build.test.dest" location="${build.dir}/test/classes"/>
 	<property name="build.beans.dir" location="${build.dir}/beans"/>
@@ -34,6 +35,7 @@
 	<property name="beans.jar.name" value="${project.jar.prefix}beans${project.jar.suffix}"/>
 	<property name="style.jar.name" value="${project.jar.prefix}style${project.jar.suffix}"/>
 	<property name="processor.jar.name" value="${project.jar.prefix}processor${project.jar.suffix}"/>
+	<property name="domain.jar.name" value="${project.jar.prefix}domain${project.jar.suffix}"/>
 	<property name="utils.jar.name" value="${project.jar.prefix}utils${project.jar.suffix}"/>
 	<property name="test.jar.name" value="${project.jar.prefix}test${project.jar.suffix}"/>
 	
@@ -41,12 +43,14 @@
 	<property name="beans.jar.file" value="${build.jars.dir}/${beans.jar.name}"/>
 	<property name="style.jar.file" value="${build.jars.dir}/${style.jar.name}" />
 	<property name="processor.jar.file" value="${build.jars.dir}/${processor.jar.name}" />
+	<property name="domain.jar.file" value="${build.jars.dir}/${domain.jar.name}" />
 	<property name="utils.jar.file" value="${build.jars.dir}/${utils.jar.name}"/>
 	<property name="test.jar.file" value="${build.jars.dir}/${test.jar.name}"/>
 
 	<!-- source directories -->
 	<property name="style.src.dir" location="${basedir}/src/java/style" />
 	<property name="processor.src.dir" location="${basedir}/src/java/processor" />
+	<property name="domain.src.dir" location="${basedir}/src/java/domain"/>
 	<property name="utils.src.dir" location="${basedir}/src/java/utils"/>
 	<property name="test.src.dir" location="${basedir}/test/src/java"/>
 	<property name="test.resources.dir" location="${basedir}/test/resources"/>
@@ -126,6 +130,7 @@
 		<mkdir dir="${build.jars.dir}" />
 		<mkdir dir="${build.style.dest}" />
 		<mkdir dir="${build.processor.dest}" />
+		<mkdir dir="${build.domain.dest}"/>
 		<mkdir dir="${build.utils.dest}"/>
 		<mkdir dir="${build.test.dest}"/>
 		<mkdir dir="${build.beans.dir}"/>
@@ -190,35 +195,49 @@
 
 
 	<!-- compiles the query processor source code -->
-	<target name="compileProcessor" depends="init, compileBeans, compileUtils">
+	<target name="compileProcessor" depends="init, compileBeans, compileUtils, compileDomain">
 		<javac srcdir="${processor.src.dir}" destdir="${build.processor.dest}" debug="${java.debug}" source="${java.source}">
 			<classpath refid="build.classpath" />
 			<classpath>
 				<pathelement location="${build.utils.dest}"/>
 				<pathelement location="${build.beans.classes.dir}"/>
+				<pathelement location="${build.domain.dest}"/>
 			</classpath>
 			<include name="**/*.java" />
 		</javac>
 	</target>
 	
 	
+	<!-- compiles the domain objects code -->
+	<target name="compileDomain" depends="init">
+		<javac srcdir="${domain.src.dir}" destdir="${build.domain.dest}" debug="${java.debug}" source="${java.source}">
+			<classpath refid="build.classpath" />
+			<include name="**/*.java" />
+		</javac>
+	</target>
+	
+	
 	<!-- compiles the utils source code -->
-	<target name="compileUtils" depends="init, compileBeans">
+	<target name="compileUtils" depends="init, compileBeans, compileDomain">
 		<javac srcdir="${utils.src.dir}" destdir="${build.utils.dest}" debug="${java.debug}" source="${java.source}">
 			<classpath refid="build.classpath"/>
+			<classpath>
+				<pathelement location="${build.domain.dest}"/>
+			</classpath>
 			<include name="**/*.java"/>
 		</javac>
 	</target>
 	
 	
 	<!-- compiles the test source code -->
-	<target name="compileTest" depends="compileStyle, compileUtils, compileProcessor">
+	<target name="compileTest" depends="compileStyle, compileUtils, compileProcessor, compileDomain">
 		<javac srcdir="${test.src.dir}" destdir="${build.test.dest}" debug="${java.debug}" source="${java.source}">
 			<classpath refid="test.classpath"/>
 			<classpath>
 				<pathelement location="${build.utils.dest}"/>
 				<pathelement location="${build.style.dest}"/>
 				<pathelement location="${build.processor.dest}"/>
+				<pathelement location="${build.domain.dest}"/>
 			</classpath>
 			<include name="**/*.java"/>
 		</javac>
@@ -259,6 +278,19 @@
 			</fileset>
 			<fileset dir="${processor.src.dir}">
 				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<!-- jars the domain objects -->
+	<target name="jarDomain" depends="compileDomain" description="Builds and jars the domain objects">
+		<jar destfile="${domain.jar.file}">
+			<fileset dir="${build.domain.dest}">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${domain.src.dir}">
+				<include name="**/*"/>
 			</fileset>
 		</jar>
 	</target>
@@ -333,5 +365,5 @@
 
 
 	<!-- build and jar everything -->
-	<target name="all" depends="jarBeans, jarProcessor, jarStyle, jarUtils, jarTest" description="Builds and jars all the classes in the project" />
+	<target name="all" depends="jarBeans, jarProcessor, jarDomain, jarStyle, jarUtils, jarTest" description="Builds and jars all the classes in the project" />
 </project>
