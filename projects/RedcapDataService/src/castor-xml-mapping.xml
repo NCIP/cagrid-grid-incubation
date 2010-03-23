@@ -158,6 +158,49 @@
 		<field name="ProjectId" type="integer">
 			<bind-xml name="projectId" node="attribute" />
 		</field>
+		
+		<field name="BranchingLogic" type="java.lang.String">
+			<bind-xml name="branchingLogic" node="attribute" />
+		</field>
+		<field name="ElementEnum" type="java.lang.String">
+			<bind-xml name="elementEnum" node="attribute" />
+		</field>
+		<field name="ElementLabel" type="java.lang.String">
+			<bind-xml name="elementLabel" node="attribute" />
+		</field>
+		<field name="ElementNote" type="java.lang.String">
+			<bind-xml name="elementNote" node="attribute" />
+		</field>
+		<field name="ElementPreceedingHeader" type="java.lang.String">
+			<bind-xml name="elementPreceedingHeader" node="attribute" />
+		</field>
+		<field name="ElementType" type="java.lang.String">
+			<bind-xml name="elementType" node="attribute" />
+		</field>
+		<field name="ElementValidationCheck" type="java.lang.String">
+			<bind-xml name="elementValidationCheck" node="attribute" />
+		</field>
+		<field name="ElementValidationMax" type="java.lang.String">
+			<bind-xml name="elementValidationMax" node="attribute" />
+		</field>
+		<field name="ElementValidationMin" type="java.lang.String">
+			<bind-xml name="elementValidationMin" node="attribute" />
+		</field>
+		<field name="ElementValidationType" type="java.lang.String">
+			<bind-xml name="elementValidationType" node="attribute" />
+		</field>
+		<field name="FieldPhi" type="java.lang.String">
+			<bind-xml name="fieldPhi" node="attribute" />
+		</field>
+		<field name="FieldReq" type="java.lang.Integer">
+			<bind-xml name="fieldReq" node="attribute" />
+		</field>
+		<field name="FieldUnits" type="java.lang.String">
+			<bind-xml name="fieldUnits" node="attribute" />
+		</field>
+		<field name="FormMenuDescription" type="java.lang.String">
+			<bind-xml name="formMenuDescription" node="attribute" />
+		</field>
 	</class>
 
 	<class name="org.cagrid.redcap.EventsCalendar" identity="id">
