@@ -62,13 +62,23 @@ public class RedcapUtil {
 			LOG.info("Parameterized HQL :"+parameterizedHql.toString());
 			Query query = session.createQuery(parameterizedHql.getHql());
 
-			if (cqlQuery.getTarget() != null) {
-				List<String> targetParameterList = getCQLParameterList(cqlQuery);
-				for (int i = 0; i < targetParameterList.size(); i++) {
-					query.setString(i, targetParameterList.get(i).toString());
-					LOG.debug("Parameter at "+i+" :"+targetParameterList.get(i).toString());
+			List<Object> targetList = parameterizedHql.getParameters();
+			if(cqlQuery.getTarget()!=null){
+				for(int i=0;i<targetList.size();i++){
+					query.setParameter(i, targetList.get(i));
+					if(targetList.get(i)!=null){
+						LOG.debug("Parameter at "+i+" :"+targetList.get(i).toString());
+					}	
 				}
 			}
+			
+//			if (cqlQuery.getTarget() != null) {
+//				List<String> targetParameterList = getCQLParameterList(cqlQuery);
+//				for (int i = 0; i < targetParameterList.size(); i++) {
+//					query.setString(i, targetParameterList.get(i).toString());
+//					LOG.debug("Parameter at "+i+" :"+targetParameterList.get(i).toString());
+//				}
+//			}
 
 			objects = query.list();
 			if(objects!=null){
