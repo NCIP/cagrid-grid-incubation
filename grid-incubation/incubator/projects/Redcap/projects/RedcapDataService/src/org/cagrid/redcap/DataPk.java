@@ -17,6 +17,17 @@ public class DataPk implements Serializable{
 		
 	}
 	
+	private int record;
+	@Column(name="record")
+	public int getRecord() {
+		return record;
+	}
+
+	
+	public void setRecord(int record) {
+		this.record = record;
+	}
+	
 	public DataPk(int projectId, String fieldName){
 		this.projectId = projectId;
 		this.fieldName = fieldName;

@@ -129,7 +129,7 @@ public class Data  implements java.io.Serializable {
     }
 
 
-    @Column(name="record")
+    @Column(name="record",insertable=false,updatable=false)
     public int getRecord() {
         return record;
     }
