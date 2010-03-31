@@ -65,9 +65,27 @@ public class RedcapUtil {
 			List<Object> targetList = parameterizedHql.getParameters();
 			if(cqlQuery.getTarget()!=null){
 				for(int i=0;i<targetList.size();i++){
-					query.setParameter(i, targetList.get(i));
 					if(targetList.get(i)!=null){
 						LOG.debug("Parameter at "+i+" :"+targetList.get(i).toString());
+						if(targetList.get(i) instanceof java.util.Date){
+							query.setDate(i, (java.util.Date)targetList.get(i));
+						}else if(targetList.get(i) instanceof java.lang.Boolean){
+							query.setBoolean(i, (java.lang.Boolean)targetList.get(i));
+						}else if(targetList.get(i) instanceof java.lang.Integer){
+							query.setInteger(i, (java.lang.Integer)targetList.get(i));
+						}else if(targetList.get(i) instanceof java.lang.Long){
+							query.setLong(i, (java.lang.Long)targetList.get(i));
+						}else if(targetList.get(i) instanceof java.lang.Double){
+							query.setDouble(i, (java.lang.Double)targetList.get(i));
+						}else if(targetList.get(i) instanceof java.lang.Float){
+							query.setFloat(i, (java.lang.Float)targetList.get(i));
+						}else if(targetList.get(i) instanceof java.lang.Character){
+							query.setCharacter(i, (java.lang.Character)targetList.get(i));
+						}else if(targetList.get(i) instanceof java.lang.String){
+							query.setString(i, (java.lang.String)targetList.get(i));
+						}else{					
+							query.setParameter(i, targetList.get(i));
+						}
 					}	
 				}
 			}
