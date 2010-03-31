@@ -572,6 +572,7 @@ public class CqlToHqlConverter{
             formats.add(new SimpleDateFormat("HH:mm:ss"));
             formats.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
             formats.add(new SimpleDateFormat("yyyy-MM-dd"));
+            formats.add(new SimpleDateFormat("MM/dd/yyyy"));
             
             Date date = null;
             Iterator<SimpleDateFormat> formatIter = formats.iterator();
