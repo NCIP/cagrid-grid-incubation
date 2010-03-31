@@ -437,14 +437,36 @@ public class CqlToHqlConverter{
 			LOG.debug("group association length"+group.getAssociation().length);
 			if(group.getAssociation().length>1){
 				for(int i=0;i<group.getAssociation().length;i++){
+					
+					LOG.debug("Processing group association " + sourceQueryObject.getName() + " to " + group.getAssociation(i).getName());
+				       
+			        // get the association's role name
+					String roleName = null;
+					try {
+					    roleName = typesInformationResolver.getRoleName(sourceQueryObject.getName(), group.getAssociation(i).getName());
+					} catch (TypesInformationException ex) {
+					    throw new QueryTranslationException(ex.getMessage(), ex);
+					}
+					if (roleName == null) {
+						// still null?? no association to the object!
+						throw new QueryTranslationException("Association from type " + sourceQueryObject.getName() + 
+							" to type " + group.getAssociation(i).getName() + " does not exist.  Use only direct associations");
+					}
+			        LOG.debug("Role name determined to be " + roleName);
+			        
+			        // determine the alias for this association
+			        String alias = getAssociationAlias(sourceQueryObject.getName(), group.getAssociation(i).getName(), roleName);
+			        LOG.debug("Association alias determined to be " + alias);
+			        
+			        
 					if(group.getAssociation(i).getAssociation()!=null){
 						nestedAssociation=true;
 					}
 					hql.append(" join ");
-		            hql.append(sourceAlias).append('.').append(group.getAssociation(i).getRoleName());
-		            //hql.append(" as ").append(group.getAssociation(i).getRoleName()).append("_");
+		            hql.append(sourceAlias).append('.').append(roleName);
+		            
 		            hql.append(" as ");
-		            hql.append(sourceAlias).append("_").append(group.getAssociation(i).getRoleName()).append("_");
+		            hql.append(sourceAlias).append("_").append(roleName).append("_");
 				}
 				
 				hql.append(" where ");
