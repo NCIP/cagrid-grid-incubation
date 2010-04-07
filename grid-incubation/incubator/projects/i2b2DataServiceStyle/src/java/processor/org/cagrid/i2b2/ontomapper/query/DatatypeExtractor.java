@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.cagrid.i2b2.domain.Concept;
+import org.cagrid.i2b2.domain.Observation;
 import org.cagrid.i2b2.ontomapper.processor.DatabaseConnectionSource;
 
 public class DatatypeExtractor {
@@ -28,24 +30,7 @@ public class DatatypeExtractor {
         List<Concept> concepts = new ArrayList<Concept>();
         // get the base query and a blank list of parameters
         String query = Queries.getConceptQuery(tablePrefix);
-        List<Object> parameters = new ArrayList<Object>();
-        if (criteria != null && criteria.size() != 0) {
-            // if some criteria are to be applied, 
-            // do it with a where clause and positional parameters
-            ParameterizedSqlFragment whereClause = criteriaToClause(criteria, "AND");
-            query = query + " where " + whereClause.getSql();
-            parameters = whereClause.getParameters();
-        }
-        // get a connection
-        Connection connection = connectionSource.getConnection();
-        // prepare a statement w/ positional parameters
-        PreparedStatement statement = connection.prepareStatement(query);
-        // set all the positional parameters
-        for (int i = 0; i < parameters.size(); i++) {
-            statement.setObject(i + 1, parameters.get(i));
-        }
-        // execute
-        ResultSet results = statement.executeQuery();
+        ResultSet results = executeQuery(query, criteria);
         // build up the concept object from returned columns
         while(results.next()) {
             Concept concept = new Concept();
@@ -59,12 +44,60 @@ public class DatatypeExtractor {
             concepts.add(concept);
         }
         // close out everything
-        results.close();
-        statement.close();
-        connection.close();
+        closeResultSet(results);
         // wrap the results as an unmodifiable list so users don't try
         // to mess with the results and have unexpected things happen
         return Collections.unmodifiableList(concepts);
+    }
+    
+    
+    public List<Observation> getObservations(List<QueryColumnCriteria> criteria) throws SQLException {
+        List<Observation> observations = new ArrayList<Observation>();
+        String query = Queries.getObservationQuery(tablePrefix);
+        ResultSet results = executeQuery(query, criteria);
+        while (results.next()) {
+            Observation obs = new Observation();
+            obs.setNumericValue(results.getDouble(1));
+            obs.setTextValue(results.getString(2));
+            obs.setValueFlag(results.getString(3));
+            obs.setQuantity(results.getDouble(4));
+            obs.setUnits(results.getString(5));
+            obs.setEndDate(results.getDate(6));
+            obs.setLocation(results.getString(7));
+            obs.setConfidence(results.getDouble(8));
+            obs.setUpdateDate(results.getDate(9));
+            obs.setDownloadDate(results.getDate(10));
+            obs.setImportDate(results.getDate(11));
+            obs.setSourceSystemCd(results.getString(12));
+            observations.add(obs);
+        }
+        closeResultSet(results);
+        return Collections.unmodifiableList(observations);
+    }
+    
+    
+    private ResultSet executeQuery(String baseQuery, List<QueryColumnCriteria> criteria) throws SQLException {
+        String query = baseQuery;
+        List<Object> parameters = new ArrayList<Object>();
+        if (criteria != null && criteria.size() != 0) {
+            // if some criteria are to be applied, 
+            // do it with a where clause and positional parameters
+            ParameterizedSqlFragment whereClause = criteriaToClause(criteria, "AND");
+            query = query + " where " + whereClause.getSql();
+            parameters = whereClause.getParameters();
+        }
+        query += ";";
+        // get a connection
+        Connection connection = connectionSource.getConnection();
+        // prepare a statement w/ positional parameters
+        PreparedStatement statement = connection.prepareStatement(query);
+        // set all the positional parameters
+        for (int i = 0; i < parameters.size(); i++) {
+            statement.setObject(i + 1, parameters.get(i));
+        }
+        // execute
+        ResultSet results = statement.executeQuery();
+        return results;
     }
     
     
@@ -85,5 +118,17 @@ public class DatatypeExtractor {
             }
         }
         return new ParameterizedSqlFragment(sql.toString(), params);
+    }
+    
+    
+    private void closeResultSet(ResultSet res) throws SQLException {
+        if (res.getStatement() != null) {
+            Statement s = res.getStatement();
+            if (s.getConnection() != null) {
+                s.getConnection().close();
+            }
+            s.close();
+        }
+        res.close();
     }
 }
