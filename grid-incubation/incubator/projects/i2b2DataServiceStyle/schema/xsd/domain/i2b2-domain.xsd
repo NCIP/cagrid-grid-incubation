@@ -57,6 +57,8 @@
 				<xsd:attribute name="birthDate" type="xsd:string" use="optional"/>
 				<xsd:attribute name="sex" type="xsd:string" use="optional"/>
 				<xsd:attribute name="deathDate" type="xsd:date" use="optional"/>
+				<xsd:attribute name="maritalStatus" type="xsd:string" use="optional"/>
+				<xsd:attribute name="religion" type="xsd:string" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

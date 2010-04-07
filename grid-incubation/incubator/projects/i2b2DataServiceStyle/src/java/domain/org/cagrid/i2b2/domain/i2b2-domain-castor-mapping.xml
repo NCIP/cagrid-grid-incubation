@@ -78,6 +78,12 @@
     <field name="deathDate" type="java.util.Date">
       <bind-xml name="deathDate" node="attribute" />
     </field>
+    <field name="maritalStatus" type="java.lang.String">
+    	<bind-xml name="maritalStatus" node="attribute"/>
+    </field>
+    <field name="religion" type="java.lang.String">
+    	<bind-xml name="religion" node="attribute"/>
+    </field>
   </class>
   <class name="org.cagrid.i2b2.domain.Concept" extends="org.cagrid.i2b2.domain.I2B2Type">
     <description xmlns="">Default mapping for class org.cagrid.i2b2.domain.Concept</description>

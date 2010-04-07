@@ -22,6 +22,8 @@ public class Patient extends I2B2Type {
     private int ageInYears;
     private String language = null;
     private String race = null;
+    private String maritalStatus = null;
+    private String religion = null;
     private String zip = null;
     private String cityStateZipPath = null;
     
@@ -101,6 +103,26 @@ public class Patient extends I2B2Type {
 
     public void setRace(String race) {
         this.race = race;
+    }
+    
+    
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+    
+    
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+    
+    
+    public String getReligion() {
+        return religion;
+    }
+    
+    
+    public void setReligion(String religion) {
+        this.religion = religion;
     }
 
 
