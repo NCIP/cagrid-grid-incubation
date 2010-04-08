@@ -30,5 +30,7 @@
       	conf="default->default;impl-test->test" />
     <dependency rev="latest.integration" org="caGrid" name="metadatautils"
    		conf="default->default;impl-test->test"/>
+   	<dependency rev="latest.integration" org="caGrid" name="metadata"
+   		conf="default->schemas"/>
   </dependencies>
 </ivy-module>
