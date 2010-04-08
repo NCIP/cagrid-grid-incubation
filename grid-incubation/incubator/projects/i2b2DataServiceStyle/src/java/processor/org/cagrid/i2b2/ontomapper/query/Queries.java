@@ -74,6 +74,21 @@ public class Queries {
         "FROM " +
         "I2B2DEMODATA.PROVIDER_DIMENSION";
     
+    public static final String VISIT_QUERY = 
+        "SELECT " +
+        "I2B2DEMODATA.VISIT_DIMENSION.ACTIVE_STATUS_CD, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.START_DATE, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.END_DATE, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.INOUT_CD, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.LOCATION_CD, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.LOCATION_PATH, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.UPDATE_DATE, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.DOWNLOAD_DATE, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.IMPORT_DATE, " +
+        "I2B2DEMODATA.VISIT_DIMENSION.SOURCESYSTEM_CD " +
+        "FROM " +
+        "I2B2DEMODATA.VISIT_DIMENSION";
+    
     public static String getConceptQuery(String tablePrefix) {
         return replacePrefixes(CONCEPT_QUERY, tablePrefix);
     }
@@ -90,6 +105,11 @@ public class Queries {
     
     
     public static String getProviderQuery(String tablePrefix) {
+        return replacePrefixes(PROVIDER_QUERY, tablePrefix);
+    }
+    
+    
+    public static String getVisitQuery(String tablePrefix) {
         return replacePrefixes(PROVIDER_QUERY, tablePrefix);
     }
     

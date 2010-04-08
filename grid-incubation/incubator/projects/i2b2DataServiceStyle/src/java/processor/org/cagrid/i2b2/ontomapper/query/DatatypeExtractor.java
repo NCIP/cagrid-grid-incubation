@@ -14,6 +14,7 @@ import org.cagrid.i2b2.domain.Concept;
 import org.cagrid.i2b2.domain.Observation;
 import org.cagrid.i2b2.domain.Patient;
 import org.cagrid.i2b2.domain.Provider;
+import org.cagrid.i2b2.domain.Visit;
 import org.cagrid.i2b2.ontomapper.processor.DatabaseConnectionSource;
 
 public class DatatypeExtractor {
@@ -120,6 +121,29 @@ public class DatatypeExtractor {
         }
         closeResultSet(results);
         return Collections.unmodifiableList(providers);
+    }
+    
+    
+    public List<Visit> getVisits(List<QueryColumnCriteria> criteria) throws SQLException {
+        List<Visit> visits = new ArrayList<Visit>();
+        String query = Queries.getVisitQuery(tablePrefix);
+        ResultSet results = executeQuery(query, criteria);
+        while (results.next()) {
+            Visit v = new Visit();
+            v.setActiveStatus(results.getString(1));
+            v.setStartDate(results.getDate(2));
+            v.setEndDate(results.getDate(3));
+            v.setInOut(results.getString(4));
+            v.setLocation(results.getString(5));
+            v.setLocationPath(results.getString(6));
+            v.setUpdateDate(results.getDate(7));
+            v.setDownloadDate(results.getDate(8));
+            v.setImportDate(results.getDate(9));
+            v.setSourceSystemCd(results.getString(10));
+            visits.add(v);
+        }
+        closeResultSet(results);
+        return Collections.unmodifiableList(visits);
     }
     
     
