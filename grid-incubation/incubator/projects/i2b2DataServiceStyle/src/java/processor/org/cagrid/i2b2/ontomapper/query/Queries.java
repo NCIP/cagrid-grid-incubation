@@ -64,6 +64,16 @@ public class Queries {
         "FROM " +
         "<!--TablePrefix-->PATIENT_DIMENSION";
     
+    public static final String PROVIDER_QUERY = 
+        "SELECT " +
+        "I2B2DEMODATA.PROVIDER_DIMENSION.NAME_CHAR, " +
+        "I2B2DEMODATA.PROVIDER_DIMENSION.UPDATE_DATE, " +
+        "I2B2DEMODATA.PROVIDER_DIMENSION.DOWNLOAD_DATE, " +
+        "I2B2DEMODATA.PROVIDER_DIMENSION.IMPORT_DATE, " +
+        "I2B2DEMODATA.PROVIDER_DIMENSION.SOURCESYSTEM_CD " +
+        "FROM " +
+        "I2B2DEMODATA.PROVIDER_DIMENSION";
+    
     public static String getConceptQuery(String tablePrefix) {
         return replacePrefixes(CONCEPT_QUERY, tablePrefix);
     }
@@ -76,6 +86,11 @@ public class Queries {
     
     public static String getPatientQuery(String tablePrefix) {
         return replacePrefixes(PATIENT_QUERY, tablePrefix);
+    }
+    
+    
+    public static String getProviderQuery(String tablePrefix) {
+        return replacePrefixes(PROVIDER_QUERY, tablePrefix);
     }
     
     

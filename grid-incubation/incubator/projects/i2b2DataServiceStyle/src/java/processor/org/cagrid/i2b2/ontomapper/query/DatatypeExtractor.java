@@ -13,6 +13,7 @@ import java.util.List;
 import org.cagrid.i2b2.domain.Concept;
 import org.cagrid.i2b2.domain.Observation;
 import org.cagrid.i2b2.domain.Patient;
+import org.cagrid.i2b2.domain.Provider;
 import org.cagrid.i2b2.ontomapper.processor.DatabaseConnectionSource;
 
 public class DatatypeExtractor {
@@ -93,10 +94,32 @@ public class DatatypeExtractor {
             p.setMaritalStatus(results.getString(8));
             p.setZip(results.getString(9));
             p.setCityStateZipPath(results.getString(10));
+            p.setUpdateDate(results.getDate(11));
+            p.setDownloadDate(results.getDate(12));
+            p.setImportDate(results.getDate(13));
+            p.setSourceSystemCd(results.getString(14));
             patients.add(p);
         }
         closeResultSet(results);
         return Collections.unmodifiableList(patients);
+    }
+    
+    
+    public List<Provider> getProviders(List<QueryColumnCriteria> criteria) throws SQLException {
+        List<Provider> providers = new ArrayList<Provider>();
+        String query = Queries.getProviderQuery(tablePrefix);
+        ResultSet results = executeQuery(query, criteria);
+        while (results.next()) {
+            Provider p = new Provider();
+            p.setName(results.getString(1));
+            p.setUpdateDate(results.getDate(2));
+            p.setDownloadDate(results.getDate(3));
+            p.setImportDate(results.getDate(4));
+            p.setSourceSystemCd(results.getString(5));
+            providers.add(p);
+        }
+        closeResultSet(results);
+        return Collections.unmodifiableList(providers);
     }
     
     
