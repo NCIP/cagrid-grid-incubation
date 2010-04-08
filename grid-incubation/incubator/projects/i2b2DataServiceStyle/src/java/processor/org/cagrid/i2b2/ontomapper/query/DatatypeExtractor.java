@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.cagrid.i2b2.domain.Concept;
 import org.cagrid.i2b2.domain.Observation;
+import org.cagrid.i2b2.domain.Patient;
 import org.cagrid.i2b2.ontomapper.processor.DatabaseConnectionSource;
 
 public class DatatypeExtractor {
@@ -73,6 +74,29 @@ public class DatatypeExtractor {
         }
         closeResultSet(results);
         return Collections.unmodifiableList(observations);
+    }
+    
+    
+    public List<Patient> getPatients(List<QueryColumnCriteria> criteria) throws SQLException {
+        List<Patient> patients = new ArrayList<Patient>();
+        String query = Queries.getPatientQuery(tablePrefix);
+        ResultSet results = executeQuery(query, criteria);
+        while (results.next()) {
+            Patient p = new Patient();
+            p.setVitalStatus(results.getString(1));
+            p.setBirthDate(results.getDate(2));
+            p.setDeathDate(results.getDate(3));
+            p.setSex(results.getString(4));
+            p.setAgeInYears(results.getInt(5));
+            p.setLanguage(results.getString(6));
+            p.setRace(results.getString(7));
+            p.setMaritalStatus(results.getString(8));
+            p.setZip(results.getString(9));
+            p.setCityStateZipPath(results.getString(10));
+            patients.add(p);
+        }
+        closeResultSet(results);
+        return Collections.unmodifiableList(patients);
     }
     
     

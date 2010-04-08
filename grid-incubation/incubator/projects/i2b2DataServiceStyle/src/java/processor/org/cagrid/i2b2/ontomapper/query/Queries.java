@@ -44,6 +44,26 @@ public class Queries {
         "FROM " +
         "<!--TablePrefix-->OBSERVATION_FACT";
     
+    public static final String PATIENT_QUERY = 
+        "SELECT " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.VITAL_STATUS_CD, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.BIRTH_DATE, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.DEATH_DATE, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.SEX_CD, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.AGE_IN_YEARS_NUM, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.LANGUAGE_CD, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.RACE_CD, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.MARITAL_STATUS_CD, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.RELIGION_CD, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.ZIP_CD, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.STATECITYZIP_PATH, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.UPDATE_DATE, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.DOWNLOAD_DATE, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.IMPORT_DATE, " +
+        "<!--TablePrefix-->PATIENT_DIMENSION.SOURCESYSTEM_CD " +
+        "FROM " +
+        "<!--TablePrefix-->PATIENT_DIMENSION";
+    
     public static String getConceptQuery(String tablePrefix) {
         return replacePrefixes(CONCEPT_QUERY, tablePrefix);
     }
@@ -51,6 +71,11 @@ public class Queries {
     
     public static String getObservationQuery(String tablePrefix) {
         return replacePrefixes(OBSERVATION_QUERY, tablePrefix);
+    }
+    
+    
+    public static String getPatientQuery(String tablePrefix) {
+        return replacePrefixes(PATIENT_QUERY, tablePrefix);
     }
     
     
