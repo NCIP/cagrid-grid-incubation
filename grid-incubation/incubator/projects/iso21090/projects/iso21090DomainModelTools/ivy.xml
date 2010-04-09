@@ -32,5 +32,9 @@
    		conf="default->default;impl-test->test"/>
    	<dependency rev="latest.integration" org="caGrid" name="metadata"
    		conf="default->schemas"/>
+   		
+   	<!-- NCICB xmi.in.out -->
+   	<dependency rev="1.0" org="ncicb" name="xmi.in.out"
+   		conf="default->*"/>
   </dependencies>
 </ivy-module>
