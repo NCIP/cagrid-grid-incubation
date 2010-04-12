@@ -14,25 +14,24 @@ import gov.nih.nci.cagrid.introduce.extension.ExtensionsLoader;
 import gov.nih.nci.cagrid.introduce.extension.utils.ExtensionUtilities;
 import gov.nih.nci.cagrid.introduce.portal.modification.discovery.NamespaceTypeDiscoveryComponent;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.iso21090.portal.discovery.constants.Constants;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import java.awt.GridLayout;
 
 
 @SuppressWarnings("serial")
@@ -40,27 +39,17 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
     private static final Log LOG = LogFactory.getLog(ISO21090TypeSelectionComponent.class);
 
     private JPanel mainjPanel = null;
-
     private JTextArea descriptionjTextArea = null;
-
     private JPanel infoPanel = null;
-
     private JTextField isoNSTextField = null;
-
     private JLabel isoNSjLabel = null;
-
     private JLabel extNSLabel = null;
-
     private JTextField extNSjTextField = null;
-
     private JLabel isoPackagejLabel = null;
-
     private JLabel extPackagejLabel = null;
-
     private JTextField isoPackagejTextField = null;
-
     private JTextField extPackagejTextField = null;
-
+    
 
     public ISO21090TypeSelectionComponent(DiscoveryExtensionDescriptionType descriptor, NamespacesType currentNamespaces) {
         super(descriptor, currentNamespaces);
@@ -164,15 +153,16 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         }
 
         NamespaceType[] createdTypes = new NamespaceType[2];
-        // create the namespace types with commontools
+        // create the namespace types with Introduce commontools
         try {
-            createdTypes[0] = CommonTools.createNamespaceType(copiedISOXSDFilename.getAbsolutePath(), schemaDir);
-            createdTypes[0].setGenerateStubs(false);
+            createdTypes[0] = CommonTools.createNamespaceType(
+                copiedISOXSDFilename.getAbsolutePath(), schemaDir);
+            createdTypes[0].setGenerateStubs(Boolean.FALSE);
             createdTypes[0].setPackageName(getISOPackageProperty().getValue());
 
-            createdTypes[1] = CommonTools.createNamespaceType(copiedISOExtensionsXSDFilename.getAbsolutePath(),
-                schemaDir);
-            createdTypes[1].setGenerateStubs(false);
+            createdTypes[1] = CommonTools.createNamespaceType(
+                copiedISOExtensionsXSDFilename.getAbsolutePath(), schemaDir);
+            createdTypes[1].setGenerateStubs(Boolean.FALSE);
             createdTypes[1].setPackageName(getISOExtensionsPackageProperty().getValue());
         } catch (Exception e) {
             addError("Problem creating namespace types:" + e.getMessage());
@@ -180,12 +170,13 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
             return null;
         }
 
-        // walk thru them and configure the serializers
+        // walk thru them and configure the [de]serializers
         // TODO: should both use the same framework? The reference service just
         // configures the extension schema
         for (SchemaElementType se : createdTypes[0].getSchemaElement()) {
             // TODO is this a valid assumption for all the types? If not, need a
             // mapping file
+            // figure out the JaxB class name for the element type
             se.setClassName(se.getType());
             se.setDeserializer(Constants.DESERIALIZER_FACTORY_CLASSNAME);
             se.setSerializer(Constants.SERIALIZER_FACTORY_CLASSNAME);
@@ -199,7 +190,6 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         }
 
         return createdTypes;
-
     }
 
 
@@ -219,10 +209,10 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
 
     protected File copySchemaFromExtensionDir(String schemaName, File outputDir) throws IOException {
-        File schemaFile = new File(ExtensionsLoader.EXTENSIONS_DIRECTORY + File.separator + Constants.EXTENSION_NAME
-            + File.separator + "schema" + File.separator + schemaName);
+        File schemaFile = new File(ExtensionsLoader.getInstance().getExtensionsDir(),
+            Constants.EXTENSION_NAME + File.separator + "schema" + File.separator + schemaName);
         LOG.debug("Copying schema from " + schemaFile.getAbsolutePath());
-        File outputFile = new File(outputDir + File.separator + schemaName);
+        File outputFile = new File(outputDir, schemaName);
         LOG.debug("Saving schema to " + outputFile.getAbsolutePath());
         Utils.copyFile(schemaFile, outputFile);
         return outputFile;
@@ -231,8 +221,8 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
     protected void copyLibraries(File serviceDirectory) throws Exception {
         // from the lib directory
-        File libDir = new File(ExtensionsLoader.EXTENSIONS_DIRECTORY + File.separator + Constants.EXTENSION_NAME
-            + File.separator + "lib");
+        File libDir = new File(ExtensionsLoader.getInstance().getExtensionsDir(), 
+            Constants.EXTENSION_NAME + File.separator + "lib");
         File[] libs = libDir.listFiles(new FileFilter() {
             public boolean accept(File pathname) {
                 String name = pathname.getName();
@@ -244,13 +234,12 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         if (libs != null) {
             File[] copiedLibs = new File[libs.length];
             for (int i = 0; i < libs.length; i++) {
-                File outFile = new File(serviceDirectory + File.separator + "lib" + File.separator + libs[i].getName());
+                File outFile = new File(serviceDirectory, "lib" + File.separator + libs[i].getName());
                 copiedLibs[i] = outFile;
                 Utils.copyFile(libs[i], outFile);
             }
             modifyClasspathFile(copiedLibs, serviceDirectory);
         }
-
     }
 
 
@@ -414,9 +403,9 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
 
     /**
-     * This method initializes isoPackagejTextField	
-     * 	
-     * @return javax.swing.JTextField	
+     * This method initializes isoPackagejTextField
+     * 
+     * @return javax.swing.JTextField
      */
     private JTextField getIsoPackagejTextField() {
         if (isoPackagejTextField == null) {
@@ -430,9 +419,9 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
 
     /**
-     * This method initializes extPackagejTextField	
-     * 	
-     * @return javax.swing.JTextField	
+     * This method initializes extPackagejTextField
+     * 
+     * @return javax.swing.JTextField
      */
     private JTextField getExtPackagejTextField() {
         if (extPackagejTextField == null) {
@@ -443,5 +432,4 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         }
         return extPackagejTextField;
     }
-
 }
