@@ -109,7 +109,8 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
             if (replacementPolicy.equals(NamespaceReplacementPolicy.ERROR)) {
                 String error = "Namespace ("
                     + getISONamespaceProperty().getValue()
-                    + ") already exists, and policy was to error. Change the setting in the Preferences to REPLACE or IGNORE to avoid this error.";
+                    + ") already exists, and policy was to error. " 
+                    + "Change the setting in the Preferences to REPLACE or IGNORE to avoid this error.";
                 LOG.error(error);
                 addError(error);
                 return null;
@@ -122,7 +123,8 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
             if (replacementPolicy.equals(NamespaceReplacementPolicy.ERROR)) {
                 String error = "Namespace ("
                     + getISOExtensionsNamespaceProperty().getValue()
-                    + ") already exists, and policy was to error. Change the setting in the Preferences to REPLACE or IGNORE to avoid this error.";
+                    + ") already exists, and policy was to error. " 
+                    + "Change the setting in the Preferences to REPLACE or IGNORE to avoid this error.";
                 LOG.error(error);
                 addError(error);
                 return null;
@@ -184,7 +186,8 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
                 addError("Error determining Java class name for element " + se.getType() + ": " + e.getMessage());
                 setErrorCauseThrowable(e);
             }
-            se.setClassName(className);
+            // may return null, so do the default
+            se.setClassName(className != null ? className : se.getType());
             se.setDeserializer(Constants.DESERIALIZER_FACTORY_CLASSNAME);
             se.setSerializer(Constants.SERIALIZER_FACTORY_CLASSNAME);
         }
@@ -196,7 +199,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
                 addError("Error determining Java class name for element " + se.getType() + ": " + e.getMessage());
                 setErrorCauseThrowable(e);
             }
-            se.setClassName(className);
+            se.setClassName(className != null ? className : se.getType());
             se.setDeserializer(Constants.DESERIALIZER_FACTORY_CLASSNAME);
             se.setSerializer(Constants.SERIALIZER_FACTORY_CLASSNAME);
         }
