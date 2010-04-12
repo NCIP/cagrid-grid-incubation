@@ -19,7 +19,6 @@
 
     <conf name="default" visibility="public" description="minimal" />
     <conf name="test" visibility="public" extends="default,impl-test" />
-
   </configurations>
 
 
@@ -36,6 +35,9 @@
 
     <!-- Specific caGrid Service Dependencies -->
     <dependency rev="latest.integration" org="caGrid" name="introduce" conf="default->ui" />
+    
+    <!-- jaxb from NCICB's BDA repo -->
+    <dependency org="javax.xml.bind" name="jaxb-api" rev="2.1" conf="default->*"/>
 
   </dependencies>
 </ivy-module>
