@@ -21,7 +21,9 @@ import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -33,7 +35,11 @@ import javax.swing.border.TitledBorder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.iso21090.portal.discovery.constants.Constants;
-
+/**
+ * 
+ * @author Justin Permar
+ *
+ */
 
 @SuppressWarnings("serial")
 public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryComponent {
@@ -107,10 +113,9 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         }
 
         // copy the schemas
-        File copiedISOXSDFilename = null;
         File copiedISOExtensionsXSDFilename = null;
         try {
-            copiedISOXSDFilename = copySchemaFromExtensionDir(getISOXSDFilename(), schemaDir);
+            copySchemaFromExtensionDir(getISOXSDFilename(), schemaDir);
             copiedISOExtensionsXSDFilename = copySchemaFromExtensionDir(getISOExtensionsXSDFilename(), schemaDir);
         } catch (IOException e) {
             addError("Problem copying schemas:" + e.getMessage());
@@ -139,27 +144,66 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
             setErrorCauseThrowable(e);
             return null;
         }
+        
+        //There are two types in the ISO schema that are problematic.
+        /*
+         * <xsd:element name="sub" type="xsd:string"/>
+         * <xsd:element name="sup" type="xsd:string"/>
+         */
+        //These are problematic because they use a type that is not defined in the current namespace
+        //The NamespaceType class we use in this extension assume one package for all the Java types in the namespace
+        //In this case, the above types are actually defined in the java.lang package (and not our JAXB generated package for the ISO types)
+        //Thus, we want to ignore these for simplicity (sub and sup are not required by the NCI spec)
+        //let's do a in-memory copy of the createdTypes object and remove the sub and sup from the List
+        List<String> filteredTypes = new ArrayList<String>();
+        filteredTypes.add("sub");
+        filteredTypes.add("sup");
+        filterTypes(createdTypes[0], filteredTypes);
+        
 
         // walk thru them and configure the [de]serializers
         // TODO: should both use the same framework? The reference service just
         // configures the extension schema
         ClassNameDiscoveryUtil nameDiscoverer = new ClassNameDiscoveryUtil(Arrays.asList(getIsoSupportLibraries()));
+        //Note: there is exactly one package name per NamespaceType
+        String packageName = createdTypes[0].getPackageName();
         for (SchemaElementType se : createdTypes[0].getSchemaElement()) {
             // figure out the JaxB class name for the element type
             String className = null;
             try {
-                className = nameDiscoverer.getJavaClassName(se.getPackageName(), se.getType());
+                className = nameDiscoverer.getJavaClassName(packageName, se.getType());
             } catch (Exception e) {
                 addError("Error determining Java class name for element " + se.getType() + ": " + e.getMessage());
                 setErrorCauseThrowable(e);
             }
             // may return null, so do the default
+            //TODO JDP remove this type from the list of allowed types if there is no XmlRootElement annotation that matches this type???
             se.setClassName(className != null ? className : se.getType());
             se.setDeserializer(Constants.DESERIALIZER_FACTORY_CLASSNAME);
             se.setSerializer(Constants.SERIALIZER_FACTORY_CLASSNAME);
         }
 
         return createdTypes;
+    }
+    
+    private void filterTypes(NamespaceType input, List<String> filteredTypes) {
+    	SchemaElementType[] elements = input.getSchemaElement();
+    	List<SchemaElementType> list = new ArrayList<SchemaElementType>();
+    	for (SchemaElementType type : elements) {
+    		boolean filter = false;
+    		for (String filterType : filteredTypes) {
+    			if (type.getType().equals(filterType)) {
+    				filter = true;
+    			}
+    		}
+    		if (!filter) {
+    			//add to list
+    			list.add(type);
+    		}
+    	}
+    	
+    	//set the schema elements to new list
+    	input.setSchemaElement(list.toArray(new SchemaElementType[0]));
     }
 
 
