@@ -83,5 +83,6 @@
 	<classpathentry kind="lib" path="ext/dependencies/test/jars/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="lib/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/jaxb-api-2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
