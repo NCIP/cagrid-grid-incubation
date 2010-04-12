@@ -1,10 +1,12 @@
 package org.cagrid.iso21090.portal.discovery;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +33,7 @@ public class ClassNameDiscoveryUtil {
                 String boundElemName = rootElement.name();
                 if (xmlElementName.equals(boundElemName)) {
                     // found the class we want
-                    return clazz.getName();
+                    return clazz.getSimpleName();
                 }
             }
         }
@@ -40,7 +42,7 @@ public class ClassNameDiscoveryUtil {
     
     
     private Set<Class<?>> getClassesInPackage(String packageName) throws IOException, ClassNotFoundException {
-        String slashifiedPackage = packageName.replace('.', File.separatorChar);
+        String slashifiedPackage = packageName.replace('.', '/');
         ClassLoader libClassLoader = getLibClassLoader();
         Set<Class<?>> classes = new HashSet<Class<?>>();
         for (File f : libFiles) {
@@ -50,7 +52,7 @@ public class ClassNameDiscoveryUtil {
                 JarEntry entry = entries.nextElement();
                 if (!entry.isDirectory() && entry.getName().endsWith(".class") 
                     && entry.getName().startsWith(slashifiedPackage)) {
-                    String dotifiedClassname = entry.getName().replace(File.separatorChar, '.');
+                    String dotifiedClassname = entry.getName().replace('/', '.');
                     String cleanClassname = dotifiedClassname.substring(0, dotifiedClassname.length() - 6);
                     Class<?> clazz = libClassLoader.loadClass(cleanClassname);
                     classes.add(clazz);
@@ -69,5 +71,22 @@ public class ClassNameDiscoveryUtil {
         }
         ClassLoader loader = new URLClassLoader(urls, getClass().getClassLoader());
         return loader;
+    }
+    
+    
+    public static void main(String[] args) {
+        List<File> libs = Arrays.asList(new File("lib").listFiles(new FileFilter() {
+            
+            public boolean accept(File pathname) {
+                return pathname.isFile() && pathname.getName().endsWith(".jar");
+            }
+        }));
+        ClassNameDiscoveryUtil util = new ClassNameDiscoveryUtil(libs);
+        try {
+            String name = util.getJavaClassName("org.iso._21090", "tr");
+            System.out.println("Class name found: " + name); // should be Tr
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
