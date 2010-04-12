@@ -14,11 +14,11 @@ import java.util.jar.JarFile;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-public class ClassToQnameUtil {
+public class ClassNameDiscoveryUtil {
 
     private List<File> libFiles = null;
 
-    public ClassToQnameUtil(List<File> libFiles) {
+    public ClassNameDiscoveryUtil(List<File> libFiles) {
         this.libFiles = libFiles;
     }
     

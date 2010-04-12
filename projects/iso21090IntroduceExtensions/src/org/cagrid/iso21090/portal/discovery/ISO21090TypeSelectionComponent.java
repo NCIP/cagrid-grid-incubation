@@ -21,6 +21,7 @@ import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -173,18 +174,29 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         // walk thru them and configure the [de]serializers
         // TODO: should both use the same framework? The reference service just
         // configures the extension schema
+        ClassNameDiscoveryUtil typeDeterminer = new ClassNameDiscoveryUtil(Arrays.asList(getIsoSupportLibraries()));
         for (SchemaElementType se : createdTypes[0].getSchemaElement()) {
-            // TODO is this a valid assumption for all the types? If not, need a
-            // mapping file
             // figure out the JaxB class name for the element type
-            se.setClassName(se.getType());
+            String className = null;
+            try {
+                className = typeDeterminer.getJavaClassName(se.getPackageName(), se.getType());
+            } catch (Exception e) {
+                addError("Error determining Java class name for element " + se.getType() + ": " + e.getMessage());
+                setErrorCauseThrowable(e);
+            }
+            se.setClassName(className);
             se.setDeserializer(Constants.DESERIALIZER_FACTORY_CLASSNAME);
             se.setSerializer(Constants.SERIALIZER_FACTORY_CLASSNAME);
         }
         for (SchemaElementType se : createdTypes[1].getSchemaElement()) {
-            // TODO is this a valid assumption for all the types? If not, need a
-            // mapping file
-            se.setClassName(se.getType());
+            String className = null;
+            try {
+                className = typeDeterminer.getJavaClassName(se.getPackageName(), se.getType());
+            } catch (Exception e) {
+                addError("Error determining Java class name for element " + se.getType() + ": " + e.getMessage());
+                setErrorCauseThrowable(e);
+            }
+            se.setClassName(className);
             se.setDeserializer(Constants.DESERIALIZER_FACTORY_CLASSNAME);
             se.setSerializer(Constants.SERIALIZER_FACTORY_CLASSNAME);
         }
@@ -220,7 +232,18 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
 
     protected void copyLibraries(File serviceDirectory) throws Exception {
-        // from the lib directory
+        File[] libs = getIsoSupportLibraries();
+        File[] copiedLibs = new File[libs.length];
+        for (int i = 0; i < libs.length; i++) {
+            File outFile = new File(serviceDirectory, "lib" + File.separator + libs[i].getName());
+            copiedLibs[i] = outFile;
+            Utils.copyFile(libs[i], outFile);
+        }
+        modifyClasspathFile(copiedLibs, serviceDirectory);
+    }
+    
+    
+    protected File[] getIsoSupportLibraries() {
         File libDir = new File(ExtensionsLoader.getInstance().getExtensionsDir(), 
             Constants.EXTENSION_NAME + File.separator + "lib");
         File[] libs = libDir.listFiles(new FileFilter() {
@@ -230,16 +253,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
                 return (name.endsWith(".jar"));
             }
         });
-
-        if (libs != null) {
-            File[] copiedLibs = new File[libs.length];
-            for (int i = 0; i < libs.length; i++) {
-                File outFile = new File(serviceDirectory, "lib" + File.separator + libs[i].getName());
-                copiedLibs[i] = outFile;
-                Utils.copyFile(libs[i], outFile);
-            }
-            modifyClasspathFile(copiedLibs, serviceDirectory);
-        }
+        return libs;
     }
 
 
@@ -290,9 +304,9 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
             descriptionjTextArea.setFont(descriptionjTextArea.getFont().deriveFont(Font.ITALIC));
             descriptionjTextArea.setLineWrap(true);
             descriptionjTextArea.setWrapStyleWord(true);
-            // descriptionjTextArea.setPreferredSize(new Dimension(400, 50));
-            descriptionjTextArea
-                .setText("Clicking \"Add\" on this type will add the standard ISO Datatypes and NCI localizations to your service.  The types will be configured with custom serialization to leverage Java beans which will also be added to the service.");
+            descriptionjTextArea.setText(
+                "Clicking \"Add\" on this type will add the standard ISO Datatypes and NCI localizations to your service.  " +
+                "The types will be configured with custom serialization to leverage Java beans which will also be added to the service.");
         }
         return descriptionjTextArea;
     }
