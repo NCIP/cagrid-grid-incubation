@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<!-- ================================================================= -->
+<!-- caGrid iso21090SdkQueryProcessor build file                       -->
+<!-- ================================================================= -->
+
+<project name="caGrid-iso21090SdkQueryProcessor" default="compile" basedir=".">
+	<!-- Environment -->
+	<property environment="env" />
+	<property file="${basedir}/project.properties" />
+	<property file="${basedir}/build.properties" />
+	<property name="globus.dir" location="${env.GLOBUS_LOCATION}" />
+
+	<!-- Information -->
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="java.source" value="1.5" />
+
+	<property name="processor.src.dir" value="${basedir}/src/java/processor" />
+	<property name="translator.src.dir" value="${basedir}/src/java/translator"/>
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="javadoc.dir" value="${build.dir}/javadoc" />
+	<property name="processor.classes.dir" value="${build.dir}/processor/classes" />
+	<property name="translator.classes.dir" value="${build.dir}/translator/classes" />
+	<property name="jar.dir" value="${build.dir}/jars" />
+	<property name="processor.jarfile" value="${jar.dir}/${project.name}-processor-${project.version}.jar" />
+	<property name="tranaslator.jarfile" value="${jar.dir}/${project.name}-tranaslator-${project.version}.jar" />
+	<property name="ext.dir" value="${basedir}/ext" />
+	<property name="ext.lib.dir" value="${ext.dir}/dependencies/jars" />
+	<property name="ext.test.lib.dir" location="${ext.dir}/dependencies/test/jars" />
+
+	<!-- testing stuff -->
+	<property name="test.dir" location="${basedir}/test" />
+	<property name="test.src.dir" location="${test.dir}/src" />
+	<property name="test.classes.dir" location="${build.dir}/test/classes" />
+	<property name="test.lib.dir" location="${test.dir}/lib" />
+	<property name="test.logs.dir" location="${test.dir}/logs" />
+	<property name="test.project.jar" location="${jar.dir}/${project.name}-tests-${project.version}.jar" />
+	<property name="junit.results.dir" location="${test.dir}/logs" />
+
+	<!-- =============================================================== -->
+	<!-- The Build Classpath                                             -->
+	<!-- =============================================================== -->
+	<path id="build.classpath">
+		<fileset dir="${ext.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${globus.dir}/lib">
+			<include name="**/*.jar" />
+			<exclude name="junit.jar" />
+		</fileset>
+	</path>
+
+
+	<!-- =============================================================== -->
+	<!-- The Run Classpath                                                   -->
+	<!-- =============================================================== -->
+	<path id="run.classpath">
+		<path refid="build.classpath" />
+		<fileset dir="${jar.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- =============================================================== -->
+	<!-- The Test Classpath                                                   -->
+	<!-- =============================================================== -->
+	<path id="test.classpath">
+		<pathelement path="${translator.classes.dir}" />
+		<pathelement path="${processor.classes.dir}" />
+		<path refid="build.classpath" />
+		<fileset dir="${ext.test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<path id="test.run.classpath">
+		<pathelement path="${test.classes.dir}" />
+		<path refid="test.classpath" />
+	</path>
+
+
+	<!-- =============================================================== -->
+	<!-- Prepares the build directory                                    -->
+	<!-- =============================================================== -->
+	<target name="prepare">
+		<tstamp />
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<!-- =============================================================== -->
+	<!-- Compiles the source code                                        -->
+	<!-- =============================================================== -->
+	<target name="compile" depends="prepare" description="compiles the translator and processor.">
+		<mkdir dir="${translator.classes.dir}" />
+		<javac srcdir="${translator.src.dir}" destdir="${translator.classes.dir}" source="${java.source}" debug="on" deprecation="off" optimize="on">
+			<classpath refid="build.classpath" />
+		</javac>
+		<mkdir dir="${processor.classes.dir}" />
+		<javac srcdir="${processor.src.dir}" destdir="${processor.src.dir}" source="${java.source}" debug="on" deprecation="on" optimize="on">
+			<classpath refid="build.classpath"/>
+			<classpath>
+				<pathelement location="${translator.classes.dir}"/>
+			</classpath>
+		</javac>
+	</target>
+
+	
+	<!-- =============================================================== -->
+	<!-- Compiles the test source code                                   -->
+	<!-- =============================================================== -->
+	<target name="compile-tests" depends="prepare" description="compiles tests.">
+		<mkdir dir="${test.classes.dir}" />
+		<javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" source="${java.source}" debug="on" deprecation="off" optimize="off">
+			<classpath refid="test.classpath" />
+		</javac>
+	</target>
+
+
+	<!-- ============================================================== -->
+	<!-- Cleans up generated stuff                                      -->
+	<!-- ============================================================== -->
+	<target name="clean" depends="" description="Removes generated files.">
+		<delete dir="${build.dir}" />
+	</target>
+
+
+	<!-- ============================================================== -->
+	<!-- Creates the jar files                                          -->
+	<!-- ============================================================== -->
+	<target name="jar" depends="compile" description="Builds the main Jar Files">
+		<mkdir dir="${jar.dir}" />
+		<jar jarfile="${tranaslator.jarfile}">
+			<fileset dir="${translator.classes.dir}">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="${translator.src.dir}">
+				<include name="**/*"/>
+			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Specification-Version" value="${project.version}" />
+				<attribute name="Implementation-Version" value="${project.version}" />
+			</manifest>
+		</jar>
+		<jar jarfile="${processor.jarfile}">
+			<fileset dir="${processor.classes.dir}">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="${processor.src.dir}">
+				<include name="**/*"/>
+			</fileset>
+		</jar>
+	</target>
+
+
+	<!-- ============================================================== -->
+	<!-- Creates the test jar files                                     -->
+	<!-- ============================================================== -->
+	<target name="jar-tests" depends="compile-tests" description="Builds the test Jar Files">
+		<mkdir dir="${jar.dir}" />
+		<jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Specification-Version" value="${project.version}" />
+				<attribute name="Implementation-Version" value="${project.version}" />
+			</manifest>
+		</jar>
+	</target>
+
+	
+	<!-- =================================================================== -->
+	<!-- Builds Code Docuementation                                          -->
+	<!-- =================================================================== -->
+	<target name="javadoc" depends="compile" description="Creates the API documentation.">
+		<javadoc packagenames="*" destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="${project.name} API">
+			<sourcepath>
+				<pathelement path="${translator.src.dir}" />
+				<pathelement path="${processor.src.dir}" />
+			</sourcepath>
+
+			<classpath>
+				<path refid="build.classpath" />
+			</classpath>
+
+			<tag name="todo" scope="all" description="To do:" />
+			<tag name="created" scope="all" description="Created On:" />
+		</javadoc>
+	</target>
+
+
+	<!-- ============================================================== -->
+	<!-- Call any tests.                                                -->
+	<!-- ============================================================== -->
+	<target name="test" depends="prepare" description="Runs the service's tests.">
+		<echo message="Test results dir: ${junit.results.dir}" />
+		<mkdir dir="${junit.results.dir}" />
+		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
+			<classpath refid="test.run.classpath" />
+			<sysproperty key="build.dir" value="${classes.dir}" />
+			<jvmarg value="-Xmx512M" />
+			<jvmarg value="-Dbuild.dirs.list=${translatorclasses.dir},${processor.classes.dir}" />
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/Test*.java" />
+					<include name="**/*TestCase.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<fail message="Tests failed! Check test reports." if="test.failed" />
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- Builds from scratch                                                -->
+	<!-- ============================================================== -->
+	<target name="all" description="Builds the entire application" depends="jar,jar-tests" />
+</project>
+
