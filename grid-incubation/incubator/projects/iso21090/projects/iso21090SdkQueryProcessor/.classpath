@@ -41,5 +41,13 @@
 	<classpathentry kind="lib" path="ext/dependencies/test/jars/jdepend-2.7.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/test/jars/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/test/jars/junit-4.4.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/asm.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/c3p0-0.9.1.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/cglib-2.1_3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/ehcache-1.2.3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/hibernate3.jar"/>
+	<classpathentry kind="lib" path="ext/dependencies/jars/jta-1.0.1B.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

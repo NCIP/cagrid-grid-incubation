@@ -26,12 +26,13 @@
 
 
   <dependencies>
-    <!-- Standard caGrid Service Dependencies -->
     <dependency rev="latest.integration" org="caGrid" name="core"
       conf="translator->default;impl-test->test" />
-
-    <!-- Specific caGrid Service Dependencies -->
     <dependency rev="latest.integration" org="caGrid" name="cql" conf="translator->cql"/>
     <dependency rev="latest.integration" org="caGrid" name="data" conf="queryProcessor->processors,utils,tools"/>
+    
+    <!-- Third party dependencies -->
+    <dependency rev="3.2.0.ga" org="hibernate" name="hibernate" conf="translator->*"/>
+    <dependency rev="1.1" org="apache" name="commons-logging" conf="translator->*"/>
   </dependencies>
 </ivy-module>
