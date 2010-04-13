@@ -38,7 +38,7 @@ import org.cagrid.iso21090.portal.discovery.constants.Constants;
 /**
  * 
  * @author Justin Permar
- *
+ * @author David
  */
 
 @SuppressWarnings("serial")
@@ -46,9 +46,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
     private static final Log LOG = LogFactory.getLog(ISO21090TypeSelectionComponent.class);
 
     private JPanel mainjPanel = null;
-
     private JTextArea descriptionjTextArea = null;
-
     private JPanel infoPanel = null;
     private JLabel extNSLabel = null;
     private JTextField extNSjTextField = null;
@@ -72,10 +70,12 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         this.add(getMainjPanel(), null);
     }
 
+    
     protected String getISOXSDFilename() {
         return ExtensionTools.getProperty(getDescriptor().getProperties(), Constants.DATATYPES_FILENAME_KEY);
     }
 
+    
     protected PropertiesProperty getISOExtensionsNamespaceProperty() {
         return ExtensionTools.getPropertyObject(getDescriptor().getProperties(), Constants.EXTENSION_NAMESPACE_KEY);
     }
@@ -158,8 +158,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         List<String> filteredTypes = new ArrayList<String>();
         filteredTypes.add("sub");
         filteredTypes.add("sup");
-        filterTypes(createdTypes[0], filteredTypes);
-        
+        filterTypes(createdTypes[0], filteredTypes);        
 
         // walk thru them and configure the [de]serializers
         // TODO: should both use the same framework? The reference service just
@@ -185,6 +184,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
         return createdTypes;
     }
+    
     
     private void filterTypes(NamespaceType input, List<String> filteredTypes) {
     	SchemaElementType[] elements = input.getSchemaElement();
@@ -235,14 +235,14 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 
     protected void copyLibraries(File serviceDirectory) throws Exception {
         File[] libs = getIsoSupportLibraries();
-            File[] copiedLibs = new File[libs.length];
-            for (int i = 0; i < libs.length; i++) {
+        File[] copiedLibs = new File[libs.length];
+        for (int i = 0; i < libs.length; i++) {
             File outFile = new File(serviceDirectory, "lib" + File.separator + libs[i].getName());
-                copiedLibs[i] = outFile;
-                Utils.copyFile(libs[i], outFile);
-            }
-            modifyClasspathFile(copiedLibs, serviceDirectory);
+            copiedLibs[i] = outFile;
+            Utils.copyFile(libs[i], outFile);
         }
+        modifyClasspathFile(copiedLibs, serviceDirectory);
+    }
 
     
     protected File[] getIsoSupportLibraries() {
@@ -408,5 +408,4 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         }
         return extPackagejTextField;
     }
-
 }
