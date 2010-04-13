@@ -22,7 +22,7 @@
 	<property name="translator.classes.dir" value="${build.dir}/translator/classes" />
 	<property name="jar.dir" value="${build.dir}/jars" />
 	<property name="processor.jarfile" value="${jar.dir}/${project.name}-processor-${project.version}.jar" />
-	<property name="tranaslator.jarfile" value="${jar.dir}/${project.name}-tranaslator-${project.version}.jar" />
+	<property name="tranaslator.jarfile" value="${jar.dir}/${project.name}-translator-${project.version}.jar" />
 	<property name="ext.dir" value="${basedir}/ext" />
 	<property name="ext.lib.dir" value="${ext.dir}/dependencies/jars" />
 	<property name="ext.test.lib.dir" location="${ext.dir}/dependencies/test/jars" />
