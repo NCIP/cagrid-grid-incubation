@@ -1,6 +1,7 @@
 package org.cagrid.iso21090.portal.discovery;
 
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.common.XMLUtilities;
 import gov.nih.nci.cagrid.common.portal.MultiEventProgressBar;
 import gov.nih.nci.cagrid.introduce.beans.configuration.NamespaceReplacementPolicy;
 import gov.nih.nci.cagrid.introduce.beans.extension.DiscoveryExtensionDescriptionType;
@@ -20,6 +21,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +37,9 @@ import javax.swing.border.TitledBorder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.iso21090.portal.discovery.constants.Constants;
+import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 /**
  * 
  * @author Justin Permar
@@ -44,7 +49,7 @@ import org.cagrid.iso21090.portal.discovery.constants.Constants;
 @SuppressWarnings("serial")
 public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryComponent {
     private static final Log LOG = LogFactory.getLog(ISO21090TypeSelectionComponent.class);
-
+    
     private JPanel mainjPanel = null;
     private JTextArea descriptionjTextArea = null;
     private JPanel infoPanel = null;
@@ -166,6 +171,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         ClassNameDiscoveryUtil nameDiscoverer = new ClassNameDiscoveryUtil(Arrays.asList(getIsoSupportLibraries()));
         //Note: there is exactly one package name per NamespaceType
         String packageName = createdTypes[0].getPackageName();
+ 		List<String> classNames = new ArrayList<String>();
         for (SchemaElementType se : createdTypes[0].getSchemaElement()) {
             // figure out the JaxB class name for the element type
             String className = null;
@@ -175,13 +181,23 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
                 addError("Error determining Java class name for element " + se.getType() + ": " + e.getMessage());
                 setErrorCauseThrowable(e);
             }
+            
             // may return null, so do the default
             //TODO JDP remove this type from the list of allowed types if there is no XmlRootElement annotation that matches this type???
             se.setClassName(className != null ? className : se.getType());
             se.setDeserializer(Constants.DESERIALIZER_FACTORY_CLASSNAME);
             se.setSerializer(Constants.SERIALIZER_FACTORY_CLASSNAME);
+            
+            if (className != null)
+            	classNames.add(className);
         }
-
+        
+        //
+        // Adds postStubs fixes as described in CAGRID-373
+        //
+        modifyDevBuildFile(getServiceDirectory(schemaDir), 
+        		packageName, classNames);
+        
         return createdTypes;
     }
     
@@ -264,6 +280,70 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
         ExtensionUtilities.syncEclipseClasspath(classpathFile, libs);
     }
 
+    protected Element createReplaceElement(String oldValue, String newValue) {
+    	
+    	//  <replace dir="${src}" value="org.iso._21090.Ad">
+        //  	<include name="**/stubs/*.java"/>
+        //  	<replacetoken>org.iso._21090.AD</replacetoken>
+        //  </replace>
+    	
+    	Element replaceEl = new Element("replace");
+    	replaceEl.setAttribute("dir", "${stubs.src}");
+    	replaceEl.setAttribute("value", newValue);
+    	
+    	Element includeEl = new Element("include");
+    	includeEl.setAttribute("name", "**/stubs/*.java");
+    	
+    	Element tokenEl = new Element("replacetoken");
+    	tokenEl.addContent(oldValue);
+    	
+    	replaceEl.addContent(includeEl);
+    	replaceEl.addContent(tokenEl);
+    	
+    	return replaceEl;
+    }
+    
+    protected void rewritePostStubs(String devBuild, Element root, 
+    		Element psTarget, String pkgName, List<String> classNames) throws IOException {
+    	
+    	for(String clazz : classNames) {
+			String oldValue = pkgName + "." + clazz.toUpperCase();
+			String newValue = pkgName + "." + clazz;
+		    psTarget.addContent(createReplaceElement(oldValue, newValue));
+		}
+		
+    	XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+        FileWriter writer = new FileWriter(devBuild);
+        writer.write("<?xml version=\"1.0\"?>\n");
+        outputter.output(root, writer);
+        writer.flush();
+        writer.close();
+    }
+    
+    protected void modifyDevBuildFile(File svcDir, String packageName, List<String> classNames) {
+    	try {
+    		String devBuildPath = svcDir.getAbsoluteFile() + "/dev-build.xml";
+			Element root = XMLUtilities.fileNameToDocument(devBuildPath).getRootElement();
+		    List<Element> targets = root.getChildren("target", root.getNamespace());
+		    
+		    //
+		    // Look for the postStubs target
+		    //
+			for(Element target : targets) {
+				
+				String attrName = target.getAttributeValue("name");
+				if (attrName != null && attrName.equals("postStubs")) {
+					//found it - rewrite it
+					rewritePostStubs(devBuildPath, root, target, packageName, classNames);
+			        return;
+			        
+				}
+		    }
+    	} catch (Exception e) {
+    		addError("Problem modifying dev-build file:" + e.getMessage());
+            setErrorCauseThrowable(e);
+		}
+    }
 
     /**
      * This method initializes mainjPanel
