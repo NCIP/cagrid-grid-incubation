@@ -28,6 +28,8 @@ import org.apache.commons.logging.LogFactory;
  *  CQL2ParameterizedHQL
  *  Converter utility to turn CQL into HQL using positional parameters 
  *  compatible with Hibernate 3.2.0ga
+ *  
+ *  Supports ISO 21090 data types in the caCORE SDK 4.3
  * 
  * @author David Ervin
  * 
@@ -169,21 +171,25 @@ public class CQL2ParameterizedHQL {
         
         // the stack of associations processed at the current depth of the query
 		Stack<Association> associationStack = new Stack<Association>();
+		List<CqlDataBucket> typesProcessingList = new ArrayList<CqlDataBucket>();
         
         // start the query
 		hql.append("From ").append(target.getName()).append(" as ").append(TARGET_ALIAS).append(' ');
+		// keep track of where we are in processing
+		addTypeProcessingInformation(typesProcessingList, target.getName(), TARGET_ALIAS);
 		
 		if (target.getAssociation() != null) {
 			hql.append("where ");
-			processAssociation(target.getAssociation(), hql, parameters, associationStack, target, TARGET_ALIAS);
+			processAssociation(target.getAssociation(), hql, parameters, associationStack, 
+			    typesProcessingList, target, TARGET_ALIAS);
 		}
 		if (target.getAttribute() != null) {
 			hql.append("where ");
-			processAttribute(target.getAttribute(), hql, parameters, target, TARGET_ALIAS);
+			processAttribute(target.getAttribute(), hql, parameters, target, TARGET_ALIAS, typesProcessingList);
 		}
 		if (target.getGroup() != null) {
 			hql.append("where ");
-			processGroup(target.getGroup(), hql, parameters, associationStack, target, TARGET_ALIAS);
+			processGroup(target.getGroup(), hql, parameters, associationStack, typesProcessingList, target, TARGET_ALIAS);
 		}
 		
 		if (avoidSubclasses) {
@@ -226,7 +232,9 @@ public class CQL2ParameterizedHQL {
 	 * @throws QueryTranslationException
 	 */
 	private void processAttribute(Attribute attribute, StringBuilder hql, 
-        List<java.lang.Object> parameters, Object queryObject, String queryObjectAlias) throws QueryTranslationException {
+        List<java.lang.Object> parameters, Object queryObject, 
+        String queryObjectAlias, List<CqlDataBucket> typesProcessingList)
+	    throws QueryTranslationException {
         LOG.debug("Processing attribute " + queryObject.getName() + "." + attribute.getName());
         
         // get the predicate, check for a default value
@@ -300,7 +308,8 @@ public class CQL2ParameterizedHQL {
 	 * @throws QueryTranslationException
 	 */
 	private void processAssociation(Association association, StringBuilder hql, List<java.lang.Object> parameters, 
-        Stack<Association> associationStack, Object sourceQueryObject, String sourceAlias) throws QueryTranslationException {
+        Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList,
+        Object sourceQueryObject, String sourceAlias) throws QueryTranslationException {
         LOG.debug("Processing association " + sourceQueryObject.getName() + " to " + association.getName());
         
         // get the association's role name
@@ -332,7 +341,7 @@ public class CQL2ParameterizedHQL {
             hql.append(sourceAlias).append('.').append(roleName);            
             hql.append(".id in (select ").append(alias).append(".id from ");
             hql.append(association.getName()).append(" as ").append(alias).append(" where ");
-            processAssociation(association.getAssociation(), hql, parameters, associationStack, association, alias);
+            processAssociation(association.getAssociation(), hql, parameters, associationStack, typesProcessingList, association, alias);
             hql.append(") ");
 		}
 		if (association.getAttribute() != null) {
@@ -340,7 +349,7 @@ public class CQL2ParameterizedHQL {
             hql.append(sourceAlias).append('.').append(roleName);
             hql.append(".id in (select ").append(alias).append(".id from ");
             hql.append(association.getName()).append(" as ").append(alias).append(" where ");
-			processAttribute(association.getAttribute(), hql, parameters, association, alias);
+			processAttribute(association.getAttribute(), hql, parameters, association, alias, typesProcessingList);
 			hql.append(") ");
 		}
 		if (association.getGroup() != null) {
@@ -348,7 +357,7 @@ public class CQL2ParameterizedHQL {
             hql.append(sourceAlias).append('.').append(roleName);            
             hql.append(".id in (select ").append(alias).append(".id from ");
             hql.append(association.getName()).append(" as ").append(alias).append(" where ");
-			processGroup(association.getGroup(), hql, parameters, associationStack, association, alias);
+			processGroup(association.getGroup(), hql, parameters, associationStack, typesProcessingList, association, alias);
             hql.append(") ");
 		}
 		
@@ -379,7 +388,8 @@ public class CQL2ParameterizedHQL {
 	 * @throws QueryTranslationException
 	 */
 	private void processGroup(Group group, StringBuilder hql, List<java.lang.Object> parameters,
-        Stack<Association> associationStack, Object sourceQueryObject, String sourceAlias) throws QueryTranslationException {
+        Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList, 
+        Object sourceQueryObject, String sourceAlias) throws QueryTranslationException {
         LOG.debug("Processing group on " + sourceQueryObject.getName());
         
 		String logic = convertLogicalOperator(group.getLogicRelation());
@@ -391,7 +401,8 @@ public class CQL2ParameterizedHQL {
 		if (group.getAssociation() != null) {
 			for (int i = 0; i < group.getAssociation().length; i++) {
 				mustAddLogic = true;
-				processAssociation(group.getAssociation(i), hql, parameters, associationStack, sourceQueryObject, sourceAlias);
+				processAssociation(group.getAssociation(i), hql, parameters, 
+				    associationStack, typesProcessingList, sourceQueryObject, sourceAlias);
 				if (i + 1 < group.getAssociation().length) {
 					hql.append(' ').append(logic).append(' ');
 				}
@@ -403,7 +414,8 @@ public class CQL2ParameterizedHQL {
 			}
 			for (int i = 0; i < group.getAttribute().length; i++) {
 				mustAddLogic = true;
-				processAttribute(group.getAttribute(i), hql, parameters, sourceQueryObject, sourceAlias);
+				processAttribute(group.getAttribute(i), hql, parameters, 
+				    sourceQueryObject, sourceAlias, typesProcessingList);
 				if (i + 1 < group.getAttribute().length) {
 					hql.append(' ').append(logic).append(' ');
 				}
@@ -414,7 +426,8 @@ public class CQL2ParameterizedHQL {
 				hql.append(' ').append(logic).append(' ');
 			}
 			for (int i = 0; i < group.getGroup().length; i++) {
-				processGroup(group.getGroup(i), hql, parameters, associationStack, sourceQueryObject, sourceAlias);
+				processGroup(group.getGroup(i), hql, parameters, associationStack, 
+				    typesProcessingList, sourceQueryObject, sourceAlias);
 				if (i + 1 < group.getGroup().length) {
 					hql.append(' ').append(logic).append(' ');
 				}
@@ -508,5 +521,20 @@ public class CQL2ParameterizedHQL {
         String associationShortName = dotIndex != -1 ? associationClassName.substring(dotIndex + 1) : associationClassName;
         String alias = "__" + parentShortName + "_" + associationShortName + "_" + roleName;
         return alias;
+    }
+    
+    
+    private void addTypeProcessingInformation(List<CqlDataBucket> typesProcessingList, String className, String aliasOrRoleName) throws QueryTranslationException {
+        DatatypeFlavor flavor = null;
+        try {
+            flavor = DatatypeFlavor.getFlavorOfClass(Class.forName(className));
+        } catch (Exception ex) {
+            throw new QueryTranslationException("Error determining datatype flavor of " + className + ": " + ex.getMessage(), ex);
+        }
+        CqlDataBucket bucket = new CqlDataBucket();
+        bucket.clazz = className;
+        bucket.aliasOrRoleName = aliasOrRoleName;
+        bucket.datatypeFlavor = flavor;
+        typesProcessingList.add(bucket);
     }
 }
