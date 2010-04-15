@@ -49,5 +49,9 @@
 	<classpathentry kind="lib" path="ext/dependencies/jars/ehcache-1.2.3.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/hibernate3.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/jta-1.0.1B.jar"/>
+	<classpathentry kind="lib" path="lib/example-orm.jar"/>
+	<classpathentry kind="lib" path="lib/iso-datatypes-2.0.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT-tests.jar"/>
+	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
