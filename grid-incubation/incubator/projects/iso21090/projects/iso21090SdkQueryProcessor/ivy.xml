@@ -26,6 +26,7 @@
 
 
   <dependencies>
+  	<!--  caGrid dependencies -->
     <dependency rev="latest.integration" org="caGrid" name="core"
       conf="translator->default;impl-test->test" />
     <dependency rev="latest.integration" org="caGrid" name="cql" conf="translator->cql"/>
@@ -34,5 +35,7 @@
     <!-- Third party dependencies -->
     <dependency rev="3.2.0.ga" org="hibernate" name="hibernate" conf="translator->*"/>
     <dependency rev="1.1" org="apache" name="commons-logging" conf="translator->*"/>
+    
+    <!-- dependency on the ISO data types -->
   </dependencies>
 </ivy-module>
