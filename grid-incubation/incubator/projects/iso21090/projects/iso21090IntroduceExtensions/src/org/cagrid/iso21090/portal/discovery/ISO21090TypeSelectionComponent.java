@@ -352,23 +352,32 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
      */
     private JPanel getMainjPanel() {
         if (mainjPanel == null) {
-            GridBagConstraints gridBagConstraints = new GridBagConstraints();
-            gridBagConstraints.fill = GridBagConstraints.BOTH;
-            GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
-            gridBagConstraints1.gridx = 0;
-            gridBagConstraints1.fill = GridBagConstraints.BOTH;
-            gridBagConstraints1.weightx = 1.0;
-            gridBagConstraints1.weighty = 1.0;
-            gridBagConstraints1.ipadx = 2;
-            gridBagConstraints1.ipady = 2;
-            gridBagConstraints1.gridy = 1;
-            mainjPanel = new JPanel();
+            
             TitledBorder centerBorder = BorderFactory.createTitledBorder("ISO 21090 Datatypes and NCI Localizations");
             centerBorder.setTitleFont(centerBorder.getTitleFont().deriveFont(Font.BOLD));
+            
+            mainjPanel = new JPanel();
             mainjPanel.setBorder(centerBorder);
             mainjPanel.setLayout(new GridBagLayout());
-            mainjPanel.add(getInfoPanel(), gridBagConstraints1);
+            
+            // Description header
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
+            gridBagConstraints.ipady = 30;
             mainjPanel.add(getDescriptionjTextArea(), gridBagConstraints);
+            
+            // Input data panel
+            GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+            gridBagConstraints1.gridx = 0;
+            gridBagConstraints1.gridy = 1;
+            gridBagConstraints1.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints1.weightx = 1.0;
+            gridBagConstraints1.weighty = 1.0;
+            gridBagConstraints1.ipadx = 70;
+            gridBagConstraints1.ipady = 70;      
+            mainjPanel.add(getInfoPanel(), gridBagConstraints1);
+            
+            
         }
         return mainjPanel;
     }
@@ -387,7 +396,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
             descriptionjTextArea.setLineWrap(true);
             descriptionjTextArea.setWrapStyleWord(true);
             descriptionjTextArea.setText(
-                "Clicking \"Add\" on this type will add the standard ISO Datatypes and NCI localizations to your service.  " +
+                "\nClicking \"Add\" on this type will add the standard ISO Datatypes and NCI localizations to your service.  " +
                 "The types will be configured with custom serialization to leverage Java beans which will also be added to the service.");
         }
         return descriptionjTextArea;
@@ -401,58 +410,47 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
      */
     private JPanel getInfoPanel() {
         if (infoPanel == null) {
-            GridBagConstraints gridBagConstraints9 = new GridBagConstraints();
-            gridBagConstraints9.anchor = GridBagConstraints.WEST;
-            gridBagConstraints9.gridy = 3;
-            gridBagConstraints9.gridx = 0;
-            GridBagConstraints gridBagConstraints8 = new GridBagConstraints();
-            gridBagConstraints8.anchor = GridBagConstraints.WEST;
-            gridBagConstraints8.gridy = 1;
-            gridBagConstraints8.gridx = 0;
-            GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
-            gridBagConstraints7.fill = GridBagConstraints.HORIZONTAL;
-            gridBagConstraints7.anchor = GridBagConstraints.WEST;
-            gridBagConstraints7.gridx = 1;
-            gridBagConstraints7.gridy = 3;
-            gridBagConstraints7.weightx = 1.0;
-            GridBagConstraints gridBagConstraints6 = new GridBagConstraints();
-            gridBagConstraints6.fill = GridBagConstraints.HORIZONTAL;
-            gridBagConstraints6.anchor = GridBagConstraints.WEST;
-            gridBagConstraints6.gridx = 1;
-            gridBagConstraints6.gridy = 1;
-            gridBagConstraints6.weightx = 1.0;
-            extPackagejLabel = new JLabel();
-            extPackagejLabel.setText(getISOExtensionsPackageProperty().getDisplayName());
-            GridBagConstraints gridBagConstraints5 = new GridBagConstraints();
-            gridBagConstraints5.fill = GridBagConstraints.HORIZONTAL;
-            gridBagConstraints5.gridy = 2;
-            gridBagConstraints5.weightx = 1.0;
-            gridBagConstraints5.anchor = GridBagConstraints.WEST;
-            gridBagConstraints5.gridx = 1;
-            GridBagConstraints gridBagConstraints4 = new GridBagConstraints();
-            gridBagConstraints4.gridx = 0;
-            gridBagConstraints4.anchor = GridBagConstraints.WEST;
-            gridBagConstraints4.gridy = 2;
-            extNSLabel = new JLabel();
-            extNSLabel.setText(getISOExtensionsNamespaceProperty().getDisplayName());
+        	
+        	infoPanel = new JPanel();
+            TitledBorder border = BorderFactory.createTitledBorder("Type information");
+            infoPanel.setBorder(border);
+            infoPanel.setLayout(new GridBagLayout());
+            
+            // Row 1 Column 1
             GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
             gridBagConstraints3.gridx = 0;
             gridBagConstraints3.anchor = GridBagConstraints.WEST;
             gridBagConstraints3.gridy = 0;
+            extNSLabel = new JLabel();
+            extNSLabel.setText(getISOExtensionsNamespaceProperty().getDisplayName());
+            infoPanel.add(extNSLabel, gridBagConstraints3);
+            
+            // Row 1 Column 2
             GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
             gridBagConstraints2.fill = GridBagConstraints.HORIZONTAL;
             gridBagConstraints2.gridx = 1;
             gridBagConstraints2.gridy = 0;
             gridBagConstraints2.anchor = GridBagConstraints.WEST;
             gridBagConstraints2.weightx = 1.0;
-            infoPanel = new JPanel();
-            TitledBorder border = BorderFactory.createTitledBorder("Type information");
-            infoPanel.setBorder(border);
-            infoPanel.setLayout(new GridBagLayout());
-	        infoPanel.add(extNSLabel, gridBagConstraints4);
-            infoPanel.add(getExtNSjTextField(), gridBagConstraints5);
-            infoPanel.add(extPackagejLabel, gridBagConstraints9);
-            infoPanel.add(getExtPackagejTextField(), gridBagConstraints7);
+            infoPanel.add(getExtNSjTextField(), gridBagConstraints2);
+            
+            // Row 2 Column 1
+            GridBagConstraints gridBagConstraints8 = new GridBagConstraints();
+            gridBagConstraints8.anchor = GridBagConstraints.WEST;
+            gridBagConstraints8.gridy = 1;
+            gridBagConstraints8.gridx = 0;
+            extPackagejLabel = new JLabel();
+            extPackagejLabel.setText(getISOExtensionsPackageProperty().getDisplayName() + "   ");
+            infoPanel.add(extPackagejLabel, gridBagConstraints8);
+            
+            // Row 2 Column 2
+            GridBagConstraints gridBagConstraints6 = new GridBagConstraints();
+            gridBagConstraints6.fill = GridBagConstraints.HORIZONTAL;
+            gridBagConstraints6.anchor = GridBagConstraints.WEST;
+            gridBagConstraints6.gridx = 1;
+            gridBagConstraints6.gridy = 1;
+            gridBagConstraints6.weightx = 1.0;
+            infoPanel.add(getExtPackagejTextField(), gridBagConstraints6);
         }
         return infoPanel;
     }
