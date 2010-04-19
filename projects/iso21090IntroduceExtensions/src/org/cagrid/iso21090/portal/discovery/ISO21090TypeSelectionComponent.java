@@ -263,7 +263,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
     
     protected File[] getIsoSupportLibraries() {
         File libDir = new File(ExtensionsLoader.getInstance().getExtensionsDir(), 
-            Constants.EXTENSION_NAME + File.separator + "lib");
+            File.separator + "lib");
         File[] libs = libDir.listFiles(new FileFilter() {
             public boolean accept(File pathname) {
                 String name = pathname.getName();
