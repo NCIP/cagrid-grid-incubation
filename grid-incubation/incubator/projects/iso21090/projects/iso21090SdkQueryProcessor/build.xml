@@ -26,6 +26,7 @@
 	<property name="ext.dir" value="${basedir}/ext" />
 	<property name="ext.lib.dir" value="${ext.dir}/dependencies/jars" />
 	<property name="ext.test.lib.dir" location="${ext.dir}/dependencies/test/jars" />
+	<property name="lib.dir" location="${basedir}/lib"/>
 
 	<!-- testing stuff -->
 	<property name="test.dir" location="${basedir}/test" />
@@ -40,6 +41,9 @@
 	<!-- The Build Classpath                                             -->
 	<!-- =============================================================== -->
 	<path id="build.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
 		<fileset dir="${ext.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
