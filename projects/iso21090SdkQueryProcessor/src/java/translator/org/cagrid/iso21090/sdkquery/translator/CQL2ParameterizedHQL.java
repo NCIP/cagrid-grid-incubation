@@ -247,6 +247,29 @@ public class CQL2ParameterizedHQL {
 		boolean unaryPredicate = predicate.equals(Predicate.IS_NOT_NULL)
 			|| predicate.equals(Predicate.IS_NULL);
 		
+		// determine what the flavor of this attribute is
+		DatatypeFlavor flavor = typesProcessingList.get(typesProcessingList.size() - 1).datatypeFlavor;
+		switch (flavor) {
+		    case STANDARD:
+		        // do what we already do
+		        break;
+		    case COMPLEX_WITH_SIMPLE_CONTENT:
+		        // query with parent alias.roleName.attribName
+		        break;
+		    case COMPLEX_WITH_NESTED_COMPLEX:
+		        // query with parent.roleName.roleName.attribName
+		        break;
+		    case COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
+		        // yeah...
+		        break;
+		    case COMPLEX_WITH_COLLECTION_OF_COMPLEX:
+		        // cry
+		        break;
+		    case COLLECTION_OF_COMPLEX_WITH_COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
+		        // and hang myself
+		        break;       
+		}
+		
         // construct the query fragment
         if (caseInsensitive) {
 			hql.append("lower(");
