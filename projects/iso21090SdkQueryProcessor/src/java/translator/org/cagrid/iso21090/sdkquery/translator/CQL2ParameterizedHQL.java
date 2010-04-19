@@ -243,15 +243,11 @@ public class CQL2ParameterizedHQL {
             predicate = Predicate.EQUAL_TO;
         }
         
-        // determine if the predicate is unary
-		boolean unaryPredicate = predicate.equals(Predicate.IS_NOT_NULL)
-			|| predicate.equals(Predicate.IS_NULL);
-		
-		// determine what the flavor of this attribute is
+        // determine what the flavor of this attribute is
 		DatatypeFlavor flavor = typesProcessingList.get(typesProcessingList.size() - 1).datatypeFlavor;
 		switch (flavor) {
 		    case STANDARD:
-		        // do what we already do
+		        processStandardAttribute(attribute, hql, parameters, queryObject, queryObjectAlias);
 		        break;
 		    case COMPLEX_WITH_SIMPLE_CONTENT:
 		        // query with parent alias.roleName.attribName
@@ -270,48 +266,7 @@ public class CQL2ParameterizedHQL {
 		        break;       
 		}
 		
-        // construct the query fragment
-        if (caseInsensitive) {
-			hql.append("lower(");
-		}
-        
-        // append the path to the attribute itself
-        hql.append(queryObjectAlias).append('.').append(attribute.getName());
-        
-        // close up case insensitivity
-		if (caseInsensitive) {
-			hql.append(')');
-		}
-        
-        // append the predicate
-		hql.append(' ');
-		String predicateAsString = predicateValues.get(predicate);
-		if (!unaryPredicate) {
-			hql.append(predicateAsString).append(' ');
 
-            // add a placeholder parameter to the HQL query
-			hql.append('?');
-
-			// convert the attribute value to the specific data type of the attribute
-			Class<?> attributeType = null;
-			try {
-			    attributeType = typesInformationResolver.getJavaDataType(queryObject.getName(), attribute.getName());
-			} catch (TypesInformationException ex) {
-			    throw new QueryTranslationException(ex.getMessage(), ex);
-			}
-			if (attributeType == null) {
-			    throw new QueryTranslationException("No type could be determined for attribute " 
-			        + queryObject.getName() + "." + attribute.getName());
-			}
-            java.lang.Object value = valueToObject(attributeType, 
-                caseInsensitive ? attribute.getValue().toLowerCase() : attribute.getValue());
-
-            // add a positional parameter value to the list            
-            parameters.add(value);
-		} else {
-            // binary predicates just get appended w/o values associated with them
-			hql.append(predicateAsString);
-		}
 	}
 	
 	
@@ -559,5 +514,59 @@ public class CQL2ParameterizedHQL {
         bucket.aliasOrRoleName = aliasOrRoleName;
         bucket.datatypeFlavor = flavor;
         typesProcessingList.add(bucket);
+    }
+    
+    
+    private void processStandardAttribute(Attribute attribute, StringBuilder hql, 
+        List<java.lang.Object> parameters, Object queryObject, String queryObjectAlias)
+        throws QueryTranslationException {
+        Predicate predicate = attribute.getPredicate();
+        
+        // determine if the predicate is unary
+        boolean unaryPredicate = predicate.equals(Predicate.IS_NOT_NULL)
+            || predicate.equals(Predicate.IS_NULL);
+        
+        // construct the query fragment
+        if (caseInsensitive) {
+            hql.append("lower(");
+        }
+        
+        // append the path to the attribute itself
+        hql.append(queryObjectAlias).append('.').append(attribute.getName());
+        
+        // close up case insensitivity
+        if (caseInsensitive) {
+            hql.append(')');
+        }
+        
+        // append the predicate
+        hql.append(' ');
+        String predicateAsString = predicateValues.get(predicate);
+        if (!unaryPredicate) {
+            hql.append(predicateAsString).append(' ');
+
+            // add a placeholder parameter to the HQL query
+            hql.append('?');
+
+            // convert the attribute value to the specific data type of the attribute
+            Class<?> attributeType = null;
+            try {
+                attributeType = typesInformationResolver.getJavaDataType(queryObject.getName(), attribute.getName());
+            } catch (TypesInformationException ex) {
+                throw new QueryTranslationException(ex.getMessage(), ex);
+            }
+            if (attributeType == null) {
+                throw new QueryTranslationException("No type could be determined for attribute " 
+                    + queryObject.getName() + "." + attribute.getName());
+            }
+            java.lang.Object value = valueToObject(attributeType, 
+                caseInsensitive ? attribute.getValue().toLowerCase() : attribute.getValue());
+
+            // add a positional parameter value to the list            
+            parameters.add(value);
+        } else {
+            // binary predicates just get appended w/o values associated with them
+            hql.append(predicateAsString);
+        }
     }
 }
