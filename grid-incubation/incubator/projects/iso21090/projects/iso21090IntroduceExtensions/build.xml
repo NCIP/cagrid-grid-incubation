@@ -16,8 +16,8 @@
 
 
 	<property name="src.dir" value="${basedir}/src" />
-	<property name="zip.dir" value="${basedir}/zipdir" />
 	<property name="build.dir" value="${basedir}/build" />
+	<property name="zip.dir" value="${build.dir}/zipdir" />
 	<property name="javadoc.dir" value="${build.dir}/javadoc" />
 	<property name="classes.dir" value="${build.dir}/classes" />
 	<property name="jar.dir" value="${build.dir}/jars" />
@@ -121,7 +121,6 @@
 	<!-- ============================================================== -->
 	<target name="clean" depends="" description="Removes generated files.">
 		<delete dir="${build.dir}" />
-		<delete dir="${zip.dir}" />
 	</target>
 
 
@@ -199,7 +198,7 @@
 	<property name="introduce.extensions.dir" value="${env.CAGRID_HOME}/projects/introduce/extensions" />
 	<!--<property name="introduce.extensions.dir" location="../introduce/extensions" />-->
 
-	<target name="createZipDir" description="Creates directory that can be zipped to be uploaded to software update site" depends="all">
+	<target name="createZip" description="Creates extension zip file that can be uploaded to software update site" depends="all">
 		<delete dir="${zip.dir}"/>
 		<copy todir="${zip.dir}/ISO21090-discovery" file="extension.xml" />
 		<copy todir="${zip.dir}/lib" overwrite="true">
@@ -225,6 +224,10 @@
 				<include name="*.jar" />
 			</fileset>
 		</copy>
+		
+		<!-- Zip the directory -->
+		<zip destfile="${build.dir}/ISO21090-discovery.zip"
+		       basedir="${zip.dir}"/>
 	</target>
 	
 	<target name="installIntroduceExtensions" description="Installs the ISO21090 extensions into Introduce (you must build first).">
