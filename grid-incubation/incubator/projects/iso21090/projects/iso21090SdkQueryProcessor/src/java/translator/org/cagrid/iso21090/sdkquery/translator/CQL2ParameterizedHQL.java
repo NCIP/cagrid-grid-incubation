@@ -250,10 +250,12 @@ public class CQL2ParameterizedHQL {
 		        processStandardAttribute(attribute, hql, parameters, queryObject, queryObjectAlias);
 		        break;
 		    case COMPLEX_WITH_SIMPLE_CONTENT:
-		        // query with parent alias.roleName.attribName
+		        processComplexAttributeWithSimpleContent(
+		            attribute, hql, parameters, queryObject, typesProcessingList);
 		        break;
 		    case COMPLEX_WITH_NESTED_COMPLEX:
-		        // query with parent.roleName.roleName.attribName
+		        processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
+		            attribute, hql, parameters, queryObject, typesProcessingList);
 		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
 		        // yeah...
@@ -265,8 +267,6 @@ public class CQL2ParameterizedHQL {
 		        // and hang myself
 		        break;       
 		}
-		
-
 	}
 	
 	
@@ -310,38 +310,50 @@ public class CQL2ParameterizedHQL {
         
 		// add this association to the stack
 		associationStack.push(association);
+		DatatypeFlavor flavor = null;
+        try {
+            flavor = DatatypeFlavor.getFlavorOfClass(Class.forName(association.getName()));
+        } catch (ClassNotFoundException ex) {
+            throw new QueryTranslationException("Error determining datatype flavor of " 
+                + association.getName() + ": " + ex.getMessage(), ex);
+        }
+		addTypeProcessingInformation(typesProcessingList, association.getName(), flavor == DatatypeFlavor.STANDARD ? alias : roleName);
         
-        // flag indicates the query is only verifying the association is populated
-        boolean simpleNullCheck = true;
-		if (association.getAssociation() != null) {
-            simpleNullCheck = false;
-            // add clause to select things from this association
-            hql.append(sourceAlias).append('.').append(roleName);            
-            hql.append(".id in (select ").append(alias).append(".id from ");
-            hql.append(association.getName()).append(" as ").append(alias).append(" where ");
-            processAssociation(association.getAssociation(), hql, parameters, associationStack, typesProcessingList, association, alias);
-            hql.append(") ");
-		}
-		if (association.getAttribute() != null) {
-            simpleNullCheck = false;
-            hql.append(sourceAlias).append('.').append(roleName);
-            hql.append(".id in (select ").append(alias).append(".id from ");
-            hql.append(association.getName()).append(" as ").append(alias).append(" where ");
-			processAttribute(association.getAttribute(), hql, parameters, association, alias, typesProcessingList);
-			hql.append(") ");
-		}
-		if (association.getGroup() != null) {
-            simpleNullCheck = false;
-            hql.append(sourceAlias).append('.').append(roleName);            
-            hql.append(".id in (select ").append(alias).append(".id from ");
-            hql.append(association.getName()).append(" as ").append(alias).append(" where ");
-			processGroup(association.getGroup(), hql, parameters, associationStack, typesProcessingList, association, alias);
-            hql.append(") ");
-		}
-		
-        if (simpleNullCheck) {
-            // query is checking for the association to exist and be non-null
-            hql.append(sourceAlias).append('.').append(roleName).append(".id is not null ");
+		if (DatatypeFlavor.STANDARD.equals(flavor)) {
+		    // flag indicates the query is only verifying the association is populated
+		    boolean simpleNullCheck = true;
+		    if (association.getAssociation() != null) {
+		        simpleNullCheck = false;
+		        // add clause to select things from this association
+		        hql.append(sourceAlias).append('.').append(roleName);            
+		        hql.append(".id in (select ").append(alias).append(".id from ");
+		        hql.append(association.getName()).append(" as ").append(alias).append(" where ");
+		        processAssociation(association.getAssociation(), hql, parameters, associationStack, typesProcessingList, association, alias);
+		        hql.append(") ");
+		    }
+		    if (association.getAttribute() != null) {
+		        simpleNullCheck = false;
+		        hql.append(sourceAlias).append('.').append(roleName);
+		        hql.append(".id in (select ").append(alias).append(".id from ");
+		        hql.append(association.getName()).append(" as ").append(alias).append(" where ");
+		        processAttribute(association.getAttribute(), hql, parameters, association, alias, typesProcessingList);
+		        hql.append(") ");
+		    }
+		    if (association.getGroup() != null) {
+		        simpleNullCheck = false;
+		        hql.append(sourceAlias).append('.').append(roleName);            
+		        hql.append(".id in (select ").append(alias).append(".id from ");
+		        hql.append(association.getName()).append(" as ").append(alias).append(" where ");
+		        processGroup(association.getGroup(), hql, parameters, associationStack, typesProcessingList, association, alias);
+		        hql.append(") ");
+		    }
+		    if (simpleNullCheck) {
+		        // query is checking for the association to exist and be non-null
+		        hql.append(sourceAlias).append('.').append(roleName).append(".id is not null ");
+		    }
+        } else {
+            // complex datatype association (modeled as an attribute, so saying "Person.AD is not null" doesn't make sense...
+            // "Person.AD.NullFlavor = NullFlavor.NI, however, is fine
         }
         
 		// pop this association off the stack
@@ -520,11 +532,6 @@ public class CQL2ParameterizedHQL {
     private void processStandardAttribute(Attribute attribute, StringBuilder hql, 
         List<java.lang.Object> parameters, Object queryObject, String queryObjectAlias)
         throws QueryTranslationException {
-        Predicate predicate = attribute.getPredicate();
-        
-        // determine if the predicate is unary
-        boolean unaryPredicate = predicate.equals(Predicate.IS_NOT_NULL)
-            || predicate.equals(Predicate.IS_NULL);
         
         // construct the query fragment
         if (caseInsensitive) {
@@ -539,6 +546,56 @@ public class CQL2ParameterizedHQL {
             hql.append(')');
         }
         
+        appendPredicateAndValue(attribute, hql, parameters, queryObject);
+    }
+    
+    
+    private void processComplexAttributeWithSimpleContent(Attribute attribute, StringBuilder hql, 
+        List<java.lang.Object> parameters, Object queryObject, List<CqlDataBucket> typesProcessingList) 
+        throws QueryTranslationException {
+        // construct the query fragment
+        if (caseInsensitive) {
+            hql.append("lower(");
+        }
+        
+        // append the path to the attribute itself
+        hql.append(getAssociationPath(typesProcessingList, 2));
+
+        // close up case insensitivity
+        if (caseInsensitive) {
+            hql.append(')');
+        }
+               
+        appendPredicateAndValue(attribute, hql, parameters, queryObject);
+    }
+    
+    
+    private void processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
+        Attribute attribute, StringBuilder hql, List<java.lang.Object> parameters, 
+        Object queryObject, List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
+        // construct the query fragment
+        if (caseInsensitive) {
+            hql.append("lower(");
+        }
+        
+        // append the path to the attribute itself
+        hql.append(getAssociationPath(typesProcessingList, 3));
+
+        // close up case insensitivity
+        if (caseInsensitive) {
+            hql.append(')');
+        }
+               
+        appendPredicateAndValue(attribute, hql, parameters, queryObject);        
+    }
+    
+    
+    private void appendPredicateAndValue(Attribute attribute, StringBuilder hql, 
+        List<java.lang.Object> parameters, Object queryObject) throws QueryTranslationException {
+        // determine if the predicate is unary
+        Predicate predicate = attribute.getPredicate();
+        boolean unaryPredicate = predicate.equals(Predicate.IS_NOT_NULL)
+            || predicate.equals(Predicate.IS_NULL);
         // append the predicate
         hql.append(' ');
         String predicateAsString = predicateValues.get(predicate);
@@ -568,5 +625,19 @@ public class CQL2ParameterizedHQL {
             // binary predicates just get appended w/o values associated with them
             hql.append(predicateAsString);
         }
+    }
+    
+    
+    private String getAssociationPath(List<CqlDataBucket> typesProcessingList, int levels) {
+        int listSize = typesProcessingList.size();
+        int endIndex = listSize - levels;
+        StringBuffer buf = new StringBuffer();
+        for (int i = listSize - 1; i >= endIndex; i--) {
+            buf.append(typesProcessingList.get(i).aliasOrRoleName);
+            if (i - 1 >= endIndex) {
+                buf.append('.');
+            }
+        }
+        return buf.toString();
     }
 }
