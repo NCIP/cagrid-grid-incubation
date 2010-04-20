@@ -1,5 +1,7 @@
 package org.cagrid.iso21090.sdkquery.translator;
 
+import java.util.List;
+
 /**
  * TypesInformationResolver
  * Used to resolve various information about domain datatypes
@@ -15,4 +17,6 @@ public interface TypesInformationResolver {
     public Class<?> getJavaDataType(String classname, String field) throws TypesInformationException;
     
     public String getRoleName(String parentClassname, String childClassname) throws TypesInformationException;
+    
+    public List<String> getInnerComponentNames(String parentClassname, String topLevelComponentName, String innerComponentNamePrefix);
 }

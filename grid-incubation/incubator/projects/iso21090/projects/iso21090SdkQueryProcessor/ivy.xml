@@ -33,9 +33,14 @@
     <dependency rev="latest.integration" org="caGrid" name="data" conf="queryProcessor->processors,utils,tools"/>
     
     <!-- Third party dependencies -->
+    <!-- using the modified hibernate jar from the SDK
     <dependency rev="3.2.0.ga" org="hibernate" name="hibernate" conf="translator->*"/>
+     -->
     <dependency rev="1.1" org="apache" name="commons-logging" conf="translator->*"/>
     <dependency org="javax.xml.bind" name="jaxb-api" rev="2.1" conf="translator->*"/>
+    <dependency org="javax.xml.bind" name="jaxb-impl" rev="2.1.4" conf="translator->*"/>
+    <dependency org="javax.xml.bind" name="jaxb-xjc" rev="2.1.4" conf="translator->*"/>
+    <dependency rev="3.2" org="apache" name="commons-collections" conf="translator->default" />
     
     <!-- dependency on the ISO data types -->
   </dependencies>
