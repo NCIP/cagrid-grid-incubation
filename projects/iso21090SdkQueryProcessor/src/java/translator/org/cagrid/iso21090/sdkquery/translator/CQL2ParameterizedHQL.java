@@ -354,6 +354,29 @@ public class CQL2ParameterizedHQL {
         } else {
             // complex datatype association (modeled as an attribute, so saying "Person.AD is not null" doesn't make sense...
             // "Person.AD.NullFlavor = NullFlavor.NI, however, is fine
+            // FIXME: have to handle complex types here
+            boolean simpleNullCheck = true;
+            if (association.getAssociation() != null) {
+                simpleNullCheck = false;
+                // continue processing
+                // TODO: does alias need to be role name?
+                processAssociation(association.getAssociation(), hql, parameters, associationStack, typesProcessingList, association, alias);
+            }
+            if (association.getGroup() != null) {
+                simpleNullCheck = false;
+                // continue processing
+                // TODO: does alias need to be role name?
+                processGroup(association.getGroup(), hql, parameters, associationStack, typesProcessingList, association, alias);
+            }
+            if (association.getAttribute() != null) {
+                simpleNullCheck = false;
+                // TODO: does sourceAlias need to be roleName??
+                processAttribute(association.getAttribute(), hql, parameters, sourceQueryObject, sourceAlias, typesProcessingList);
+            }
+            if (simpleNullCheck) {
+                // checking for the type not to be null, but .id doesn't work....
+                hql.append(sourceAlias).append('.').append(roleName).append(" is not null ");
+            }
         }
         
 		// pop this association off the stack

@@ -1,11 +1,17 @@
 package org.cagrid.iso21090.sdkquery.translator;
 
+import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
+
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.cfg.Configuration;
 import org.hibernate.mapping.Collection;
+import org.hibernate.mapping.Component;
 import org.hibernate.mapping.OneToMany;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
@@ -131,6 +137,23 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
     }
     
     
+    public List<String> getInnerComponentNames(String parentClassname, String topLevelComponentName,
+        String innerComponentNamePrefix) {
+        List<String> names = new ArrayList<String>();
+        PersistentClass parent = configuration.getClassMapping(parentClassname);
+        Property topLevel = parent.getProperty(topLevelComponentName);
+        Component topLevelComponent = (Component) topLevel.getValue();
+        Iterator<?> propertyIter = topLevelComponent.getPropertyIterator();
+        while (propertyIter.hasNext()) {
+            Property prop = (Property) propertyIter.next();
+            if (prop.getName().startsWith(innerComponentNamePrefix)) {
+                names.add(prop.getName());
+            }
+        }
+        return names;
+    }
+    
+    
     private String getShortClassName(String className) {
         int dotIndex = className.lastIndexOf('.');
         return className.substring(dotIndex + 1);
@@ -139,5 +162,26 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
     
     private String getAssociationIdentifier(String parentClassname, String childClassname) {
         return parentClassname + "-->" + childClassname;
+    }
+    
+    
+    public static void main(String[] args) {
+        try {
+            InputStream is = HibernateConfigTypesInformationResolver.class.getResourceAsStream("/hibernate.cfg.xml");
+            Configuration config = new Configuration();
+            config.addInputStream(is);
+            config.buildMappings();
+            config.configure();
+            
+            HibernateConfigTypesInformationResolver resolver = new HibernateConfigTypesInformationResolver(config);
+            List<String> partNames = resolver.getInnerComponentNames(
+                EnDataType.class.getName(), "value1", "part");
+            for (String name : partNames) {
+                System.out.println(name);
+            }
+            is.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
