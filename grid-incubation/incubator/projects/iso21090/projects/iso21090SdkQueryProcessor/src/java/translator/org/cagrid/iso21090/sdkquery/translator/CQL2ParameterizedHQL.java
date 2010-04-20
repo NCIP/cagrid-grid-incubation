@@ -258,8 +258,8 @@ public class CQL2ParameterizedHQL {
 		            attribute, hql, parameters, queryObject, typesProcessingList);
 		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
-		        // yeah...
-		        break;
+		        processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
+		            attribute, hql, parameters, queryObject, typesProcessingList);
 		    case COMPLEX_WITH_COLLECTION_OF_COMPLEX:
 		        // cry
 		        break;
@@ -610,6 +610,49 @@ public class CQL2ParameterizedHQL {
         }
                
         appendPredicateAndValue(attribute, hql, parameters, queryObject);        
+    }
+    
+    
+    private void processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
+        Attribute attribute, StringBuilder hql, List<java.lang.Object> parameters, 
+        Object queryObject, List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
+        // build the query path with a place holder for the part names
+        String componentNamePlaceholder = "---placeholder---";
+        int listSize = typesProcessingList.size();
+        int endIndex = listSize - 4;
+        StringBuffer buf = new StringBuffer();
+        for (int i = listSize - 1; i >= endIndex; i--) {
+            if (i == listSize - 2) {
+                buf.append(componentNamePlaceholder);
+            } else {
+                buf.append(typesProcessingList.get(i).aliasOrRoleName);
+            }
+            if (i - 1 >= endIndex) {
+                buf.append('.');
+            }
+        }
+        
+        // get the part names out of the types information
+        List<String> componentNames = typesInformationResolver.getInnerComponentNames(queryObject.getName(), 
+            typesProcessingList.get(typesProcessingList.size() - 2).aliasOrRoleName, attribute.getName());
+        Iterator<String> nameIter = componentNames.iterator();
+        
+        // build the query fragment
+        hql.append("(");
+        while (nameIter.hasNext()) {
+            if (caseInsensitive) {
+                hql.append("lower(");
+            }
+            String fragment = componentNamePlaceholder.replace(componentNamePlaceholder, nameIter.next());
+            hql.append(fragment);
+            if (caseInsensitive) {
+                hql.append(")");
+            }
+            appendPredicateAndValue(attribute, hql, parameters, queryObject);
+            if (nameIter.hasNext()) {
+                hql.append(" or ");
+            }
+        }        
     }
     
     
