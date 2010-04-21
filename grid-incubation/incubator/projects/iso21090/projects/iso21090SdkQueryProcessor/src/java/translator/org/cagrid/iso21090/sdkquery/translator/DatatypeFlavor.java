@@ -1,10 +1,19 @@
 package org.cagrid.iso21090.sdkquery.translator;
 
 import gov.nih.nci.iso21090.Bl;
+import gov.nih.nci.iso21090.Cd;
+import gov.nih.nci.iso21090.DSet;
 import gov.nih.nci.iso21090.Ed;
+import gov.nih.nci.iso21090.En;
+import gov.nih.nci.iso21090.Int;
+import gov.nih.nci.iso21090.Ivl;
+import gov.nih.nci.iso21090.Pq;
+import gov.nih.nci.iso21090.Pqv;
+import gov.nih.nci.iso21090.Sc;
 import gov.nih.nci.iso21090.St;
 import gov.nih.nci.iso21090.Tel;
 import gov.nih.nci.iso21090.TelPerson;
+import gov.nih.nci.iso21090.Ts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,30 +90,44 @@ public enum DatatypeFlavor {
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.TelEmail.class, COMPLEX_WITH_SIMPLE_CONTENT);
         CLASS_FLAVORS.put(ED.class, COMPLEX_WITH_SIMPLE_CONTENT);
         CLASS_FLAVORS.put(Ed.class, COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(EdText.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(EdText.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.EdText.class, COMPLEX_WITH_SIMPLE_CONTENT);
         
-        CLASS_FLAVORS.put(CD.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(SC.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(INT.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(Real.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(TS.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        // CLASS_FLAVORS.put(PQV.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(PQ.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(IVLTS.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(IVLPQ.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        // CLASS_FLAVORS.put(IVLPQV.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(IVLREAL.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
-        CLASS_FLAVORS.put(IVLINT.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(CD.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(Cd.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(SC.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(Sc.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(INT.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(Int.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(Real.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.Real.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(TS.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(Ts.class, COMPLEX_WITH_NESTED_COMPLEX);
+        // CLASS_FLAVORS.put(PQV.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(Pqv.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(PQ.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(Pq.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(IVLTS.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(Ivl.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(IVLPQ.class, COMPLEX_WITH_NESTED_COMPLEX);
+        // CLASS_FLAVORS.put(IVLPQV.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(IVLREAL.class, COMPLEX_WITH_NESTED_COMPLEX);
+        CLASS_FLAVORS.put(IVLINT.class, COMPLEX_WITH_NESTED_COMPLEX);
         
-        CLASS_FLAVORS.put(Ad.class, DatatypeFlavor.COMPLEX_WITH_COLLECTION_OF_COMPLEX);
-        CLASS_FLAVORS.put(EN.class, DatatypeFlavor.COMPLEX_WITH_COLLECTION_OF_COMPLEX);
-        CLASS_FLAVORS.put(EnOn.class, DatatypeFlavor.COMPLEX_WITH_COLLECTION_OF_COMPLEX);
-        CLASS_FLAVORS.put(EnPn.class, DatatypeFlavor.COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(Ad.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.Ad.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(EN.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(En.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(EnOn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.EnOn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(EnPn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.EnPn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         
-        CLASS_FLAVORS.put(DSetII.class, DatatypeFlavor.COMPLEX_WITH_COLLECTION_OF_COMPLEX);
-        CLASS_FLAVORS.put(DSetTel.class, DatatypeFlavor.COMPLEX_WITH_COLLECTION_OF_COMPLEX);
-        CLASS_FLAVORS.put(DSetCd.class, DatatypeFlavor.COMPLEX_WITH_COLLECTION_OF_COMPLEX);
-        CLASS_FLAVORS.put(DSetAd.class, DatatypeFlavor.COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(DSetII.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(DSet.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(DSetTel.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(DSetCd.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(DSetAd.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
     }
     
     public static DatatypeFlavor getFlavorOfClass(Class<?> clazz) {
