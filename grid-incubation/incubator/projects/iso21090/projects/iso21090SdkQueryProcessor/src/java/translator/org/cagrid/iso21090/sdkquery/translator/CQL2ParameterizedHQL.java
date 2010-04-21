@@ -252,11 +252,11 @@ public class CQL2ParameterizedHQL {
 		        break;
 		    case COMPLEX_WITH_SIMPLE_CONTENT:
 		        processComplexAttributeWithSimpleContent(
-		            attribute, hql, parameters, queryObject, associationStack, typesProcessingList);
+		            attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
 		    case COMPLEX_WITH_NESTED_COMPLEX:
 		        processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
-		            attribute, hql, parameters, queryObject, typesProcessingList);
+		            attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
 		        processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
@@ -577,7 +577,7 @@ public class CQL2ParameterizedHQL {
     
     
     private void processComplexAttributeWithSimpleContent(Attribute attribute, 
-        StringBuilder hql, List<java.lang.Object> parameters, Object queryObject, 
+        StringBuilder hql, List<java.lang.Object> parameters, 
         Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) 
         throws QueryTranslationException {
         // construct the query fragment
@@ -598,9 +598,10 @@ public class CQL2ParameterizedHQL {
     }
     
     
-    private void processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
-        Attribute attribute, StringBuilder hql, List<java.lang.Object> parameters, 
-        Object queryObject, List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
+    private void processComplexAttributeWithNestedComplexAttributeWithSimpleContent(Attribute attribute, 
+        StringBuilder hql, List<java.lang.Object> parameters, 
+        Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) 
+        throws QueryTranslationException {
         // construct the query fragment
         if (caseInsensitive) {
             hql.append("lower(");
@@ -614,7 +615,7 @@ public class CQL2ParameterizedHQL {
             hql.append(')');
         }
                
-        appendPredicateAndValue(attribute, hql, parameters, queryObject);        
+        appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());        
     }
     
     
