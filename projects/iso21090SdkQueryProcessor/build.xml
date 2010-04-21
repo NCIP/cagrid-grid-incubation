@@ -27,6 +27,9 @@
 	<property name="ext.lib.dir" value="${ext.dir}/dependencies/jars" />
 	<property name="ext.test.lib.dir" location="${ext.dir}/dependencies/test/jars" />
 	<property name="lib.dir" location="${basedir}/lib"/>
+	<property name="sdk.client.dir" location="${basedir}/sdk/local-client"/>
+	<property name="sdk.lib.dir" location="${sdk.client.dir}/lib"/>
+	<property name="sdk.conf.dir" location="${sdk.client.dir}/conf"/>
 
 	<!-- testing stuff -->
 	<property name="test.dir" location="${basedir}/test" />
@@ -42,6 +45,9 @@
 	<!-- =============================================================== -->
 	<path id="build.classpath">
 		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${sdk.lib.dir}">
 			<include name="**/*.jar"/>
 		</fileset>
 		<fileset dir="${ext.lib.dir}">

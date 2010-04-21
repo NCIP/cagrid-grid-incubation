@@ -47,16 +47,50 @@
 	<classpathentry kind="lib" path="ext/dependencies/jars/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/ehcache-1.2.3.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/jta-1.0.1B.jar"/>
-	<classpathentry kind="lib" path="lib/iso-datatypes-2.0.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT-tests.jar"/>
-	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/isoExample-orm.jar"/>
-	<classpathentry kind="lib" path="lib/isoExample-beans.jar"/>
-	<classpathentry kind="lib" path="lib/isoExample-schema.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/jaxb-api-2.1.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/jaxb-impl-2.1.4.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/jaxb-xjc-2.1.4.jar"/>
 	<classpathentry kind="lib" path="ext/dependencies/jars/commons-collections-3.2.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-3.2.0.ga-modified.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/acegi-security-1.0.4.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/activation-1.0.2.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/asm-1.5.3.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/axis-1.4.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/caGrid-CQL-cql.1.0-1.3.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/caGrid-data-common-1.3.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/caGrid-data-stubs-1.3.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/caGrid-sdkQuery4-beans-1.3.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/caGrid-sdkQuery4-processor-1.3.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/castor-1.0.2.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/cglib-2.1_3.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/clm-4.2.beta.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/cog-axis-noversion.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/cog-jglobus-1.2.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/commons-beanutils-1.6.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/csmapi-4.2.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/hibernate-3.2.0.ga-modified.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/hibernate-annotations-3.2.0.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/hibernate-validator-3.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/isoExample-beans.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/isoExample-orm.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/isoExample-schema.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/jaxrpc-1.1.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/jdom-1.1.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/mysql-connector-java-5.0.8.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/sdk-security-4.2.1.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/sdk-security-client-4.2.1.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/sdk-system-client-4.2.1.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/sdk-system-core-4.2.1.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/spring-2.0.2.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/stax-api-1.0-2.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/xercesImpl-2.7.1.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/conf"/>
+	<classpathentry kind="lib" path="lib/iso-datatypes-2.0.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT-tests.jar"/>
+	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
