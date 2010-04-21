@@ -258,10 +258,10 @@ public class CQL2ParameterizedHQL {
 		        processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
 		            attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
-		    case COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
-		        processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
-		            attribute, hql, parameters, queryObject, typesProcessingList);
 		    case COMPLEX_WITH_COLLECTION_OF_COMPLEX:
+		        processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
+		            attribute, hql, parameters, associationStack, typesProcessingList);
+		    case COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
 		        // cry
 		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
@@ -621,26 +621,27 @@ public class CQL2ParameterizedHQL {
     
     private void processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
         Attribute attribute, StringBuilder hql, List<java.lang.Object> parameters, 
-        Object queryObject, List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
+        Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
         // build the query path with a place holder for the part names
         String componentNamePlaceholder = "---placeholder---";
         int listSize = typesProcessingList.size();
-        int endIndex = listSize - 4;
+        int endIndex = listSize - 3;
         StringBuffer buf = new StringBuffer();
-        for (int i = listSize - 1; i >= endIndex; i--) {
-            if (i == listSize - 2) {
+        for (int i = endIndex; i < listSize; i++) {
+            if (i == listSize - 1) {
                 buf.append(componentNamePlaceholder);
             } else {
                 buf.append(typesProcessingList.get(i).aliasOrRoleName);
             }
-            if (i - 1 >= endIndex) {
-                buf.append('.');
-            }
+            buf.append('.');
         }
+        buf.append(attribute.getName());
         
         // get the part names out of the types information
-        List<String> componentNames = typesInformationResolver.getInnerComponentNames(queryObject.getName(), 
-            typesProcessingList.get(typesProcessingList.size() - 2).aliasOrRoleName, attribute.getName());
+        List<String> componentNames = typesInformationResolver.getInnerComponentNames(
+            typesProcessingList.get(typesProcessingList.size() - 3).clazz, 
+            typesProcessingList.get(typesProcessingList.size() - 2).aliasOrRoleName, 
+            typesProcessingList.get(typesProcessingList.size() - 1).aliasOrRoleName);
         Iterator<String> nameIter = componentNames.iterator();
         
         // build the query fragment
@@ -649,16 +650,17 @@ public class CQL2ParameterizedHQL {
             if (caseInsensitive) {
                 hql.append("lower(");
             }
-            String fragment = componentNamePlaceholder.replace(componentNamePlaceholder, nameIter.next());
+            String fragment = buf.toString().replace(componentNamePlaceholder, nameIter.next());
             hql.append(fragment);
             if (caseInsensitive) {
                 hql.append(")");
             }
-            appendPredicateAndValue(attribute, hql, parameters, queryObject);
+            appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());
             if (nameIter.hasNext()) {
                 hql.append(" or ");
             }
-        }        
+        }
+        hql.append(")");
     }
     
     
