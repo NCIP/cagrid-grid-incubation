@@ -1,11 +1,14 @@
 package org.cagrid.iso21090.sdkquery.test;
 
 import gov.nih.nci.cacoresdk.domain.other.datatype.IiDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.ScDataType;
 import gov.nih.nci.cagrid.cqlquery.Association;
 import gov.nih.nci.cagrid.cqlquery.Attribute;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.cqlquery.Predicate;
+import gov.nih.nci.iso21090.Cd;
 import gov.nih.nci.iso21090.Ii;
+import gov.nih.nci.iso21090.Sc;
 import gov.nih.nci.system.applicationservice.ApplicationException;
 import gov.nih.nci.system.applicationservice.ApplicationService;
 import gov.nih.nci.system.client.ApplicationServiceProvider;
@@ -80,6 +83,26 @@ public class IsoQueriesTestCase extends TestCase {
         Attribute attrib = new Attribute("extension", Predicate.EQUAL_TO, "II_Extension");
         assoc.setAttribute(attrib);
         target.setAssociation(assoc);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    public void testQueryScDataType() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(ScDataType.class.getName());
+        Association assoc1 = new Association();
+        assoc1.setName(Sc.class.getName());
+        assoc1.setRoleName("value2");
+        Association assoc2 = new Association();
+        assoc2.setName(Cd.class.getName());
+        assoc2.setRoleName("code");
+        Attribute attrib = new Attribute("code", Predicate.EQUAL_TO, "VALUE2_CODE_CODE1");
+        assoc2.setAttribute(attrib);
+        assoc1.setAssociation(assoc2);
+        target.setAssociation(assoc1);
         query.setTarget(target);
         
         executeQuery(query);
