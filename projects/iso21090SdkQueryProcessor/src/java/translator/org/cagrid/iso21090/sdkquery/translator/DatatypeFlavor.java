@@ -1,5 +1,11 @@
 package org.cagrid.iso21090.sdkquery.translator;
 
+import gov.nih.nci.iso21090.Bl;
+import gov.nih.nci.iso21090.Ed;
+import gov.nih.nci.iso21090.St;
+import gov.nih.nci.iso21090.Tel;
+import gov.nih.nci.iso21090.TelPerson;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,17 +59,28 @@ public enum DatatypeFlavor {
     
     private static final Map<Class<?>, DatatypeFlavor> CLASS_FLAVORS = new HashMap<Class<?>, DatatypeFlavor>();
     static {
-        CLASS_FLAVORS.put(BL.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(BlNonNull.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(ST.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(StNt.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(Ii.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(TEL.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(TELPerson.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(TelUrl.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(TelPhone.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(TelEmail.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(ED.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(BL.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(Bl.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(BlNonNull.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.BlNonNull.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(ST.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(St.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(StNt.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.StNt.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(Ii.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.Ii.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(TEL.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(Tel.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(TELPerson.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(TelPerson.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(TelUrl.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.TelUrl.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(TelPhone.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.TelPhone.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(TelEmail.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.TelEmail.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(ED.class, COMPLEX_WITH_SIMPLE_CONTENT);
+        CLASS_FLAVORS.put(Ed.class, COMPLEX_WITH_SIMPLE_CONTENT);
         CLASS_FLAVORS.put(EdText.class, DatatypeFlavor.COMPLEX_WITH_SIMPLE_CONTENT);
         
         CLASS_FLAVORS.put(CD.class, DatatypeFlavor.COMPLEX_WITH_NESTED_COMPLEX);

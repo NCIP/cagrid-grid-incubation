@@ -291,11 +291,13 @@ public class CQL2ParameterizedHQL {
         LOG.debug("Processing association " + sourceQueryObject.getName() + " to " + association.getName());
         
         // get the association's role name
-		String roleName = null;
-		try {
-		    roleName = typesInformationResolver.getRoleName(sourceQueryObject.getName(), association.getName());
-		} catch (TypesInformationException ex) {
-		    throw new QueryTranslationException(ex.getMessage(), ex);
+		String roleName = association.getRoleName();
+		if (roleName == null) {
+		    try {
+		        roleName = typesInformationResolver.getRoleName(sourceQueryObject.getName(), association.getName());
+		    } catch (TypesInformationException ex) {
+		        throw new QueryTranslationException(ex.getMessage(), ex);
+		    }
 		}
 		if (roleName == null) {
 			// still null?? no association to the object!

@@ -89,8 +89,8 @@
 	<classpathentry kind="lib" path="sdk/local-client/lib/stax-api-1.0-2.jar"/>
 	<classpathentry kind="lib" path="sdk/local-client/lib/xercesImpl-2.7.1.jar"/>
 	<classpathentry kind="lib" path="sdk/local-client/conf"/>
-	<classpathentry kind="lib" path="lib/iso-datatypes-2.0.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT-tests.jar"/>
 	<classpathentry kind="lib" path="lib/iso-datatypes-extensions-2.0.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/iso-datatypes-hibernate-2.0.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="sdk/local-client/lib/iso-datatypes-2.0.2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
