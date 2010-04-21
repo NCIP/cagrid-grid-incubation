@@ -212,6 +212,7 @@
 				<fileset dir="${test.src.dir}">
 					<include name="**/Test*.java" />
 					<include name="**/*TestCase.java" />
+					<exclude name="**/IsoQueriesTestCase.java"/>
 				</fileset>
 			</batchtest>
 		</junit>
