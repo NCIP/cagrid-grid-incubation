@@ -16,12 +16,14 @@
     <!-- Public Configurations-->
     <conf name="translator" visibility="public"/>
     <conf name="queryProcessor" visibility="public" extends="translator" />
+    <conf name="style" visibility="public" extends="queryProcessor,translator"/>
   </configurations>
 
 
   <publications>
     <artifact name="caGrid-${ivy.module}-translator" conf="translator" type="jar" />
     <artifact name="caGrid-${ivy.module}-processor" conf="queryProcessor" type="jar" />
+    <artifact name="caGrid-${ivy.module}-style" conf="style" type="jar" />
   </publications>
 
 
