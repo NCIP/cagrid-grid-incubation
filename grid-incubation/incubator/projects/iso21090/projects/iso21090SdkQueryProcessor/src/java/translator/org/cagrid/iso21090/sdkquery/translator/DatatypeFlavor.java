@@ -31,6 +31,7 @@ import org.iso._21090.EN;
 import org.iso._21090.EdText;
 import org.iso._21090.EnOn;
 import org.iso._21090.EnPn;
+import org.iso._21090.Enxp;
 import org.iso._21090.INT;
 import org.iso._21090.IVLINT;
 import org.iso._21090.IVLPQ;
@@ -122,6 +123,8 @@ public enum DatatypeFlavor {
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.EnOn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(EnPn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.EnPn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(Enxp.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.Enxp.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         
         CLASS_FLAVORS.put(DSetII.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
         CLASS_FLAVORS.put(DSet.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
