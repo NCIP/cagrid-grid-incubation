@@ -3,6 +3,7 @@ package org.cagrid.iso21090.sdkquery.translator;
 import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
 
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,13 +28,15 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
     private Map<String, Object> discriminators = null;
     private Map<String, Class<?>> fieldDataTypes = null;
     private Map<String, String> roleNames = null;
+    private boolean reflectionFallback = false;
     
-    public HibernateConfigTypesInformationResolver(Configuration hibernateConfig) {
+    public HibernateConfigTypesInformationResolver(Configuration hibernateConfig, boolean reflectionFallback) {
         this.configuration = hibernateConfig;
         this.subclasses = new HashMap<String, Boolean>();
         this.discriminators = new HashMap<String, Object>();
         this.fieldDataTypes = new HashMap<String, Class<?>>();
         this.roleNames = new HashMap<String, String>();
+        this.reflectionFallback = reflectionFallback;
     }
     
 
@@ -93,6 +96,16 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
                     type = property.getType().getReturnedClass();
                 } else {
                     throw new TypesInformationException("Field " + fqName + " not found in hibernate configuration");
+                }
+            } else if (reflectionFallback) {
+                try {
+                    Class<?> javaClass = Class.forName(classname);
+                    Field javaField = javaClass.getDeclaredField(field);
+                    type = javaField.getType();
+                } catch (ClassNotFoundException ex) {
+                    throw new TypesInformationException("Class " + classname + " not found in hibernate configuration or via reflection");
+                } catch (NoSuchFieldException ex) {
+                    throw new TypesInformationException("Field " + field + " of class " + classname + " could not be found via reflection");
                 }
             } else {
                 throw new TypesInformationException("Class " + classname + " not found in hibernate configuration");
@@ -173,7 +186,7 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
             config.buildMappings();
             config.configure();
             
-            HibernateConfigTypesInformationResolver resolver = new HibernateConfigTypesInformationResolver(config);
+            HibernateConfigTypesInformationResolver resolver = new HibernateConfigTypesInformationResolver(config, true);
             List<String> partNames = resolver.getInnerComponentNames(
                 EnDataType.class.getName(), "value1", "part");
             for (String name : partNames) {

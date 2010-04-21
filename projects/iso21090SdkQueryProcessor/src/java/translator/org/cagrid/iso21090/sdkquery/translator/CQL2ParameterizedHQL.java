@@ -185,7 +185,7 @@ public class CQL2ParameterizedHQL {
 		}
 		if (target.getAttribute() != null) {
 			hql.append("where ");
-			processAttribute(target.getAttribute(), hql, parameters, target, TARGET_ALIAS, typesProcessingList);
+			processAttribute(target.getAttribute(), hql, parameters, target, TARGET_ALIAS, associationStack, typesProcessingList);
 		}
 		if (target.getGroup() != null) {
 			hql.append("where ");
@@ -233,7 +233,8 @@ public class CQL2ParameterizedHQL {
 	 */
 	private void processAttribute(Attribute attribute, StringBuilder hql, 
         List<java.lang.Object> parameters, Object queryObject, 
-        String queryObjectAlias, List<CqlDataBucket> typesProcessingList)
+        String queryObjectAlias, Stack<Association> associationStack, 
+        List<CqlDataBucket> typesProcessingList)
 	    throws QueryTranslationException {
         LOG.debug("Processing attribute " + queryObject.getName() + "." + attribute.getName());
         
@@ -251,7 +252,7 @@ public class CQL2ParameterizedHQL {
 		        break;
 		    case COMPLEX_WITH_SIMPLE_CONTENT:
 		        processComplexAttributeWithSimpleContent(
-		            attribute, hql, parameters, queryObject, typesProcessingList);
+		            attribute, hql, parameters, queryObject, associationStack, typesProcessingList);
 		        break;
 		    case COMPLEX_WITH_NESTED_COMPLEX:
 		        processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
@@ -338,7 +339,7 @@ public class CQL2ParameterizedHQL {
 		        hql.append(sourceAlias).append('.').append(roleName);
 		        hql.append(".id in (select ").append(alias).append(".id from ");
 		        hql.append(association.getName()).append(" as ").append(alias).append(" where ");
-		        processAttribute(association.getAttribute(), hql, parameters, association, alias, typesProcessingList);
+		        processAttribute(association.getAttribute(), hql, parameters, association, alias, associationStack, typesProcessingList);
 		        hql.append(") ");
 		    }
 		    if (association.getGroup() != null) {
@@ -373,7 +374,7 @@ public class CQL2ParameterizedHQL {
             if (association.getAttribute() != null) {
                 simpleNullCheck = false;
                 // TODO: does sourceAlias need to be roleName??
-                processAttribute(association.getAttribute(), hql, parameters, sourceQueryObject, sourceAlias, typesProcessingList);
+                processAttribute(association.getAttribute(), hql, parameters, sourceQueryObject, sourceAlias, associationStack, typesProcessingList);
             }
             if (simpleNullCheck) {
                 // checking for the type not to be null, but .id doesn't work....
@@ -430,7 +431,7 @@ public class CQL2ParameterizedHQL {
 			for (int i = 0; i < group.getAttribute().length; i++) {
 				mustAddLogic = true;
 				processAttribute(group.getAttribute(i), hql, parameters, 
-				    sourceQueryObject, sourceAlias, typesProcessingList);
+				    sourceQueryObject, sourceAlias, associationStack, typesProcessingList);
 				if (i + 1 < group.getAttribute().length) {
 					hql.append(' ').append(logic).append(' ');
 				}
@@ -575,8 +576,9 @@ public class CQL2ParameterizedHQL {
     }
     
     
-    private void processComplexAttributeWithSimpleContent(Attribute attribute, StringBuilder hql, 
-        List<java.lang.Object> parameters, Object queryObject, List<CqlDataBucket> typesProcessingList) 
+    private void processComplexAttributeWithSimpleContent(Attribute attribute, 
+        StringBuilder hql, List<java.lang.Object> parameters, Object queryObject, 
+        Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) 
         throws QueryTranslationException {
         // construct the query fragment
         if (caseInsensitive) {
@@ -584,14 +586,15 @@ public class CQL2ParameterizedHQL {
         }
         
         // append the path to the attribute itself
-        hql.append(getAssociationPath(typesProcessingList, 2));
+        hql.append(getAttributePath(typesProcessingList, attribute.getName(), 2));
 
         // close up case insensitivity
         if (caseInsensitive) {
             hql.append(')');
         }
-               
-        appendPredicateAndValue(attribute, hql, parameters, queryObject);
+        
+        // get one level back's query object
+        appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());
     }
     
     
@@ -604,7 +607,7 @@ public class CQL2ParameterizedHQL {
         }
         
         // append the path to the attribute itself
-        hql.append(getAssociationPath(typesProcessingList, 3));
+        hql.append(getAttributePath(typesProcessingList, attribute.getName(), 3));
 
         // close up case insensitivity
         if (caseInsensitive) {
@@ -696,16 +699,15 @@ public class CQL2ParameterizedHQL {
     }
     
     
-    private String getAssociationPath(List<CqlDataBucket> typesProcessingList, int levels) {
+    private String getAttributePath(List<CqlDataBucket> typesProcessingList, String attribName, int levels) {
         int listSize = typesProcessingList.size();
         int endIndex = listSize - levels;
         StringBuffer buf = new StringBuffer();
-        for (int i = listSize - 1; i >= endIndex; i--) {
+        for (int i = endIndex; i < listSize; i++) {
             buf.append(typesProcessingList.get(i).aliasOrRoleName);
-            if (i - 1 >= endIndex) {
-                buf.append('.');
-            }
+            buf.append('.');
         }
+        buf.append(attribName);
         return buf.toString();
     }
 }
