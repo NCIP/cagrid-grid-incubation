@@ -14,13 +14,16 @@
 	<property name="project.name" value="${ant.project.name}" />
 	<property name="java.source" value="1.5" />
 
+	<property name="style.src.dir" value="${basedir}/src/java/style"/>
 	<property name="processor.src.dir" value="${basedir}/src/java/processor" />
 	<property name="translator.src.dir" value="${basedir}/src/java/translator"/>
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="javadoc.dir" value="${build.dir}/javadoc" />
+	<property name="style.classes.dir" value="${build.dir}/style/classes"/>
 	<property name="processor.classes.dir" value="${build.dir}/processor/classes" />
 	<property name="translator.classes.dir" value="${build.dir}/translator/classes" />
 	<property name="jar.dir" value="${build.dir}/jars" />
+	<property name="style.jarfile" value="${jar.dir}/${project.name}-style-${project.version}.jar"/>
 	<property name="processor.jarfile" value="${jar.dir}/${project.name}-processor-${project.version}.jar" />
 	<property name="tranaslator.jarfile" value="${jar.dir}/${project.name}-translator-${project.version}.jar" />
 	<property name="ext.dir" value="${basedir}/ext" />
@@ -69,6 +72,7 @@
 			<include name="*.jar" />
 		</fileset>
 	</path>
+	
 
 	<!-- =============================================================== -->
 	<!-- The Test Classpath                                                   -->
@@ -76,6 +80,7 @@
 	<path id="test.classpath">
 		<pathelement path="${translator.classes.dir}" />
 		<pathelement path="${processor.classes.dir}" />
+		<pathelement path="${style.classes.dir}"/>
 		<path refid="build.classpath" />
 		<fileset dir="${ext.test.lib.dir}">
 			<include name="**/*.jar" />
@@ -94,6 +99,7 @@
 		<tstamp />
 		<mkdir dir="${build.dir}" />
 	</target>
+	
 
 	<!-- =============================================================== -->
 	<!-- Compiles the source code                                        -->
@@ -108,6 +114,14 @@
 			<classpath refid="build.classpath"/>
 			<classpath>
 				<pathelement location="${translator.classes.dir}"/>
+			</classpath>
+		</javac>
+		<mkdir dir="${style.classes.dir}"/>
+		<javac srcdir="${style.src.dir}" destdir="${style.classes.dir}" source="${java.source}" debug="on" deprecation="on" optimize="on">
+			<classpath refid="build.classpath"/>
+			<classpath>
+				<pathelement location="${translator.classes.dir}"/>
+				<pathelement location="${processor.classes.dir}"/>
 			</classpath>
 		</javac>
 	</target>
@@ -157,6 +171,24 @@
 			<fileset dir="${processor.src.dir}">
 				<include name="**/*"/>
 			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Specification-Version" value="${project.version}" />
+				<attribute name="Implementation-Version" value="${project.version}" />
+			</manifest>
+		</jar>
+		<jar jarfile="${style.jarfile}">
+			<fileset dir="${style.classes.dir}">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="${style.src.dir}">
+				<include name="**/*"/>
+			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Specification-Version" value="${project.version}" />
+				<attribute name="Implementation-Version" value="${project.version}" />
+			</manifest>			
 		</jar>
 	</target>
 
