@@ -57,14 +57,23 @@ public class RedcapDataServiceAuthorization implements PDP {
 					
 	public void authorizeGetMultipleResourceProperties(Subject peerSubject, MessageContext context, QName operation) throws AuthorizationException {
 		
+		// authorization using service authorization from the gridgrouper_auth extension
+		((AuthorizationExtension)authorizationClassMap.get("gridgrouper_auth")).authorizeService(peerSubject,context,operation);
+		 	  
 	}
 	   				
 	public void authorizeGetResourceProperty(Subject peerSubject, MessageContext context, QName operation) throws AuthorizationException {
 		
+		// authorization using service authorization from the gridgrouper_auth extension
+		((AuthorizationExtension)authorizationClassMap.get("gridgrouper_auth")).authorizeService(peerSubject,context,operation);
+		 	  
 	}
 	   				
 	public void authorizeQueryResourceProperties(Subject peerSubject, MessageContext context, QName operation) throws AuthorizationException {
 		
+		// authorization using service authorization from the gridgrouper_auth extension
+		((AuthorizationExtension)authorizationClassMap.get("gridgrouper_auth")).authorizeService(peerSubject,context,operation);
+		 	  
 	}
 	   				
 	public void authorizeGetServiceSecurityMetadata(Subject peerSubject, MessageContext context, QName operation) throws AuthorizationException {
@@ -73,6 +82,9 @@ public class RedcapDataServiceAuthorization implements PDP {
 	   				
 	public void authorizeQuery(Subject peerSubject, MessageContext context, QName operation) throws AuthorizationException {
 		
+		// authorization using service authorization from the gridgrouper_auth extension
+		((AuthorizationExtension)authorizationClassMap.get("gridgrouper_auth")).authorizeService(peerSubject,context,operation);
+		 	  
 	}
 	   
 	
@@ -128,7 +140,10 @@ public class RedcapDataServiceAuthorization implements PDP {
     		String serviceName = (String)config.getProperty(name, "serviceName");
     	    String etcPath = ContainerConfig.getBaseDirectory() + File.separator + (String)config.getProperty(name, "etcDirectoryPath");
 
-    	
+    	 
+	   		authorizationClassMap.put("gridgrouper_auth",Class.forName("org.cagrid.gridgrouper.authorization.extension.service.GridGrouperAuthorization").newInstance());
+			((AuthorizationExtension)authorizationClassMap.get("gridgrouper_auth")).initialize(serviceName, etcPath);
+			
     	} catch (Exception e){
         	throw new InitializeException(e.getMessage(),e);
 		}

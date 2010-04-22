@@ -1,0 +1,11 @@
+<ns1:GridGrouperServiceAuthorization xmlns:ns1="gme://org.cagrid.gridgrouper/1/GridGrouperAuthorization">
+ <ns2:ServiceName xmlns:ns2="http://org.cagrid.gridgrouper/1/GridGrouperAuthorization">RedcapDataService</ns2:ServiceName>
+ <ns3:MembershipExpression ns3:logicRelation="AND" xmlns:ns3="http://cagrid.nci.nih.gov/1/GridGrouper">
+  <ns3:MembershipQuery ns3:MembershipStatus="MEMBER_OF">
+   <ns3:GroupIdentifier>
+    <ns3:gridGrouperURL>https://grouper.training.cagrid.org:8443/wsrf/services/cagrid/GridGrouper</ns3:gridGrouperURL>
+    <ns3:GroupName>Training:rcconnecttest</ns3:GroupName>
+   </ns3:GroupIdentifier>
+  </ns3:MembershipQuery>
+ </ns3:MembershipExpression>
+</ns1:GridGrouperServiceAuthorization>
