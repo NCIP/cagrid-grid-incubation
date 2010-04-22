@@ -10,7 +10,7 @@
 
   <configurations>
     <!-- Private Configurations-->
-    <conf name="impl" visibility="private" extends="translator,queryProcessor" />
+    <conf name="impl" visibility="private" extends="translator,queryProcessor,style" />
     <conf name="impl-test" visibility="private" />
 
     <!-- Public Configurations-->
@@ -32,7 +32,11 @@
     <dependency rev="latest.integration" org="caGrid" name="core"
       conf="translator->default;impl-test->test" />
     <dependency rev="latest.integration" org="caGrid" name="cql" conf="translator->cql"/>
-    <dependency rev="latest.integration" org="caGrid" name="data" conf="queryProcessor->processors,utils,tools"/>
+    <dependency rev="latest.integration" org="caGrid" name="data" conf="queryProcessor->processors,utils,tools,service"/>
+    <dependency rev="latest.integration" org="caGrid" name="dataExtensions" conf="style->styleRequirements"/>
+    
+    <!-- depend on the iso21090 domain model tools project -->
+    <dependency org="caGrid" name="iso21090DomainModelTools" rev="latest.integration" conf="style->default"/>
     
     <!-- Third party dependencies -->
     <!-- using the modified hibernate jar from the SDK
@@ -43,6 +47,7 @@
     <dependency org="javax.xml.bind" name="jaxb-impl" rev="2.1.4" conf="translator->*"/>
     <dependency org="javax.xml.bind" name="jaxb-xjc" rev="2.1.4" conf="translator->*"/>
     <dependency rev="3.2" org="apache" name="commons-collections" conf="translator->default" />
+    <dependency rev="2.0.0" org="jgoodies" name="validation" conf="style->default"/>
     
     <!-- dependency on the ISO data types -->
   </dependencies>
