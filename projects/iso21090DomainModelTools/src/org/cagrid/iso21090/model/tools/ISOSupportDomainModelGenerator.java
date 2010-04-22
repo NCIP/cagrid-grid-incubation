@@ -17,6 +17,7 @@ import java.util.List;
 public class ISOSupportDomainModelGenerator {
     
     public static final String DEFAULT_PACKAGE_EXCLUDE_REGEX = ".*?java.*,.*?[V|v]alue.?[D|d]omain.*,.*?iso21090.*";
+    public static final String ISO_PACKAGE_REGEX = ".*?iso21090.*";
 
     private XmiInOutHandler handler = null;
     private String projectShortName = null;
