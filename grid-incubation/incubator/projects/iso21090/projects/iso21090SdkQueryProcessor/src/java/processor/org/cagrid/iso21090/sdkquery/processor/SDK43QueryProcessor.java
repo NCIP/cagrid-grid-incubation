@@ -15,10 +15,14 @@ import gov.nih.nci.cagrid.data.utilities.ResultsCreationException;
 import gov.nih.nci.system.applicationservice.ApplicationException;
 import gov.nih.nci.system.applicationservice.ApplicationService;
 import gov.nih.nci.system.client.ApplicationServiceProvider;
+import gov.nih.nci.system.client.util.xml.XMLUtility;
+import gov.nih.nci.system.client.util.xml.XMLUtilityException;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -143,6 +147,7 @@ public class SDK43QueryProcessor extends CQLQueryProcessor {
                     resultsAsArrays, cqlQuery.getTarget().getName(), attributeNames);
             }
         } else {
+            // object results
             Mappings classToQname = null;
             try {
                 classToQname = getClassToQnameMappings();
@@ -150,13 +155,31 @@ public class SDK43QueryProcessor extends CQLQueryProcessor {
                 throw new QueryProcessingException("Error loading class to QName mappings: " + ex.getMessage(), ex);
             }
             try {
+                List<Object> deproxifiedResults = deproxifyResultsList(rawResults);
                 cqlResults = CQLResultsCreationUtil.createObjectResults(
-                    rawResults, cqlQuery.getTarget().getName(), classToQname);
+                    deproxifiedResults, cqlQuery.getTarget().getName(), classToQname);
             } catch (ResultsCreationException ex) {
                 throw new QueryProcessingException("Error packaging query results: " + ex.getMessage(), ex);
             }
         }
         return cqlResults;
+    }
+    
+    
+    private List<Object> deproxifyResultsList(List<?> rawResults) throws QueryProcessingException {
+        List<Object> nonProxied = new ArrayList<Object>();
+        Iterator<?> rawIter = rawResults.iterator();
+        while (rawIter.hasNext()) {
+            Object converted;
+            try {
+                converted = XMLUtility.convertFromProxy(rawIter.next(), true);
+            } catch (XMLUtilityException ex) {
+                throw new QueryProcessingException(
+                    "Error converting proxied datatype instance: " + ex.getMessage(), ex);
+            }
+            nonProxied.add(converted);
+        }
+        return nonProxied;
     }
     
     
