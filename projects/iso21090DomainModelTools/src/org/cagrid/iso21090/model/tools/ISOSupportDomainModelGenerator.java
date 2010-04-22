@@ -15,6 +15,8 @@ import java.util.List;
 
 
 public class ISOSupportDomainModelGenerator {
+    
+    public static final String DEFAULT_PACKAGE_EXCLUDE_REGEX = ".*?java.*,.*?[V|v]alue.?[D|d]omain.*,.*?iso21090.*";
 
     private XmiInOutHandler handler = null;
     private String projectShortName = null;
@@ -98,6 +100,8 @@ public class ISOSupportDomainModelGenerator {
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLClass>(
             umlClasses.size());
         for (UMLClass clazz : umlClasses) {
+            // TODO: filter by package name exclude regex
+            // CAVEAT: have to turn "attributes" that are ISO types into Associations.  Have fun!
             gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
             // basic class info
             c.setPackageName(clazz.getPackage().getName());
