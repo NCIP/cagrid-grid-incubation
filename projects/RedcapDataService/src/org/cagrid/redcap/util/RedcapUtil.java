@@ -2,12 +2,8 @@ package org.cagrid.redcap.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import gov.nih.nci.cagrid.cqlquery.Association;
-import gov.nih.nci.cagrid.cqlquery.Attribute;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
-import gov.nih.nci.cagrid.cqlquery.Group;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.MappingException;
@@ -30,8 +26,7 @@ import org.cagrid.redcap.processor.DatabaseConnectionSource;
 public class RedcapUtil {
 
 	private static final Log LOG = LogFactory.getLog(RedcapUtil.class);
-	private List<String> paramValueList = new ArrayList<String>();
-
+	
 	/*
 	 * Method to get the connection from the
 	 * Connection pool and query the REDCap
@@ -90,14 +85,6 @@ public class RedcapUtil {
 				}
 			}
 			
-//			if (cqlQuery.getTarget() != null) {
-//				List<String> targetParameterList = getCQLParameterList(cqlQuery);
-//				for (int i = 0; i < targetParameterList.size(); i++) {
-//					query.setString(i, targetParameterList.get(i).toString());
-//					LOG.debug("Parameter at "+i+" :"+targetParameterList.get(i).toString());
-//				}
-//			}
-
 			objects = query.list();
 			if(objects!=null){
 				LOG.info("Retrieved "+objects.size()+" top level Objects");
@@ -137,71 +124,5 @@ public class RedcapUtil {
 			LOG.debug("Session Open?"+session.isOpen());
 		}
 		return objects;
-	}
-
-	private List<String> getCQLParameterList(CQLQuery cqlQuery) {
-		if (cqlQuery.getTarget() != null) {
-			paramValueList = getTargetParameterList(cqlQuery);
-		}
-		LOG.info("Number of parameters passed "+paramValueList.size());
-		return paramValueList;
-	}
-
-	private List<String> getTargetParameterList(CQLQuery cqlQuery) {
-
-		if (cqlQuery.getTarget().getAttribute() != null) {
-			paramValueList = getAttributeValueList(cqlQuery.getTarget().getAttribute());
-		}
-		if (cqlQuery.getTarget().getAssociation() != null) {
-			paramValueList = getAssociationValueList(cqlQuery.getTarget().getAssociation());
-		}
-		if (cqlQuery.getTarget().getGroup() != null) {
-			paramValueList = getGroupValueList(cqlQuery.getTarget().getGroup());
-		}
-		return paramValueList;
-	}
-
-	private List<String> getAttributeValueList(Attribute attribute) {
-		LOG.debug("Attribute Name: "+attribute.getName()+" Value: "+attribute.getValue());
-		String value = attribute.getValue();
-		paramValueList.add(value);
-		LOG.debug("Adding value to parameterList, size: "+paramValueList.size());
-		return paramValueList;
-	}
-
-	private List<String> getAssociationValueList(Association association) {
-
-		LOG.debug("Association Name"+association.getName()+" RoleName: "+association.getRoleName());
-		if (association.getAttribute() != null) {
-			paramValueList = getAttributeValueList(association.getAttribute());
-		}
-		if (association.getAssociation() != null) {
-			paramValueList = getAssociationValueList(association.getAssociation());
-		}
-		if (association.getGroup() != null) {
-			paramValueList = getGroupValueList(association.getGroup());
-		}
-		return paramValueList;
-	}
-
-	private List<String> getGroupValueList(Group group) {
-		LOG.debug("Group Logic relation: "+group.getLogicRelation());
-		if (group.getAssociation() != null) {
-			for (int i = 0; i < group.getAssociation().length; i++) {
-				paramValueList = getAssociationValueList(group
-						.getAssociation(i));
-			}
-		}
-		if (group.getAttribute() != null) {
-			for (int i = 0; i < group.getAttribute().length; i++) {
-				paramValueList = getAttributeValueList(group.getAttribute(i));
-			}
-		}
-		if (group.getGroup() != null) {
-			for (int i = 0; i < group.getGroup().length; i++) {
-				paramValueList = getGroupValueList(group.getGroup(i));
-			}
-		}
-		return paramValueList;
 	}
 }

@@ -4,7 +4,10 @@ import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import java.io.FileReader;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +21,9 @@ import org.cagrid.redcap.Events;
 import org.cagrid.redcap.EventsCalendar;
 import org.cagrid.redcap.Forms;
 import org.cagrid.redcap.Projects;
+import org.cagrid.redcap.util.PropertiesUtil;
 import org.cagrid.redcap.util.RedcapUtil;
+import org.cagrid.redcap.util.UserPrivilegesUtil;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import gov.nih.nci.cagrid.cqlquery.QueryModifier;
@@ -65,6 +70,10 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	private static final String HB_CONN_PWD = "hibernate.connection.password";
 	private static final String HB_DIALECT = "org.hibernate.dialect.MySQLDialect";
 	
+	//private static final boolean RC_CHECK_AUTHORIZATION = Boolean.valueOf(true);
+	private static final String AUTHORIZATION = "authorization";
+	private static final String AUTHORIZATION_ON = "ON";
+	
 	private SessionFactory sessionFactory;
 	private AnnotationConfiguration annotationConfig;
 	private DatabaseConnectionSource connectionSource;
@@ -73,8 +82,12 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	private String connectString;
 	private String username; 
 	private String password;
-	
+	private String authorization;
 	private static final Log LOG = LogFactory.getLog(RedcapQueryProcessor.class);
+	
+	private QueryModifier queryModifier;
+	private List<String> distinctAttributeList;
+	private List<String> attributeList;
 	
 	public RedcapQueryProcessor() {
         super();
@@ -139,8 +152,8 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         props.setProperty(JDBC_CONNECT_STRING, "");
         props.setProperty(JDBC_USERNAME, "");
         props.setProperty(JDBC_PASSWORD, "");
-        //props.setProperty(TABLE_NAME_PREFIX, "");
         props.setProperty(DOMAIN_MODEL_FILE_NAME,DEF_DOMAIN_MODEL);
+        props.setProperty(AUTHORIZATION, AUTHORIZATION_ON);
         return props;
     }
     
@@ -156,6 +169,7 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         connectString = getConfiguredParameters().getProperty(JDBC_CONNECT_STRING);
         username = getConfiguredParameters().getProperty(JDBC_USERNAME);
         password = getConfiguredParameters().getProperty(JDBC_PASSWORD);
+        authorization = getConfiguredParameters().getProperty(AUTHORIZATION);
         
         StringBuffer logMessage = new StringBuffer();
         logMessage.append(JDBC_DRIVER_NAME).append("[").append(driverClassname).append("]");
@@ -205,13 +219,37 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
      * @return CQLQueryResults: Object results to return top level objects
      */
 	public CQLQueryResults processQuery(CQLQuery cqlQuery) throws MalformedQueryException, QueryProcessingException {
+
+		LOG.info("Processing CQLQuery for target "+cqlQuery.getTarget().getName()+"with Authorization"+authorization);
+		queryModifier = null;
+		List<Object> postFilterResults = null;
+		RedcapUtil util = new RedcapUtil();
+		this.queryModifier = cqlQuery.getQueryModifier();
+        
+		validateCqlStructure(cqlQuery);
+		
+		if(authorization!=null && authorization.equalsIgnoreCase(AUTHORIZATION_ON)){
+			QueryModifier newQueryModifier = preProcessQueryModifier(cqlQuery.getQueryModifier());
+	        cqlQuery.setQueryModifier(newQueryModifier);
+        }
 		CQLQueryResults cqlQueryResults = null;
 		try{
-			LOG.info("Processing CQLQuery for target"+cqlQuery.getTarget().getName());
-			validateCqlStructure(cqlQuery);
-			RedcapUtil util = new RedcapUtil();
-			List<Object> objects = util.convert(cqlQuery, sessionFactory,annotationConfig, connectionSource);
-			cqlQueryResults = getResults(cqlQuery, objects);
+			Long startTime = System.currentTimeMillis();
+			List<Object> completeObjectsList = util.convert(cqlQuery, sessionFactory,annotationConfig, connectionSource);
+			if(authorization!=null && authorization.equalsIgnoreCase(AUTHORIZATION_ON)){
+	        	cqlQuery.setQueryModifier(this.queryModifier);
+	            postFilterResults = postFilterResults(cqlQueryResults,cqlQuery,completeObjectsList);
+	            if(this.queryModifier!=null && this.queryModifier.isCountOnly()){
+	               	int count = postFilterResults.size();
+	            	postFilterResults = new ArrayList<Object>();
+	            	postFilterResults.add(count);
+	            }
+		        cqlQueryResults = getResults(cqlQuery, postFilterResults);
+			}else{
+				cqlQueryResults = getResults(cqlQuery, completeObjectsList);
+			}
+	        Long endTime = System.currentTimeMillis();
+	        LOG.debug("Total elapsed time RedcapQueryProcessor is :"+ (endTime-startTime));
 		}catch(SQLException sqlException){
 			LOG.error("Error processing the query"+sqlException.getMessage(),sqlException);
 			throw new QueryProcessingException(sqlException.getMessage());
@@ -303,8 +341,292 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 		configuration.setProperty(HB_CONN_USERNAME, username);
 		configuration.setProperty(HB_CONN_PWD, password);
 		configuration.setProperty(HB_DIALECT, "org.hibernate.dialect.MySQLDialect");
+		//configuration.setProperty("hibernate.show_sql","true");
+		
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 		return sessionFactory;
 	}
 	
+	 private List<Object> postFilterResults(CQLQueryResults cqlResults,CQLQuery cqlQuery,List<Object> completeObjectsList) throws QueryProcessingException {
+		LOG.debug("Post-filtering Redcap CQL results");
+        String identity = getCallerId();
+        ArrayList<String> authorizedProjectsList = null;
+        authorizedProjectsList = UserPrivilegesUtil.getAuthorizedProjects(identity,connectionSource,cqlQuery);
+        
+        List<Object> filteredList = new ArrayList<Object>();
+        
+        for(int i=0;i<completeObjectsList.size();i++){
+        	if(completeObjectsList.get(i) instanceof org.cagrid.redcap.Projects){
+        		Projects project = (org.cagrid.redcap.Projects)completeObjectsList.get(i);
+        		boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, project.getProjectId());
+        		if(authorized){
+        			LOG.debug("User authorized to retrive Projects with project id"+project.getProjectId());
+        			if(cqlQuery.getQueryModifier()!=null){
+	        			if(cqlQuery.getQueryModifier().getDistinctAttribute()!=null){
+	        				Object object = getDistinctAttributeValue(project,project.getClass());
+	        				if(!filteredList.contains(String.valueOf(object))){
+	        					filteredList.add(object);
+	        				}
+	        			}else if(cqlQuery.getQueryModifier().getAttributeNames()!=null){
+	        				Object object = getMultipleAttributeValues(project,project.getClass());
+	        				filteredList.add(object);
+	        			}else{
+	        				filteredList.add(completeObjectsList.get(i));
+	        			}
+        			}else{
+        				filteredList.add(completeObjectsList.get(i));
+        			}
+        		}else{
+        			LOG.debug("User is not authorized to retrieve Projects with project id"+project.getProjectId());
+        		}
+        	}else if(completeObjectsList.get(i) instanceof org.cagrid.redcap.EventArms){
+        		EventArms eventArms = (org.cagrid.redcap.EventArms)completeObjectsList.get(i);
+        		boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, eventArms.getProjectId());
+        		if(authorized){
+        			LOG.debug("User authorized to retrive EventArms with project id"+eventArms.getProjectId());
+        			if(cqlQuery.getQueryModifier()!=null){
+	        			if(cqlQuery.getQueryModifier().getDistinctAttribute()!=null){
+	        				Object object = getDistinctAttributeValue(eventArms,eventArms.getClass());
+	        				if(!filteredList.contains(String.valueOf(object))){
+	        					filteredList.add(object);
+	        				}
+	        			}else if(cqlQuery.getQueryModifier().getAttributeNames()!=null){
+	        				Object object = getMultipleAttributeValues(eventArms,eventArms.getClass());
+	        				filteredList.add(object);
+	        			}else{
+	        				filteredList.add(completeObjectsList.get(i));
+	        			}
+        			}else{
+        				filteredList.add(completeObjectsList.get(i));
+        			}
+        		}else{
+        			LOG.debug("User is not authorized to retrieve EventArms with project id"+eventArms.getProjectId());
+        		}
+        	}else if(completeObjectsList.get(i) instanceof org.cagrid.redcap.Events){
+        		Events events = (org.cagrid.redcap.Events)completeObjectsList.get(i);
+        		boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, events.getEventId());
+        		if(authorized){
+        			LOG.debug("User authorized to retrive Events with project id"+events.getEventId());
+        			if(cqlQuery.getQueryModifier()!=null){
+	        			if(cqlQuery.getQueryModifier().getDistinctAttribute()!=null){
+	        				Object object = getDistinctAttributeValue(events,events.getClass());
+	        				if(!filteredList.contains(String.valueOf(object))){
+	        					filteredList.add(object);
+	        				}
+	        			}else if(cqlQuery.getQueryModifier().getAttributeNames()!=null){
+	        				Object object = getMultipleAttributeValues(events,events.getClass());
+	        				filteredList.add(object);
+	        			}else{
+	        				filteredList.add(completeObjectsList.get(i));
+	        			}
+        			}else{
+        				filteredList.add(completeObjectsList.get(i));
+        			}
+        		}else{
+        			LOG.debug("User is not authorized to retrieve Events with project id"+events.getEventId());
+        		}
+        	}else if(completeObjectsList.get(i) instanceof org.cagrid.redcap.Data){
+        		Data data = (org.cagrid.redcap.Data)completeObjectsList.get(i);
+        		boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, data.getProjectId());
+        		if(authorized){
+        			LOG.debug("User authorized to retrive Data with project id"+data.getProjectId());
+        			if(cqlQuery.getQueryModifier()!=null){
+	        			if(cqlQuery.getQueryModifier().getDistinctAttribute()!=null){
+	        				Object object = getDistinctAttributeValue(data,data.getClass());
+	        				if(!filteredList.contains(String.valueOf(object))){
+	        					filteredList.add(object);
+	        				}
+	        			}else if(cqlQuery.getQueryModifier().getAttributeNames()!=null){
+	        				Object object = getMultipleAttributeValues(data,data.getClass());
+	        				filteredList.add(object);
+	        			}else{
+	        				filteredList.add(completeObjectsList.get(i));
+	        			}
+        			}else{
+        				filteredList.add(completeObjectsList.get(i));
+        			}
+        		}else{
+        			LOG.debug("User is not authorized to retrieve Data with project id"+data.getProjectId());
+        		}
+        	}else if(completeObjectsList.get(i) instanceof org.cagrid.redcap.Forms){
+        		Forms forms = (org.cagrid.redcap.Forms)completeObjectsList.get(i);
+        		boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, forms.getFormName());
+        		if(authorized){
+        			LOG.debug("User authorized to retrive Forms with project id"+forms.getFormName());
+        			if(cqlQuery.getQueryModifier()!=null){
+	        			if(cqlQuery.getQueryModifier()!=null && cqlQuery.getQueryModifier().getDistinctAttribute()!=null){
+	        				Object object = getDistinctAttributeValue(forms,forms.getClass());
+	        				if(!filteredList.contains(String.valueOf(object))){
+	        					filteredList.add(object);
+	        				}
+	        			}else if(cqlQuery.getQueryModifier()!=null && cqlQuery.getQueryModifier().getAttributeNames()!=null){
+	        				Object object = getMultipleAttributeValues(forms,forms.getClass());
+	        				filteredList.add(object);
+	        			}else{
+	        				filteredList.add(completeObjectsList.get(i));
+	        			}
+        			}else{
+        				filteredList.add(completeObjectsList.get(i));
+        			}
+        		}else{
+        			LOG.debug("User is not authorized to retrieve Forms with project id"+forms.getProjectId());
+        		}
+        	}else if(completeObjectsList.get(i) instanceof org.cagrid.redcap.EventsCalendar){
+        		EventsCalendar eventsCalendar = (org.cagrid.redcap.EventsCalendar)completeObjectsList.get(i);
+        		boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, eventsCalendar.getProjectId());
+        		if(authorized){
+        			LOG.debug("User authorized to retrive EventsCalendar with project id"+eventsCalendar.getProjectId());
+        			if(cqlQuery.getQueryModifier()!=null){
+	        			if(cqlQuery.getQueryModifier().getDistinctAttribute()!=null){
+	        				Object object = getDistinctAttributeValue(eventsCalendar,eventsCalendar.getClass());
+	        				if(!filteredList.contains(String.valueOf(object))){
+	        					filteredList.add(object);
+	        				}
+	        			}else if(cqlQuery.getQueryModifier().getAttributeNames()!=null){
+	        				Object object = getMultipleAttributeValues(eventsCalendar,eventsCalendar.getClass());
+	        				filteredList.add(object);
+	        			}else{
+	        				filteredList.add(completeObjectsList.get(i));
+	        			}
+        			}else{
+        				filteredList.add(completeObjectsList.get(i));
+        			}
+        		}else{
+        			LOG.debug("User is not authorized to retrieve EventsCalendar with project id"+eventsCalendar.getProjectId());
+        		}
+        	}else{
+        		//do nothing return everything
+        		LOG.debug("object is not instance of any avaliable data types");
+        	}
+        }
+        LOG.debug("Filtered results list size"+filteredList.size());
+        return filteredList;
+	 }
+	 
+	private String getCallerId() throws QueryProcessingException{
+       String caller = org.globus.wsrf.security.SecurityManager.getManager().getCaller();
+       int index = caller.lastIndexOf("=");
+       String gridUser = caller.substring(index+1, caller.length());
+       String rcUser = PropertiesUtil.getUsernames(gridUser);
+       LOG.debug("Mapping Grid User["+gridUser+"] with Redcap username["+rcUser);
+       if(rcUser==null){
+    	   throw new QueryProcessingException("Invalid user credentials. No mapping for grid user"+gridUser+" in Redcap "+rcUser);
+       }
+       return rcUser;
+    }
+	
+	private boolean iterateUserCollectionProtocol(List<String> userCollectionProtocol,Object value){
+		boolean present = false;
+		for(int i=0;i<userCollectionProtocol.size();i++){
+			if(userCollectionProtocol.get(i).equals(String.valueOf(value))){
+				present = true;
+			}
+		}
+		return present;
+	}
+	
+	
+	/*
+     * Pre-process the CQLRequest Query Modifier. 1. returns immediately if no
+     * query modifier is present 2. create new query modifier 3. if query
+     * modifier is a "count" query, set new query modifier's isCountOnly setting
+     * to false to allow return of objects 4. If the query modifier has distinct attributes
+     * add to distinct attribute list and return null 5. If query modifier has
+     * multiple attributes add those to multiple attribute list
+     * and return null.
+     * 
+     * @param queryModifier:CQL request QueryModifier
+     * @return: CQLRequest QueryModifier
+     */
+    private QueryModifier preProcessQueryModifier(QueryModifier queryModifier) {
+        LOG.debug("preProcessQueryModifier...");
+
+        if (null == queryModifier) {
+            return null;
+        }
+        QueryModifier newQueryModifier = new QueryModifier();
+
+        // remove count modifier to allow return of objects or attributes
+        // to allow filtering
+        if (queryModifier.isCountOnly()) {
+            newQueryModifier.setCountOnly(false);
+        }
+        
+        if(queryModifier.getDistinctAttribute()!=null){
+        	distinctAttributeList = new ArrayList<String>();
+        	distinctAttributeList.add(queryModifier.getDistinctAttribute());
+        }
+        
+        if(queryModifier.getAttributeNames()!=null){
+        	attributeList = new ArrayList<String>();
+        	attributeList = Arrays.asList(queryModifier.getAttributeNames());
+        }
+        return null;
+    }
+        
+    private Object getDistinctAttributeValue(Object object,Class cls) throws QueryProcessingException{
+    	try{
+	    	if(distinctAttributeList!=null && distinctAttributeList.size()>0){
+	    		String name = this.distinctAttributeList.get(0).toString();
+	    		name = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
+	    		String methodName = "get"+name;
+	    		LOG.debug("Attribute "+name+" from "+object.getClass().getCanonicalName());
+	    		object = getObjectWithReqAttribute(methodName, object, object, cls);
+	    		LOG.debug("value:"+String.valueOf(object));
+	    	}else{
+	    		LOG.error("Invalid distinct attribute list");
+	    	}
+    	}catch(Exception e){
+    		throw new QueryProcessingException(e);
+    	}
+    	return object;
+    }
+    
+    private Object[] getMultipleAttributeValues(Object object,Class clas) throws QueryProcessingException{
+    	Object temp = object;
+    	String[] objList = new String[attributeList.size()];
+    	try{
+    		if(attributeList!=null && attributeList.size()>0){
+    			LOG.debug("Attribute List size : "+attributeList.size());
+    			for(int i=0;i<attributeList.size();i++){
+    				String name = this.attributeList.get(i).toString();
+    	    		name = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
+    	    		String methodName = "get"+name;
+    	    		
+    	    		temp = getObjectWithReqAttribute(methodName, temp, object, clas);
+    	    		objList[i]=String.valueOf(temp);
+    	    		LOG.debug("Attribute "+name+" from "+object.getClass().getCanonicalName()+" value:"+String.valueOf(temp));
+    			}
+    		}
+    	}catch(Exception e){
+    		throw new QueryProcessingException(e);
+    	}
+    	return objList;
+    }
+    
+    @SuppressWarnings("all")
+    private Object getObjectWithReqAttribute(String methodName,Object tempObject,Object object,Class clas) throws QueryProcessingException{
+    	try{
+	    	Method method = clas.getMethod(methodName, null);
+			if(object instanceof Projects){
+				tempObject = method.invoke((Projects)object, null);
+			}else if(object instanceof EventArms){
+				tempObject = method.invoke((EventArms)object, null);
+			}else if(object instanceof Events){
+				tempObject = method.invoke((Events)object, null);
+			}else if(object instanceof EventsCalendar){
+				tempObject = method.invoke((EventsCalendar)object, null);
+			}else if(object instanceof Forms){
+				tempObject = method.invoke((Forms)object, null);
+			}else if(object instanceof Data){
+				tempObject = method.invoke((Data)object, null);
+			}else{
+				LOG.error("Object not instance of any available types");
+			}
+    	}catch(Exception exp){
+    		LOG.error("Unable to invoke method on object",exp);
+    		throw new QueryProcessingException("Unable to invoke method on object",exp);
+    	}
+    	return tempObject;
+    }
 }

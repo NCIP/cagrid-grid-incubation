@@ -5,10 +5,17 @@
       <none />
     </auth-method>
   </method>
+  <authz value="redcapdataservice:org.cagrid.redcap.service.globus.RedcapDataServiceAuthorization" />
   <auth-method>
-    <none />
+    <GSITransport>
+      <protection-level>
+        <privacy />
+      </protection-level>
+    </GSITransport>
   </auth-method>
-  <authz value="none" />
+  <run-as>
+    <system-identity />
+  </run-as>
   <method name="getMultipleResourceProperties">
     <auth-method>
       <none />
