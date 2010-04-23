@@ -5,11 +5,14 @@ import gov.nih.nci.cagrid.metadata.common.UMLClassUmlAttributeCollection;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModelExposedUMLAssociationCollection;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModelExposedUMLClassCollection;
+import gov.nih.nci.cagrid.metadata.dataservice.DomainModelUmlGeneralizationCollection;
+import gov.nih.nci.cagrid.metadata.dataservice.UMLClassReference;
 import gov.nih.nci.cagrid.metadata.xmi.XMIConstants;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociation;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociationEnd;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAttribute;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLClass;
+import gov.nih.nci.ncicb.xmiinout.domain.UMLGeneralization;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLModel;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLTaggedValue;
 import gov.nih.nci.ncicb.xmiinout.handler.HandlerEnum;
@@ -113,8 +116,8 @@ public class ISOSupportDomainModelGenerator {
         UMLModel umlModel = handler.getModel();
         DomainModel domain = new DomainModel();
         List<UMLClass> umlClasses = umlModel.getClasses();
-        List<gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLClass>(
-            umlClasses.size());
+        List<gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = 
+            new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLClass>();
         for (UMLClass clazz : umlClasses) {
             // TODO: filter by package name exclude regex
             // CAVEAT: have to turn "attributes" that are ISO types into Associations.  Have fun!
@@ -141,6 +144,22 @@ public class ISOSupportDomainModelGenerator {
             c.setId(String.valueOf(clazz.hashCode()));
             domainClasses.add(c);
         }
+        
+        // generalizations
+        List<UMLGeneralization> umlGeneralizations = umlModel.getGeneralizations();
+        List<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization> generalizations = 
+            new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization>();
+        for (UMLGeneralization gen : umlGeneralizations) {
+            gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization g = 
+                new gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization();
+            g.setSubClassReference(new UMLClassReference(String.valueOf(gen.getSubtype().hashCode())));
+            g.setSuperClassReference(new UMLClassReference(String.valueOf(gen.getSupertype().hashCode())));
+            generalizations.add(g);
+        }
+        domain.setUmlGeneralizationCollection(
+            new DomainModelUmlGeneralizationCollection(
+                generalizations.toArray(
+                    new gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization[0])));
         
         // associations
         List<UMLAssociation> umlAssociations = umlModel.getAssociations();
