@@ -1,0 +1,355 @@
+<ns1:ServiceDescription introduceVersion="1.3" xmlns:ns1="gme://gov.nih.nci.cagrid/1/Introduce">
+ <ns2:Namespaces xsi:type="ns2:NamespacesType" xmlns:ns2="gme://gov.nih.nci.cagrid.introduce/1/Namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns2:Namespace generateStubs="false" location="./ISO_extensions.xsd" namespace="uri:iso.org:21090" packageName="org.iso._21090" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement className="Ad" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Ad" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="BL" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Bl" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="BlNonNull" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="BlNonNull" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="CD" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Cd" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="DSetAd" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="DSetAd" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="DSetCd" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="DSetCd" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="DSetII" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="DSetII" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="DSetTel" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="DSetTel" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="ED" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Ed" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="EdText" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="EdText" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="EN" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="En" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="EnOn" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="EnOn" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="EnPn" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="EnPn" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="Ii" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Ii" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="INT" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Int" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="IVLINT" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="IvlInt" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="IVLPQ" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="IvlPq" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="IVLREAL" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="IvlReal" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="IVLTS" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="IvlTs" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="PQ" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Pq" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="Real" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Real" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="SC" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Sc" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="ST" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="St" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="StNt" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="StNt" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="TEL" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Tel" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="TelEmail" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="TelEmail" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="TELPerson" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="TelPerson" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="TelPhone" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="TelPhone" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="TelUrl" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="TelUrl" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement className="TS" deserializer="gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory" serializer="gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory" type="Ts" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace generateStubs="false" namespace="http://www.w3.org/2001/XMLSchema" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="anySimpleType" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="anyType" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="anyURI" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="base64Binary" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="boolean" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="byte" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="date" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="dateTime" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="decimal" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="double" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="duration" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ENTITIES" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ENTITY" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="float" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gDay" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gMonth" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gMonthDay" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gYear" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gYearMonth" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="hexBinary" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ID" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="IDREF" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="IDREFS" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="int" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="integer" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="language" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="long" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Name" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="NCName" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="negativeInteger" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="NMTOKEN" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="NMTOKENS" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="nonNegativeInteger" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="nonPositiveInteger" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="normalizedString" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="NOTATION" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="positiveInteger" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="QName" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="short" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="string" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="time" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="token" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="unsignedByte" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="unsignedInt" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="unsignedLong" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="unsignedShort" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="./ISO21090AnalyticalServiceTypes.xsd" namespace="http://iso21090.cagrid.org/ISO21090AnalyticalService/types" packageName="org.cagrid.iso21090.stubs.types" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="ISO21090AnalyticalServiceReference" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace generateStubs="false" location="./xsd/cagrid/types/security/security.xsd" namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" packageName="gov.nih.nci.cagrid.metadata.security" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="CommunicationMechanism" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="CommunicationStyle" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="GSISecureConversation" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="GSISecureMessage" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="GSITransport" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="None" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Operation" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ServiceSecurityMetadata" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+ </ns2:Namespaces>
+ <ns3:Services xsi:type="ns3:ServicesType" xmlns:ns3="gme://gov.nih.nci.cagrid.introduce/1/Services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns3:Service name="ISO21090AnalyticalService" namespace="http://iso21090.cagrid.org/ISO21090AnalyticalService" packageName="org.cagrid.iso21090" xsi:type="ns3:ServiceType">
+   <ns4:Methods xsi:type="ns4:MethodsType" xmlns:ns4="gme://gov.nih.nci.cagrid.introduce/1/Methods">
+    <ns4:Method isImported="true" isProvided="true" name="GetMultipleResourceProperties" xsi:type="ns4:MethodType">
+     <ns4:Output qName="void" isArray="false"/>
+     <ns5:MethodSecurity xsi:type="ns5:MethodSecurity" xmlns:ns5="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns5:SecuritySetting xsi:type="ns5:SecuritySetting">None</ns5:SecuritySetting>
+     </ns5:MethodSecurity>
+     <ns4:ImportInformation fromIntroduce="false" inputMessage="ns6:GetMultipleResourcePropertiesRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" outputMessage="ns6:GetMultipleResourcePropertiesResponse" packageName="org.oasis.wsrf.properties" portTypeName="GetMultipleResourceProperties" wsdlFile="../wsrf/properties/WS-ResourceProperties.wsdl" xmlns:ns6="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl"/>
+     <ns4:ProviderInformation providerClass="GetMRPProvider"/>
+    </ns4:Method>
+    <ns4:Method isImported="true" isProvided="true" name="GetResourceProperty" xsi:type="ns4:MethodType">
+     <ns4:Output qName="void" isArray="false"/>
+     <ns7:MethodSecurity xsi:type="ns7:MethodSecurity" xmlns:ns7="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns7:SecuritySetting xsi:type="ns7:SecuritySetting">None</ns7:SecuritySetting>
+     </ns7:MethodSecurity>
+     <ns4:ImportInformation fromIntroduce="false" inputMessage="ns8:GetResourcePropertyRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" outputMessage="ns8:GetResourcePropertyResponse" packageName="org.oasis.wsrf.properties" portTypeName="GetResourceProperty" wsdlFile="../wsrf/properties/WS-ResourceProperties.wsdl" xmlns:ns8="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl"/>
+     <ns4:ProviderInformation providerClass="GetRPProvider"/>
+    </ns4:Method>
+    <ns4:Method isImported="true" isProvided="true" name="QueryResourceProperties" xsi:type="ns4:MethodType">
+     <ns4:Output qName="void" isArray="false"/>
+     <ns9:MethodSecurity xsi:type="ns9:MethodSecurity" xmlns:ns9="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns9:SecuritySetting xsi:type="ns9:SecuritySetting">None</ns9:SecuritySetting>
+     </ns9:MethodSecurity>
+     <ns4:ImportInformation fromIntroduce="false" inputMessage="ns10:QueryResourcePropertiesRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" outputMessage="ns10:QueryResourcePropertiesResponse" packageName="org.oasis.wsrf.properties" portTypeName="QueryResourceProperties" wsdlFile="../wsrf/properties/WS-ResourceProperties.wsdl" xmlns:ns10="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl"/>
+     <ns4:ProviderInformation providerClass="QueryRPProvider"/>
+    </ns4:Method>
+    <ns4:Method isImported="true" isProvided="true" name="getServiceSecurityMetadata" xsi:type="ns4:MethodType">
+     <ns4:Output qName="ns11:ServiceSecurityMetadata" isArray="false" isClientHandle="false" xmlns:ns11="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"/>
+     <ns12:MethodSecurity xsi:type="ns12:MethodSecurity" xmlns:ns12="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns12:SecuritySetting xsi:type="ns12:SecuritySetting">None</ns12:SecuritySetting>
+      <ns12:MethodAuthorization xsi:type="ns12:MethodAuthorization">
+       <ns12:NoAuthorization xsi:type="ns12:NoAuthorization"/>
+      </ns12:MethodAuthorization>
+     </ns12:MethodSecurity>
+     <ns4:ImportInformation namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" packageName="gov.nih.nci.cagrid.introduce.security.stubs" portTypeName="ServiceSecurityPortType" wsdlFile="ServiceSecurity.wsdl"/>
+     <ns4:ProviderInformation providerClass="gov.nih.nci.cagrid.introduce.security.service.globus.ServiceSecurityProviderImpl"/>
+    </ns4:Method>
+    <ns4:Method description="Sends BlNonNull" isImported="false" isProvided="false" name="sendBlNonNull" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns13:BlNonNull" description="" isArray="false" name="blNonNull" xmlns:ns13="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns14:BlNonNull" description="" isArray="false" xmlns:ns14="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="sends" isImported="false" isProvided="false" name="sendEdText" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns15:EdText" description="" isArray="false" name="edText" xmlns:ns15="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns16:EdText" description="" isArray="false" xmlns:ns16="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Ad" isImported="false" isProvided="false" name="sendAd" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns17:Ad" description="" isArray="false" name="ad" xmlns:ns17="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns18:Ad" description="" isArray="false" xmlns:ns18="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Bl" isImported="false" isProvided="false" name="sendBl" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns19:Bl" description="" isArray="false" name="bl" xmlns:ns19="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns20:Bl" description="" isArray="false" xmlns:ns20="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Cd" isImported="false" isProvided="false" name="sendCd" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns21:Cd" description="" isArray="false" name="cd" xmlns:ns21="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns22:Cd" description="" isArray="false" xmlns:ns22="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Ed" isImported="false" isProvided="false" name="sendEd" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns23:Ed" description="" isArray="false" name="ed" xmlns:ns23="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns24:Ed" description="" isArray="false" xmlns:ns24="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends En" isImported="false" isProvided="false" name="sendEn" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns25:En" description="" isArray="false" name="en" xmlns:ns25="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns26:En" description="" isArray="false" xmlns:ns26="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends EnOn" isImported="false" isProvided="false" name="sendEnOn" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns27:EnOn" description="" isArray="false" name="enOn" xmlns:ns27="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns28:EnOn" description="" isArray="false" xmlns:ns28="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends EnPn" isImported="false" isProvided="false" name="sendEnPn" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns29:EnPn" description="" isArray="false" name="enPn" xmlns:ns29="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns30:EnPn" description="" isArray="false" xmlns:ns30="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Ii" isImported="false" isProvided="false" name="sendIi" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns31:Ii" description="" isArray="false" name="ii" xmlns:ns31="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns32:Ii" description="" isArray="false" xmlns:ns32="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends IvlInt" isImported="false" isProvided="false" name="sendIvlInt" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns33:IvlInt" description="" isArray="false" name="ivlInt" xmlns:ns33="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns34:IvlInt" description="" isArray="false" xmlns:ns34="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends IvlPq" isImported="false" isProvided="false" name="sendIvlPq" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns35:IvlPq" description="" isArray="false" name="ivlPq" xmlns:ns35="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns36:IvlPq" description="" isArray="false" xmlns:ns36="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends IvlReal" isImported="false" isProvided="false" name="sendIvlReal" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns37:IvlReal" description="" isArray="false" name="ivlReal" xmlns:ns37="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns38:IvlReal" description="" isArray="false" xmlns:ns38="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends IvlTs" isImported="false" isProvided="false" name="sendIvlTs" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns39:IvlTs" description="" isArray="false" name="ivlTs" xmlns:ns39="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns40:IvlTs" description="" isArray="false" xmlns:ns40="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Pq" isImported="false" isProvided="false" name="sendPq" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns41:Pq" description="" isArray="false" name="pq" xmlns:ns41="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns42:Pq" description="" isArray="false" xmlns:ns42="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Real" isImported="false" isProvided="false" name="sendReal" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns43:Real" description="" isArray="false" name="real" xmlns:ns43="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns44:Real" description="" isArray="false" xmlns:ns44="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Sc" isImported="false" isProvided="false" name="sendSc" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns45:Sc" description="" isArray="false" name="sc" xmlns:ns45="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns46:Sc" description="" isArray="false" xmlns:ns46="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends St" isImported="false" isProvided="false" name="sendSt" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns47:St" description="" isArray="false" name="st" xmlns:ns47="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns48:St" description="" isArray="false" xmlns:ns48="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends StNt" isImported="false" isProvided="false" name="sendStNt" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns49:StNt" description="" isArray="false" name="stNt" xmlns:ns49="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns50:StNt" description="" isArray="false" xmlns:ns50="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Tel" isImported="false" isProvided="false" name="sendTel" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns51:Tel" description="" isArray="false" name="tel" xmlns:ns51="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns52:Tel" description="" isArray="false" xmlns:ns52="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends TelEmail" isImported="false" isProvided="false" name="sendTelEmail" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns53:TelEmail" description="" isArray="false" name="telEmail" xmlns:ns53="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns54:TelEmail" description="" isArray="false" xmlns:ns54="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends TelPerson" isImported="false" isProvided="false" name="sendTelPerson" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns55:TelPerson" description="" isArray="false" name="telPerson" xmlns:ns55="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns56:TelPerson" description="" isArray="false" xmlns:ns56="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends TelPhone" isImported="false" isProvided="false" name="sendTelPhone" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns57:TelPhone" description="" isArray="false" name="telPhone" xmlns:ns57="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns58:TelPhone" description="" isArray="false" xmlns:ns58="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends TelUrl" isImported="false" isProvided="false" name="sendTelUrl" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns59:TelUrl" description="" isArray="false" name="telUrl" xmlns:ns59="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns60:TelUrl" description="" isArray="false" xmlns:ns60="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Ts" isImported="false" isProvided="false" name="sendTs" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns61:Ts" description="" isArray="false" name="ts" xmlns:ns61="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns62:Ts" description="" isArray="false" xmlns:ns62="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends DSetAd" isImported="false" isProvided="false" name="sendDSetAd" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns63:DSetAd" description="" isArray="false" name="dSetAd" xmlns:ns63="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns64:DSetAd" description="" isArray="false" xmlns:ns64="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends DSetCd" isImported="false" isProvided="false" name="sendDSetCd" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns65:DSetCd" description="" isArray="false" name="dSetCd" xmlns:ns65="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns66:DSetCd" description="" isArray="false" xmlns:ns66="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends DSetII" isImported="false" isProvided="false" name="sendDSetII" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns67:DSetII" description="" isArray="false" name="dSetII" xmlns:ns67="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns68:DSetII" description="" isArray="false" xmlns:ns68="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="" isImported="false" isProvided="false" name="sendDSetTel" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns69:DSetTel" description="" isArray="false" name="dSetTel" xmlns:ns69="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns70:DSetTel" description="" isArray="false" xmlns:ns70="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+    <ns4:Method description="Sends Int" isImported="false" isProvided="false" name="sendInt" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns71:Int" description="" isArray="false" name="_int" xmlns:ns71="uri:iso.org:21090"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns72:Int" description="" isArray="false" xmlns:ns72="uri:iso.org:21090"/>
+     <ns4:Exceptions/>
+    </ns4:Method>
+   </ns4:Methods>
+   <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
+    <ns3:Main xsi:type="ns3:Main"/>
+    <ns3:Singleton xsi:type="ns3:Singleton"/>
+    <ns3:Identifiable xsi:type="ns3:Identifiable"/>
+    <ns3:ResourcePropertyManagement xsi:type="ns3:ResourcePropertyManagement"/>
+   </ns3:ResourceFrameworkOptions>
+  </ns3:Service>
+ </ns3:Services>
+ <ns73:Extensions xsi:type="ns73:ExtensionsType" xmlns:ns73="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+</ns1:ServiceDescription>

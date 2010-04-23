@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://iso21090.cagrid.org/ISO21090AnalyticalService" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns0="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns0="uri:iso.org:21090" xmlns:ns1="http://iso21090.cagrid.org/ISO21090AnalyticalService/types" xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" name="ISO21090AnalyticalService" targetNamespace="http://iso21090.cagrid.org/ISO21090AnalyticalService">
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="./../wsrf/properties/WS-ResourceProperties.wsdl" />
+  <import namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" location="./ServiceSecurity.wsdl" />
+  <!--============================================================
+
+                      T Y P E S
+                      
+  ============================================================-->
+  <types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" targetNamespace="http://iso21090.cagrid.org/ISO21090AnalyticalService" elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" />
+      <import namespace="uri:iso.org:21090" schemaLocation="./ISO_extensions.xsd" />
+      <import namespace="http://iso21090.cagrid.org/ISO21090AnalyticalService/types" schemaLocation="./ISO21090AnalyticalServiceTypes.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
+      <element name="SendBlNonNullRequest">
+        <complexType>
+          <sequence>
+            <element name="blNonNull">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:BlNonNull" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendBlNonNullResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:BlNonNull" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEdTextRequest">
+        <complexType>
+          <sequence>
+            <element name="edText">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EdText" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEdTextResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:EdText" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendAdRequest">
+        <complexType>
+          <sequence>
+            <element name="ad">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Ad" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendAdResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Ad" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendBlRequest">
+        <complexType>
+          <sequence>
+            <element name="bl">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Bl" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendBlResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Bl" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendCdRequest">
+        <complexType>
+          <sequence>
+            <element name="cd">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Cd" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendCdResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Cd" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEdRequest">
+        <complexType>
+          <sequence>
+            <element name="ed">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Ed" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEdResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Ed" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEnRequest">
+        <complexType>
+          <sequence>
+            <element name="en">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:En" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEnResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:En" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEnOnRequest">
+        <complexType>
+          <sequence>
+            <element name="enOn">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EnOn" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEnOnResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:EnOn" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEnPnRequest">
+        <complexType>
+          <sequence>
+            <element name="enPn">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EnPn" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendEnPnResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:EnPn" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIiRequest">
+        <complexType>
+          <sequence>
+            <element name="ii">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Ii" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIiResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Ii" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIvlIntRequest">
+        <complexType>
+          <sequence>
+            <element name="ivlInt">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:IvlInt" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIvlIntResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:IvlInt" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIvlPqRequest">
+        <complexType>
+          <sequence>
+            <element name="ivlPq">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:IvlPq" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIvlPqResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:IvlPq" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIvlRealRequest">
+        <complexType>
+          <sequence>
+            <element name="ivlReal">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:IvlReal" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIvlRealResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:IvlReal" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIvlTsRequest">
+        <complexType>
+          <sequence>
+            <element name="ivlTs">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:IvlTs" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIvlTsResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:IvlTs" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendPqRequest">
+        <complexType>
+          <sequence>
+            <element name="pq">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Pq" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendPqResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Pq" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendRealRequest">
+        <complexType>
+          <sequence>
+            <element name="real">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Real" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendRealResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Real" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendScRequest">
+        <complexType>
+          <sequence>
+            <element name="sc">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Sc" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendScResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Sc" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendStRequest">
+        <complexType>
+          <sequence>
+            <element name="st">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:St" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendStResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:St" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendStNtRequest">
+        <complexType>
+          <sequence>
+            <element name="stNt">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:StNt" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendStNtResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:StNt" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelRequest">
+        <complexType>
+          <sequence>
+            <element name="tel">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Tel" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Tel" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelEmailRequest">
+        <complexType>
+          <sequence>
+            <element name="telEmail">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:TelEmail" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelEmailResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:TelEmail" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelPersonRequest">
+        <complexType>
+          <sequence>
+            <element name="telPerson">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:TelPerson" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelPersonResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:TelPerson" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelPhoneRequest">
+        <complexType>
+          <sequence>
+            <element name="telPhone">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:TelPhone" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelPhoneResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:TelPhone" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelUrlRequest">
+        <complexType>
+          <sequence>
+            <element name="telUrl">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:TelUrl" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTelUrlResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:TelUrl" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTsRequest">
+        <complexType>
+          <sequence>
+            <element name="ts">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Ts" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendTsResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Ts" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendDSetAdRequest">
+        <complexType>
+          <sequence>
+            <element name="dSetAd">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:DSetAd" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendDSetAdResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:DSetAd" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendDSetCdRequest">
+        <complexType>
+          <sequence>
+            <element name="dSetCd">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:DSetCd" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendDSetCdResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:DSetCd" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendDSetIIRequest">
+        <complexType>
+          <sequence>
+            <element name="dSetII">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:DSetII" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendDSetIIResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:DSetII" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendDSetTelRequest">
+        <complexType>
+          <sequence>
+            <element name="dSetTel">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:DSetTel" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendDSetTelResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:DSetTel" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIntRequest">
+        <complexType>
+          <sequence>
+            <element name="_int">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:Int" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SendIntResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns0:Int" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ISO21090AnalyticalServiceResourceProperties">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <!--  place service messages here -->
+  <message name="SendBlNonNullRequest">
+    <part name="parameters" element="tns:SendBlNonNullRequest" />
+  </message>
+  <message name="SendBlNonNullResponse">
+    <part name="parameters" element="tns:SendBlNonNullResponse" />
+  </message>
+  <message name="SendEdTextRequest">
+    <part name="parameters" element="tns:SendEdTextRequest" />
+  </message>
+  <message name="SendEdTextResponse">
+    <part name="parameters" element="tns:SendEdTextResponse" />
+  </message>
+  <message name="SendAdRequest">
+    <part name="parameters" element="tns:SendAdRequest" />
+  </message>
+  <message name="SendAdResponse">
+    <part name="parameters" element="tns:SendAdResponse" />
+  </message>
+  <message name="SendBlRequest">
+    <part name="parameters" element="tns:SendBlRequest" />
+  </message>
+  <message name="SendBlResponse">
+    <part name="parameters" element="tns:SendBlResponse" />
+  </message>
+  <message name="SendCdRequest">
+    <part name="parameters" element="tns:SendCdRequest" />
+  </message>
+  <message name="SendCdResponse">
+    <part name="parameters" element="tns:SendCdResponse" />
+  </message>
+  <message name="SendEdRequest">
+    <part name="parameters" element="tns:SendEdRequest" />
+  </message>
+  <message name="SendEdResponse">
+    <part name="parameters" element="tns:SendEdResponse" />
+  </message>
+  <message name="SendEnRequest">
+    <part name="parameters" element="tns:SendEnRequest" />
+  </message>
+  <message name="SendEnResponse">
+    <part name="parameters" element="tns:SendEnResponse" />
+  </message>
+  <message name="SendEnOnRequest">
+    <part name="parameters" element="tns:SendEnOnRequest" />
+  </message>
+  <message name="SendEnOnResponse">
+    <part name="parameters" element="tns:SendEnOnResponse" />
+  </message>
+  <message name="SendEnPnRequest">
+    <part name="parameters" element="tns:SendEnPnRequest" />
+  </message>
+  <message name="SendEnPnResponse">
+    <part name="parameters" element="tns:SendEnPnResponse" />
+  </message>
+  <message name="SendIiRequest">
+    <part name="parameters" element="tns:SendIiRequest" />
+  </message>
+  <message name="SendIiResponse">
+    <part name="parameters" element="tns:SendIiResponse" />
+  </message>
+  <message name="SendIvlIntRequest">
+    <part name="parameters" element="tns:SendIvlIntRequest" />
+  </message>
+  <message name="SendIvlIntResponse">
+    <part name="parameters" element="tns:SendIvlIntResponse" />
+  </message>
+  <message name="SendIvlPqRequest">
+    <part name="parameters" element="tns:SendIvlPqRequest" />
+  </message>
+  <message name="SendIvlPqResponse">
+    <part name="parameters" element="tns:SendIvlPqResponse" />
+  </message>
+  <message name="SendIvlRealRequest">
+    <part name="parameters" element="tns:SendIvlRealRequest" />
+  </message>
+  <message name="SendIvlRealResponse">
+    <part name="parameters" element="tns:SendIvlRealResponse" />
+  </message>
+  <message name="SendIvlTsRequest">
+    <part name="parameters" element="tns:SendIvlTsRequest" />
+  </message>
+  <message name="SendIvlTsResponse">
+    <part name="parameters" element="tns:SendIvlTsResponse" />
+  </message>
+  <message name="SendPqRequest">
+    <part name="parameters" element="tns:SendPqRequest" />
+  </message>
+  <message name="SendPqResponse">
+    <part name="parameters" element="tns:SendPqResponse" />
+  </message>
+  <message name="SendRealRequest">
+    <part name="parameters" element="tns:SendRealRequest" />
+  </message>
+  <message name="SendRealResponse">
+    <part name="parameters" element="tns:SendRealResponse" />
+  </message>
+  <message name="SendScRequest">
+    <part name="parameters" element="tns:SendScRequest" />
+  </message>
+  <message name="SendScResponse">
+    <part name="parameters" element="tns:SendScResponse" />
+  </message>
+  <message name="SendStRequest">
+    <part name="parameters" element="tns:SendStRequest" />
+  </message>
+  <message name="SendStResponse">
+    <part name="parameters" element="tns:SendStResponse" />
+  </message>
+  <message name="SendStNtRequest">
+    <part name="parameters" element="tns:SendStNtRequest" />
+  </message>
+  <message name="SendStNtResponse">
+    <part name="parameters" element="tns:SendStNtResponse" />
+  </message>
+  <message name="SendTelRequest">
+    <part name="parameters" element="tns:SendTelRequest" />
+  </message>
+  <message name="SendTelResponse">
+    <part name="parameters" element="tns:SendTelResponse" />
+  </message>
+  <message name="SendTelEmailRequest">
+    <part name="parameters" element="tns:SendTelEmailRequest" />
+  </message>
+  <message name="SendTelEmailResponse">
+    <part name="parameters" element="tns:SendTelEmailResponse" />
+  </message>
+  <message name="SendTelPersonRequest">
+    <part name="parameters" element="tns:SendTelPersonRequest" />
+  </message>
+  <message name="SendTelPersonResponse">
+    <part name="parameters" element="tns:SendTelPersonResponse" />
+  </message>
+  <message name="SendTelPhoneRequest">
+    <part name="parameters" element="tns:SendTelPhoneRequest" />
+  </message>
+  <message name="SendTelPhoneResponse">
+    <part name="parameters" element="tns:SendTelPhoneResponse" />
+  </message>
+  <message name="SendTelUrlRequest">
+    <part name="parameters" element="tns:SendTelUrlRequest" />
+  </message>
+  <message name="SendTelUrlResponse">
+    <part name="parameters" element="tns:SendTelUrlResponse" />
+  </message>
+  <message name="SendTsRequest">
+    <part name="parameters" element="tns:SendTsRequest" />
+  </message>
+  <message name="SendTsResponse">
+    <part name="parameters" element="tns:SendTsResponse" />
+  </message>
+  <message name="SendDSetAdRequest">
+    <part name="parameters" element="tns:SendDSetAdRequest" />
+  </message>
+  <message name="SendDSetAdResponse">
+    <part name="parameters" element="tns:SendDSetAdResponse" />
+  </message>
+  <message name="SendDSetCdRequest">
+    <part name="parameters" element="tns:SendDSetCdRequest" />
+  </message>
+  <message name="SendDSetCdResponse">
+    <part name="parameters" element="tns:SendDSetCdResponse" />
+  </message>
+  <message name="SendDSetIIRequest">
+    <part name="parameters" element="tns:SendDSetIIRequest" />
+  </message>
+  <message name="SendDSetIIResponse">
+    <part name="parameters" element="tns:SendDSetIIResponse" />
+  </message>
+  <message name="SendDSetTelRequest">
+    <part name="parameters" element="tns:SendDSetTelRequest" />
+  </message>
+  <message name="SendDSetTelResponse">
+    <part name="parameters" element="tns:SendDSetTelResponse" />
+  </message>
+  <message name="SendIntRequest">
+    <part name="parameters" element="tns:SendIntRequest" />
+  </message>
+  <message name="SendIntResponse">
+    <part name="parameters" element="tns:SendIntResponse" />
+  </message>
+  <!--============================================================
+
+                       P O R T T Y P E
+                      
+  ============================================================-->
+  <portType name="ISO21090AnalyticalServicePortType" wsrp:ResourceProperties="tns:ISO21090AnalyticalServiceResourceProperties">
+    <operation name="sendBlNonNull">
+      <input message="tns:SendBlNonNullRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendBlNonNullRequest" />
+      <output message="tns:SendBlNonNullResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendBlNonNullResponse" />
+    </operation>
+    <operation name="sendEdText">
+      <input message="tns:SendEdTextRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEdTextRequest" />
+      <output message="tns:SendEdTextResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEdTextResponse" />
+    </operation>
+    <operation name="sendAd">
+      <input message="tns:SendAdRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendAdRequest" />
+      <output message="tns:SendAdResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendAdResponse" />
+    </operation>
+    <operation name="sendBl">
+      <input message="tns:SendBlRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendBlRequest" />
+      <output message="tns:SendBlResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendBlResponse" />
+    </operation>
+    <operation name="sendCd">
+      <input message="tns:SendCdRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendCdRequest" />
+      <output message="tns:SendCdResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendCdResponse" />
+    </operation>
+    <operation name="sendEd">
+      <input message="tns:SendEdRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEdRequest" />
+      <output message="tns:SendEdResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEdResponse" />
+    </operation>
+    <operation name="sendEn">
+      <input message="tns:SendEnRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEnRequest" />
+      <output message="tns:SendEnResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEnResponse" />
+    </operation>
+    <operation name="sendEnOn">
+      <input message="tns:SendEnOnRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEnOnRequest" />
+      <output message="tns:SendEnOnResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEnOnResponse" />
+    </operation>
+    <operation name="sendEnPn">
+      <input message="tns:SendEnPnRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEnPnRequest" />
+      <output message="tns:SendEnPnResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendEnPnResponse" />
+    </operation>
+    <operation name="sendIi">
+      <input message="tns:SendIiRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIiRequest" />
+      <output message="tns:SendIiResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIiResponse" />
+    </operation>
+    <operation name="sendIvlInt">
+      <input message="tns:SendIvlIntRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIvlIntRequest" />
+      <output message="tns:SendIvlIntResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIvlIntResponse" />
+    </operation>
+    <operation name="sendIvlPq">
+      <input message="tns:SendIvlPqRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIvlPqRequest" />
+      <output message="tns:SendIvlPqResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIvlPqResponse" />
+    </operation>
+    <operation name="sendIvlReal">
+      <input message="tns:SendIvlRealRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIvlRealRequest" />
+      <output message="tns:SendIvlRealResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIvlRealResponse" />
+    </operation>
+    <operation name="sendIvlTs">
+      <input message="tns:SendIvlTsRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIvlTsRequest" />
+      <output message="tns:SendIvlTsResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIvlTsResponse" />
+    </operation>
+    <operation name="sendPq">
+      <input message="tns:SendPqRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendPqRequest" />
+      <output message="tns:SendPqResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendPqResponse" />
+    </operation>
+    <operation name="sendReal">
+      <input message="tns:SendRealRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendRealRequest" />
+      <output message="tns:SendRealResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendRealResponse" />
+    </operation>
+    <operation name="sendSc">
+      <input message="tns:SendScRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendScRequest" />
+      <output message="tns:SendScResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendScResponse" />
+    </operation>
+    <operation name="sendSt">
+      <input message="tns:SendStRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendStRequest" />
+      <output message="tns:SendStResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendStResponse" />
+    </operation>
+    <operation name="sendStNt">
+      <input message="tns:SendStNtRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendStNtRequest" />
+      <output message="tns:SendStNtResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendStNtResponse" />
+    </operation>
+    <operation name="sendTel">
+      <input message="tns:SendTelRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelRequest" />
+      <output message="tns:SendTelResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelResponse" />
+    </operation>
+    <operation name="sendTelEmail">
+      <input message="tns:SendTelEmailRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelEmailRequest" />
+      <output message="tns:SendTelEmailResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelEmailResponse" />
+    </operation>
+    <operation name="sendTelPerson">
+      <input message="tns:SendTelPersonRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelPersonRequest" />
+      <output message="tns:SendTelPersonResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelPersonResponse" />
+    </operation>
+    <operation name="sendTelPhone">
+      <input message="tns:SendTelPhoneRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelPhoneRequest" />
+      <output message="tns:SendTelPhoneResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelPhoneResponse" />
+    </operation>
+    <operation name="sendTelUrl">
+      <input message="tns:SendTelUrlRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelUrlRequest" />
+      <output message="tns:SendTelUrlResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTelUrlResponse" />
+    </operation>
+    <operation name="sendTs">
+      <input message="tns:SendTsRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTsRequest" />
+      <output message="tns:SendTsResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendTsResponse" />
+    </operation>
+    <operation name="sendDSetAd">
+      <input message="tns:SendDSetAdRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendDSetAdRequest" />
+      <output message="tns:SendDSetAdResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendDSetAdResponse" />
+    </operation>
+    <operation name="sendDSetCd">
+      <input message="tns:SendDSetCdRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendDSetCdRequest" />
+      <output message="tns:SendDSetCdResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendDSetCdResponse" />
+    </operation>
+    <operation name="sendDSetII">
+      <input message="tns:SendDSetIIRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendDSetIIRequest" />
+      <output message="tns:SendDSetIIResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendDSetIIResponse" />
+    </operation>
+    <operation name="sendDSetTel">
+      <input message="tns:SendDSetTelRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendDSetTelRequest" />
+      <output message="tns:SendDSetTelResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendDSetTelResponse" />
+    </operation>
+    <operation name="sendInt">
+      <input message="tns:SendIntRequest" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIntRequest" />
+      <output message="tns:SendIntResponse" wsa:Action="http://iso21090.cagrid.org/ISO21090AnalyticalService/SendIntResponse" />
+    </operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetMultipleResourceProperties">
+      <wsdl:input name="GetMultipleResourcePropertiesRequest" message="wsrpw:GetMultipleResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" />
+      <wsdl:output name="GetMultipleResourcePropertiesResponse" message="wsrpw:GetMultipleResourcePropertiesResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourcePropertiesResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+    </wsdl:operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetResourceProperty">
+      <wsdl:input name="GetResourcePropertyRequest" message="wsrpw:GetResourcePropertyRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourceProperty" />
+      <wsdl:output name="GetResourcePropertyResponse" message="wsrpw:GetResourcePropertyResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourcePropertyResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+    </wsdl:operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="QueryResourceProperties">
+      <wsdl:input name="QueryResourcePropertiesRequest" message="wsrpw:QueryResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourceProperties" />
+      <wsdl:output name="QueryResourcePropertiesResponse" message="wsrpw:QueryResourcePropertiesResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourcePropertiesResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+      <wsdl:fault name="UnknownQueryExpressionDialectFault" message="wsrpw:UnknownQueryExpressionDialectFault" />
+      <wsdl:fault name="InvalidQueryExpressionFault" message="wsrpw:InvalidQueryExpressionFault" />
+      <wsdl:fault name="QueryEvaluationErrorFault" message="wsrpw:QueryEvaluationErrorFault" />
+    </wsdl:operation>
+    <operation name="getServiceSecurityMetadata">
+      <input message="wns1:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />
+      <output message="wns1:GetServiceSecurityMetadataResponse" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataResponse" />
+    </operation>
+  </portType>
+</definitions>
+
