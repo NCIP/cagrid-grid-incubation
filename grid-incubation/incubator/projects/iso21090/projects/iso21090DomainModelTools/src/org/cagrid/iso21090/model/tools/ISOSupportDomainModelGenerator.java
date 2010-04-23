@@ -1,5 +1,6 @@
 package org.cagrid.iso21090.model.tools;
 
+import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.common.SemanticMetadata;
 import gov.nih.nci.cagrid.metadata.common.UMLClassUmlAttributeCollection;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
@@ -14,6 +15,7 @@ import gov.nih.nci.ncicb.xmiinout.domain.UMLAttribute;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLClass;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLGeneralization;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLModel;
+import gov.nih.nci.ncicb.xmiinout.domain.UMLPackage;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLTaggedValue;
 import gov.nih.nci.ncicb.xmiinout.handler.HandlerEnum;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiException;
@@ -21,15 +23,22 @@ import gov.nih.nci.ncicb.xmiinout.handler.XmiHandlerFactory;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiInOutHandler;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 public class ISOSupportDomainModelGenerator {
     
+    // logical model package contains our data model
+    public static final String LOGICAL_MODEL_PACKAGE_PREFIX = "Logical View.Logical Model.";
+    
     // regex for package excludes
+    public static final String DEFAULT_PACKAGE_EXCLUDE_REGEX_LEAVE_ISO = ".*?java.*,.*?[V|v]alue.?[D|d]omain.*";
     public static final String DEFAULT_PACKAGE_EXCLUDE_REGEX = ".*?java.*,.*?[V|v]alue.?[D|d]omain.*,.*?iso21090.*";
     public static final String ISO_PACKAGE_REGEX = ".*?iso21090.*";
     
@@ -109,40 +118,53 @@ public class ISOSupportDomainModelGenerator {
     public void setAttributeVersion(float attributeVersion) {
         this.attributeVersion = attributeVersion;
     }
-
-
+    
+    
     public DomainModel generateDomainModel(String xmiFilename) throws XmiException, IOException {
+        Pattern excludePattern = Pattern.compile(DEFAULT_PACKAGE_EXCLUDE_REGEX);
         handler.load(xmiFilename);
         UMLModel umlModel = handler.getModel();
         DomainModel domain = new DomainModel();
-        List<UMLClass> umlClasses = umlModel.getClasses();
+        List<UMLClass> umlClasses = getAllClassesInModel(umlModel);
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = 
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLClass>();
         for (UMLClass clazz : umlClasses) {
             // TODO: filter by package name exclude regex
             // CAVEAT: have to turn "attributes" that are ISO types into Associations.  Have fun!
-            gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
-            // basic class info
-            c.setPackageName(clazz.getPackage().getName());
-            c.setClassName(clazz.getName());
-            c.setAllowableAsTarget(true);
-            // attributes
-            List<UMLAttribute> umlAttribs = clazz.getAttributes();
-            List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(
-                umlAttribs.size());
-            for (UMLAttribute attrib : umlAttribs) {
-                gov.nih.nci.cagrid.metadata.common.UMLAttribute a = new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
-                a.setName(attrib.getName());
-                a.setDataTypeName(attrib.getDatatype().getName());
-                // look at tagged values for the concept code info
-                annotateAttribute(a, attrib.getTaggedValues());
-                // keep the attribute
-                attribs.add(a);
+            if (clazz.getPackage() == null) {
+                System.out.println("Skipping class with null package: " + clazz.getName());
+            } else {
+                String fullPackageName = getFullPackageName(clazz);
+                // filter out anything not in the logical model and matching the exclude regex
+                if (!fullPackageName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX) 
+                    || excludePattern.matcher(fullPackageName).matches()) {
+                    System.out.println("Excluding class: " + fullPackageName + "." + clazz.getName());
+                } else {
+                    // basic class info
+                    gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
+                    String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
+                    c.setPackageName(strippedPackageName);
+                    c.setClassName(clazz.getName());
+                    c.setAllowableAsTarget(true);
+                    // attributes
+                    List<UMLAttribute> umlAttribs = clazz.getAttributes();
+                    List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(
+                        umlAttribs.size());
+                    for (UMLAttribute attrib : umlAttribs) {
+                        gov.nih.nci.cagrid.metadata.common.UMLAttribute a = new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
+                        a.setName(attrib.getName());
+                        a.setDataTypeName(attrib.getDatatype().getName());
+                        // look at tagged values for the concept code info
+                        annotateAttribute(a, attrib.getTaggedValues());
+                        // keep the attribute
+                        attribs.add(a);
+                    }
+                    c.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
+                        attribs.toArray(new gov.nih.nci.cagrid.metadata.common.UMLAttribute[0])));
+                    c.setId(String.valueOf(clazz.hashCode()));
+                    domainClasses.add(c);
+                }
             }
-            c.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
-                attribs.toArray(new gov.nih.nci.cagrid.metadata.common.UMLAttribute[0])));
-            c.setId(String.valueOf(clazz.hashCode()));
-            domainClasses.add(c);
         }
         domain.setExposedUMLClassCollection(
             new DomainModelExposedUMLClassCollection(
@@ -183,6 +205,35 @@ public class ISOSupportDomainModelGenerator {
                     new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation[0])));
         
         return domain;
+    }
+    
+    
+    private List<UMLClass> getAllClassesInModel(UMLModel model) {
+        List<UMLClass> classes = new LinkedList<UMLClass>();
+        List<UMLPackage> packages = new ArrayList<UMLPackage>();
+        packages.addAll(model.getPackages());
+        for (int i = 0; i < packages.size(); i++) {
+            UMLPackage pack = packages.get(i);
+            packages.addAll(pack.getPackages());
+            classes.addAll(pack.getClasses());
+        }
+        return classes;
+    }
+    
+    
+    private String getFullPackageName(UMLClass clazz) {
+        StringBuffer buf = new StringBuffer();
+        UMLPackage pack = clazz.getPackage();
+        boolean first = true;
+        while (pack != null) {
+            if (!first) {
+                buf.insert(0, '.');   
+            }
+            first = false;
+            buf.insert(0, pack.getName());
+            pack = pack.getParent();
+        }
+        return buf.toString();
     }
     
     
@@ -252,7 +303,12 @@ public class ISOSupportDomainModelGenerator {
     public static void main(String[] args) {
         ISOSupportDomainModelGenerator generator = new ISOSupportDomainModelGenerator(HandlerEnum.EADefault);
         try {
-            generator.generateDomainModel("foo.xmi");
+            System.out.println("generating model");
+            DomainModel model = generator.generateDomainModel("test/resources/sdk.xmi");
+            System.out.println("serializing");
+            StringWriter writer = new StringWriter();
+            MetadataUtils.serializeDomainModel(model, writer);
+            System.out.println(writer.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
