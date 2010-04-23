@@ -144,6 +144,10 @@ public class ISOSupportDomainModelGenerator {
             c.setId(String.valueOf(clazz.hashCode()));
             domainClasses.add(c);
         }
+        domain.setExposedUMLClassCollection(
+            new DomainModelExposedUMLClassCollection(
+                domainClasses.toArray(
+                    new gov.nih.nci.cagrid.metadata.dataservice.UMLClass[0])));
         
         // generalizations
         List<UMLGeneralization> umlGeneralizations = umlModel.getGeneralizations();
@@ -173,11 +177,6 @@ public class ISOSupportDomainModelGenerator {
             // TODO: association ends
             domainAssociations.add(a);
         }
-        
-        domain.setExposedUMLClassCollection(
-            new DomainModelExposedUMLClassCollection(
-                domainClasses.toArray(
-                    new gov.nih.nci.cagrid.metadata.dataservice.UMLClass[0])));
         domain.setExposedUMLAssociationCollection(
             new DomainModelExposedUMLAssociationCollection(
                 domainAssociations.toArray(
