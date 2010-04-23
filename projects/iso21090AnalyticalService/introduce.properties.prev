@@ -1,0 +1,11 @@
+#Introduce Properties
+#Thu Apr 22 22:26:54 EDT 2010
+introduce.skeleton.services.list=ISO21090AnalyticalService
+introduce.skeleton.extensions=
+introduce.skeleton.timestamp=1271984958934
+introduce.skeleton.service.name=ISO21090AnalyticalService
+introduce.skeleton.resource.options=main,singleton,identifiable,resourcePropertyManagement
+introduce.skeleton.destination.dir=C\:\\Users\\cmelean\\Documents\\Developer\\source\\eclipse\\ISO21090 Incubator\\projects\\iso21090AnalyticalService
+introduce.skeleton.namespace.domain=http\://iso21090.cagrid.org/ISO21090AnalyticalService
+introduce.soap.binding.excludes=\ uri\:iso.org\:21090
+introduce.ns.excludes=\ -x uri\:iso.org\:21090 -x gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security
