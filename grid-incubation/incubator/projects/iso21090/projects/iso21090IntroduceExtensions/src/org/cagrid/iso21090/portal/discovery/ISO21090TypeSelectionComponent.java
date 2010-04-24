@@ -359,15 +359,15 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
     			//
     			// In addition, the source generate by introduce (globus) package gets
     			// broken as well.
-    			if (e.getAttributeValue("type").equalsIgnoreCase("int")) {
-    				psTarget.addContent(createStubReplaceElement("get_int", "getInt"));
-    				psTarget.addContent(createStubReplaceElement("set_int", "setInt"));
-    				psTarget.addContent(createReplaceElement("get_int", "getInt", 
-    						"${src.dir}", "**/service/globus/*.java"));
-    				psTarget.addContent(createReplaceElement("set_int", "setInt", 
-    						"${src.dir}", "**/client/*.java"));
-    				
-    			}
+//    			if (e.getAttributeValue("type").equalsIgnoreCase("int")) {
+//    				psTarget.addContent(createStubReplaceElement("get_int", "getInt"));
+//    				psTarget.addContent(createStubReplaceElement("set_int", "setInt"));
+//    				psTarget.addContent(createReplaceElement("get_int", "getInt", 
+//    						"${src.dir}", "**/service/globus/*.java"));
+//    				psTarget.addContent(createReplaceElement("set_int", "setInt", 
+//    						"${src.dir}", "**/client/*.java"));
+//    				
+//    			}
     		}
     	}
 		
