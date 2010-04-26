@@ -7,16 +7,24 @@ import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModelExposedUMLAssociationCollection;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModelExposedUMLClassCollection;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModelUmlGeneralizationCollection;
+import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociationEdge;
+import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociationSourceUMLAssociationEdge;
+import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociationTargetUMLAssociationEdge;
 import gov.nih.nci.cagrid.metadata.dataservice.UMLClassReference;
 import gov.nih.nci.cagrid.metadata.xmi.XMIConstants;
+import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociable;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociation;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociationEnd;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAttribute;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLClass;
+import gov.nih.nci.ncicb.xmiinout.domain.UMLDatatype;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLGeneralization;
+import gov.nih.nci.ncicb.xmiinout.domain.UMLInterface;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLModel;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLPackage;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLTaggedValue;
+import gov.nih.nci.ncicb.xmiinout.domain.bean.UMLClassBean;
+import gov.nih.nci.ncicb.xmiinout.domain.bean.UMLDatatypeBean;
 import gov.nih.nci.ncicb.xmiinout.handler.HandlerEnum;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiException;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiHandlerFactory;
@@ -29,7 +37,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 public class ISOSupportDomainModelGenerator {
@@ -45,6 +57,8 @@ public class ISOSupportDomainModelGenerator {
     // cadsr ID tag values
     public static final String XMI_TAG_CADSR_DE_ID = "CADSR_DE_ID";
     public static final String XMI_TAG_CADSR_DE_VERSION = "CADSR_DE_VERSION";
+    
+    private static Log LOG = LogFactory.getLog(ISOSupportDomainModelGenerator.class);
 
     private XmiInOutHandler handler = null;
     private String projectShortName = null;
@@ -123,60 +137,132 @@ public class ISOSupportDomainModelGenerator {
     public DomainModel generateDomainModel(String xmiFilename) throws XmiException, IOException {
         Pattern excludePattern = Pattern.compile(DEFAULT_PACKAGE_EXCLUDE_REGEX);
         Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
+        LOG.debug("Loading XMI from " + xmiFilename);
         handler.load(xmiFilename);
+        LOG.debug("Loading complete, parsing model");
         UMLModel umlModel = handler.getModel();
         DomainModel domain = new DomainModel();
         List<UMLClass> umlClasses = getAllClassesInModel(umlModel);
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = 
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLClass>();
+        List<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation> domainAssociations = 
+            new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation>();
+        List<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization> generalizations = 
+            new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization>();
         for (UMLClass clazz : umlClasses) {
-            // TODO: filter by package name exclude regex
-            // CAVEAT: have to turn "attributes" that are ISO types into Associations.  Have fun!
             if (clazz.getPackage() == null) {
-                System.out.println("Skipping class with null package: " + clazz.getName());
+                LOG.debug("Skipping class with null package: " + clazz.getName());
             } else {
                 String fullPackageName = getFullPackageName(clazz);
                 // filter out anything not in the logical model and matching the exclude regex
                 if (!fullPackageName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX) 
                     || excludePattern.matcher(fullPackageName).matches()) {
-                    System.out.println("Excluding class: " + fullPackageName + "." + clazz.getName());
+                    LOG.debug("Excluding class: " + fullPackageName + "." + clazz.getName());
                 } else {
                     // basic class info
-                    gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
+                    LOG.debug("Creating model class " + strippedPackageName + "." + clazz.getName());
+                    System.out.println("Creating model class " + strippedPackageName + "." + clazz.getName());
+                    gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
                     c.setPackageName(strippedPackageName);
                     c.setClassName(clazz.getName());
+                    c.setId(String.valueOf(clazz.hashCode()));
                     // ISO types aren't targetable; everything else is by default
-                    c.setAllowableAsTarget(!isoPattern.matcher(strippedPackageName).matches());
+                    boolean targetable = !isoPattern.matcher(strippedPackageName).matches();
+                    LOG.debug("Class " + (targetable ? "is" : "is not") + " targetable");
+                    c.setAllowableAsTarget(targetable);
                     // attributes
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
-                    List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(
-                        umlAttribs.size());
+                    List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
+                        new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
                     for (UMLAttribute attrib : umlAttribs) {
-                        gov.nih.nci.cagrid.metadata.common.UMLAttribute a = new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
-                        a.setName(attrib.getName());
-                        a.setDataTypeName(attrib.getDatatype().getName());
-                        // look at tagged values for the concept code info
-                        annotateAttribute(a, attrib.getTaggedValues());
-                        // keep the attribute
-                        attribs.add(a);
+                        LOG.debug("Creating class attribute " + attrib.getName());
+                        System.out.println("Creating class attribute " + attrib.getName());
+                        // determine the data type of the attribute
+                        String attributeDataTypeName = null;
+                        UMLDatatype datatype = attrib.getDatatype();
+                        if (datatype instanceof UMLClass) {
+                            UMLClass attribType = (UMLClass) datatype;
+                            String fullAttribTypeClassname = getFullPackageName(attribType) + "." + attribType.getName();
+                            attributeDataTypeName = fullAttribTypeClassname.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
+                            LOG.debug("Attribute datatype determined to be " + attributeDataTypeName);
+                            System.out.println("Attribute datatype determined to be " + attributeDataTypeName);
+                        } else {
+                            LOG.warn("Attribute data type (" + datatype.getName() + ") does not reference a class in this model.");
+                            System.out.println("Attribute data type (" + datatype.getName() + ") does not reference a class in this model.");
+                            attributeDataTypeName = datatype.getName();
+                        }
+                        // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.  Have fun!
+                        if (isoPattern.matcher(attributeDataTypeName).matches()) {
+                            LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
+                            System.out.println("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
+                            gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
+                                new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
+                            isoAssociation.setBidirectional(false);
+                            UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
+                            sourceEdge.setMaxCardinality(1);
+                            sourceEdge.setMinCardinality(0);
+                            sourceEdge.setRoleName(attrib.getName());
+                            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(datatype.hashCode())));
+                            isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
+                            UMLAssociationEdge targetEdge = new UMLAssociationEdge();
+                            targetEdge.setMaxCardinality(1);
+                            targetEdge.setMinCardinality(0);
+                            targetEdge.setRoleName(attrib.getName());
+                            targetEdge.setUMLClassReference(new UMLClassReference(c.getId()));
+                            isoAssociation.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
+                            domainAssociations.add(isoAssociation);
+                        } else {
+                            LOG.debug("Attribute datatype is simple.");
+                            gov.nih.nci.cagrid.metadata.common.UMLAttribute a = new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
+                            a.setName(attrib.getName());
+                            a.setDataTypeName(attributeDataTypeName);
+                            System.out.println("datatype instanceof " + datatype.getClass().getName());
+                            if (datatype instanceof UMLDatatypeBean) {
+                                System.out.println("datatype = " + datatype.getName());
+                            } else if (datatype instanceof UMLClassBean) {
+                                UMLClass datatypeClass = (UMLClass) datatype;
+                                System.out.println("class = " + getFullPackageName(datatypeClass) + "." + datatypeClass.getName());
+                            }
+                            // look at tagged values for the concept code info
+                            annotateAttribute(a, attrib.getTaggedValues());
+                            // keep the attribute
+                            attribs.add(a);
+                        }
                     }
                     c.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
                         attribs.toArray(new gov.nih.nci.cagrid.metadata.common.UMLAttribute[0])));
-                    c.setId(String.valueOf(clazz.hashCode()));
                     domainClasses.add(c);
+                    Set<UMLAssociation> umlAssociations = clazz.getAssociations();
+                    for (UMLAssociation assoc : umlAssociations) {
+                        gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation a = 
+                            new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
+                        boolean bidirectional = associationIsBidirectional(clazz, assoc);
+                        a.setBidirectional(bidirectional);
+                        // source
+                        UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
+                        sourceEdge.setMaxCardinality(assoc.getAssociationEnds().get(0).getHighMultiplicity());
+                        sourceEdge.setMinCardinality(assoc.getAssociationEnds().get(0).getLowMultiplicity());
+                        sourceEdge.setRoleName(assoc.getAssociationEnds().get(0).getRoleName());
+                        sourceEdge.setUMLClassReference(new UMLClassReference(c.getId()));
+                        // target
+                        UMLAssociationEdge targetEdge = new UMLAssociationEdge();
+                        targetEdge.setMaxCardinality(assoc.getAssociationEnds().get(1).getHighMultiplicity());
+                        targetEdge.setMinCardinality(assoc.getAssociationEnds().get(1).getLowMultiplicity());
+                        targetEdge.setRoleName(assoc.getAssociationEnds().get(1).getRoleName());
+                        targetEdge.setUMLClassReference(new UMLClassReference(
+                            String.valueOf(assoc.getAssociationEnds().get(1).getUMLElement().hashCode())));
+                        a.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
+                        a.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
+                        domainAssociations.add(a);
+                    }
+                    System.out.println("----");
                 }
             }
         }
-        domain.setExposedUMLClassCollection(
-            new DomainModelExposedUMLClassCollection(
-                domainClasses.toArray(
-                    new gov.nih.nci.cagrid.metadata.dataservice.UMLClass[0])));
         
         // generalizations
         List<UMLGeneralization> umlGeneralizations = umlModel.getGeneralizations();
-        List<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization> generalizations = 
-            new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization>();
         for (UMLGeneralization gen : umlGeneralizations) {
             gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization g = 
                 new gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization();
@@ -184,29 +270,46 @@ public class ISOSupportDomainModelGenerator {
             g.setSuperClassReference(new UMLClassReference(String.valueOf(gen.getSupertype().hashCode())));
             generalizations.add(g);
         }
+        
+        // build the model
+        domain.setExposedUMLClassCollection(
+            new DomainModelExposedUMLClassCollection(
+                domainClasses.toArray(
+                    new gov.nih.nci.cagrid.metadata.dataservice.UMLClass[0])));
+        domain.setExposedUMLAssociationCollection(
+            new DomainModelExposedUMLAssociationCollection(
+                domainAssociations.toArray(
+                    new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation[0])));
         domain.setUmlGeneralizationCollection(
             new DomainModelUmlGeneralizationCollection(
                 generalizations.toArray(
                     new gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization[0])));
         
-        // associations
-        List<UMLAssociation> umlAssociations = umlModel.getAssociations();
-        List<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation> domainAssociations = 
-            new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation>();
-        for (UMLAssociation assoc : umlAssociations) {
-            gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation a = 
-                new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
-            List<UMLAssociationEnd> ends = assoc.getAssociationEnds();
-            a.setBidirectional(ends.size() == 2); // ?
-            // TODO: association ends
-            domainAssociations.add(a);
-        }
-        domain.setExposedUMLAssociationCollection(
-            new DomainModelExposedUMLAssociationCollection(
-                domainAssociations.toArray(
-                    new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation[0])));
-        
         return domain;
+    }
+    
+    
+    private boolean associationIsBidirectional(UMLClass sourceClass, UMLAssociation association) {
+        boolean bidirectional = false;
+        String sourceRoleName = association.getAssociationEnds().get(0).getRoleName();
+        UMLAssociationEnd sourceEnd = association.getAssociationEnds().get(0);
+        UMLAssociable target = sourceEnd.getUMLElement();
+        Set<UMLAssociation> associationsOfTarget = null;
+        if (target instanceof UMLClass) {
+            associationsOfTarget = ((UMLClass) target).getAssociations();
+        } else if (target instanceof UMLInterface) {
+            associationsOfTarget = ((UMLInterface) target).getAssociations();
+        }
+        for (UMLAssociation targetAssociation : associationsOfTarget) {
+            // see if the association comes back to the source class
+            UMLAssociable possibleReturnTarget = targetAssociation.getAssociationEnds().get(0).getUMLElement();
+            String possibleReturnTargetRoleName = targetAssociation.getAssociationEnds().get(0).getRoleName();
+            bidirectional = (possibleReturnTarget == sourceClass && possibleReturnTargetRoleName.equals(sourceRoleName));
+            if (bidirectional) {
+                break;
+            }
+        }
+        return bidirectional;
     }
     
     
@@ -306,7 +409,7 @@ public class ISOSupportDomainModelGenerator {
         ISOSupportDomainModelGenerator generator = new ISOSupportDomainModelGenerator(HandlerEnum.EADefault);
         try {
             System.out.println("generating model");
-            DomainModel model = generator.generateDomainModel("test/resources/sdk.xmi");
+            DomainModel model = generator.generateDomainModel("test/resources/sdk-new.xmi");
             System.out.println("serializing");
             StringWriter writer = new StringWriter();
             MetadataUtils.serializeDomainModel(model, writer);
