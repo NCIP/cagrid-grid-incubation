@@ -122,6 +122,7 @@ public class ISOSupportDomainModelGenerator {
     
     public DomainModel generateDomainModel(String xmiFilename) throws XmiException, IOException {
         Pattern excludePattern = Pattern.compile(DEFAULT_PACKAGE_EXCLUDE_REGEX);
+        Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
         handler.load(xmiFilename);
         UMLModel umlModel = handler.getModel();
         DomainModel domain = new DomainModel();
@@ -145,7 +146,8 @@ public class ISOSupportDomainModelGenerator {
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
                     c.setPackageName(strippedPackageName);
                     c.setClassName(clazz.getName());
-                    c.setAllowableAsTarget(true);
+                    // ISO types aren't targetable; everything else is by default
+                    c.setAllowableAsTarget(!isoPattern.matcher(strippedPackageName).matches());
                     // attributes
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(
