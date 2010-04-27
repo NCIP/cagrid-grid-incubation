@@ -1,5 +1,6 @@
 package org.cagrid.iso21090.sdkquery.test;
 
+import gov.nih.nci.cacoresdk.domain.other.datatype.AdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IiDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.ScDataType;
@@ -7,6 +8,8 @@ import gov.nih.nci.cagrid.cqlquery.Association;
 import gov.nih.nci.cagrid.cqlquery.Attribute;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.cqlquery.Predicate;
+import gov.nih.nci.iso21090.Ad;
+import gov.nih.nci.iso21090.Adxp;
 import gov.nih.nci.iso21090.Cd;
 import gov.nih.nci.iso21090.En;
 import gov.nih.nci.iso21090.Enxp;
@@ -123,6 +126,26 @@ public class IsoQueriesTestCase extends TestCase {
         assoc2.setName(Enxp.class.getName());
         assoc2.setRoleName("part");
         Attribute attrib = new Attribute("value", Predicate.EQUAL_TO, "Mr. John Doe1");
+        assoc2.setAttribute(attrib);
+        assoc1.setAssociation(assoc2);
+        target.setAssociation(assoc1);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    public void testQueryAdDataType() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(AdDataType.class.getName());
+        Association assoc1 = new Association();
+        assoc1.setName(Ad.class.getName());
+        assoc1.setRoleName("value1");
+        Association assoc2 = new Association();
+        assoc2.setName(Adxp.class.getName());
+        assoc2.setRoleName("part");
+        Attribute attrib = new Attribute("value", Predicate.LIKE, "%1");
         assoc2.setAttribute(attrib);
         assoc1.setAssociation(assoc2);
         target.setAssociation(assoc1);
