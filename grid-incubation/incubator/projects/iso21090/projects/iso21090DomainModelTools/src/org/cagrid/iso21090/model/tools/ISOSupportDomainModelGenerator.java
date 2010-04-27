@@ -23,15 +23,13 @@ import gov.nih.nci.ncicb.xmiinout.domain.UMLInterface;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLModel;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLPackage;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLTaggedValue;
-import gov.nih.nci.ncicb.xmiinout.domain.bean.UMLClassBean;
-import gov.nih.nci.ncicb.xmiinout.domain.bean.UMLDatatypeBean;
 import gov.nih.nci.ncicb.xmiinout.handler.HandlerEnum;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiException;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiHandlerFactory;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiInOutHandler;
 
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -142,6 +140,10 @@ public class ISOSupportDomainModelGenerator {
         LOG.debug("Loading complete, parsing model");
         UMLModel umlModel = handler.getModel();
         DomainModel domain = new DomainModel();
+        domain.setProjectShortName(getProjectShortName());
+        domain.setProjectVersion(getProjectVersion());
+        domain.setProjectLongName(getProjectLongName());
+        domain.setProjectDescription(getProjectDescription());
         List<UMLClass> umlClasses = getAllClassesInModel(umlModel);
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = 
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLClass>();
@@ -196,7 +198,6 @@ public class ISOSupportDomainModelGenerator {
                         if (isoPattern.matcher(attributeDataTypeName).matches()) {
                             LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             System.out.println("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
-                            // TODO: this appears to do what I'd expect
                             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
                             isoAssociation.setBidirectional(false);
@@ -215,9 +216,12 @@ public class ISOSupportDomainModelGenerator {
                             domainAssociations.add(isoAssociation);
                         } else {
                             LOG.debug("Attribute datatype is simple.");
-                            gov.nih.nci.cagrid.metadata.common.UMLAttribute a = new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
+                            gov.nih.nci.cagrid.metadata.common.UMLAttribute a = 
+                                new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
                             a.setName(attrib.getName());
                             a.setDataTypeName(attributeDataTypeName);
+                            a.setVersion(getAttributeVersion());
+                            /*
                             System.out.println("datatype instanceof " + datatype.getClass().getName());
                             if (datatype instanceof UMLDatatypeBean) {
                                 System.out.println("datatype = " + datatype.getName());
@@ -225,6 +229,7 @@ public class ISOSupportDomainModelGenerator {
                                 UMLClass datatypeClass = (UMLClass) datatype;
                                 System.out.println("class = " + getFullPackageName(datatypeClass) + "." + datatypeClass.getName());
                             }
+                            */
                             // look at tagged values for the concept code info
                             annotateAttribute(a, attrib.getTaggedValues());
                             // keep the attribute
@@ -234,6 +239,7 @@ public class ISOSupportDomainModelGenerator {
                     c.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
                         attribs.toArray(new gov.nih.nci.cagrid.metadata.common.UMLAttribute[0])));
                     domainClasses.add(c);
+                    // associations of this class
                     Set<UMLAssociation> umlAssociations = clazz.getAssociations();
                     for (UMLAssociation assoc : umlAssociations) {
                         gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation a = 
@@ -241,13 +247,17 @@ public class ISOSupportDomainModelGenerator {
                         boolean bidirectional = associationIsBidirectional(clazz, assoc);
                         a.setBidirectional(bidirectional);
                         // FIXME: this is creating self-associations.  Why?
+                        UMLClass targetClass = (UMLClass) assoc.getAssociationEnds().get(0).getUMLElement();
                         // source
+                        // the 0th edge describes the relationship from the perspective of THIS class
                         UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
+                        // the max and min cardinality of the associated datatype
                         sourceEdge.setMaxCardinality(assoc.getAssociationEnds().get(0).getHighMultiplicity());
                         sourceEdge.setMinCardinality(assoc.getAssociationEnds().get(0).getLowMultiplicity());
+                        // the role name (i.e. name of the variable in our class)
                         sourceEdge.setRoleName(assoc.getAssociationEnds().get(0).getRoleName());
-                        sourceEdge.setUMLClassReference(new UMLClassReference(
-                            String.valueOf(assoc.getAssociationEnds().get(0).getUMLElement().hashCode())));
+                        // create a reference to the associated datatype
+                        sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(targetClass.hashCode())));
                         // target
                         UMLAssociationEdge targetEdge = new UMLAssociationEdge();
                         targetEdge.setMaxCardinality(assoc.getAssociationEnds().get(1).getHighMultiplicity());
@@ -413,9 +423,10 @@ public class ISOSupportDomainModelGenerator {
             System.out.println("generating model");
             DomainModel model = generator.generateDomainModel("test/resources/sdk-new.xmi");
             System.out.println("serializing");
-            StringWriter writer = new StringWriter();
+            FileWriter writer = new FileWriter("sample-domain-model.xml");
             MetadataUtils.serializeDomainModel(model, writer);
             System.out.println(writer.toString());
+            writer.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
