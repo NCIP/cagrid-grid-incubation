@@ -196,6 +196,7 @@ public class ISOSupportDomainModelGenerator {
                         if (isoPattern.matcher(attributeDataTypeName).matches()) {
                             LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             System.out.println("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
+                            // TODO: this appears to do what I'd expect
                             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
                             isoAssociation.setBidirectional(false);
@@ -239,19 +240,20 @@ public class ISOSupportDomainModelGenerator {
                             new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
                         boolean bidirectional = associationIsBidirectional(clazz, assoc);
                         a.setBidirectional(bidirectional);
+                        // FIXME: this is creating self-associations.  Why?
                         // source
                         UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
                         sourceEdge.setMaxCardinality(assoc.getAssociationEnds().get(0).getHighMultiplicity());
                         sourceEdge.setMinCardinality(assoc.getAssociationEnds().get(0).getLowMultiplicity());
                         sourceEdge.setRoleName(assoc.getAssociationEnds().get(0).getRoleName());
-                        sourceEdge.setUMLClassReference(new UMLClassReference(c.getId()));
+                        sourceEdge.setUMLClassReference(new UMLClassReference(
+                            String.valueOf(assoc.getAssociationEnds().get(0).getUMLElement().hashCode())));
                         // target
                         UMLAssociationEdge targetEdge = new UMLAssociationEdge();
                         targetEdge.setMaxCardinality(assoc.getAssociationEnds().get(1).getHighMultiplicity());
                         targetEdge.setMinCardinality(assoc.getAssociationEnds().get(1).getLowMultiplicity());
                         targetEdge.setRoleName(assoc.getAssociationEnds().get(1).getRoleName());
-                        targetEdge.setUMLClassReference(new UMLClassReference(
-                            String.valueOf(assoc.getAssociationEnds().get(1).getUMLElement().hashCode())));
+                        targetEdge.setUMLClassReference(new UMLClassReference(c.getId()));
                         a.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
                         a.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
                         domainAssociations.add(a);
