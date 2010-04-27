@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.iso._21090.Ad;
+import org.iso._21090.Adxp;
 import org.iso._21090.BL;
 import org.iso._21090.BlNonNull;
 import org.iso._21090.CD;
@@ -117,6 +118,8 @@ public enum DatatypeFlavor {
         
         CLASS_FLAVORS.put(Ad.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.Ad.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(Adxp.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(gov.nih.nci.iso21090.Adxp.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(EN.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(En.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(EnOn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
@@ -130,7 +133,8 @@ public enum DatatypeFlavor {
         CLASS_FLAVORS.put(DSet.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
         CLASS_FLAVORS.put(DSetTel.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
         CLASS_FLAVORS.put(DSetCd.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
-        CLASS_FLAVORS.put(DSetAd.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
+        
+        CLASS_FLAVORS.put(DSetAd.class, COLLECTION_OF_COMPLEX_WITH_COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
     }
     
     public static DatatypeFlavor getFlavorOfClass(Class<?> clazz) {
