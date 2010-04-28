@@ -25,11 +25,16 @@ import java.io.InputStream;
 import java.util.List;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
+import junit.framework.TestSuite;
+import junit.textui.TestRunner;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.iso21090.sdkquery.translator.CQL2ParameterizedHQL;
+import org.cagrid.iso21090.sdkquery.translator.ConstantValueResolver;
 import org.cagrid.iso21090.sdkquery.translator.HibernateConfigTypesInformationResolver;
+import org.cagrid.iso21090.sdkquery.translator.IsoDatatypesConstantValueResolver;
 import org.cagrid.iso21090.sdkquery.translator.ParameterizedHqlQuery;
 import org.cagrid.iso21090.sdkquery.translator.QueryTranslationException;
 import org.cagrid.iso21090.sdkquery.translator.TypesInformationResolver;
@@ -75,7 +80,12 @@ public class IsoQueriesTestCase extends TestCase {
         LOG.info("Types information resolver initialized in " + (System.currentTimeMillis() - start));
         System.out.println("Types information resolver initialized in " + (System.currentTimeMillis() - start));
         
-        queryTranslator = new CQL2ParameterizedHQL(typesInfoResolver, false);
+        start = System.currentTimeMillis();
+        ConstantValueResolver constResolver = new IsoDatatypesConstantValueResolver();
+        LOG.info("Constant value resolver initialized in " + (System.currentTimeMillis() - start));
+        System.out.println("Constant value resolver initialized in " + (System.currentTimeMillis() - start));
+        
+        queryTranslator = new CQL2ParameterizedHQL(typesInfoResolver, constResolver, false);
     }
     
     
@@ -177,5 +187,15 @@ public class IsoQueriesTestCase extends TestCase {
             fail("Error executing query: " + e.getMessage());
         }
         return results;
+    }
+    
+    
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        TestRunner runner = new TestRunner();
+        TestResult result = runner.doRun(new TestSuite(IsoQueriesTestCase.class));
+        System.exit(result.errorCount() + result.failureCount());
     }
 }

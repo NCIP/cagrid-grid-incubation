@@ -19,4 +19,7 @@ public interface TypesInformationResolver {
     public String getRoleName(String parentClassname, String childClassname) throws TypesInformationException;
     
     public List<String> getInnerComponentNames(String parentClassname, String topLevelComponentName, String innerComponentNamePrefix);
+    
+    public List<String> getNestedInnerComponentNames(String parentClassname, String topLevelComponentName,
+        String nestedComponentName, String innerComponentNamePrefix);
 }

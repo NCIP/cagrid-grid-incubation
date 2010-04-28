@@ -17,6 +17,7 @@ import org.hibernate.mapping.OneToMany;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
 import org.hibernate.mapping.RootClass;
+import org.hibernate.mapping.Set;
 import org.hibernate.mapping.Subclass;
 import org.hibernate.mapping.ToOne;
 import org.hibernate.mapping.Value;
@@ -157,6 +158,26 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
         Property topLevel = parent.getProperty(topLevelComponentName);
         Component topLevelComponent = (Component) topLevel.getValue();
         Iterator<?> propertyIter = topLevelComponent.getPropertyIterator();
+        while (propertyIter.hasNext()) {
+            Property prop = (Property) propertyIter.next();
+            if (prop.getName().startsWith(innerComponentNamePrefix)) {
+                names.add(prop.getName());
+            }
+        }
+        return names;
+    }
+    
+    
+    public List<String> getNestedInnerComponentNames(String parentClassname, String topLevelComponentName,
+        String nestedComponentName, String innerComponentNamePrefix) {
+        List<String> names = new ArrayList<String>();
+        PersistentClass parent = configuration.getClassMapping(parentClassname);
+        Property topLevelProperty = parent.getProperty(topLevelComponentName);
+        Component topLevelComponent = (Component) topLevelProperty.getValue();
+        Property nestedProperty = topLevelComponent.getProperty(nestedComponentName);
+        Set nestedSet = (Set) nestedProperty.getValue();
+        Component nestedComponent = (Component) nestedSet.getElement();
+        Iterator<?> propertyIter = nestedComponent.getPropertyIterator();
         while (propertyIter.hasNext()) {
             Property prop = (Property) propertyIter.next();
             if (prop.getName().startsWith(innerComponentNamePrefix)) {

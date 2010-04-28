@@ -77,5 +77,4 @@ public class IsoDatatypesConstantResolverTestCase extends TestCase {
         TestResult result = runner.doRun(new TestSuite(IsoDatatypesConstantResolverTestCase.class));
         System.exit(result.errorCount() + result.failureCount());
     }
-
 }
