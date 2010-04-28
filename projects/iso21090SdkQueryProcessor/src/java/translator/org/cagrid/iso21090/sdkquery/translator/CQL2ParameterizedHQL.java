@@ -261,12 +261,12 @@ public class CQL2ParameterizedHQL {
 		        processStandardAttribute(attribute, hql, parameters, queryObject, queryObjectAlias);
 		        break;
 		    case COMPLEX_WITH_SIMPLE_CONTENT:
-		        processComplexAttributeWithSimpleContent(
+		        processComplexAttributeWithSimpleOrMixedContent(
 		            attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
-		    case COMPLEX_WITH_NESTED_COMPLEX:
-		        processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
-		            attribute, hql, parameters, associationStack, typesProcessingList);
+		    case COMPLEX_WITH_MIXED_CONTENT:
+		        processComplexAttributeWithSimpleOrMixedContent(
+                    attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
 		    case COMPLEX_WITH_COLLECTION_OF_COMPLEX:
 		        if (currentlyWrappedByDset(typesProcessingList)) {
@@ -278,7 +278,7 @@ public class CQL2ParameterizedHQL {
 		        }
 		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
-		        processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
+		        processComplexAttributeWithSimpleOrMixedContent(
                     attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
@@ -603,20 +603,23 @@ public class CQL2ParameterizedHQL {
     }
     
     
-    private void processComplexAttributeWithSimpleContent(Attribute attribute, 
+    private void processComplexAttributeWithSimpleOrMixedContent(Attribute attribute, 
         StringBuilder hql, List<java.lang.Object> parameters, 
         Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) 
         throws QueryTranslationException {
+        // determine the number of levels to back up to find a "standard" datatype
+        int levels = determineLevelsRemovedFromStandardDatatype(typesProcessingList);
+        
         // determine if this value is mapped to a constant
         java.lang.Object constantValue = constantValueResolver.getConstantValue(
-            associationStack.peek().getName(), 
-            getAttributePathList(typesProcessingList, attribute.getName(), 2));
+            typesProcessingList.get(typesProcessingList.size() - levels).clazz, 
+            getAttributePathList(typesProcessingList, attribute.getName(), levels - 1));
         if (constantValue == null) {
             // append the path to the attribute itself
             if (caseInsensitive) {
                 hql.append("lower(");
             }
-            hql.append(getAttributePath(typesProcessingList, attribute.getName(), 2));
+            hql.append(getAttributePath(typesProcessingList, attribute.getName(), levels));
             if (caseInsensitive) {
                 hql.append(')');
             }
@@ -628,34 +631,6 @@ public class CQL2ParameterizedHQL {
         }
         // get one level back's query object
         appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());
-    }
-    
-    
-    private void processComplexAttributeWithNestedComplexAttributeWithSimpleContent(Attribute attribute, 
-        StringBuilder hql, List<java.lang.Object> parameters, 
-        Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) 
-        throws QueryTranslationException {
-        // determine if this value is mapped to a constant
-        java.lang.Object constantValue = constantValueResolver.getConstantValue(
-            associationStack.peek().getName(), 
-            getAttributePathList(typesProcessingList, attribute.getName(), 3));
-        if (constantValue == null) {
-            // append the path to the attribute itself
-            if (caseInsensitive) {
-                hql.append("lower(");
-            }
-            hql.append(getAttributePath(typesProcessingList, attribute.getName(), 3));
-            if (caseInsensitive) {
-                hql.append(')');
-            }
-        } else {
-            // the value has been mapped to a constant.  Hibernate can't query
-            // against these, but we can substitute the value into the query directly
-            hql.append('?');
-            parameters.add(constantValue);
-        }
-        // get one level back's query object
-        appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());        
     }
     
     
@@ -816,5 +791,17 @@ public class CQL2ParameterizedHQL {
         }
         buf.append(attribName);
         return buf.toString();
+    }
+    
+    
+    private int determineLevelsRemovedFromStandardDatatype(List<CqlDataBucket> typesProcessingList) {
+        int count = 0;
+        for (int i = typesProcessingList.size() - 1; i >= 0; i--) {
+            count++;
+            if (DatatypeFlavor.STANDARD.equals(typesProcessingList.get(i).datatypeFlavor)) {
+                break;
+            }
+        }
+        return count;
     }
 }
