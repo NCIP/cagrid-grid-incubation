@@ -183,6 +183,27 @@ public class IsoQueriesTestCase extends TestCase {
     }
     
     
+    public void testQueryIiDataTypeAgainstConstant() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(IiDataType.class.getName());
+        Association assoc = new Association();
+        assoc.setName(Ii.class.getName());
+        assoc.setRoleName("value3");
+        assoc.setAttribute(new Attribute("root", Predicate.EQUAL_TO, "2.16.12.123.456"));
+        target.setAssociation(assoc);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    // TODO: testQueryDsetIiDataType
+    
+    
+    // TODO: testQueryDsetIiDataTypeAgainstConstant (AD?)
+    
+    
     private List<?> executeQuery(CQLQuery query) {
         ParameterizedHqlQuery hql = null;
         try {
@@ -200,6 +221,7 @@ public class IsoQueriesTestCase extends TestCase {
         List<?> results = null;
         try {
             results = sdkService.query(criteria);
+            LOG.info("Found " + results.size() + " results");
         } catch (ApplicationException e) {
             e.printStackTrace();
             fail("Error executing query: " + e.getMessage());
