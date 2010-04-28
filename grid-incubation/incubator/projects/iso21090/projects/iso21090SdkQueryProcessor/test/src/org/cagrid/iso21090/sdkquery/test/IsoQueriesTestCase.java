@@ -1,12 +1,14 @@
 package org.cagrid.iso21090.sdkquery.test;
 
 import gov.nih.nci.cacoresdk.domain.other.datatype.AdDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.CdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IiDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.ScDataType;
 import gov.nih.nci.cagrid.cqlquery.Association;
 import gov.nih.nci.cagrid.cqlquery.Attribute;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
+import gov.nih.nci.cagrid.cqlquery.Object;
 import gov.nih.nci.cagrid.cqlquery.Predicate;
 import gov.nih.nci.iso21090.Ad;
 import gov.nih.nci.iso21090.Adxp;
@@ -159,6 +161,22 @@ public class IsoQueriesTestCase extends TestCase {
         assoc2.setAttribute(attrib);
         assoc1.setAssociation(assoc2);
         target.setAssociation(assoc1);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    public void testQueryCdDataTypeAgainstConstant() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(CdDataType.class.getName());
+        Association assoc = new Association();
+        assoc.setName(Cd.class.getName());
+        assoc.setRoleName("value3");
+        Attribute attrib = new Attribute("codeSystem", Predicate.EQUAL_TO, "CODESYSTEM");
+        assoc.setAttribute(attrib);
+        target.setAssociation(assoc);
         query.setTarget(target);
         
         executeQuery(query);
