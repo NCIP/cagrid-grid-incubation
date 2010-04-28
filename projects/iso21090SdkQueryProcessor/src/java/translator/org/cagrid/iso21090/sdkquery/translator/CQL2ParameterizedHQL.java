@@ -8,6 +8,7 @@ import gov.nih.nci.cagrid.cqlquery.LogicalOperator;
 import gov.nih.nci.cagrid.cqlquery.Object;
 import gov.nih.nci.cagrid.cqlquery.Predicate;
 import gov.nih.nci.cagrid.cqlquery.QueryModifier;
+import gov.nih.nci.iso21090.DSet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,11 +46,14 @@ public class CQL2ParameterizedHQL {
 	private Map<Predicate, String> predicateValues = null;
     
     private TypesInformationResolver typesInformationResolver = null;
+    private ConstantValueResolver constantValueResolver = null;
     private boolean caseInsensitive;
     
     
-    public CQL2ParameterizedHQL(TypesInformationResolver typesInfoResolver, boolean caseInsensitive) {
+    public CQL2ParameterizedHQL(TypesInformationResolver typesInfoResolver, 
+        ConstantValueResolver constantValueResolver, boolean caseInsensitive) {
         this.typesInformationResolver = typesInfoResolver;
+        this.constantValueResolver = constantValueResolver;
         this.caseInsensitive = caseInsensitive;
         initPredicateValues();
     }
@@ -178,14 +182,14 @@ public class CQL2ParameterizedHQL {
 		// keep track of where we are in processing
 		addTypeProcessingInformation(typesProcessingList, target.getName(), TARGET_ALIAS);
 		
+		if (target.getAttribute() != null) {
+            hql.append("where ");
+            processAttribute(target.getAttribute(), hql, parameters, target, TARGET_ALIAS, associationStack, typesProcessingList);
+        }
 		if (target.getAssociation() != null) {
 			hql.append("where ");
 			processAssociation(target.getAssociation(), hql, parameters, associationStack, 
 			    typesProcessingList, target, TARGET_ALIAS);
-		}
-		if (target.getAttribute() != null) {
-			hql.append("where ");
-			processAttribute(target.getAttribute(), hql, parameters, target, TARGET_ALIAS, associationStack, typesProcessingList);
 		}
 		if (target.getGroup() != null) {
 			hql.append("where ");
@@ -246,6 +250,12 @@ public class CQL2ParameterizedHQL {
         
         // determine what the flavor of this attribute is
 		DatatypeFlavor flavor = typesProcessingList.get(typesProcessingList.size() - 1).datatypeFlavor;
+		System.out.println("DATATYPE FLAVOR IS " + flavor.name());
+		// DSET<Ii>, (and TEL and CD) ends up as "COMPLEX_WITH_SIMPLE_CONTENT" because it's modeled as an
+		// association to DSET, then to Ii, which is that type.  Appears to work OK.
+		// TODO: Is that OK, or do we need some black magic?
+		// FIXME: DSET<Ad> doesn't work because I can't get the information about the part names inside the AD
+		// out of the Hibernate configuration object API.  Interestingly, AD by itself is fine.
 		switch (flavor) {
 		    case STANDARD:
 		        processStandardAttribute(attribute, hql, parameters, queryObject, queryObjectAlias);
@@ -259,15 +269,32 @@ public class CQL2ParameterizedHQL {
 		            attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
 		    case COMPLEX_WITH_COLLECTION_OF_COMPLEX:
-		        processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
-		            attribute, hql, parameters, associationStack, typesProcessingList);
+		        if (currentlyWrappedByDset(typesProcessingList)) {
+		            processDsetOfComplexDatatypeWithCollectionOfComplexAttributesWithSimpleContent(
+		                attribute, hql, parameters, associationStack, typesProcessingList);
+		        } else {
+		            processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
+		                attribute, hql, parameters, associationStack, typesProcessingList);
+		        }
+		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
-		        // cry
+		        processComplexAttributeWithNestedComplexAttributeWithSimpleContent(
+                    attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
 		        // and hang myself
 		        break;       
 		}
+	}
+	
+	
+	private boolean currentlyWrappedByDset(List<CqlDataBucket> typesProcessingList) {
+	    boolean wrappedByDset = false;
+	    for (int i = typesProcessingList.size() - 1; i >= 0 && !wrappedByDset; i--) {
+	        String name = typesProcessingList.get(i).clazz;
+	        wrappedByDset = DSet.class.getName().equals(name);
+	    }
+	    return wrappedByDset;
 	}
 	
 	
@@ -325,6 +352,14 @@ public class CQL2ParameterizedHQL {
 		if (DatatypeFlavor.STANDARD.equals(flavor)) {
 		    // flag indicates the query is only verifying the association is populated
 		    boolean simpleNullCheck = true;
+		    if (association.getAttribute() != null) {
+                simpleNullCheck = false;
+                hql.append(sourceAlias).append('.').append(roleName);
+                hql.append(".id in (select ").append(alias).append(".id from ");
+                hql.append(association.getName()).append(" as ").append(alias).append(" where ");
+                processAttribute(association.getAttribute(), hql, parameters, association, alias, associationStack, typesProcessingList);
+                hql.append(") ");
+            }
 		    if (association.getAssociation() != null) {
 		        simpleNullCheck = false;
 		        // add clause to select things from this association
@@ -332,14 +367,6 @@ public class CQL2ParameterizedHQL {
 		        hql.append(".id in (select ").append(alias).append(".id from ");
 		        hql.append(association.getName()).append(" as ").append(alias).append(" where ");
 		        processAssociation(association.getAssociation(), hql, parameters, associationStack, typesProcessingList, association, alias);
-		        hql.append(") ");
-		    }
-		    if (association.getAttribute() != null) {
-		        simpleNullCheck = false;
-		        hql.append(sourceAlias).append('.').append(roleName);
-		        hql.append(".id in (select ").append(alias).append(".id from ");
-		        hql.append(association.getName()).append(" as ").append(alias).append(" where ");
-		        processAttribute(association.getAttribute(), hql, parameters, association, alias, associationStack, typesProcessingList);
 		        hql.append(") ");
 		    }
 		    if (association.getGroup() != null) {
@@ -414,25 +441,25 @@ public class CQL2ParameterizedHQL {
 		// open the group
 		hql.append('(');
 		
+		if (group.getAttribute() != null) {
+            for (int i = 0; i < group.getAttribute().length; i++) {
+                mustAddLogic = true;
+                processAttribute(group.getAttribute(i), hql, parameters, 
+                    sourceQueryObject, sourceAlias, associationStack, typesProcessingList);
+                if (i + 1 < group.getAttribute().length) {
+                    hql.append(' ').append(logic).append(' ');
+                }
+            }
+        }
 		if (group.getAssociation() != null) {
+		    if (mustAddLogic) {
+                hql.append(' ').append(logic).append(' ');
+            }
 			for (int i = 0; i < group.getAssociation().length; i++) {
 				mustAddLogic = true;
 				processAssociation(group.getAssociation(i), hql, parameters, 
 				    associationStack, typesProcessingList, sourceQueryObject, sourceAlias);
 				if (i + 1 < group.getAssociation().length) {
-					hql.append(' ').append(logic).append(' ');
-				}
-			}
-		}
-		if (group.getAttribute() != null) {
-			if (mustAddLogic) {
-				hql.append(' ').append(logic).append(' ');
-			}
-			for (int i = 0; i < group.getAttribute().length; i++) {
-				mustAddLogic = true;
-				processAttribute(group.getAttribute(i), hql, parameters, 
-				    sourceQueryObject, sourceAlias, associationStack, typesProcessingList);
-				if (i + 1 < group.getAttribute().length) {
 					hql.append(' ').append(logic).append(' ');
 				}
 			}
@@ -580,19 +607,25 @@ public class CQL2ParameterizedHQL {
         StringBuilder hql, List<java.lang.Object> parameters, 
         Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) 
         throws QueryTranslationException {
-        // construct the query fragment
-        if (caseInsensitive) {
-            hql.append("lower(");
+        // determine if this value is mapped to a constant
+        java.lang.Object constantValue = constantValueResolver.getConstantValue(
+            associationStack.peek().getName(), 
+            getAttributePathList(typesProcessingList, attribute.getName(), 2));
+        if (constantValue == null) {
+            // append the path to the attribute itself
+            if (caseInsensitive) {
+                hql.append("lower(");
+            }
+            hql.append(getAttributePath(typesProcessingList, attribute.getName(), 2));
+            if (caseInsensitive) {
+                hql.append(')');
+            }
+        } else {
+            // the value has been mapped to a constant.  Hibernate can't query
+            // against these, but we can substitute the value into the query directly
+            hql.append('?');
+            parameters.add(constantValue);
         }
-        
-        // append the path to the attribute itself
-        hql.append(getAttributePath(typesProcessingList, attribute.getName(), 2));
-
-        // close up case insensitivity
-        if (caseInsensitive) {
-            hql.append(')');
-        }
-        
         // get one level back's query object
         appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());
     }
@@ -602,19 +635,26 @@ public class CQL2ParameterizedHQL {
         StringBuilder hql, List<java.lang.Object> parameters, 
         Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) 
         throws QueryTranslationException {
-        // construct the query fragment
-        if (caseInsensitive) {
-            hql.append("lower(");
+        // determine if this value is mapped to a constant
+        java.lang.Object constantValue = constantValueResolver.getConstantValue(
+            associationStack.peek().getName(), 
+            getAttributePathList(typesProcessingList, attribute.getName(), 3));
+        if (constantValue == null) {
+            // append the path to the attribute itself
+            if (caseInsensitive) {
+                hql.append("lower(");
+            }
+            hql.append(getAttributePath(typesProcessingList, attribute.getName(), 3));
+            if (caseInsensitive) {
+                hql.append(')');
+            }
+        } else {
+            // the value has been mapped to a constant.  Hibernate can't query
+            // against these, but we can substitute the value into the query directly
+            hql.append('?');
+            parameters.add(constantValue);
         }
-        
-        // append the path to the attribute itself
-        hql.append(getAttributePath(typesProcessingList, attribute.getName(), 3));
-
-        // close up case insensitivity
-        if (caseInsensitive) {
-            hql.append(')');
-        }
-               
+        // get one level back's query object
         appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());        
     }
     
@@ -664,6 +704,58 @@ public class CQL2ParameterizedHQL {
     }
     
     
+    private void processDsetOfComplexDatatypeWithCollectionOfComplexAttributesWithSimpleContent(Attribute attribute,
+        StringBuilder hql, List<java.lang.Object> parameters,  Stack<Association> associationStack,
+        List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
+        // strip the last where statement from the hql
+        int whereStart = hql.lastIndexOf("where");
+        hql.delete(whereStart, whereStart + "where".length());
+        
+        String topLevelAlias = typesProcessingList.get(typesProcessingList.size() - 4).aliasOrRoleName;
+        hql.append("join ");//.append(topLevelAlias).append(" ");
+        hql.append(topLevelAlias).append(".");
+        hql.append(typesProcessingList.get(typesProcessingList.size() - 3).aliasOrRoleName).append(".");
+        hql.append(typesProcessingList.get(typesProcessingList.size() - 2).aliasOrRoleName).append(" ");
+        // need a random alias
+        String randAlias = "alias_" + System.currentTimeMillis();
+        hql.append(randAlias).append(" where ");
+        
+        // get part names, "randalias.part_0.attributeName predicate value"
+        // build the query path with a place holder for the part names
+        String componentNamePlaceholder = "---placeholder---";
+        StringBuffer buf = new StringBuffer();
+        buf.append(randAlias).append(".");
+        buf.append(componentNamePlaceholder).append(".");
+        buf.append(attribute.getName());
+        
+        // get the part names out of the types information
+        List<String> componentNames = typesInformationResolver.getNestedInnerComponentNames(
+            typesProcessingList.get(typesProcessingList.size() - 4).clazz, 
+            typesProcessingList.get(typesProcessingList.size() - 3).aliasOrRoleName, 
+            typesProcessingList.get(typesProcessingList.size() - 2).aliasOrRoleName,
+            typesProcessingList.get(typesProcessingList.size() - 1).aliasOrRoleName);
+        Iterator<String> nameIter = componentNames.iterator();
+        
+        // build the query fragment
+        hql.append("(");
+        while (nameIter.hasNext()) {
+            if (caseInsensitive) {
+                hql.append("lower(");
+            }
+            String fragment = buf.toString().replace(componentNamePlaceholder, nameIter.next());
+            hql.append(fragment);
+            if (caseInsensitive) {
+                hql.append(")");
+            }
+            appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());
+            if (nameIter.hasNext()) {
+                hql.append(" or ");
+            }
+        }
+        hql.append(")");
+     }
+    
+    
     private void appendPredicateAndValue(Attribute attribute, StringBuilder hql, 
         List<java.lang.Object> parameters, Object queryObject) throws QueryTranslationException {
         // determine if the predicate is unary
@@ -699,6 +791,18 @@ public class CQL2ParameterizedHQL {
             // binary predicates just get appended w/o values associated with them
             hql.append(predicateAsString);
         }
+    }
+    
+    
+    private List<String> getAttributePathList(List<CqlDataBucket> typesProcessingList, String attribName, int levels) {
+        List<String> path = new ArrayList<String>();
+        int listSize = typesProcessingList.size();
+        int endIndex = listSize - levels;
+        for (int i = endIndex; i < listSize; i++) {
+            path.add(typesProcessingList.get(i).aliasOrRoleName);
+        }
+        path.add(attribName);
+        return path;
     }
     
     
