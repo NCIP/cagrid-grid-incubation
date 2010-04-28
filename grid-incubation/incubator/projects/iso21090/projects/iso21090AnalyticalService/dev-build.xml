@@ -81,18 +81,6 @@
     <replaceregexp match="org.iso._21090.INT" replace="org.iso._21090.INT" flags="gi" byline="true">
       <fileset dir="${stubs.src}" includes="**/stubs/*.java" />
     </replaceregexp>
-    <replaceregexp match="get_int" replace="getInt" flags="gi" byline="true">
-      <fileset dir="${stubs.src}" includes="**/stubs/*.java" />
-    </replaceregexp>
-    <replaceregexp match="set_int" replace="setInt" flags="gi" byline="true">
-      <fileset dir="${stubs.src}" includes="**/stubs/*.java" />
-    </replaceregexp>
-    <replaceregexp match="get_int" replace="getInt" flags="gi" byline="true">
-      <fileset dir="${src.dir}" includes="**/service/globus/*.java" />
-    </replaceregexp>
-    <replaceregexp match="set_int" replace="setInt" flags="gi" byline="true">
-      <fileset dir="${src.dir}" includes="**/client/*.java" />
-    </replaceregexp>
     <replaceregexp match="org.iso._21090.REAL" replace="org.iso._21090.Real" flags="gi" byline="true">
       <fileset dir="${stubs.src}" includes="**/stubs/*.java" />
     </replaceregexp>
@@ -138,6 +126,10 @@
     <replaceregexp match="org.iso._21090.DSET_AD" replace="org.iso._21090.DSetAd" flags="gi" byline="true">
       <fileset dir="${stubs.src}" includes="**/stubs/*.java" />
     </replaceregexp>
+    <java failonerror="true" classname="org.cagrid.iso21090.extensions.FixISO21090IntroduceStubsTest" classpathref="run.classpath" fork="yes">
+      <jvmarg value="-DGLOBUS_LOCATION=${ext.globus.dir}" />
+      <arg value="${basedir}" />
+    </java>
   </target>
   <!-- ============================================================== -->
   <!-- Pre Compile Stubs Build Target                                 -->
