@@ -60,8 +60,133 @@ public class ISO21090AnalyticalServiceClient extends ISO21090AnalyticalServiceCl
 		if(!(args.length < 2)){
 			if(args[0].equals("-url")){
 			  ISO21090AnalyticalServiceClient client = new ISO21090AnalyticalServiceClient(args[1]);
-			  // place client calls here if you want to use this main as a
-			  // test....
+			  			  
+			  org.iso._21090.ObjectFactory f = new org.iso._21090.ObjectFactory();
+			 
+			  org.iso._21090.BlNonNull sendBlNonNull = f.createBlNonNull();
+			  sendBlNonNull.setControlActExtension("123");
+			  client.sendBlNonNull(sendBlNonNull);
+			  
+			  org.iso._21090.EdText sendEdText = f.createEdText();
+			  sendEdText.setControlActExtension("123");
+			  client.sendEdText(sendEdText);
+			  
+			  org.iso._21090.Ad sendAd = f.createAd();
+			  sendAd.setControlActExtension("123");
+			  client.sendAd(sendAd);
+			  
+			  org.iso._21090.BL sendBl = f.createBL();
+			  sendBl.setControlActExtension("123");
+			  client.sendBl(sendBl);
+			  
+			  org.iso._21090.CD sendCd = f.createCD();
+			  sendCd.setControlActExtension("123");
+			  client.sendCd(sendCd);
+			  
+			  org.iso._21090.ED sendEd = f.createED();
+			  sendEd.setControlActExtension("123");
+			  client.sendEd(sendEd);
+			  
+			  org.iso._21090.EN sendEn = f.createEN();
+			  sendEn.setControlActExtension("123");
+			  client.sendEn(sendEn);
+			  
+			  org.iso._21090.EnOn sendEnOn = f.createEnOn();
+			  sendEnOn.setControlActExtension("123");
+			  client.sendEnOn(sendEnOn);
+			  
+			  org.iso._21090.EnPn sendEnPn = f.createEnPn();
+			  sendEnPn.setControlActExtension("123");
+			  client.sendEnPn(sendEnPn);
+			  
+			  org.iso._21090.Ii sendIi = f.createIi();
+			  sendIi.setControlActExtension("123");
+			  client.sendIi(sendIi);
+			  
+			  org.iso._21090.IVLINT sendIvlInt = f.createIVLINT();
+			  sendIvlInt.setControlActExtension("123");
+			  client.sendIvlInt(sendIvlInt);
+			  
+			  org.iso._21090.IVLPQ sendIvlPq = f.createIVLPQ();
+			  sendIvlPq.setControlActExtension("123");
+			  client.sendIvlPq(sendIvlPq);
+			  
+			  org.iso._21090.IVLREAL sendIvlReal = f.createIVLREAL();
+			  sendIvlReal.setControlActExtension("123");
+			  client.sendIvlReal(sendIvlReal);
+			  
+			  org.iso._21090.IVLTS sendIvlTs = f.createIVLTS();
+			  sendIvlTs.setControlActExtension("123");
+			  client.sendIvlTs(sendIvlTs);
+			  
+			  org.iso._21090.PQ sendPq = f.createPQ();
+			  sendPq.setControlActExtension("123");
+			  client.sendPq(sendPq);
+			  
+			  org.iso._21090.Real sendReal = f.createReal();
+			  sendReal.setControlActExtension("123");
+			  client.sendReal(sendReal);
+			  
+			  org.iso._21090.SC sendSc = f.createSC();
+			  sendSc.setControlActExtension("123");
+			  client.sendSc(sendSc);
+			 
+			  org.iso._21090.ST sendSt = f.createST();
+			  sendSt.setControlActExtension("123");
+			  client.sendSt(sendSt);
+			  
+			  org.iso._21090.StNt sendStNt = f.createStNt(); 
+			  sendStNt.setControlActExtension("123");
+			  client.sendStNt(sendStNt);
+			
+			  org.iso._21090.TEL sendTel = f.createTEL(); 
+			  sendTel.setControlActExtension("123");
+			  client.sendTel(sendTel);
+				
+			  org.iso._21090.TelEmail sendTelEmail = f.createTelEmail();
+			  sendTelEmail.setControlActExtension("123");
+			  client.sendTelEmail(sendTelEmail);
+				  
+			  org.iso._21090.TELPerson sendTelPerson = f.createTELPerson(); 
+			  sendTelPerson.setControlActExtension("123");
+			  client.sendTelPerson(sendTelPerson);
+				   
+				  org.iso._21090.TelPhone sendTelPhone = f.createTelPhone();  
+				  sendTelPhone.setControlActExtension("123");
+				   client.sendTelPhone(sendTelPhone);
+				  
+				   org.iso._21090.TelUrl sendTelUrl = f.createTelUrl();  
+				   sendTelUrl.setControlActExtension("123");
+				  client.sendTelUrl(sendTelUrl);
+				  
+				  org.iso._21090.TS sendTs = f.createTS();  
+				  sendTs.setControlActExtension("123");
+				  client.sendTs(sendTs);
+				  
+				  org.iso._21090.DSetAd sendDSetAd = f.createDSetAd(); 
+				  sendDSetAd.setControlActExtension("123");
+				  client.sendDSetAd(sendDSetAd);
+				  
+				  org.iso._21090.DSetCd sendDSetCd = f.createDSetCd(); 
+				  sendDSetCd.setControlActExtension("123");
+				  client.sendDSetCd(sendDSetCd);
+				  
+				  org.iso._21090.DSetII sendDSetII = f.createDSetII();  
+				  sendDSetII.setControlActExtension("123");
+				  client.sendDSetII(sendDSetII);
+				 
+				  org.iso._21090.DSetTel sendDSetTel = f.createDSetTel();  
+				  sendDSetTel.setControlActExtension("123");
+				  client.sendDSetTel(sendDSetTel);
+				  
+				  org.iso._21090.INT sendInt = f.createINT(); 
+				  sendInt.setControlActExtension("123");
+				  client.sendInt(sendInt);
+			 
+			  
+			  
+			  
+			  
 			} else {
 				usage();
 				System.exit(1);
@@ -450,10 +575,10 @@ public class ISO21090AnalyticalServiceClient extends ISO21090AnalyticalServiceCl
       configureStubSecurity((Stub)portType,"sendInt");
     org.cagrid.iso21090.stubs.SendIntRequest params = new org.cagrid.iso21090.stubs.SendIntRequest();
     org.cagrid.iso21090.stubs.SendIntRequest_int _intContainer = new org.cagrid.iso21090.stubs.SendIntRequest_int();
-    _intContainer.setInt(_int);
-    params.setInt(_intContainer);
+    _intContainer.set_int(_int);
+    params.set_int(_intContainer);
     org.cagrid.iso21090.stubs.SendIntResponse boxedResult = portType.sendInt(params);
-    return boxedResult.getInt();
+    return boxedResult.get_int();
     }
   }
 

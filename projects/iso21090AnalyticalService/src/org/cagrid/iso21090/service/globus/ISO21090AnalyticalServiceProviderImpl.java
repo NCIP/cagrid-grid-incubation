@@ -202,7 +202,7 @@ public class ISO21090AnalyticalServiceProviderImpl{
 
     public org.cagrid.iso21090.stubs.SendIntResponse sendInt(org.cagrid.iso21090.stubs.SendIntRequest params) throws RemoteException {
     org.cagrid.iso21090.stubs.SendIntResponse boxedResult = new org.cagrid.iso21090.stubs.SendIntResponse();
-    boxedResult.setInt(impl.sendInt(params.getInt().getInt()));
+    boxedResult.set_int(impl.sendInt(params.get_int().get_int()));
     return boxedResult;
   }
 
