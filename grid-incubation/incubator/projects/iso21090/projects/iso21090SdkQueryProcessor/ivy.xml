@@ -47,6 +47,9 @@
     <!-- Data Tests -->
     <dependency rev="latest.integration" org="caGrid" name="dataTests" conf="impl-test->default"/>
     
+    <!-- service tools for DB management -->
+    <dependency rev="latest.integration" org="caGrid" name="service-tools" conf="impl-test->db"/>
+    
     <!-- depend on the iso21090 domain model tools project -->
     <dependency org="caGrid" name="iso21090DomainModelTools" rev="latest.integration" conf="style->default"/>
     
