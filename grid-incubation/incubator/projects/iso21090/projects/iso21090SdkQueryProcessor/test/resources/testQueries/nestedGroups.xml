@@ -2,11 +2,17 @@
  <ns1:Target name="gov.nih.nci.cacoresdk.domain.inheritance.childwithassociation.Credit">
   <ns1:Group logicRelation="AND">
    <ns1:Association name="gov.nih.nci.cacoresdk.domain.inheritance.childwithassociation.Bank">
-    <ns1:Attribute name="name" predicate="EQUAL_TO" value="Bank3"/>
+    <ns1:Association name="gov.nih.nci.iso21090.St" roleName="name">
+     <ns1:Attribute name="value" predicate="EQUAL_TO" value="Bank3"/>
+    </ns1:Association>
    </ns1:Association>
    <ns1:Group logicRelation="AND">
-    <ns1:Attribute name="amount" predicate="EQUAL_TO" value="3"/>
-    <ns1:Attribute name="cardNumber" predicate="EQUAL_TO" value="3"/>
+    <ns1:Association name="gov.nih.nci.iso21090.Int" roleName="amount">
+     <ns1:Attribute name="value" predicate="EQUAL_TO" value="3"/>
+    </ns1:Association>
+    <ns1:Association name="gov.nih.nci.iso21090.St" roleName="cardNumber">
+     <ns1:Attribute name="value" predicate="EQUAL_TO" value="3"/>
+    </ns1:Association>
    </ns1:Group>
   </ns1:Group>
  </ns1:Target>
