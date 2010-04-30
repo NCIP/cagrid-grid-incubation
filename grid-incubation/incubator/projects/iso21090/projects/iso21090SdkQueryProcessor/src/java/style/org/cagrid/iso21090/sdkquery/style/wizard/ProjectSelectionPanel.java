@@ -76,6 +76,8 @@ public class ProjectSelectionPanel extends AbstractWizardPanel {
     private JCheckBox useHttpsCheckBox = null;
     private JPanel apiTypePanel = null;
     private JPanel clientDirsPanel = null;
+    private JPanel useJaxBPanel = null;  //  @jve:decl-index=0:visual-constraint="581,110"
+    private JCheckBox useJaxBCheckBox = null;
     
     public ProjectSelectionPanel(ServiceExtensionDescriptionType extensionDescription, ServiceInformation info) {
         super(extensionDescription, info);
@@ -110,6 +112,7 @@ public class ProjectSelectionPanel extends AbstractWizardPanel {
         getUseHttpsCheckBox().setSelected(configuration.isUseHttps());
         getLocalApiRadioButton().setSelected(configuration.isLocalApi());
         getRemoteApiRadioButton().setSelected(!configuration.isLocalApi());
+        getUseJaxBCheckBox().setSelected(configuration.isUseJaxB());
     }
     
     
@@ -241,7 +244,7 @@ public class ProjectSelectionPanel extends AbstractWizardPanel {
             GridBagConstraints gridBagConstraints5 = new GridBagConstraints();
             gridBagConstraints5.gridx = 0;
             gridBagConstraints5.fill = GridBagConstraints.HORIZONTAL;
-            gridBagConstraints5.gridy = 3;
+            gridBagConstraints5.gridy = 4;
             GridBagConstraints gridBagConstraints16 = new GridBagConstraints();
             gridBagConstraints16.gridx = 0;
             gridBagConstraints16.fill = GridBagConstraints.HORIZONTAL;
@@ -253,8 +256,12 @@ public class ProjectSelectionPanel extends AbstractWizardPanel {
             gridBagConstraints20.fill = GridBagConstraints.HORIZONTAL;
             GridBagConstraints gridBagConstraints21 = new GridBagConstraints();
             gridBagConstraints21.gridx = 0;
-            gridBagConstraints21.gridy = 2;
+            gridBagConstraints21.gridy = 3;
             gridBagConstraints21.fill = GridBagConstraints.HORIZONTAL;
+            GridBagConstraints gridBagConstraints40 = new GridBagConstraints();
+            gridBagConstraints40.gridx = 0;
+            gridBagConstraints40.gridy = 2;
+            gridBagConstraints40.fill = GridBagConstraints.HORIZONTAL;
             mainPanel = new JPanel();
             mainPanel.setLayout(new GridBagLayout());
             mainPanel.setSize(new Dimension(450, 309));
@@ -262,6 +269,7 @@ public class ProjectSelectionPanel extends AbstractWizardPanel {
             mainPanel.add(getClientDirsPanel(), gridBagConstraints20);
             mainPanel.add(getApplicationNamePanel(), gridBagConstraints16);
             mainPanel.add(getRemoteApiPanel(), gridBagConstraints5);
+            mainPanel.add(getUseJaxBPanel(), gridBagConstraints40);
         }
         return mainPanel;
     }
@@ -695,5 +703,44 @@ public class ProjectSelectionPanel extends AbstractWizardPanel {
             clientDirsPanel.add(getRemoteClientDirBrowseButton(), gridBagConstraints13);
         }
         return clientDirsPanel;
+    }
+
+
+    /**
+     * This method initializes useJaxBPanel	
+     * 	
+     * @return javax.swing.JPanel	
+     */
+    private JPanel getUseJaxBPanel() {
+        if (useJaxBPanel == null) {
+            GridBagConstraints gridBagConstraints17 = new GridBagConstraints();
+            gridBagConstraints17.gridx = 0;
+            gridBagConstraints17.gridy = 0;
+            useJaxBPanel = new JPanel();
+            useJaxBPanel.setLayout(new GridBagLayout());
+            useJaxBPanel.setSize(new Dimension(397, 57));
+            useJaxBPanel.setBorder(BorderFactory.createTitledBorder(null, "Use JaxB", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+            useJaxBPanel.add(getUseJaxBCheckBox(), gridBagConstraints17);
+        }
+        return useJaxBPanel;
+    }
+
+
+    /**
+     * This method initializes useJaxBCheckBox	
+     * 	
+     * @return javax.swing.JCheckBox	
+     */
+    private JCheckBox getUseJaxBCheckBox() {
+        if (useJaxBCheckBox == null) {
+            useJaxBCheckBox = new JCheckBox();
+            useJaxBCheckBox.setText("Use JaxB Serialization");
+            useJaxBCheckBox.addItemListener(new java.awt.event.ItemListener() {
+                public void itemStateChanged(java.awt.event.ItemEvent e) {
+                    configuration.setUseJaxB(getUseJaxBCheckBox().isSelected());
+                }
+            });
+        }
+        return useJaxBCheckBox;
     }
 }
