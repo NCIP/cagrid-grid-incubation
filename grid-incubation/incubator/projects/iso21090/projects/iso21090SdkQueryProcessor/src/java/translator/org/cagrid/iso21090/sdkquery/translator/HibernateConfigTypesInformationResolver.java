@@ -1,15 +1,20 @@
 package org.cagrid.iso21090.sdkquery.translator;
 
-import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
+import gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Employee;
+import gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Project;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.mapping.Collection;
 import org.hibernate.mapping.Component;
@@ -23,6 +28,8 @@ import org.hibernate.mapping.ToOne;
 import org.hibernate.mapping.Value;
 
 public class HibernateConfigTypesInformationResolver implements TypesInformationResolver {
+    
+    private static Log LOG = LogFactory.getLog(CopyOfHibernateConfigTypesInformationResolver.class);
     
     private Configuration configuration = null;
     private Map<String, Boolean> subclasses = null;
@@ -146,6 +153,38 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
                     roleName = prop.getName();
                 }
             }
+            if (roleName == null && reflectionFallback) {
+                LOG.debug("No role name found for " + identifier + " using hibernate configuration, trying reflection");
+                Class<?> parentClass = null;
+                try {
+                    parentClass = Class.forName(parentClassname);
+                } catch (ClassNotFoundException ex) {
+                    LOG.error("Could not load parent class: " + ex.getMessage());
+                    throw new TypesInformationException("Could not load parent class: " + ex.getMessage());
+                }
+                Field[] fields = parentClass.getDeclaredFields();
+                for (Field f : fields) {
+                    // if collection, inspect the collection for type
+                    Class<?> fieldType = f.getType();
+                    if (java.util.Collection.class.isAssignableFrom(fieldType)) {
+                        Type generic = f.getGenericType();
+                        if (generic instanceof ParameterizedType) {
+                            Type contents = ((ParameterizedType) generic).getActualTypeArguments()[0];
+                            if (contents instanceof Class 
+                                && childClassname.equals(((Class) contents).getName())) {
+                                roleName = f.getName();
+                            }
+                        }
+                    } else if (fieldType.getName().equals(childClassname)) {
+                        if (roleName != null) {
+                            // already found one association, so this is ambiguous
+                            throw new TypesInformationException("Association from " + parentClassname + " to " 
+                                + childClassname + " is ambiguous.  Please specify a valid role name");
+                        }
+                        roleName = f.getName();
+                    }
+                }
+            }
         }
         return roleName;
     }
@@ -208,11 +247,8 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
             config.configure();
             
             HibernateConfigTypesInformationResolver resolver = new HibernateConfigTypesInformationResolver(config, true);
-            List<String> partNames = resolver.getInnerComponentNames(
-                EnDataType.class.getName(), "value1", "part");
-            for (String name : partNames) {
-                System.out.println(name);
-            }
+            String roleName = resolver.getRoleName(Project.class.getName(), Employee.class.getName());
+            System.out.println(roleName);
             is.close();
         } catch (Exception ex) {
             ex.printStackTrace();
