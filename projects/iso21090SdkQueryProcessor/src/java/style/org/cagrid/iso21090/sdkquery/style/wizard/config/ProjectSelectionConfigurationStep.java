@@ -50,6 +50,7 @@ public class ProjectSelectionConfigurationStep extends AbstractStyleConfiguratio
     private String applicationHostname = null;
     private Integer applicationPort = null;
     private boolean useHttps = false;
+    private boolean useJaxB = false;
 
     public ProjectSelectionConfigurationStep(ServiceInformation serviceInfo) {
         super(serviceInfo);
@@ -89,24 +90,28 @@ public class ProjectSelectionConfigurationStep extends AbstractStyleConfiguratio
         JarUtilities.jarDirectory(sdkConfigDir, configJarFile);
         LOG.debug("Packaged " + sdkConfigDir.getAbsolutePath() + " as " + configJarFile.getAbsolutePath());
         
-        // grab the castor marshaling and unmarshaling xml mapping files
-        // from the schemas jar and copy them into the service's package structure
-        try {
-            File schemasJar = new File(sdkLibDir, getApplicationName() + "-schema.jar");
-            StringBuffer marshaling = JarUtilities.getFileContents(
-                new JarFile(schemasJar), CastorMappingUtil.CASTOR_MARSHALLING_MAPPING_FILE);
-            StringBuffer unmarshalling = JarUtilities.getFileContents(
-                new JarFile(schemasJar), CastorMappingUtil.CASTOR_UNMARSHALLING_MAPPING_FILE);
-            // copy the mapping files to the service's source dir + base package name
-            String marshallOut = CastorMappingUtil.getMarshallingCastorMappingFileName(getServiceInformation());
-            String unmarshallOut = CastorMappingUtil.getUnmarshallingCastorMappingFileName(getServiceInformation());
-            Utils.stringBufferToFile(marshaling, marshallOut);
-            Utils.stringBufferToFile(unmarshalling, unmarshallOut);
-            LOG.debug("Extracted castor mapping files into service package structure");
-        } catch (IOException ex) {
-            String message = "Error extracting castor mapping files";
-            LOG.error(message, ex);
-            CompositeErrorDialog.showErrorDialog(message, ex.getMessage(), ex);
+        if (!isUseJaxB()) {
+            // grab the castor marshaling and unmarshaling xml mapping files
+            // from the schemas jar and copy them into the service's package structure
+            try {
+                File schemasJar = new File(sdkLibDir, getApplicationName() + "-schema.jar");
+                StringBuffer marshaling = JarUtilities.getFileContents(
+                    new JarFile(schemasJar), CastorMappingUtil.CASTOR_MARSHALLING_MAPPING_FILE);
+                StringBuffer unmarshalling = JarUtilities.getFileContents(
+                    new JarFile(schemasJar), CastorMappingUtil.CASTOR_UNMARSHALLING_MAPPING_FILE);
+                // copy the mapping files to the service's source dir + base package name
+                String marshallOut = CastorMappingUtil.getMarshallingCastorMappingFileName(getServiceInformation());
+                String unmarshallOut = CastorMappingUtil.getUnmarshallingCastorMappingFileName(getServiceInformation());
+                Utils.stringBufferToFile(marshaling, marshallOut);
+                Utils.stringBufferToFile(unmarshalling, unmarshallOut);
+                LOG.debug("Extracted castor mapping files into service package structure");
+            } catch (IOException ex) {
+                String message = "Error extracting castor mapping files";
+                LOG.error(message, ex);
+                CompositeErrorDialog.showErrorDialog(message, ex.getMessage(), ex);
+            }
+        } else {
+            LOG.info("Use JaxB == true; no castor mapping manipulation will be performed");
         }
         
         // copy SDK libs to the service
@@ -232,5 +237,15 @@ public class ProjectSelectionConfigurationStep extends AbstractStyleConfiguratio
 
     public void setUseHttps(boolean useHttps) {
         this.useHttps = useHttps;
+    }
+    
+    
+    public boolean isUseJaxB() {
+        return useJaxB;
+    }
+    
+    
+    public void setUseJaxB(boolean useJaxB) {
+        this.useJaxB = useJaxB;
     }
 }
