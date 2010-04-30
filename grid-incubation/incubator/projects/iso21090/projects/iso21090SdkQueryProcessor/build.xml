@@ -42,19 +42,14 @@
 	<property name="test.logs.dir" location="${test.dir}/logs" />
 	<property name="test.project.jar" location="${jar.dir}/${project.name}-tests-${project.version}.jar" />
 	<property name="junit.results.dir" location="${test.dir}/logs" />
-	<property key="testing.port.assignment.mode" value="true"/>
-	<property key="testing.containers.dir" location="${ext.dir}/dependencies/test/zips"/>
+	<property name="testing.port.assignment.mode" value="true"/>
+	<property name="testing.containers.dir" location="${ext.dir}/dependencies/test/zips"/>
 	
 	<!-- style related stuff -->
 	<property name="introduce.dir" location="../introduce"/>
 	<property name="introduce.extensions.dir" location="${introduce.dir}/extensions" />
 	<property name="style.info.dir" location="${basedir}/style"/>
 	<property name="style.dest.dir" location="${introduce.extensions.dir}/data/styles/cacore43" />
-	
-	<!-- SDK remote and local libraries needed for builds -->
-	<!-- TODO: evaluate if these are still the same as for SDK 4.2 -->
-	<property name="style.sdk.remote.lib.names" value="asm.jar, castor-1.0.2.jar, hibernate3.jar, spring.jar, cglib-2.1.3.jar, sdk-client-framework.jar, antlr-2.7.6.jar, acegi-security-1.0.4.jar" />
-	<property name="style.sdk.local.lib.names" value="c3p0-0.9.0.jar, csmapi.jar, dom4j-1.4.jar, ehcache-1.2.2.jar, jta.jar, mysql-connector-java-3.1.13-bin.jar, sdk-core.jar" />
 	
 
 	<!-- =============================================================== -->
@@ -248,10 +243,12 @@
 			</fileset>
 			<!-- copy the SDK common style jar file and CQL 2 query engine -->
 			<fileset dir="${ext.lib.dir}">
-				<include name="*sdkstyle.jar" />
+				<include name="*sdkstyle*.jar" />
+				<include name="commons-*.jar"/>
+				<include name="jaxb*.jar"/>
+				<include name="xmi.in.out*.jar"/>
 			</fileset>
-			<fileset dir="${ext.local-client.lib.dir}" >
-				<!-- TODO: change this to the final SDK version number -->
+			<fileset dir="${sdk.lib.dir}" >
 				<include name="sdk-client-framework-4.3.jar"/>
 			</fileset>
 		</copy>
