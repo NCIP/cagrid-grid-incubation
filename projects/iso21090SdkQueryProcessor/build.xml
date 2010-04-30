@@ -64,6 +64,8 @@
 		</fileset>
 		<fileset dir="${sdk.lib.dir}">
 			<include name="**/*.jar"/>
+			<!-- excluding extensions until the ISO project gets an official build -->
+			<exclude name="iso-datatypes-extensions-2.0.2-SNAPSHOT.jar"/>
 		</fileset>
 		<fileset dir="${ext.lib.dir}">
 			<include name="**/*.jar" />
@@ -83,6 +85,7 @@
 		<fileset dir="${jar.dir}">
 			<include name="*.jar" />
 		</fileset>
+		<pathelement path="${sdk.conf.dir}"/>
 	</path>
 	
 
@@ -90,17 +93,18 @@
 	<!-- The Test Classpath                                              -->
 	<!-- =============================================================== -->
 	<path id="test.classpath">
-		<pathelement path="${translator.classes.dir}" />
-		<pathelement path="${processor.classes.dir}" />
-		<pathelement path="${style.classes.dir}"/>
 		<path refid="build.classpath" />
 		<fileset dir="${ext.test.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
+		<pathelement path="${translator.classes.dir}" />
+		<pathelement path="${processor.classes.dir}" />
+		<pathelement path="${style.classes.dir}"/>
 	</path>
 	<path id="test.run.classpath">
-		<pathelement path="${test.classes.dir}" />
 		<path refid="test.classpath" />
+		<pathelement path="${sdk.conf.dir}"/>
+		<pathelement path="${test.classes.dir}" />
 	</path>
 
 
@@ -286,13 +290,14 @@
 			<classpath refid="test.run.classpath" />
 			<sysproperty key="build.dir" value="${classes.dir}" />
 			<jvmarg value="-Xmx512M" />
-			<jvmarg value="-Dbuild.dirs.list=${translatorclasses.dir},${processor.classes.dir}" />
+			<jvmarg value="-Dbuild.dirs.list=${translator.classes.dir},${processor.classes.dir},${style.classes.dir}" />
 			<formatter type="xml" />
 			<batchtest fork="yes" todir="${junit.results.dir}">
 				<fileset dir="${test.src.dir}">
 					<include name="**/Test*.java" />
 					<include name="**/*TestCase.java" />
 					<exclude name="**/IsoQueriesTestCase.java"/>
+					<exclude name="**/CQLInvocationTestCase.java"/>
 				</fileset>
 			</batchtest>
 		</junit>
