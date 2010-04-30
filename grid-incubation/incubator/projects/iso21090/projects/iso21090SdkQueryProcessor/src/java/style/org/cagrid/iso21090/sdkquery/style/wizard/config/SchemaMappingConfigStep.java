@@ -98,6 +98,7 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
         schemasJar.close();
         
         // iterate the schemas and try to map them to domain packages
+        boolean isoPackagePresent = false;
         for (File xsdFile : tempXsdDir.listFiles()) {
             String schemaPackageName = xsdFile.getName();
             schemaPackageName = schemaPackageName.substring(0, schemaPackageName.length() - 4);
@@ -119,9 +120,14 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
                     modelInfoUtil.setMappedNamespace(packageName, nsType.getNamespace());
                     automaticalyMapElementsToClasses(packageName, nsType);
                     break;
+                } else if (StyleProperties.ISO_PACKAGE_NAME.equals(packageName)) {
+                    isoPackagePresent = true;
                 }
             }
         }
+        
+        // TODO: map the ISO package to the ISO schema
+        
         
         // throw out the temp XSD directory
         Utils.deleteDir(tempXsdDir);
