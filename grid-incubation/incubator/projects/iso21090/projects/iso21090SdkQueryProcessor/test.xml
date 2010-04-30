@@ -31,7 +31,7 @@
 		<fail message="Tests failed! Check test reports." if="test.failed" />
 	</target>
 	
-	<target name="integrationTest" depends="prepare, unpackSdkZip, sdkDbSetup" description="Runs the data service integration tests">
+	<target name="integrationTests" depends="prepare, unpackSdkZip, sdkDbSetup" description="Runs the data service integration tests">
 		<echo message="Test results dir: ${junit.results.dir}"/>
 		<mkdir dir="${junit.results.dir}"/>
 		<property name="sdk43.tests.base.dir" location="${basedir}"/>
