@@ -41,15 +41,14 @@
 	<property name="test.lib.dir" location="${test.dir}/lib" />
 	<property name="test.logs.dir" location="${test.dir}/logs" />
 	<property name="test.project.jar" location="${jar.dir}/${project.name}-tests-${project.version}.jar" />
-	<property name="junit.results.dir" location="${test.dir}/logs" />
-	<property name="testing.port.assignment.mode" value="true"/>
-	<property name="testing.containers.dir" location="${ext.dir}/dependencies/test/zips"/>
 	
 	<!-- style related stuff -->
 	<property name="introduce.dir" location="../introduce"/>
 	<property name="introduce.extensions.dir" location="${introduce.dir}/extensions" />
 	<property name="style.info.dir" location="${basedir}/style"/>
 	<property name="style.dest.dir" location="${introduce.extensions.dir}/data/styles/cacore43" />
+	
+	<import file="test.xml"/>
 	
 
 	<!-- =============================================================== -->
@@ -279,52 +278,6 @@
 		</javadoc>
 	</target>
 
-
-	<!-- ============================================================== -->
-	<!-- Call any tests.                                                -->
-	<!-- ============================================================== -->
-	<target name="test" depends="prepare" description="Runs the service's tests.">
-		<echo message="Test results dir: ${junit.results.dir}" />
-		<mkdir dir="${junit.results.dir}" />
-		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
-			<classpath refid="test.run.classpath" />
-			<sysproperty key="build.dir" value="${classes.dir}" />
-			<jvmarg value="-Xmx512M" />
-			<jvmarg value="-Dbuild.dirs.list=${translator.classes.dir},${processor.classes.dir},${style.classes.dir}" />
-			<formatter type="xml" />
-			<batchtest fork="yes" todir="${junit.results.dir}">
-				<fileset dir="${test.src.dir}">
-					<include name="**/Test*.java" />
-					<include name="**/*TestCase.java" />
-					<exclude name="**/*SystemTests.java"/>
-					<exclude name="**/IsoQueriesTestCase.java"/>
-					<exclude name="**/CQLInvocationTestCase.java"/>
-				</fileset>
-			</batchtest>
-		</junit>
-		<fail message="Tests failed! Check test reports." if="test.failed" />
-	</target>
-	
-	<target name="integrationTest" depends="prepare" description="Runs the data service integration tests">
-		<echo message="Test results dir: ${junit.results.dir}"/>
-		<mkdir dir="${junit.results.dir}"/>
-		<property name="sdk43.tests.base.dir" location="${basedir}"/>
-		<junit dir="${introduce.dir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
-			<!-- is this needed any more? -->
-			<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
-			<sysproperty key="sdk43.tests.base.dir" value="${sdk43.tests.base.dir}"/>
-			<sysproperty key="sdk.unpack.dir" value="${sdk.unpack.dir}"/>
-			<sysproperty key="testing.port.assignment.mode" value="${testing.port.assignment.mode}"/>
-			<sysproperty key="testing.containers.dir" value="${testing.containers.dir}"/>
-			<classpath refid="test.run.classpath"/>
-			<formatter type="xml" />
-			<batchtest fork="yes" todir="${junit.results.dir}">
-				<fileset dir="${test.src.dir}">
-					<include name="**/*SystemTests.java" />
-				</fileset>
-			</batchtest>
-		</junit>
-	</target>
 
 	<!-- ============================================================== -->
 	<!-- Builds from scratch                                            -->

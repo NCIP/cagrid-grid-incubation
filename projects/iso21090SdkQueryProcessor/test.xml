@@ -1,0 +1,74 @@
+<project name="caGrid-sdk43_data_tests_harness" basedir=".">
+	
+	<property name="junit.results.dir" location="${test.dir}/logs" />
+	<property name="testing.port.assignment.mode" value="true"/>
+	<property name="testing.containers.dir" location="${ext.dir}/dependencies/test/zips"/>
+	<property name="sdk.unpack.dir" location="${basedir}/sdk/unpacked"/>
+	<property file="${test.dir}/resources/sdk43.test.database.properties"/>
+
+    <!-- ============================================================== -->
+	<!-- Call any tests.                                                -->
+	<!-- ============================================================== -->
+	<target name="test" depends="prepare" description="Runs the service's tests.">
+		<echo message="Test results dir: ${junit.results.dir}" />
+		<mkdir dir="${junit.results.dir}" />
+		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
+			<classpath refid="test.run.classpath" />
+			<sysproperty key="build.dir" value="${classes.dir}" />
+			<jvmarg value="-Xmx512M" />
+			<jvmarg value="-Dbuild.dirs.list=${translator.classes.dir},${processor.classes.dir},${style.classes.dir}" />
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/Test*.java" />
+					<include name="**/*TestCase.java" />
+					<exclude name="**/*SystemTests.java"/>
+					<exclude name="**/IsoQueriesTestCase.java"/>
+					<exclude name="**/CQLInvocationTestCase.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		<fail message="Tests failed! Check test reports." if="test.failed" />
+	</target>
+	
+	<target name="integrationTest" depends="prepare, unpackSdkZip, sdkDbSetup" description="Runs the data service integration tests">
+		<echo message="Test results dir: ${junit.results.dir}"/>
+		<mkdir dir="${junit.results.dir}"/>
+		<property name="sdk43.tests.base.dir" location="${basedir}"/>
+		<junit dir="${introduce.dir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
+			<!-- is this needed any more? -->
+			<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
+			<sysproperty key="sdk43.tests.base.dir" value="${sdk43.tests.base.dir}"/>
+			<sysproperty key="sdk.unpack.dir" value="${sdk.unpack.dir}"/>
+			<sysproperty key="testing.port.assignment.mode" value="${testing.port.assignment.mode}"/>
+			<sysproperty key="testing.containers.dir" value="${testing.containers.dir}"/>
+			<classpath refid="test.run.classpath"/>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*SystemTests.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+	
+	<target name="unpackSdkZip" description="unpacks the cacore sdk">
+		<unzip src="${basedir}/sdk/CACORESDK_43.zip" dest="${sdk.unpack.dir}"/>
+	</target>
+	
+	
+	<target name="sdkDbSetup" description="Sets up the caCORE SDK 4.3 test database">
+		<property name="db.script.dir" location="${sdk.unpack.dir}/sdk-toolkit/iso-example-project/db/db-install/mysql"/>
+		<sql driver="${db.driver}" url="jdbc:mysql://${db.server}:${db.port}/" userid="${db.username}" password="${db.password}">
+			<classpath refid="test.run.classpath"/>
+			DROP DATABASE IF EXISTS ${db.schema.name};
+			CREATE DATABASE ${db.schema.name};
+		</sql>
+		<sql driver="${db.driver}" url="jdbc:mysql://${db.server}:${db.port}/${db.schema.name}" userid="${db.username}" password="${db.password}">
+			<classpath refid="test.run.classpath"/>
+			<transaction src="${db.script.dir}/SDKTestSchema-mysql.sql"/>
+			<transaction src="${db.script.dir}/SDKTestIsoSchema-mysql.sql"/>
+		</sql>
+	</target>
+</project>
