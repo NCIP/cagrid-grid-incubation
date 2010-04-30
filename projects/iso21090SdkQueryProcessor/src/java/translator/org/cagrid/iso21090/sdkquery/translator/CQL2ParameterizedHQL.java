@@ -411,6 +411,7 @@ public class CQL2ParameterizedHQL {
         
 		// pop this association off the stack
         associationStack.pop();
+        clipTypeProcessingInformation(typesProcessingList);
         LOG.debug(associationStack.size() + " associations remain on the stack");
 	}
 	
@@ -579,6 +580,11 @@ public class CQL2ParameterizedHQL {
         bucket.aliasOrRoleName = aliasOrRoleName;
         bucket.datatypeFlavor = flavor;
         typesProcessingList.add(bucket);
+    }
+    
+    
+    private void clipTypeProcessingInformation(List<CqlDataBucket> typesProcessingList) {
+        typesProcessingList.remove(typesProcessingList.size() - 1);
     }
     
     
