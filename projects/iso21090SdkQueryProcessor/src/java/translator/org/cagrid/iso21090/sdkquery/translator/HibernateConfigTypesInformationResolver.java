@@ -29,7 +29,7 @@ import org.hibernate.mapping.Value;
 
 public class HibernateConfigTypesInformationResolver implements TypesInformationResolver {
     
-    private static Log LOG = LogFactory.getLog(CopyOfHibernateConfigTypesInformationResolver.class);
+    private static Log LOG = LogFactory.getLog(HibernateConfigTypesInformationResolver.class);
     
     private Configuration configuration = null;
     private Map<String, Boolean> subclasses = null;
