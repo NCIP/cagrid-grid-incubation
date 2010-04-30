@@ -42,13 +42,15 @@
 	<property name="test.logs.dir" location="${test.dir}/logs" />
 	<property name="test.project.jar" location="${jar.dir}/${project.name}-tests-${project.version}.jar" />
 	<property name="junit.results.dir" location="${test.dir}/logs" />
+	<property key="testing.port.assignment.mode" value="true"/>
+	<property key="testing.containers.dir" location="${ext.dir}/dependencies/test/zips"/>
 	
 	<!-- style related stuff -->
 	<property name="introduce.dir" location="../introduce"/>
 	<property name="introduce.extensions.dir" location="${introduce.dir}/extensions" />
 	<property name="style.info.dir" location="${basedir}/style"/>
 	<property name="style.dest.dir" location="${introduce.extensions.dir}/data/styles/cacore43" />
-
+	
 	<!-- SDK remote and local libraries needed for builds -->
 	<!-- TODO: evaluate if these are still the same as for SDK 4.2 -->
 	<property name="style.sdk.remote.lib.names" value="asm.jar, castor-1.0.2.jar, hibernate3.jar, spring.jar, cglib-2.1.3.jar, sdk-client-framework.jar, antlr-2.7.6.jar, acegi-security-1.0.4.jar" />
@@ -250,7 +252,7 @@
 			</fileset>
 			<fileset dir="${ext.local-client.lib.dir}" >
 				<!-- TODO: change this to the final SDK version number -->
-				<include name="sdk-client-framework-4.2.1.jar"/>
+				<include name="sdk-client-framework-4.3.jar"/>
 			</fileset>
 		</copy>
 	</target>
@@ -296,6 +298,7 @@
 				<fileset dir="${test.src.dir}">
 					<include name="**/Test*.java" />
 					<include name="**/*TestCase.java" />
+					<exclude name="**/*SystemTests.java"/>
 					<exclude name="**/IsoQueriesTestCase.java"/>
 					<exclude name="**/CQLInvocationTestCase.java"/>
 				</fileset>
@@ -303,9 +306,30 @@
 		</junit>
 		<fail message="Tests failed! Check test reports." if="test.failed" />
 	</target>
+	
+	<target name="integrationTest" depends="prepare" description="Runs the data service integration tests">
+		<echo message="Test results dir: ${junit.results.dir}"/>
+		<mkdir dir="${junit.results.dir}"/>
+		<property name="sdk43.tests.base.dir" location="${basedir}"/>
+		<junit dir="${introduce.dir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
+			<!-- is this needed any more? -->
+			<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
+			<sysproperty key="sdk43.tests.base.dir" value="${sdk43.tests.base.dir}"/>
+			<sysproperty key="sdk.unpack.dir" value="${sdk.unpack.dir}"/>
+			<sysproperty key="testing.port.assignment.mode" value="${testing.port.assignment.mode}"/>
+			<sysproperty key="testing.containers.dir" value="${testing.containers.dir}"/>
+			<classpath refid="test.run.classpath"/>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*SystemTests.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
 
 	<!-- ============================================================== -->
-	<!-- Builds from scratch                                                -->
+	<!-- Builds from scratch                                            -->
 	<!-- ============================================================== -->
 	<target name="all" description="Builds the entire application" depends="jar,jar-tests" />
 </project>
