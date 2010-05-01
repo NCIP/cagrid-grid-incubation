@@ -14,7 +14,7 @@ import org.cagrid.iso21090.tests.integration.ExampleProjectInfo;
 public class ConfigureExampleProjectStep extends Step {
     // codegen properties
     public static final String NAMESPACE_PREFIX_PROPERTY = "NAMESPACE_PREFIX";
-    public static final String NAMESPACE_PREFIX_VALUE = "gme://caCORE.caCORE/4.2";
+    public static final String NAMESPACE_PREFIX_VALUE = "gme://caCORE.caCORE/4.3";
     
     // install properties
     public static final String APPLICATION_BASE_PATH_LINUX = "application.base.path.linux";

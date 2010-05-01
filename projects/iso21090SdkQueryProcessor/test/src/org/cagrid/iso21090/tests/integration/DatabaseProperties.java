@@ -14,7 +14,7 @@ import java.util.Properties;
 public class DatabaseProperties {
     
     public static final String TESTS_BASE_DIR_PROPERTY = "sdk43.tests.base.dir";
-    public static final String PROPERTIES_FILENAME = "resources" + File.separator + "sdk43.test.database.properties";
+    public static final String PROPERTIES_FILENAME = "test" + File.separator + "resources" + File.separator + "sdk43.test.database.properties";
     
     private static Properties props = null;
     
