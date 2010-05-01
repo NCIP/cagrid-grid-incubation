@@ -34,7 +34,6 @@ public class SDK43CqlTranslationAndExecutionSystemTests {
     
     @Test
     public void sdk43DataServiceSystemTests() throws Throwable {
-        /*
         // create a temporary directory for the SDK application to package things in
         tempApplicationDir = File.createTempFile("SdkWithIsoExample", "temp");
         tempApplicationDir.delete();
@@ -46,7 +45,6 @@ public class SDK43CqlTranslationAndExecutionSystemTests {
         LOG.debug("Running caCORE SDK example project creation story");
         CreateExampleProjectStory createExampleStory = new CreateExampleProjectStory(tempApplicationDir);
         createExampleStory.runBare();
-        */
         
         // using the artifacts from the previous, run some CQL queries
         splitTime();
