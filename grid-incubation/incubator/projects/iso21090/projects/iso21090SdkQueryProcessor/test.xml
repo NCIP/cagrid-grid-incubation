@@ -9,7 +9,9 @@
     <!-- ============================================================== -->
 	<!-- Call any tests.                                                -->
 	<!-- ============================================================== -->
-	<target name="test" depends="prepare" description="Runs the service's tests.">
+	<target name="test" depends="unitTests, integrationTests" description="Runs the unit and integration tests"/>
+	
+	<target name="unitTests" depends="prepare" description="Runs the project's unit tests.">
 		<echo message="Test results dir: ${junit.results.dir}" />
 		<mkdir dir="${junit.results.dir}" />
 		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
@@ -31,7 +33,7 @@
 		<fail message="Tests failed! Check test reports." if="test.failed" />
 	</target>
 	
-	<target name="integrationTests" depends="prepare, unpackSdkZip, sdkDbSetup" description="Runs the data service integration tests">
+	<target name="integrationTests" depends="prepare, unpackSdkZip, sdkDbSetup" description="Runs the SDK integration tests">
 		<echo message="Test results dir: ${junit.results.dir}"/>
 		<mkdir dir="${junit.results.dir}"/>
 		<property name="sdk43.tests.base.dir" location="${basedir}"/>
@@ -50,6 +52,10 @@
 				</fileset>
 			</batchtest>
 		</junit>
+		<!-- delete the SDK dir -->
+		<delete dir="${sdk.unpack.dir}"/>
+		<!-- did the tests fail?? -->
+		<fail if="test.failed" message="Tests failed! Check the test reports."/>
 	</target>
 	
 	
