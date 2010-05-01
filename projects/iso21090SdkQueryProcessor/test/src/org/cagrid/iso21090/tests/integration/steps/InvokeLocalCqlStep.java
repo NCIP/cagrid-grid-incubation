@@ -22,7 +22,7 @@ import org.cagrid.iso21090.sdkquery.translator.IsoDatatypesConstantValueResolver
 import org.cagrid.iso21090.sdkquery.translator.ParameterizedHqlQuery;
 import org.hibernate.cfg.Configuration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class InvokeLocalCqlStep extends Step {
     
@@ -109,7 +109,11 @@ public class InvokeLocalCqlStep extends Step {
             hibernateConfig.buildMapping();
             hibernateConfig.configure();
             hbmConfigStream.close();
-            ApplicationContext isoContext = new ClassPathXmlApplicationContext("IsoConstants.xml", typesInfoResolverClass);
+            
+            String base = System.getProperty(TESTS_BASEDIR_PROPERTY);
+            File sdkLocalClientDir = new File(base, SDK_LOCAL_CLIENT_DIR);
+            File sdkConfDir = new File(sdkLocalClientDir, "conf");
+            ApplicationContext isoContext = new FileSystemXmlApplicationContext(new File(sdkConfDir, "IsoConstants.xml").getAbsolutePath());
             translator = new CQL2ParameterizedHQL(
                 new HibernateConfigTypesInformationResolver(hibernateConfig, true), 
                 new IsoDatatypesConstantValueResolver(isoContext),
