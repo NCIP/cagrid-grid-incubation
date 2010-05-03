@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
@@ -113,7 +114,7 @@ public class ISOSupportDomainModelGenerator {
 
 
     public String getPackageExcludeRegex() {
-        return packageExcludeRegex != null ? packageExcludeRegex : DEFAULT_PACKAGE_EXCLUDE_REGEX;
+        return packageExcludeRegex != null ? packageExcludeRegex : DEFAULT_PACKAGE_EXCLUDE_REGEX_LEAVE_ISO;
     }
 
 
@@ -133,7 +134,6 @@ public class ISOSupportDomainModelGenerator {
     
     
     public DomainModel generateDomainModel(String xmiFilename) throws XmiException, IOException {
-        Pattern excludePattern = Pattern.compile(getPackageExcludeRegex());
         Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
         LOG.debug("Loading XMI from " + xmiFilename);
         handler.load(xmiFilename);
@@ -157,12 +157,9 @@ public class ISOSupportDomainModelGenerator {
             } else {
                 String fullPackageName = getFullPackageName(clazz);
                 // filter out anything not in the logical model and matching the exclude regex
-                if (!fullPackageName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)) {
-                    LOG.debug("Excluding non logical model class: " + fullPackageName + "." + clazz.getName());
-                    System.out.println("Excluding non logical model class: " + fullPackageName + "." + clazz.getName());
-                } else if (excludePattern.matcher(fullPackageName).matches()) {
-                    LOG.debug("Excluding class : " + fullPackageName + "." + clazz.getName() + " based on package excludes regex");
-                    System.out.println("Excluding class : " + fullPackageName + "." + clazz.getName() + " based on package excludes regex");
+                if (shouldExcludePackage(fullPackageName)) {
+                    LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
+                    System.out.println("Excluding class " + fullPackageName + "." + clazz.getName());
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
@@ -359,14 +356,12 @@ public class ISOSupportDomainModelGenerator {
     private String deriveFullClassName(UMLDatatype datatype, List<UMLClass> searchClasses) {
         String name = datatype.getName();
         Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
-        Pattern excludePattern = Pattern.compile(getPackageExcludeRegex());
         UMLClass candidate = null;
         UMLClass isoCandidate = null;
         for (UMLClass c : searchClasses) {
             if (name.equals(c.getName())) {
                 String packName = getFullPackageName(c);
-                if (packName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)
-                    && !excludePattern.matcher(packName).matches()) {
+                if (!shouldExcludePackage(packName)) {
                     if (isoPattern.matcher(packName).matches()) {
                         isoCandidate = c;
                     } else {
@@ -447,6 +442,20 @@ public class ISOSupportDomainModelGenerator {
                 }
             }
         }
+    }
+    
+    
+    private boolean shouldExcludePackage(String packageName) {
+        boolean exclude = false;
+        exclude = !packageName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX);
+        if (!exclude) {
+            // check regexes
+            StringTokenizer regexTokenizer = new StringTokenizer(getPackageExcludeRegex(), ",");
+            while (!exclude && regexTokenizer.hasMoreTokens()) {
+                exclude = Pattern.matches(regexTokenizer.nextToken(), packageName);
+            }
+        }
+        return exclude;
     }
 
 
