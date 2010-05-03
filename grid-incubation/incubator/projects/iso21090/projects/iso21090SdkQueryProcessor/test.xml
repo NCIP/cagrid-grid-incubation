@@ -37,7 +37,7 @@
 		<echo message="Test results dir: ${junit.results.dir}"/>
 		<mkdir dir="${junit.results.dir}"/>
 		<property name="sdk43.tests.base.dir" location="${basedir}"/>
-		<junit dir="${introduce.dir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
+		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
 			<!-- is this needed any more? -->
 			<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
 			<sysproperty key="sdk43.tests.base.dir" value="${sdk43.tests.base.dir}"/>
