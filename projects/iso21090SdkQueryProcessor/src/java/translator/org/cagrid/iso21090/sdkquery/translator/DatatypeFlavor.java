@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.iso._21090.Ad;
-import org.iso._21090.Adxp;
 import org.iso._21090.BL;
 import org.iso._21090.BlNonNull;
 import org.iso._21090.CD;
@@ -29,10 +28,10 @@ import org.iso._21090.DSetII;
 import org.iso._21090.DSetTel;
 import org.iso._21090.ED;
 import org.iso._21090.EN;
+import org.iso._21090.ENXP;
 import org.iso._21090.EdText;
 import org.iso._21090.EnOn;
 import org.iso._21090.EnPn;
-import org.iso._21090.Enxp;
 import org.iso._21090.INT;
 import org.iso._21090.IVLINT;
 import org.iso._21090.IVLPQ;
@@ -118,7 +117,7 @@ public enum DatatypeFlavor {
         
         CLASS_FLAVORS.put(Ad.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.Ad.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
-        CLASS_FLAVORS.put(Adxp.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(org.iso._21090.ADXP.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.Adxp.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(EN.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(En.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
@@ -126,7 +125,7 @@ public enum DatatypeFlavor {
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.EnOn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(EnPn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.EnPn.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
-        CLASS_FLAVORS.put(Enxp.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
+        CLASS_FLAVORS.put(ENXP.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         CLASS_FLAVORS.put(gov.nih.nci.iso21090.Enxp.class, COMPLEX_WITH_COLLECTION_OF_COMPLEX);
         
         CLASS_FLAVORS.put(DSetII.class, COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT);
