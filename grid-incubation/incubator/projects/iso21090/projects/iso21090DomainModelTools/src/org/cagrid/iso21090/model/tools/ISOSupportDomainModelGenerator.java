@@ -113,7 +113,7 @@ public class ISOSupportDomainModelGenerator {
 
 
     public String getPackageExcludeRegex() {
-        return packageExcludeRegex;
+        return packageExcludeRegex != null ? packageExcludeRegex : DEFAULT_PACKAGE_EXCLUDE_REGEX;
     }
 
 
@@ -133,7 +133,7 @@ public class ISOSupportDomainModelGenerator {
     
     
     public DomainModel generateDomainModel(String xmiFilename) throws XmiException, IOException {
-        Pattern excludePattern = Pattern.compile(DEFAULT_PACKAGE_EXCLUDE_REGEX);
+        Pattern excludePattern = Pattern.compile(getPackageExcludeRegex());
         Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
         LOG.debug("Loading XMI from " + xmiFilename);
         handler.load(xmiFilename);
@@ -157,9 +157,12 @@ public class ISOSupportDomainModelGenerator {
             } else {
                 String fullPackageName = getFullPackageName(clazz);
                 // filter out anything not in the logical model and matching the exclude regex
-                if (!fullPackageName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX) 
-                    || excludePattern.matcher(fullPackageName).matches()) {
-                    LOG.debug("Excluding class: " + fullPackageName + "." + clazz.getName());
+                if (!fullPackageName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)) {
+                    LOG.debug("Excluding non logical model class: " + fullPackageName + "." + clazz.getName());
+                    System.out.println("Excluding non logical model class: " + fullPackageName + "." + clazz.getName());
+                } else if (excludePattern.matcher(fullPackageName).matches()) {
+                    LOG.debug("Excluding class : " + fullPackageName + "." + clazz.getName() + " based on package excludes regex");
+                    System.out.println("Excluding class : " + fullPackageName + "." + clazz.getName() + " based on package excludes regex");
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
@@ -192,7 +195,15 @@ public class ISOSupportDomainModelGenerator {
                         } else {
                             LOG.warn("Attribute data type (" + datatype.getName() + ") does not reference a class in this model.");
                             System.out.println("Attribute data type (" + datatype.getName() + ") does not reference a class in this model.");
-                            attributeDataTypeName = datatype.getName();
+                            attributeDataTypeName = deriveFullClassName(datatype, umlClasses);
+                            if (attributeDataTypeName != null) {
+                                LOG.warn("Attribute data type infered to be " + attributeDataTypeName);
+                                System.out.println("Attribute data type infered to be " + attributeDataTypeName);
+                            } else {
+                                LOG.warn("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + datatype.getName());
+                                System.out.println("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + datatype.getName());
+                                attributeDataTypeName = datatype.getName();
+                            }
                         }
                         // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.  Have fun!
                         if (isoPattern.matcher(attributeDataTypeName).matches()) {
@@ -221,15 +232,6 @@ public class ISOSupportDomainModelGenerator {
                             a.setName(attrib.getName());
                             a.setDataTypeName(attributeDataTypeName);
                             a.setVersion(getAttributeVersion());
-                            /*
-                            System.out.println("datatype instanceof " + datatype.getClass().getName());
-                            if (datatype instanceof UMLDatatypeBean) {
-                                System.out.println("datatype = " + datatype.getName());
-                            } else if (datatype instanceof UMLClassBean) {
-                                UMLClass datatypeClass = (UMLClass) datatype;
-                                System.out.println("class = " + getFullPackageName(datatypeClass) + "." + datatypeClass.getName());
-                            }
-                            */
                             // look at tagged values for the concept code info
                             annotateAttribute(a, attrib.getTaggedValues());
                             // keep the attribute
@@ -351,6 +353,37 @@ public class ISOSupportDomainModelGenerator {
             pack = pack.getParent();
         }
         return buf.toString();
+    }
+    
+    
+    private String deriveFullClassName(UMLDatatype datatype, List<UMLClass> searchClasses) {
+        String name = datatype.getName();
+        Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
+        Pattern excludePattern = Pattern.compile(getPackageExcludeRegex());
+        UMLClass candidate = null;
+        UMLClass isoCandidate = null;
+        for (UMLClass c : searchClasses) {
+            if (name.equals(c.getName())) {
+                String packName = getFullPackageName(c);
+                if (packName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)
+                    && !excludePattern.matcher(packName).matches()) {
+                    if (isoPattern.matcher(packName).matches()) {
+                        isoCandidate = c;
+                    } else {
+                        candidate = c;
+                    }
+                }
+            }
+        }
+        String fullClassName = null;
+        if (isoCandidate != null) {
+            fullClassName = getFullPackageName(isoCandidate).substring(
+                LOGICAL_MODEL_PACKAGE_PREFIX.length()) + "." + isoCandidate.getName();
+        } else if (candidate != null) {
+            fullClassName = getFullPackageName(candidate).substring(
+                LOGICAL_MODEL_PACKAGE_PREFIX.length()) + "." + candidate.getName();
+        }
+        return fullClassName;
     }
     
     
