@@ -163,7 +163,7 @@ public class ISOSupportDomainModelGenerator {
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
-                    boolean isIsoClass = !isoPattern.matcher(strippedPackageName).matches();
+                    boolean isIsoClass = isoPattern.matcher(strippedPackageName).matches();
                     String shortClassName = isIsoClass ? cleanUpIsoClassName(clazz.getName()) : clazz.getName();
                     LOG.debug("Creating model class " + strippedPackageName + "." + shortClassName);
                     System.out.println("Creating model class " + strippedPackageName + "." + shortClassName);
