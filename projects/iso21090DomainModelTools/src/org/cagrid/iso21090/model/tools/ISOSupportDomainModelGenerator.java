@@ -187,7 +187,7 @@ public class ISOSupportDomainModelGenerator {
                         // sometimes, a user just types in the name of the datatype and it doesn't
                         // really reference a UMLClass instance in the model.  Even though this is
                         // an error, the SDK has a heuristic to deal with it, so we do too.
-                        UMLDatatype attributeDatatype = deriveFullClass(rawAttributeDatatype, umlClasses);
+                        UMLDatatype attributeDatatype = deriveRealClass(rawAttributeDatatype, umlClasses);
                         if (attributeDatatype == null) {
                             // no class could be found with our heuristic!
                             LOG.warn("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + rawAttributeDatatype.getName());
@@ -220,7 +220,7 @@ public class ISOSupportDomainModelGenerator {
                             sourceEdge.setMaxCardinality(1);
                             sourceEdge.setMinCardinality(0);
                             sourceEdge.setRoleName(attrib.getName());
-                            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype)));
+                            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
                             isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
                             UMLAssociationEdge targetEdge = new UMLAssociationEdge();
                             targetEdge.setMaxCardinality(1);
@@ -360,7 +360,7 @@ public class ISOSupportDomainModelGenerator {
     }
     
     
-    private UMLClass deriveFullClass(UMLDatatype datatype, List<UMLClass> searchClasses) {
+    private UMLClass deriveRealClass(UMLDatatype datatype, List<UMLClass> searchClasses) {
         UMLClass determinedClass = null;
         if (datatype instanceof UMLClass) {
             determinedClass = (UMLClass) datatype;
