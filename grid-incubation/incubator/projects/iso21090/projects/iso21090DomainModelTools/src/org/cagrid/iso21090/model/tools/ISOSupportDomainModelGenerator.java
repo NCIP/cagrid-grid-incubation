@@ -52,6 +52,7 @@ public class ISOSupportDomainModelGenerator {
     public static final String DEFAULT_PACKAGE_EXCLUDE_REGEX_LEAVE_ISO = ".*?java.*,.*?[V|v]alue.?[D|d]omain.*";
     public static final String DEFAULT_PACKAGE_EXCLUDE_REGEX = ".*?java.*,.*?[V|v]alue.?[D|d]omain.*,.*?iso21090.*";
     public static final String ISO_PACKAGE_REGEX = ".*?iso21090.*";
+    public static final String JAVA_PACKAGE_REGEX = ".*?java.*";
     
     // cadsr ID tag values
     public static final String XMI_TAG_CADSR_DE_ID = "CADSR_DE_ID";
@@ -366,13 +367,18 @@ public class ISOSupportDomainModelGenerator {
         } else {
             String name = datatype.getName();
             Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
+            Pattern javaPattern = Pattern.compile(JAVA_PACKAGE_REGEX);
             UMLClass candidate = null;
+            UMLClass javaCandidate = null;
             UMLClass isoCandidate = null;
             for (UMLClass c : searchClasses) {
                 if (name.equals(c.getName())) {
                     String packName = getFullPackageName(c);
-                    if (!shouldExcludePackage(packName)) {
-                        if (isoPattern.matcher(packName).matches()) {
+                    if (packName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)) {
+                        // it's a logical model package, please continue processing
+                        if (javaPattern.matcher(packName).matches()) {
+                            javaCandidate = c;
+                        } else if (isoPattern.matcher(packName).matches()) {
                             isoCandidate = c;
                         } else {
                             candidate = c;
@@ -380,9 +386,12 @@ public class ISOSupportDomainModelGenerator {
                     }
                 }
             }
-            if (isoCandidate != null) {
+            // prefer the java, then the ISO, then the non-ISO candidate
+            if (javaCandidate != null) {
+                determinedClass = javaCandidate;
+            } else if (isoCandidate != null) {
                 determinedClass = isoCandidate;
-            } else if (candidate != null) {
+            } else {
                 determinedClass = candidate;
             }
         }
