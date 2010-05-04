@@ -184,6 +184,9 @@ public class ISOSupportDomainModelGenerator {
                         System.out.println("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
                         UMLDatatype rawAttributeDatatype = attrib.getDatatype();
+                        boolean isCollection = attributeTypeRepresentsCollection(rawAttributeDatatype);
+                        LOG.debug("Attribute " + (isCollection ? "represents" : "does not represent") + " a collection");
+                        System.out.println("Attribute " + (isCollection ? "represents" : "does not represent") + " a collection");
                         // sometimes, a user just types in the name of the datatype and it doesn't
                         // really reference a UMLClass instance in the model.  Even though this is
                         // an error, the SDK has a heuristic to deal with it, so we do too.
@@ -217,7 +220,7 @@ public class ISOSupportDomainModelGenerator {
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
                             isoAssociation.setBidirectional(false);
                             UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
-                            sourceEdge.setMaxCardinality(1);
+                            sourceEdge.setMaxCardinality(isCollection ? -1 : 1);
                             sourceEdge.setMinCardinality(0);
                             sourceEdge.setRoleName(attrib.getName());
                             sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
@@ -365,7 +368,12 @@ public class ISOSupportDomainModelGenerator {
         if (datatype instanceof UMLClass) {
             determinedClass = (UMLClass) datatype;
         } else {
-            String name = datatype.getName();
+            String name = null;
+            if (attributeTypeRepresentsCollection(datatype)) {
+                name = stripCollectionRepresentation(datatype.getName());
+            } else {
+                name = datatype.getName();
+            }
             Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
             Pattern javaPattern = Pattern.compile(JAVA_PACKAGE_REGEX);
             UMLClass candidate = null;
@@ -498,6 +506,20 @@ public class ISOSupportDomainModelGenerator {
             }
         }
         return cleaned.toString();
+    }
+    
+    
+    private boolean attributeTypeRepresentsCollection(UMLDatatype datatype) {
+        String name = datatype.getName();
+        return (name.startsWith("Sequence(") || name.startsWith("Set("))
+            && name.endsWith(")");
+    }
+    
+    
+    private String stripCollectionRepresentation(String name) {
+        int start = name.indexOf('(');
+        int end = name.indexOf(')', start);
+        return name.substring(start + 1, end);
     }
 
 
