@@ -163,16 +163,17 @@ public class ISOSupportDomainModelGenerator {
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
-                    LOG.debug("Creating model class " + strippedPackageName + "." + clazz.getName());
-                    System.out.println("Creating model class " + strippedPackageName + "." + clazz.getName());
+                    boolean isIsoClass = !isoPattern.matcher(strippedPackageName).matches();
+                    String shortClassName = isIsoClass ? cleanUpIsoClassName(clazz.getName()) : clazz.getName();
+                    LOG.debug("Creating model class " + strippedPackageName + "." + shortClassName);
+                    System.out.println("Creating model class " + strippedPackageName + "." + shortClassName);
                     gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
                     c.setPackageName(strippedPackageName);
-                    c.setClassName(clazz.getName());
+                    c.setClassName(shortClassName);
                     c.setId(String.valueOf(clazz.hashCode()));
                     // ISO types aren't targetable; everything else is by default
-                    boolean targetable = !isoPattern.matcher(strippedPackageName).matches();
-                    LOG.debug("Class " + (targetable ? "is" : "is not") + " targetable");
-                    c.setAllowableAsTarget(targetable);
+                    LOG.debug("Class " + (isIsoClass ? "is" : "is not") + " targetable");
+                    c.setAllowableAsTarget(isIsoClass);
                     // attributes
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
@@ -181,29 +182,34 @@ public class ISOSupportDomainModelGenerator {
                         LOG.debug("Creating class attribute " + attrib.getName());
                         System.out.println("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
-                        String attributeDataTypeName = null;
-                        UMLDatatype datatype = attrib.getDatatype();
-                        if (datatype instanceof UMLClass) {
-                            UMLClass attribType = (UMLClass) datatype;
-                            String fullAttribTypeClassname = getFullPackageName(attribType) + "." + attribType.getName();
-                            attributeDataTypeName = fullAttribTypeClassname.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
-                            LOG.debug("Attribute datatype determined to be " + attributeDataTypeName);
-                            System.out.println("Attribute datatype determined to be " + attributeDataTypeName);
-                        } else {
-                            LOG.warn("Attribute data type (" + datatype.getName() + ") does not reference a class in this model.");
-                            System.out.println("Attribute data type (" + datatype.getName() + ") does not reference a class in this model.");
-                            attributeDataTypeName = deriveFullClassName(datatype, umlClasses);
-                            if (attributeDataTypeName != null) {
-                                LOG.warn("Attribute data type infered to be " + attributeDataTypeName);
-                                System.out.println("Attribute data type infered to be " + attributeDataTypeName);
-                            } else {
-                                LOG.warn("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + datatype.getName());
-                                System.out.println("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + datatype.getName());
-                                attributeDataTypeName = datatype.getName();
-                            }
+                        UMLDatatype rawAttributeDatatype = attrib.getDatatype();
+                        // sometimes, a user just types in the name of the datatype and it doesn't
+                        // really reference a UMLClass instance in the model.  Even though this is
+                        // an error, the SDK has a heuristic to deal with it, so we do too.
+                        UMLDatatype attributeDatatype = deriveFullClass(rawAttributeDatatype, umlClasses);
+                        if (attributeDatatype == null) {
+                            // no class could be found with our heuristic!
+                            LOG.warn("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + rawAttributeDatatype.getName());
+                            System.out.println("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + rawAttributeDatatype.getName());
+                            attributeDatatype = rawAttributeDatatype;
                         }
-                        // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.  Have fun!
-                        if (isoPattern.matcher(attributeDataTypeName).matches()) {
+                        String attributeDatatypeName = attributeDatatype.getName();
+                        if (attributeDatatype instanceof UMLClass) {
+                            String rawAttribTypePackage = getFullPackageName((UMLClass) attributeDatatype);
+                            String datatypeClassname = null;
+                            if (isoPattern.matcher(rawAttribTypePackage).matches()) {
+                                datatypeClassname = cleanUpIsoClassName(attributeDatatype.getName());
+                            } else {
+                                datatypeClassname = attributeDatatype.getName();
+                            }
+                            attributeDatatypeName = 
+                                rawAttribTypePackage.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length()) + 
+                                    "." + datatypeClassname;
+                        }
+                        LOG.debug("Attribute datatype determined to be " + attributeDatatypeName);
+                        System.out.println("Attribute datatype determined to be " + attributeDatatypeName);
+                        // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.
+                        if (isoPattern.matcher(attributeDatatypeName).matches()) {
                             LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             System.out.println("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
@@ -213,7 +219,7 @@ public class ISOSupportDomainModelGenerator {
                             sourceEdge.setMaxCardinality(1);
                             sourceEdge.setMinCardinality(0);
                             sourceEdge.setRoleName(attrib.getName());
-                            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(datatype.hashCode())));
+                            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype)));
                             isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
                             UMLAssociationEdge targetEdge = new UMLAssociationEdge();
                             targetEdge.setMaxCardinality(1);
@@ -227,7 +233,7 @@ public class ISOSupportDomainModelGenerator {
                             gov.nih.nci.cagrid.metadata.common.UMLAttribute a = 
                                 new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
                             a.setName(attrib.getName());
-                            a.setDataTypeName(attributeDataTypeName);
+                            a.setDataTypeName(attributeDatatypeName);
                             a.setVersion(getAttributeVersion());
                             // look at tagged values for the concept code info
                             annotateAttribute(a, attrib.getTaggedValues());
@@ -353,33 +359,36 @@ public class ISOSupportDomainModelGenerator {
     }
     
     
-    private String deriveFullClassName(UMLDatatype datatype, List<UMLClass> searchClasses) {
-        String name = datatype.getName();
-        Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
-        UMLClass candidate = null;
-        UMLClass isoCandidate = null;
-        for (UMLClass c : searchClasses) {
-            if (name.equals(c.getName())) {
-                String packName = getFullPackageName(c);
-                if (!shouldExcludePackage(packName)) {
-                    if (isoPattern.matcher(packName).matches()) {
-                        isoCandidate = c;
-                    } else {
-                        candidate = c;
+    private UMLClass deriveFullClass(UMLDatatype datatype, List<UMLClass> searchClasses) {
+        UMLClass determinedClass = null;
+        if (datatype instanceof UMLClass) {
+            determinedClass = (UMLClass) datatype;
+        } else {
+            String name = datatype.getName();
+            Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
+            UMLClass candidate = null;
+            UMLClass isoCandidate = null;
+            for (UMLClass c : searchClasses) {
+                if (name.equals(c.getName())) {
+                    String packName = getFullPackageName(c);
+                    if (!shouldExcludePackage(packName)) {
+                        if (isoPattern.matcher(packName).matches()) {
+                            isoCandidate = c;
+                        } else {
+                            candidate = c;
+                        }
                     }
                 }
             }
+            if (isoCandidate != null) {
+                determinedClass = isoCandidate;
+            } else if (candidate != null) {
+                determinedClass = candidate;
+            }
         }
-        String fullClassName = null;
-        if (isoCandidate != null) {
-            fullClassName = getFullPackageName(isoCandidate).substring(
-                LOGICAL_MODEL_PACKAGE_PREFIX.length()) + "." + isoCandidate.getName();
-        } else if (candidate != null) {
-            fullClassName = getFullPackageName(candidate).substring(
-                LOGICAL_MODEL_PACKAGE_PREFIX.length()) + "." + candidate.getName();
-        }
-        return fullClassName;
+        return determinedClass;
     }
+        
     
     
     private void annotateAttribute(
@@ -456,6 +465,30 @@ public class ISOSupportDomainModelGenerator {
             }
         }
         return exclude;
+    }
+    
+    
+    /**
+     * Cleans up the ISO class name in the model to match
+     * the Java class name in the common project
+     * 
+     * eg1) II -> Ii
+     * eg2) EN.ON - >EnOn
+     * 
+     * @param isoClassName
+     * @return
+     */
+    private String cleanUpIsoClassName(String isoClassName) {
+        StringTokenizer tok = new StringTokenizer(isoClassName, ".");
+        StringBuffer cleaned = new StringBuffer();
+        while (tok.hasMoreTokens()) {
+            String part = tok.nextToken();
+            cleaned.append(part.charAt(0));
+            if (part.length() != 1) {
+                cleaned.append(part.toLowerCase().substring(1));
+            }
+        }
+        return cleaned.toString();
     }
 
 
