@@ -193,18 +193,34 @@
     <ns22:Extension extensionType="AUTHORIZATION" name="gridgrouper_auth" xsi:type="ns22:ExtensionType">
      <ns22:ExtensionData>
       <ns1:MembershipExpression ns1:logicRelation="AND" xmlns:ns1="http://cagrid.nci.nih.gov/1/GridGrouper">
-             <ns1:MembershipQuery ns1:MembershipStatus="MEMBER_OF">
-              <ns1:GroupIdentifier>
-               <ns1:gridGrouperURL>https://grouper.training.cagrid.org:8443/wsrf/services/cagrid/GridGrouper</ns1:gridGrouperURL>
+                                     <ns1:MembershipQuery ns1:MembershipStatus="MEMBER_OF">
+                                      <ns1:GroupIdentifier>
+                                       <ns1:gridGrouperURL>https://grouper.training.cagrid.org:8443/wsrf/services/cagrid/GridGrouper</ns1:gridGrouperURL>
 
 
-               <ns1:GroupName>Training:rcconnecttest</ns1:GroupName>
+
+
+
+
+                                       <ns1:GroupName>Training:rcconnecttest</ns1:GroupName>
+
+
+
+
 
 
   </ns1:GroupIdentifier>
 
 
+
+
+
+
  </ns1:MembershipQuery>
+
+
+
+
 
 
 </ns1:MembershipExpression>
@@ -218,34 +234,60 @@
   <ns23:Extension name="data" version="1.3" xsi:type="ns23:ExtensionType">
    <ns23:ExtensionData>
     <ns24:Data xsi:type="ns24:Data" xmlns:ns24="http://CQL.caBIG/1/gov.nih.nci.cagrid.data.extension">
-         <ns24:AdditionalLibraries xsi:type="ns24:AdditionalLibraries">
-          <ns24:JarName xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">RedcapQueryProcessor.jar</ns24:JarName>
+                 <ns24:AdditionalLibraries xsi:type="ns24:AdditionalLibraries">
+                  <ns24:JarName xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">RedcapQueryProcessor.jar</ns24:JarName>
+
+
 
      </ns24:AdditionalLibraries>
 
-         <ns24:ServiceFeatures useBdt="false" useGridIdeitifiers="false" useWsEnumeration="false" xsi:type="ns24:ServiceFeatures"/>
 
-         <ns25:DataServiceAuditors xsi:type="ns25:DataServiceAuditors" xmlns:ns25="http://gov.nih.nci.cagrid.data/Auditing"/>
 
-         <ns24:ModelInformation source="preBuilt" xsi:type="ns24:ModelInformation">
-          <ns26:UMLProjectIdentifer identifier="RedcapDataService" version="1.0" xsi:type="ns26:UMLProjectIdentifer" xmlns:ns26="gme://caGrid.caBIG/1.0/org.cagrid.mms.domain"/>
+                 <ns24:ServiceFeatures useBdt="false" useGridIdeitifiers="false" useWsEnumeration="false" xsi:type="ns24:ServiceFeatures"/>
 
-          <ns24:ModelPackage packageName="org.cagrid.redcap" xsi:type="ns24:ModelPackage">
-           <ns24:ModelClass selected="true" shortClassName="Forms" targetable="true" xsi:type="ns24:ModelClass"/>
 
-           <ns24:ModelClass selected="true" shortClassName="Data" targetable="true" xsi:type="ns24:ModelClass"/>
 
-           <ns24:ModelClass selected="true" shortClassName="EventArms" targetable="true" xsi:type="ns24:ModelClass"/>
+                 <ns25:DataServiceAuditors xsi:type="ns25:DataServiceAuditors" xmlns:ns25="http://gov.nih.nci.cagrid.data/Auditing"/>
 
-           <ns24:ModelClass selected="true" shortClassName="Events" targetable="true" xsi:type="ns24:ModelClass"/>
 
-           <ns24:ModelClass selected="true" shortClassName="EventsCalendar" targetable="true" xsi:type="ns24:ModelClass"/>
 
-           <ns24:ModelClass selected="true" shortClassName="Projects" targetable="true" xsi:type="ns24:ModelClass"/>
+                 <ns24:ModelInformation source="preBuilt" xsi:type="ns24:ModelInformation">
+                  <ns26:UMLProjectIdentifer identifier="RedcapDataService" version="1.0" xsi:type="ns26:UMLProjectIdentifer" xmlns:ns26="gme://caGrid.caBIG/1.0/org.cagrid.mms.domain"/>
+
+
+
+                  <ns24:ModelPackage packageName="org.cagrid.redcap" xsi:type="ns24:ModelPackage">
+                   <ns24:ModelClass selected="true" shortClassName="Forms" targetable="true" xsi:type="ns24:ModelClass"/>
+
+
+
+                   <ns24:ModelClass selected="true" shortClassName="Data" targetable="true" xsi:type="ns24:ModelClass"/>
+
+
+
+                   <ns24:ModelClass selected="true" shortClassName="EventArms" targetable="true" xsi:type="ns24:ModelClass"/>
+
+
+
+                   <ns24:ModelClass selected="true" shortClassName="Events" targetable="true" xsi:type="ns24:ModelClass"/>
+
+
+
+                   <ns24:ModelClass selected="true" shortClassName="EventsCalendar" targetable="true" xsi:type="ns24:ModelClass"/>
+
+
+
+                   <ns24:ModelClass selected="true" shortClassName="Projects" targetable="true" xsi:type="ns24:ModelClass"/>
+
+
 
       </ns24:ModelPackage>
 
+
+
      </ns24:ModelInformation>
+
+
 
     </ns24:Data>
    </ns23:ExtensionData>
@@ -264,5 +306,8 @@
   <ns24:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcPassword" value="password"/>
   <ns24:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcConnectString" value="jdbc:mysql://ipaddress:3306/redcap"/>
   <ns24:Property description="" isFromETC="false" key="cqlQueryProcessorConfig_jdbcUserName" value="username"/>
+  <ns24:Property description="" isFromETC="true" key="rcUserGridMapping" value="rcUserGridMapping.properties"/>
+  <ns24:Property description="" isFromETC="true" key="rcUserAuthQueries" value="rcUserAuthQueries.properties"/>
+  <ns24:Property description="" isFromETC="false" key="authorization" value="ON"/>
  </ns24:ServiceProperties>
 </ns1:ServiceDescription>

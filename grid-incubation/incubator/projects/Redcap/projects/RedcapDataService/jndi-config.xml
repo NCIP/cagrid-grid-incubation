@@ -87,6 +87,18 @@
           <name>cqlQueryProcessorConfig_jdbcUserName</name>
           <value>@cqlQueryProcessorConfig_jdbcUserName@</value>
         </parameter>
+        <parameter>
+          <name>rcUserGridMapping</name>
+          <value>ETC-PATH/@rcUserGridMapping@</value>
+        </parameter>
+        <parameter>
+          <name>rcUserAuthQueries</name>
+          <value>ETC-PATH/@rcUserAuthQueries@</value>
+        </parameter>
+        <parameter>
+          <name>authorization</name>
+          <value>@authorization@</value>
+        </parameter>
       </resourceParams>
     </resource>
     <resource name="home" type="org.cagrid.redcap.service.globus.resource.RedcapDataServiceResourceHome">
