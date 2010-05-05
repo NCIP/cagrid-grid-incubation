@@ -228,6 +228,7 @@
 		<delete dir="${style.dest.dir}" />
 		<mkdir dir="${style.dest.dir}" />
 		<mkdir dir="${style.dest.dir}/lib" />
+		<mkdir dir="${style.dest.dir}/schemas"/>
 		<!-- copy in the info -->
 		<copy todir="${style.dest.dir}">
 			<fileset dir="${style.info.dir}">
@@ -250,6 +251,12 @@
 			</fileset>
 			<fileset dir="${sdk.lib.dir}" >
 				<include name="sdk-client-framework-4.3.jar"/>
+			</fileset>
+		</copy>
+		<!-- copy the ISO schemas someplace we can get them -->
+		<copy todir="${style.dest.dir}/schemas">
+			<fileset dir="${basedir}/schemas">
+				<include name="*.xsd"/>
 			</fileset>
 		</copy>
 	</target>
