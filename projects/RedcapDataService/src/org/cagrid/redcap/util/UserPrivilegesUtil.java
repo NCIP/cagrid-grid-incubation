@@ -1,6 +1,8 @@
 package org.cagrid.redcap.util;
 
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
+import gov.nih.nci.cagrid.data.QueryProcessingException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +15,7 @@ import org.cagrid.redcap.Events;
 import org.cagrid.redcap.Forms;
 import org.cagrid.redcap.processor.DatabaseConnectionSource;
 import org.cagrid.redcap.processor.PooledDatabaseConnectionSource;
+import org.cagrid.redcap.service.RedcapDataServiceConfiguration;
 
 public class UserPrivilegesUtil {
 
@@ -21,7 +24,7 @@ public class UserPrivilegesUtil {
 	private static final String FORMS_USER_RIGHTS_QUERY = "rc_userrights_forms";
 	private static final String EVENTS_USER_RIGHTS_QUERY = "rc_userrights_events";
 	
-	public static ArrayList<String> getAuthorizedProjects(String identity, DatabaseConnectionSource connectionSource,CQLQuery cqlQuery) {
+	public static ArrayList<String> getAuthorizedProjects(String identity, DatabaseConnectionSource connectionSource,CQLQuery cqlQuery) throws QueryProcessingException{
 		
 		LOG.debug("Getting authorized projects for user with identity: (" + identity + ")");
 		ArrayList<String> projectIdList = new ArrayList<String>();
@@ -32,13 +35,13 @@ public class UserPrivilegesUtil {
 		try {
 			PooledDatabaseConnectionSource source = (PooledDatabaseConnectionSource) connectionSource;
 			con = source.getConnection();
-			
+			String userAuthQueries = RedcapDataServiceConfiguration.getConfiguration().getRcUserAuthQueries();
 			if(cqlQuery.getTarget().getName().equals(Forms.class.getName())){
-				userRightsQuery = PropertiesUtil.getQuery(FORMS_USER_RIGHTS_QUERY);
+				userRightsQuery = PropertiesUtil.getQuery(FORMS_USER_RIGHTS_QUERY,userAuthQueries);
 			}else if(cqlQuery.getTarget().getName().equals(Events.class.getName())){
-				userRightsQuery = PropertiesUtil.getQuery(EVENTS_USER_RIGHTS_QUERY);
+				userRightsQuery = PropertiesUtil.getQuery(EVENTS_USER_RIGHTS_QUERY,userAuthQueries);
 			}else{
-				userRightsQuery = PropertiesUtil.getQuery(PROJECTS_USER_RIGHTS_QUERY);
+				userRightsQuery = PropertiesUtil.getQuery(PROJECTS_USER_RIGHTS_QUERY,userAuthQueries);
 			}
 			
 			preparedStmt = con.prepareStatement(userRightsQuery);
@@ -68,7 +71,9 @@ public class UserPrivilegesUtil {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			e.printStackTrace();
+			throw new QueryProcessingException(e);
+		} catch(Exception exp){
+			throw new QueryProcessingException(exp);
 		}
 		if(cqlQuery.getTarget().getName().equalsIgnoreCase(Forms.class.getName())){
 			LOG.debug("Form Names list size "+formNameList.size());

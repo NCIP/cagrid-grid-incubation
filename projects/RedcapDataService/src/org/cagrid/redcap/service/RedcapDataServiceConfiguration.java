@@ -69,6 +69,12 @@ public class RedcapDataServiceConfiguration implements ServiceConfiguration {
 	
 	private String cqlQueryProcessorConfig_jdbcUserName;
 	
+	private String rcUserGridMapping;
+	
+	private String rcUserAuthQueries;
+	
+	private String authorization;
+	
 	
     public String getEtcDirectoryPath() {
 		return ContainerConfig.getBaseDirectory() + File.separator + etcDirectoryPath;
@@ -197,6 +203,36 @@ public class RedcapDataServiceConfiguration implements ServiceConfiguration {
 	
 	public void setCqlQueryProcessorConfig_jdbcUserName(String cqlQueryProcessorConfig_jdbcUserName) {
 		this.cqlQueryProcessorConfig_jdbcUserName = cqlQueryProcessorConfig_jdbcUserName;
+	}
+
+	
+	public String getRcUserGridMapping() {
+		return ContainerConfig.getBaseDirectory() + File.separator + rcUserGridMapping;
+	}
+	
+	
+	public void setRcUserGridMapping(String rcUserGridMapping) {
+		this.rcUserGridMapping = rcUserGridMapping;
+	}
+
+	
+	public String getRcUserAuthQueries() {
+		return ContainerConfig.getBaseDirectory() + File.separator + rcUserAuthQueries;
+	}
+	
+	
+	public void setRcUserAuthQueries(String rcUserAuthQueries) {
+		this.rcUserAuthQueries = rcUserAuthQueries;
+	}
+
+	
+	public String getAuthorization() {
+		return authorization;
+	}
+	
+	
+	public void setAuthorization(String authorization) {
+		this.authorization = authorization;
 	}
 
 	

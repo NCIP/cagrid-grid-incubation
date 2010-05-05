@@ -21,6 +21,7 @@ import org.cagrid.redcap.Events;
 import org.cagrid.redcap.EventsCalendar;
 import org.cagrid.redcap.Forms;
 import org.cagrid.redcap.Projects;
+import org.cagrid.redcap.service.RedcapDataServiceConfiguration;
 import org.cagrid.redcap.util.PropertiesUtil;
 import org.cagrid.redcap.util.RedcapUtil;
 import org.cagrid.redcap.util.UserPrivilegesUtil;
@@ -38,6 +39,7 @@ import gov.nih.nci.cagrid.data.mapping.Mappings;
 import gov.nih.nci.cagrid.data.service.ServiceConfigUtil;
 import gov.nih.nci.cagrid.data.utilities.CQLResultsCreationUtil;
 import gov.nih.nci.cagrid.data.utilities.ResultsCreationException;
+import gov.nih.nci.cagrid.introduce.servicetools.ServiceConfiguration;
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 
@@ -74,6 +76,11 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	private static final String AUTHORIZATION = "authorization";
 	private static final String AUTHORIZATION_ON = "ON";
 	
+	private static final String RCGRID_USER_MAPPING_PROPS = "rcUserGridMapping.properties";
+	private static final String RCGRID_USER_MAPPING = "rcUserGridMapping";
+	
+	private static final String RC_USER_AUTH_QUERIES = "rcUserAuthQueries";
+	private static final String RC_USER_AUTH_QUERIES_PROPS = "rcUserAuthQueries.properties";
 	private SessionFactory sessionFactory;
 	private AnnotationConfiguration annotationConfig;
 	private DatabaseConnectionSource connectionSource;
@@ -83,6 +90,8 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	private String username; 
 	private String password;
 	private String authorization;
+	private String userMapping;
+	
 	private static final Log LOG = LogFactory.getLog(RedcapQueryProcessor.class);
 	
 	private QueryModifier queryModifier;
@@ -125,8 +134,11 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	 public Set<String> getPropertiesFromEtc() {
         Set<String> fromEtc = new HashSet<String>();
         fromEtc.add(DOMAIN_MODEL_FILE_NAME);
+        fromEtc.add(RCGRID_USER_MAPPING);
+        fromEtc.add(RC_USER_AUTH_QUERIES);
         return fromEtc;
 	 }
+	 
 	 
 	 /*
 	  * Gets the configured domain model 
@@ -154,6 +166,8 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         props.setProperty(JDBC_PASSWORD, "");
         props.setProperty(DOMAIN_MODEL_FILE_NAME,DEF_DOMAIN_MODEL);
         props.setProperty(AUTHORIZATION, AUTHORIZATION_ON);
+        props.setProperty(RCGRID_USER_MAPPING,RCGRID_USER_MAPPING_PROPS);
+        props.setProperty(RC_USER_AUTH_QUERIES, RC_USER_AUTH_QUERIES_PROPS);
         return props;
     }
     
@@ -170,6 +184,7 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         username = getConfiguredParameters().getProperty(JDBC_USERNAME);
         password = getConfiguredParameters().getProperty(JDBC_PASSWORD);
         authorization = getConfiguredParameters().getProperty(AUTHORIZATION);
+       
         
         StringBuffer logMessage = new StringBuffer();
         logMessage.append(JDBC_DRIVER_NAME).append("[").append(driverClassname).append("]");
@@ -504,14 +519,20 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	 }
 	 
 	private String getCallerId() throws QueryProcessingException{
-       String caller = org.globus.wsrf.security.SecurityManager.getManager().getCaller();
-       int index = caller.lastIndexOf("=");
-       String gridUser = caller.substring(index+1, caller.length());
-       String rcUser = PropertiesUtil.getUsernames(gridUser);
-       LOG.debug("Mapping Grid User["+gridUser+"] with Redcap username["+rcUser);
-       if(rcUser==null){
-    	   throw new QueryProcessingException("Invalid user credentials. No mapping for grid user"+gridUser+" in Redcap "+rcUser);
-       }
+		String rcUser = "";
+		try{
+			String caller = org.globus.wsrf.security.SecurityManager.getManager().getCaller();
+			int index = caller.lastIndexOf("=");
+			String gridUser = caller.substring(index+1, caller.length());
+	        userMapping = RedcapDataServiceConfiguration.getConfiguration().getRcUserGridMapping();
+	        rcUser = PropertiesUtil.getUsernames(gridUser,userMapping);
+	        LOG.debug("Mapping Grid User["+gridUser+"] with Redcap username["+rcUser);
+	        if(rcUser==null){
+	    	   throw new QueryProcessingException("Invalid user credentials. No mapping for grid user"+gridUser+" in Redcap "+rcUser);
+	        }
+		}catch(Exception e){
+			throw new QueryProcessingException(e);
+	    }
        return rcUser;
     }
 	
