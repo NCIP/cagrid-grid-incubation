@@ -2,18 +2,25 @@ package org.cagrid.iso21090.sdkquery.style.wizard.config;
 
 import gov.nih.nci.cagrid.common.JarUtilities;
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.common.portal.MultiEventProgressBar;
 import gov.nih.nci.cagrid.data.common.ExtensionDataManager;
 import gov.nih.nci.cagrid.data.common.ModelInformationUtil;
 import gov.nih.nci.cagrid.data.extension.ModelClass;
 import gov.nih.nci.cagrid.data.extension.ModelInformation;
 import gov.nih.nci.cagrid.introduce.IntroduceConstants;
+import gov.nih.nci.cagrid.introduce.beans.configuration.NamespaceReplacementPolicy;
+import gov.nih.nci.cagrid.introduce.beans.extension.DiscoveryExtensionDescriptionType;
 import gov.nih.nci.cagrid.introduce.beans.extension.ExtensionType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.NamespaceType;
+import gov.nih.nci.cagrid.introduce.beans.namespace.NamespacesType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.SchemaElementType;
 import gov.nih.nci.cagrid.introduce.common.CommonTools;
 import gov.nih.nci.cagrid.introduce.common.ServiceInformation;
+import gov.nih.nci.cagrid.introduce.extension.ExtensionsLoader;
+import gov.nih.nci.cagrid.introduce.portal.modification.discovery.NamespaceTypeDiscoveryComponent;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -118,7 +125,7 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
                     
                     // get cadsr package, set namespace, automagic mapping
                     modelInfoUtil.setMappedNamespace(packageName, nsType.getNamespace());
-                    automaticalyMapElementsToClasses(packageName, nsType);
+                    automaticalyMapElementsToClasses(packageName, nsType, true);
                     break;
                 } else if (StyleProperties.ISO_PACKAGE_NAME.equals(packageName)) {
                     isoPackagePresent = true;
@@ -126,15 +133,38 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
             }
         }
         
-        // TODO: map the ISO package to the ISO schema
-        
+        if (isoPackagePresent) {
+            // map the ISO package to the ISO schema
+            // start by loading up and runing the ISO types discovery extension
+            DiscoveryExtensionDescriptionType isoDiscoveryDescriptor = ExtensionsLoader.getInstance().getDiscoveryExtension("ISO21090-discovery");
+            String discoveryClassName = isoDiscoveryDescriptor.getDiscoveryPanelExtension();
+            Class<?> discoveryClass = Class.forName(discoveryClassName);
+            Constructor<?> discoveryComponentCons = discoveryClass.getConstructor(
+                DiscoveryExtensionDescriptionType.class, NamespacesType.class);
+            NamespaceTypeDiscoveryComponent isoDiscoveryTool = 
+                (NamespaceTypeDiscoveryComponent) discoveryComponentCons.newInstance(
+                    isoDiscoveryDescriptor, getServiceInformation().getNamespaces());
+            
+            NamespaceType[] isoNamespaces = isoDiscoveryTool.createNamespaceType(
+                schemaDir, NamespaceReplacementPolicy.IGNORE, new MultiEventProgressBar(true));
+            NamespaceType extIsoNamespace = null;
+            for (NamespaceType ns : isoNamespaces) {
+                CommonTools.addNamespace(getServiceInformation().getServiceDescriptor(), ns);
+                if (ns.getLocation().endsWith("_extensions.xsd")) {
+                    extIsoNamespace = ns;
+                }
+            }
+            
+            modelInfoUtil.setMappedNamespace(StyleProperties.ISO_PACKAGE_NAME, extIsoNamespace.getNamespace());
+            automaticalyMapElementsToClasses(StyleProperties.ISO_PACKAGE_NAME, extIsoNamespace, false);
+        }
         
         // throw out the temp XSD directory
         Utils.deleteDir(tempXsdDir);
     }
     
     
-    private void automaticalyMapElementsToClasses(String packageName, NamespaceType nsType) throws Exception {
+    private void automaticalyMapElementsToClasses(String packageName, NamespaceType nsType, boolean setSerialization) throws Exception {
         List<ModelClass> mappings = dataManager.getClassMappingsInPackage(packageName);
         for (ModelClass clazz : mappings) {
             String className = clazz.getShortClassName();
@@ -142,10 +172,12 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
             for (SchemaElementType element : nsType.getSchemaElement()) {
                 if (element.getType().equals(className)) {
                     setClassMapping(packageName, className, element);
-                    // set the class name and serialization for this element
-                    element.setClassName(className);
-                    element.setPackageName(packageName);
-                    setSdkSerialization(element);
+                    if (setSerialization) {
+                        // set the class name and serialization for this element
+                        element.setClassName(className);
+                        element.setPackageName(packageName);
+                        setSdkSerialization(element);
+                    }
                     break;
                 }
             }

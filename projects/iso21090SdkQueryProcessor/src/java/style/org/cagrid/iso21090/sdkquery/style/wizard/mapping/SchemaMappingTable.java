@@ -18,6 +18,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.cagrid.iso21090.sdkquery.style.wizard.config.SchemaMappingConfigStep;
+import org.cagrid.iso21090.sdkquery.style.wizard.config.StyleProperties;
 
 /**
  * Table which shows the mapping between domain model packages
@@ -134,6 +135,11 @@ public class SchemaMappingTable extends JTable {
         }
         if (!exists) {
             return PackageMappingStatus.SCHEMA_NOT_FOUND;
+        }
+        
+        if (pack.getPackageName().equals(StyleProperties.ISO_PACKAGE_NAME)) {
+            // it's fine...
+            return PackageMappingStatus.OK;
         }
         
         // verify each class has a mapped element which exists in the schema

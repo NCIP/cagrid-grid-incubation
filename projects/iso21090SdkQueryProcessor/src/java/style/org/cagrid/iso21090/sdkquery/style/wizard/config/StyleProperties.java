@@ -6,4 +6,6 @@ public interface StyleProperties {
     public static final String SDK_LOCAL_CLIENT_DIR = "sdk.local.client.dir";
     
     public static final String ISO_PACKAGE_NAME = "gov.nih.nci.iso21090";
+    
+    public static final String STYLE_NAME = "caCORE SDK v 4.3";
 }
