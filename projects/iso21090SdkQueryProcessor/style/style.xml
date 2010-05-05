@@ -11,5 +11,4 @@
 	</CreationWizardPanels>
 	<ModificationUiPanel classname="org.cagrid.iso21090.sdkquery.style.modification.InformationPanel"/>
 	<CreationHelper postCreationClassname="org.cagrid.iso21090.sdkquery.style.helpers.PostCreationHelper"/>
-	<CodegenHelpers postCodegenClassname="org.cagrid.iso21090.sdkquery.style.helpers.PostCodegenHelper"/>
 </DataServiceStyle>
