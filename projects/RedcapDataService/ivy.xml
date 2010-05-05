@@ -46,8 +46,10 @@
 	 	  <dependency rev="1.3" org="caGrid" name="core" conf="default->default;impl-test->test"/>
 	 	   <dependency rev="4.4" org="junit" name="junit" conf="default->default" />
 	 	   <dependency rev="1.3" org="caGrid" name="gridgrouper-auth-extension" conf="default->base" />
-	  	   
-	  	   
+	  	   <dependency rev="1.3" org="caGrid" name="authentication-service" conf="default->client" />
+	  	   <dependency rev="1.3" org="caGrid" name="dorian" conf="default->client,stubs,common" />
+	  	    <dependency rev="2.7.1" org="apache" name="xerces2-j" conf="default->default"/>
+	  	    
     <dependency rev="1.3" org="caGrid" name="introduce" conf="default->extension-test"/>
     <!--   <dependency rev="1.3" org="caGrid" name="testUtils" conf="default->containers"/> --> 
     
