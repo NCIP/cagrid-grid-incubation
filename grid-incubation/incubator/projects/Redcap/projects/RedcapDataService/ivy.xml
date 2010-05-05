@@ -45,7 +45,8 @@
 	 	 <dependency rev="1.3" org="caGrid" name="cadsr" conf="default->test" />
 	 	  <dependency rev="1.3" org="caGrid" name="core" conf="default->default;impl-test->test"/>
 	 	   <dependency rev="4.4" org="junit" name="junit" conf="default->default" />
-	 	   
+	 	   <dependency rev="1.3" org="caGrid" name="gridgrouper-auth-extension" conf="default->base" />
+	  	   
 	  	   
     <dependency rev="1.3" org="caGrid" name="introduce" conf="default->extension-test"/>
     <!--   <dependency rev="1.3" org="caGrid" name="testUtils" conf="default->containers"/> --> 
