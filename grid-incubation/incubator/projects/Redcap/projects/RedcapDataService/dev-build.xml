@@ -29,6 +29,8 @@
 	<property name="test.resources.dir" value="${basedir}/test/resources/properties"/>
 	<property file="${test.resources.dir}/test.database.properties"/>
 		
+	<property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
+	<property name="globus.lib.dir" location="${ext.globus.dir}/lib"/>
 	
 	<!-- ============================================================== -->
 	<!-- Create any extended Classpaths here                            -->
@@ -269,5 +271,25 @@
 			</junit>
 		</target>
 
-
+	<!-- Example: ant addUser -DgridGrouper.url="https://grouper.training.cagrid.org:8443/wsrf/services/cagrid/GridGrouper" -Dgroup.nam
+e="Training:rcconnecttest" -DuserGrid.identifier="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=rc_testuser4" -DredcapUser.name="testing"	-->
+	
+	<target name="addUser" depends="checkGlobus,defineClasspaths" description="Adds the Redcap user to grid group">
+		<echo message="Adding the Redcap user to grid group" />
+		<java fork="true" classname="org.cagrid.redcap.util.RedcapGridUserClient"
+					args="${gridGrouperUrl} ${groupName} ${adminId} ${password}"> 
+		<classpath>
+				<fileset dir="${basedir}/build/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<fileset dir="${basedir}/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<fileset dir="${globus.lib.dir}">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="${ext.globus.dir}" />
+			</classpath>
+		</java>
+	</target>
 </project>
