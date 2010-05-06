@@ -174,7 +174,7 @@ public class ISOSupportDomainModelGenerator {
                     c.setId(String.valueOf(clazz.hashCode()));
                     // ISO types aren't targetable; everything else is by default
                     LOG.debug("Class " + (isIsoClass ? "is" : "is not") + " targetable");
-                    c.setAllowableAsTarget(isIsoClass);
+                    c.setAllowableAsTarget(!isIsoClass);
                     // attributes
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
