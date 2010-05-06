@@ -33,8 +33,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
@@ -57,6 +59,26 @@ public class ISOSupportDomainModelGenerator {
     // cadsr ID tag values
     public static final String XMI_TAG_CADSR_DE_ID = "CADSR_DE_ID";
     public static final String XMI_TAG_CADSR_DE_VERSION = "CADSR_DE_VERSION";
+    
+    // IVL causes problems, so we're mapping all Ivl<?> to a single Ivl class with a consistent ID
+    private static final gov.nih.nci.cagrid.metadata.dataservice.UMLClass IVL_CLASS = 
+        new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
+    static {
+        IVL_CLASS.setPackageName("gov.nih.nci.iso21090");
+        IVL_CLASS.setClassName("Ivl");
+        gov.nih.nci.cagrid.metadata.common.UMLAttribute attr1 = 
+            new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
+        attr1.setDataTypeName("java.lang.Boolean");
+        attr1.setName("highClosed");
+        gov.nih.nci.cagrid.metadata.common.UMLAttribute attr2 = 
+            new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
+        attr2.setDataTypeName("java.lang.Boolean");
+        attr2.setName("lowClosed");
+        IVL_CLASS.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
+            new gov.nih.nci.cagrid.metadata.common.UMLAttribute[] {attr1, attr2}));
+        IVL_CLASS.setAllowableAsTarget(false);
+        IVL_CLASS.setId(String.valueOf((IVL_CLASS.getPackageName() + "." + IVL_CLASS.getClassName()).hashCode()));
+    }
     
     private static Log LOG = LogFactory.getLog(ISOSupportDomainModelGenerator.class);
 
@@ -146,12 +168,19 @@ public class ISOSupportDomainModelGenerator {
         domain.setProjectLongName(getProjectLongName());
         domain.setProjectDescription(getProjectDescription());
         List<UMLClass> umlClasses = getAllClassesInModel(umlModel);
-        List<gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = 
-            new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLClass>();
+        Map<String, gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = 
+            new HashMap<String, gov.nih.nci.cagrid.metadata.dataservice.UMLClass>();
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation> domainAssociations = 
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation>();
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization> generalizations = 
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization>();
+        // add the pre-created IVL class
+        LOG.debug("Creating initial class list");
+        for (gov.nih.nci.cagrid.metadata.common.UMLAttribute a : IVL_CLASS.getUmlAttributeCollection().getUMLAttribute()) {
+            a.setVersion(getAttributeVersion());
+        }
+        domainClasses.put(IVL_CLASS.getPackageName() + "." + IVL_CLASS.getClassName(), IVL_CLASS);
+        // have to pre-create all the classes so I can properly create associations w/ refs between them
         for (UMLClass clazz : umlClasses) {
             if (clazz.getPackage() == null) {
                 LOG.debug("Skipping class with null package: " + clazz.getName());
@@ -161,6 +190,9 @@ public class ISOSupportDomainModelGenerator {
                 if (shouldExcludePackage(fullPackageName)) {
                     LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
                     System.out.println("Excluding class " + fullPackageName + "." + clazz.getName());
+                } else if (clazz.getName().startsWith("IVL<")) {
+                    LOG.debug("Skipping " + clazz.getName() + " in favor of a single Ivl class");
+                    System.out.println("Skipping " + clazz.getName() + " in favor of a single Ivl class");
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
@@ -175,7 +207,34 @@ public class ISOSupportDomainModelGenerator {
                     // ISO types aren't targetable; everything else is by default
                     LOG.debug("Class " + (isIsoClass ? "is" : "is not") + " targetable");
                     c.setAllowableAsTarget(!isIsoClass);
+                    domainClasses.put(c.getPackageName() + "." + c.getClassName(), c);
+                }
+            }
+        }
+        // process through the classes again
+        LOG.debug("Reprocessing classes to figure out attributes");
+        for (UMLClass clazz : umlClasses) {
+            if (clazz.getPackage() == null) {
+                LOG.debug("Skipping class with null package: " + clazz.getName());
+            } else {
+                String fullPackageName = getFullPackageName(clazz);
+                // filter out anything not in the logical model and matching the exclude regex
+                if (shouldExcludePackage(fullPackageName)) {
+                    LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
+                    System.out.println("Excluding class " + fullPackageName + "." + clazz.getName());
+                } else if (clazz.getName().startsWith("IVL<")) {
+                    LOG.debug("Skipping " + clazz.getName() + " in favor of a single Ivl class");
+                    System.out.println("Skipping " + clazz.getName() + " in favor of a single Ivl class");
+                } else {
+                    // basic class info
+                    String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
+                    boolean isIsoClass = isoPattern.matcher(strippedPackageName).matches();
+                    String shortClassName = isIsoClass ? cleanUpIsoClassName(clazz.getName()) : clazz.getName();
+                    String fullClassName = strippedPackageName + "." + shortClassName;
+                    gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = domainClasses.get(fullClassName);
+                    
                     // attributes
+                    LOG.debug("Processing attributes of the class");
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
                         new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
@@ -184,9 +243,13 @@ public class ISOSupportDomainModelGenerator {
                         System.out.println("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
                         UMLDatatype rawAttributeDatatype = attrib.getDatatype();
-                        boolean isCollection = attributeTypeRepresentsCollection(rawAttributeDatatype);
+                        boolean isCollection = attributeTypeRepresentsCollection(rawAttributeDatatype.getName());
+                        boolean isGeneric = attributeTypeRepresentsGeneric(rawAttributeDatatype.getName());
+                        // TODO: if generic, create an association from the generic to the specific
                         LOG.debug("Attribute " + (isCollection ? "represents" : "does not represent") + " a collection");
+                        LOG.debug("Attribute " + (isGeneric ? "represents" : "does not represent") + " a generic");
                         System.out.println("Attribute " + (isCollection ? "represents" : "does not represent") + " a collection");
+                        System.out.println("Attribute " + (isGeneric ? "represents" : "does not represent") + " a generic");
                         // sometimes, a user just types in the name of the datatype and it doesn't
                         // really reference a UMLClass instance in the model.  Even though this is
                         // an error, the SDK has a heuristic to deal with it, so we do too.
@@ -223,13 +286,25 @@ public class ISOSupportDomainModelGenerator {
                             sourceEdge.setMaxCardinality(isCollection ? -1 : 1);
                             sourceEdge.setMinCardinality(0);
                             sourceEdge.setRoleName(attrib.getName());
-                            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
+                            // IVL is magic
+                            if (attributeDatatype.getName().startsWith("IVL<")) {
+                                sourceEdge.setUMLClassReference(new UMLClassReference(IVL_CLASS.getId()));
+                            } else {
+                                sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
+                            }
                             isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
                             UMLAssociationEdge targetEdge = new UMLAssociationEdge();
                             targetEdge.setMaxCardinality(1);
                             targetEdge.setMinCardinality(0);
                             targetEdge.setRoleName(attrib.getName());
-                            targetEdge.setUMLClassReference(new UMLClassReference(c.getId()));
+                            if (isGeneric) {
+                                // get the generic specific type
+                                UMLClass specificType = deriveRealClass(
+                                    getGenericSpecificType(rawAttributeDatatype.getName()), umlClasses);
+                                targetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
+                            } else {
+                                targetEdge.setUMLClassReference(new UMLClassReference(c.getId()));
+                            }
                             isoAssociation.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
                             domainAssociations.add(isoAssociation);
                         } else {
@@ -247,7 +322,6 @@ public class ISOSupportDomainModelGenerator {
                     }
                     c.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
                         attribs.toArray(new gov.nih.nci.cagrid.metadata.common.UMLAttribute[0])));
-                    domainClasses.add(c);
                     // associations of this class
                     Set<UMLAssociation> umlAssociations = clazz.getAssociations();
                     for (UMLAssociation assoc : umlAssociations) {
@@ -295,7 +369,7 @@ public class ISOSupportDomainModelGenerator {
         // build the model
         domain.setExposedUMLClassCollection(
             new DomainModelExposedUMLClassCollection(
-                domainClasses.toArray(
+                domainClasses.values().toArray(
                     new gov.nih.nci.cagrid.metadata.dataservice.UMLClass[0])));
         domain.setExposedUMLAssociationCollection(
             new DomainModelExposedUMLAssociationCollection(
@@ -364,48 +438,55 @@ public class ISOSupportDomainModelGenerator {
     
     
     private UMLClass deriveRealClass(UMLDatatype datatype, List<UMLClass> searchClasses) {
+        System.out.println("Deriving real class for datatype " + datatype.getName());
         UMLClass determinedClass = null;
         if (datatype instanceof UMLClass) {
             determinedClass = (UMLClass) datatype;
         } else {
-            String name = null;
-            if (attributeTypeRepresentsCollection(datatype)) {
-                name = stripCollectionRepresentation(datatype.getName());
-            } else {
-                name = datatype.getName();
-            }
-            Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
-            Pattern javaPattern = Pattern.compile(JAVA_PACKAGE_REGEX);
-            UMLClass candidate = null;
-            UMLClass javaCandidate = null;
-            UMLClass isoCandidate = null;
-            for (UMLClass c : searchClasses) {
-                if (name.equals(c.getName())) {
-                    String packName = getFullPackageName(c);
-                    if (packName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)) {
-                        // it's a logical model package, please continue processing
-                        if (javaPattern.matcher(packName).matches()) {
-                            javaCandidate = c;
-                        } else if (isoPattern.matcher(packName).matches()) {
-                            isoCandidate = c;
-                        } else {
-                            candidate = c;
-                        }
-                    }
-                }
-            }
-            // prefer the java, then the ISO, then the non-ISO candidate
-            if (javaCandidate != null) {
-                determinedClass = javaCandidate;
-            } else if (isoCandidate != null) {
-                determinedClass = isoCandidate;
-            } else {
-                determinedClass = candidate;
-            }
+            determinedClass = deriveRealClass(datatype.getName(), searchClasses);
         }
         return determinedClass;
     }
-        
+    
+    
+    private UMLClass deriveRealClass(String shortName, List<UMLClass> searchClasses) {
+        UMLClass determinedClass = null;
+        String name = shortName;
+        if (attributeTypeRepresentsCollection(shortName)) {
+            name = stripCollectionRepresentation(shortName);
+        } else if (attributeTypeRepresentsGeneric(shortName)) {
+            name = stripGeneric(shortName);
+        }
+        Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
+        Pattern javaPattern = Pattern.compile(JAVA_PACKAGE_REGEX);
+        UMLClass candidate = null;
+        UMLClass javaCandidate = null;
+        UMLClass isoCandidate = null;
+        for (UMLClass c : searchClasses) {
+            if (name.equals(c.getName())) {
+                String packName = getFullPackageName(c);
+                if (packName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)) {
+                    // it's a logical model package, please continue processing
+                    if (javaPattern.matcher(packName).matches()) {
+                        javaCandidate = c;
+                    } else if (isoPattern.matcher(packName).matches()) {
+                        isoCandidate = c;
+                    } else {
+                        candidate = c;
+                    }
+                }
+            }
+        }
+        // prefer the java, then the ISO, then the non-ISO candidate
+        if (javaCandidate != null) {
+            determinedClass = javaCandidate;
+        } else if (isoCandidate != null) {
+            determinedClass = isoCandidate;
+        } else {
+            determinedClass = candidate;
+        }
+        return determinedClass;
+    }
     
     
     private void annotateAttribute(
@@ -491,6 +572,7 @@ public class ISOSupportDomainModelGenerator {
      * 
      * eg1) II -> Ii
      * eg2) EN.ON - >EnOn
+     * eg3) DSET<II> -> Dset
      * 
      * @param isoClassName
      * @return
@@ -505,20 +587,41 @@ public class ISOSupportDomainModelGenerator {
                 cleaned.append(part.toLowerCase().substring(1));
             }
         }
+        int trimPoint = cleaned.indexOf("<");
+        if (trimPoint != -1) {
+            return cleaned.substring(0, trimPoint);
+        }
         return cleaned.toString();
     }
     
     
-    private boolean attributeTypeRepresentsCollection(UMLDatatype datatype) {
-        String name = datatype.getName();
-        return (name.startsWith("Sequence(") || name.startsWith("Set("))
-            && name.endsWith(")");
+    private boolean attributeTypeRepresentsCollection(String datatype) {
+        return (datatype.startsWith("Sequence(") || datatype.startsWith("Set("))
+            && datatype.endsWith(")");
+    }
+    
+    
+    private boolean attributeTypeRepresentsGeneric(String datatype) {
+        return datatype.contains("<");
     }
     
     
     private String stripCollectionRepresentation(String name) {
         int start = name.indexOf('(');
         int end = name.indexOf(')', start);
+        return name.substring(start + 1, end);
+    }
+    
+    
+    private String stripGeneric(String name) {
+        int start = name.indexOf('<');
+        return name.substring(0, start);
+    }
+    
+    
+    private String getGenericSpecificType(String name) {
+        int start = name.indexOf('<');
+        int end = name.indexOf('>', start);
         return name.substring(start + 1, end);
     }
 
