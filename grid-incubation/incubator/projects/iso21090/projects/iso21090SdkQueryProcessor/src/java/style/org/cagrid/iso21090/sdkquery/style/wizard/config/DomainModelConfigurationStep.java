@@ -249,7 +249,7 @@ public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep
                 modelClass.setShortClassName(clazz.getClassName());
                 // NOT populating element names until Schema Mapping Panel
                 modelClass.setSelected(true);
-                modelClass.setTargetable(true);
+                modelClass.setTargetable(clazz.isAllowableAsTarget());
                 modelClasses.add(modelClass);
             }
             ModelClass[] mappingArray = new ModelClass[modelClasses.size()];

@@ -57,37 +57,42 @@ public class PostCreationHelper implements StyleCreationPostProcessor {
         }
         
         // edit the marshaling castor mapping to avoid serializing associations
-        String marshallingXmlText = Utils.fileToStringBuffer(
-            new File(CastorMappingUtil.getMarshallingCastorMappingFileName(info))).toString();
-        String editedMarshallingText = CastorMappingUtil.removeAssociationMappings(marshallingXmlText);
-        String editedMarshallingFileName = CastorMappingUtil.getEditedMarshallingCastorMappingFileName(info);
-        Utils.stringBufferToFile(new StringBuffer(editedMarshallingText), editedMarshallingFileName);
-        
-        // edit the unmarshaling castor mapping to avoid deserializing associations
-        String unmarshallingXmlText = Utils.fileToStringBuffer(
-            new File(CastorMappingUtil.getUnmarshallingCastorMappingFileName(info))).toString();
-        String editedUnmarshallingText = CastorMappingUtil.removeAssociationMappings(unmarshallingXmlText);
-        String editedUnmarshallingFileName = CastorMappingUtil.getEditedUnmarshallingCastorMappingFileName(info);
-        Utils.stringBufferToFile(new StringBuffer(editedUnmarshallingText), editedUnmarshallingFileName);
-        
-        // set properties in the client to use the edited marshaler
-        WsddUtil.setGlobalClientParameter(clientConfigFile.getAbsolutePath(),
-            SDK43EncodingUtils.CASTOR_MARSHALLER_PROPERTY, 
-            CastorMappingUtil.getEditedMarshallingCastorMappingName(info));
-        // and the edited unmarshaler
-        WsddUtil.setGlobalClientParameter(clientConfigFile.getAbsolutePath(),
-            SDK43EncodingUtils.CASTOR_UNMARSHALLER_PROPERTY, 
-            CastorMappingUtil.getEditedUnmarshallingCastorMappingName(info));
-        
-        // set properties in the server to use the edited marshaler
-        WsddUtil.setServiceParameter(serverConfigFile.getAbsolutePath(),
-            info.getServices().getService(0).getName(),
-            SDK43EncodingUtils.CASTOR_MARSHALLER_PROPERTY,
-            CastorMappingUtil.getEditedMarshallingCastorMappingName(info));
-        // and the edited unmarshaler
-        WsddUtil.setServiceParameter(serverConfigFile.getAbsolutePath(),
-            info.getServices().getService(0).getName(),
-            SDK43EncodingUtils.CASTOR_UNMARSHALLER_PROPERTY,
-            CastorMappingUtil.getEditedUnmarshallingCastorMappingName(info));
+        File castorMappingFile = new File(CastorMappingUtil.getMarshallingCastorMappingFileName(info));
+        if (castorMappingFile.exists()) {
+            String marshallingXmlText = Utils.fileToStringBuffer(castorMappingFile).toString();
+            String editedMarshallingText = CastorMappingUtil.removeAssociationMappings(marshallingXmlText);
+            String editedMarshallingFileName = CastorMappingUtil.getEditedMarshallingCastorMappingFileName(info);
+            Utils.stringBufferToFile(new StringBuffer(editedMarshallingText), editedMarshallingFileName);
+
+            // edit the unmarshaling castor mapping to avoid deserializing associations
+            String unmarshallingXmlText = Utils.fileToStringBuffer(
+                new File(CastorMappingUtil.getUnmarshallingCastorMappingFileName(info))).toString();
+            String editedUnmarshallingText = CastorMappingUtil.removeAssociationMappings(unmarshallingXmlText);
+            String editedUnmarshallingFileName = CastorMappingUtil.getEditedUnmarshallingCastorMappingFileName(info);
+            Utils.stringBufferToFile(new StringBuffer(editedUnmarshallingText), editedUnmarshallingFileName);
+
+            // set properties in the client to use the edited marshaler
+            WsddUtil.setGlobalClientParameter(clientConfigFile.getAbsolutePath(),
+                SDK43EncodingUtils.CASTOR_MARSHALLER_PROPERTY, 
+                CastorMappingUtil.getEditedMarshallingCastorMappingName(info));
+            // and the edited unmarshaler
+            WsddUtil.setGlobalClientParameter(clientConfigFile.getAbsolutePath(),
+                SDK43EncodingUtils.CASTOR_UNMARSHALLER_PROPERTY, 
+                CastorMappingUtil.getEditedUnmarshallingCastorMappingName(info));
+
+            // set properties in the server to use the edited marshaler
+            WsddUtil.setServiceParameter(serverConfigFile.getAbsolutePath(),
+                info.getServices().getService(0).getName(),
+                SDK43EncodingUtils.CASTOR_MARSHALLER_PROPERTY,
+                CastorMappingUtil.getEditedMarshallingCastorMappingName(info));
+            // and the edited unmarshaler
+            WsddUtil.setServiceParameter(serverConfigFile.getAbsolutePath(),
+                info.getServices().getService(0).getName(),
+                SDK43EncodingUtils.CASTOR_UNMARSHALLER_PROPERTY,
+                CastorMappingUtil.getEditedUnmarshallingCastorMappingName(info));
+        } else {
+            LOG.debug("Castor mapping file " + castorMappingFile.getAbsolutePath() + 
+                " not found... this is OK if you're using JaxB serialization");
+        }
     }
 }
