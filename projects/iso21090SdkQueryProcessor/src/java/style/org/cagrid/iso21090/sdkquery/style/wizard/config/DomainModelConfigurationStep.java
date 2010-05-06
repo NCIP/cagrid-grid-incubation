@@ -160,7 +160,7 @@ public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep
                 modelClass.setShortClassName(clazz.getClassName());
                 // NOT populating element names until Schema Mapping Panel
                 modelClass.setSelected(true);
-                modelClass.setTargetable(true);
+                modelClass.setTargetable(clazz.isAllowableAsTarget());
                 modelClasses.add(modelClass);
             }
             ModelClass[] classArray = new ModelClass[modelClasses.size()];
@@ -251,6 +251,7 @@ public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep
                 modelClass.setSelected(true);
                 modelClass.setTargetable(clazz.isAllowableAsTarget());
                 modelClasses.add(modelClass);
+                System.out.println("Class " + packageName + "." + clazz.getClassName() + " targetable? " + clazz.isAllowableAsTarget());
             }
             ModelClass[] mappingArray = new ModelClass[modelClasses.size()];
             modelClasses.toArray(mappingArray);
