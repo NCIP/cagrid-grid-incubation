@@ -59,27 +59,7 @@ public class ISOSupportDomainModelGenerator {
     // cadsr ID tag values
     public static final String XMI_TAG_CADSR_DE_ID = "CADSR_DE_ID";
     public static final String XMI_TAG_CADSR_DE_VERSION = "CADSR_DE_VERSION";
-    
-    // IVL causes problems, so we're mapping all Ivl<?> to a single Ivl class with a consistent ID
-    private static final gov.nih.nci.cagrid.metadata.dataservice.UMLClass IVL_CLASS = 
-        new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
-    static {
-        IVL_CLASS.setPackageName("gov.nih.nci.iso21090");
-        IVL_CLASS.setClassName("Ivl");
-        gov.nih.nci.cagrid.metadata.common.UMLAttribute attr1 = 
-            new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
-        attr1.setDataTypeName("java.lang.Boolean");
-        attr1.setName("highClosed");
-        gov.nih.nci.cagrid.metadata.common.UMLAttribute attr2 = 
-            new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
-        attr2.setDataTypeName("java.lang.Boolean");
-        attr2.setName("lowClosed");
-        IVL_CLASS.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
-            new gov.nih.nci.cagrid.metadata.common.UMLAttribute[] {attr1, attr2}));
-        IVL_CLASS.setAllowableAsTarget(false);
-        IVL_CLASS.setId(String.valueOf((IVL_CLASS.getPackageName() + "." + IVL_CLASS.getClassName()).hashCode()));
-    }
-    
+        
     private static Log LOG = LogFactory.getLog(ISOSupportDomainModelGenerator.class);
 
     private XmiInOutHandler handler = null;
@@ -176,10 +156,9 @@ public class ISOSupportDomainModelGenerator {
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization>();
         // add the pre-created IVL class
         LOG.debug("Creating initial class list");
-        for (gov.nih.nci.cagrid.metadata.common.UMLAttribute a : IVL_CLASS.getUmlAttributeCollection().getUMLAttribute()) {
-            a.setVersion(getAttributeVersion());
-        }
-        domainClasses.put(IVL_CLASS.getPackageName() + "." + IVL_CLASS.getClassName(), IVL_CLASS);
+        UMLPackage isoPackage = findIsoPackage(umlModel.getPackages());
+        IvlUmlClass ivlClass = new IvlUmlClass(isoPackage);
+        umlClasses.add(ivlClass);
         // have to pre-create all the classes so I can properly create associations w/ refs between them
         for (UMLClass clazz : umlClasses) {
             if (clazz.getPackage() == null) {
@@ -286,12 +265,14 @@ public class ISOSupportDomainModelGenerator {
                             sourceEdge.setMaxCardinality(isCollection ? -1 : 1);
                             sourceEdge.setMinCardinality(0);
                             sourceEdge.setRoleName(attrib.getName());
-                            // IVL is magic
+                            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
+                            /* IVL is magic
                             if (attributeDatatype.getName().startsWith("IVL<")) {
-                                sourceEdge.setUMLClassReference(new UMLClassReference(IVL_CLASS.getId()));
+                                sourceEdge.setUMLClassReference(new UMLClassReference(ivlClass.getId()));
                             } else {
                                 sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
                             }
+                            */
                             isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
                             UMLAssociationEdge targetEdge = new UMLAssociationEdge();
                             targetEdge.setMaxCardinality(1);
@@ -624,13 +605,40 @@ public class ISOSupportDomainModelGenerator {
         int end = name.indexOf('>', start);
         return name.substring(start + 1, end);
     }
+    
+    
+    private UMLPackage findIsoPackage(Collection<UMLPackage> packs) {
+        for (UMLPackage p : packs) {
+            // determine the package name
+            StringBuffer buf = new StringBuffer();
+            boolean first = true;
+            UMLPackage pack = p;
+            while (pack != null) {
+                if (!first) {
+                    buf.insert(0, '.');   
+                }
+                first = false;
+                buf.insert(0, pack.getName());
+                pack = pack.getParent();
+            }
+            if (buf.toString().equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090")) {
+                return p;
+            } else {
+                UMLPackage maybe = findIsoPackage(p.getPackages());
+                if (maybe != null) {
+                    return maybe;
+                }
+            }
+        }
+        return null;
+    }
 
 
     public static void main(String[] args) {
         ISOSupportDomainModelGenerator generator = new ISOSupportDomainModelGenerator(HandlerEnum.EADefault);
         try {
             System.out.println("generating model");
-            DomainModel model = generator.generateDomainModel("test/resources/sdk-new.xmi");
+            DomainModel model = generator.generateDomainModel("test/resources/sdk.xmi");
             System.out.println("serializing");
             FileWriter writer = new FileWriter("sample-domain-model.xml");
             MetadataUtils.serializeDomainModel(model, writer);
