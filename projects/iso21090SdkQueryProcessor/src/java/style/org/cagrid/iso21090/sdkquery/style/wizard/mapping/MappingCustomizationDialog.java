@@ -422,8 +422,10 @@ public class MappingCustomizationDialog extends JDialog {
                         configuration.unsetClassMapping(
                             modelPackage.getPackageName(), className);
                     } else if (selection instanceof SchemaElementType) {
+                        // set the class mapping, but don't mess with serialzation of ISO types!
                         configuration.setClassMapping(
-                            modelPackage.getPackageName(), className, (SchemaElementType) selection);
+                            modelPackage.getPackageName(), className, (SchemaElementType) selection,
+                            !modelPackage.getPackageName().contains("iso21090"));
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

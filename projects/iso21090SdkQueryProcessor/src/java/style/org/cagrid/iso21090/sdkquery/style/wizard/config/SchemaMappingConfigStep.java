@@ -66,10 +66,12 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
     }
     
     
-    public void setClassMapping(String packageName, String className, SchemaElementType element) throws Exception {
+    public void setClassMapping(String packageName, String className, SchemaElementType element, boolean setSerialization) throws Exception {
         modelInfoUtil.setMappedElementName(packageName, className, element.getType());
         element.setClassName(className);
-        setSdkSerialization(element);
+        if (setSerialization) {
+            setSdkSerialization(element, className, packageName);
+        }
     }
     
     
@@ -156,7 +158,10 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
             }
             
             modelInfoUtil.setMappedNamespace(StyleProperties.ISO_PACKAGE_NAME, extIsoNamespace.getNamespace());
-            automaticalyMapElementsToClasses(StyleProperties.ISO_PACKAGE_NAME, extIsoNamespace, false);
+            List<ModelClass> isoClasses = dataManager.getClassMappingsInPackage(StyleProperties.ISO_PACKAGE_NAME);
+            for (SchemaElementType schemaElement : extIsoNamespace.getSchemaElement()) {
+                
+            }
         }
         
         // throw out the temp XSD directory
@@ -171,13 +176,7 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
             unsetClassMapping(packageName, className);
             for (SchemaElementType element : nsType.getSchemaElement()) {
                 if (element.getType().equals(className)) {
-                    setClassMapping(packageName, className, element);
-                    if (setSerialization) {
-                        // set the class name and serialization for this element
-                        element.setClassName(className);
-                        element.setPackageName(packageName);
-                        setSdkSerialization(element);
-                    }
+                    setClassMapping(packageName, className, element, setSerialization);
                     break;
                 }
             }
@@ -185,7 +184,10 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
     }
     
     
-    private void setSdkSerialization(SchemaElementType element) {
+    private void setSdkSerialization(SchemaElementType element, String className, String packageName) {
+        System.out.println("Setting SDK serialization for " + packageName + "." + className + " [" + element.getType() + "]");
+        element.setClassName(className);
+        element.setPackageName(packageName);
         element.setDeserializer(SDK43DeserializerFactory.class.getName());
         element.setSerializer(SDK43SerializerFactory.class.getName());
     }
