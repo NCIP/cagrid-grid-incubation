@@ -235,6 +235,9 @@
 		<field name="Record" type="java.lang.String">
 			<bind-xml name="record" node="attribute" />
 		</field>
+		<field name="BaselineDate" type="java.util.Date">
+			<bind-xml name="baselineDate" node="attribute" />
+		</field>
 	</class>
 
 	<class name="org.cagrid.redcap.Events" identity="id">
