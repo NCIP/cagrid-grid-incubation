@@ -158,9 +158,18 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
             }
             
             modelInfoUtil.setMappedNamespace(StyleProperties.ISO_PACKAGE_NAME, extIsoNamespace.getNamespace());
-            List<ModelClass> isoClasses = dataManager.getClassMappingsInPackage(StyleProperties.ISO_PACKAGE_NAME);
             for (SchemaElementType schemaElement : extIsoNamespace.getSchemaElement()) {
-                
+                // the ISO datatypes tool assigns the class name from the org.iso._21090 package, (EN, II, etc)
+                // while technically correct, the SDK is talking about the localized gov.nih.nci.iso21090 types,
+                // which don't use those names (En, Ii, etc)... gah
+                String type = schemaElement.getType();
+                if (type.startsWith("Ivl")) {
+                    schemaElement.setClassName("Ivl");
+                } else if (type.startsWith("DSet")) {
+                    schemaElement.setClassName("DSet");
+                } else {
+                    schemaElement.setClassName(type);
+                }
             }
         }
         
