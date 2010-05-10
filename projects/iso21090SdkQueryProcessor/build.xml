@@ -60,8 +60,6 @@
 		</fileset>
 		<fileset dir="${sdk.lib.dir}">
 			<include name="**/*.jar"/>
-			<!-- excluding extensions until the ISO project gets an official build -->
-			<exclude name="iso-datatypes-extensions-2.0.2-SNAPSHOT.jar"/>
 		</fileset>
 		<fileset dir="${ext.lib.dir}">
 			<include name="**/*.jar" />
