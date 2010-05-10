@@ -5,7 +5,8 @@ import gov.nih.nci.cagrid.testing.system.haste.Story;
 
 import java.util.Vector;
 
-import org.cagrid.iso21090.tests.integration.steps.InvokeLocalCqlStep;
+import org.cagrid.iso21090.tests.integration.steps.InvokeLocalIntegratedCqlStep;
+import org.cagrid.iso21090.tests.integration.steps.InvokeLocalTranslatedCqlStep;
 
 public class TranslateAndExecuteCqlStory extends Story {
     
@@ -21,7 +22,8 @@ public class TranslateAndExecuteCqlStory extends Story {
 
     protected Vector<?> steps() {
         Vector<Step> steps = new Vector<Step>();
-        steps.add(new InvokeLocalCqlStep());
+        steps.add(new InvokeLocalTranslatedCqlStep());
+        steps.add(new InvokeLocalIntegratedCqlStep());
         return steps;
     }
 }
