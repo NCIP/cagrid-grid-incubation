@@ -116,7 +116,7 @@
 		<property name='objectDefinitionSource'>
 			<value>
 				gov.nih.nci.system.applicationservice.ApplicationService.*=IS_AUTHENTICATED_FULLY
-				gov.nih.nci.system.applicationservice.WritableApplicationService.*=IS_AUTHENTICATED_FULLY
+				
 			</value>
 		</property>
 	</bean>

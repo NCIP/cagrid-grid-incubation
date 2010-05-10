@@ -25,7 +25,7 @@
 				<prop key="rowCounter">200</prop>
 				<prop key="securityEnabled">false</prop>
 				<prop key="enableISO21090DataTypes">true</prop>
-				<prop key="enableRestfulHtmlInterface">${RESTFUL_HTML_INTERFACE_ENABLED}</prop>
+				<prop key="enableRestfulHtmlInterface">false</prop>
 			</props>
 		</constructor-arg>
 	</bean>
