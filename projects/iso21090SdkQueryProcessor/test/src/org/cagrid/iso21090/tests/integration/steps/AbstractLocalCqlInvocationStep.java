@@ -1,15 +1,7 @@
 package org.cagrid.iso21090.tests.integration.steps;
 
-import gov.nih.nci.cagrid.common.Utils;
-import gov.nih.nci.cagrid.cqlquery.CQLQuery;
-import gov.nih.nci.cagrid.introduce.common.CommonTools;
-import gov.nih.nci.cagrid.testing.system.haste.Step;
-import gov.nih.nci.system.applicationservice.ApplicationService;
-import gov.nih.nci.system.query.hibernate.HQLCriteria;
-
 import java.io.File;
 import java.io.FileFilter;
-import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -17,25 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cagrid.iso21090.sdkquery.translator.CQL2ParameterizedHQL;
-import org.cagrid.iso21090.sdkquery.translator.HibernateConfigTypesInformationResolver;
-import org.cagrid.iso21090.sdkquery.translator.IsoDatatypesConstantValueResolver;
 import org.cagrid.iso21090.sdkquery.translator.ParameterizedHqlQuery;
-import org.hibernate.cfg.Configuration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-public class InvokeLocalCqlStep extends Step {
-    
+import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.cqlquery.CQLQuery;
+import gov.nih.nci.cagrid.testing.system.haste.Step;
+import gov.nih.nci.system.applicationservice.ApplicationService;
+import gov.nih.nci.system.query.hibernate.HQLCriteria;
+
+public abstract class AbstractLocalCqlInvocationStep extends Step {
+
     public static final String TESTS_BASEDIR_PROPERTY = "sdk43.tests.base.dir";
     public static final String TESTS_EXT_LIB_DIR = "ext/dependencies/jars";
     public static final String SDK_LOCAL_CLIENT_DIR = 
         "sdk/unpacked/sdk-toolkit/iso-example-project/target/dist/exploded/output/isoExample/package/local-client";
     
-    public InvokeLocalCqlStep() {
+    private ApplicationService service = null;
+    
+    public AbstractLocalCqlInvocationStep() {
         super();
     }
-
-
+    
+    
     public void runStep() throws Throwable {
         testLotsOfQueries();
     }
@@ -53,17 +48,7 @@ public class InvokeLocalCqlStep extends Step {
     }
     
     
-    private File getGoldResultsFile(String queryFilename) {
-        File basedir = new File(System.getProperty(TESTS_BASEDIR_PROPERTY));
-        File goldDir = new File(basedir, "test/resources/testGoldResults");
-        return new File(goldDir, "gold" + CommonTools.upperCaseFirstCharacter(queryFilename));
-    }
-    
-    
     private void testLotsOfQueries() {
-        CQL2ParameterizedHQL translator = getTranslator();
-        ApplicationService service = getService();
-        
         File[] queryFiles = getCqlQueryFiles();
         System.out.println("Found " + queryFiles.length + " query documents to run");
         for (File f : queryFiles) {
@@ -75,74 +60,39 @@ public class InvokeLocalCqlStep extends Step {
                 ex.printStackTrace();
                 fail("Error loading query: " + ex.getMessage());
             }
-            System.out.println("Translating");
-            ParameterizedHqlQuery hql = null;
-            try {
-                hql = translator.convertToHql(query);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                fail("Error translating query: " + ex.getMessage());
-            }
-            System.out.println("Translated query:");
-            System.out.println(hql);
+            System.out.println("Executing query " + f.getName());
             List<?> results = null;
             try {
-                results = service.query(new HQLCriteria(hql.getHql(), hql.getParameters()));
+                results = executeQuery(query);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                fail("Error executing query: " + ex.getMessage());
+                fail("Error executing query " + f.getName() + ": " + ex.getMessage());
             }
             // TODO: load up gold results, validate
         }
     }
     
     
-    private CQL2ParameterizedHQL getTranslator() {
-        ClassLoader loader = getSdkLibClassLoader();
-        CQL2ParameterizedHQL translator = null;
-        try {
-            Class<?> typesInfoResolverClass = loader.loadClass("org.cagrid.iso21090.sdkquery.translator.HibernateConfigTypesInformationResolver");
-            InputStream hbmConfigStream = typesInfoResolverClass.getResourceAsStream("/hibernate.cfg.xml");
-            assertNotNull("Hibernate config was null", hbmConfigStream);
-            Configuration hibernateConfig = new Configuration();
-            hibernateConfig.addInputStream(hbmConfigStream);
-            hibernateConfig.buildMapping();
-            hibernateConfig.configure();
-            hbmConfigStream.close();
-            
-            String base = System.getProperty(TESTS_BASEDIR_PROPERTY);
-            File sdkLocalClientDir = new File(base, SDK_LOCAL_CLIENT_DIR);
-            File sdkConfDir = new File(sdkLocalClientDir, "conf");
-            ApplicationContext isoContext = new FileSystemXmlApplicationContext(new File(sdkConfDir, "IsoConstants.xml").getAbsolutePath());
-            translator = new CQL2ParameterizedHQL(
-                new HibernateConfigTypesInformationResolver(hibernateConfig, true), 
-                new IsoDatatypesConstantValueResolver(isoContext),
-                false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            fail("Error: " + ex.getMessage());
-        }
-        
-        return translator;
-    }
+    protected abstract List<?> executeQuery(CQLQuery query) throws Exception;
     
     
-    private ApplicationService getService() {
-        ClassLoader loader = getSdkLibClassLoader();
-        ApplicationService service = null;
-        try {
-            Class<?> providerClass = loader.loadClass("gov.nih.nci.system.client.ApplicationServiceProvider");
-            Method getMethod = providerClass.getMethod("getApplicationService");
-            service = (ApplicationService) getMethod.invoke(null);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            fail("Error: " + ex.getMessage());
+    protected ApplicationService getService() {
+        if (service == null) {
+            ClassLoader loader = getSdkLibClassLoader();
+            try {
+                Class<?> providerClass = loader.loadClass("gov.nih.nci.system.client.ApplicationServiceProvider");
+                Method getMethod = providerClass.getMethod("getApplicationService");
+                service = (ApplicationService) getMethod.invoke(null);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fail("Error: " + ex.getMessage());
+            }
         }
         return service;
     }
     
     
-    private ClassLoader getSdkLibClassLoader() {
+    protected ClassLoader getSdkLibClassLoader() {
         String base = System.getProperty(TESTS_BASEDIR_PROPERTY);
         assertNotNull(TESTS_BASEDIR_PROPERTY + " property was null", base);
         FileFilter jarfilter = new FileFilter() {
