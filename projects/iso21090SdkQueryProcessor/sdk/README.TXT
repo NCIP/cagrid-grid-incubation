@@ -1,1 +1,1 @@
-SDK artifacts generated from tag CACORESDK_422_JAXB_CORE_04_26_2010
+SDK artifacts generated from tag CACORESDK_43_QA_05052010
