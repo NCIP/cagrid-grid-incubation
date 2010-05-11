@@ -31,8 +31,7 @@ import org.xml.sax.Attributes;
 public class SDK43Serializer implements Serializer {
 
 	protected static Log LOG = LogFactory.getLog(SDK43Serializer.class.getName());
-
-
+	
 	public void serialize(QName name, Attributes attributes, Object value, SerializationContext context)
 		throws IOException {
 		long startTime = System.currentTimeMillis();
@@ -45,6 +44,7 @@ public class SDK43Serializer implements Serializer {
 			marshaller.setMapping(mapping);
 			marshaller.setValidation(true);
 		} catch (MappingException e) {
+		    e.printStackTrace();
 			LOG.error("Problem establishing castor mapping!  Using default mapping.", e);
 		}
 		try {
