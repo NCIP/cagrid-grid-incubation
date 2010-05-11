@@ -324,7 +324,6 @@ public class SecurityConfigurationPanel extends AbstractWizardPanel {
             useStaticLoginCheckBox.setText("Use Static Login");
             useStaticLoginCheckBox.addItemListener(new java.awt.event.ItemListener() {
                 public void itemStateChanged(java.awt.event.ItemEvent e) {
-                    System.out.println("Use static check box ticked");
                     configuration.setUseStaticLogin(getUseStaticLoginCheckBox().isSelected());
                     enableDisableComponents();
                     validateInput();
