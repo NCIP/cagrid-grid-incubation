@@ -18,8 +18,11 @@ import gov.nih.nci.cagrid.introduce.common.CommonTools;
 import gov.nih.nci.cagrid.introduce.common.ServiceInformation;
 import gov.nih.nci.cagrid.introduce.extension.ExtensionsLoader;
 import gov.nih.nci.cagrid.introduce.portal.modification.discovery.NamespaceTypeDiscoveryComponent;
+import gov.nih.nci.iso21090.grid.ser.JaxbDeserializerFactory;
+import gov.nih.nci.iso21090.grid.ser.JaxbSerializerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Enumeration;
 import java.util.List;
@@ -195,10 +198,24 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
     
     private void setSdkSerialization(SchemaElementType element, String className, String packageName) {
         System.out.println("Setting SDK serialization for " + packageName + "." + className + " [" + element.getType() + "]");
+        boolean useJaxbSerializers = false;
+        try {
+            useJaxbSerializers = Boolean.parseBoolean(getStyleProperty(StyleProperties.USE_JAXB_SERIALIZERS));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         element.setClassName(className);
         element.setPackageName(packageName);
-        element.setDeserializer(SDK43DeserializerFactory.class.getName());
-        element.setSerializer(SDK43SerializerFactory.class.getName());
+        if (useJaxbSerializers) {
+            System.out.println("\tUsing JaxB serializer");
+            element.setDeserializer(JaxbDeserializerFactory.class.getName());
+            element.setSerializer(JaxbSerializerFactory.class.getName());
+        } else {
+            System.out.println("\tUsing Castor serializer");
+            // castor
+            element.setDeserializer(SDK43DeserializerFactory.class.getName());
+            element.setSerializer(SDK43SerializerFactory.class.getName());
+        }
     }
     
     

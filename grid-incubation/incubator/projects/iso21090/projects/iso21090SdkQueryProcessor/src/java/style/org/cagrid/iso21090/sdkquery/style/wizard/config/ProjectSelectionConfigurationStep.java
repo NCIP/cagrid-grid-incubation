@@ -90,6 +90,7 @@ public class ProjectSelectionConfigurationStep extends AbstractStyleConfiguratio
         JarUtilities.jarDirectory(sdkConfigDir, configJarFile);
         LOG.debug("Packaged " + sdkConfigDir.getAbsolutePath() + " as " + configJarFile.getAbsolutePath());
         
+        setStyleProperty(StyleProperties.USE_JAXB_SERIALIZERS, String.valueOf(isUseJaxB()));
         if (!isUseJaxB()) {
             // grab the castor marshaling and unmarshaling xml mapping files
             // from the schemas jar and copy them into the service's package structure
