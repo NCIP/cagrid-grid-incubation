@@ -250,7 +250,7 @@ public class CQL2ParameterizedHQL {
         
         // determine what the flavor of this attribute is
 		DatatypeFlavor flavor = typesProcessingList.get(typesProcessingList.size() - 1).datatypeFlavor;
-		System.out.println("DATATYPE FLAVOR IS " + flavor.name());
+		LOG.debug("Datatype flavor is " + flavor.name());
 		// DSET<Ii>, (and TEL and CD) ends up as "COMPLEX_WITH_SIMPLE_CONTENT" because it's modeled as an
 		// association to DSET, then to Ii, which is that type.  Appears to work OK.
 		// TODO: Is that OK, or do we need some black magic?
@@ -282,7 +282,7 @@ public class CQL2ParameterizedHQL {
                     attribute, hql, parameters, associationStack, typesProcessingList);
 		        break;
 		    case COLLECTION_OF_COMPLEX_WITH_COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT:
-		        // and hang myself
+		        // gah
 		        break;       
 		}
 	}
