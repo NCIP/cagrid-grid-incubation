@@ -198,7 +198,8 @@
 	</target>
 
 
-	<property name="introduce.extensions.dir" value="${env.CAGRID_HOME}/projects/introduce/extensions" />
+	<property name="introduce.dir" value="${env.CAGRID_HOME}/projects/introduce"/>
+	<property name="introduce.extensions.dir" value="${introduce.dir}/extensions" />
 	<!--<property name="introduce.extensions.dir" location="../introduce/extensions" />-->
 
 	<target name="createZip" description="Creates extension zip file that can be uploaded to software update site" depends="all">
