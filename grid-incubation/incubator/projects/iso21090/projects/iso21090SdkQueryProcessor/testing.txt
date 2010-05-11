@@ -1,0 +1,33 @@
+AdDataType - fail: XML cuts off in the middle of an attribute, client deserialization fails; server side throws exception in Axis BeanSerializer, ln 237
+AllDataType - pass
+BlDataType - pass
+BlNonNullDataType - pass
+CdDataType - pass
+DsetAdDataType - fail: Nothing returned at all, see AdDataType for server side
+DsetCdDataType - ""
+DsetIiDataType - ""
+DsetTelDataType - ""
+EdDataType - pass
+EdTextDataType - pass
+EnDataType - fail: Query Processing Exception; Caused by: java.lang.IllegalArgumentException: No enum const class gov.nih.nci.iso21090.EntityNamePartQualifier.PQ 
+		at java.lang.Enum.valueOf(Enum.java:196)
+        at gov.nih.nci.iso21090.hibernate.usertype.EntityPartNameQualifierUserType.nullSafeGet(EntityPartNameQualifierUserType.java:87)
+EnOnDataType - pass
+EnPnDataType - pass
+IiDataType - pass
+IntDataType - pass
+IvlIntDataType - pass
+IvlPqDataType - pass
+IvlRealDataType - pass
+IvlTsDataType - fail: Nothing returned at all, see AdDataType for server side
+PqDataType - pass
+RealDataType - pass
+ScDataType - pass
+StDataType - pass
+StNtDataType - pass
+TelDataType - pass
+TelEmailDataType - pass
+TelPersonDataType - pass
+TelPhoneDataType - pass
+TelUrlDataType - pass
+TsDataType - pass
