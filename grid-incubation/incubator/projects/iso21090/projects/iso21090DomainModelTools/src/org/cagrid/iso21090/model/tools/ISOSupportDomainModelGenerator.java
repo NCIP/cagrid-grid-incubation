@@ -168,17 +168,14 @@ public class ISOSupportDomainModelGenerator {
                 // filter out anything not in the logical model and matching the exclude regex
                 if (shouldExcludePackage(fullPackageName)) {
                     LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
-                    System.out.println("Excluding class " + fullPackageName + "." + clazz.getName());
                 } else if (clazz.getName().startsWith("IVL<")) {
                     LOG.debug("Skipping " + clazz.getName() + " in favor of a single Ivl class");
-                    System.out.println("Skipping " + clazz.getName() + " in favor of a single Ivl class");
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
                     boolean isIsoClass = isoPattern.matcher(strippedPackageName).matches();
                     String shortClassName = isIsoClass ? cleanUpIsoClassName(clazz.getName()) : clazz.getName();
                     LOG.debug("Creating model class " + strippedPackageName + "." + shortClassName);
-                    System.out.println("Creating model class " + strippedPackageName + "." + shortClassName);
                     gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
                     c.setPackageName(strippedPackageName);
                     c.setClassName(shortClassName);
@@ -200,10 +197,8 @@ public class ISOSupportDomainModelGenerator {
                 // filter out anything not in the logical model and matching the exclude regex
                 if (shouldExcludePackage(fullPackageName)) {
                     LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
-                    System.out.println("Excluding class " + fullPackageName + "." + clazz.getName());
                 } else if (clazz.getName().startsWith("IVL<")) {
                     LOG.debug("Skipping " + clazz.getName() + " in favor of a single Ivl class");
-                    System.out.println("Skipping " + clazz.getName() + " in favor of a single Ivl class");
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
@@ -219,7 +214,6 @@ public class ISOSupportDomainModelGenerator {
                         new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
                     for (UMLAttribute attrib : umlAttribs) {
                         LOG.debug("Creating class attribute " + attrib.getName());
-                        System.out.println("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
                         UMLDatatype rawAttributeDatatype = attrib.getDatatype();
                         boolean isCollection = attributeTypeRepresentsCollection(rawAttributeDatatype.getName());
@@ -227,8 +221,6 @@ public class ISOSupportDomainModelGenerator {
                         // TODO: if generic, create an association from the generic to the specific
                         LOG.debug("Attribute " + (isCollection ? "represents" : "does not represent") + " a collection");
                         LOG.debug("Attribute " + (isGeneric ? "represents" : "does not represent") + " a generic");
-                        System.out.println("Attribute " + (isCollection ? "represents" : "does not represent") + " a collection");
-                        System.out.println("Attribute " + (isGeneric ? "represents" : "does not represent") + " a generic");
                         // sometimes, a user just types in the name of the datatype and it doesn't
                         // really reference a UMLClass instance in the model.  Even though this is
                         // an error, the SDK has a heuristic to deal with it, so we do too.
@@ -236,7 +228,6 @@ public class ISOSupportDomainModelGenerator {
                         if (attributeDatatype == null) {
                             // no class could be found with our heuristic!
                             LOG.warn("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + rawAttributeDatatype.getName());
-                            System.out.println("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + rawAttributeDatatype.getName());
                             attributeDatatype = rawAttributeDatatype;
                         }
                         String attributeDatatypeName = attributeDatatype.getName();
@@ -253,11 +244,9 @@ public class ISOSupportDomainModelGenerator {
                                     "." + datatypeClassname;
                         }
                         LOG.debug("Attribute datatype determined to be " + attributeDatatypeName);
-                        System.out.println("Attribute datatype determined to be " + attributeDatatypeName);
                         // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.
                         if (isoPattern.matcher(attributeDatatypeName).matches()) {
                             LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
-                            System.out.println("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
                             isoAssociation.setBidirectional(false);
@@ -332,7 +321,6 @@ public class ISOSupportDomainModelGenerator {
                         a.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
                         domainAssociations.add(a);
                     }
-                    System.out.println("----");
                 }
             }
         }
@@ -419,7 +407,7 @@ public class ISOSupportDomainModelGenerator {
     
     
     private UMLClass deriveRealClass(UMLDatatype datatype, List<UMLClass> searchClasses) {
-        System.out.println("Deriving real class for datatype " + datatype.getName());
+        LOG.debug("Deriving real class for datatype " + datatype.getName());
         UMLClass determinedClass = null;
         if (datatype instanceof UMLClass) {
             determinedClass = (UMLClass) datatype;
@@ -431,6 +419,7 @@ public class ISOSupportDomainModelGenerator {
     
     
     private UMLClass deriveRealClass(String shortName, List<UMLClass> searchClasses) {
+        LOG.debug("Deriving real UML class for data type " + shortName);
         UMLClass determinedClass = null;
         String name = shortName;
         if (attributeTypeRepresentsCollection(shortName)) {
@@ -460,10 +449,13 @@ public class ISOSupportDomainModelGenerator {
         }
         // prefer the java, then the ISO, then the non-ISO candidate
         if (javaCandidate != null) {
+            LOG.debug("Determined class to be a Java type");
             determinedClass = javaCandidate;
         } else if (isoCandidate != null) {
+            LOG.debug("Deterined class to be an ISO type");
             determinedClass = isoCandidate;
         } else {
+            LOG.debug("Determined class to be of unknown type");
             determinedClass = candidate;
         }
         return determinedClass;
@@ -473,6 +465,7 @@ public class ISOSupportDomainModelGenerator {
     private void annotateAttribute(
         gov.nih.nci.cagrid.metadata.common.UMLAttribute currentAttribute, 
         Collection<UMLTaggedValue> taggedValues) {
+        LOG.debug("Annotating attribute " + currentAttribute.getName());
         // if a CADSR_DE_ID is provided, prefer it over the
         // autogenerated EA ID.  EA IDs will all be converted to be 
         // negative values so they're out of the way of valid
@@ -559,6 +552,8 @@ public class ISOSupportDomainModelGenerator {
      * @return
      */
     private String cleanUpIsoClassName(String isoClassName) {
+        LOG.debug("Cleaning up ISO class name " + isoClassName);
+        String clean = null;
         StringTokenizer tok = new StringTokenizer(isoClassName, ".");
         StringBuffer cleaned = new StringBuffer();
         while (tok.hasMoreTokens()) {
@@ -570,9 +565,12 @@ public class ISOSupportDomainModelGenerator {
         }
         int trimPoint = cleaned.indexOf("<");
         if (trimPoint != -1) {
-            return cleaned.substring(0, trimPoint);
+            clean = cleaned.substring(0, trimPoint);
+        } else {
+            clean = cleaned.toString();
         }
-        return cleaned.toString();
+        LOG.debug("Cleaned up: " + clean);
+        return clean;
     }
     
     
