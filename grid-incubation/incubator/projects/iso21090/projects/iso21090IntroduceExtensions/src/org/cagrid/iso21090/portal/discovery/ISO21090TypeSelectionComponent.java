@@ -3,30 +3,17 @@ package org.cagrid.iso21090.portal.discovery;
 import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.common.XMLUtilities;
 import gov.nih.nci.cagrid.common.portal.MultiEventProgressBar;
-import gov.nih.nci.cagrid.introduce.IntroduceConstants;
-import gov.nih.nci.cagrid.introduce.beans.ServiceDescription;
 import gov.nih.nci.cagrid.introduce.beans.configuration.NamespaceReplacementPolicy;
 import gov.nih.nci.cagrid.introduce.beans.extension.DiscoveryExtensionDescriptionType;
-import gov.nih.nci.cagrid.introduce.beans.extension.ExtensionDescription;
-import gov.nih.nci.cagrid.introduce.beans.extension.Properties;
 import gov.nih.nci.cagrid.introduce.beans.extension.PropertiesProperty;
-import gov.nih.nci.cagrid.introduce.beans.method.MethodType;
-import gov.nih.nci.cagrid.introduce.beans.method.MethodTypeInputs;
-import gov.nih.nci.cagrid.introduce.beans.method.MethodTypeInputsInput;
-import gov.nih.nci.cagrid.introduce.beans.method.MethodTypeOutput;
-import gov.nih.nci.cagrid.introduce.beans.method.MethodsType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.NamespaceType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.NamespacesType;
 import gov.nih.nci.cagrid.introduce.beans.namespace.SchemaElementType;
-import gov.nih.nci.cagrid.introduce.beans.service.ServiceType;
-import gov.nih.nci.cagrid.introduce.beans.service.ServicesType;
 import gov.nih.nci.cagrid.introduce.common.CommonTools;
-import gov.nih.nci.cagrid.introduce.common.ServiceInformation;
 import gov.nih.nci.cagrid.introduce.extension.ExtensionTools;
 import gov.nih.nci.cagrid.introduce.extension.ExtensionsLoader;
 import gov.nih.nci.cagrid.introduce.extension.utils.ExtensionUtilities;
 import gov.nih.nci.cagrid.introduce.portal.modification.discovery.NamespaceTypeDiscoveryComponent;
-import gov.nih.nci.iso21090.JAXBGenerationProcessing;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -34,16 +21,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -51,7 +35,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -334,8 +317,15 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 		File[] libs = libDir.listFiles(new FileFilter() {
 			public boolean accept(File pathname) {
 				String name = pathname.getName();
-				// take any jar from our extension's directory
-				return (name.endsWith(".jar"));
+				return name.endsWith(".jar") && (
+				    name.startsWith("iso-datatypes") ||
+				    name.startsWith("jaxb-") ||
+				    name.startsWith("jdom-") ||
+				    name.startsWith("activation") ||
+				    name.startsWith("jsr173") ||
+				    name.startsWith("caGrid-iso21090") ||
+				    name.startsWith("caGrid-Introduce-")
+				    );
 			}
 		});
 		return libs;
