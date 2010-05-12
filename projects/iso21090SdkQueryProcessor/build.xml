@@ -44,9 +44,10 @@
 	
 	<!-- style related stuff -->
 	<property name="introduce.dir" location="../introduce"/>
-	<property name="introduce.extensions.dir" location="${introduce.dir}/extensions" />
 	<property name="style.info.dir" location="${basedir}/style"/>
-	<property name="style.dest.dir" location="${introduce.extensions.dir}/data/styles/cacore43" />
+	<property name="style.dest.dir" value="data/styles/cacore43" />
+	<property name="zip.dir" location="${build.dir}/zipdir"/>
+	<property name="style.zip.file" location="${build.dir}/${project.name}-package-${project.version}.zip"/>
 	
 	<import file="test.xml"/>
 	
@@ -218,26 +219,19 @@
 	</target>
 	
 	
-	<!-- installs the service style -->
-	<target name="installServiceStyle" description="Installs the SDK 4.3 data service style">
-		<echo message="Installing Data Service Style SDK v 4.3" />
-		<!-- some properties for the install -->
-		<!-- make requisite directories -->
-		<delete dir="${style.dest.dir}" />
-		<mkdir dir="${style.dest.dir}" />
-		<mkdir dir="${style.dest.dir}/lib" />
-		<mkdir dir="${style.dest.dir}/schemas"/>
-		<!-- copy in the info -->
-		<copy todir="${style.dest.dir}">
+	<!-- creates the zip for distribution via an Introduce software update site -->
+	<target name="createZip" description="creates the zip for distribution via an Introduce software update site">
+		<mkdir dir="${zip.dir}"/>
+		<!-- copy style info -->
+		<copy todir="${zip.dir}/${style.dest.dir}">
 			<fileset dir="${style.info.dir}">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
-		<!-- copy in the style's jar file -->
-		<copy todir="${style.dest.dir}/lib">
-			<!-- the style itself and query processor -->
+		<!-- copy style libs -->
+		<copy todir="${zip.dir}/${style.dest.dir}/lib">
 			<fileset dir="${jar.dir}">
-				<include name="*.jar" />
+				<include name="*.jar"/>
 			</fileset>
 			<!-- copy the SDK common style jar file and CQL 2 query engine -->
 			<fileset dir="${ext.lib.dir}">
@@ -251,12 +245,18 @@
 				<include name="sdk-client-framework-4.3.jar"/>
 			</fileset>
 		</copy>
-		<!-- copy the ISO schemas someplace we can get them -->
-		<copy todir="${style.dest.dir}/schemas">
-			<fileset dir="${basedir}/schemas">
-				<include name="*.xsd"/>
-			</fileset>
-		</copy>
+		<zip destfile="${style.zip.file}" basedir="${zip.dir}"/>
+	</target>
+	
+	
+	<!-- installs the service style -->
+	<target name="installServiceStyle" depends="createZip" description="Installs the SDK 4.3 data service style">
+		<echo message="Installing Data Service Style SDK v 4.3" />
+		<!-- some properties for the install -->
+		<!-- make requisite directories -->
+		<property name="introduce.extensions.dir" location="${introduce.dir}/extensions"/>
+		<delete dir="${introduce.extensions.dir}/${style.dest.dir}"/>
+		<unzip dest="${introduce.extensions.dir}" src="${style.zip.file}"/>
 	</target>
 
 
