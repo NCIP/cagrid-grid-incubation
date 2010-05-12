@@ -59,6 +59,17 @@
 	<artifact
 	   pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]"/>
       </url>
+
+      <!-- quality.cagrid.org build of the NCICB ISO 21090 project -->
+      <url name="remote-ncicb-iso-common-resolver" cache="remote">
+	<ivy pattern="http://quality.cagrid.org/job/NCICB-ISO-21090-Common/lastSuccessfulBuild/artifact/code/local-ivy-repo/[organization]/[module]/[revision]/ivy.xml"/>
+	<artifact pattern="http://quality.cagrid.org/job/NCICB-ISO-21090-Common/lastSuccessfulBuild/artifact/code/local-ivy-repo/[organization]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+	<artifact pattern="http://quality.cagrid.org/job/NCICB-ISO-21090-Common/lastSuccessfulBuild/artifact/code/local-ivy-repo/[organization]/[module]/[revision]/[artifact].[ext]"/>
+	<artifact
+	   pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
+	<artifact
+	   pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]"/>
+      </url>
     </chain>
   </resolvers>
 </ivysettings>
