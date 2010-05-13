@@ -19,6 +19,7 @@ import java.util.jar.JarFile;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.grape.utils.CompositeErrorDialog;
+import org.cagrid.iso21090.model.validator.ISODomainModelValidator;
 import org.cagrid.iso21090.sdkquery.processor.SDK43QueryProcessor;
 
 /**
@@ -61,7 +62,12 @@ public class ProjectSelectionConfigurationStep extends AbstractStyleConfiguratio
         // set the query processor class name for the data service
         CommonTools.setServiceProperty(getServiceInformation().getServiceDescriptor(),
             DataServiceConstants.QUERY_PROCESSOR_CLASS_PROPERTY, SDK43QueryProcessor.class.getName(), false);
-                
+        
+        // change out the domain model validator class
+        CommonTools.setServiceProperty(getServiceInformation().getServiceDescriptor(), 
+            DataServiceConstants.DOMAIN_MODEL_VALIDATOR_CLASS, 
+            ISODomainModelValidator.class.getName(), false);
+        
         // set service properties required by the query processor
         setCql1ProcessorProperty(SDK43QueryProcessor.PROPERTY_APPLICATION_NAME, getApplicationName(), false);
         setCql1ProcessorProperty(SDK43QueryProcessor.PROPERTY_USE_LOCAL_API, String.valueOf(isLocalApi()), false);
