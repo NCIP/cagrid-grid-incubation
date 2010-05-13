@@ -59,12 +59,7 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 	private JTextField extNSjTextField = null;
 	private JLabel extPackagejLabel = null;
 	private JTextField extPackagejTextField = null;
-
-	private static final String SEMICOLON = ";";
 	
-	private static final String[] SCHEMA_NAMES = new String[] { "Extension.xsd", "Methods.xsd", "Resources.xsd", "Services.xsd", "Namespace.xsd", "Security.xsd", "Software.xsd", "Property.xsd", "ServiceDescription.xsd", "grape.xsd" };
-
-
 	public ISO21090TypeSelectionComponent(DiscoveryExtensionDescriptionType descriptor, NamespacesType currentNamespaces) {
 		super(descriptor, currentNamespaces);
 		initialize();
@@ -132,7 +127,6 @@ public class ISO21090TypeSelectionComponent extends NamespaceTypeDiscoveryCompon
 		try {
 			copySchemaFromExtensionDir(getISOXSDFilename(), schemaDir);
 			copiedISOExtensionsXSDFilename = copySchemaFromExtensionDir(getISOExtensionsXSDFilename(), schemaDir);
-			copyIntroduceSchemasFromExtensionDir(SCHEMA_NAMES, schemaDir.getParentFile());
 		} catch (IOException e) {
 			addError("Problem copying schemas:" + e.getMessage());
 			setErrorCauseThrowable(e);
