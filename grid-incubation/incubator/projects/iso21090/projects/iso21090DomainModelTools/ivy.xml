@@ -32,6 +32,8 @@
    		conf="default->default;impl-test->test"/>
    	<dependency rev="latest.integration" org="caGrid" name="metadata"
    		conf="default->schemas"/>
+   	<dependency rev="latest.integration" org="caGrid" name="data"
+   		conf="default->validation"/>
    		
    	<!-- NCICB xmi.in.out -->
    	<dependency rev="1.0" org="ncicb" name="xmi.in.out"
