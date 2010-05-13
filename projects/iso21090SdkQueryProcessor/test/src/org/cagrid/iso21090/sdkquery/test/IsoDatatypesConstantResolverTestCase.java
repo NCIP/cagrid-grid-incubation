@@ -36,22 +36,22 @@ public class IsoDatatypesConstantResolverTestCase extends TestCase {
     
     
     public void testTelUrlNullFlavorConstant() {
-        findConstant(TelUrlDataType.class, NullFlavor.NI, "value1", "nullFlavor");
+        findConstant(TelUrlDataType.class, NullFlavor.NA, "value1", "nullFlavor");
     }
     
     
     public void testDsetAdStringConstant() {
-        findConstant(DsetAdDataType.class, "CODESYSTEM", "value1", "item", "part0", "codeSystem");
+        findConstant(DsetAdDataType.class, "CODESYSTEM", "value1", "item", "part_0", "codeSystem");
     }
     
     
     public void testCdNoConstantFound() {
-        findConstant(CdDataType.class, null, "value2", "codeSystem");
+        findConstant(CdDataType.class, null, "value4", "codeSystem");
     }
     
     
     public void testDsetAdNoConstantFound() {
-        findConstant(DsetAdDataType.class, null, "value1", "item", "part1", "codeSystem");
+        findConstant(DsetAdDataType.class, null, "value1", "item", "part_1", "codeSystem");
     }
     
     
