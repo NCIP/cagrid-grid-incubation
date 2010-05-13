@@ -4,10 +4,6 @@ import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.common.XMLUtilities;
 import gov.nih.nci.cagrid.introduce.IntroduceConstants;
 import gov.nih.nci.cagrid.introduce.beans.ServiceDescription;
-import gov.nih.nci.cagrid.introduce.beans.extension.DiscoveryExtensionDescriptionType;
-import gov.nih.nci.cagrid.introduce.beans.extension.ExtensionDescription;
-import gov.nih.nci.cagrid.introduce.beans.extension.Properties;
-import gov.nih.nci.cagrid.introduce.beans.extension.PropertiesProperty;
 import gov.nih.nci.cagrid.introduce.beans.method.MethodType;
 import gov.nih.nci.cagrid.introduce.beans.method.MethodTypeInputs;
 import gov.nih.nci.cagrid.introduce.beans.method.MethodTypeInputsInput;
@@ -15,11 +11,9 @@ import gov.nih.nci.cagrid.introduce.beans.method.MethodTypeOutput;
 import gov.nih.nci.cagrid.introduce.beans.method.MethodsType;
 import gov.nih.nci.cagrid.introduce.beans.service.ServiceType;
 import gov.nih.nci.cagrid.introduce.beans.service.ServicesType;
-import gov.nih.nci.cagrid.introduce.common.ServiceInformation;
 import gov.nih.nci.iso21090.JAXBGenerationProcessing;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +25,6 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.cagrid.iso21090.portal.discovery.ISO21090TypeSelectionComponent.ModificationException;
-import org.cagrid.iso21090.portal.discovery.constants.Constants;
 import org.jdom.Element;
 
 public class FixISO21090IntroduceStubs {
@@ -53,20 +46,20 @@ public class FixISO21090IntroduceStubs {
 			throw new ModificationException(msg);
 		} else {
 			// load up the beans
-			ServiceInformation serviceInfo = new ServiceInformation(introduceXml.getParentFile());
+		    ServiceDescription serviceDesc = (ServiceDescription) Utils.deserializeDocument(
+		        introduceXml.getAbsolutePath(), ServiceDescription.class);
 			//TODO JDP how to determine location of extension.xml ???
 			//NOTE: when this class is run from dev-build.xml, we don't have access to extension.xml
 //			File extensionXml = new File("extension.xml");
 //			FileReader extensionXmlReader = new FileReader(extensionXml);
 //			ExtensionDescription type = (ExtensionDescription)Utils.deserializeObject(extensionXmlReader, ExtensionDescription.class);
 //			editOperationStubs(type.getDiscoveryExtensionDescription(), serviceInfo);
-			editOperationStubs(serviceInfo);
+			editOperationStubs(svcDir, serviceDesc);
 		}
 
 	}
 
-//	private void editOperationStubs(DiscoveryExtensionDescriptionType desc, ServiceInformation info) throws ModificationException{
-	private void editOperationStubs(ServiceInformation info) throws ModificationException{
+	private void editOperationStubs(File serviceDir, ServiceDescription description) throws ModificationException{
 
 		/*
 		 * the basic algorithm is as follows:
@@ -174,7 +167,6 @@ public class FixISO21090IntroduceStubs {
 		//the above variable is of type Map<ServiceType, List<String>> where Map keys are ServiceType objects
 		//and the values are List<String> objects that is a List of methods on the service context
 
-		ServiceDescription description = info.getServiceDescriptor();
 		ServicesType servicesType = description.getServices();
 		ServiceType[] allServiceTypes = servicesType.getService();
 		for (ServiceType serviceType : allServiceTypes) {
@@ -208,7 +200,7 @@ public class FixISO21090IntroduceStubs {
 
 		//phase 3: fix the files
 		try {
-			modifyBrokenFiles(serviceContextsToFix, info);
+			modifyBrokenFiles(serviceContextsToFix, serviceDir);
 		} catch (IOException e) {
 			String msg = "Problem modifying dev build for ISO 21090 operations workaround:" + e.getMessage(); 
 			throw new ModificationException(msg);
@@ -220,9 +212,8 @@ public class FixISO21090IntroduceStubs {
 	 * @param serviceContextsToFix this is a Map<ServiceType, List<String>> where the values are List of service operations that match our QName filter
 	 * @throws IOException 
 	 */
-	private void modifyBrokenFiles(Map serviceContextsToFix, ServiceInformation info) throws IOException {
+	private void modifyBrokenFiles(Map serviceContextsToFix, File serviceBaseDir) throws IOException {
 		//1. search the service for the *Client.java and *ProviderImpl.java Introduce-generated source files in the service
-		File serviceBaseDir = info.getBaseDirectory();
 		File serviceSrcDir = new File(serviceBaseDir.getAbsolutePath() + File.separator + SRC_DIR);
 		//search packages inside the "src" directory for the files
 		//    	List<File> clientFilesToModify = new ArrayList<File>();
