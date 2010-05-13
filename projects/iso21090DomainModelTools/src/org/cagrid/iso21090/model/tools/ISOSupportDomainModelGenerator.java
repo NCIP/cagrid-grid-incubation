@@ -18,6 +18,7 @@ import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociationEnd;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAttribute;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLClass;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLDatatype;
+import gov.nih.nci.ncicb.xmiinout.domain.UMLGeneralizable;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLGeneralization;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLInterface;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLModel;
@@ -59,7 +60,7 @@ public class ISOSupportDomainModelGenerator {
     // cadsr ID tag values
     public static final String XMI_TAG_CADSR_DE_ID = "CADSR_DE_ID";
     public static final String XMI_TAG_CADSR_DE_VERSION = "CADSR_DE_VERSION";
-        
+    
     private static Log LOG = LogFactory.getLog(ISOSupportDomainModelGenerator.class);
 
     private XmiInOutHandler handler = null;
@@ -255,13 +256,6 @@ public class ISOSupportDomainModelGenerator {
                             sourceEdge.setMinCardinality(0);
                             sourceEdge.setRoleName(attrib.getName());
                             sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
-                            /* IVL is magic
-                            if (attributeDatatype.getName().startsWith("IVL<")) {
-                                sourceEdge.setUMLClassReference(new UMLClassReference(ivlClass.getId()));
-                            } else {
-                                sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
-                            }
-                            */
                             isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
                             UMLAssociationEdge targetEdge = new UMLAssociationEdge();
                             targetEdge.setMaxCardinality(1);
@@ -330,8 +324,42 @@ public class ISOSupportDomainModelGenerator {
         for (UMLGeneralization gen : umlGeneralizations) {
             gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization g = 
                 new gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization();
-            g.setSubClassReference(new UMLClassReference(String.valueOf(gen.getSubtype().hashCode())));
-            g.setSuperClassReference(new UMLClassReference(String.valueOf(gen.getSupertype().hashCode())));
+            UMLGeneralizable sub = gen.getSubtype();
+            String subId = String.valueOf(sub.hashCode());
+            if (sub instanceof UMLDatatype) {
+                UMLClass derived = deriveRealClass((UMLDatatype) sub, umlClasses);
+                if (derived != null) {
+                    LOG.debug("Datatype resolved to " + getFullPackageName(derived) + "." + derived.getName());
+                    subId = String.valueOf(derived.hashCode());
+                } else {
+                    LOG.error("GENERALIZATION DATATYPE NOT FOUND (" + sub.getName() + ")");
+                    LOG.error("SKIPPING THIS GENERALIZATION");
+                    continue;
+                }
+            } else {
+                LOG.error("I DONT KNOW WHAT TO DO WITH " + sub.getClass().getName());
+                LOG.error("SKIPPING THIS GENERALIZATION");
+                continue;
+            }
+            UMLGeneralizable sup = gen.getSupertype();
+            String supId = String.valueOf(sup.hashCode());
+            if (sup instanceof UMLDatatype) {
+                UMLClass derived = deriveRealClass((UMLDatatype) sup, umlClasses);
+                if (derived != null) {
+                    LOG.debug("Datatype resolved to " + getFullPackageName(derived) + "." + derived.getName());
+                    subId = String.valueOf(derived.hashCode());
+                } else {
+                    LOG.error("GENERALIZATION DATATYPE NOT FOUND (" + sub.getName() + ")");
+                    LOG.error("SKIPPING THIS GENERALIZATION");
+                    continue;
+                }
+            } else {
+                LOG.error("I DONT KNOW WHAT TO DO WITH " + sub.getClass().getName());
+                LOG.error("SKIPPING THIS GENERALIZATION");
+                continue;
+            }
+            g.setSubClassReference(new UMLClassReference(subId));
+            g.setSuperClassReference(new UMLClassReference(supId));
             generalizations.add(g);
         }
         
