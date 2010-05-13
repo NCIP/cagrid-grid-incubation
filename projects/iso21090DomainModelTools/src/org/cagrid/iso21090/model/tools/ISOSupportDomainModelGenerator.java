@@ -12,15 +12,12 @@ import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociationSourceUMLAssociatio
 import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociationTargetUMLAssociationEdge;
 import gov.nih.nci.cagrid.metadata.dataservice.UMLClassReference;
 import gov.nih.nci.cagrid.metadata.xmi.XMIConstants;
-import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociable;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociation;
-import gov.nih.nci.ncicb.xmiinout.domain.UMLAssociationEnd;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLAttribute;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLClass;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLDatatype;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLGeneralizable;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLGeneralization;
-import gov.nih.nci.ncicb.xmiinout.domain.UMLInterface;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLModel;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLPackage;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLTaggedValue;
@@ -38,7 +35,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
@@ -56,6 +52,8 @@ public class ISOSupportDomainModelGenerator {
     public static final String DEFAULT_PACKAGE_EXCLUDE_REGEX = ".*?java.*,.*?[V|v]alue.?[D|d]omain.*,.*?iso21090.*";
     public static final String ISO_PACKAGE_REGEX = ".*?iso21090.*";
     public static final String JAVA_PACKAGE_REGEX = ".*?java.*";
+    public static final Pattern ISO_PATTERN = Pattern.compile(ISO_PACKAGE_REGEX);
+    public static final Pattern JAVA_PATTERN = Pattern.compile(JAVA_PACKAGE_REGEX);
     
     // cadsr ID tag values
     public static final String XMI_TAG_CADSR_DE_ID = "CADSR_DE_ID";
@@ -138,7 +136,6 @@ public class ISOSupportDomainModelGenerator {
     
     
     public DomainModel generateDomainModel(String xmiFilename) throws XmiException, IOException {
-        Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
         LOG.debug("Loading XMI from " + xmiFilename);
         handler.load(xmiFilename);
         LOG.debug("Loading complete, parsing model");
@@ -174,7 +171,7 @@ public class ISOSupportDomainModelGenerator {
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
-                    boolean isIsoClass = isoPattern.matcher(strippedPackageName).matches();
+                    boolean isIsoClass = ISO_PATTERN.matcher(strippedPackageName).matches();
                     String shortClassName = isIsoClass ? cleanUpIsoClassName(clazz.getName()) : clazz.getName();
                     LOG.debug("Creating model class " + strippedPackageName + "." + shortClassName);
                     gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
@@ -188,6 +185,7 @@ public class ISOSupportDomainModelGenerator {
                 }
             }
         }
+        
         // process through the classes again
         LOG.debug("Reprocessing classes to figure out attributes");
         for (UMLClass clazz : umlClasses) {
@@ -203,7 +201,7 @@ public class ISOSupportDomainModelGenerator {
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
-                    boolean isIsoClass = isoPattern.matcher(strippedPackageName).matches();
+                    boolean isIsoClass = ISO_PATTERN.matcher(strippedPackageName).matches();
                     String shortClassName = isIsoClass ? cleanUpIsoClassName(clazz.getName()) : clazz.getName();
                     String fullClassName = strippedPackageName + "." + shortClassName;
                     gov.nih.nci.cagrid.metadata.dataservice.UMLClass c = domainClasses.get(fullClassName);
@@ -235,7 +233,7 @@ public class ISOSupportDomainModelGenerator {
                         if (attributeDatatype instanceof UMLClass) {
                             String rawAttribTypePackage = getFullPackageName((UMLClass) attributeDatatype);
                             String datatypeClassname = null;
-                            if (isoPattern.matcher(rawAttribTypePackage).matches()) {
+                            if (ISO_PATTERN.matcher(rawAttribTypePackage).matches()) {
                                 datatypeClassname = cleanUpIsoClassName(attributeDatatype.getName());
                             } else {
                                 datatypeClassname = attributeDatatype.getName();
@@ -246,7 +244,7 @@ public class ISOSupportDomainModelGenerator {
                         }
                         LOG.debug("Attribute datatype determined to be " + attributeDatatypeName);
                         // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.
-                        if (isoPattern.matcher(attributeDatatypeName).matches()) {
+                        if (ISO_PATTERN.matcher(attributeDatatypeName).matches()) {
                             LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
@@ -286,37 +284,42 @@ public class ISOSupportDomainModelGenerator {
                     }
                     c.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
                         attribs.toArray(new gov.nih.nci.cagrid.metadata.common.UMLAttribute[0])));
-                    // associations of this class
-                    Set<UMLAssociation> umlAssociations = clazz.getAssociations();
-                    for (UMLAssociation assoc : umlAssociations) {
-                        gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation a = 
-                            new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
-                        boolean bidirectional = associationIsBidirectional(clazz, assoc);
-                        a.setBidirectional(bidirectional);
-                        // FIXME: this is creating self-associations.  Why?
-                        UMLClass targetClass = (UMLClass) assoc.getAssociationEnds().get(0).getUMLElement();
-                        // source
-                        // the 0th edge describes the relationship from the perspective of THIS class
-                        UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
-                        // the max and min cardinality of the associated datatype
-                        sourceEdge.setMaxCardinality(assoc.getAssociationEnds().get(0).getHighMultiplicity());
-                        sourceEdge.setMinCardinality(assoc.getAssociationEnds().get(0).getLowMultiplicity());
-                        // the role name (i.e. name of the variable in our class)
-                        sourceEdge.setRoleName(assoc.getAssociationEnds().get(0).getRoleName());
-                        // create a reference to the associated datatype
-                        sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(targetClass.hashCode())));
-                        // target
-                        UMLAssociationEdge targetEdge = new UMLAssociationEdge();
-                        targetEdge.setMaxCardinality(assoc.getAssociationEnds().get(1).getHighMultiplicity());
-                        targetEdge.setMinCardinality(assoc.getAssociationEnds().get(1).getLowMultiplicity());
-                        targetEdge.setRoleName(assoc.getAssociationEnds().get(1).getRoleName());
-                        targetEdge.setUMLClassReference(new UMLClassReference(c.getId()));
-                        a.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
-                        a.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
-                        domainAssociations.add(a);
-                    }
                 }
             }
+        }
+        
+        // associations
+
+        // associations of this class
+        LOG.debug("Processing associations");
+        List<UMLAssociation> umlAssociations = umlModel.getAssociations();
+        for (UMLAssociation assoc : umlAssociations) {
+            gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation a = 
+                new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
+            boolean bidirectional = associationIsBidirectional(assoc);
+            a.setBidirectional(bidirectional);
+            // FIXME: this is creating self-associations.  Why?
+            // source
+            // the 0th edge describes the relationship from the perspective of THIS class
+            UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
+            // the max and min cardinality of the associated datatype
+            sourceEdge.setMaxCardinality(assoc.getAssociationEnds().get(0).getHighMultiplicity());
+            sourceEdge.setMinCardinality(assoc.getAssociationEnds().get(0).getLowMultiplicity());
+            // the role name (i.e. name of the variable in our class)
+            sourceEdge.setRoleName(assoc.getAssociationEnds().get(0).getRoleName());
+            // create a reference to the associated datatype
+            UMLClass sourceClass = (UMLClass) assoc.getAssociationEnds().get(0).getUMLElement();
+            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(sourceClass.hashCode())));
+            // target
+            UMLAssociationEdge targetEdge = new UMLAssociationEdge();
+            targetEdge.setMaxCardinality(assoc.getAssociationEnds().get(1).getHighMultiplicity());
+            targetEdge.setMinCardinality(assoc.getAssociationEnds().get(1).getLowMultiplicity());
+            targetEdge.setRoleName(assoc.getAssociationEnds().get(1).getRoleName());
+            UMLClass targetClass = (UMLClass) assoc.getAssociationEnds().get(1).getUMLElement();
+            targetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(targetClass.hashCode())));
+            a.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
+            a.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
+            domainAssociations.add(a);
         }
         
         // generalizations
@@ -381,25 +384,11 @@ public class ISOSupportDomainModelGenerator {
     }
     
     
-    private boolean associationIsBidirectional(UMLClass sourceClass, UMLAssociation association) {
+    private boolean associationIsBidirectional(UMLAssociation association) {
         boolean bidirectional = false;
-        String sourceRoleName = association.getAssociationEnds().get(0).getRoleName();
-        UMLAssociationEnd sourceEnd = association.getAssociationEnds().get(0);
-        UMLAssociable target = sourceEnd.getUMLElement();
-        Set<UMLAssociation> associationsOfTarget = null;
-        if (target instanceof UMLClass) {
-            associationsOfTarget = ((UMLClass) target).getAssociations();
-        } else if (target instanceof UMLInterface) {
-            associationsOfTarget = ((UMLInterface) target).getAssociations();
-        }
-        for (UMLAssociation targetAssociation : associationsOfTarget) {
-            // see if the association comes back to the source class
-            UMLAssociable possibleReturnTarget = targetAssociation.getAssociationEnds().get(0).getUMLElement();
-            String possibleReturnTargetRoleName = targetAssociation.getAssociationEnds().get(0).getRoleName();
-            bidirectional = (possibleReturnTarget == sourceClass && possibleReturnTargetRoleName.equals(sourceRoleName));
-            if (bidirectional) {
-                break;
-            }
+        UMLTaggedValue tag = association.getTaggedValue("direction");
+        if (tag != null) {
+            bidirectional = "Bi-Directional".equals(tag.getValue());
         }
         return bidirectional;
     }
@@ -455,8 +444,6 @@ public class ISOSupportDomainModelGenerator {
         } else if (attributeTypeRepresentsGeneric(shortName)) {
             name = stripGeneric(shortName);
         }
-        Pattern isoPattern = Pattern.compile(ISO_PACKAGE_REGEX);
-        Pattern javaPattern = Pattern.compile(JAVA_PACKAGE_REGEX);
         UMLClass candidate = null;
         UMLClass javaCandidate = null;
         UMLClass isoCandidate = null;
@@ -465,9 +452,9 @@ public class ISOSupportDomainModelGenerator {
                 String packName = getFullPackageName(c);
                 if (packName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)) {
                     // it's a logical model package, please continue processing
-                    if (javaPattern.matcher(packName).matches()) {
+                    if (JAVA_PATTERN.matcher(packName).matches()) {
                         javaCandidate = c;
-                    } else if (isoPattern.matcher(packName).matches()) {
+                    } else if (ISO_PATTERN.matcher(packName).matches()) {
                         isoCandidate = c;
                     } else {
                         candidate = c;
