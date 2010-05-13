@@ -252,23 +252,23 @@ public class ISOSupportDomainModelGenerator {
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
                             isoAssociation.setBidirectional(false);
                             UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
-                            sourceEdge.setMaxCardinality(isCollection ? -1 : 1);
+                            sourceEdge.setMaxCardinality(1);
                             sourceEdge.setMinCardinality(0);
                             sourceEdge.setRoleName(attrib.getName());
-                            sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
-                            isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
-                            UMLAssociationEdge targetEdge = new UMLAssociationEdge();
-                            targetEdge.setMaxCardinality(1);
-                            targetEdge.setMinCardinality(0);
-                            targetEdge.setRoleName(attrib.getName());
                             if (isGeneric) {
                                 // get the generic specific type
                                 UMLClass specificType = deriveRealClass(
                                     getGenericSpecificType(rawAttributeDatatype.getName()), umlClasses);
-                                targetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
+                                sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
                             } else {
-                                targetEdge.setUMLClassReference(new UMLClassReference(c.getId()));
+                                sourceEdge.setUMLClassReference(new UMLClassReference(c.getId()));
                             }
+                            isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
+                            UMLAssociationEdge targetEdge = new UMLAssociationEdge();
+                            targetEdge.setMaxCardinality(isCollection ? -1 : 1);
+                            targetEdge.setMinCardinality(0);
+                            targetEdge.setRoleName(attrib.getName());
+                            targetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
                             isoAssociation.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
                             domainAssociations.add(isoAssociation);
                         } else {
