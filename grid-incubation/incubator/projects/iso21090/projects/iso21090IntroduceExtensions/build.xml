@@ -15,6 +15,7 @@
 	<property name="java.source" value="1.5" />
 
 	<property name="src.dir" value="${basedir}/src" />
+	<property name="lib.dir" value="${basedir}/lib"/>
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="zip.dir" value="${build.dir}/zipdir" />
 	<property name="javadoc.dir" value="${build.dir}/javadoc" />
@@ -206,6 +207,9 @@
 			<fileset dir="${jar.dir}">
 				<include name="*.jar" />
 			</fileset>
+			<fileset dir="${lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
 		</copy>
 
 		<!-- Copy the XSDs -->
@@ -233,6 +237,9 @@
 			</fileset>
 			<fileset dir="${jar.dir}">
 				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${lib.dir}">
+				<include name="*.jar"/>
 			</fileset>
 		</copy>
 
