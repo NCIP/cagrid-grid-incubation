@@ -74,7 +74,7 @@
 		<sql driver="${db.driver}" url="jdbc:mysql://${db.server}:${db.port}/${db.schema.name}" userid="${db.username}" password="${db.password}">
 			<classpath refid="test.run.classpath"/>
 			<transaction src="${db.script.dir}/SDKTestSchema-mysql.sql"/>
-			<transaction src="${db.script.dir}/SDKTestIsoSchema-mysql.sql"/>
+			<transaction src="${db.script.dir}/SDKTestISOSchema-mysql.sql"/>
 		</sql>
 	</target>
 </project>
