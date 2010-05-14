@@ -84,6 +84,41 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testGroupOfAssociationsUsingOrQuery() {
+        validateQuery("groupOfAssociationsUsingOr.xml");
+    }
+    
+    
+    public void testGroupOfAttributesUsingAndQuery() {
+        validateQuery("groupOfAttributesUsingAnd.xml");
+    }
+    
+    
+    public void testGroupOfAttributesUsingOrQuery() {
+        validateQuery("groupOfAttributesUsingOr.xml");
+    }
+    
+    
+    public void testNestedAssociationsQuery() {
+        validateQuery("nestedAssociations.xml");
+    }
+    
+    
+    public void testNestedAssociationsNoRoleNamesQuery() {
+        validateQuery("nestedAssociationsNoRoleNames.xml");
+    }
+    
+    
+    public void testSingleAttributeFromCashQuery() {
+        validateQuery("singleAttributeFromCash.xml");
+    }
+    
+    
+    public void testUngergraduateStudentWithNameQuery() {
+        validateQuery("undergraduateStudentWithName.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
