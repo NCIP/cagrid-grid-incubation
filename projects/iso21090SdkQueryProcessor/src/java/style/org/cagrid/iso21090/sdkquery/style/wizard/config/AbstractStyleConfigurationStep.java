@@ -17,6 +17,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /** 
  *  AbstractStyleConfigurationStep
  *  Base step for style configuration actions
@@ -27,6 +30,8 @@ import java.util.Properties;
  * @version $Id: AbstractStyleConfigurationStep.java,v 1.2 2008-01-23 19:58:20 dervin Exp $ 
  */
 public abstract class AbstractStyleConfigurationStep {
+    
+    private static Log LOG = LogFactory.getLog(AbstractStyleConfigurationStep.class);
     
     public static final String STYLE_PROPERTIES_FILE = "style.configuration.properties";
 
@@ -98,7 +103,7 @@ public abstract class AbstractStyleConfigurationStep {
             try {
                 value = CommonTools.getServicePropertyValue(desc, longKey);
             } catch (Exception ex) {
-                System.err.println("Error retrieving service property: " + ex.getMessage());
+                LOG.error("Error retrieving service property: " + ex.getMessage());
                 ex.printStackTrace();
             }
         }

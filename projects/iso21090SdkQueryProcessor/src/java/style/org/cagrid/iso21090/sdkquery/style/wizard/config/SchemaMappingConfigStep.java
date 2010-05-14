@@ -29,11 +29,15 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.iso21090.sdkquery.encoding.SDK43DeserializerFactory;
 import org.cagrid.iso21090.sdkquery.encoding.SDK43SerializerFactory;
 import org.cagrid.iso21090.sdkquery.processor.SDK43QueryProcessor;
 
 public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
+    
+    private static Log LOG = LogFactory.getLog(SchemaMappingConfigStep.class);
     
     private ExtensionDataManager dataManager = null;
     private ModelInformationUtil modelInfoUtil = null;
@@ -197,7 +201,7 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
     
     
     private void setSdkSerialization(SchemaElementType element, String className, String packageName) {
-        System.out.println("Setting SDK serialization for " + packageName + "." + className + " [" + element.getType() + "]");
+        LOG.info("Setting SDK serialization for " + packageName + "." + className + " [" + element.getType() + "]");
         boolean useJaxbSerializers = false;
         try {
             useJaxbSerializers = Boolean.parseBoolean(getStyleProperty(StyleProperties.USE_JAXB_SERIALIZERS));
@@ -207,12 +211,11 @@ public class SchemaMappingConfigStep extends AbstractStyleConfigurationStep {
         element.setClassName(className);
         element.setPackageName(packageName);
         if (useJaxbSerializers) {
-            System.out.println("\tUsing JaxB serializer");
+            LOG.info("\tUsing JaxB serializer");
             element.setDeserializer(JaxbDeserializerFactory.class.getName());
             element.setSerializer(JaxbSerializerFactory.class.getName());
         } else {
-            System.out.println("\tUsing Castor serializer");
-            // castor
+            LOG.info("\tUsing Castor serializer");
             element.setDeserializer(SDK43DeserializerFactory.class.getName());
             element.setSerializer(SDK43SerializerFactory.class.getName());
         }
