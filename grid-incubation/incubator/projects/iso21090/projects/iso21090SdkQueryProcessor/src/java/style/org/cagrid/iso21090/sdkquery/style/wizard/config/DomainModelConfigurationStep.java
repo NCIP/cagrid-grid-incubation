@@ -24,6 +24,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cagrid.iso21090.model.tools.ISOSupportDomainModelGenerator;
 import org.cagrid.iso21090.sdkquery.processor.SDK43QueryProcessor;
 import org.cagrid.mms.domain.UMLProjectIdentifer;
@@ -39,6 +41,8 @@ import org.cagrid.mms.domain.UMLProjectIdentifer;
  * @author David
  */
 public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep {
+    
+    private static Log LOG = LogFactory.getLog(DomainModelConfigurationStep.class);
     
     private DomainModelConfigurationSource configurationSource = null;
     
@@ -76,7 +80,6 @@ public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep
     
     
     private void applySdkModelConfiguration() throws Exception {
-        // FIXME: create a domain model from the XMI using the ISO 21090 domain model project's parser
         ISOSupportDomainModelGenerator generator = new ISOSupportDomainModelGenerator(getXmiType());
         generator.setAttributeVersion(1.0f);
         generator.setPackageExcludeRegex(getExcludePackages());
@@ -93,6 +96,7 @@ public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep
         MetadataUtils.serializeDomainModel(generatedModel, modelWriter);
         modelWriter.flush();
         modelWriter.close();
+        LOG.debug("Wrote domain model to " + generatedModelFile.getAbsolutePath());
         
         // get / create the domain model resource property
         ResourcePropertyType domainModelResourceProperty = null;
@@ -104,6 +108,7 @@ public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep
             File oldFile = new File(
                 etcDir, domainModelResourceProperty.getFileLocation());
             if (oldFile.exists()) {
+                LOG.debug("Deleting " + oldFile.getAbsolutePath());
                 oldFile.delete();
             }
         } else {
@@ -193,6 +198,7 @@ public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep
             File oldFile = new File(
                 etcDir, domainModelResourceProperty.getFileLocation());
             if (oldFile.exists()) {
+                LOG.debug("Deleting " + oldFile.getAbsolutePath());
                 oldFile.delete();
             }
         } else {
@@ -251,7 +257,7 @@ public class DomainModelConfigurationStep extends AbstractStyleConfigurationStep
                 modelClass.setSelected(true);
                 modelClass.setTargetable(clazz.isAllowableAsTarget());
                 modelClasses.add(modelClass);
-                System.out.println("Class " + packageName + "." + clazz.getClassName() + " targetable? " + clazz.isAllowableAsTarget());
+                LOG.debug("Class " + packageName + "." + clazz.getClassName() + " targetable? " + clazz.isAllowableAsTarget());
             }
             ModelClass[] mappingArray = new ModelClass[modelClasses.size()];
             modelClasses.toArray(mappingArray);
