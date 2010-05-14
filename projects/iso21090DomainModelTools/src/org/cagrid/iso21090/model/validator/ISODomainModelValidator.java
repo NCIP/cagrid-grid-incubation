@@ -117,18 +117,26 @@ public class ISODomainModelValidator implements CqlDomainValidator {
     private void validateAssociationModel(Object current, Association assoc, DomainModel model) 
         throws MalformedQueryException {
         // determine if an association exists between current and assoc
-        Set<SimplifiedUmlAssociation> associationsWithCurrent = 
-            getAllAssociationsInvolvingClass(current.getName(), model);
+        List<String> searchClasses = new ArrayList<String>();
+        for (UMLClass c : DomainModelUtils.getAllSuperclasses(model, current.getName())) {
+            searchClasses.add(c.getPackageName() + "." + c.getClassName());
+        }
+        searchClasses.add(current.getName());
+        
         Set<SimplifiedUmlAssociation> candidates = new HashSet<SimplifiedUmlAssociation>();
-        for (SimplifiedUmlAssociation a : associationsWithCurrent) {
-            if (a.getSourceClass().equals(current.getName()) &&
-                a.getTargetClass().equals(assoc.getName())) {
-                candidates.add(a);
-            }
-            if (a.isBidirectional() &&
-                a.getTargetClass().equals(current.getName()) &&
-                a.getSourceClass().equals(assoc.getName())) {
-                candidates.add(a);
+        for (String name : searchClasses) {
+            Set<SimplifiedUmlAssociation> associationsWithCurrent = 
+                getAllAssociationsInvolvingClass(name, model);
+            for (SimplifiedUmlAssociation a : associationsWithCurrent) {
+                if (a.getSourceClass().equals(name) &&
+                    a.getTargetClass().equals(assoc.getName())) {
+                    candidates.add(a);
+                }
+                if (a.isBidirectional() &&
+                    a.getTargetClass().equals(name) &&
+                    a.getSourceClass().equals(assoc.getName())) {
+                    candidates.add(a);
+                }
             }
         }
         if (candidates.size() == 0) {

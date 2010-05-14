@@ -150,7 +150,7 @@ public class ISOSupportDomainModelGenerator {
             new HashMap<String, gov.nih.nci.cagrid.metadata.dataservice.UMLClass>();
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation> domainAssociations = 
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation>();
-        List<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization> generalizations = 
+        List<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization> domainGeneralizations = 
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization>();
         // add the pre-created IVL class
         LOG.debug("Creating initial class list");
@@ -289,8 +289,6 @@ public class ISOSupportDomainModelGenerator {
         }
         
         // associations
-
-        // associations of this class
         LOG.debug("Processing associations");
         List<UMLAssociation> umlAssociations = umlModel.getAssociations();
         for (UMLAssociation assoc : umlAssociations) {
@@ -298,7 +296,6 @@ public class ISOSupportDomainModelGenerator {
                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
             boolean bidirectional = associationIsBidirectional(assoc);
             a.setBidirectional(bidirectional);
-            // FIXME: this is creating self-associations.  Why?
             // source
             // the 0th edge describes the relationship from the perspective of THIS class
             UMLAssociationEdge sourceEdge = new UMLAssociationEdge();
@@ -332,8 +329,13 @@ public class ISOSupportDomainModelGenerator {
             if (sub instanceof UMLDatatype) {
                 UMLClass derived = deriveRealClass((UMLDatatype) sub, umlClasses);
                 if (derived != null) {
-                    LOG.debug("Datatype resolved to " + getFullPackageName(derived) + "." + derived.getName());
-                    subId = String.valueOf(derived.hashCode());
+                    String fqClassName = getFullPackageName(derived) + "." + derived.getName();
+                    if (ISO_PATTERN.matcher(fqClassName).matches()) {
+                        fqClassName = getFullPackageName(derived) + "." + cleanUpIsoClassName(derived.getName());
+                    }
+                    fqClassName = fqClassName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
+                    LOG.debug("Datatype resolved to " + fqClassName);
+                    subId = domainClasses.get(fqClassName).getId();
                 } else {
                     LOG.error("GENERALIZATION DATATYPE NOT FOUND (" + sub.getName() + ")");
                     LOG.error("SKIPPING THIS GENERALIZATION");
@@ -349,21 +351,26 @@ public class ISOSupportDomainModelGenerator {
             if (sup instanceof UMLDatatype) {
                 UMLClass derived = deriveRealClass((UMLDatatype) sup, umlClasses);
                 if (derived != null) {
-                    LOG.debug("Datatype resolved to " + getFullPackageName(derived) + "." + derived.getName());
-                    subId = String.valueOf(derived.hashCode());
+                    String fqClassName = getFullPackageName(derived) + "." + derived.getName();
+                    if (ISO_PATTERN.matcher(fqClassName).matches()) {
+                        fqClassName = getFullPackageName(derived) + "." + cleanUpIsoClassName(derived.getName());
+                    }
+                    fqClassName = fqClassName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
+                    LOG.debug("Datatype resolved to " + fqClassName);
+                    supId = domainClasses.get(fqClassName).getId();
                 } else {
-                    LOG.error("GENERALIZATION DATATYPE NOT FOUND (" + sub.getName() + ")");
+                    LOG.error("GENERALIZATION DATATYPE NOT FOUND (" + sup.getName() + ")");
                     LOG.error("SKIPPING THIS GENERALIZATION");
                     continue;
                 }
             } else {
-                LOG.error("I DONT KNOW WHAT TO DO WITH " + sub.getClass().getName());
+                LOG.error("I DONT KNOW WHAT TO DO WITH " + sup.getClass().getName());
                 LOG.error("SKIPPING THIS GENERALIZATION");
                 continue;
             }
             g.setSubClassReference(new UMLClassReference(subId));
             g.setSuperClassReference(new UMLClassReference(supId));
-            generalizations.add(g);
+            domainGeneralizations.add(g);
         }
         
         // build the model
@@ -377,7 +384,7 @@ public class ISOSupportDomainModelGenerator {
                     new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation[0])));
         domain.setUmlGeneralizationCollection(
             new DomainModelUmlGeneralizationCollection(
-                generalizations.toArray(
+                domainGeneralizations.toArray(
                     new gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization[0])));
         
         return domain;
@@ -388,7 +395,9 @@ public class ISOSupportDomainModelGenerator {
         boolean bidirectional = false;
         UMLTaggedValue tag = association.getTaggedValue("direction");
         if (tag != null) {
-            bidirectional = "Bi-Directional".equals(tag.getValue());
+            System.out.println("Association direction: " + tag.getValue());
+            bidirectional = "Bi-Directional".equals(tag.getValue()) ||
+                "Unspecified".equals(tag.getValue());
         }
         return bidirectional;
     }
