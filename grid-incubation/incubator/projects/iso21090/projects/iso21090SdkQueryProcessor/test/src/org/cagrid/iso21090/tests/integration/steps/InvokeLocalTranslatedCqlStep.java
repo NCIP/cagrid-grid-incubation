@@ -40,7 +40,10 @@ public class InvokeLocalTranslatedCqlStep extends AbstractLocalCqlInvocationStep
                 String base = System.getProperty(TESTS_BASEDIR_PROPERTY);
                 File sdkLocalClientDir = new File(base, SDK_LOCAL_CLIENT_DIR);
                 File sdkConfDir = new File(sdkLocalClientDir, "conf");
-                ApplicationContext isoContext = new FileSystemXmlApplicationContext(new File(sdkConfDir, "IsoConstants.xml").getAbsolutePath());
+                String isoConstantsFileLocation = new File(sdkConfDir, "IsoConstants.xml").getCanonicalPath();
+                // TODO: rm printout once dashboard likes this
+                System.out.println("Loading ISO constants from " + isoConstantsFileLocation);
+                ApplicationContext isoContext = new FileSystemXmlApplicationContext(isoConstantsFileLocation);
                 translator = new CQL2ParameterizedHQL(
                     new HibernateConfigTypesInformationResolver(hibernateConfig, true), 
                     new IsoDatatypesConstantValueResolver(isoContext),

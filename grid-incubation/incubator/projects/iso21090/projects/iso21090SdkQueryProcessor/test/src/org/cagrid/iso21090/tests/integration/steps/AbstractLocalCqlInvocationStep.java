@@ -1,5 +1,10 @@
 package org.cagrid.iso21090.tests.integration.steps;
 
+import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.cqlquery.CQLQuery;
+import gov.nih.nci.cagrid.testing.system.haste.Step;
+import gov.nih.nci.system.applicationservice.ApplicationService;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.lang.reflect.Method;
@@ -8,21 +13,17 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cagrid.iso21090.sdkquery.translator.CQL2ParameterizedHQL;
-import org.cagrid.iso21090.sdkquery.translator.ParameterizedHqlQuery;
-
-import gov.nih.nci.cagrid.common.Utils;
-import gov.nih.nci.cagrid.cqlquery.CQLQuery;
-import gov.nih.nci.cagrid.testing.system.haste.Step;
-import gov.nih.nci.system.applicationservice.ApplicationService;
-import gov.nih.nci.system.query.hibernate.HQLCriteria;
-
 public abstract class AbstractLocalCqlInvocationStep extends Step {
 
     public static final String TESTS_BASEDIR_PROPERTY = "sdk43.tests.base.dir";
-    public static final String TESTS_EXT_LIB_DIR = "ext/dependencies/jars";
+    public static final String TESTS_EXT_LIB_DIR = 
+        "ext" + File.separator + "dependencies" + File.separator + "jars";
     public static final String SDK_LOCAL_CLIENT_DIR = 
-        "sdk/unpacked/sdk-toolkit/iso-example-project/target/dist/exploded/output/isoExample/package/local-client";
+        "sdk" + File.separator + "unpacked" + File.separator + "sdk-toolkit" + 
+        File.separator + "iso-example-project" + File.separator + "target" + 
+        File.separator + "dist" + File.separator + "exploded" + File.separator +
+        "output" + File.separator + "isoExample" + File.separator + "package" + 
+        File.separator + "local-client";
     
     private ApplicationService service = null;
     
@@ -38,7 +39,8 @@ public abstract class AbstractLocalCqlInvocationStep extends Step {
     
     private File[] getCqlQueryFiles() {
         File basedir = new File(System.getProperty(TESTS_BASEDIR_PROPERTY));
-        File queriesDir = new File(basedir, "test/resources/testQueries");
+        File queriesDir = new File(basedir, 
+            "test" + File.separator + "resources" + File.separator + "testQueries");
         return queriesDir.listFiles(new FileFilter() {
             public boolean accept(File pathname) {
                 return pathname.isFile() && pathname.getName().endsWith(".xml")
