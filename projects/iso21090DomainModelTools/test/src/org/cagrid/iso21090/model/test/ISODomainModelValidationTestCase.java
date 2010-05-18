@@ -119,8 +119,13 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
-    public void testDsetCdCodeAttributeEqual() {
+    public void testDsetCdCodeAttributeEqualQuery() {
         validateQuery("dsetCdCodeAttributeEqual.xml");
+    }
+    
+    
+    public void testDsetAdPartValueAttributeEqual() {
+        validateQuery("dsetAdPartValueAttributeEqual.xml");
     }
     
     
