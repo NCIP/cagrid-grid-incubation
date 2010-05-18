@@ -267,9 +267,6 @@ public class ISOSupportDomainModelGenerator {
                         LOG.debug("Attribute datatype determined to be " + attributeDatatypeName);
                         // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.
                         if (ISO_PATTERN.matcher(attributeDatatypeName).matches()) {
-                            if (attributeDatatype.getName().equalsIgnoreCase("dset")) {
-                                System.out.println("HERE");
-                            }
                             LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
