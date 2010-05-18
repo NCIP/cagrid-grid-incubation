@@ -32,9 +32,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
@@ -146,6 +148,7 @@ public class ISOSupportDomainModelGenerator {
         domain.setProjectLongName(getProjectLongName());
         domain.setProjectDescription(getProjectDescription());
         List<UMLClass> umlClasses = getAllClassesInModel(umlModel);
+        Set<UMLAssociation> umlAssociationsToProcess = new HashSet<UMLAssociation>();
         Map<String, gov.nih.nci.cagrid.metadata.dataservice.UMLClass> domainClasses = 
             new HashMap<String, gov.nih.nci.cagrid.metadata.dataservice.UMLClass>();
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation> domainAssociations = 
@@ -156,6 +159,10 @@ public class ISOSupportDomainModelGenerator {
         LOG.debug("Creating initial class list");
         UMLPackage isoPackage = findIsoPackage(umlModel.getPackages());
         IvlUmlClass ivlClass = new IvlUmlClass(isoPackage);
+        // have to swap references to the non-existing gov.nih.nci.iso21090.String class
+        // to the real java.lang.String class.  No idea why the ISO one is in models.
+        UMLClass badIsoStringClass = null;
+        UMLClass javaStringClass = null;
         umlClasses.add(ivlClass);
         // have to pre-create all the classes so I can properly create associations w/ refs between them
         for (UMLClass clazz : umlClasses) {
@@ -163,6 +170,14 @@ public class ISOSupportDomainModelGenerator {
                 LOG.debug("Skipping class with null package: " + clazz.getName());
             } else {
                 String fullPackageName = getFullPackageName(clazz);
+                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("String")) {
+                    badIsoStringClass = clazz;
+                }
+                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "java.lang") && clazz.getName().equals("String")) {
+                    javaStringClass = clazz;
+                }
+                // TODO: there may be others (REAL -> Double, Binary -> byte[])
+                
                 // filter out anything not in the logical model and matching the exclude regex
                 if (shouldExcludePackage(fullPackageName)) {
                     LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
@@ -182,6 +197,7 @@ public class ISOSupportDomainModelGenerator {
                     LOG.debug("Class " + (isIsoClass ? "is" : "is not") + " targetable");
                     c.setAllowableAsTarget(!isIsoClass);
                     domainClasses.put(c.getPackageName() + "." + c.getClassName(), c);
+                    umlAssociationsToProcess.addAll(clazz.getAssociations());
                 }
             }
         }
@@ -211,6 +227,9 @@ public class ISOSupportDomainModelGenerator {
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
                         new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
+                    if (clazz.getName().startsWith("AD")) {
+                        System.out.println("here");
+                    }
                     for (UMLAttribute attrib : umlAttribs) {
                         LOG.debug("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
@@ -229,6 +248,15 @@ public class ISOSupportDomainModelGenerator {
                             LOG.warn("NO ATTRIBUTE DATATYPE COULD BE INFERED.  FALLING BACK TO " + rawAttributeDatatype.getName());
                             attributeDatatype = rawAttributeDatatype;
                         }
+                        
+                        // switch out weird ISO classes that represent simple types with the Java equivalent
+                        if (attributeDatatype.getName().equals("String") && clazz.getName().equalsIgnoreCase("Adxp")) {
+                            System.out.println("HERE");
+                        }
+                        if (attributeDatatype.equals(badIsoStringClass)) {
+                            attributeDatatype = javaStringClass;
+                        }
+                        
                         String attributeDatatypeName = attributeDatatype.getName();
                         if (attributeDatatype instanceof UMLClass) {
                             String rawAttribTypePackage = getFullPackageName((UMLClass) attributeDatatype);
@@ -290,8 +318,7 @@ public class ISOSupportDomainModelGenerator {
         
         // associations
         LOG.debug("Processing associations");
-        List<UMLAssociation> umlAssociations = umlModel.getAssociations();
-        for (UMLAssociation assoc : umlAssociations) {
+        for (UMLAssociation assoc : umlAssociationsToProcess) {
             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation a = 
                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
             boolean bidirectional = associationIsBidirectional(assoc);
@@ -395,6 +422,7 @@ public class ISOSupportDomainModelGenerator {
         boolean bidirectional = false;
         UMLTaggedValue tag = association.getTaggedValue("direction");
         if (tag != null) {
+            LOG.debug("Association direction: " + tag.getValue());
             System.out.println("Association direction: " + tag.getValue());
             bidirectional = "Bi-Directional".equals(tag.getValue()) ||
                 "Unspecified".equals(tag.getValue());
