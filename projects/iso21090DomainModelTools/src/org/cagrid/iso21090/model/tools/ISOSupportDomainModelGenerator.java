@@ -227,9 +227,6 @@ public class ISOSupportDomainModelGenerator {
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
                         new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
-                    if (clazz.getName().startsWith("AD")) {
-                        System.out.println("here");
-                    }
                     for (UMLAttribute attrib : umlAttribs) {
                         LOG.debug("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
@@ -270,6 +267,9 @@ public class ISOSupportDomainModelGenerator {
                         LOG.debug("Attribute datatype determined to be " + attributeDatatypeName);
                         // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.
                         if (ISO_PATTERN.matcher(attributeDatatypeName).matches()) {
+                            if (attributeDatatype.getName().equalsIgnoreCase("dset")) {
+                                System.out.println("HERE");
+                            }
                             LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
@@ -278,14 +278,7 @@ public class ISOSupportDomainModelGenerator {
                             sourceEdge.setMaxCardinality(1);
                             sourceEdge.setMinCardinality(0);
                             sourceEdge.setRoleName(attrib.getName());
-                            if (isGeneric) {
-                                // get the generic specific type
-                                UMLClass specificType = deriveRealClass(
-                                    getGenericSpecificType(rawAttributeDatatype.getName()), umlClasses);
-                                sourceEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
-                            } else {
-                                sourceEdge.setUMLClassReference(new UMLClassReference(c.getId()));
-                            }
+                            sourceEdge.setUMLClassReference(new UMLClassReference(c.getId()));
                             isoAssociation.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
                             UMLAssociationEdge targetEdge = new UMLAssociationEdge();
                             targetEdge.setMaxCardinality(isCollection ? -1 : 1);
@@ -293,7 +286,25 @@ public class ISOSupportDomainModelGenerator {
                             targetEdge.setRoleName(attrib.getName());
                             targetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(attributeDatatype.hashCode())));
                             isoAssociation.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
+                            // keep the association
                             domainAssociations.add(isoAssociation);
+                            if (isGeneric) {
+                                // need a further association from the iso datatype to its inner generic type
+                                gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
+                                    new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
+                                genericAssoc.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(targetEdge));
+                                UMLAssociationEdge genericTargetEdge = new UMLAssociationEdge();
+                                genericTargetEdge.setMaxCardinality(isCollection ? -1 : 1);
+                                genericTargetEdge.setMinCardinality(0);
+                                // get the generic specific type
+                                UMLClass specificType = deriveRealClass(
+                                   getGenericSpecificType(rawAttributeDatatype.getName()), umlClasses);
+                                // TODO: is it always item for generics, or just DSet?
+                                genericTargetEdge.setRoleName("item");
+                                genericTargetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
+                                genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(genericTargetEdge));
+                                domainAssociations.add(genericAssoc);
+                            }
                         } else {
                             LOG.debug("Attribute datatype is simple.");
                             gov.nih.nci.cagrid.metadata.common.UMLAttribute a = 
@@ -341,6 +352,13 @@ public class ISOSupportDomainModelGenerator {
             a.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(sourceEdge));
             a.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(targetEdge));
             domainAssociations.add(a);
+            if (LOG.isDebugEnabled()) {
+            LOG.debug(getFullPackageName(sourceClass) + "." + targetClass.getName() + 
+                " (" + sourceEdge.getRoleName() + ") "
+                + (a.isBidirectional() ? "<-->" : "--->") + " (" +
+                targetEdge.getRoleName() + ") " +
+                getFullPackageName(targetClass) + "." + targetClass.getName());
+            }
         }
         
         // generalizations
@@ -361,8 +379,8 @@ public class ISOSupportDomainModelGenerator {
                     LOG.debug("Datatype resolved to " + fqClassName);
                     subId = domainClasses.get(fqClassName).getId();
                 } else {
-                    LOG.error("GENERALIZATION DATATYPE NOT FOUND (" + sub.getName() + ")");
-                    LOG.error("SKIPPING THIS GENERALIZATION");
+                    LOG.warn("GENERALIZATION DATATYPE NOT FOUND (" + sub.getName() + ")");
+                    LOG.warn("SKIPPING THIS GENERALIZATION");
                     continue;
                 }
             } else {
@@ -420,7 +438,7 @@ public class ISOSupportDomainModelGenerator {
         UMLTaggedValue tag = association.getTaggedValue("direction");
         if (tag != null) {
             LOG.debug("Association direction: " + tag.getValue());
-            System.out.println("Association direction: " + tag.getValue());
+            // System.out.println("Association direction: " + tag.getValue());
             bidirectional = "Bi-Directional".equals(tag.getValue()) ||
                 "Unspecified".equals(tag.getValue());
         }
@@ -603,22 +621,26 @@ public class ISOSupportDomainModelGenerator {
     private String cleanUpIsoClassName(String isoClassName) {
         LOG.debug("Cleaning up ISO class name " + isoClassName);
         String clean = null;
-        StringTokenizer tok = new StringTokenizer(isoClassName, ".");
-        StringBuffer cleaned = new StringBuffer();
-        while (tok.hasMoreTokens()) {
-            String part = tok.nextToken();
-            cleaned.append(part.charAt(0));
-            if (part.length() != 1) {
-                cleaned.append(part.toLowerCase().substring(1));
-            }
-        }
-        int trimPoint = cleaned.indexOf("<");
-        if (trimPoint != -1) {
-            clean = cleaned.substring(0, trimPoint);
+        if (isoClassName.equals("DSET")) {
+            clean = "DSet";
         } else {
-            clean = cleaned.toString();
+            StringTokenizer tok = new StringTokenizer(isoClassName, ".");
+            StringBuffer cleaned = new StringBuffer();
+            while (tok.hasMoreTokens()) {
+                String part = tok.nextToken();
+                cleaned.append(part.charAt(0));
+                if (part.length() != 1) {
+                    cleaned.append(part.toLowerCase().substring(1));
+                }
+            }
+            int trimPoint = cleaned.indexOf("<");
+            if (trimPoint != -1) {
+                clean = cleaned.substring(0, trimPoint);
+            } else {
+                clean = cleaned.toString();
+            }
+            LOG.debug("Cleaned up: " + clean);
         }
-        LOG.debug("Cleaned up: " + clean);
         return clean;
     }
     

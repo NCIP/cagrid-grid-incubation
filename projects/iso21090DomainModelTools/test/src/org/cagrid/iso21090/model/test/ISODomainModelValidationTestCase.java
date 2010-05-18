@@ -119,6 +119,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testDsetCdCodeAttributeEqual() {
+        validateQuery("dsetCdCodeAttributeEqual.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
