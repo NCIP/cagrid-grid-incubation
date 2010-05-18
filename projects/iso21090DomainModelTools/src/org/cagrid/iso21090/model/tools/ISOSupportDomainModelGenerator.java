@@ -250,9 +250,6 @@ public class ISOSupportDomainModelGenerator {
                         }
                         
                         // switch out weird ISO classes that represent simple types with the Java equivalent
-                        if (attributeDatatype.getName().equals("String") && clazz.getName().equalsIgnoreCase("Adxp")) {
-                            System.out.println("HERE");
-                        }
                         if (attributeDatatype.equals(badIsoStringClass)) {
                             attributeDatatype = javaStringClass;
                         }
