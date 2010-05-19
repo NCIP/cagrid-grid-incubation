@@ -2,51 +2,72 @@ package org.cagrid.redcap.test.system.steps;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
+
 import org.apache.axis.types.URI;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.axis.types.URI.MalformedURIException;
+import org.cagrid.redcap.test.system.RCDSTestCaseInfo;
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.common.security.ProxyUtil;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.cqlresultset.CQLQueryResults;
 import gov.nih.nci.cagrid.data.client.DataServiceClient;
 import gov.nih.nci.cagrid.data.utilities.CQLQueryResultsIterator;
 import gov.nih.nci.cagrid.introduce.test.TestCaseInfo;
 import gov.nih.nci.cagrid.introduce.test.steps.BaseStep;
+import gov.nih.nci.cagrid.testing.system.deployment.SecureContainer;
 import gov.nih.nci.cagrid.testing.system.deployment.ServiceContainer;
 import gov.nih.nci.cagrid.cqlresultset.TargetAttribute;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Collection;
 import java.lang.reflect.Method;
+import org.globus.gsi.GlobusCredential;
+import java.io.File;
 
 public class InvokeClientStep extends BaseStep {
-    public static final String TEST_URL_SUFFIX = "/wsrf/services/cagrid/";
+    
+	public static final String TEST_URL_SUFFIX = "/wsrf/services/cagrid/";
 
-    private TestCaseInfo tci;
+    private RCDSTestCaseInfo tci;
     private ServiceContainer container;
    
-    private static final String TEST_QUERIES_DIR = "/tests/";
-    private static final String TEST_RESULTS_DIR = "/results/";
+    private static final String TEST_QUERIES_DIR = "test/resources/tests/";
+    private static final String TEST_RESULTS_DIR = "test/resources/results/";
     
     private static final Log LOG = LogFactory.getLog(InvokeClientStep.class);
     
-    public InvokeClientStep(ServiceContainer container, TestCaseInfo tci) throws Exception {
+    private static final String AUTHORIZATION = "authorization";
+    private String authorization;
+    private static final String ON ="ON";
+    
+    public InvokeClientStep(ServiceContainer container, RCDSTestCaseInfo tci) throws Exception {
         super(tci.getDir(), false);
         this.tci = tci;
         this.container = container;
     }
 
     public void runStep() throws Throwable {
-    	testObjectsOfGivenType();
+    	
+    	String servicePropsLoc = tci.getTempDir()+File.separator+"service.properties";
+		FileInputStream stream = new FileInputStream(servicePropsLoc);
+		Properties props = new java.util.Properties();
+		props.load(stream);
+		authorization = props.getProperty(AUTHORIZATION);
+		
+		testObjectsOfGivenType();
     	testObjectsWithSingleAttribute();
     	testCountObjectsOfGivenType();
     	testDistinctAttributesOfObject();
     	testMultipleAttributesOfObject();
     	testObjectsWithSingleAssociation();
+
     	testObjectsWithNestedAssociations();
     	testAssociationsWithGroups();
     	testGroups();
@@ -105,107 +126,177 @@ public class InvokeClientStep extends BaseStep {
     
     private void testObjectsOfGivenType() {
         LOG.debug("testObjectsOfGivenType");
+        CQLQueryResults results = null;
         CQLQuery query = loadQuery("ObjectOfGivenType.xml");
-        CQLQueryResults results = loadQueryResults("ObjectOfGivenTypeResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("ObjectOfGivenTypeResults.xml");
+        }else{
+        	results = loadQueryResults("ObjectOfGivenTypeResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testObjectsWithSingleAttribute(){
     	LOG.debug("testObjectsWithSingleAttribute");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("ObjectsWithSingleAttribute.xml");
-        CQLQueryResults results = loadQueryResults("ObjectsWithSingleAttributeResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("ObjectsWithSingleAttributeResults.xml");
+        }else{
+        	results = loadQueryResults("ObjectsWithSingleAttributeResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
 
     private void testCountObjectsOfGivenType(){
     	LOG.debug("testCountObjectsOfGivenType");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("CountObjectsOfGivenType.xml");
-        CQLQueryResults results = loadQueryResults("CountObjectsOfGivenTypeResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("CountObjectsOfGivenTypeResults.xml");
+        }else{
+        	results = loadQueryResults("CountObjectsOfGivenTypeResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testDistinctAttributesOfObject(){
     	LOG.debug("testDistinctAttributesOfObject");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("DistinctAttributesOfObject.xml");
-        CQLQueryResults results = loadQueryResults("DistinctAttributesOfObjectResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("DistinctAttributesOfObjectResults.xml");
+        }else{
+        	results = loadQueryResults("DistinctAttributesOfObjectResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testMultipleAttributesOfObject(){
     	LOG.debug("testMultipleAttributesOfObject");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("MultipleAttributesOfObject.xml");
-        CQLQueryResults results = loadQueryResults("MultipleAttributesOfObjectResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("MultipleAttributesOfObjectResults.xml");
+        }else{
+        	results = loadQueryResults("MultipleAttributesOfObjectResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testObjectsWithSingleAssociation(){
     	LOG.debug("testObjectsWithSingleAssociation");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("ObjectsWithSingleAssociation.xml");
-        CQLQueryResults results = loadQueryResults("ObjectsWithSingleAssociationResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("ObjectsWithSingleAssociationResults.xml");
+        }else{
+        	results = loadQueryResults("ObjectsWithSingleAssociationResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testObjectsWithNestedAssociations(){
     	LOG.debug("testObjectsWithNestedAssociations");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("ObjectsWithNestedAssociations.xml");
-        CQLQueryResults results = loadQueryResults("ObjectsWithNestedAssociationsResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("ObjectsWithNestedAssociationsResults.xml");
+        }else{
+        	results = loadQueryResults("ObjectsWithNestedAssociationsResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testAssociationsWithGroups(){
     	LOG.debug("testAssociationsWithGroups");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("AssociationsWithGroups.xml");
-        CQLQueryResults results = loadQueryResults("AssociationsWithGroupsResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("AssociationsWithGroupsResults.xml");
+        }else{
+        	results = loadQueryResults("AssociationsWithGroupsResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testGroups(){
     	LOG.debug("testGroups");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("Groups.xml");
-        CQLQueryResults results = loadQueryResults("GroupsResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("GroupsResults.xml");
+        }else{
+        	results = loadQueryResults("GroupsResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testGroupsWithAssociationGroup(){
     	LOG.debug("testGroupsWithAssociationGroup");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("GroupsWithAssociationGroup.xml");
-        CQLQueryResults results = loadQueryResults("GroupsWithAssociationGroupResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("GroupsWithAssociationGroupResults.xml");
+        }else{
+        	results = loadQueryResults("GroupsWithAssociationGroupResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testGroupsWithAttributeGroup(){
     	LOG.debug("testGroupsWithAttributeGroup");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("GroupsWithAttributeGroup.xml");
-        CQLQueryResults results = loadQueryResults("GroupsWithAttributeGroupResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("GroupsWithAttributeGroupResults.xml");
+        }else{
+        	results = loadQueryResults("GroupsWithAttributeGroupResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testGroupsWithAttributes(){
     	LOG.debug("testGroupsWithAttributes");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("GroupsWithAttributes.xml");
-        CQLQueryResults results = loadQueryResults("GroupsWithAttributesResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("GroupsWithAttributesResults.xml");
+        }else{
+        	results = loadQueryResults("GroupsWithAttributesResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testGroupsWithGroups(){
     	LOG.debug("testGroupsWithGroups");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("GroupsWithGroups.xml");
-        CQLQueryResults results = loadQueryResults("GroupsWithGroupsResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("GroupsWithGroupsResults.xml");
+        }else{
+        	results = loadQueryResults("GroupsWithGroupsResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
     
     private void testGroupsWithAssociations(){
     	LOG.debug("testGroupsWithAssociations");
+    	CQLQueryResults results = null;
         CQLQuery query = loadQuery("GroupsWithAssociations.xml");
-        CQLQueryResults results = loadQueryResults("GroupsWithAssociationsResults.xml");
+        if(!authorization.equalsIgnoreCase(ON)){
+        	results = loadQueryResults("GroupsWithAssociationsResults.xml");
+        }else{
+        	results = loadQueryResults("GroupsWithAssociationsResults_auth.xml");
+        }
         invokeValidQueryValidResults(query, results);
     }
 	
     private CQLQuery loadQuery(String filename) {
-        String fullFilename = TEST_QUERIES_DIR + filename;
+        String fullFilename = tci.getTempDir()+File.separator+TEST_QUERIES_DIR + filename;
         CQLQuery query = null;
         try {
-        	InputStream queryInputStream = InvokeClientStep.class.getResourceAsStream(fullFilename);
+        	FileInputStream queryInputStream = new FileInputStream(fullFilename);
             InputStreamReader reader = new InputStreamReader(queryInputStream);
         	query = (CQLQuery) Utils.deserializeObject(reader, CQLQuery.class);
         	reader.close();
@@ -218,11 +309,11 @@ public class InvokeClientStep extends BaseStep {
     }
     
     private CQLQueryResults loadQueryResults(String filename)  {
-        String fullFilename = TEST_RESULTS_DIR + filename;
+        String fullFilename = tci.getTempDir()+File.separator+TEST_RESULTS_DIR + filename;
     	CQLQueryResults results = null;
         try {
-        	InputStream resultInputStream = InvokeClientStep.class.getResourceAsStream(fullFilename);
-            InputStreamReader reader = new InputStreamReader(resultInputStream);
+        	FileInputStream resultInputStream = new FileInputStream(fullFilename);
+        	InputStreamReader reader = new InputStreamReader(resultInputStream);
             results = (CQLQueryResults) Utils.deserializeObject(reader, CQLQueryResults.class);
             reader.close();
             resultInputStream.close();
@@ -239,14 +330,14 @@ public class InvokeClientStep extends BaseStep {
         try {
         	LOG.debug("Querying.....");
             queryResults = client.query(query);
+            //To display results
             Iterator<?> iter = new CQLQueryResultsIterator(queryResults, true);
             while (iter.hasNext()) {
-                System.out.println(iter.next());
+                LOG.debug(iter.next());
                 if (iter.hasNext()) {
-                    System.out.println();
+                	LOG.debug(" ");
                 }
             }
-            // If this fails, we need to still be able to exit the jvm
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("Query failed to execute: " + ex.getMessage());
@@ -257,7 +348,9 @@ public class InvokeClientStep extends BaseStep {
     private DataServiceClient getServiceClient() {
         DataServiceClient client = null;
         try {
-            client = new DataServiceClient(getServiceUrl()); 
+        	String certDir = ((SecureContainer) this.container).getCertificatesDirectory().toString();
+        	GlobusCredential cred = ProxyUtil.loadProxy(certDir+"/user.proxy");
+            client = new DataServiceClient(getServiceUrl(),cred); 
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("Error creating data service client: " + ex.getMessage());
@@ -317,10 +410,9 @@ public class InvokeClientStep extends BaseStep {
     
     private InputStream getClientConfigStream() {
         InputStream is = null;
-        //String resourceName = "/RedcapDataService/src/org/cagrid/redcap/client/client-config.wsdd";
-        String resourceName = "/src/org/cagrid/redcap/client/client-config.wsdd";
+        String resourceName = "src/org/cagrid/redcap/client/client-config.wsdd";
         try {
-        	is = InvokeClientStep.class.getResourceAsStream(resourceName);
+        	is = new FileInputStream(tci.getTempDir()+File.separator+resourceName);
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("Error obtaining client config input stream: " + ex.getMessage());

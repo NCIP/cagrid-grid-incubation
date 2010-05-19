@@ -10,13 +10,16 @@ public class RCDSTestCaseInfo extends TestCaseInfo {
         return getName();
     }
 
+    public String getTempDir() {
+    	return "../../../tmp/RedcapDataService";
+    }
+    
     public String getName() {
-        //return "TransferSystemTest";
-    	return "RedcapDataService";
+        return "RedcapDataService";
     }
 
     public String getNamespace() {
-        return "http://org.cagrid.transfer.system.test/SystemTest";
+        return "http://org.cagrid.redcap.system.test/SystemTest";
     }
 
     public String getPackageDir() {
@@ -24,15 +27,11 @@ public class RCDSTestCaseInfo extends TestCaseInfo {
     }
 
     public String getPackageName() {
-        return "org.cagrid.transfer.system.test";
+        return "org.cagrid.redcap.system.test";
     }
 
     public String getResourceFrameworkType() {
         return IntroduceConstants.INTRODUCE_MAIN_RESOURCE + "," + IntroduceConstants.INTRODUCE_SINGLETON_RESOURCE + "," + IntroduceConstants.INTRODUCE_IDENTIFIABLE_RESOURCE;
     }
    
-//    public String getExtensions() {
-//       return "caGrid_Transfer";
-//    }
-
 }

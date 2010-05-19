@@ -10,9 +10,8 @@ public class RCDSTestsStoryBook {
 	
 	@Test
     public void rcdsTests() throws Throwable {
-    	Story s1 = new RedcapDataServiceTest(ServiceContainerFactory
-            .createContainer(ServiceContainerType.TOMCAT_CONTAINER));
-    	
-    	s1.runBare();
+		Story s1 = new RedcapDataServiceTest(ServiceContainerFactory
+	            .createContainer(ServiceContainerType.SECURE_TOMCAT_CONTAINER));
+		s1.runBare();
    }
 }

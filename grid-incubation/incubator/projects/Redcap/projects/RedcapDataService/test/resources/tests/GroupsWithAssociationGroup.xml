@@ -3,12 +3,12 @@
 		<gov:Group logicRelation="AND">
 			<gov:Association roleName="eventArmsCollection"
 				name="org.cagrid.redcap.EventArms">
-				<gov:Attribute name="armId" value="1" predicate="EQUAL_TO" />
+				<gov:Attribute name="armName" value="%" predicate="LIKE" />
 			</gov:Association>
-			<gov:Group logicRelation="OR">
-				<gov:Attribute name="projectName" value="red%"
+			<gov:Group logicRelation="AND">
+				<gov:Attribute name="projectName" value="trial%"
 					predicate="LIKE" />
-				<gov:Attribute name="projectId" value="5" predicate="EQUAL_TO" />
+				<gov:Attribute name="projectId" value="8" predicate="EQUAL_TO" />
 			</gov:Group>
 		</gov:Group>
 	</gov:Target>

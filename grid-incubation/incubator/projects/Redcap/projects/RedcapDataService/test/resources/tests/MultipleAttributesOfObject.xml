@@ -1,12 +1,11 @@
 
 <gov:CQLQuery xmlns:gov="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
 	<gov:Target name="org.cagrid.redcap.Projects">
-		<gov:Attribute name="projectName" value="red%"
-			predicate="LIKE" />
-	</gov:Target>
-	<gov:QueryModifier countOnly="false">
-		<gov:AttributeNames>projectName</gov:AttributeNames>
-		<gov:AttributeNames>projectId</gov:AttributeNames>
-		<gov:AttributeNames>appTitle</gov:AttributeNames>
-	</gov:QueryModifier>
+                  <gov:Attribute name="projectName" value="red%" predicate="LIKE"/>
+               </gov:Target>
+               <gov:QueryModifier countOnly="false">
+                  <gov:AttributeNames>projectName</gov:AttributeNames>
+                  <gov:AttributeNames>projectId</gov:AttributeNames>
+	          <gov:AttributeNames>appTitle</gov:AttributeNames>
+               </gov:QueryModifier>
 </gov:CQLQuery>

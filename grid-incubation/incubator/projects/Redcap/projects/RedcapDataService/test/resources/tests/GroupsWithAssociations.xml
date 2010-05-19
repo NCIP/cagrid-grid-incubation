@@ -1,20 +1,13 @@
 <gov:CQLQuery xmlns:gov="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
 	<gov:Target name="org.cagrid.redcap.Projects">
-		<gov:Group logicRelation="OR">
-			<gov:Association roleName="eventArmsCollection"
-				name="org.cagrid.redcap.EventArms">
-				<gov:Attribute name="armName" value="redcap"
-					predicate="LIKE" />
-			</gov:Association>
-			<gov:Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
-				<gov:Attribute name="formName" value="redcap%"
-					predicate="LIKE" />
-			</gov:Association>
-
-			<gov:Attribute name="projectName" value="redcap_test%"
-				predicate="LIKE" />
-
-		</gov:Group>
-	</gov:Target>
-
+                  <gov:Group logicRelation="OR">
+                     <gov:Association roleName="eventArmsCollection" name="org.cagrid.redcap.EventArms">
+                        <gov:Attribute name="armName" value="redcap" predicate="LIKE"/>
+                     </gov:Association>
+                     <gov:Association roleName="formsRefCollection" name="org.cagrid.redcap.Forms">
+                        <gov:Attribute name="formName" value="redcap%" predicate="LIKE"/>
+                     </gov:Association>
+                     <gov:Attribute name="projectName" value="redcap_test%" predicate="LIKE"/>
+                  </gov:Group>
+               </gov:Target>
 </gov:CQLQuery>

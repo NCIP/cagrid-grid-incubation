@@ -1,6 +1,5 @@
 <gov:CQLQuery xmlns:gov="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
-	<gov:Target name="org.cagrid.redcap.Projects">
-		<gov:Attribute name="projectName" value="red%"
-			predicate="LIKE" />
-	</gov:Target>
+	 <gov:Target name="org.cagrid.redcap.Projects">
+   		<gov:Attribute name="projectName" value="red%" predicate="LIKE"/>
+  		</gov:Target>
 </gov:CQLQuery>

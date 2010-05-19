@@ -60,8 +60,7 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	private static final String JDBC_CONNECT_STRING = "jdbcConnectString";
 	private static final String JDBC_USERNAME = "jdbcUserName";
 	private static final String JDBC_PASSWORD = "jdbcPassword";
-	//private static final String TABLE_NAME_PREFIX = "tableNamePrefix";
-	
+		
 	private static final String HB_CONFIG_LOC = "hibernate.cfg.xml";
 	private static final String DOMAIN_MODEL_FILE_NAME = "domainModelFileName";
 	private static final String DEF_DOMAIN_MODEL = "RedcapDataServiceDomainModel.xml";
@@ -72,7 +71,6 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	private static final String HB_CONN_PWD = "hibernate.connection.password";
 	private static final String HB_DIALECT = "org.hibernate.dialect.MySQLDialect";
 	
-	//private static final boolean RC_CHECK_AUTHORIZATION = Boolean.valueOf(true);
 	private static final String AUTHORIZATION = "authorization";
 	private static final String AUTHORIZATION_ON = "ON";
 	
@@ -139,7 +137,6 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         return fromEtc;
 	 }
 	 
-	 
 	 /*
 	  * Gets the configured domain model 
 	  */
@@ -183,9 +180,12 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         connectString = getConfiguredParameters().getProperty(JDBC_CONNECT_STRING);
         username = getConfiguredParameters().getProperty(JDBC_USERNAME);
         password = getConfiguredParameters().getProperty(JDBC_PASSWORD);
-        authorization = getConfiguredParameters().getProperty(AUTHORIZATION);
-       
-        
+       try{
+        authorization = RedcapDataServiceConfiguration.getConfiguration().getAuthorization();
+       }catch(Exception e){
+    	  e.printStackTrace();
+       }
+               
         StringBuffer logMessage = new StringBuffer();
         logMessage.append(JDBC_DRIVER_NAME).append("[").append(driverClassname).append("]");
         logMessage.append(JDBC_CONNECT_STRING ).append("[").append(connectString).append("]");
@@ -251,6 +251,7 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 		try{
 			Long startTime = System.currentTimeMillis();
 			List<Object> completeObjectsList = util.convert(cqlQuery, sessionFactory,annotationConfig, connectionSource);
+			
 			if(authorization!=null && authorization.equalsIgnoreCase(AUTHORIZATION_ON)){
 	        	cqlQuery.setQueryModifier(this.queryModifier);
 	            postFilterResults = postFilterResults(cqlQueryResults,cqlQuery,completeObjectsList);

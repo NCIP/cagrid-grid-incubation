@@ -1,12 +1,10 @@
 
 <gov:CQLQuery xmlns:gov="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
-	<gov:Target name="org.cagrid.redcap.Projects">
-		<gov:Group logicRelation="AND">
-			<gov:Attribute name="projectName" value="redcap%"
-				predicate="LIKE" />
-			<gov:Attribute name="appTitle" value="RED%" predicate="LIKE" />
-			<gov:Attribute name="institution" value="Van%"
-				predicate="LIKE" />
-		</gov:Group>
-	</gov:Target>
+	 <gov:Target name="org.cagrid.redcap.Projects">
+                  <gov:Group logicRelation="AND">
+                     <gov:Attribute name="projectName" value="trial_patient" predicate="LIKE"/>
+                     <gov:Attribute name="appTitle" value="trial_patient" predicate="LIKE"/>
+                     <gov:Attribute name="institution" value="The Ohio State University" predicate="LIKE"/>
+                  </gov:Group>
+               </gov:Target>
 </gov:CQLQuery>
