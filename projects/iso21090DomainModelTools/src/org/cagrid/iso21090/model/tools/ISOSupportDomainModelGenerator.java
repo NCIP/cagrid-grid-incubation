@@ -618,16 +618,25 @@ public class ISOSupportDomainModelGenerator {
     private String cleanUpIsoClassName(String isoClassName) {
         LOG.debug("Cleaning up ISO class name " + isoClassName);
         String clean = null;
+        if (isoClassName.equalsIgnoreCase("nullflavor")) {
+            System.out.println("here");
+        }
         if (isoClassName.equals("DSET")) {
-            clean = "DSet";
+            clean = "DSet"; 
         } else {
             StringTokenizer tok = new StringTokenizer(isoClassName, ".");
             StringBuffer cleaned = new StringBuffer();
             while (tok.hasMoreTokens()) {
                 String part = tok.nextToken();
-                cleaned.append(part.charAt(0));
-                if (part.length() != 1) {
-                    cleaned.append(part.toLowerCase().substring(1));
+                // ISO class names usually YELL AT YOU, SO CALM IT DOWN
+                boolean isAllCaps = isoClassName.toUpperCase().equals(isoClassName);
+                if (isAllCaps) {
+                    cleaned.append(part.charAt(0));
+                    if (part.length() != 1) {
+                        cleaned.append(part.toLowerCase().substring(1));
+                    }
+                } else {
+                    cleaned.append(part);
                 }
             }
             int trimPoint = cleaned.indexOf("<");
