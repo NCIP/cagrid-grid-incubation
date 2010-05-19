@@ -1,13 +1,11 @@
 <ns1:CQLQueryResultCollection
 	targetClassname="org.cagrid.redcap.Projects" xmlns:ns1="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLResultSet">
-	<ns1:AttributeResult>
-               <ns1:Attribute name="projectName" value="redcap_demo_45a9f3"/>
-            </ns1:AttributeResult>
-            <ns1:AttributeResult>
+<ns1:AttributeResult>
                <ns1:Attribute name="projectName" value="redcap_demo_85a943"/>
             </ns1:AttributeResult>
             <ns1:AttributeResult>
                <ns1:Attribute name="projectName" value="redcap_test_project"/>
             </ns1:AttributeResult>
 
-</ns1:CQLQueryResultCollection>
+
+</ns1:CQLQueryResultCollection>	

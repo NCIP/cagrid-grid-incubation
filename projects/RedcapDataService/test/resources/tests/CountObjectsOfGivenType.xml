@@ -1,5 +1,5 @@
 
 <gov:CQLQuery xmlns:gov="http://CQL.caBIG/1/gov.nih.nci.cagrid.CQLQuery">
-	<gov:Target name="org.cagrid.redcap.Projects" />
-	<gov:QueryModifier countOnly="true" />
+	 <gov:Target name="org.cagrid.redcap.Projects"/>
+               <gov:QueryModifier countOnly="true"/>
 </gov:CQLQuery>

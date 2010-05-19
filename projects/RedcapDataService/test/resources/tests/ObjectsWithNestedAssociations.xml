@@ -3,7 +3,7 @@
 		<gov:Association roleName="eventFormsCollection" name="org.cagrid.redcap.Events">
 			<gov:Association roleName="EventsCalendarRefs"
 				name="org.cagrid.redcap.EventsCalendar">
-				<gov:Attribute name="calId" value="2" predicate="EQUAL_TO" />
+				<gov:Attribute name="calId" value="7" predicate="EQUAL_TO" />
 			</gov:Association>
 		</gov:Association>
 	</gov:Target>

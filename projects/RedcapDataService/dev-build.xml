@@ -31,6 +31,8 @@
 		
 	<property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
 	<property name="globus.lib.dir" location="${ext.globus.dir}/lib"/>
+	<property name="introduce.dir" value="${env.CAGRID_HOME}/projects/introduce" />
+	<!-- <property name="introduce.dir" value="../../../caGrid/projects/introduce" /> -->
 	
 	<!-- ============================================================== -->
 	<!-- Create any extended Classpaths here                            -->
@@ -215,7 +217,7 @@
 		</sql>
 		<sql driver="${db.driver}" url="jdbc:mysql://${db.server}:${db.port}/${db.schema.name}" userid="${db.username}" password="${db.password}">
 			<classpath refid="test.run.classpath"/>
-			<transaction src="${basedir}/test/resources/schema/RedcapTestSchema.sql"/>
+			<transaction src="${basedir}/test/resources/schema/RedcapTestSchema_Secured.sql"/>
 		</sql>
 	</target>
 	
@@ -239,24 +241,21 @@
 	</target> -->
 	
 	<!--NOTE: add redcapDBsetup to depends below when doing the integration testing -->
-	<target name="test" depends="checkGlobus,defineClasspaths" description="Runs the service's tests.">
+	<target name="test" depends="checkGlobus,defineClasspaths,redcapDBsetup" description="Runs the service's tests.">
 			<echo message="Test results dir: ${junit.results.dir}" />
 			<mkdir dir="${junit.results.dir}" />
 			
-			<junit dir="${basedir}" printsummary="yes" showoutput="true">
-				<sysproperty key="basedir" value="RedcapDataService" />
+			<junit dir="${introduce.dir}" printsummary="yes" showoutput="true">
+				<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
+				<sysproperty key="basedir" value="${basedir}"/>
 				<sysproperty key="testing.containers.dir" value="${basedir}/ext/dependencies/resources/containers" />
 				<sysproperty key="testing.container.debug.packages" value="gov.nih.nci.cagrid"/>
 				<classpath refid="test.run.classpath" />
 				<classpath refid="test.run.extended.classpath"/>
+				
+				
 				<classpath>
-				    <pathelement location="${basedir}/test/resources" />
-				</classpath>
-				<classpath>
-				    <pathelement location="${basedir}/tmp" />
-				</classpath>
-				<classpath>
-					<pathelement location="${basedir}" />
+					<pathelement location="${ext.globus.dir}" />
 				</classpath>
 				<formatter type="xml" />
 				<batchtest fork="yes" todir="${junit.results.dir}">
@@ -271,8 +270,9 @@
 			</junit>
 		</target>
 
-	<!-- Example: ant addUser -DgridGrouper.url="https://grouper.training.cagrid.org:8443/wsrf/services/cagrid/GridGrouper" -Dgroup.nam
-e="Training:rcconnecttest" -DuserGrid.identifier="/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=rc_testuser4" -DredcapUser.name="testing"	-->
+	<!-- Example: ant addUser -DgridGrouperUrl="https://grouper.training.cagrid.org:8443/wsrf/services/cagrid/GridGrouper" -DgroupName=
+"Training:rcconnecttest" -DadminId="xxxxx" -Dpassword="xxx!"	-->
+	<!--Grid user id /O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=userName -->
 	
 	<target name="addUser" depends="checkGlobus,defineClasspaths" description="Adds the Redcap user to grid group">
 		<echo message="Adding the Redcap user to grid group" />
