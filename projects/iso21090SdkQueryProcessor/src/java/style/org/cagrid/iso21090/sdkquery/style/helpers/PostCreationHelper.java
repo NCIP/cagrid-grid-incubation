@@ -1,6 +1,7 @@
 package org.cagrid.iso21090.sdkquery.style.helpers;
 
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.cagrid.data.DataServiceConstants;
 import gov.nih.nci.cagrid.data.common.CastorMappingUtil;
 import gov.nih.nci.cagrid.data.style.StyleCreationPostProcessor;
 import gov.nih.nci.cagrid.data.utilities.WsddUtil;
@@ -15,6 +16,7 @@ import java.io.File;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cagrid.iso21090.model.validator.ISODomainModelValidator;
 import org.cagrid.iso21090.sdkquery.encoding.SDK43EncodingUtils;
 
 
@@ -35,6 +37,11 @@ public class PostCreationHelper implements StyleCreationPostProcessor {
     
     
     private void editWsddForCastorMappings(ServiceInformation info) throws Exception {
+        // change out the domain model validator class
+        CommonTools.setServiceProperty(info.getServiceDescriptor(), 
+            DataServiceConstants.DOMAIN_MODEL_VALIDATOR_CLASS, 
+            ISODomainModelValidator.class.getName(), false);
+        
         String mainServiceName = info.getIntroduceServiceProperties().getProperty(
             IntroduceConstants.INTRODUCE_SKELETON_SERVICE_NAME);
         ServiceType mainService = CommonTools.getService(info.getServices(), mainServiceName);
@@ -48,7 +55,7 @@ public class PostCreationHelper implements StyleCreationPostProcessor {
             throw new CodegenExtensionException("Client config file " + clientConfigFile.getAbsolutePath()
                 + " not found!");
         }
-        // fine the server-config.wsdd, located in the service's root directory
+        // find the server-config.wsdd, located in the service's root directory
         File serverConfigFile = new File(info.getBaseDirectory(), "server-config.wsdd");
         LOG.debug("Editing server config wsdd at " + serverConfigFile.getAbsolutePath());
         if (!serverConfigFile.exists()) {
