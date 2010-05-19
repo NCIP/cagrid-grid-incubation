@@ -1,0 +1,31 @@
+<project name="iso21090AnalyticalService_tests_harness" basedir=".">
+	
+	<property name="junit.results.dir" location="${test.dir}/logs" />
+	<property name="testing.port.assignment.mode" value="true"/>
+	<property name="testing.containers.dir" location="${ext.dir}/dependencies/zips"/>
+
+    <!-- ============================================================== -->
+	<!-- Call any tests.                                                -->
+	<!-- ============================================================== -->
+	<target name="test" depends="checkGlobus" description="Runs integration tests">
+		<echo message="Test results dir: ${junit.results.dir}"/>
+		<mkdir dir="${junit.results.dir}"/>
+		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
+			<!-- is this needed any more? -->
+			<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
+			<sysproperty key="testing.port.assignment.mode" value="${testing.port.assignment.mode}"/>
+			<sysproperty key="testing.containers.dir" value="${testing.containers.dir}"/>
+			<classpath refid="test.run.classpath"/>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*Story.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	   <delete dir="testContainer" />
+		<!-- did the tests fail?? -->
+		<fail if="test.failed" message="Tests failed! Check the test reports."/>
+	</target>
+	
+</project>

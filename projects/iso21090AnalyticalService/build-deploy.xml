@@ -165,6 +165,9 @@
 
 		<!--copy over the jars to the lib -->
 		<copy overwrite="true" toDir="${webapp.deploy.lib.dir}">
+         <fileset dir="${ext.lib.dir}">
+            <include name="**/*.jar" />
+         </fileset>
 			<fileset dir="lib">
 				<include name="*" />
 			</fileset>
