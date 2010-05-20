@@ -610,7 +610,8 @@ public class ISOSupportDomainModelGenerator {
      * 
      * eg1) II -> Ii
      * eg2) EN.ON - >EnOn
-     * eg3) DSET<II> -> Dset
+     * eg3) DSET<II> -> DSet
+     * eg4) AddressPartType -> AddressPartType
      * 
      * @param isoClassName
      * @return
@@ -618,17 +619,18 @@ public class ISOSupportDomainModelGenerator {
     private String cleanUpIsoClassName(String isoClassName) {
         LOG.debug("Cleaning up ISO class name " + isoClassName);
         String clean = null;
-        if (isoClassName.equalsIgnoreCase("nullflavor")) {
-            System.out.println("here");
-        }
         if (isoClassName.equals("DSET")) {
+            // DSET requires some magic...
             clean = "DSet"; 
         } else {
+            // some ISO classes have dots in their name (AD.XP) which need
+            // turned into something that standard package / class name parsers
+            // will recognize (AdXp)
             StringTokenizer tok = new StringTokenizer(isoClassName, ".");
             StringBuffer cleaned = new StringBuffer();
             while (tok.hasMoreTokens()) {
                 String part = tok.nextToken();
-                // ISO class names usually YELL AT YOU, SO CALM IT DOWN
+                // ISO class names usually YELL AT YOU IN ALL CAPS, so calm that down a bit...
                 boolean isAllCaps = isoClassName.toUpperCase().equals(isoClassName);
                 if (isAllCaps) {
                     cleaned.append(part.charAt(0));
@@ -639,14 +641,15 @@ public class ISOSupportDomainModelGenerator {
                     cleaned.append(part);
                 }
             }
+            // throw out generic parameter parts of the class name
             int trimPoint = cleaned.indexOf("<");
             if (trimPoint != -1) {
                 clean = cleaned.substring(0, trimPoint);
             } else {
                 clean = cleaned.toString();
             }
-            LOG.debug("Cleaned up: " + clean);
         }
+        LOG.debug("Cleaned up: " + clean);
         return clean;
     }
     
