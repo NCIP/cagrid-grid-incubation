@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -98,7 +99,6 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
         if (type == null) {
             PersistentClass clazz = configuration.getClassMapping(classname);
             if (clazz != null) {
-                // TODO: test that this barks up the inheritance tree for properties
                 Property property = clazz.getRecursiveProperty(field);
                 if (property != null) {
                     type = property.getType().getReturnedClass();
@@ -108,11 +108,21 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
             } else if (reflectionFallback) {
                 try {
                     Class<?> javaClass = Class.forName(classname);
-                    Field javaField = javaClass.getDeclaredField(field);
-                    type = javaField.getType();
+                    List<Class<?>> classHierarchy = getClassHierarchy(javaClass);
+                    for (Iterator<Class<?>> classIter = classHierarchy.iterator(); 
+                        classIter.hasNext() && type == null;) {
+                        Class<?> checkClass = classIter.next();
+                        try {
+                            Field javaField = checkClass.getDeclaredField(field);
+                            type = javaField.getType();
+                        } catch (NoSuchFieldException ex) {
+                            LOG.debug("Class " + checkClass.getName() + " did not declare field " + field);
+                        }
+                    }
                 } catch (ClassNotFoundException ex) {
                     throw new TypesInformationException("Class " + classname + " not found in hibernate configuration or via reflection");
-                } catch (NoSuchFieldException ex) {
+                }
+                if (type == null) {
                     throw new TypesInformationException("Field " + field + " of class " + classname + " could not be found via reflection");
                 }
             } else {
@@ -235,6 +245,28 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
     
     private String getAssociationIdentifier(String parentClassname, String childClassname) {
         return parentClassname + "-->" + childClassname;
+    }
+    
+    
+    /**
+     * Follows the same class traversal algorithm as Class.getField()
+     * 
+     * @param c
+     * @return
+     */
+    private List<Class<?>> getClassHierarchy(Class<?> c) {
+        List<Class<?>> parents = new ArrayList<Class<?>>();
+        parents.add(c);
+        List<Class<?>> interfaces = new ArrayList<Class<?>>();
+        Collections.addAll(interfaces, c.getInterfaces());
+        for (Class<?> superInterface : interfaces) {
+            // recurse!
+            parents.addAll(getClassHierarchy(superInterface));
+        }
+        if (c.getSuperclass() != null) {
+            parents.addAll(getClassHierarchy(c.getSuperclass()));
+        }
+        return parents;
     }
     
     
