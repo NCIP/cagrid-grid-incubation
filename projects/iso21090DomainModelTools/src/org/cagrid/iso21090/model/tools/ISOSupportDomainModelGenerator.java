@@ -177,12 +177,15 @@ public class ISOSupportDomainModelGenerator {
                     javaStringClass = clazz;
                 }
                 // TODO: there may be others (REAL -> Double, Binary -> byte[])
+                // Satish is supposed to send me this list
                 
                 // filter out anything not in the logical model and matching the exclude regex
                 if (shouldExcludePackage(fullPackageName)) {
                     LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
                 } else if (clazz.getName().startsWith("IVL<")) {
                     LOG.debug("Skipping " + clazz.getName() + " in favor of a single Ivl class");
+                } else if (typeIsEnumeration(clazz)) {
+                    LOG.debug("Skipping " + clazz.getName() + " since it's an enumeration to be used as simple attribute value");
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
@@ -214,6 +217,8 @@ public class ISOSupportDomainModelGenerator {
                     LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
                 } else if (clazz.getName().startsWith("IVL<")) {
                     LOG.debug("Skipping " + clazz.getName() + " in favor of a single Ivl class");
+                } else if (typeIsEnumeration(clazz)) {
+                    LOG.debug("Skipping " + clazz.getName() + " since it's an enumeration to be used as simple attribute value");
                 } else {
                     // basic class info
                     String strippedPackageName = fullPackageName.substring(LOGICAL_MODEL_PACKAGE_PREFIX.length());
@@ -265,8 +270,22 @@ public class ISOSupportDomainModelGenerator {
                                     "." + datatypeClassname;
                         }
                         LOG.debug("Attribute datatype determined to be " + attributeDatatypeName);
-                        // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.
-                        if (ISO_PATTERN.matcher(attributeDatatypeName).matches()) {
+                        if (attributeDatatype instanceof UMLClass && 
+                            typeIsEnumeration((UMLClass) attributeDatatype)) {
+                            // turn attributes of an Enum type into String attributes; let the query processor handle it internally
+                            LOG.debug("Attribute datatype is Enumeration.");
+                            gov.nih.nci.cagrid.metadata.common.UMLAttribute a = 
+                                new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
+                            a.setName(attrib.getName());
+                            // TODO: evaluate this, using String for now
+                            a.setDataTypeName("java.lang.String");
+                            a.setVersion(getAttributeVersion());
+                            // look at tagged values for the concept code info
+                            annotateAttribute(a, attrib.getTaggedValues());
+                            // keep the attribute
+                            attribs.add(a);
+                        } else if (ISO_PATTERN.matcher(attributeDatatypeName).matches()) {
+                            // CAVEAT: have to turn "attributes" that are ISO types into unidirectional Associations.
                             LOG.debug("Attribute datatype is complex.  This will be modeled as a unidirectional Association");
                             gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation isoAssociation = 
                                 new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
@@ -286,6 +305,7 @@ public class ISOSupportDomainModelGenerator {
                             // keep the association
                             domainAssociations.add(isoAssociation);
                             if (isGeneric) {
+                                LOG.debug("Type is generic, adding additional association to the generic type");
                                 // need a further association from the iso datatype to its inner generic type
                                 gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
                                     new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
@@ -709,6 +729,16 @@ public class ISOSupportDomainModelGenerator {
             }
         }
         return null;
+    }
+    
+    
+    private boolean typeIsEnumeration(UMLClass clazz) {
+        boolean isEnum = false;
+        String stereotype = clazz.getStereotype();
+        if (stereotype != null) {
+            isEnum = stereotype.toLowerCase().equals("enumeration");
+        }
+        return isEnum;
     }
 
 
