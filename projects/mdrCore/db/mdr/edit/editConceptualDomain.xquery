@@ -1,3 +1,4 @@
+
 xquery version "1.0";
 
 
@@ -77,9 +78,10 @@ declare function local:conceptual-domain(
    let $version := lib-forms:substring-after-last($id,'_')
    let $vmid := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
-
    let $doc-name := concat($id,'.xml')
 
+   let $imeanings_count := count(session:get-attribute("imeanings"))
+   
    let $content := (
                     lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
                     lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
@@ -91,6 +93,8 @@ declare function local:conceptual-domain(
                     $definitions,
                     $preferred,
                     $sources), 
+                   
+                                       
                     for $meaning at $pos in $meanings
                     return
                     if($meaning >'') then
@@ -98,7 +102,10 @@ declare function local:conceptual-domain(
                        {
                         element openMDR:value_meaning_begin_date {$creation-date},
                         element openMDR:value_meaning_description {$meaning},
-                        element openMDR:value_meaning_identifier {$value_meaning_identifiers[$pos]}
+                        if($pos > $imeanings_count) then
+                            element openMDR:value_meaning_identifier {lib-forms:generate-id()}
+                        else
+                            element openMDR:value_meaning_identifier {$value_meaning_identifiers[$pos]}
                        }
                        else()
                     )
@@ -121,7 +128,7 @@ declare function local:conceptual-domain(
                }
       )
    )
-  
+   
    let $collection := 'conceptual-domain'
    let $message := lib-forms:store-document($document) 
    return
@@ -314,6 +321,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $preferred := request:get-parameter('preferred','')
    let $meanings := request:get-parameter('meanings','')
    let $value_meaning_identifiers := request:get-parameter('value_meaning_identifiers','')
+
    return
    
       lib-rendering:txfrm-webpage(
@@ -411,7 +419,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $ipreferred,
                $imeanings,
                $ivalue_meaning_identifiers
-               )
+               ),
+               session:set-attribute("imeanings", ($imeanings/text()) )
          )
        )
     )

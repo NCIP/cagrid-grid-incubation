@@ -143,11 +143,11 @@ declare function local:input-page(
       <table class="layout">
           <tr>
              <td>
-                This form will allow you to create a new property in the metadata repository
+                This form will allow you to create a new Conceptual Domain in the metadata repository
              </td>
           </tr>
           <tr><td>
-          <form name="new_value_domain" action="newConceptualDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="new_value_domain" action="newConceptualDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
              <div class="section">
                          
            {lib-forms:edit-admin-item($reg-auth,

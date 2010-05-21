@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:param name="user" select="guest"/>
     <xsl:param name="title" select="title"/>
     <xsl:param name="footer">true</xsl:param>
@@ -55,8 +55,8 @@
                             <tr>
                                 <td>
                                     <xsl:call-template name="css-rollover-button">
-                                        <xsl:with-param name="text">contents</xsl:with-param>
-                                        <xsl:with-param name="alt">contents</xsl:with-param>
+                                        <xsl:with-param name="text">Contents</xsl:with-param>
+                                        <xsl:with-param name="alt">Contents</xsl:with-param>
                                         <xsl:with-param name="link">../web/contents.xquery</xsl:with-param>
                                     </xsl:call-template>
                                 </td>
@@ -64,8 +64,8 @@
                             <tr>
                                 <td>
                                     <xsl:call-template name="css-rollover-button">
-                                        <xsl:with-param name="text">search</xsl:with-param>
-                                        <xsl:with-param name="alt">search</xsl:with-param>
+                                        <xsl:with-param name="text">Search</xsl:with-param>
+                                        <xsl:with-param name="alt">Search</xsl:with-param>
                                         <xsl:with-param name="link">../web/search.xquery</xsl:with-param>
                                     </xsl:call-template>
                                 </td>
@@ -73,8 +73,8 @@
                             <tr>
                                 <td>
                                     <xsl:call-template name="css-rollover-button">
-                                        <xsl:with-param name="text">reference documents</xsl:with-param>
-                                        <xsl:with-param name="alt">reference documents</xsl:with-param>
+                                        <xsl:with-param name="text">Reference Documents</xsl:with-param>
+                                        <xsl:with-param name="alt">Reference Documents</xsl:with-param>
                                         <xsl:with-param name="link">../web/reference-document-management.xquery</xsl:with-param>
                                     </xsl:call-template>
                                 </td>
@@ -85,19 +85,19 @@
                                     <tr>
                                         <td>
                                             <xsl:call-template name="css-rollover-button">
-                                                <xsl:with-param name="text">maintenance</xsl:with-param>
-                                                <xsl:with-param name="alt">maintenance</xsl:with-param>
+                                                <xsl:with-param name="text">Maintenance</xsl:with-param>
+                                                <xsl:with-param name="alt">Maintenance</xsl:with-param>
                                                 <xsl:with-param name="link">../edit/maintenance.xquery</xsl:with-param>
                                             </xsl:call-template>
                                         </td>
                                     </tr>
                                 </xsl:otherwise>
                             </xsl:choose>
-                             <tr>
+                            <tr>
                                 <td>
                                     <xsl:call-template name="css-rollover-button">
-                                        <xsl:with-param name="text">openMDR wiki</xsl:with-param>
-                                        <xsl:with-param name="alt">openMDR wiki</xsl:with-param>
+                                        <xsl:with-param name="text">openMDR Wiki</xsl:with-param>
+                                        <xsl:with-param name="alt">openMDR Wiki</xsl:with-param>
                                         <xsl:with-param name="link">https://cagrid.org/display/MDR/Home</xsl:with-param>
                                         <xsl:with-param name="target">_blank</xsl:with-param>
                                     </xsl:call-template>
@@ -107,7 +107,7 @@
                     </td>
                     <td valign="top" align="left">
                         <a href="../web/homepage.xquery">
-                            <img src="../web/images/mdr.jpg" alt="openMDR"  style="border: 1px white solid;"/>
+                            <img src="../web/images/mdr.jpg" alt="openMDR" style="border: 1px white solid;"/>
                         </a>
                     </td>
                     <td align="right" valign="top">
@@ -191,8 +191,8 @@
                 <xsl:if test="$show-supersede-button='true' and $user!='guest'">
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">supersede</xsl:with-param>
-                            <xsl:with-param name="alt">supersede</xsl:with-param>
+                            <xsl:with-param name="text">Supersede</xsl:with-param>
+                            <xsl:with-param name="alt">Supersede</xsl:with-param>
                             <xsl:with-param name="link">
                                 <xsl:value-of select="concat('../edit/supersede_admin_item.xquery?supersede-source=', $id)"/>
                             </xsl:with-param>
@@ -202,8 +202,8 @@
                 <xsl:if test="$show-edit-button='true' and $user!='guest'">
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">edit</xsl:with-param>
-                            <xsl:with-param name="alt">edit</xsl:with-param>
+                            <xsl:with-param name="text">Edit</xsl:with-param>
+                            <xsl:with-param name="alt">Edit</xsl:with-param>
                             <xsl:with-param name="link">
                                 <xsl:value-of select="concat($edit-link,'?id=', $id)"/>
                             </xsl:with-param>
@@ -213,8 +213,8 @@
                 <xsl:if test="$as-xml-link">
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">as XML</xsl:with-param>
-                            <xsl:with-param name="alt">as XML</xsl:with-param>
+                            <xsl:with-param name="text">XML</xsl:with-param>
+                            <xsl:with-param name="alt">XML</xsl:with-param>
                             <xsl:with-param name="link">
                                 <xsl:choose>
                                     <xsl:when test="$id">
@@ -380,43 +380,43 @@
                 <tr>
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">data element</xsl:with-param>
-                            <xsl:with-param name="alt">data element</xsl:with-param>
+                            <xsl:with-param name="text">Data Element</xsl:with-param>
+                            <xsl:with-param name="alt">Data Element</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('data_element')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">value domain</xsl:with-param>
-                            <xsl:with-param name="alt">value domain</xsl:with-param>
+                            <xsl:with-param name="text">Value Domain</xsl:with-param>
+                            <xsl:with-param name="alt">Value Domain</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('value_domain')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">data element concept</xsl:with-param>
-                            <xsl:with-param name="alt">data element concept</xsl:with-param>
+                            <xsl:with-param name="text">Data Element Concept</xsl:with-param>
+                            <xsl:with-param name="alt">Data Element Concept</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('data_element_concept')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">object class</xsl:with-param>
-                            <xsl:with-param name="alt">object class</xsl:with-param>
+                            <xsl:with-param name="text">Object Class</xsl:with-param>
+                            <xsl:with-param name="alt">Object Class</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('object_class')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">property</xsl:with-param>
-                            <xsl:with-param name="alt">property</xsl:with-param>
+                            <xsl:with-param name="text">Property</xsl:with-param>
+                            <xsl:with-param name="alt">Property</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('property')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button">
-                            <xsl:with-param name="text">conceptual domain</xsl:with-param>
-                            <xsl:with-param name="alt">conceptual domain</xsl:with-param>
+                            <xsl:with-param name="text">Conceptual Domain</xsl:with-param>
+                            <xsl:with-param name="alt">Conceptual Domain</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('conceptual_domain')</xsl:with-param>
                         </xsl:call-template>
                     </td>
