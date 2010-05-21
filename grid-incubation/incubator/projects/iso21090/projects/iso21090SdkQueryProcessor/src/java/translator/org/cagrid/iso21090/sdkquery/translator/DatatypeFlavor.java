@@ -1,19 +1,31 @@
 package org.cagrid.iso21090.sdkquery.translator;
 
+import gov.nih.nci.iso21090.AddressPartType;
 import gov.nih.nci.iso21090.Bl;
 import gov.nih.nci.iso21090.Cd;
+import gov.nih.nci.iso21090.Compression;
 import gov.nih.nci.iso21090.DSet;
 import gov.nih.nci.iso21090.Ed;
 import gov.nih.nci.iso21090.En;
+import gov.nih.nci.iso21090.EntityNamePartQualifier;
+import gov.nih.nci.iso21090.EntityNamePartType;
+import gov.nih.nci.iso21090.EntityNameUse;
+import gov.nih.nci.iso21090.IdentifierReliability;
+import gov.nih.nci.iso21090.IdentifierScope;
 import gov.nih.nci.iso21090.Int;
+import gov.nih.nci.iso21090.IntegrityCheckAlgorithm;
 import gov.nih.nci.iso21090.Ivl;
+import gov.nih.nci.iso21090.NullFlavor;
+import gov.nih.nci.iso21090.PostalAddressUse;
 import gov.nih.nci.iso21090.Pq;
 import gov.nih.nci.iso21090.Pqv;
 import gov.nih.nci.iso21090.Sc;
 import gov.nih.nci.iso21090.St;
 import gov.nih.nci.iso21090.Tel;
 import gov.nih.nci.iso21090.TelPerson;
+import gov.nih.nci.iso21090.TelecommunicationAddressUse;
 import gov.nih.nci.iso21090.Ts;
+import gov.nih.nci.iso21090.UncertaintyType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +72,7 @@ import org.iso._21090.TelUrl;
 public enum DatatypeFlavor {
 
     STANDARD,                                                               // your.domain.Person
+    ENUMERATION,                                                            // gov.nih.nci.iso21090.NullFlavor
     COMPLEX_WITH_SIMPLE_CONTENT,                                            // org.iso._21090.II
     COMPLEX_WITH_MIXED_CONTENT,                                             // org.iso._21090.CD
     COMPLEX_WITH_COLLECTION_OF_COMPLEX,                                     // org.iso._21090.EN
@@ -69,6 +82,34 @@ public enum DatatypeFlavor {
     
     private static final Map<Class<?>, DatatypeFlavor> CLASS_FLAVORS = new HashMap<Class<?>, DatatypeFlavor>();
     static {
+        CLASS_FLAVORS.put(NullFlavor.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.NullFlavor.class, ENUMERATION);
+        CLASS_FLAVORS.put(AddressPartType.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.AddressPartType.class, ENUMERATION);
+        CLASS_FLAVORS.put(EntityNamePartQualifier.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.EntityNamePartQualifier.class, ENUMERATION);
+        CLASS_FLAVORS.put(EntityNamePartType.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.EntityNamePartType.class, ENUMERATION);
+        CLASS_FLAVORS.put(EntityNameUse.class, ENUMERATION);
+        CLASS_FLAVORS.put(Compression.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.Compression.class, ENUMERATION);
+        CLASS_FLAVORS.put(IdentifierReliability.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.IdentifierReliability.class, ENUMERATION);
+        CLASS_FLAVORS.put(IdentifierScope.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.IdentifierScope.class, ENUMERATION);
+        CLASS_FLAVORS.put(IntegrityCheckAlgorithm.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.IntegrityCheckAlgorithm.class, ENUMERATION);
+        CLASS_FLAVORS.put(PostalAddressUse.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.PostalAddressUse.class, ENUMERATION);
+        CLASS_FLAVORS.put(TelecommunicationAddressUse.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.TelecommunicationAddressUse.class, ENUMERATION);
+        // CLASS_FLAVORS.put(TimingEvent.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.TimingEvent.class, ENUMERATION);
+        CLASS_FLAVORS.put(UncertaintyType.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.UncertaintyType.class, ENUMERATION);
+        // CLASS_FLAVORS.put(UpdateMode.class, ENUMERATION);
+        CLASS_FLAVORS.put(org.iso._21090.UpdateMode.class, ENUMERATION);
+        
         CLASS_FLAVORS.put(BL.class, COMPLEX_WITH_SIMPLE_CONTENT);
         CLASS_FLAVORS.put(Bl.class, COMPLEX_WITH_SIMPLE_CONTENT);
         CLASS_FLAVORS.put(BlNonNull.class, COMPLEX_WITH_SIMPLE_CONTENT);
