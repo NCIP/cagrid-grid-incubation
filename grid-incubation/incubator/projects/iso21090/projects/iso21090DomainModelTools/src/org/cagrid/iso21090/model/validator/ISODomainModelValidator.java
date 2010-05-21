@@ -19,6 +19,7 @@ import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,7 +54,7 @@ public class ISODomainModelValidator implements CqlDomainValidator {
         }
 
         if (obj.getAttribute() != null) {
-            validateAttributeModel(obj.getAttribute(), classMd);
+            validateAttributeModel(model, obj.getAttribute(), classMd);
         }
 
         if (obj.getAssociation() != null) {
@@ -69,9 +70,9 @@ public class ISODomainModelValidator implements CqlDomainValidator {
     }
 
 
-    private void validateAttributeModel(Attribute attrib, UMLClass classMd) throws MalformedQueryException {
+    private void validateAttributeModel(DomainModel model, Attribute attrib, UMLClass classMd) throws MalformedQueryException {
         // verify the attribute exists
-        UMLAttribute attribMd = getUmlAttribute(attrib.getName(), classMd);
+        UMLAttribute attribMd = getUmlAttribute(model, classMd, attrib.getName());
         if (attribMd == null) {
             throw new MalformedQueryException("Attribute '" + attrib.getName() + "' is not defined for the class "
                 + classMd.getClassName());
@@ -117,23 +118,20 @@ public class ISODomainModelValidator implements CqlDomainValidator {
     private void validateAssociationModel(Object current, Association assoc, DomainModel model) 
         throws MalformedQueryException {
         // determine if an association exists between current and assoc
-        List<String> searchClasses = new ArrayList<String>();
-        for (UMLClass c : DomainModelUtils.getAllSuperclasses(model, current.getName())) {
-            searchClasses.add(c.getPackageName() + "." + c.getClassName());
-        }
-        searchClasses.add(current.getName());
-        
+        UMLClass currentClass = getUmlClass(current.getName(), model);
+        List<UMLClass> searchClasses = getClassHierarchy(model, currentClass);
         Set<SimplifiedUmlAssociation> candidates = new HashSet<SimplifiedUmlAssociation>();
-        for (String name : searchClasses) {
+        for (UMLClass clazz : searchClasses) {
+            String fqClassName = DomainModelUtils.getQualifiedClassname(clazz);
             Set<SimplifiedUmlAssociation> associationsWithCurrent = 
-                getAllAssociationsInvolvingClass(name, model);
+                getAllAssociationsInvolvingClass(model, clazz);
             for (SimplifiedUmlAssociation a : associationsWithCurrent) {
-                if (a.getSourceClass().equals(name) &&
+                if (a.getSourceClass().equals(fqClassName) &&
                     a.getTargetClass().equals(assoc.getName())) {
                     candidates.add(a);
                 }
                 if (a.isBidirectional() &&
-                    a.getTargetClass().equals(name) &&
+                    a.getTargetClass().equals(fqClassName) &&
                     a.getSourceClass().equals(assoc.getName())) {
                     candidates.add(a);
                 }
@@ -173,7 +171,7 @@ public class ISODomainModelValidator implements CqlDomainValidator {
         if (group.getAttribute() != null) {
             UMLClass classMd = getUmlClass(current.getName(), model);
             for (int i = 0; i < group.getAttribute().length; i++) {
-                validateAttributeModel(group.getAttribute(i), classMd);
+                validateAttributeModel(model, group.getAttribute(i), classMd);
             }
         }
 
@@ -208,39 +206,43 @@ public class ISODomainModelValidator implements CqlDomainValidator {
     }
 
 
-    private UMLAttribute getUmlAttribute(String attribName, UMLClass classMd) {
-        UMLAttribute[] attribs = classMd.getUmlAttributeCollection().getUMLAttribute();
-        for (int i = 0; attribs != null && i < attribs.length; i++) {
-            UMLAttribute attrib = attribs[i];
-            String fullAttribName = attrib.getName();
-            int shortIndex = fullAttribName.indexOf(':');
-            String shortAttribName = fullAttribName.substring(shortIndex + 1);
-            if (shortAttribName.equals(attribName)) {
-                return attrib;
+    private UMLAttribute getUmlAttribute(DomainModel model, UMLClass classMd, String attribName) {
+        List<UMLClass> searchClasses = getClassHierarchy(model, classMd);
+        // go backwards up the inheritance tree
+        for (int i = searchClasses.size() - 1; i >= 0; i--) {
+            UMLClass search = searchClasses.get(i);
+            UMLAttribute[] attribs = search.getUmlAttributeCollection().getUMLAttribute();
+            for (int j = 0; attribs != null && j < attribs.length; j++) {
+                UMLAttribute attrib = attribs[j];
+                String fullAttribName = attrib.getName();
+                int shortIndex = fullAttribName.indexOf(':');
+                String shortAttribName = fullAttribName.substring(shortIndex + 1);
+                if (shortAttribName.equals(attribName)) {
+                    return attrib;
+                }
             }
         }
         return null;
     }
     
     
-    private Set<SimplifiedUmlAssociation> getAllAssociationsInvolvingClass(String involvedClass, DomainModel model) {
-        String[] searchClassNames = getClassHierarchy(involvedClass, model);
+    private Set<SimplifiedUmlAssociation> getAllAssociationsInvolvingClass(DomainModel model, UMLClass involvedClass) {
+        List<UMLClass> searchClasses = getClassHierarchy(model, involvedClass);
         Set<SimplifiedUmlAssociation> associations = new HashSet<SimplifiedUmlAssociation>();
-        for (String className : searchClassNames) {
+        for (UMLClass searchClass : searchClasses) {
+            String className = DomainModelUtils.getQualifiedClassname(searchClass);
             associations.addAll(getUmlAssociations(className, model));
         }
         return associations;
     }
-
-
-    private String[] getClassHierarchy(String className, DomainModel model) {
-        UMLClass[] superclasses = DomainModelUtils.getAllSuperclasses(model, className);
-        String[] names = new String[superclasses.length + 1];
-        for (int i = 0; i < superclasses.length; i++) {
-            names[i] = superclasses[i].getPackageName() + "." + superclasses[i].getClassName();
-        }
-        names[names.length - 1] = className;
-        return names;
+    
+    
+    private List<UMLClass> getClassHierarchy(DomainModel model, UMLClass clazz) {
+        List<UMLClass> hierarchy = new ArrayList<UMLClass>();
+        UMLClass[] superclasses = DomainModelUtils.getAllSuperclasses(model, clazz);
+        Collections.addAll(hierarchy, superclasses);
+        hierarchy.add(clazz);
+        return hierarchy;
     }
 
 
