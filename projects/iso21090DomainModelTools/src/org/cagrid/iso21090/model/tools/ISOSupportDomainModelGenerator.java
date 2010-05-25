@@ -322,7 +322,7 @@ public class ISOSupportDomainModelGenerator {
                                 genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(genericTargetEdge));
                                 domainAssociations.add(genericAssoc);
                             }
-                        } else {
+                        } else if (!isCollection) {
                             LOG.debug("Attribute datatype is simple.");
                             gov.nih.nci.cagrid.metadata.common.UMLAttribute a = 
                                 new gov.nih.nci.cagrid.metadata.common.UMLAttribute();
@@ -333,6 +333,9 @@ public class ISOSupportDomainModelGenerator {
                             annotateAttribute(a, attrib.getTaggedValues());
                             // keep the attribute
                             attribs.add(a);
+                        } else {
+                            LOG.warn("Not sure how to handle attribute " + fullClassName + "." + attrib.getName() 
+                                + " with data type " + attributeDatatypeName);
                         }
                     }
                     c.setUmlAttributeCollection(new UMLClassUmlAttributeCollection(
