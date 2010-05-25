@@ -10,6 +10,7 @@ import gov.nih.nci.cagrid.cqlquery.Predicate;
 import gov.nih.nci.cagrid.cqlquery.QueryModifier;
 import gov.nih.nci.iso21090.DSet;
 
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -258,6 +259,7 @@ public class CQL2ParameterizedHQL {
 		// out of the Hibernate configuration object API.  Interestingly, AD by itself is fine.
 		switch (flavor) {
 		    case STANDARD:
+		    case ENUMERATION:
 		        processStandardAttribute(attribute, hql, parameters, queryObject, queryObjectAlias);
 		        break;
 		    case COMPLEX_WITH_SIMPLE_CONTENT:
@@ -504,54 +506,64 @@ public class CQL2ParameterizedHQL {
     // uses the class type to convert the value to a typed object
     private java.lang.Object valueToObject(Class<?> fieldType, String value) throws QueryTranslationException {
         LOG.debug("Converting \"" + value + "\" to object of type " + fieldType.getName());
-        if (String.class.equals(fieldType)) {
-            return value;
-        }
-        if (Integer.class.equals(fieldType)) {
-            return Integer.valueOf(value);
-        }
-        if (Long.class.equals(fieldType)) {
-            return Long.valueOf(value);
-        }
-        if (Double.class.equals(fieldType)) {
-            return Double.valueOf(value);
-        }
-        if (Float.class.equals(fieldType)) {
-            return Float.valueOf(value);
-        }
-        if (Boolean.class.equals(fieldType)) {
-            return Boolean.valueOf(value);
-        }
-        if (Character.class.equals(fieldType)) {
-            if (value.length() == 1) {
-                return Character.valueOf(value.charAt(0));
-            } else {
-                throw new QueryTranslationException("The value \"" + value + "\" of length " 
-                    + value.length() + " is not a valid character");
+        if (DatatypeFlavor.getFlavorOfClass(fieldType) == DatatypeFlavor.ENUMERATION) {
+            try {
+                Method factoryMethod = fieldType.getMethod("valueOf", String.class);
+                return factoryMethod.invoke(null, value);
+            } catch (Exception ex) {
+                throw new QueryTranslationException("Error converting " + value 
+                    + " to its enumeration value: " + ex.getMessage(), ex);
             }
-        }
-        if (Date.class.equals(fieldType)) {
-            // try time, then dateTime, then just date
-            List<SimpleDateFormat> formats = new ArrayList<SimpleDateFormat>(3);
-            formats.add(new SimpleDateFormat("HH:mm:ss"));
-            formats.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
-            formats.add(new SimpleDateFormat("yyyy-MM-dd"));
-            
-            Date date = null;
-            Iterator<SimpleDateFormat> formatIter = formats.iterator();
-            while (date == null && formatIter.hasNext()) {
-                SimpleDateFormat formatter = formatIter.next();
-                try {
-                    date = formatter.parse(value);
-                } catch (ParseException ex) {
-                    LOG.debug(value + " was not parsable by pattern " + formatter.toPattern());
+        } else {
+            if (String.class.equals(fieldType)) {
+                return value;
+            }
+            if (Integer.class.equals(fieldType)) {
+                return Integer.valueOf(value);
+            }
+            if (Long.class.equals(fieldType)) {
+                return Long.valueOf(value);
+            }
+            if (Double.class.equals(fieldType)) {
+                return Double.valueOf(value);
+            }
+            if (Float.class.equals(fieldType)) {
+                return Float.valueOf(value);
+            }
+            if (Boolean.class.equals(fieldType)) {
+                return Boolean.valueOf(value);
+            }
+            if (Character.class.equals(fieldType)) {
+                if (value.length() == 1) {
+                    return Character.valueOf(value.charAt(0));
+                } else {
+                    throw new QueryTranslationException("The value \"" + value + "\" of length " 
+                        + value.length() + " is not a valid character");
                 }
             }
-            if (date == null) {
-                throw new QueryTranslationException("Unable to parse date value \"" + value + "\"");
+            if (Date.class.equals(fieldType)) {
+                // try time, then dateTime, then just date
+                List<SimpleDateFormat> formats = new ArrayList<SimpleDateFormat>(3);
+                formats.add(new SimpleDateFormat("HH:mm:ss"));
+                formats.add(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+                formats.add(new SimpleDateFormat("yyyy-MM-dd"));
+
+                Date date = null;
+                Iterator<SimpleDateFormat> formatIter = formats.iterator();
+                while (date == null && formatIter.hasNext()) {
+                    SimpleDateFormat formatter = formatIter.next();
+                    try {
+                        date = formatter.parse(value);
+                    } catch (ParseException ex) {
+                        LOG.debug(value + " was not parsable by pattern " + formatter.toPattern());
+                    }
+                }
+                if (date == null) {
+                    throw new QueryTranslationException("Unable to parse date value \"" + value + "\"");
+                }
+
+                return date;
             }
-            
-            return date;
         }
         
         throw new QueryTranslationException("No conversion for type " + fieldType != null ? fieldType.getName() : "null");
