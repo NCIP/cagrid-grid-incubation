@@ -655,45 +655,75 @@ public class CQL2ParameterizedHQL {
     private void processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
         Attribute attribute, StringBuilder hql, List<java.lang.Object> parameters, 
         Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
-        // build the query path with a place holder for the part names
-        String componentNamePlaceholder = "---placeholder---";
-        int listSize = typesProcessingList.size();
-        int endIndex = listSize - 3;
-        StringBuffer buf = new StringBuffer();
-        for (int i = endIndex; i < listSize; i++) {
-            if (i == listSize - 1) {
-                buf.append(componentNamePlaceholder);
+        int levels = determineLevelsRemovedFromStandardDatatype(typesProcessingList);
+        System.out.println("Levels: " + levels);
+        if (levels == 2) {
+            // we're probably processing an enum value of the most recent association class
+            List<String> attribPath = getAttributePathList(typesProcessingList, attribute.getName(), 1);
+            // determine if this value is mapped to a constant
+            java.lang.Object constantValue = constantValueResolver.getConstantValue(
+                typesProcessingList.get(typesProcessingList.size() - levels).clazz, 
+                attribPath);
+            if (constantValue == null) {
+                // append the path to the attribute itself
+                if (caseInsensitive) {
+                    hql.append("lower(");
+                }
+                hql.append(getAttributePath(typesProcessingList, attribute.getName(), levels));
+                if (caseInsensitive) {
+                    hql.append(')');
+                }
             } else {
-                buf.append(typesProcessingList.get(i).aliasOrRoleName);
+                // the value has been mapped to a constant.  Hibernate can't query
+                // against these, but we can substitute the value into the query directly
+                hql.append('?');
+                parameters.add(constantValue);
             }
-            buf.append('.');
-        }
-        buf.append(attribute.getName());
-        
-        // get the part names out of the types information
-        List<String> componentNames = typesInformationResolver.getInnerComponentNames(
-            typesProcessingList.get(typesProcessingList.size() - 3).clazz, 
-            typesProcessingList.get(typesProcessingList.size() - 2).aliasOrRoleName, 
-            typesProcessingList.get(typesProcessingList.size() - 1).aliasOrRoleName);
-        Iterator<String> nameIter = componentNames.iterator();
-        
-        // build the query fragment
-        hql.append("(");
-        while (nameIter.hasNext()) {
-            if (caseInsensitive) {
-                hql.append("lower(");
-            }
-            String fragment = buf.toString().replace(componentNamePlaceholder, nameIter.next());
-            hql.append(fragment);
-            if (caseInsensitive) {
-                hql.append(")");
-            }
+            // get one level back's query object
             appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());
-            if (nameIter.hasNext()) {
-                hql.append(" or ");
+        } else {
+            // some nested component path
+
+            // build the query path with a place holder for the part names
+            String componentNamePlaceholder = "---placeholder---";
+            int listSize = typesProcessingList.size();
+            int endIndex = listSize - 3;
+            StringBuffer buf = new StringBuffer();
+            for (int i = endIndex; i < listSize; i++) {
+                if (i == listSize - 1) {
+                    buf.append(componentNamePlaceholder);
+                } else {
+                    buf.append(typesProcessingList.get(i).aliasOrRoleName);
+                }
+                buf.append('.');
             }
+            buf.append(attribute.getName());
+
+            // get the part names out of the types information
+            List<String> componentNames = typesInformationResolver.getInnerComponentNames(
+                typesProcessingList.get(typesProcessingList.size() - 3).clazz, 
+                typesProcessingList.get(typesProcessingList.size() - 2).aliasOrRoleName, 
+                typesProcessingList.get(typesProcessingList.size() - 1).aliasOrRoleName);
+            Iterator<String> nameIter = componentNames.iterator();
+
+            // build the query fragment
+            hql.append("(");
+            while (nameIter.hasNext()) {
+                if (caseInsensitive) {
+                    hql.append("lower(");
+                }
+                String fragment = buf.toString().replace(componentNamePlaceholder, nameIter.next());
+                hql.append(fragment);
+                if (caseInsensitive) {
+                    hql.append(")");
+                }
+                appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());
+                if (nameIter.hasNext()) {
+                    hql.append(" or ");
+                }
+            }
+            hql.append(")");
         }
-        hql.append(")");
     }
     
     

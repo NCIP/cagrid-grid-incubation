@@ -11,11 +11,13 @@ import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.cqlquery.Object;
 import gov.nih.nci.cagrid.cqlquery.Predicate;
 import gov.nih.nci.iso21090.Ad;
+import gov.nih.nci.iso21090.AddressPartType;
 import gov.nih.nci.iso21090.Adxp;
 import gov.nih.nci.iso21090.Cd;
 import gov.nih.nci.iso21090.En;
 import gov.nih.nci.iso21090.Enxp;
 import gov.nih.nci.iso21090.Ii;
+import gov.nih.nci.iso21090.NullFlavor;
 import gov.nih.nci.iso21090.Sc;
 import gov.nih.nci.system.applicationservice.ApplicationException;
 import gov.nih.nci.system.applicationservice.ApplicationService;
@@ -41,6 +43,7 @@ import org.cagrid.iso21090.sdkquery.translator.ParameterizedHqlQuery;
 import org.cagrid.iso21090.sdkquery.translator.QueryTranslationException;
 import org.cagrid.iso21090.sdkquery.translator.TypesInformationResolver;
 import org.hibernate.cfg.Configuration;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class IsoQueriesTestCase extends TestCase {
     
@@ -83,6 +86,7 @@ public class IsoQueriesTestCase extends TestCase {
         System.out.println("Types information resolver initialized in " + (System.currentTimeMillis() - start));
         
         start = System.currentTimeMillis();
+        // FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext("sdk/local-client/conf/IsoConstants.xml");
         ConstantValueResolver constResolver = new IsoDatatypesConstantValueResolver();
         LOG.info("Constant value resolver initialized in " + (System.currentTimeMillis() - start));
         System.out.println("Constant value resolver initialized in " + (System.currentTimeMillis() - start));
@@ -90,7 +94,7 @@ public class IsoQueriesTestCase extends TestCase {
         queryTranslator = new CQL2ParameterizedHQL(typesInfoResolver, constResolver, false);
     }
     
-    
+    /*
     public void testQueryIiDataType() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -164,9 +168,10 @@ public class IsoQueriesTestCase extends TestCase {
         query.setTarget(target);
         
         executeQuery(query);
-    }
+    }*/
     
     
+    /*
     public void testQueryCdDataTypeAgainstConstant() {
         CQLQuery query = new CQLQuery();
         Object target = new Object();
@@ -196,6 +201,60 @@ public class IsoQueriesTestCase extends TestCase {
         
         executeQuery(query);
     }
+    */
+    
+    
+    public void testQueryCdNullFlavorNi() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(CdDataType.class.getName());
+        Association assoc = new Association();
+        assoc.setName(Cd.class.getName());
+        assoc.setRoleName("value3");
+        Attribute attrib = new Attribute("nullFlavor", Predicate.EQUAL_TO, NullFlavor.NA.name());
+        assoc.setAttribute(attrib);
+        target.setAssociation(assoc);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    public void testQueryAdNullFlavorNi() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(AdDataType.class.getName());
+        Association assoc = new Association();
+        assoc.setName(Ad.class.getName());
+        assoc.setRoleName("value1");
+        assoc.setAttribute(new Attribute("nullFlavor", Predicate.EQUAL_TO, "NI"));
+        target.setAssociation(assoc);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    /*
+    public void testQueryAdxpAddressPartTypeADL() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(AdDataType.class.getName());
+        Association assoc1 = new Association();
+        assoc1.setName(Ad.class.getName());
+        assoc1.setRoleName("value1");
+        Association assoc2 = new Association();
+        assoc2.setName(Adxp.class.getName());
+        assoc2.setRoleName("part");
+        Attribute attrib = new Attribute("type", Predicate.EQUAL_TO, AddressPartType.ADL.name());
+        assoc2.setAttribute(attrib);
+        assoc1.setAssociation(assoc2);
+        target.setAssociation(assoc1);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    */
     
     
     // TODO: testQueryDsetIiDataType
