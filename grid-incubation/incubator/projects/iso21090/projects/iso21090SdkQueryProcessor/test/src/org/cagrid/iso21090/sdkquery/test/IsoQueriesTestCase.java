@@ -4,12 +4,18 @@ import gov.nih.nci.cacoresdk.domain.other.datatype.AdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.CdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IiDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.IvlRealDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.RealDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.ScDataType;
+import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.cqlquery.Association;
 import gov.nih.nci.cagrid.cqlquery.Attribute;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.cqlquery.Object;
 import gov.nih.nci.cagrid.cqlquery.Predicate;
+import gov.nih.nci.cagrid.data.DataServiceConstants;
 import gov.nih.nci.iso21090.Ad;
 import gov.nih.nci.iso21090.AddressPartType;
 import gov.nih.nci.iso21090.Adxp;
@@ -26,6 +32,7 @@ import gov.nih.nci.system.query.hibernate.HQLCriteria;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -43,7 +50,6 @@ import org.cagrid.iso21090.sdkquery.translator.ParameterizedHqlQuery;
 import org.cagrid.iso21090.sdkquery.translator.QueryTranslationException;
 import org.cagrid.iso21090.sdkquery.translator.TypesInformationResolver;
 import org.hibernate.cfg.Configuration;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class IsoQueriesTestCase extends TestCase {
     
@@ -94,7 +100,7 @@ public class IsoQueriesTestCase extends TestCase {
         queryTranslator = new CQL2ParameterizedHQL(typesInfoResolver, constResolver, false);
     }
     
-    /*
+    
     public void testQueryIiDataType() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -168,10 +174,9 @@ public class IsoQueriesTestCase extends TestCase {
         query.setTarget(target);
         
         executeQuery(query);
-    }*/
+    }
     
     
-    /*
     public void testQueryCdDataTypeAgainstConstant() {
         CQLQuery query = new CQLQuery();
         Object target = new Object();
@@ -201,7 +206,6 @@ public class IsoQueriesTestCase extends TestCase {
         
         executeQuery(query);
     }
-    */
     
     
     public void testQueryCdNullFlavorNi() {
@@ -235,7 +239,6 @@ public class IsoQueriesTestCase extends TestCase {
     }
     
     
-    /*
     public void testQueryAdxpAddressPartTypeADL() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -254,7 +257,46 @@ public class IsoQueriesTestCase extends TestCase {
         
         executeQuery(query);
     }
-    */
+    
+    
+    public void testQueryRealDataType() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(RealDataType.class.getName());
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    public void testQueryIvlPqDataType() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(IvlPqDataType.class.getName());
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    public void testQueryIvlRealDataType() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(IvlRealDataType.class.getName());
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    public void testQueryIvlTsDataType() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(IvlTsDataType.class.getName());
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
     
     
     // TODO: testQueryDsetIiDataType
@@ -264,6 +306,15 @@ public class IsoQueriesTestCase extends TestCase {
     
     
     private List<?> executeQuery(CQLQuery query) {
+        if (LOG.isDebugEnabled()) {
+            StringWriter writer = new StringWriter();
+            try {
+                Utils.serializeObject(query, DataServiceConstants.CQL_QUERY_QNAME, writer);
+                LOG.debug(writer.getBuffer().toString());
+            } catch (Exception ex) {
+                // ignore
+            }
+        }
         ParameterizedHqlQuery hql = null;
         try {
             hql = queryTranslator.convertToHql(query);
