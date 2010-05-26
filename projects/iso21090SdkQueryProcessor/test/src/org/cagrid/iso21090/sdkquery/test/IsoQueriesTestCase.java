@@ -2,8 +2,10 @@ package org.cagrid.iso21090.sdkquery.test;
 
 import gov.nih.nci.cacoresdk.domain.other.datatype.AdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.CdDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.DsetIiDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IiDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.IvlIntDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IvlRealDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType;
@@ -20,19 +22,22 @@ import gov.nih.nci.iso21090.Ad;
 import gov.nih.nci.iso21090.AddressPartType;
 import gov.nih.nci.iso21090.Adxp;
 import gov.nih.nci.iso21090.Cd;
+import gov.nih.nci.iso21090.DSet;
 import gov.nih.nci.iso21090.En;
 import gov.nih.nci.iso21090.Enxp;
 import gov.nih.nci.iso21090.Ii;
+import gov.nih.nci.iso21090.Int;
+import gov.nih.nci.iso21090.Ivl;
 import gov.nih.nci.iso21090.NullFlavor;
 import gov.nih.nci.iso21090.Sc;
 import gov.nih.nci.system.applicationservice.ApplicationException;
 import gov.nih.nci.system.applicationservice.ApplicationService;
-import gov.nih.nci.system.client.ApplicationServiceProvider;
 import gov.nih.nci.system.query.hibernate.HQLCriteria;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -43,13 +48,8 @@ import junit.textui.TestRunner;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.iso21090.sdkquery.translator.CQL2ParameterizedHQL;
-import org.cagrid.iso21090.sdkquery.translator.ConstantValueResolver;
-import org.cagrid.iso21090.sdkquery.translator.HibernateConfigTypesInformationResolver;
-import org.cagrid.iso21090.sdkquery.translator.IsoDatatypesConstantValueResolver;
 import org.cagrid.iso21090.sdkquery.translator.ParameterizedHqlQuery;
 import org.cagrid.iso21090.sdkquery.translator.QueryTranslationException;
-import org.cagrid.iso21090.sdkquery.translator.TypesInformationResolver;
-import org.hibernate.cfg.Configuration;
 
 public class IsoQueriesTestCase extends TestCase {
     
@@ -64,40 +64,18 @@ public class IsoQueriesTestCase extends TestCase {
     
     
     public void setUp() {
-        long start = System.currentTimeMillis();
-        // gets the local SDK service instance
         try {
-            sdkService = ApplicationServiceProvider.getApplicationService();
+            this.sdkService = QueryTestsHelper.getSdkApplicationService();
         } catch (Exception ex) {
             ex.printStackTrace();
-            fail("Error obtaining application service instance: " + ex.getMessage());
+            fail("Error obtaining cacore service: " + ex.getMessage());
         }
-        LOG.info("Application service initialized in " + (System.currentTimeMillis() - start));
-        System.out.println("Application service initialized in " + (System.currentTimeMillis() - start));
-        
-        start = System.currentTimeMillis();
-        InputStream is = getClass().getResourceAsStream("/hibernate.cfg.xml");
-        Configuration config = new Configuration();
-        config.addInputStream(is);
-        config.buildMappings();
-        config.configure();
-        TypesInformationResolver typesInfoResolver = new HibernateConfigTypesInformationResolver(config, true);
         try {
-            is.close();
+            this.queryTranslator = QueryTestsHelper.getCqlTranslator();
         } catch (IOException ex) {
             ex.printStackTrace();
-            fail("Error closing hibernate configuration input stream: " + ex.getMessage());
+            fail("Error obtaining cql query translator: " + ex.getMessage());
         }
-        LOG.info("Types information resolver initialized in " + (System.currentTimeMillis() - start));
-        System.out.println("Types information resolver initialized in " + (System.currentTimeMillis() - start));
-        
-        start = System.currentTimeMillis();
-        // FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext("sdk/local-client/conf/IsoConstants.xml");
-        ConstantValueResolver constResolver = new IsoDatatypesConstantValueResolver();
-        LOG.info("Constant value resolver initialized in " + (System.currentTimeMillis() - start));
-        System.out.println("Constant value resolver initialized in " + (System.currentTimeMillis() - start));
-        
-        queryTranslator = new CQL2ParameterizedHQL(typesInfoResolver, constResolver, false);
     }
     
     
@@ -299,10 +277,74 @@ public class IsoQueriesTestCase extends TestCase {
     }
     
     
-    // TODO: testQueryDsetIiDataType
+    public void testQueryIvlIntDataType() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(IvlIntDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(Ivl.class.getName());
+        association1.setRoleName("value1");
+        target.setAssociation(association1);
+        Association association2 = new Association();
+        association2.setName(Int.class.getName());
+        association2.setRoleName("low");
+        association1.setAssociation(association2);
+        Attribute attr = new Attribute();
+        attr.setName("value");
+        attr.setPredicate(Predicate.EQUAL_TO);
+        attr.setValue("1");
+        association2.setAttribute(attr);
+        query.setTarget(target);
+        
+        List<?> results = executeQuery(query);
+        Iterator<?> iter = results.iterator();
+        ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlIntDataType> result = new
+        ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlIntDataType>();
+        while (iter.hasNext()) {
+            result.add((gov.nih.nci.cacoresdk.domain.other.datatype.IvlIntDataType)iter.next());
+        }
+        gov.nih.nci.cacoresdk.domain.other.datatype.IvlIntDataType testResultClass = result.get(0);
+        assertEquals(3, result.size()); // Ye's test has 4 here
+        assertEquals(Integer.valueOf(1), testResultClass.getValue1().getLow().getValue()); // Ye's test used "1".  String vs Integer
+    }
     
     
-    // TODO: testQueryDsetIiDataTypeAgainstConstant (AD?)
+    public void testQueryDsetIiDataType() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(DsetIiDataType.class.getName());
+        Association assoc1 = new Association();
+        assoc1.setName(DSet.class.getName());
+        assoc1.setRoleName("value1");
+        Association assoc2 = new Association();
+        assoc2.setName(Ii.class.getName());
+        assoc2.setRoleName("item");
+        assoc2.setAttribute(new Attribute("extension", Predicate.EQUAL_TO, "II_Extension"));
+        assoc1.setAssociation(assoc2);
+        target.setAssociation(assoc1);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
+    public void testQueryDsetIiDataTypeAgainstConstant() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(DsetIiDataType.class.getName());
+        Association a1 = new Association();
+        a1.setName(DSet.class.getName());
+        a1.setRoleName("value1");
+        Association a2 = new Association();
+        a2.setName(Ii.class.getName());
+        a2.setRoleName("item");
+        a2.setAttribute(new Attribute("root", Predicate.EQUAL_TO, "2.16.12.123.456"));
+        a1.setAssociation(a2);
+        target.setAssociation(a1);
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
     
     
     private List<?> executeQuery(CQLQuery query) {
