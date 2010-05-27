@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -85,6 +86,7 @@ public class CQLInvocationTestCase extends TestCase {
     
     public void testLotsOfQueries() {
         File[] queryFiles = getCqlQueryFiles();
+        List<Exception> failures = new ArrayList<Exception>();
         System.out.println("Found " + queryFiles.length + " query documents to run");
         for (File f : queryFiles) {
             System.out.println("Loading " + f.getName());
@@ -100,8 +102,10 @@ public class CQLInvocationTestCase extends TestCase {
             try {
                 hql = translator.convertToHql(query);
             } catch (Exception ex) {
-                ex.printStackTrace();
-                fail("Error translating query: " + ex.getMessage());
+                Exception fail = new Exception("Error translating query " + f.getName() 
+                    + ": " + ex.getMessage(), ex);
+                failures.add(fail);
+                continue;
             }
             System.out.println("Translated query:");
             System.out.println(hql);
@@ -109,11 +113,18 @@ public class CQLInvocationTestCase extends TestCase {
             try {
                 results = service.query(new HQLCriteria(hql.getHql(), hql.getParameters()));
             } catch (Exception ex) {
-                ex.printStackTrace();
-                fail("Error executing query: " + ex.getMessage());
+                Exception fail = new Exception("Error executing query " + f.getName() 
+                    + ": " + ex.getMessage(), ex);
+                failures.add(fail);
+                continue;
             }
             // TODO: load up gold results, validate
         }
+        for (Exception ex : failures) {
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+        assertEquals("Some queries failed", 0, failures.size());
     }
     
 
