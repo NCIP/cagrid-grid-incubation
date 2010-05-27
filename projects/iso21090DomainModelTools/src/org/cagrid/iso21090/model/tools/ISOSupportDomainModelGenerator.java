@@ -307,20 +307,25 @@ public class ISOSupportDomainModelGenerator {
                             if (isGeneric) {
                                 LOG.debug("Type is generic, adding additional association to the generic type");
                                 // need a further association from the iso datatype to its inner generic type
-                                gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
-                                    new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
-                                genericAssoc.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(targetEdge));
-                                UMLAssociationEdge genericTargetEdge = new UMLAssociationEdge();
-                                genericTargetEdge.setMaxCardinality(isCollection ? -1 : 1);
-                                genericTargetEdge.setMinCardinality(0);
-                                // get the generic specific type
-                                UMLClass specificType = deriveRealClass(
-                                   getGenericSpecificType(rawAttributeDatatype.getName()), umlClasses);
-                                // TODO: is it always item for generics, or just DSet?
-                                genericTargetEdge.setRoleName("item");
-                                genericTargetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
-                                genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(genericTargetEdge));
-                                domainAssociations.add(genericAssoc);
+                                // only "item" for DSet, but "any", "high", and "low" for Ivl
+                                String[] roleNames = attributeDatatype.getName().equalsIgnoreCase("DSet") ?
+                                    new String[] {"item"} :
+                                    new String[] {"high", "low", "any"};
+                                for (String role : roleNames) {
+                                    gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
+                                        new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
+                                    genericAssoc.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(targetEdge));
+                                    UMLAssociationEdge genericTargetEdge = new UMLAssociationEdge();
+                                    genericTargetEdge.setMaxCardinality(isCollection ? -1 : 1);
+                                    genericTargetEdge.setMinCardinality(0);
+                                    // get the generic specific type
+                                    UMLClass specificType = deriveRealClass(
+                                        getGenericSpecificType(rawAttributeDatatype.getName()), umlClasses);
+                                    genericTargetEdge.setRoleName(role);
+                                    genericTargetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
+                                    genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(genericTargetEdge));
+                                    domainAssociations.add(genericAssoc);
+                                }
                             }
                         } else if (!isCollection) {
                             LOG.debug("Attribute datatype is simple.");
