@@ -23,6 +23,7 @@ import org.cagrid.redcap.Forms;
 import org.cagrid.redcap.Projects;
 import org.cagrid.redcap.service.RedcapDataServiceConfiguration;
 import org.cagrid.redcap.util.PropertiesUtil;
+import org.cagrid.redcap.util.ProxyUtil;
 import org.cagrid.redcap.util.RedcapUtil;
 import org.cagrid.redcap.util.UserPrivilegesUtil;
 import org.hibernate.SessionFactory;
@@ -39,7 +40,6 @@ import gov.nih.nci.cagrid.data.mapping.Mappings;
 import gov.nih.nci.cagrid.data.service.ServiceConfigUtil;
 import gov.nih.nci.cagrid.data.utilities.CQLResultsCreationUtil;
 import gov.nih.nci.cagrid.data.utilities.ResultsCreationException;
-import gov.nih.nci.cagrid.introduce.servicetools.ServiceConfiguration;
 import gov.nih.nci.cagrid.metadata.MetadataUtils;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 
@@ -325,6 +325,13 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
                 throw new QueryProcessingException("Error loading class to QName mappings: " + ex.getMessage(), ex);
             }
             try {
+            	List<Object> newRawList = new ArrayList<Object>();
+            	ProxyUtil proxyUtil = new ProxyUtil();
+            	for(int i=0;i<rawResults.size();i++){
+            		Object o = rawResults.get(i);
+            		newRawList.add(proxyUtil.getProxy(o));
+            	}
+            	rawResults = newRawList;
                 cqlResults = CQLResultsCreationUtil.createObjectResults(
                     rawResults, cqlQuery.getTarget().getName(), classToQname);
             } catch (ResultsCreationException ex) {
@@ -474,7 +481,8 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	        				filteredList.add(completeObjectsList.get(i));
 	        			}
         			}else{
-        				filteredList.add(completeObjectsList.get(i));
+        				//filteredList.add(completeObjectsList.get(i));
+        				filteredList.add(data);
         			}
         		}else{
         			LOG.debug("User is not authorized to retrieve Data with project id"+data.getProjectId()+" Field Name:"+data.getFieldName()+" Record:"+data.getRecord()+" Value:"+data.getValue());
