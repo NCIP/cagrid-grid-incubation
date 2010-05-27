@@ -109,23 +109,27 @@ public class Data  implements java.io.Serializable {
 
     @Column(name="field_name",insertable=false,updatable=false)
     public java.lang.String getFieldName() {
-      	return getPk().getFieldName();
+      	//return getPk().getFieldName();
+    	return fieldName;
     }
 
 
    public void setFieldName(java.lang.String fieldName) {
-    	getPk().setFieldName(fieldName);
+    	//getPk().setFieldName(fieldName);
+	   this.fieldName=fieldName;
     }
 
 
     @Column(name="project_id",insertable=false,updatable=false)
     public int getProjectId() {
-   	   return getPk().getProjectId();
+   	   //return getPk().getProjectId();
+    	return projectId;
     }
 
 
     public void setProjectId(int projectId) {
-       	getPk().setProjectId(projectId);
+       	//getPk().setProjectId(projectId);
+    	this.projectId=projectId;
     }
 
 

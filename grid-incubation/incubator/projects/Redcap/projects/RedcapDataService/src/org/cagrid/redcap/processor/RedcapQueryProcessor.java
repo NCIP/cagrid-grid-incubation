@@ -366,8 +366,9 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
 	 private List<Object> postFilterResults(CQLQueryResults cqlResults,CQLQuery cqlQuery,List<Object> completeObjectsList) throws QueryProcessingException {
 		LOG.debug("Post-filtering Redcap CQL results");
         String identity = getCallerId();
-        ArrayList<String> authorizedProjectsList = null;
-        authorizedProjectsList = UserPrivilegesUtil.getAuthorizedProjects(identity,connectionSource,cqlQuery);
+        ArrayList<Object> authorizedProjectsList = null;
+        UserPrivilegesUtil util = new UserPrivilegesUtil();
+        authorizedProjectsList = util.getAuthorizedProjects(identity,connectionSource,cqlQuery);
         
         List<Object> filteredList = new ArrayList<Object>();
         
@@ -443,9 +444,23 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         		}
         	}else if(completeObjectsList.get(i) instanceof org.cagrid.redcap.Data){
         		Data data = (org.cagrid.redcap.Data)completeObjectsList.get(i);
-        		boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, data.getProjectId());
+        		//boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, data);
+        		boolean authorized = false;
+        		Data dataInAuthList = null;
+        		for(int index=0;index<authorizedProjectsList.size();index++){
+        			dataInAuthList = (Data)authorizedProjectsList.get(index);
+        			if((dataInAuthList.getRecord() == data.getRecord())
+							&&(dataInAuthList.getEventId()==data.getEventId())&&(dataInAuthList.getProjectId()==data.getProjectId())
+							&&(dataInAuthList.getFieldName().equals(data.getFieldName()))
+							){
+        				//data.setValue(dataInAuthList.getValue());
+        				data=dataInAuthList;
+        				authorized=true;
+        				break;
+        			}
+        		}
         		if(authorized){
-        			LOG.debug("User authorized to retrive Data with project id"+data.getProjectId());
+        			LOG.debug("User authorized to retrive Data with project id"+data.getProjectId()+" FieldName: "+data.getFieldName()+" Record: "+data.getRecord()+" Value: "+data.getValue());
         			if(cqlQuery.getQueryModifier()!=null){
 	        			if(cqlQuery.getQueryModifier().getDistinctAttribute()!=null){
 	        				Object object = getDistinctAttributeValue(data,data.getClass());
@@ -462,7 +477,7 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         				filteredList.add(completeObjectsList.get(i));
         			}
         		}else{
-        			LOG.debug("User is not authorized to retrieve Data with project id"+data.getProjectId());
+        			LOG.debug("User is not authorized to retrieve Data with project id"+data.getProjectId()+" Field Name:"+data.getFieldName()+" Record:"+data.getRecord()+" Value:"+data.getValue());
         		}
         	}else if(completeObjectsList.get(i) instanceof org.cagrid.redcap.Forms){
         		Forms forms = (org.cagrid.redcap.Forms)completeObjectsList.get(i);
@@ -537,11 +552,29 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
        return rcUser;
     }
 	
-	private boolean iterateUserCollectionProtocol(List<String> userCollectionProtocol,Object value){
+	private boolean iterateUserCollectionProtocol(List<Object> userCollectionProtocol,Object value){
 		boolean present = false;
 		for(int i=0;i<userCollectionProtocol.size();i++){
-			if(userCollectionProtocol.get(i).equals(String.valueOf(value))){
-				present = true;
+			try{
+				if(value.getClass().getName().equals(Data.class.getName())){
+					
+					Data data = (Data)userCollectionProtocol.get(i);
+					Data data1 = (Data)value;
+					if(
+							//(data1.getValue().equals(data.getValue()))&&
+							(data1.getRecord() == data.getRecord())
+							&&(data1.getEventId()==data.getEventId())&&(data1.getProjectId()==data.getProjectId())
+							&&(data1.getFieldName().equals(data.getFieldName()))
+							){
+						present=true;
+					}
+				}else{
+					if(userCollectionProtocol.get(i).equals(String.valueOf(value))){
+						present = true;
+					}
+				}
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		return present;
