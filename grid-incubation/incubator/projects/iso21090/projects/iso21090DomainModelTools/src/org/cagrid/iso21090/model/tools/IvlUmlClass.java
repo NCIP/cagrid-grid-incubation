@@ -48,107 +48,23 @@ public class IvlUmlClass implements UMLClass {
 
 
     public List<UMLAttribute> getAttributes() {
-        UMLAttribute a1 = new UMLAttribute() {
-            public void removeTaggedValue(String arg0) {
-                // TODO Auto-generated method stub
-            }
-            
+        UMLAttribute a1 = getFakeAttribute("highClosed",
+            new UMLDatatype() {
+                public String getName() {
+                    return "Boolean";
+                }
+            });
+        UMLAttribute a2 = getFakeAttribute("lowClosed",
+            new UMLDatatype() {
+                public String getName() {
+                    return "Boolean";
+                }
+            });
         
-            public Collection<UMLTaggedValue> getTaggedValues() {
-                return Collections.emptyList();
-            }
-            
-        
-            public UMLTaggedValue getTaggedValue(String arg0, boolean arg1) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        
-            public UMLTaggedValue getTaggedValue(String arg0) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        
-            public UMLTaggedValue addTaggedValue(String arg0, String arg1) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        
-            public UMLVisibility getVisibility() {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        
-            public String getName() {
-                return "highClosed";
-            }
-            
-        
-            public UMLDatatype getDatatype() {
-                return new UMLDatatype() {
-                    public String getName() {
-                        return "Boolean";
-                    }
-                };
-            }
-        };
-        UMLAttribute a2 = new UMLAttribute() {
-            
-            public void removeTaggedValue(String arg0) {
-                // TODO Auto-generated method stub
-            }
-            
-        
-            public Collection<UMLTaggedValue> getTaggedValues() {
-                return Collections.emptyList();
-            }
-            
-        
-            public UMLTaggedValue getTaggedValue(String arg0, boolean arg1) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        
-            public UMLTaggedValue getTaggedValue(String arg0) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        
-            public UMLTaggedValue addTaggedValue(String arg0, String arg1) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        
-            public UMLVisibility getVisibility() {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        
-            public String getName() {
-                return "lowClosed";
-            }
-            
-        
-            public UMLDatatype getDatatype() {
-                return new UMLDatatype() {
-                    
-                    public String getName() {
-                        return "Boolean";
-                    }
-                };
-            }
-        };
         ArrayList<UMLAttribute> atts = new ArrayList<UMLAttribute>();
         atts.add(a1);
         atts.add(a2);
+        
         return atts;
     }
 
@@ -215,4 +131,52 @@ public class IvlUmlClass implements UMLClass {
         return null;
     }
 
+    
+    private UMLAttribute getFakeAttribute(final String name, final UMLDatatype datatype) {
+        return new UMLAttribute() {
+            
+            public void removeTaggedValue(String arg0) {
+                // TODO Auto-generated method stub
+            }
+            
+        
+            public Collection<UMLTaggedValue> getTaggedValues() {
+                return Collections.emptyList();
+            }
+            
+        
+            public UMLTaggedValue getTaggedValue(String arg0, boolean arg1) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+        
+            public UMLTaggedValue getTaggedValue(String arg0) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+        
+            public UMLTaggedValue addTaggedValue(String arg0, String arg1) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+        
+            public UMLVisibility getVisibility() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+        
+            public String getName() {
+                return name;
+            }
+            
+        
+            public UMLDatatype getDatatype() {
+                return datatype;
+            }
+        };
+    }
 }
