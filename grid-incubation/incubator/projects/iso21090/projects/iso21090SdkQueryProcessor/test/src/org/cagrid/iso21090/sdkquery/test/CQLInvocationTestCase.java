@@ -72,7 +72,8 @@ public class CQLInvocationTestCase extends TestCase {
         return queriesDir.listFiles(new FileFilter() {
             public boolean accept(File pathname) {
                 return pathname.isFile() && pathname.getName().endsWith(".xml")
-                && !pathname.getName().startsWith("invalid_");
+                && !pathname.getName().startsWith("invalid_")
+                && pathname.getName().startsWith("dsetAdPart");
             }
         });
     }
