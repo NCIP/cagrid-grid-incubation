@@ -4,13 +4,11 @@ import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.introduce.common.CommonTools;
 import gov.nih.nci.system.applicationservice.ApplicationService;
-import gov.nih.nci.system.client.ApplicationServiceProvider;
 import gov.nih.nci.system.query.hibernate.HQLCriteria;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,71 +18,51 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.cagrid.iso21090.sdkquery.translator.CQL2ParameterizedHQL;
-import org.cagrid.iso21090.sdkquery.translator.ConstantValueResolver;
-import org.cagrid.iso21090.sdkquery.translator.HibernateConfigTypesInformationResolver;
-import org.cagrid.iso21090.sdkquery.translator.IsoDatatypesConstantValueResolver;
 import org.cagrid.iso21090.sdkquery.translator.ParameterizedHqlQuery;
-import org.cagrid.iso21090.sdkquery.translator.TypesInformationResolver;
-import org.hibernate.cfg.Configuration;
+
 
 public class CQLInvocationTestCase extends TestCase {
-    
+
     private ApplicationService service = null;
     private CQL2ParameterizedHQL translator = null;
-    
+
+
     public CQLInvocationTestCase(String name) {
         super(name);
-        long start = System.currentTimeMillis();
         // gets the local SDK service instance
         try {
-            service = ApplicationServiceProvider.getApplicationService();
+            service = QueryTestsHelper.getSdkApplicationService();
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("Error obtaining application service instance: " + ex.getMessage());
         }
-        System.out.println("Application service initialized in " + (System.currentTimeMillis() - start));
-        
-        start = System.currentTimeMillis();
-        InputStream is = getClass().getResourceAsStream("/hibernate.cfg.xml");
-        Configuration config = new Configuration();
-        config.addInputStream(is);
-        config.buildMappings();
-        config.configure();
-        TypesInformationResolver typesInfoResolver = new HibernateConfigTypesInformationResolver(config, true);
+
         try {
-            is.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            fail("Error closing hibernate configuration input stream: " + ex.getMessage());
+            translator = QueryTestsHelper.getCqlTranslator();
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
         }
-        System.out.println("Types information resolver initialized in " + (System.currentTimeMillis() - start));
-        
-        start = System.currentTimeMillis();
-        ConstantValueResolver constResolver = new IsoDatatypesConstantValueResolver();
-        System.out.println("Constant value resolver initialized in " + (System.currentTimeMillis() - start));
-        
-        translator = new CQL2ParameterizedHQL(typesInfoResolver, constResolver, false);
     }
-    
-    
+
+
     private File[] getCqlQueryFiles() {
         File queriesDir = new File("test/resources/testQueries");
         return queriesDir.listFiles(new FileFilter() {
             public boolean accept(File pathname) {
                 return pathname.isFile() && pathname.getName().endsWith(".xml")
-                && !pathname.getName().startsWith("invalid_")
-                && pathname.getName().startsWith("dsetAdPart");
+                    && !pathname.getName().startsWith("invalid_");
             }
         });
     }
-    
-    
+
+
     private File getGoldResultsFile(String queryFilename) {
         File goldDir = new File("test/resources/testGoldResults");
         return new File(goldDir, "gold" + CommonTools.upperCaseFirstCharacter(queryFilename));
     }
-    
-    
+
+
     public void testLotsOfQueries() {
         File[] queryFiles = getCqlQueryFiles();
         List<Exception> failures = new ArrayList<Exception>();
@@ -103,8 +81,9 @@ public class CQLInvocationTestCase extends TestCase {
             try {
                 hql = translator.convertToHql(query);
             } catch (Exception ex) {
-                Exception fail = new Exception("Error translating query " + f.getName() 
-                    + ": " + ex.getMessage(), ex);
+                String message = "Error translating query " + f.getName() + ": " + ex.getMessage();
+                System.err.println(message);
+                Exception fail = new Exception(message, ex);
                 failures.add(fail);
                 continue;
             }
@@ -114,8 +93,9 @@ public class CQLInvocationTestCase extends TestCase {
             try {
                 results = service.query(new HQLCriteria(hql.getHql(), hql.getParameters()));
             } catch (Exception ex) {
-                Exception fail = new Exception("Error executing query " + f.getName() 
-                    + ": " + ex.getMessage(), ex);
+                String message = "Error executing query " + f.getName() + ": " + ex.getMessage();
+                System.err.println(message);
+                Exception fail = new Exception(message, ex);
                 failures.add(fail);
                 continue;
             }
@@ -127,7 +107,7 @@ public class CQLInvocationTestCase extends TestCase {
         }
         assertEquals("Some queries failed", 0, failures.size());
     }
-    
+
 
     public static void main(String[] args) {
         TestRunner runner = new TestRunner();
