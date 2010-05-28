@@ -139,6 +139,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testDsetTelAttributeValueQuery() {
+        validateQuery("dsetTelAttributeValue.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
