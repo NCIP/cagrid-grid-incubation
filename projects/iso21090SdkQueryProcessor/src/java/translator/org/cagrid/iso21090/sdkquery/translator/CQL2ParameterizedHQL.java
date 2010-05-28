@@ -11,6 +11,7 @@ import gov.nih.nci.cagrid.cqlquery.QueryModifier;
 import gov.nih.nci.iso21090.DSet;
 
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -540,6 +541,9 @@ public class CQL2ParameterizedHQL {
                     throw new QueryTranslationException("The value \"" + value + "\" of length " 
                         + value.length() + " is not a valid character");
                 }
+            }
+            if (URI.class.equals(fieldType)) {
+                return URI.create(value);
             }
             if (Date.class.equals(fieldType)) {
                 // try time, then dateTime, then just date
