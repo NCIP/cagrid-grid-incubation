@@ -347,6 +347,32 @@ public class IsoQueriesTestCase extends TestCase {
     }
     
     
+    public void testQueryDsetTelDataType() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName("gov.nih.nci.cacoresdk.domain.other.datatype.DsetTelDataType");
+        Association association1 = new Association();
+        association1.setName("gov.nih.nci.iso21090.DSet");
+        association1.setRoleName("value1");
+        target.setAssociation(association1);
+
+        Association association2 = new Association();
+        association2.setName("gov.nih.nci.iso21090.Tel");
+        association2.setRoleName("item");
+        association1.setAssociation(association2);
+
+        Attribute attribute3 = new Attribute();
+        attribute3.setName("value");
+        attribute3.setPredicate(Predicate.EQUAL_TO);
+        attribute3.setValue("tel://123-456-7891");
+        association2.setAttribute(attribute3);
+
+        query.setTarget(target);
+        
+        executeQuery(query);
+    }
+    
+    
     private List<?> executeQuery(CQLQuery query) {
         if (LOG.isDebugEnabled()) {
             StringWriter writer = new StringWriter();
