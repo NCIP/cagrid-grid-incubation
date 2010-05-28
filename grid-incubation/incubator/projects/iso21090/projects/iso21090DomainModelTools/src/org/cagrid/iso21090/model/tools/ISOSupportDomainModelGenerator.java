@@ -159,9 +159,10 @@ public class ISOSupportDomainModelGenerator {
         LOG.debug("Creating initial class list");
         UMLPackage isoPackage = findIsoPackage(umlModel.getPackages());
         IvlUmlClass ivlClass = new IvlUmlClass(isoPackage);
-        // have to swap references to the non-existing gov.nih.nci.iso21090.String class
-        // to the real java.lang.String class.  No idea why the ISO one is in models.
+        // have to swap references to the non-existing gov.nih.nci.iso21090.String and Uri classes
+        // to the real java.lang.String class.  No idea why the ISO ones are in models.
         UMLClass badIsoStringClass = null;
+        UMLClass badIsoUriClass = null;
         UMLClass javaStringClass = null;
         umlClasses.add(ivlClass);
         // have to pre-create all the classes so I can properly create associations w/ refs between them
@@ -172,6 +173,9 @@ public class ISOSupportDomainModelGenerator {
                 String fullPackageName = getFullPackageName(clazz);
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("String")) {
                     badIsoStringClass = clazz;
+                }
+                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("Uri")) {
+                    badIsoUriClass = clazz;
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "java.lang") && clazz.getName().equals("String")) {
                     javaStringClass = clazz;
@@ -253,6 +257,8 @@ public class ISOSupportDomainModelGenerator {
                         
                         // switch out weird ISO classes that represent simple types with the Java equivalent
                         if (attributeDatatype.equals(badIsoStringClass)) {
+                            attributeDatatype = javaStringClass;
+                        } else if (attributeDatatype.equals(badIsoUriClass)) {
                             attributeDatatype = javaStringClass;
                         }
                         
