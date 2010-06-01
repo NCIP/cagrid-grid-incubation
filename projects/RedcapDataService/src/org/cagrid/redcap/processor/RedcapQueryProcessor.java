@@ -16,6 +16,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.redcap.Data;
+import org.cagrid.redcap.DataAuth;
 import org.cagrid.redcap.EventArms;
 import org.cagrid.redcap.Events;
 import org.cagrid.redcap.EventsCalendar;
@@ -453,15 +454,20 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         		Data data = (org.cagrid.redcap.Data)completeObjectsList.get(i);
         		//boolean authorized = iterateUserCollectionProtocol(authorizedProjectsList, data);
         		boolean authorized = false;
-        		Data dataInAuthList = null;
+        		DataAuth dataInAuthList = null;
         		for(int index=0;index<authorizedProjectsList.size();index++){
-        			dataInAuthList = (Data)authorizedProjectsList.get(index);
+        			dataInAuthList = (DataAuth)authorizedProjectsList.get(index);
         			if((dataInAuthList.getRecord() == data.getRecord())
 							&&(dataInAuthList.getEventId()==data.getEventId())&&(dataInAuthList.getProjectId()==data.getProjectId())
 							&&(dataInAuthList.getFieldName().equals(data.getFieldName()))
 							){
-        				//data.setValue(dataInAuthList.getValue());
-        				data=dataInAuthList;
+        				//data=dataInAuthList;
+        				data = new Data();
+        				data.setProjectId(dataInAuthList.getProjectId());
+        				data.setFieldName(dataInAuthList.getElementLabel());
+        				data.setRecord(dataInAuthList.getRecord());
+        				data.setValue(dataInAuthList.getValue());
+        				data.setEventId(dataInAuthList.getEventId());
         				authorized=true;
         				break;
         			}
