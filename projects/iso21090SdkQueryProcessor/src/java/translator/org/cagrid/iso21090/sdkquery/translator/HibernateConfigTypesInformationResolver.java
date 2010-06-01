@@ -57,7 +57,29 @@ public class HibernateConfigTypesInformationResolver implements TypesInformation
                 hasSubclasses = Boolean.valueOf(clazz.hasSubclasses());
                 subclasses.put(classname, hasSubclasses);
             } else {
-                throw new TypesInformationException("Class " + classname + " not found in configuration");
+                if (reflectionFallback) {
+                    Class<?> c = null;
+                    try {
+                        c = Class.forName(classname);
+                    } catch (ClassNotFoundException e) {
+                        throw new TypesInformationException("Class " + classname + " not found via reflection");
+                    }
+                    Iterator<?> mapIter = configuration.getClassMappings();
+                    boolean found = false;
+                    while (mapIter.hasNext() && !found) {
+                        PersistentClass p = (PersistentClass) mapIter.next();
+                        Class<?> pc = null;
+                        try {
+                            pc = Class.forName(p.getClassName());
+                        } catch (ClassNotFoundException ex) {
+                            LOG.warn(ex.getMessage(), ex);
+                        }
+                        found = c.isAssignableFrom(pc);
+                    }
+                    hasSubclasses = Boolean.valueOf(found);
+                } else {
+                    throw new TypesInformationException("Class " + classname + " not found in configuration");
+                }
             }
         }
         return hasSubclasses.booleanValue();
