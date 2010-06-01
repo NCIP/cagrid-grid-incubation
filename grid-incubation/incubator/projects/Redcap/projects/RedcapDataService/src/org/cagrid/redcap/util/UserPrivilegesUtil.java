@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cagrid.redcap.Data;
+import org.cagrid.redcap.DataAuth;
 import org.cagrid.redcap.Events;
 import org.cagrid.redcap.Forms;
 import org.cagrid.redcap.processor.DatabaseConnectionSource;
@@ -93,12 +94,13 @@ public class UserPrivilegesUtil {
 				ResultSet rs1 = preparedStmt.executeQuery();
 				try{
 					while(rs1.next()){
-						Data data = new Data();
+						DataAuth data = new DataAuth();
 						data.setProjectId(rs1.getInt(1));
 						data.setFieldName(rs1.getString(2));
 						data.setEventId(rs1.getInt(3));
 						data.setRecord(rs1.getInt(4));
 						data.setValue(rs1.getString(5));
+						data.setElementLabel(rs1.getString(6));
 						LOG.debug("DATA PID "+data.getProjectId()+" FIELDNAME "+data.getFieldName()+" RECORD:"+data.getRecord()+" VALUE:"+data.getValue());
 						dataList.add(data);
 					}
