@@ -61,6 +61,7 @@
 		</fileset>
 		<fileset dir="${sdk.lib.dir}">
 			<include name="**/*.jar"/>
+			<exclude name="**/${project.name}*.jar"/>
 		</fileset>
 		<fileset dir="${ext.lib.dir}">
 			<include name="**/*.jar" />
