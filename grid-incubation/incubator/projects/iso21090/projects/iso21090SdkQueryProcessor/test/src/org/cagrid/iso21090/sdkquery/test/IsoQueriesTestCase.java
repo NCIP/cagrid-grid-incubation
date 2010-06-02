@@ -431,6 +431,33 @@ public class IsoQueriesTestCase extends TestCase {
     }
     
     
+    public void testQueryIiRootAttribute() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(IiDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(Ii.class.getName());
+        association1.setRoleName("value2");
+        target.setAssociation(association1);
+        Attribute attribute2 = new Attribute();
+        attribute2.setName("root");
+        attribute2.setPredicate(Predicate.IS_NOT_NULL);
+        attribute2.setValue("true");
+        association1.setAttribute(attribute2);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<IiDataType> result = new ArrayList<IiDataType>();
+        while (iter.hasNext()) {
+            result.add((IiDataType)iter.next());
+        }
+        IiDataType testResultClass = result.get(0);
+        assertEquals(2, result.size());
+        assertEquals("II_VALUE2_ROOT", testResultClass.getValue2().getRoot().toString());
+
+    }
+    
+    
     private List<?> executeQuery(CQLQuery query) {
         if (LOG.isDebugEnabled()) {
             StringWriter writer = new StringWriter();
