@@ -375,7 +375,7 @@ public class IsoQueriesTestCase extends TestCase {
     }
     
     
-    public void testBlNonNullValueQuery() {
+    public void testQueryBlNonNullValue() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
         target.setName(BlNonNullDataType.class.getName());
@@ -398,6 +398,36 @@ public class IsoQueriesTestCase extends TestCase {
         BlNonNullDataType testResultClass = result.get(0);
         assertEquals(1, result.size());
         assertEquals(testResultClass.getValue1().getValue().booleanValue(), false);
+    }
+    
+    
+    public void testQueryCdCodeSystem() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(ScDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(Sc.class.getName());
+        association1.setRoleName("value2");
+        target.setAssociation(association1);
+        Association association2 = new Association();
+        association2.setName(Cd.class.getName());
+        association2.setRoleName("code");
+        association1.setAssociation(association2);
+        Attribute attribute3 = new Attribute();
+        attribute3.setName("codeSystem");
+        attribute3.setPredicate(Predicate.IS_NOT_NULL);
+        attribute3.setValue("true");
+        association2.setAttribute(attribute3);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<ScDataType> result = new ArrayList<ScDataType>();
+        while (iter.hasNext()) {
+            result.add((ScDataType)iter.next());
+        }
+        ScDataType testResultClass = result.get(0);
+        assertEquals(4, result.size());
+        assertEquals("VALUE2_CODE_CODE_SYSTEM1", testResultClass.getValue2().getCode().getCodeSystem().toString());
     }
     
     
