@@ -80,7 +80,7 @@ public class IsoQueriesTestCase extends TestCase {
         }
     }
     
-    
+    /*
     public void testQueryIiDataType() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -454,7 +454,66 @@ public class IsoQueriesTestCase extends TestCase {
         IiDataType testResultClass = result.get(0);
         assertEquals(2, result.size());
         assertEquals("II_VALUE2_ROOT", testResultClass.getValue2().getRoot().toString());
-
+    }
+    */
+    
+    /* Problem querying hibernate with entity names
+    public void testAdxpStuff() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(AdDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(Ad.class.getName());
+        association1.setRoleName("value8");
+        target.setAssociation(association1);
+        Association association2 = new Association();
+        association2.setName(Adxp.class.getName());
+        association2.setRoleName("part");
+        association1.setAssociation(association2);
+        Attribute attribute3 = new Attribute();
+        attribute3.setName("value");
+        attribute3.setPredicate(Predicate.IS_NOT_NULL);
+        attribute3.setValue("true");
+        association2.setAttribute(attribute3);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<AdDataType> result = new ArrayList<AdDataType>();
+        while (iter.hasNext()) {
+            result.add((AdDataType)iter.next());
+        }
+        AdDataType testResultClass = result.get(0);
+        assertEquals(4, result.size());
+        assertEquals(NullFlavor.NI, testResultClass.getValue1().getNullFlavor());
+    }
+    */
+    
+    
+    public void testQueryIvlTsWidth() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName("gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType");
+        Association association1 = new Association();
+        association1.setName("gov.nih.nci.iso21090.Ivl");
+        association1.setRoleName("value3");
+        target.setAssociation(association1);
+        Association association2 = new Association();
+        association2.setName("gov.nih.nci.iso21090.Qty");
+        association2.setRoleName("width");
+        association1.setAssociation(association2);
+        Attribute attribute3 = new Attribute();
+        attribute3.setName("nullFlavor");
+        attribute3.setPredicate(Predicate.IS_NOT_NULL);
+        association2.setAttribute(attribute3);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType> result =
+            new ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType>();
+        while (iter.hasNext()) {
+            result.add((gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType)iter.next());
+        }
+        //gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType testResultClass = result.get(0);
     }
     
     
