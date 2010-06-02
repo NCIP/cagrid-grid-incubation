@@ -165,7 +165,10 @@ public class ISOSupportDomainModelGenerator {
         UMLClass badIsoUriClass = null;
         UMLClass badIsoUidClass = null;
         UMLClass isoQtyClass = null;
+        UMLClass isoRealClass = null;
+        UMLClass badIsoCodeClass = null;
         UMLClass javaStringClass = null;
+        UMLClass javaDoubleClass = null;
         umlClasses.add(ivlClass);
         // have to pre-create all the classes so I can properly create associations w/ refs between them
         for (UMLClass clazz : umlClasses) {
@@ -173,6 +176,7 @@ public class ISOSupportDomainModelGenerator {
                 LOG.debug("Skipping class with null package: " + clazz.getName());
             } else {
                 String fullPackageName = getFullPackageName(clazz);
+                // TODO: replace this ugly if.. block with a hash map or something
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("String")) {
                     badIsoStringClass = clazz;
                 }
@@ -185,8 +189,17 @@ public class ISOSupportDomainModelGenerator {
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("QTY")) {
                     isoQtyClass = clazz;
                 }
+                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("REAL")) {
+                    isoRealClass = clazz;
+                }
+                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("Code")) {
+                    badIsoCodeClass = clazz;
+                }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "java.lang") && clazz.getName().equals("String")) {
                     javaStringClass = clazz;
+                }
+                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "java.lang") && clazz.getName().equals("Double")) {
+                    javaDoubleClass = clazz;
                 }
                 // TODO: there may be others (REAL -> Double, Binary -> byte[])
                 // Satish is supposed to send me this list
@@ -244,6 +257,9 @@ public class ISOSupportDomainModelGenerator {
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
                         new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
+                    if (clazz.getName().equalsIgnoreCase("Pq")) {
+                        System.out.println("Here");
+                    }
                     for (UMLAttribute attrib : umlAttribs) {
                         LOG.debug("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
@@ -269,6 +285,10 @@ public class ISOSupportDomainModelGenerator {
                         } else if (attributeDatatype.equals(badIsoUriClass)) {
                             attributeDatatype = javaStringClass;
                         } else if (attributeDatatype.equals(badIsoUidClass)) {
+                            attributeDatatype = javaStringClass;
+                        } else if (attributeDatatype.equals(isoRealClass)) {
+                            attributeDatatype = javaDoubleClass;
+                        } else if (attributeDatatype.equals(badIsoCodeClass)) {
                             attributeDatatype = javaStringClass;
                         }
                         
