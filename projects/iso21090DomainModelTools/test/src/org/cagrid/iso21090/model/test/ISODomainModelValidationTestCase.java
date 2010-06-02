@@ -22,25 +22,28 @@ public class ISODomainModelValidationTestCase extends TestCase {
     public static final String XMI_MODEL_FILENAME = "test/resources/sdk.xmi";
     public static final String TEST_QUERIES_DIR = "test/resources/testQueries";
     
-    private ISODomainModelValidator validator = null;
-    private DomainModel model = null;
+    private static ISODomainModelValidator validator = null;
+    private static DomainModel model = null;
     
     public ISODomainModelValidationTestCase(String name) {
         super(name);
-        init();
     }
     
     
-    public void init() {
-        this.validator = new ISODomainModelValidator();
-        File modelFile = new File(XMI_MODEL_FILENAME);
-        assertTrue("XMI model file " + modelFile.getAbsolutePath() + " not found", modelFile.exists());
-        try {
-            ISOSupportDomainModelGenerator generator = new ISOSupportDomainModelGenerator(HandlerEnum.EADefault);
-            model = generator.generateDomainModel(modelFile.getAbsolutePath());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            fail("Error reading domain model: " + ex.getMessage());
+    public void setUp() {
+        if (validator == null) {
+            validator = new ISODomainModelValidator();
+        }
+        if (model == null) {
+            File modelFile = new File(XMI_MODEL_FILENAME);
+            assertTrue("XMI model file " + modelFile.getAbsolutePath() + " not found", modelFile.exists());
+            try {
+                ISOSupportDomainModelGenerator generator = new ISOSupportDomainModelGenerator(HandlerEnum.EADefault);
+                model = generator.generateDomainModel(modelFile.getAbsolutePath());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fail("Error reading domain model: " + ex.getMessage());
+            }
         }
     }
     
@@ -162,6 +165,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     
     public void testScDataTypeCdCodeSystemAttributeEqualQuery() {
         validateQuery("scDataTypeCdCodeSystemAttributeEqual.xml");
+    }
+    
+    
+    public void testIiRootValueQuery() {
+        validateQuery("iiRootValue.xml");
     }
     
     
