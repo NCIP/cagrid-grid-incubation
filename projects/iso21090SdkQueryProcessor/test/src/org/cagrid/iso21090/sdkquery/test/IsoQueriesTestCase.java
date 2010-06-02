@@ -1,6 +1,7 @@
 package org.cagrid.iso21090.sdkquery.test;
 
 import gov.nih.nci.cacoresdk.domain.other.datatype.AdDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.BlNonNullDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.CdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.DsetIiDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
@@ -21,6 +22,7 @@ import gov.nih.nci.cagrid.data.DataServiceConstants;
 import gov.nih.nci.iso21090.Ad;
 import gov.nih.nci.iso21090.AddressPartType;
 import gov.nih.nci.iso21090.Adxp;
+import gov.nih.nci.iso21090.BlNonNull;
 import gov.nih.nci.iso21090.Cd;
 import gov.nih.nci.iso21090.DSet;
 import gov.nih.nci.iso21090.En;
@@ -370,6 +372,32 @@ public class IsoQueriesTestCase extends TestCase {
         query.setTarget(target);
         
         executeQuery(query);
+    }
+    
+    
+    public void testBlNonNullValueQuery() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(BlNonNullDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(BlNonNull.class.getName());
+        association1.setRoleName("value1");
+        target.setAssociation(association1);
+        Attribute attribute2 = new Attribute();
+        attribute2.setName("value");
+        attribute2.setPredicate(Predicate.EQUAL_TO);
+        attribute2.setValue("false");
+        association1.setAttribute(attribute2);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<BlNonNullDataType> result = new ArrayList<BlNonNullDataType>();
+        while (iter.hasNext()) {
+            result.add((BlNonNullDataType) iter.next());
+        }
+        BlNonNullDataType testResultClass = result.get(0);
+        assertEquals(1, result.size());
+        assertEquals(testResultClass.getValue1().getValue().booleanValue(), false);
     }
     
     
