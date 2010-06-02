@@ -172,7 +172,7 @@ public class SDK43QueryProcessor extends CQLQueryProcessor {
         while (rawIter.hasNext()) {
             Object converted;
             try {
-                converted = XMLUtility.convertFromProxy(rawIter.next(), true);
+                converted = XMLUtility.convertFromProxy(rawIter.next(), false);
             } catch (XMLUtilityException ex) {
                 throw new QueryProcessingException(
                     "Error converting proxied datatype instance: " + ex.getMessage(), ex);
