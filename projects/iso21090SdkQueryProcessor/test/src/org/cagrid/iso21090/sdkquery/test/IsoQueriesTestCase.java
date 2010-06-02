@@ -10,6 +10,7 @@ import gov.nih.nci.cacoresdk.domain.other.datatype.IvlIntDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IvlRealDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.PqDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.RealDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.ScDataType;
 import gov.nih.nci.cagrid.common.Utils;
@@ -31,6 +32,7 @@ import gov.nih.nci.iso21090.Ii;
 import gov.nih.nci.iso21090.Int;
 import gov.nih.nci.iso21090.Ivl;
 import gov.nih.nci.iso21090.NullFlavor;
+import gov.nih.nci.iso21090.Pq;
 import gov.nih.nci.iso21090.Sc;
 import gov.nih.nci.system.applicationservice.ApplicationException;
 import gov.nih.nci.system.applicationservice.ApplicationService;
@@ -80,7 +82,7 @@ public class IsoQueriesTestCase extends TestCase {
         }
     }
     
-    /*
+    
     public void testQueryIiDataType() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -159,7 +161,7 @@ public class IsoQueriesTestCase extends TestCase {
     
     public void testQueryCdDataTypeAgainstConstant() {
         CQLQuery query = new CQLQuery();
-        Object target = new Object();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
         target.setName(CdDataType.class.getName());
         Association assoc = new Association();
         assoc.setName(Cd.class.getName());
@@ -455,7 +457,7 @@ public class IsoQueriesTestCase extends TestCase {
         assertEquals(2, result.size());
         assertEquals("II_VALUE2_ROOT", testResultClass.getValue2().getRoot().toString());
     }
-    */
+    
     
     /* Problem querying hibernate with entity names
     public void testAdxpStuff() {
@@ -488,7 +490,6 @@ public class IsoQueriesTestCase extends TestCase {
     }
     */
     
-    
     public void testQueryIvlTsWidth() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -514,6 +515,47 @@ public class IsoQueriesTestCase extends TestCase {
             result.add((gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType)iter.next());
         }
         //gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType testResultClass = result.get(0);
+    }
+    
+    
+    public void testQueryPqUnit() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(PqDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(Pq.class.getName());
+        association1.setRoleName("value1");
+        target.setAssociation(association1);
+        Attribute attribute2 = new Attribute();
+        attribute2.setName("unit");
+        attribute2.setPredicate(Predicate.IS_NOT_NULL);
+        association1.setAttribute(attribute2);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.PqDataType> result = new
+            ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.PqDataType>();
+        while (iter.hasNext()) {
+            result.add((gov.nih.nci.cacoresdk.domain.other.datatype.PqDataType)iter.next());
+        }
+        gov.nih.nci.cacoresdk.domain.other.datatype.PqDataType testResultClass = result.get(0);
+        assertEquals(5, result.size());
+        assertEquals("GALLON", testResultClass.getValue1().getUnit().toString());
+    }
+    
+    
+    public void testQueryCdDataType() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(CdDataType.class.getName());
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<CdDataType> result = new ArrayList<CdDataType>();
+        while (iter.hasNext()) {
+            result.add((CdDataType) iter.next());
+        }
+        CdDataType testResultClass = result.get(0);
     }
     
     
