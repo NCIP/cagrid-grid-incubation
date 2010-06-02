@@ -163,6 +163,7 @@ public class ISOSupportDomainModelGenerator {
         // to the real java.lang.String class.  No idea why the ISO ones are in models.
         UMLClass badIsoStringClass = null;
         UMLClass badIsoUriClass = null;
+        UMLClass badIsoUidClass = null;
         UMLClass javaStringClass = null;
         umlClasses.add(ivlClass);
         // have to pre-create all the classes so I can properly create associations w/ refs between them
@@ -176,6 +177,9 @@ public class ISOSupportDomainModelGenerator {
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("Uri")) {
                     badIsoUriClass = clazz;
+                }
+                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("Uid")) {
+                    badIsoUidClass = clazz;
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "java.lang") && clazz.getName().equals("String")) {
                     javaStringClass = clazz;
@@ -259,6 +263,8 @@ public class ISOSupportDomainModelGenerator {
                         if (attributeDatatype.equals(badIsoStringClass)) {
                             attributeDatatype = javaStringClass;
                         } else if (attributeDatatype.equals(badIsoUriClass)) {
+                            attributeDatatype = javaStringClass;
+                        } else if (attributeDatatype.equals(badIsoUidClass)) {
                             attributeDatatype = javaStringClass;
                         }
                         
