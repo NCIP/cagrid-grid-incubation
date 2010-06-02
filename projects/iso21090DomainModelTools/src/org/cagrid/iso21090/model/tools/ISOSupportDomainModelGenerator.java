@@ -164,6 +164,7 @@ public class ISOSupportDomainModelGenerator {
         UMLClass badIsoStringClass = null;
         UMLClass badIsoUriClass = null;
         UMLClass badIsoUidClass = null;
+        UMLClass isoQtyClass = null;
         UMLClass javaStringClass = null;
         umlClasses.add(ivlClass);
         // have to pre-create all the classes so I can properly create associations w/ refs between them
@@ -180,6 +181,9 @@ public class ISOSupportDomainModelGenerator {
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("Uid")) {
                     badIsoUidClass = clazz;
+                }
+                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("QTY")) {
+                    isoQtyClass = clazz;
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "java.lang") && clazz.getName().equals("String")) {
                     javaStringClass = clazz;
@@ -320,7 +324,8 @@ public class ISOSupportDomainModelGenerator {
                                 LOG.debug("Type is generic, adding additional association to the generic type");
                                 // need a further association from the iso datatype to its inner generic type
                                 // only "item" for DSet, but "any", "high", and "low" for Ivl
-                                String[] roleNames = attributeDatatype.getName().equalsIgnoreCase("DSet") ?
+                                boolean isDset = attributeDatatype.getName().equalsIgnoreCase("DSet");
+                                String[] roleNames = isDset ?
                                     new String[] {"item"} :
                                     new String[] {"high", "low", "any"};
                                 for (String role : roleNames) {
@@ -336,6 +341,20 @@ public class ISOSupportDomainModelGenerator {
                                     genericTargetEdge.setRoleName(role);
                                     genericTargetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
                                     genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(genericTargetEdge));
+                                    domainAssociations.add(genericAssoc);
+                                }
+                                if (!isDset) {
+                                    // also add the "width" association to QTY for IVL
+                                    gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
+                                        new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
+                                    genericAssoc.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(targetEdge));
+                                    UMLAssociationEdge qtyTargetEdge = new UMLAssociationEdge();
+                                    qtyTargetEdge.setMaxCardinality(isCollection ? -1 : 1);
+                                    qtyTargetEdge.setMinCardinality(0);
+                                    // use the ISO QTY class here
+                                    qtyTargetEdge.setRoleName("width");
+                                    qtyTargetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(isoQtyClass.hashCode())));
+                                    genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(qtyTargetEdge));
                                     domainAssociations.add(genericAssoc);
                                 }
                             }

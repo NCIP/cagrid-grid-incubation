@@ -173,6 +173,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testIvlTsWidthNullFlavorQuery() {
+        validateQuery("ivlTsWidthNullFlavor.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
