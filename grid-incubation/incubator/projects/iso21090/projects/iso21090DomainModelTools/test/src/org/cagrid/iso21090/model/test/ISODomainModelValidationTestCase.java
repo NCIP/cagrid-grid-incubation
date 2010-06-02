@@ -178,6 +178,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testPqUnitQuery() {
+        validateQuery("pqUnitAttribute.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
