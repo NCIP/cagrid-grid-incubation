@@ -662,6 +662,9 @@ public class ISOSupportDomainModelGenerator {
         if (isoClassName.equals("DSET")) {
             // DSET requires some magic...
             clean = "DSet"; 
+        } else if (isoClassName.equals("BL.NONNULL")) {
+            // a special case where there's nothing sane to do
+            return "BlNonNull";
         } else {
             // some ISO classes have dots in their name (AD.XP) which need
             // turned into something that standard package / class name parsers
