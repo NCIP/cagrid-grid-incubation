@@ -27,10 +27,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     
     public ISODomainModelValidationTestCase(String name) {
         super(name);
+        init();
     }
     
     
-    public void setUp() {
+    public void init() {
         this.validator = new ISODomainModelValidator();
         File modelFile = new File(XMI_MODEL_FILENAME);
         assertTrue("XMI model file " + modelFile.getAbsolutePath() + " not found", modelFile.exists());
@@ -156,6 +157,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     
     public void testCdDatatypeCodeSystemAttributeQuery() {
         validateQuery("cdDataTypeCodeSystemAttribute.xml");
+    }
+    
+    
+    public void testScDataTypeCdCodeSystemAttributeEqualQuery() {
+        validateQuery("scDataTypeCdCodeSystemAttributeEqual.xml");
     }
     
     
