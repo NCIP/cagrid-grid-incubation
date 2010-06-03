@@ -33,6 +33,7 @@ import gov.nih.nci.iso21090.Int;
 import gov.nih.nci.iso21090.Ivl;
 import gov.nih.nci.iso21090.NullFlavor;
 import gov.nih.nci.iso21090.Pq;
+import gov.nih.nci.iso21090.Real;
 import gov.nih.nci.iso21090.Sc;
 import gov.nih.nci.system.applicationservice.ApplicationException;
 import gov.nih.nci.system.applicationservice.ApplicationService;
@@ -556,6 +557,32 @@ public class IsoQueriesTestCase extends TestCase {
             result.add((CdDataType) iter.next());
         }
         CdDataType testResultClass = result.get(0);
+    }
+    
+    
+    public void testQueryRealDataTypeAttributeValue() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(RealDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(Real.class.getName());
+        association1.setRoleName("value1");
+        target.setAssociation(association1);
+        Attribute attribute2 = new Attribute();
+        attribute2.setName("value");
+        attribute2.setPredicate(Predicate.IS_NOT_NULL);
+        attribute2.setValue("true");
+        association1.setAttribute(attribute2);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<RealDataType> result = new ArrayList<RealDataType>();
+        while (iter.hasNext()) {
+            result.add((RealDataType)iter.next());
+        }
+        RealDataType testResultClass = result.get(0);
+        assertEquals(5, result.size());
+        assertEquals("1001.15", testResultClass.getValue1().getValue().toString());
     }
     
     
