@@ -110,8 +110,7 @@ public class CQL2ParameterizedHQL {
 			handleQueryModifier(query.getQueryModifier(), rawHql);
 		} else {
 		    // select only unique objects
-            rawHql.insert(0, "From " + query.getTarget().getName() + " where id in (");
-            rawHql.append(")");
+            rawHql.insert(0, "Select distinct (" + TARGET_ALIAS + ") ");      
         }
         
         // build the final query object
@@ -181,7 +180,6 @@ public class CQL2ParameterizedHQL {
 		List<CqlDataBucket> typesProcessingList = new ArrayList<CqlDataBucket>();
         
         // start the query
-		hql.append("Select ").append(TARGET_ALIAS).append(".id ");
 		hql.append("From ").append(target.getName()).append(" as ").append(TARGET_ALIAS).append(' ');
 		// keep track of where we are in processing
 		addTypeProcessingInformation(typesProcessingList, target.getName(), TARGET_ALIAS);
