@@ -21,6 +21,7 @@ import gov.nih.nci.ncicb.xmiinout.domain.UMLGeneralization;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLModel;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLPackage;
 import gov.nih.nci.ncicb.xmiinout.domain.UMLTaggedValue;
+import gov.nih.nci.ncicb.xmiinout.domain.bean.UMLDatatypeBean;
 import gov.nih.nci.ncicb.xmiinout.handler.HandlerEnum;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiException;
 import gov.nih.nci.ncicb.xmiinout.handler.XmiHandlerFactory;
@@ -165,7 +166,6 @@ public class ISOSupportDomainModelGenerator {
         UMLClass badIsoUriClass = null;
         UMLClass badIsoUidClass = null;
         UMLClass isoQtyClass = null;
-        UMLClass isoRealClass = null;
         UMLClass badIsoCodeClass = null;
         UMLClass javaStringClass = null;
         UMLClass javaDoubleClass = null;
@@ -188,9 +188,6 @@ public class ISOSupportDomainModelGenerator {
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("QTY")) {
                     isoQtyClass = clazz;
-                }
-                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("REAL")) {
-                    isoRealClass = clazz;
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("Code")) {
                     badIsoCodeClass = clazz;
@@ -257,9 +254,6 @@ public class ISOSupportDomainModelGenerator {
                     List<UMLAttribute> umlAttribs = clazz.getAttributes();
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
                         new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
-                    if (clazz.getName().equalsIgnoreCase("Pq")) {
-                        System.out.println("Here");
-                    }
                     for (UMLAttribute attrib : umlAttribs) {
                         LOG.debug("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
@@ -272,6 +266,10 @@ public class ISOSupportDomainModelGenerator {
                         // sometimes, a user just types in the name of the datatype and it doesn't
                         // really reference a UMLClass instance in the model.  Even though this is
                         // an error, the SDK has a heuristic to deal with it, so we do too.
+                        if (rawAttributeDatatype.getClass().equals(UMLDatatypeBean.class) && rawAttributeDatatype.getName().equals("Real")) {
+                            LOG.debug("Special handling for Real typed attribute");
+                            rawAttributeDatatype = javaDoubleClass;
+                        }
                         UMLDatatype attributeDatatype = deriveRealClass(rawAttributeDatatype, umlClasses);
                         if (attributeDatatype == null) {
                             // no class could be found with our heuristic!
@@ -286,8 +284,6 @@ public class ISOSupportDomainModelGenerator {
                             attributeDatatype = javaStringClass;
                         } else if (attributeDatatype.equals(badIsoUidClass)) {
                             attributeDatatype = javaStringClass;
-                        } else if (attributeDatatype.equals(isoRealClass)) {
-                            attributeDatatype = javaDoubleClass;
                         } else if (attributeDatatype.equals(badIsoCodeClass)) {
                             attributeDatatype = javaStringClass;
                         }

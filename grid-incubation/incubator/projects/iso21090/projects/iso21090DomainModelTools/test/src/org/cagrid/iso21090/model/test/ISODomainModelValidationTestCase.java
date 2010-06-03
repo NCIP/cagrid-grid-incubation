@@ -183,6 +183,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testRealValueQuery() {
+        validateQuery("realDataTypeValue.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
