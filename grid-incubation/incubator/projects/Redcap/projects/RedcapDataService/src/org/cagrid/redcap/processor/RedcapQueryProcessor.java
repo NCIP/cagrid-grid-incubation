@@ -633,7 +633,7 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         return null;
     }
         
-    private Object getDistinctAttributeValue(Object object,Class cls) throws QueryProcessingException{
+    private String getDistinctAttributeValue(Object object,Class cls) throws QueryProcessingException{
     	try{
 	    	if(distinctAttributeList!=null && distinctAttributeList.size()>0){
 	    		String name = this.distinctAttributeList.get(0).toString();
@@ -648,7 +648,7 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
     	}catch(Exception e){
     		throw new QueryProcessingException(e);
     	}
-    	return object;
+    	return String.valueOf(object);
     }
     
     private Object[] getMultipleAttributeValues(Object object,Class clas) throws QueryProcessingException{
