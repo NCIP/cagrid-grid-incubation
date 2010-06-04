@@ -162,7 +162,6 @@ public class ISOSupportDomainModelGenerator {
         UMLClass badIsoStringClass = null;
         UMLClass badIsoUriClass = null;
         UMLClass badIsoUidClass = null;
-        UMLClass isoQtyClass = null;
         UMLClass badIsoCodeClass = null;
         UMLClass javaStringClass = null;
         UMLClass javaDoubleClass = null;
@@ -181,9 +180,6 @@ public class ISOSupportDomainModelGenerator {
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("Uid")) {
                     badIsoUidClass = clazz;
-                }
-                if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("QTY")) {
-                    isoQtyClass = clazz;
                 }
                 if (fullPackageName.equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090") && clazz.getName().equals("Code")) {
                     badIsoCodeClass = clazz;
@@ -247,6 +243,9 @@ public class ISOSupportDomainModelGenerator {
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
                         new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
                     for (UMLAttribute attrib : umlAttribs) {
+                        if (clazz.getName().toLowerCase().startsWith("dset")) {
+                            LOG.info("dset");
+                        }
                         LOG.debug("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
                         UMLDatatype rawAttributeDatatype = attrib.getDatatype();
@@ -692,7 +691,7 @@ public class ISOSupportDomainModelGenerator {
     private String cleanUpIsoClassName(String isoClassName) {
         LOG.debug("Cleaning up ISO class name " + isoClassName);
         String clean = null;
-        if (isoClassName.equals("DSET")) {
+        if (isoClassName.equals("DSET") || isoClassName.startsWith("DSET<")) {
             // DSET requires some magic...
             clean = "DSet"; 
         } else if (isoClassName.equals("BL.NONNULL")) {
@@ -797,7 +796,6 @@ public class ISOSupportDomainModelGenerator {
 
     public static void main(String[] args) {
         ISOSupportDomainModelGenerator generator = new ISOSupportDomainModelGenerator(HandlerEnum.EADefault);
-        /*
         try {
             System.out.println("generating model");
             DomainModel model = generator.generateDomainModel("test/resources/sdk.xmi");
@@ -809,7 +807,8 @@ public class ISOSupportDomainModelGenerator {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        */
+        
+        /*
         try {
             XmiInOutHandler handler = XmiHandlerFactory.getXmiHandler(HandlerEnum.EADefault);
             handler.load("test/resources/sdk.xmi");
@@ -824,5 +823,6 @@ public class ISOSupportDomainModelGenerator {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        */
     }
 }
