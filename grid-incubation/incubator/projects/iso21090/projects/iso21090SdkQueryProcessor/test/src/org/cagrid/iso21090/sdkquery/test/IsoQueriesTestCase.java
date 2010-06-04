@@ -33,6 +33,7 @@ import gov.nih.nci.iso21090.Int;
 import gov.nih.nci.iso21090.Ivl;
 import gov.nih.nci.iso21090.NullFlavor;
 import gov.nih.nci.iso21090.Pq;
+import gov.nih.nci.iso21090.Pqv;
 import gov.nih.nci.iso21090.Real;
 import gov.nih.nci.iso21090.Sc;
 import gov.nih.nci.system.applicationservice.ApplicationException;
@@ -525,25 +526,27 @@ public class IsoQueriesTestCase extends TestCase {
         target.setName("gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType");
         Association association1 = new Association();
         association1.setName("gov.nih.nci.iso21090.Ivl<Pq>");
-        association1.setRoleName("value3");
+        association1.setRoleName("value4");
         target.setAssociation(association1);
         Association association2 = new Association();
         association2.setName("gov.nih.nci.iso21090.Pqv");
         association2.setRoleName("width");
         association1.setAssociation(association2);
         Attribute attribute3 = new Attribute();
-        attribute3.setName("nullFlavor");
-        attribute3.setPredicate(Predicate.IS_NOT_NULL);
+        attribute3.setName("value");
+        attribute3.setPredicate(Predicate.EQUAL_TO);
+        attribute3.setValue("5.1");
         association2.setAttribute(attribute3);
         query.setTarget(target);
         
         Iterator<?> iter = executeQuery(query).iterator();
-        ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType> result =
-            new ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType>();
+        ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType> result =
+            new ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType>();
         while (iter.hasNext()) {
-            result.add((gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType)iter.next());
+            result.add((gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType)iter.next());
         }
-        //gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType testResultClass = result.get(0);
+        gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType testResultClass = result.get(0);
+        assertEquals(Double.valueOf(5.1), ((Pqv) testResultClass.getValue4().getWidth()).getValue()); 
     }
     
     
