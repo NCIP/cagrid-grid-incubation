@@ -156,10 +156,7 @@ public class ISOSupportDomainModelGenerator {
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation>();
         List<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization> domainGeneralizations = 
             new ArrayList<gov.nih.nci.cagrid.metadata.dataservice.UMLGeneralization>();
-        // add the pre-created IVL class
         LOG.debug("Creating initial class list");
-        UMLPackage isoPackage = findIsoPackage(umlModel.getPackages());
-        IvlUmlClass ivlClass = new IvlUmlClass(isoPackage);
         // have to swap references to the non-existing gov.nih.nci.iso21090.String and Uri classes
         // to the real java.lang.String class.  No idea why the ISO ones are in models.
         UMLClass badIsoStringClass = null;
@@ -169,7 +166,6 @@ public class ISOSupportDomainModelGenerator {
         UMLClass badIsoCodeClass = null;
         UMLClass javaStringClass = null;
         UMLClass javaDoubleClass = null;
-        umlClasses.add(ivlClass);
         // have to pre-create all the classes so I can properly create associations w/ refs between them
         for (UMLClass clazz : umlClasses) {
             if (clazz.getPackage() == null) {
@@ -204,8 +200,6 @@ public class ISOSupportDomainModelGenerator {
                 // filter out anything not in the logical model and matching the exclude regex
                 if (shouldExcludePackage(fullPackageName)) {
                     LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
-                } else if (clazz.getName().startsWith("IVL<")) {
-                    LOG.debug("Skipping " + clazz.getName() + " in favor of a single Ivl class");
                 } else if (typeIsEnumeration(clazz)) {
                     LOG.debug("Skipping " + clazz.getName() + " since it's an enumeration to be used as simple attribute value");
                 } else {
@@ -237,8 +231,6 @@ public class ISOSupportDomainModelGenerator {
                 // filter out anything not in the logical model and matching the exclude regex
                 if (shouldExcludePackage(fullPackageName)) {
                     LOG.debug("Excluding class " + fullPackageName + "." + clazz.getName());
-                } else if (clazz.getName().startsWith("IVL<")) {
-                    LOG.debug("Skipping " + clazz.getName() + " in favor of a single Ivl class");
                 } else if (typeIsEnumeration(clazz)) {
                     LOG.debug("Skipping " + clazz.getName() + " since it's an enumeration to be used as simple attribute value");
                 } else {
@@ -343,7 +335,7 @@ public class ISOSupportDomainModelGenerator {
                                 boolean isDset = attributeDatatype.getName().equalsIgnoreCase("DSet");
                                 String[] roleNames = isDset ?
                                     new String[] {"item"} :
-                                    new String[] {"high", "low", "any"};
+                                    new String[] {"high", "low", "any", "width"};
                                 for (String role : roleNames) {
                                     gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
                                         new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
@@ -352,13 +344,18 @@ public class ISOSupportDomainModelGenerator {
                                     genericTargetEdge.setMaxCardinality(isCollection ? -1 : 1);
                                     genericTargetEdge.setMinCardinality(0);
                                     // get the generic specific type
-                                    UMLClass specificType = deriveRealClass(
-                                        getGenericSpecificType(rawAttributeDatatype.getName()), umlClasses);
+                                    String specificTypeName = getGenericSpecificType(rawAttributeDatatype.getName());
+                                    if (role.equals("width") && specificTypeName.equalsIgnoreCase("Pq")) {
+                                        LOG.debug("Ivl<Pq> has width of type Pqv");
+                                        specificTypeName = "Pqv";
+                                    }
+                                    UMLClass specificType = deriveRealClass(specificTypeName, umlClasses);
                                     genericTargetEdge.setRoleName(role);
                                     genericTargetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(specificType.hashCode())));
                                     genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(genericTargetEdge));
                                     domainAssociations.add(genericAssoc);
                                 }
+                                /*
                                 if (!isDset) {
                                     // also add the "width" association to QTY for IVL
                                     gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
@@ -373,6 +370,7 @@ public class ISOSupportDomainModelGenerator {
                                     genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(qtyTargetEdge));
                                     domainAssociations.add(genericAssoc);
                                 }
+                                */
                             }
                         } else if (!isCollection) {
                             LOG.debug("Attribute datatype is simple.");
@@ -566,23 +564,22 @@ public class ISOSupportDomainModelGenerator {
         if (attributeTypeRepresentsCollection(shortName)) {
             name = stripCollectionRepresentation(shortName);
         } else if (attributeTypeRepresentsGeneric(shortName)) {
-            name = stripGeneric(shortName);
+            name = cleanUpIsoClassName(name);
         }
+        String isoCleanName = cleanUpIsoClassName(name);
         UMLClass candidate = null;
         UMLClass javaCandidate = null;
         UMLClass isoCandidate = null;
         for (UMLClass c : searchClasses) {
-            if (name.equals(c.getName())) {
-                String packName = getFullPackageName(c);
-                if (packName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)) {
-                    // it's a logical model package, please continue processing
-                    if (JAVA_PATTERN.matcher(packName).matches()) {
-                        javaCandidate = c;
-                    } else if (ISO_PATTERN.matcher(packName).matches()) {
-                        isoCandidate = c;
-                    } else {
-                        candidate = c;
-                    }
+            String packName = getFullPackageName(c);
+            if (packName.startsWith(LOGICAL_MODEL_PACKAGE_PREFIX)) {
+                String className = c.getName();
+                if (JAVA_PATTERN.matcher(packName).matches() && className.equals(name)) {
+                    javaCandidate = c;
+                } else if (ISO_PATTERN.matcher(packName).matches() && isoCleanName.equals(cleanUpIsoClassName(className))) {
+                    isoCandidate = c;
+                } else if (name.equals(c.getName())) {
+                    candidate = c;
                 }
             }
         }
@@ -686,6 +683,7 @@ public class ISOSupportDomainModelGenerator {
      * eg1) II -> Ii
      * eg2) EN.ON - >EnOn
      * eg3) DSET<II> -> DSet
+     * eg4) IVL<TS> ->Ivl<Ts>
      * eg4) AddressPartType -> AddressPartType
      * 
      * @param isoClassName
@@ -699,7 +697,10 @@ public class ISOSupportDomainModelGenerator {
             clean = "DSet"; 
         } else if (isoClassName.equals("BL.NONNULL")) {
             // a special case where there's nothing sane to do
-            return "BlNonNull";
+            clean = "BlNonNull";
+        } else if (isoClassName.startsWith("IVL<")) {
+            String[] parts = isoClassName.split("<");
+            clean = cleanUpIsoClassName(parts[0]) + "<" + cleanUpIsoClassName(parts[1]);
         } else {
             // some ISO classes have dots in their name (AD.XP) which need
             // turned into something that standard package / class name parsers
@@ -719,13 +720,7 @@ public class ISOSupportDomainModelGenerator {
                     cleaned.append(part);
                 }
             }
-            // throw out generic parameter parts of the class name
-            int trimPoint = cleaned.indexOf("<");
-            if (trimPoint != -1) {
-                clean = cleaned.substring(0, trimPoint);
-            } else {
-                clean = cleaned.toString();
-            }
+            clean = cleaned.toString();
         }
         LOG.debug("Cleaned up: " + clean);
         return clean;
@@ -802,6 +797,7 @@ public class ISOSupportDomainModelGenerator {
 
     public static void main(String[] args) {
         ISOSupportDomainModelGenerator generator = new ISOSupportDomainModelGenerator(HandlerEnum.EADefault);
+        /*
         try {
             System.out.println("generating model");
             DomainModel model = generator.generateDomainModel("test/resources/sdk.xmi");
@@ -810,6 +806,21 @@ public class ISOSupportDomainModelGenerator {
             MetadataUtils.serializeDomainModel(model, writer);
             System.out.println(writer.toString());
             writer.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        */
+        try {
+            XmiInOutHandler handler = XmiHandlerFactory.getXmiHandler(HandlerEnum.EADefault);
+            handler.load("test/resources/sdk.xmi");
+            UMLModel model = handler.getModel();
+            List<UMLClass> classes = generator.getAllClassesInModel(model);
+            UMLClass discovered = generator.deriveRealClass("DSET<AD>", classes);
+            if (discovered == null) {
+                System.out.println("fail");
+            } else {
+                System.out.println(generator.getFullPackageName(discovered) + "." + discovered.getName());
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
