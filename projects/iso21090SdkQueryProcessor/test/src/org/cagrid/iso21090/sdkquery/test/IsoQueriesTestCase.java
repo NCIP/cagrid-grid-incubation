@@ -496,11 +496,39 @@ public class IsoQueriesTestCase extends TestCase {
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
         target.setName("gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType");
         Association association1 = new Association();
-        association1.setName("gov.nih.nci.iso21090.Ivl");
+        association1.setName("gov.nih.nci.iso21090.Ivl<Ts>");
         association1.setRoleName("value3");
         target.setAssociation(association1);
         Association association2 = new Association();
-        association2.setName("gov.nih.nci.iso21090.Qty");
+        association2.setName("gov.nih.nci.iso21090.Ts");
+        association2.setRoleName("width");
+        association1.setAssociation(association2);
+        Attribute attribute3 = new Attribute();
+        attribute3.setName("nullFlavor");
+        attribute3.setPredicate(Predicate.IS_NOT_NULL);
+        association2.setAttribute(attribute3);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType> result =
+            new ArrayList<gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType>();
+        while (iter.hasNext()) {
+            result.add((gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType)iter.next());
+        }
+        //gov.nih.nci.cacoresdk.domain.other.datatype.IvlTsDataType testResultClass = result.get(0);
+    }
+    
+    
+    public void testQueryIvlPqWidth() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName("gov.nih.nci.cacoresdk.domain.other.datatype.IvlPqDataType");
+        Association association1 = new Association();
+        association1.setName("gov.nih.nci.iso21090.Ivl<Pq>");
+        association1.setRoleName("value3");
+        target.setAssociation(association1);
+        Association association2 = new Association();
+        association2.setName("gov.nih.nci.iso21090.Pqv");
         association2.setRoleName("width");
         association1.setAssociation(association2);
         Attribute attribute3 = new Attribute();
