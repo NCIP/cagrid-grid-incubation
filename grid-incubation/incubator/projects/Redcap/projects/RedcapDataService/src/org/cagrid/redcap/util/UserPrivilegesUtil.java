@@ -98,7 +98,7 @@ public class UserPrivilegesUtil {
 						data.setProjectId(rs1.getInt(1));
 						data.setFieldName(rs1.getString(2));
 						data.setEventId(rs1.getInt(3));
-						data.setRecord(rs1.getInt(4));
+						data.setRecord(rs1.getString(4));
 						data.setValue(rs1.getString(5));
 						data.setElementLabel(rs1.getString(6));
 						LOG.debug("DATA PID "+data.getProjectId()+" FIELDNAME "+data.getFieldName()+" RECORD:"+data.getRecord()+" VALUE:"+data.getValue());

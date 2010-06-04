@@ -277,7 +277,7 @@
 		<field name="ProjectId" type="integer">
 			<bind-xml name="projectId" node="attribute" />
 		</field>
-		<field name="Record" type="integer">
+		<field name="Record" type="java.lang.String">
 			<bind-xml name="record" node="attribute" />
 		</field>
 		<field name="Value" type="java.lang.String">

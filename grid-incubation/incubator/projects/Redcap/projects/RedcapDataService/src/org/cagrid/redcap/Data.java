@@ -49,7 +49,7 @@ public class Data  implements java.io.Serializable {
 	
 	private int projectId;
     
-	private int record;
+	private String record;
 	
 	private java.lang.String value;
 
@@ -61,7 +61,7 @@ public class Data  implements java.io.Serializable {
            int eventId,
            java.lang.String fieldName,
            int projectId,
-           int record,
+           String record,
            java.lang.String value) {
            this.dataRef = dataRef;
            this.eventId = eventId;
@@ -134,12 +134,12 @@ public class Data  implements java.io.Serializable {
 
 
     @Column(name="record",insertable=false,updatable=false)
-    public int getRecord() {
+    public String getRecord() {
         return record;
     }
 
 
-    public void setRecord(int record) {
+    public void setRecord(String record) {
         this.record = record;
     }
 
@@ -176,7 +176,11 @@ public class Data  implements java.io.Serializable {
                      getPk().getFieldName().equals(other.getPk().getFieldName()))) &&
                      
             getPk().getProjectId() == other.getPk().getProjectId() &&
-            this.record == other.getRecord() &&
+            //this.record == other.getRecord() &&
+            ((this.record==null && other.getRecord()==null) || 
+                    (this.record!=null &&
+                     this.record.equals(other.getRecord()))) &&
+            
             ((this.value==null && other.getValue()==null) || 
              (this.value!=null &&
               this.value.equals(other.getValue())));
@@ -199,7 +203,10 @@ public class Data  implements java.io.Serializable {
             _hashCode += getFieldName().hashCode();
         }
         _hashCode += getProjectId();
-        _hashCode += getRecord();
+        //_hashCode += getRecord();
+        if (getRecord() != null) {
+            _hashCode += getRecord().hashCode();
+        }
         if (getValue() != null) {
             _hashCode += getValue().hashCode();
         }
