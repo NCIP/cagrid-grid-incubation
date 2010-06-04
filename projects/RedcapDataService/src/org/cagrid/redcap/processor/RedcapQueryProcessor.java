@@ -457,7 +457,7 @@ public class RedcapQueryProcessor extends CQLQueryProcessor{
         		DataAuth dataInAuthList = null;
         		for(int index=0;index<authorizedProjectsList.size();index++){
         			dataInAuthList = (DataAuth)authorizedProjectsList.get(index);
-        			if((dataInAuthList.getRecord() == data.getRecord())
+        			if((dataInAuthList.getRecord().equals(data.getRecord()))
 							&&(dataInAuthList.getEventId()==data.getEventId())&&(dataInAuthList.getProjectId()==data.getProjectId())
 							&&(dataInAuthList.getFieldName().equals(data.getFieldName()))
 							){

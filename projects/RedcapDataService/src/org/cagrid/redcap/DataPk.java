@@ -17,14 +17,14 @@ public class DataPk implements Serializable{
 		
 	}
 	
-	private int record;
+	private String record;
 	@Column(name="record")
-	public int getRecord() {
+	public String getRecord() {
 		return record;
 	}
 
 	
-	public void setRecord(int record) {
+	public void setRecord(String record) {
 		this.record = record;
 	}
 	
