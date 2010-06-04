@@ -345,7 +345,7 @@ public class CQL2ParameterizedHQL {
 		associationStack.push(association);
 		DatatypeFlavor flavor = null;
         try {
-            flavor = DatatypeFlavor.getFlavorOfClass(Class.forName(association.getName()));
+            flavor = DatatypeFlavor.getFlavorOfClass(Class.forName(stripGeneric(association.getName())));
         } catch (ClassNotFoundException ex) {
             throw new QueryTranslationException("Error determining datatype flavor of " 
                 + association.getName() + ": " + ex.getMessage(), ex);
@@ -587,7 +587,7 @@ public class CQL2ParameterizedHQL {
     private void addTypeProcessingInformation(List<CqlDataBucket> typesProcessingList, String className, String aliasOrRoleName) throws QueryTranslationException {
         DatatypeFlavor flavor = null;
         try {
-            flavor = DatatypeFlavor.getFlavorOfClass(Class.forName(className));
+            flavor = DatatypeFlavor.getFlavorOfClass(Class.forName(stripGeneric(className)));
         } catch (Exception ex) {
             throw new QueryTranslationException("Error determining datatype flavor of " + className + ": " + ex.getMessage(), ex);
         }
@@ -855,5 +855,20 @@ public class CQL2ParameterizedHQL {
             }
         }
         return count;
+    }
+    
+    
+    private boolean classIsGeneric(String className) {
+        return className.contains("<");
+    }
+    
+    
+    private String stripGeneric(String className) {
+        String stripped = className;
+        int index = className.indexOf("<");
+        if (index != -1) {
+            return className.substring(0, index);
+        }
+        return stripped;
     }
 }
