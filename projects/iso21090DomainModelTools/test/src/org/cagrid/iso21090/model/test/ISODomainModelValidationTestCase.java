@@ -193,6 +193,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testIvlIntAnyQuery() {
+        validateQuery("ivlIntAnyValueNotNull.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
