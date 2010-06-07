@@ -3,6 +3,7 @@ package org.cagrid.iso21090.sdkquery.test;
 import gov.nih.nci.cacoresdk.domain.other.datatype.AdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.BlNonNullDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.CdDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.DsetAdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.DsetIiDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IiDataType;
@@ -492,6 +493,7 @@ public class IsoQueriesTestCase extends TestCase {
     }
     */
     
+    
     public void testQueryIvlTsWidth() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -649,6 +651,29 @@ public class IsoQueriesTestCase extends TestCase {
             fail("Error executing query: " + e.getMessage());
         }
         return results;
+    }
+    
+    
+    public void testQueryDsetAdAdxp() {
+        CQLQuery query = new CQLQuery();
+        Object target = new Object();
+        target.setName(DsetAdDataType.class.getName());
+        Association a1 = new Association();
+        a1.setName(DSet.class.getName());
+        a1.setRoleName("value1");
+        target.setAssociation(a1);
+        Association a2 = new Association();
+        a2.setName(Ad.class.getName());
+        a2.setRoleName("item");
+        a1.setAssociation(a2);
+        Association a3 = new Association();
+        a3.setName(Adxp.class.getName());
+        a3.setRoleName("part");
+        a2.setAssociation(a3);
+        a3.setAttribute(new Attribute("value", Predicate.EQUAL_TO, "foo"));
+        query.setTarget(target);
+        
+        executeQuery(query);
     }
     
     
