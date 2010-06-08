@@ -650,7 +650,14 @@ public class CQL2ParameterizedHQL {
             if (caseInsensitive) {
                 hql.append("lower(");
             }
-            hql.append(getAttributePath(typesProcessingList, attribute.getName(), levels));
+            String path = getAttributePath(typesProcessingList, attribute.getName(), levels);
+            if (path.startsWith("join ")) {
+                // throw away the "where" part of the existing query
+                if (hql.toString().endsWith("where ")) {
+                    removeLastWhereStatement(hql);
+                }
+            }
+            hql.append(path);
             if (caseInsensitive) {
                 hql.append(')');
             }
@@ -682,7 +689,14 @@ public class CQL2ParameterizedHQL {
                 if (caseInsensitive) {
                     hql.append("lower(");
                 }
-                hql.append(getAttributePath(typesProcessingList, attribute.getName(), levels));
+                String path = getAttributePath(typesProcessingList, attribute.getName(), levels);
+                if (path.startsWith("join ")) {
+                    // throw away the "where" part of the existing query
+                    if (hql.toString().endsWith("where ")) {
+                        removeLastWhereStatement(hql);
+                    }
+                }
+                hql.append(path);
                 if (caseInsensitive) {
                     hql.append(')');
                 }
@@ -843,6 +857,7 @@ public class CQL2ParameterizedHQL {
     
     
     private String getAttributePath(List<CqlDataBucket> typesProcessingList, String attribName, int levels) {
+        /*
         int listSize = typesProcessingList.size();
         int endIndex = listSize - levels;
         StringBuffer buf = new StringBuffer();
@@ -852,6 +867,10 @@ public class CQL2ParameterizedHQL {
         }
         buf.append(attribName);
         return buf.toString();
+        */
+        String path = getAssociationNavigationPath(typesProcessingList, levels);
+        path += "." + attribName;
+        return path;
     }
     
     
@@ -874,12 +893,14 @@ public class CQL2ParameterizedHQL {
             buf.append(typesProcessing.get(endIndex + 2).aliasOrRoleName);
             // need a random alias here
             String randAlias = "alias_" + System.currentTimeMillis();
-            buf.append(" as ").append(randAlias).append(" where ");
-            buf.append(randAlias).append(".");
-            for (int i = endIndex + 3; i < listSize; i++) {
-                buf.append(typesProcessing.get(i).aliasOrRoleName);
-                if (i + 1 < listSize) {
-                    buf.append('.');
+            buf.append(" as ").append(randAlias).append(" where ").append(randAlias);
+            if (levels > 3) {
+                buf.append(".");
+                for (int i = endIndex + 3; i < listSize; i++) {
+                    buf.append(typesProcessing.get(i).aliasOrRoleName);
+                    if (i + 1 < listSize) {
+                        buf.append('.');
+                    }
                 }
             }
         } else {
