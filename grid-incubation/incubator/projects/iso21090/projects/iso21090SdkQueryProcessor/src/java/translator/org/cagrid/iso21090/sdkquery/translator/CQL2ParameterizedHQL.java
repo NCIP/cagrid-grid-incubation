@@ -255,7 +255,6 @@ public class CQL2ParameterizedHQL {
 		LOG.debug("Datatype flavor is " + flavor.name());
 		// DSET<Ii>, (and TEL and CD) ends up as "COMPLEX_WITH_SIMPLE_CONTENT" because it's modeled as an
 		// association to DSET, then to Ii, which is that type.  Appears to work OK.
-		// TODO: Is that OK, or do we need some black magic?
 		// FIXME: DSET<Ad> doesn't work because I can't get the information about the part names inside the AD
 		// out of the Hibernate configuration object API.  Interestingly, AD by itself is fine.
 		switch (flavor) {
@@ -408,7 +407,17 @@ public class CQL2ParameterizedHQL {
             }
             if (simpleNullCheck) {
                 // checking for the type not to be null, but .id doesn't work....
-                hql.append(sourceAlias).append('.').append(roleName).append(" is not null ");
+                // depending on the sequence of datatype flavors leading to this point 
+                // we have to construct the HQL in different ways
+                
+                String path = getAssociationNavigationPath(typesProcessingList, 4);
+                if (path.startsWith("join ")) {
+                    // throw away the "where" part of the existing query
+                    if (hql.toString().endsWith("where ")) {
+                        removeLastWhereStatement(hql);
+                    }
+                }
+                hql.append(path).append(" is not null");
             }
         }
         
@@ -846,6 +855,46 @@ public class CQL2ParameterizedHQL {
     }
     
     
+    private String getAssociationNavigationPath(List<CqlDataBucket> typesProcessing, int levels) {
+        StringBuffer buf = new StringBuffer();
+        int listSize = typesProcessing.size();
+        int endIndex = listSize - levels;
+        boolean useJoinSyntax = false;
+        // figure out if I need to add the special join syntax
+        if (typesProcessing.get(endIndex + 1).datatypeFlavor
+                .equals(DatatypeFlavor.COLLECTION_OF_COMPLEX_WITH_COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT)
+            || typesProcessing.get(endIndex + 1).datatypeFlavor
+                .equals(DatatypeFlavor.COLLECTION_OF_COMPLEX_WITH_SIMPLE_CONTENT)) {
+            useJoinSyntax = true;
+        }
+        if (useJoinSyntax) {
+            buf.append("join ");
+            buf.append(typesProcessing.get(endIndex).aliasOrRoleName).append(".");
+            buf.append(typesProcessing.get(endIndex + 1).aliasOrRoleName).append(".");
+            buf.append(typesProcessing.get(endIndex + 2).aliasOrRoleName);
+            // need a random alias here
+            String randAlias = "alias_" + System.currentTimeMillis();
+            buf.append(" as ").append(randAlias).append(" where ");
+            buf.append(randAlias).append(".");
+            for (int i = endIndex + 3; i < listSize; i++) {
+                buf.append(typesProcessing.get(i).aliasOrRoleName);
+                if (i + 1 < listSize) {
+                    buf.append('.');
+                }
+            }
+        } else {
+            // this is the easy case
+            for (int i = endIndex; i < listSize; i++) {
+                buf.append(typesProcessing.get(i).aliasOrRoleName);
+                if (i + 1 < listSize) {
+                    buf.append('.');
+                }
+            }
+        }
+        return buf.toString();
+    }
+    
+    
     private int determineLevelsRemovedFromStandardDatatype(List<CqlDataBucket> typesProcessingList) {
         int count = 0;
         for (int i = typesProcessingList.size() - 1; i >= 0; i--) {
@@ -858,11 +907,6 @@ public class CQL2ParameterizedHQL {
     }
     
     
-    private boolean classIsGeneric(String className) {
-        return className.contains("<");
-    }
-    
-    
     private String stripGeneric(String className) {
         String stripped = className;
         int index = className.indexOf("<");
@@ -870,5 +914,11 @@ public class CQL2ParameterizedHQL {
             return className.substring(0, index);
         }
         return stripped;
+    }
+    
+    
+    private void removeLastWhereStatement(StringBuilder hql) {
+        int index = hql.lastIndexOf("where ");
+        hql.delete(index, index + "where ".length());
     }
 }
