@@ -3,6 +3,7 @@ package org.cagrid.iso21090.sdkquery.test;
 import gov.nih.nci.cacoresdk.domain.other.datatype.AdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.BlNonNullDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.CdDataType;
+import gov.nih.nci.cacoresdk.domain.other.datatype.DsetCdDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.DsetIiDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.EnDataType;
 import gov.nih.nci.cacoresdk.domain.other.datatype.IiDataType;
@@ -26,6 +27,7 @@ import gov.nih.nci.iso21090.Adxp;
 import gov.nih.nci.iso21090.BlNonNull;
 import gov.nih.nci.iso21090.Cd;
 import gov.nih.nci.iso21090.DSet;
+import gov.nih.nci.iso21090.EdText;
 import gov.nih.nci.iso21090.En;
 import gov.nih.nci.iso21090.Enxp;
 import gov.nih.nci.iso21090.Ii;
@@ -85,8 +87,34 @@ public class IsoQueriesTestCase extends TestCase {
             fail("Error obtaining cql query translator: " + ex.getMessage());
         }
     }
+    
+    
+    /*
+     * Problem querying hibernate with entity names public void testAdxpStuff()
+     * { CQLQuery query = new CQLQuery(); gov.nih.nci.cagrid.cqlquery.Object
+     * target = new gov.nih.nci.cagrid.cqlquery.Object();
+     * target.setName(AdDataType.class.getName()); Association association1 =
+     * new Association(); association1.setName(Ad.class.getName());
+     * association1.setRoleName("value8"); target.setAssociation(association1);
+     * Association association2 = new Association();
+     * association2.setName(Adxp.class.getName());
+     * association2.setRoleName("part");
+     * association1.setAssociation(association2); Attribute attribute3 = new
+     * Attribute(); attribute3.setName("value");
+     * attribute3.setPredicate(Predicate.IS_NOT_NULL);
+     * attribute3.setValue("true"); association2.setAttribute(attribute3);
+     * query.setTarget(target);
+     * 
+     * Iterator<?> iter = executeQuery(query).iterator(); ArrayList<AdDataType>
+     * result = new ArrayList<AdDataType>(); while (iter.hasNext()) {
+     * result.add((AdDataType)iter.next()); } AdDataType testResultClass =
+     * result.get(0); assertEquals(4, result.size());
+     * assertEquals(NullFlavor.NI, testResultClass.getValue1().getNullFlavor());
+     * }
+     */
+ 
 
-
+    
     public void testQueryIiDataType() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -312,13 +340,7 @@ public class IsoQueriesTestCase extends TestCase {
         }
         gov.nih.nci.cacoresdk.domain.other.datatype.IvlIntDataType testResultClass = result.get(0);
         assertEquals(3, result.size()); // Ye's test has 4 here
-        assertEquals(Integer.valueOf(1), testResultClass.getValue1().getLow().getValue()); // Ye's
-                                                                                           // test
-                                                                                           // used
-                                                                                           // "1".
-                                                                                           // String
-                                                                                           // vs
-                                                                                           // Integer
+        assertEquals(Integer.valueOf(1), testResultClass.getValue1().getLow().getValue()); // Ye's test used "1". String vs Integer
     }
 
 
@@ -468,30 +490,7 @@ public class IsoQueriesTestCase extends TestCase {
     }
 
 
-    /*
-     * Problem querying hibernate with entity names public void testAdxpStuff()
-     * { CQLQuery query = new CQLQuery(); gov.nih.nci.cagrid.cqlquery.Object
-     * target = new gov.nih.nci.cagrid.cqlquery.Object();
-     * target.setName(AdDataType.class.getName()); Association association1 =
-     * new Association(); association1.setName(Ad.class.getName());
-     * association1.setRoleName("value8"); target.setAssociation(association1);
-     * Association association2 = new Association();
-     * association2.setName(Adxp.class.getName());
-     * association2.setRoleName("part");
-     * association1.setAssociation(association2); Attribute attribute3 = new
-     * Attribute(); attribute3.setName("value");
-     * attribute3.setPredicate(Predicate.IS_NOT_NULL);
-     * attribute3.setValue("true"); association2.setAttribute(attribute3);
-     * query.setTarget(target);
-     * 
-     * Iterator<?> iter = executeQuery(query).iterator(); ArrayList<AdDataType>
-     * result = new ArrayList<AdDataType>(); while (iter.hasNext()) {
-     * result.add((AdDataType)iter.next()); } AdDataType testResultClass =
-     * result.get(0); assertEquals(4, result.size());
-     * assertEquals(NullFlavor.NI, testResultClass.getValue1().getNullFlavor());
-     * }
-     */
-
+    
     public void testQueryIvlTsWidth() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
@@ -668,6 +667,64 @@ public class IsoQueriesTestCase extends TestCase {
         IvlIntDataType testResultClass = result.get(0);
         assertEquals(2, result.size());
         assertEquals("8", testResultClass.getValue3().getAny().getValue().toString());
+    }
+    
+    
+    public void testQueryDsetCdEdTextOriginalText() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(DsetCdDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(DSet.class.getName());
+        association1.setRoleName("value4");
+        target.setAssociation(association1);
+        Association association2 = new Association();
+        association2.setName(Cd.class.getName());
+        association2.setRoleName("item");
+        association1.setAssociation(association2);
+        Association association3 = new Association();
+        association3.setName(EdText.class.getName());
+        association3.setRoleName("originalText");
+        //association3.setAttribute(new Attribute("value", Predicate.IS_NOT_NULL, "true"));
+        association2.setAssociation(association3);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<DsetCdDataType> result = new ArrayList<DsetCdDataType>();
+        while (iter.hasNext()) {
+            result.add((DsetCdDataType)iter.next());
+        }
+        DsetCdDataType testResultClass = result.get(0);
+        assertEquals(5, result.size());
+    }
+    
+    
+    public void testQueryDsetCdEdTextOriginalTextValue() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName(DsetCdDataType.class.getName());
+        Association association1 = new Association();
+        association1.setName(DSet.class.getName());
+        association1.setRoleName("value4");
+        target.setAssociation(association1);
+        Association association2 = new Association();
+        association2.setName(Cd.class.getName());
+        association2.setRoleName("item");
+        association1.setAssociation(association2);
+        Association association3 = new Association();
+        association3.setName(EdText.class.getName());
+        association3.setRoleName("originalText");
+        association3.setAttribute(new Attribute("value", Predicate.IS_NOT_NULL, "true"));
+        association2.setAssociation(association3);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
+        ArrayList<DsetCdDataType> result = new ArrayList<DsetCdDataType>();
+        while (iter.hasNext()) {
+            result.add((DsetCdDataType)iter.next());
+        }
+        DsetCdDataType testResultClass = result.get(0);
+        assertEquals(5, result.size());
     }
 
 
