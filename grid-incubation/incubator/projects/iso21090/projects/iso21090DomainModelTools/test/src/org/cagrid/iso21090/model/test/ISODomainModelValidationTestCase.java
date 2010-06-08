@@ -198,6 +198,16 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testCdEdTextQuery() {
+        validateQuery("dsetCdEdText.xml");
+    }
+    
+    
+    public void testCdEdTextValueQuery() {
+        validateQuery("dsetCdEdTextValue.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
