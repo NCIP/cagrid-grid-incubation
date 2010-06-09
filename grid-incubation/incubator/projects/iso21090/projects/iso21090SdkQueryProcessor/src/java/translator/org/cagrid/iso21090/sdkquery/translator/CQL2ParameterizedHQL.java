@@ -86,6 +86,7 @@ public class CQL2ParameterizedHQL {
 	 * @throws QueryTranslationException
 	 */
 	public ParameterizedHqlQuery convertToHql(CQLQuery query) throws QueryTranslationException {
+	    LOG.debug("Converting caGrid Query Language to Hibernate Query Language");
 		// create a string builder to build up the HQL
 		StringBuilder rawHql = new StringBuilder();
         
@@ -199,6 +200,7 @@ public class CQL2ParameterizedHQL {
 		}
 		
 		if (avoidSubclasses) {
+		    LOG.debug("Target class has subclasses, appending .class in where clause");
 			boolean mustAddWhereClause = 
 				target.getAssociation() == null
 				&& target.getAttribute() == null
@@ -212,6 +214,7 @@ public class CQL2ParameterizedHQL {
 			java.lang.Object classDiscriminatorInstance = null;
 			try {
 			    classDiscriminatorInstance = typesInformationResolver.getClassDiscriminatorValue(target.getName());
+			    LOG.debug("Class discriminator determined to be " + String.valueOf(classDiscriminatorInstance));
 			} catch (TypesInformationException ex) {
 			    String message = "Error determining class discriminator for " + target.getName() + ": " + ex.getMessage();
 			    LOG.error(message, ex);
@@ -238,15 +241,15 @@ public class CQL2ParameterizedHQL {
 	 * @throws QueryTranslationException
 	 */
 	private void processAttribute(Attribute attribute, StringBuilder hql, 
-        List<java.lang.Object> parameters, Object queryObject, 
-        String queryObjectAlias, Stack<Association> associationStack, 
-        List<CqlDataBucket> typesProcessingList)
+        List<java.lang.Object> parameters, Object queryObject, String queryObjectAlias, 
+        Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList)
 	    throws QueryTranslationException {
         LOG.debug("Processing attribute " + queryObject.getName() + "." + attribute.getName());
         
         // get the predicate, check for a default value
         Predicate predicate = attribute.getPredicate();
         if (predicate == null) {
+            LOG.debug("No predicate defined in query, defaulting to " + Predicate.EQUAL_TO);
             predicate = Predicate.EQUAL_TO;
         }
         
@@ -517,6 +520,7 @@ public class CQL2ParameterizedHQL {
     private java.lang.Object valueToObject(Class<?> fieldType, String value) throws QueryTranslationException {
         LOG.debug("Converting \"" + value + "\" to object of type " + fieldType.getName());
         if (DatatypeFlavor.getFlavorOfClass(fieldType) == DatatypeFlavor.ENUMERATION) {
+            LOG.debug("Field type is an Enumeration");
             try {
                 Method factoryMethod = fieldType.getMethod("valueOf", String.class);
                 return factoryMethod.invoke(null, value);
@@ -548,7 +552,7 @@ public class CQL2ParameterizedHQL {
                     return Character.valueOf(value.charAt(0));
                 } else {
                     throw new QueryTranslationException("The value \"" + value + "\" of length " 
-                        + value.length() + " is not a valid character");
+                        + value.length() + " is not a valid character (should be length 1)");
                 }
             }
             if (URI.class.equals(fieldType)) {
@@ -567,6 +571,7 @@ public class CQL2ParameterizedHQL {
                     SimpleDateFormat formatter = formatIter.next();
                     try {
                         date = formatter.parse(value);
+                        LOG.trace("Parsed by " + formatter.toPattern());
                     } catch (ParseException ex) {
                         LOG.debug(value + " was not parsable by pattern " + formatter.toPattern());
                     }
@@ -616,6 +621,7 @@ public class CQL2ParameterizedHQL {
     private void processStandardAttribute(Attribute attribute, StringBuilder hql, 
         List<java.lang.Object> parameters, Object queryObject, String queryObjectAlias)
         throws QueryTranslationException {
+        LOG.debug("Processing standard attribute");
         
         // construct the query fragment
         if (caseInsensitive) {
@@ -638,6 +644,7 @@ public class CQL2ParameterizedHQL {
         StringBuilder hql, List<java.lang.Object> parameters, 
         Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) 
         throws QueryTranslationException {
+        LOG.debug("Processing complex attribute with simple or mixed content");
         // determine the number of levels to back up to find a "standard" datatype
         int levels = determineLevelsRemovedFromStandardDatatype(typesProcessingList);
         
@@ -646,6 +653,7 @@ public class CQL2ParameterizedHQL {
             typesProcessingList.get(typesProcessingList.size() - levels).clazz, 
             getAttributePathList(typesProcessingList, attribute.getName(), levels - 1));
         if (constantValue == null) {
+            LOG.debug("Attribute was not mapped to a constant");
             // append the path to the attribute itself
             if (caseInsensitive) {
                 hql.append("lower(");
@@ -664,6 +672,7 @@ public class CQL2ParameterizedHQL {
         } else {
             // the value has been mapped to a constant.  Hibernate can't query
             // against these, but we can substitute the value into the query directly
+            LOG.debug("Attribute mapped to a constant; appending that constant to the HQL parameters");
             hql.append('?');
             parameters.add(constantValue);
         }
@@ -675,6 +684,7 @@ public class CQL2ParameterizedHQL {
     private void processComplexAttributeWithCollectionOfComplexAttributesWithSimpleContent(
         Attribute attribute, StringBuilder hql, List<java.lang.Object> parameters, 
         Stack<Association> associationStack, List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
+        LOG.debug("Processing complex attribute collection of attributes with simple content");
         int levels = determineLevelsRemovedFromStandardDatatype(typesProcessingList);
         System.out.println("Levels: " + levels);
         if (levels == 2) {
@@ -685,6 +695,7 @@ public class CQL2ParameterizedHQL {
                 typesProcessingList.get(typesProcessingList.size() - levels).clazz, 
                 attribPath);
             if (constantValue == null) {
+                LOG.debug("Attribute was not mapped to a constant");
                 // append the path to the attribute itself
                 if (caseInsensitive) {
                     hql.append("lower(");
@@ -703,6 +714,7 @@ public class CQL2ParameterizedHQL {
             } else {
                 // the value has been mapped to a constant.  Hibernate can't query
                 // against these, but we can substitute the value into the query directly
+                LOG.debug("Attribute mapped to a constant; appending that constant to the HQL parameters");
                 hql.append('?');
                 parameters.add(constantValue);
             }
@@ -710,7 +722,6 @@ public class CQL2ParameterizedHQL {
             appendPredicateAndValue(attribute, hql, parameters, associationStack.peek());
         } else {
             // some nested component path
-
             // build the query path with a place holder for the part names
             String componentNamePlaceholder = "---placeholder---";
             int listSize = typesProcessingList.size();
@@ -757,12 +768,13 @@ public class CQL2ParameterizedHQL {
     private void processDsetOfComplexDatatypeWithCollectionOfComplexAttributesWithSimpleContent(Attribute attribute,
         StringBuilder hql, List<java.lang.Object> parameters,  Stack<Association> associationStack,
         List<CqlDataBucket> typesProcessingList) throws QueryTranslationException {
+        LOG.debug("Processing DSet of complex attribute with a collection of attributes with simple content");
         // strip the last where statement from the hql
         int whereStart = hql.lastIndexOf("where");
         hql.delete(whereStart, whereStart + "where".length());
         
         String topLevelAlias = typesProcessingList.get(typesProcessingList.size() - 4).aliasOrRoleName;
-        hql.append("join ");//.append(topLevelAlias).append(" ");
+        hql.append("join ");
         hql.append(topLevelAlias).append(".");
         hql.append(typesProcessingList.get(typesProcessingList.size() - 3).aliasOrRoleName).append(".");
         hql.append(typesProcessingList.get(typesProcessingList.size() - 2).aliasOrRoleName).append(" ");
@@ -808,10 +820,12 @@ public class CQL2ParameterizedHQL {
     
     private void appendPredicateAndValue(Attribute attribute, StringBuilder hql, 
         List<java.lang.Object> parameters, Object queryObject) throws QueryTranslationException {
+        LOG.debug("Appending predicate to HQL determining object value");
         // determine if the predicate is unary
         Predicate predicate = attribute.getPredicate();
         boolean unaryPredicate = predicate.equals(Predicate.IS_NOT_NULL)
             || predicate.equals(Predicate.IS_NULL);
+        LOG.debug("Predicate " + predicate.getValue() + " is " + (unaryPredicate ? "not " : "") + "unary");
         // append the predicate
         hql.append(' ');
         String predicateAsString = predicateValues.get(predicate);
@@ -826,12 +840,14 @@ public class CQL2ParameterizedHQL {
             try {
                 attributeType = typesInformationResolver.getJavaDataType(queryObject.getName(), attribute.getName());
             } catch (TypesInformationException ex) {
+                LOG.error("Error determining type: " + ex.getMessage(), ex);
                 throw new QueryTranslationException(ex.getMessage(), ex);
             }
             if (attributeType == null) {
                 throw new QueryTranslationException("No type could be determined for attribute " 
                     + queryObject.getName() + "." + attribute.getName());
             }
+            LOG.debug("Determined java type to be " + attribute.getName());
             java.lang.Object value = valueToObject(attributeType, 
                 caseInsensitive ? attribute.getValue().toLowerCase() : attribute.getValue());
 
@@ -857,17 +873,6 @@ public class CQL2ParameterizedHQL {
     
     
     private String getAttributePath(List<CqlDataBucket> typesProcessingList, String attribName, int levels) {
-        /*
-        int listSize = typesProcessingList.size();
-        int endIndex = listSize - levels;
-        StringBuffer buf = new StringBuffer();
-        for (int i = endIndex; i < listSize; i++) {
-            buf.append(typesProcessingList.get(i).aliasOrRoleName);
-            buf.append('.');
-        }
-        buf.append(attribName);
-        return buf.toString();
-        */
         String path = getAssociationNavigationPath(typesProcessingList, levels);
         path += "." + attribName;
         return path;
@@ -875,6 +880,7 @@ public class CQL2ParameterizedHQL {
     
     
     private String getAssociationNavigationPath(List<CqlDataBucket> typesProcessing, int levels) {
+        LOG.debug("Getting association navigation path");
         StringBuffer buf = new StringBuffer();
         int listSize = typesProcessing.size();
         int endIndex = listSize - levels;
@@ -887,6 +893,7 @@ public class CQL2ParameterizedHQL {
             useJoinSyntax = true;
         }
         if (useJoinSyntax) {
+            LOG.debug("Association path requires a join");
             buf.append("join ");
             buf.append(typesProcessing.get(endIndex).aliasOrRoleName).append(".");
             buf.append(typesProcessing.get(endIndex + 1).aliasOrRoleName).append(".");
@@ -904,6 +911,7 @@ public class CQL2ParameterizedHQL {
                 }
             }
         } else {
+            LOG.debug("Association path doesn't need a join");
             // this is the easy case
             for (int i = endIndex; i < listSize; i++) {
                 buf.append(typesProcessing.get(i).aliasOrRoleName);
@@ -932,13 +940,15 @@ public class CQL2ParameterizedHQL {
         String stripped = className;
         int index = className.indexOf("<");
         if (index != -1) {
-            return className.substring(0, index);
+            LOG.debug("Stripping generic portion off class name " + className);
+            stripped = className.substring(0, index);
         }
         return stripped;
     }
     
     
     private void removeLastWhereStatement(StringBuilder hql) {
+        LOG.debug("Removing last where statement from HQL");
         int index = hql.lastIndexOf("where ");
         hql.delete(index, index + "where ".length());
     }
