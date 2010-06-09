@@ -640,36 +640,6 @@ public class IsoQueriesTestCase extends TestCase {
     }
     
     
-    public void testQueryIvlIntAny() {
-        CQLQuery query = new CQLQuery();
-        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
-        target.setName(IvlIntDataType.class.getName());
-        Association association1 = new Association();
-        association1.setName("gov.nih.nci.iso21090.Ivl<Int>");
-        association1.setRoleName("value3");
-        target.setAssociation(association1);
-        Association association2 = new Association();
-        association2.setName(Int.class.getName());
-        association2.setRoleName("any");
-        association1.setAssociation(association2);
-        Attribute attribute3 = new Attribute();
-        attribute3.setName("value");
-        attribute3.setPredicate(Predicate.IS_NOT_NULL);
-        attribute3.setValue("true");
-        association2.setAttribute(attribute3);
-        query.setTarget(target);
-        
-        Iterator<?> iter = executeQuery(query).iterator();
-        ArrayList<IvlIntDataType> result = new ArrayList<IvlIntDataType>();
-        while (iter.hasNext()) {
-            result.add((IvlIntDataType)iter.next());
-        }
-        IvlIntDataType testResultClass = result.get(0);
-        assertEquals(2, result.size());
-        assertEquals("8", testResultClass.getValue3().getAny().getValue().toString());
-    }
-    
-    
     public void testQueryDsetCdEdTextOriginalText() {
         CQLQuery query = new CQLQuery();
         gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
