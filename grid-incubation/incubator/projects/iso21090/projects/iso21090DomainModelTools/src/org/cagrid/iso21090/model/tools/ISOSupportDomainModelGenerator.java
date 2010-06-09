@@ -243,15 +243,15 @@ public class ISOSupportDomainModelGenerator {
                     List<gov.nih.nci.cagrid.metadata.common.UMLAttribute> attribs = 
                         new ArrayList<gov.nih.nci.cagrid.metadata.common.UMLAttribute>(umlAttribs.size());
                     for (UMLAttribute attrib : umlAttribs) {
-                        if (clazz.getName().toLowerCase().startsWith("dset")) {
-                            LOG.info("dset");
+                        if (c.getClassName().startsWith("Ivl<") && attrib.getName().equals("any")) {
+                            LOG.debug("Skipping attribute \"any\" of " + c.getClassName());
+                            continue;
                         }
                         LOG.debug("Creating class attribute " + attrib.getName());
                         // determine the data type of the attribute
                         UMLDatatype rawAttributeDatatype = attrib.getDatatype();
                         boolean isCollection = attributeTypeRepresentsCollection(rawAttributeDatatype.getName());
                         boolean isGeneric = attributeTypeRepresentsGeneric(rawAttributeDatatype.getName());
-                        // TODO: if generic, create an association from the generic to the specific
                         LOG.debug("Attribute " + (isCollection ? "represents" : "does not represent") + " a collection");
                         LOG.debug("Attribute " + (isGeneric ? "represents" : "does not represent") + " a generic");
                         // sometimes, a user just types in the name of the datatype and it doesn't
@@ -328,13 +328,15 @@ public class ISOSupportDomainModelGenerator {
                             // keep the association
                             domainAssociations.add(isoAssociation);
                             if (isGeneric) {
-                                LOG.debug("Type is generic, adding additional association to the generic type");
+                                // TODO: at some point, this should go away and we should have classes like
+                                // DSet<Cd> in the domain model which have a single association to Cd
+                                LOG.debug("Type is generic, adding additional association(s) to the generic type");
                                 // need a further association from the iso datatype to its inner generic type
-                                // only "item" for DSet, but "any", "high", and "low" for Ivl
+                                // only "item" for DSet, but "high", "low", and "width" for Ivl
                                 boolean isDset = attributeDatatype.getName().equalsIgnoreCase("DSet");
                                 String[] roleNames = isDset ?
                                     new String[] {"item"} :
-                                    new String[] {"high", "low", "any", "width"};
+                                    new String[] {"high", "low", "width"};
                                 for (String role : roleNames) {
                                     gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
                                         new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
@@ -354,22 +356,6 @@ public class ISOSupportDomainModelGenerator {
                                     genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(genericTargetEdge));
                                     domainAssociations.add(genericAssoc);
                                 }
-                                /*
-                                if (!isDset) {
-                                    // also add the "width" association to QTY for IVL
-                                    gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation genericAssoc = 
-                                        new gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation();
-                                    genericAssoc.setSourceUMLAssociationEdge(new UMLAssociationSourceUMLAssociationEdge(targetEdge));
-                                    UMLAssociationEdge qtyTargetEdge = new UMLAssociationEdge();
-                                    qtyTargetEdge.setMaxCardinality(isCollection ? -1 : 1);
-                                    qtyTargetEdge.setMinCardinality(0);
-                                    // use the ISO QTY class here
-                                    qtyTargetEdge.setRoleName("width");
-                                    qtyTargetEdge.setUMLClassReference(new UMLClassReference(String.valueOf(isoQtyClass.hashCode())));
-                                    genericAssoc.setTargetUMLAssociationEdge(new UMLAssociationTargetUMLAssociationEdge(qtyTargetEdge));
-                                    domainAssociations.add(genericAssoc);
-                                }
-                                */
                             }
                         } else if (!isCollection) {
                             LOG.debug("Attribute datatype is simple.");
@@ -507,7 +493,6 @@ public class ISOSupportDomainModelGenerator {
         UMLTaggedValue tag = association.getTaggedValue("direction");
         if (tag != null) {
             LOG.debug("Association direction: " + tag.getValue());
-            // System.out.println("Association direction: " + tag.getValue());
             bidirectional = "Bi-Directional".equals(tag.getValue()) ||
                 "Unspecified".equals(tag.getValue());
         }
@@ -721,7 +706,7 @@ public class ISOSupportDomainModelGenerator {
             }
             clean = cleaned.toString();
         }
-        LOG.debug("Cleaned up: " + clean);
+        LOG.debug("\tCleaned up: " + clean);
         return clean;
     }
     
@@ -744,43 +729,10 @@ public class ISOSupportDomainModelGenerator {
     }
     
     
-    private String stripGeneric(String name) {
-        int start = name.indexOf('<');
-        return name.substring(0, start);
-    }
-    
-    
     private String getGenericSpecificType(String name) {
         int start = name.indexOf('<');
         int end = name.indexOf('>', start);
         return name.substring(start + 1, end);
-    }
-    
-    
-    private UMLPackage findIsoPackage(Collection<UMLPackage> packs) {
-        for (UMLPackage p : packs) {
-            // determine the package name
-            StringBuffer buf = new StringBuffer();
-            boolean first = true;
-            UMLPackage pack = p;
-            while (pack != null) {
-                if (!first) {
-                    buf.insert(0, '.');   
-                }
-                first = false;
-                buf.insert(0, pack.getName());
-                pack = pack.getParent();
-            }
-            if (buf.toString().equals(LOGICAL_MODEL_PACKAGE_PREFIX + "gov.nih.nci.iso21090")) {
-                return p;
-            } else {
-                UMLPackage maybe = findIsoPackage(p.getPackages());
-                if (maybe != null) {
-                    return maybe;
-                }
-            }
-        }
-        return null;
     }
     
     
