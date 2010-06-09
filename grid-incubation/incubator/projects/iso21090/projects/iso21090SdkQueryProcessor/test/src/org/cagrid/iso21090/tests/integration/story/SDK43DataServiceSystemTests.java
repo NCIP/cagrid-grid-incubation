@@ -22,7 +22,7 @@ public class SDK43DataServiceSystemTests {
     private File tempApplicationDir = null;
     
     @Test
-    public void sdk42DataServiceSystemTests() throws Throwable {
+    public void sdk43DataServiceSystemTests() throws Throwable {
         // create a temporary directory for the SDK application to package things in
         tempApplicationDir = File.createTempFile("SdkWithIsoExample", "temp");
         tempApplicationDir.delete();
