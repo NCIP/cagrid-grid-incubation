@@ -193,11 +193,6 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
-    public void testIvlIntAnyQuery() {
-        validateQuery("ivlIntAnyValueNotNull.xml");
-    }
-    
-    
     public void testCdEdTextQuery() {
         validateQuery("dsetCdEdText.xml");
     }
