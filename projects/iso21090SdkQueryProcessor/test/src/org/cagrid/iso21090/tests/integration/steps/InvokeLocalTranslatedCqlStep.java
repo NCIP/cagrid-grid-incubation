@@ -41,11 +41,13 @@ public class InvokeLocalTranslatedCqlStep extends AbstractLocalCqlInvocationStep
                 File sdkLocalClientDir = new File(base, SDK_LOCAL_CLIENT_DIR);
                 File sdkConfDir = new File(sdkLocalClientDir, "conf");
                 File constantsFile = new File(sdkConfDir, "IsoConstants.xml");
-                String constantsPath = constantsFile.getCanonicalPath();
+                String constantsPath = constantsFile.getAbsolutePath();
                 assertTrue("ISO constants file (" + constantsPath + ") not found", constantsFile.exists());
                 // TODO: rm printout once dashboard likes this
                 // have to qualify the location as a file so Spring knows it's not some other resource (???)
-                constantsPath = "file:" + constantsPath;
+                if (!System.getProperty("os.name").toLowerCase().startsWith("win")) {
+                    constantsPath = "file:/" + constantsPath;
+                }
                 System.out.println("Loading ISO constants from " + constantsPath);
                 ApplicationContext isoContext = new FileSystemXmlApplicationContext(constantsFile.getAbsolutePath());
                 translator = new CQL2ParameterizedHQL(
