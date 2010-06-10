@@ -6,6 +6,8 @@ import gov.nih.nci.system.query.hibernate.HQLCriteria;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 
 import org.cagrid.iso21090.sdkquery.translator.CQL2ParameterizedHQL;
@@ -26,11 +28,12 @@ public class InvokeLocalTranslatedCqlStep extends AbstractLocalCqlInvocationStep
     
     
     private CQL2ParameterizedHQL getTranslator() {
+        for (URL u : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
+            System.out.println("classpath contains " + u.toString());
+        }
         if (translator == null) {
-            ClassLoader loader = getSdkLibClassLoader();
             try {
-                Class<?> typesInfoResolverClass = loader.loadClass("org.cagrid.iso21090.sdkquery.translator.HibernateConfigTypesInformationResolver");
-                InputStream hbmConfigStream = typesInfoResolverClass.getResourceAsStream("/hibernate.cfg.xml");
+                InputStream hbmConfigStream = getClass().getResourceAsStream("/hibernate.cfg.xml");
                 assertNotNull("Hibernate config was null", hbmConfigStream);
                 Configuration hibernateConfig = new Configuration();
                 hibernateConfig.addInputStream(hbmConfigStream);

@@ -3,12 +3,10 @@ package org.cagrid.iso21090.tests.integration.story;
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 import gov.nih.nci.cagrid.testing.system.haste.Story;
 
-import java.io.File;
 import java.util.Vector;
 
 import org.cagrid.iso21090.tests.integration.steps.BuildExampleProjectStep;
 import org.cagrid.iso21090.tests.integration.steps.ConfigureExampleProjectStep;
-import org.cagrid.iso21090.tests.integration.steps.NukeIvyCacheStep;
 
 /**
  * Story that configures and builds 
@@ -18,11 +16,8 @@ import org.cagrid.iso21090.tests.integration.steps.NukeIvyCacheStep;
  */
 public class CreateExampleProjectStory extends Story {
     
-    private File tempApplicationDir = null;
-
-    public CreateExampleProjectStory(File tempApplicationDir) {
+    public CreateExampleProjectStory() {
         super();
-        this.tempApplicationDir = tempApplicationDir;
     }
 
 
@@ -38,8 +33,8 @@ public class CreateExampleProjectStory extends Story {
 
     protected Vector<?> steps() {
         Vector<Step> steps = new Vector<Step>();
-        steps.add(new NukeIvyCacheStep());
-        steps.add(new ConfigureExampleProjectStep(tempApplicationDir));
+        // steps.add(new NukeIvyCacheStep());
+        steps.add(new ConfigureExampleProjectStep());
         steps.add(new BuildExampleProjectStep());
         return steps;
     }
