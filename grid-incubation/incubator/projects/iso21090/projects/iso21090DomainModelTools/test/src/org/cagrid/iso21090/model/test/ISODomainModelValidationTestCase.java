@@ -148,11 +148,6 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
-    public void testCdCodeSystemAttributeValueQuery() {
-        validateQuery("cdDataTypecodeSystemAttributeEqual.xml");
-    }
-    
-    
     public void testBlNonNullQuery() {
         validateQuery("blNonNullValue.xml");
     }
