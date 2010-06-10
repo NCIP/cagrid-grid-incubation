@@ -6,8 +6,6 @@ import gov.nih.nci.system.query.hibernate.HQLCriteria;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.List;
 
 import org.cagrid.iso21090.sdkquery.translator.CQL2ParameterizedHQL;
@@ -28,9 +26,6 @@ public class InvokeLocalTranslatedCqlStep extends AbstractLocalCqlInvocationStep
     
     
     private CQL2ParameterizedHQL getTranslator() {
-        for (URL u : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
-            System.out.println("classpath contains " + u.toString());
-        }
         if (translator == null) {
             try {
                 InputStream hbmConfigStream = getClass().getResourceAsStream("/hibernate.cfg.xml");
@@ -50,8 +45,6 @@ public class InvokeLocalTranslatedCqlStep extends AbstractLocalCqlInvocationStep
                 // the "absolutePath" to the constants file.  Therefore, we're using the relative path
                 // full of ../'s and stuff
                 String relPath = Utils.getRelativePath(new File("."), constantsFile);
-                // TODO: rm printout once dashboard likes this
-                System.out.println("Loading ISO constants from " + relPath);
                 ApplicationContext isoContext = new FileSystemXmlApplicationContext(relPath);
                 translator = new CQL2ParameterizedHQL(
                     new HibernateConfigTypesInformationResolver(hibernateConfig, true), 
