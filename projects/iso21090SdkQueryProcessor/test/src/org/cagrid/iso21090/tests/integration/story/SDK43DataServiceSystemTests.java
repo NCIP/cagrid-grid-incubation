@@ -19,20 +19,13 @@ public class SDK43DataServiceSystemTests {
     private static Log LOG = LogFactory.getLog(SDK43DataServiceSystemTests.class);
     
     private long lastTime = 0;
-    private File tempApplicationDir = null;
     
     @Test
     public void sdk43DataServiceSystemTests() throws Throwable {
-        // create a temporary directory for the SDK application to package things in
-        tempApplicationDir = File.createTempFile("SdkWithIsoExample", "temp");
-        tempApplicationDir.delete();
-        tempApplicationDir.mkdirs();
-        LOG.debug("Created temp application base dir: " + tempApplicationDir.getAbsolutePath());
-        
         // create the caCORE SDK example project
         splitTime();
         LOG.debug("Running caCORE SDK example project creation story");
-        CreateExampleProjectStory createExampleStory = new CreateExampleProjectStory(tempApplicationDir);
+        CreateExampleProjectStory createExampleStory = new CreateExampleProjectStory();
         createExampleStory.runBare();
         
         // create and run a caGrid Data Service using the SDK's local API
@@ -59,9 +52,6 @@ public class SDK43DataServiceSystemTests {
             LOG.warn("Error destroying SDK example project database: " + ex.getMessage());
             ex.printStackTrace();
         }
-        // throw away the temp sdk dir
-        LOG.debug("Deleting temp application base dir: " + tempApplicationDir.getAbsolutePath());
-        Utils.deleteDir(tempApplicationDir);
     }
     
     

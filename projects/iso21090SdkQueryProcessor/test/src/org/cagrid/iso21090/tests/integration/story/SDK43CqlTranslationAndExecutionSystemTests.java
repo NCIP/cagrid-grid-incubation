@@ -30,22 +30,9 @@ public class SDK43CqlTranslationAndExecutionSystemTests {
     private static Log LOG = LogFactory.getLog(SDK43CqlTranslationAndExecutionSystemTests.class);
     
     private long lastTime = 0;
-    private File tempApplicationDir = null;
     
     @Test
     public void sdk43DataServiceSystemTests() throws Throwable {
-        // create a temporary directory for the SDK application to package things in
-        tempApplicationDir = File.createTempFile("SdkWithIsoExample", "temp");
-        tempApplicationDir.delete();
-        tempApplicationDir.mkdirs();
-        LOG.debug("Created temp application base dir: " + tempApplicationDir.getAbsolutePath());
-        
-        // create the caCORE SDK example project
-        splitTime();
-        LOG.debug("Running caCORE SDK example project creation story");
-        CreateExampleProjectStory createExampleStory = new CreateExampleProjectStory(tempApplicationDir);
-        createExampleStory.runBare();
-        
         // using the artifacts from the previous, run some CQL queries
         splitTime();
         LOG.debug("Running CQL queryes against generated caCORE SDK example project");
@@ -64,9 +51,6 @@ public class SDK43CqlTranslationAndExecutionSystemTests {
             LOG.warn("Error destroying SDK example project database: " + ex.getMessage());
             ex.printStackTrace();
         }
-        // throw away the temp sdk dir
-        LOG.debug("Deleting temp application base dir: " + tempApplicationDir.getAbsolutePath());
-        Utils.deleteDir(tempApplicationDir);
     }
     
     

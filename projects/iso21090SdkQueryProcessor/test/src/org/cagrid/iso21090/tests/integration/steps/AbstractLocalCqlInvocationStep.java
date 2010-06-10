@@ -4,6 +4,7 @@ import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.cagrid.testing.system.haste.Step;
 import gov.nih.nci.system.applicationservice.ApplicationService;
+import gov.nih.nci.system.client.ApplicationServiceProvider;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -80,55 +81,13 @@ public abstract class AbstractLocalCqlInvocationStep extends Step {
     
     protected ApplicationService getService() {
         if (service == null) {
-            ClassLoader loader = getSdkLibClassLoader();
             try {
-                Class<?> providerClass = loader.loadClass("gov.nih.nci.system.client.ApplicationServiceProvider");
-                Method getMethod = providerClass.getMethod("getApplicationService");
-                service = (ApplicationService) getMethod.invoke(null);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                fail("Error: " + ex.getMessage());
+                service = ApplicationServiceProvider.getApplicationService();
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail("Error initializing application service: " + e.getMessage());
             }
         }
         return service;
-    }
-    
-    
-    protected ClassLoader getSdkLibClassLoader() {
-        String base = System.getProperty(TESTS_BASEDIR_PROPERTY);
-        assertNotNull(TESTS_BASEDIR_PROPERTY + " property was null", base);
-        FileFilter jarfilter = new FileFilter() {
-            public boolean accept(File pathname) {
-                return pathname.getName().toLowerCase().endsWith(".jar");
-            }
-        };
-        File baseLibDir = new File(base, TESTS_EXT_LIB_DIR);
-        System.out.println("Base lib dir = " + baseLibDir.getAbsolutePath());
-        File[] baseLibs = baseLibDir.listFiles(jarfilter);
-        File sdkLocalClientDir = new File(base, SDK_LOCAL_CLIENT_DIR);
-        System.out.println("SDK local client dir = " + sdkLocalClientDir.getAbsolutePath());
-        File sdkLibDir = new File(sdkLocalClientDir, "lib");
-        System.out.println("sdkLibDir = " + sdkLibDir.getAbsoluteFile());
-        File sdkConfDir = new File(sdkLocalClientDir, "conf");
-        System.out.println("sdkConfDir = " + sdkConfDir.getAbsolutePath());
-        File[] sdkLibs = sdkLibDir.listFiles(jarfilter);
-        
-        List<URL> libUrls = new ArrayList<URL>();
-        try {
-            libUrls.add(sdkConfDir.toURI().toURL());
-            for (File lib : baseLibs) {
-                libUrls.add(lib.toURI().toURL());
-            }
-            for (File lib : sdkLibs) {
-                libUrls.add(lib.toURI().toURL());
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            fail("Error converting path to URL: " + ex.getMessage());
-        }
-        
-        URL[] urls = libUrls.toArray(new URL[0]);
-        ClassLoader loader = new URLClassLoader(urls, Thread.currentThread().getContextClassLoader());
-        return loader;
     }
 }

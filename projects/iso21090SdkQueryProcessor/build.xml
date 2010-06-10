@@ -71,25 +71,13 @@
 			<exclude name="junit.jar" />
 		</fileset>
 	</path>
-
-
-	<!-- =============================================================== -->
-	<!-- The Run Classpath                                               -->
-	<!-- =============================================================== -->
-	<path id="run.classpath">
-		<path refid="build.classpath" />
-		<fileset dir="${jar.dir}">
-			<include name="*.jar" />
-		</fileset>
-		<pathelement path="${sdk.conf.dir}"/>
-	</path>
 	
 
 	<!-- =============================================================== -->
 	<!-- The Test Classpath                                              -->
 	<!-- =============================================================== -->
-	<path id="test.classpath">
-		<path refid="build.classpath" />
+	<path id="test.build.classpath">
+		<path refid="build.classpath"/>
 		<fileset dir="${ext.test.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
@@ -97,9 +85,50 @@
 		<pathelement path="${processor.classes.dir}" />
 		<pathelement path="${style.classes.dir}"/>
 	</path>
-	<path id="test.run.classpath">
-		<path refid="test.classpath" />
-		<pathelement path="${sdk.conf.dir}"/>
+	
+	<path id="unit.test.run.classpath">
+		<fileset dir="${jar.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ext.test.lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${sdk.lib.dir}">
+			<include name="**/*.jar"/>
+			<exclude name="**/${project.name}*.jar"/>
+			<exclude name="**/isoExample-*.jar"/>
+			<exclude name="**/iso-datatypes-*.jar"/>
+		</fileset>
+		<fileset dir="${globus.dir}/lib">
+			<include name="**/*.jar" />
+			<exclude name="junit.jar" />
+		</fileset>
+		<pathelement path="${test.classes.dir}" />
+	</path>
+	
+	<path id="integration.test.run.classpath">
+		<fileset dir="${jar.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${ext.test.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${globus.dir}/lib">
+			<include name="*.jar" />
+			<exclude name="junit.jar" />
+		</fileset>
 		<pathelement path="${test.classes.dir}" />
 	</path>
 
@@ -145,7 +174,7 @@
 	<target name="compile-tests" depends="prepare" description="compiles tests.">
 		<mkdir dir="${test.classes.dir}" />
 		<javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" source="${java.source}" debug="on" deprecation="off" optimize="off">
-			<classpath refid="test.classpath" />
+			<classpath refid="test.build.classpath" />
 		</javac>
 	</target>
 

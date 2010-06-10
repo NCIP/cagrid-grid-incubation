@@ -12,6 +12,9 @@ import org.cagrid.iso21090.tests.integration.DatabaseProperties;
 import org.cagrid.iso21090.tests.integration.ExampleProjectInfo;
 
 public class ConfigureExampleProjectStep extends Step {
+    // sysproperty for temp dir location
+    public static final String APPLICATION_TEMP_DIR_PROP = "sdk.temp.dir";
+    
     // codegen properties
     public static final String NAMESPACE_PREFIX_PROPERTY = "NAMESPACE_PREFIX";
     public static final String NAMESPACE_PREFIX_VALUE = "gme://caCORE.caCORE/4.3";
@@ -33,15 +36,20 @@ public class ConfigureExampleProjectStep extends Step {
     public static final String DB_USERNAME = "DB_USERNAME";
     public static final String DB_PASSWORD = "DB_PASSWORD";
     
-    private File tempApplicationDir = null;
-    
-    public ConfigureExampleProjectStep(File tempApplicationDir) {
+    public ConfigureExampleProjectStep() {
         super();
-        this.tempApplicationDir = tempApplicationDir;
     }
 
 
     public void runStep() throws Throwable {
+        // create a temp directory for the SDK to build with
+        String tempName = System.getProperty(APPLICATION_TEMP_DIR_PROP);
+        assertNotNull(tempName);
+        File tempDir = new File(tempName);
+        if (!tempDir.exists()) {
+            assertTrue("Unable to create temp dir", tempDir.mkdirs());
+        }
+        
         // edit the codegen properties
         try {
             FileInputStream codegenIn = new FileInputStream(ExampleProjectInfo.getCodegenPropertiesFile());
@@ -66,9 +74,9 @@ public class ConfigureExampleProjectStep extends Step {
             // installProps.commentOutProperty(EXCLUDE_DATABASE);
             installProps.remove(EXCLUDE_DATABASE);
             if (isWindowsOs()) {
-                installProps.setProperty(APPLICATION_BASE_PATH_WINDOWS, tempApplicationDir.getAbsolutePath());
+                installProps.setProperty(APPLICATION_BASE_PATH_WINDOWS, tempDir.getAbsolutePath());
             } else {
-                installProps.setProperty(APPLICATION_BASE_PATH_LINUX, tempApplicationDir.getAbsolutePath());
+                installProps.setProperty(APPLICATION_BASE_PATH_LINUX, tempDir.getAbsolutePath());
             }
             installProps.setProperty(SERVER_TYPE, SERVER_TYPE_VALUE);
             installProps.setProperty(INSTALL_CONTAINER, INSTALL_CONTAINER_VALUE);
@@ -83,7 +91,7 @@ public class ConfigureExampleProjectStep extends Step {
         } catch (IOException ex) {
             ex.printStackTrace();
             fail("Error editing install properties: " + ex.getMessage());
-        }
+        } 
     }
     
     
