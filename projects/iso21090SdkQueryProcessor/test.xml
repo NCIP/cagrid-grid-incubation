@@ -16,7 +16,7 @@
 		<echo message="Test results dir: ${junit.results.dir}" />
 		<mkdir dir="${junit.results.dir}" />
 		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
-			<classpath refid="test.run.classpath" />
+			<classpath refid="unit.test.run.classpath" />
 			<sysproperty key="build.dir" value="${classes.dir}" />
 			<jvmarg value="-Xmx512M" />
 			<jvmarg value="-Dbuild.dirs.list=${translator.classes.dir},${processor.classes.dir},${style.classes.dir}" />
