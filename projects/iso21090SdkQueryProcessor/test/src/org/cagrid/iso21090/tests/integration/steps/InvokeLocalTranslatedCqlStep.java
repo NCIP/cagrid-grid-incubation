@@ -1,5 +1,6 @@
 package org.cagrid.iso21090.tests.integration.steps;
 
+import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cagrid.cqlquery.CQLQuery;
 import gov.nih.nci.system.query.hibernate.HQLCriteria;
 
@@ -41,15 +42,14 @@ public class InvokeLocalTranslatedCqlStep extends AbstractLocalCqlInvocationStep
                 File sdkLocalClientDir = new File(base, SDK_LOCAL_CLIENT_DIR);
                 File sdkConfDir = new File(sdkLocalClientDir, "conf");
                 File constantsFile = new File(sdkConfDir, "IsoConstants.xml");
-                String constantsPath = constantsFile.getAbsolutePath();
-                assertTrue("ISO constants file (" + constantsPath + ") not found", constantsFile.exists());
+                // Spring loads the config file from a location relative to the JVM working dir,
+                // which causes massive headaches under non-windows platforms if you try to specify
+                // the "absolutePath" to the constants file.  Therefore, we're using the relative path
+                // full of ../'s and stuff
+                String relPath = Utils.getRelativePath(new File("."), constantsFile);
                 // TODO: rm printout once dashboard likes this
-                // have to qualify the location as a file so Spring knows it's not some other resource (???)
-                if (!System.getProperty("os.name").toLowerCase().startsWith("win")) {
-                    constantsPath = "file:/" + constantsPath;
-                }
-                System.out.println("Loading ISO constants from " + constantsPath);
-                ApplicationContext isoContext = new FileSystemXmlApplicationContext(constantsFile.getAbsolutePath());
+                System.out.println("Loading ISO constants from " + relPath);
+                ApplicationContext isoContext = new FileSystemXmlApplicationContext(relPath);
                 translator = new CQL2ParameterizedHQL(
                     new HibernateConfigTypesInformationResolver(hibernateConfig, true), 
                     new IsoDatatypesConstantValueResolver(isoContext),
