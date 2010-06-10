@@ -1,5 +1,5 @@
 <project name="caGrid-sdk43_data_tests_harness" basedir=".">
-	
+
 	<property name="junit.results.dir" location="${test.dir}/logs" />
 	<property name="testing.port.assignment.mode" value="true"/>
 	<property name="testing.containers.dir" location="${ext.dir}/dependencies/test/zips"/>
@@ -7,11 +7,11 @@
 	<property name="sdk.temp.dir" location="${basedir}/sdk/temp"/>
 	<property file="${test.dir}/resources/sdk43.test.database.properties"/>
 
-    <!-- ============================================================== -->
+	<!-- ============================================================== -->
 	<!-- Call any tests.                                                -->
 	<!-- ============================================================== -->
 	<target name="test" depends="unitTests, integrationTests" description="Runs the unit and integration tests"/>
-	
+
 	<target name="unitTests" depends="prepare" description="Runs the project's unit tests.">
 		<echo message="Test results dir: ${junit.results.dir}" />
 		<mkdir dir="${junit.results.dir}" />
@@ -33,8 +33,8 @@
 		</junit>
 		<fail message="Tests failed! Check test reports." if="test.failed" />
 	</target>
-	
-	
+
+
 	<target name="integrationTests" depends="createSdkIsoExampleApplication" description="Runs the SDK integration tests">
 		<echo message="Test results dir: ${junit.results.dir}"/>
 		<mkdir dir="${junit.results.dir}"/>
@@ -67,9 +67,9 @@
 		<!-- did the tests fail?? -->
 		<fail if="test.failed" message="Tests failed! Check the test reports."/>
 	</target>
-	
-	
-	<target name="createSdkIsoExampleApplication" depends="prepare, unpackSdkZip, sdkDbSetup" description="Runs the caCORE SDK to create the ISO example project">
+
+
+	<target name="createSdkIsoExampleApplication" depends="prepare, unpackSdkZip, sdkDbSetup, modDbPropertiesFileForCagrid10" description="Runs the caCORE SDK to create the ISO example project">
 		<echo message="Test results dir: ${junit.results.dir}"/>
 		<mkdir dir="${junit.results.dir}"/>
 		<mkdir dir="${sdk.temp.dir}"/>
@@ -91,15 +91,15 @@
 			</batchtest>
 		</junit>
 		<!-- did the tests fail?? -->
-		<fail if="test.failed" message="Tests failed! Check the test reports."/>		
+		<fail if="test.failed" message="Tests failed! Check the test reports."/>
 	</target>
-	
-	
+
+
 	<target name="unpackSdkZip" description="unpacks the cacore sdk">
 		<unzip src="${basedir}/sdk/CACORESDK_43.zip" dest="${sdk.unpack.dir}"/>
 	</target>
-	
-	
+
+
 	<target name="sdkDbSetup" description="Sets up the caCORE SDK 4.3 test database">
 		<property name="db.script.dir" location="${sdk.unpack.dir}/sdk-toolkit/iso-example-project/db/db-install/mysql"/>
 		<sql driver="${db.driver}" url="jdbc:mysql://${db.server}:${db.port}/" userid="${db.username}" password="${db.password}">
@@ -113,4 +113,31 @@
 			<transaction src="${db.script.dir}/SDKTestISOSchema-mysql.sql"/>
 		</sql>
 	</target>
+	
+	
+	<!-- complete hack, remove once SDK GF #28847 is fixed -->
+	<target name="modDbPropertiesFileForCagrid10" depends="gethostname">
+		<condition property="something" value="3307" else="${db.port}">
+			<equals arg1="${hostname}" arg2="cagrid10" casesensitive="false"/>
+		</condition>
+		<echo message="${something}"/>
+		<propertyfile file="${test.dir}/resources/sdk43.test.database.properties">
+			<entry key="db.port" value="${something}" operation="="/>
+		</propertyfile>
+	</target>
+
+	
+	<!-- irritating hack to get the hostname -->
+	<target name="gethostname" description="Stores the current machines hostname in a property named 'hostname'">
+		<property environment="env"/>
+		<condition property="hostname" value="${env.HOSTNAME}">
+			<os family="unix"/>
+		</condition>
+		<condition property="hostname" value="${env.COMPUTERNAME}">
+			<os family="windows"/>
+		</condition>
+		<!-- what to do on Mac or other os??? -->
+		<echo message="host = ${hostname}"/>
+	</target>
+
 </project>
