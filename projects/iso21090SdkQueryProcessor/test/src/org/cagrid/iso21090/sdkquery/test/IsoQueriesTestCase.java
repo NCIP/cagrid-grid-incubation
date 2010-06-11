@@ -32,7 +32,6 @@ import gov.nih.nci.iso21090.En;
 import gov.nih.nci.iso21090.Enxp;
 import gov.nih.nci.iso21090.Ii;
 import gov.nih.nci.iso21090.Int;
-import gov.nih.nci.iso21090.Ivl;
 import gov.nih.nci.iso21090.NullFlavor;
 import gov.nih.nci.iso21090.Pq;
 import gov.nih.nci.iso21090.Pqv;
@@ -318,7 +317,7 @@ public class IsoQueriesTestCase extends TestCase {
         Object target = new Object();
         target.setName(IvlIntDataType.class.getName());
         Association association1 = new Association();
-        association1.setName(Ivl.class.getName());
+        association1.setName("gov.nih.nci.iso21090.Ivl<Int>");
         association1.setRoleName("value1");
         target.setAssociation(association1);
         Association association2 = new Association();
@@ -695,6 +694,25 @@ public class IsoQueriesTestCase extends TestCase {
         }
         DsetCdDataType testResultClass = result.get(0);
         assertEquals(5, result.size());
+    }
+    
+    
+    public void testQueryIvlIntLowClosed() {
+        CQLQuery query = new CQLQuery();
+        gov.nih.nci.cagrid.cqlquery.Object target = new gov.nih.nci.cagrid.cqlquery.Object();
+        target.setName("gov.nih.nci.cacoresdk.domain.other.datatype.IvlIntDataType");
+        Association association1 = new Association();
+        association1.setName("gov.nih.nci.iso21090.Ivl<Int>");
+        association1.setRoleName("value2");
+        target.setAssociation(association1);
+        Attribute attribute2 = new Attribute();
+        attribute2.setName("lowClosed");
+        attribute2.setPredicate(Predicate.EQUAL_TO);
+        attribute2.setValue("true");
+        association1.setAttribute(attribute2);
+        query.setTarget(target);
+        
+        Iterator<?> iter = executeQuery(query).iterator();
     }
 
 
