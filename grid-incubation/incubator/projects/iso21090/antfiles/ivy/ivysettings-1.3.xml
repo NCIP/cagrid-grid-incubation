@@ -51,19 +51,6 @@
 	   pattern="http://quality.cagrid.org/job/caGrid-1.3-System-Tests/lastSuccessfulBuild/artifact/cagrid-1-0/caGrid/integration-repository/[organisation]/[module]/[revision]/[artifact].[ext]"/>
       </url>
 
-      <!-- quality.cagrid.org build of the NCICB ISO 21090 project v2.1 branch -->
-      <url name="remote-ncicb-iso-common-resolver" cache="remote">
-	<ivy pattern="http://quality.cagrid.org/job/NCICB-ISO-21090-Common_2-1_branch/lastSuccessfulBuild/artifact/code/local-ivy-repo/[organization]/[module]/[revision]/ivy.xml"/>
-	<artifact pattern="http://quality.cagrid.org/job/NCICB-ISO-21090-Common_2-1_branch/lastSuccessfulBuild/artifact/code/local-ivy-repo/[organization]/[module]/[revision]/[artifact]-[revision].[ext]"/>
-	<artifact pattern="http://quality.cagrid.org/job/NCICB-ISO-21090-Common_2-1_branch/lastSuccessfulBuild/artifact/code/local-ivy-repo/[organization]/[module]/[revision]/[artifact].[ext]"/>
-	<!--
-	<artifact
-	   pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
-	<artifact
-	   pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]"/>
-	-->
-      </url>
-
       <!-- Then the NCI BDA repository -->
       <url name="remote-nci-commonlibrary-resolver" cache="remote">
 	<ivy pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/ivy.xml"/>
