@@ -838,7 +838,7 @@ public class CQL2ParameterizedHQL {
             // convert the attribute value to the specific data type of the attribute
             Class<?> attributeType = null;
             try {
-                attributeType = typesInformationResolver.getJavaDataType(queryObject.getName(), attribute.getName());
+                attributeType = typesInformationResolver.getJavaDataType(stripGeneric(queryObject.getName()), attribute.getName());
             } catch (TypesInformationException ex) {
                 LOG.error("Error determining type: " + ex.getMessage(), ex);
                 throw new QueryTranslationException(ex.getMessage(), ex);
