@@ -591,10 +591,19 @@ public class CQL2ParameterizedHQL {
     private String getAssociationAlias(String parentClassName, String associationClassName, String roleName) {
         int dotIndex = parentClassName.lastIndexOf('.');
         String parentShortName = dotIndex != -1 ? parentClassName.substring(dotIndex + 1) : parentClassName;
+        parentShortName = compactGenericNameForAlias(parentShortName);
         dotIndex = associationClassName.lastIndexOf('.');
         String associationShortName = dotIndex != -1 ? associationClassName.substring(dotIndex + 1) : associationClassName;
+        associationShortName = compactGenericNameForAlias(associationShortName);
         String alias = "__" + parentShortName + "_" + associationShortName + "_" + roleName;
         return alias;
+    }
+    
+    
+    private String compactGenericNameForAlias(String name) {
+        name = name.replace("<", "_lt_");
+        name = name.replace(">", "_gt_");
+        return name;
     }
     
     
