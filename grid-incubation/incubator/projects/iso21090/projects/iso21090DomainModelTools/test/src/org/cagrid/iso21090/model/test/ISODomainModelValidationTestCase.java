@@ -198,6 +198,11 @@ public class ISODomainModelValidationTestCase extends TestCase {
     }
     
     
+    public void testIvlIntLowClosedQuery() {
+        validateQuery("ivlIntLowClosed.xml");
+    }
+    
+    
     private void validateQuery(String queryFilename) {
         CQLQuery query = loadQuery(queryFilename);
         try {
