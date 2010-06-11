@@ -10,8 +10,8 @@
 
         <!--The first is the repository.dir property, which is where the external libraries caGrid needs are stored, and the second is the integration.repository.dir which is where caGrid projects publish themselves when built such that other caGrid projects can depend on them. -->
 	<!-- setup ivy default configuration with some custom info -->
-	<property name="repository.dir" location="${basedir}/../../../../repository" />
-	<property name="integration.repository.dir" location="${basedir}/../../../../integration-repository" />
+	<property name="repository.dir" location="${basedir}/repository" />
+	<property name="integration.repository.dir" location="${basedir}/integration-repository" />
 
         <!-- set ivy repositories for caGrid -->
 	<property name="cagrid.repository.dir" location="${project.root.dir}/cagrid-repository" />
