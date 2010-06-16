@@ -123,6 +123,7 @@
 	
 	<!-- grabs a checkout of the cacore SDK -->
 	<target name="checkOutCacoreFromSvn" depends="defineSvnantTask">
+		<delete dir="${sdk.checkout.dir}"/>
 		<svn>
 			<export srcUrl="${sdk.svn.url}" destPath="${sdk.checkout.dir}"/>
 		</svn>
