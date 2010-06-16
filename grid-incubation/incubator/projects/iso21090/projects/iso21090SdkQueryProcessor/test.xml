@@ -80,7 +80,7 @@
 	</target>
 
 
-	<target name="createSdkIsoExampleApplication" depends="prepare, checkOutCacoreFromSvn, sdkDbSetup, modDbPropertiesFileForCagrid10" description="Runs the caCORE SDK to create the ISO example project">
+	<target name="createSdkIsoExampleApplication" depends="prepare, checkOutCacoreFromSvn, sdkDbSetup" description="Runs the caCORE SDK to create the ISO example project">
 		<echo message="Test results dir: ${junit.results.dir}"/>
 		<mkdir dir="${junit.results.dir}"/>
 		<mkdir dir="${sdk.temp.dir}"/>
@@ -124,35 +124,10 @@
 	<!-- grabs a checkout of the cacore SDK -->
 	<target name="checkOutCacoreFromSvn" depends="defineSvnantTask">
 		<delete dir="${sdk.checkout.dir}"/>
+		<echo message="Exporting caCORE SDK from ${sdk.svn.url} to ${sdk.checkout.dir}"/>
 		<svn>
 			<export srcUrl="${sdk.svn.url}" destPath="${sdk.checkout.dir}"/>
 		</svn>
+		<echo message="Export completed"/>
 	</target>
-	
-	
-	<!-- complete hack, remove once SDK GF #28847 is fixed -->
-	<target name="modDbPropertiesFileForCagrid10" depends="gethostname">
-		<condition property="something" value="3307" else="${db.port}">
-			<equals arg1="${hostname}" arg2="cagrid10.bmi.ohio-state.edu" casesensitive="false"/>
-		</condition>
-		<echo message="${something}"/>
-		<propertyfile file="${test.dir}/resources/sdk43.test.database.properties">
-			<entry key="db.port" value="${something}" operation="="/>
-		</propertyfile>
-	</target>
-
-	
-	<!-- irritating hack to get the hostname -->
-	<target name="gethostname" description="Stores the current machines hostname in a property named 'hostname'">
-		<property environment="env"/>
-		<condition property="hostname" value="${env.HOST}">
-			<os family="unix"/>
-		</condition>
-		<condition property="hostname" value="${env.COMPUTERNAME}">
-			<os family="windows"/>
-		</condition>
-		<!-- what to do on Mac or other os??? -->
-		<echo message="host = ${hostname}"/>
-	</target>
-
 </project>
