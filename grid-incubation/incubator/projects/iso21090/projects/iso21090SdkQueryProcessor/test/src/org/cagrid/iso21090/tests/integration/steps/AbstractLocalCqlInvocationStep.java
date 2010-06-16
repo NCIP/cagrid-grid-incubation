@@ -8,10 +8,6 @@ import gov.nih.nci.system.client.ApplicationServiceProvider;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractLocalCqlInvocationStep extends Step {
@@ -20,7 +16,7 @@ public abstract class AbstractLocalCqlInvocationStep extends Step {
     public static final String TESTS_EXT_LIB_DIR = 
         "ext" + File.separator + "dependencies" + File.separator + "jars";
     public static final String SDK_LOCAL_CLIENT_DIR = 
-        "sdk" + File.separator + "unpacked" + File.separator + "sdk-toolkit" + 
+        "sdk" + File.separator + "checkout" + File.separator + "sdk-toolkit" + 
         File.separator + "iso-example-project" + File.separator + "target" + 
         File.separator + "dist" + File.separator + "exploded" + File.separator +
         "output" + File.separator + "isoExample" + File.separator + "package" + 
