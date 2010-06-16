@@ -50,7 +50,7 @@
 		<echo message="Test results dir: ${junit.results.dir}"/>
 		<mkdir dir="${junit.results.dir}"/>
 		<property name="sdk43.tests.base.dir" location="${basedir}"/>
-		<property name="created.sdk.client.dir" value="${sdk.unpack.dir}/sdk-toolkit/iso-example-project/target/dist/exploded/output/isoExample/package/local-client"/>
+		<property name="created.sdk.client.dir" value="${sdk.checkout.dir}/sdk-toolkit/iso-example-project/target/dist/exploded/output/isoExample/package/local-client"/>
 		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
 			<!-- is this needed any more? -->
 			<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
