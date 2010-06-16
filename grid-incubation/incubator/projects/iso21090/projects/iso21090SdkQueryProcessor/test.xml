@@ -3,9 +3,20 @@
 	<property name="junit.results.dir" location="${test.dir}/logs" />
 	<property name="testing.port.assignment.mode" value="true"/>
 	<property name="testing.containers.dir" location="${ext.dir}/dependencies/test/zips"/>
-	<property name="sdk.unpack.dir" value="sdk/unpacked"/>
+	<property name="sdk.checkout.dir" value="sdk/checkout"/>
 	<property name="sdk.temp.dir" location="${basedir}/sdk/temp"/>
 	<property file="${test.dir}/resources/sdk43.test.database.properties"/>
+	
+	<target name="defineSvnantTask" depends="prepare">
+		<typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
+			<classpath>
+				<fileset dir="${svnant.lib.dir}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+		</typedef>
+	</target>
+	
 
 	<!-- ============================================================== -->
 	<!-- Call any tests.                                                -->
@@ -44,7 +55,7 @@
 			<!-- is this needed any more? -->
 			<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
 			<sysproperty key="sdk43.tests.base.dir" value="${sdk43.tests.base.dir}"/>
-			<sysproperty key="sdk.unpack.dir" value="${sdk.unpack.dir}"/>
+			<sysproperty key="sdk.unpack.dir" value="${sdk.checkout.dir}"/>
 			<sysproperty key="testing.port.assignment.mode" value="${testing.port.assignment.mode}"/>
 			<sysproperty key="testing.containers.dir" value="${testing.containers.dir}"/>
 			<classpath refid="integration.test.run.classpath"/>
@@ -62,14 +73,14 @@
 			</batchtest>
 		</junit>
 		<!-- delete the SDK dir -->
-		<delete dir="${sdk.unpack.dir}"/>
+		<delete dir="${sdk.checkout.dir}"/>
 		<delete dir="${sdk.temp.dir}"/>
 		<!-- did the tests fail?? -->
 		<fail if="test.failed" message="Tests failed! Check the test reports."/>
 	</target>
 
 
-	<target name="createSdkIsoExampleApplication" depends="prepare, unpackSdkZip, sdkDbSetup, modDbPropertiesFileForCagrid10" description="Runs the caCORE SDK to create the ISO example project">
+	<target name="createSdkIsoExampleApplication" depends="prepare, checkOutCacoreFromSvn, sdkDbSetup, modDbPropertiesFileForCagrid10" description="Runs the caCORE SDK to create the ISO example project">
 		<echo message="Test results dir: ${junit.results.dir}"/>
 		<mkdir dir="${junit.results.dir}"/>
 		<mkdir dir="${sdk.temp.dir}"/>
@@ -78,7 +89,7 @@
 			<!-- is this needed any more? -->
 			<sysproperty key="introduce.base.dir" value="${introduce.dir}" />
 			<sysproperty key="sdk43.tests.base.dir" value="${sdk43.tests.base.dir}"/>
-			<sysproperty key="sdk.unpack.dir" value="${sdk.unpack.dir}"/>
+			<sysproperty key="sdk.unpack.dir" value="${sdk.checkout.dir}"/>
 			<sysproperty key="sdk.temp.dir" value="${sdk.temp.dir}"/>
 			<sysproperty key="testing.port.assignment.mode" value="${testing.port.assignment.mode}"/>
 			<sysproperty key="testing.containers.dir" value="${testing.containers.dir}"/>
@@ -95,13 +106,8 @@
 	</target>
 
 
-	<target name="unpackSdkZip" description="unpacks the cacore sdk">
-		<unzip src="${basedir}/sdk/CACORESDK_43.zip" dest="${sdk.unpack.dir}"/>
-	</target>
-
-
-	<target name="sdkDbSetup" description="Sets up the caCORE SDK 4.3 test database">
-		<property name="db.script.dir" location="${sdk.unpack.dir}/sdk-toolkit/iso-example-project/db/db-install/mysql"/>
+	<target name="sdkDbSetup" depends="checkOutCacoreFromSvn" description="Sets up the caCORE SDK 4.3 test database">
+		<property name="db.script.dir" location="${sdk.checkout.dir}/sdk-toolkit/iso-example-project/db/db-install/mysql"/>
 		<sql driver="${db.driver}" url="jdbc:mysql://${db.server}:${db.port}/" userid="${db.username}" password="${db.password}">
 			<classpath refid="test.build.classpath"/>
 			DROP DATABASE IF EXISTS ${db.schema.name};
@@ -112,6 +118,14 @@
 			<transaction src="${db.script.dir}/SDKTestSchema-mysql.sql"/>
 			<transaction src="${db.script.dir}/SDKTestISOSchema-mysql.sql"/>
 		</sql>
+	</target>
+	
+	
+	<!-- grabs a checkout of the cacore SDK -->
+	<target name="checkOutCacoreFromSvn" depends="defineSvnantTask">
+		<svn>
+			<export srcUrl="${sdk.svn.url}" destPath="${sdk.checkout.dir}"/>
+		</svn>
 	</target>
 	
 	

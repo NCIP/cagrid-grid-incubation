@@ -28,7 +28,8 @@
 	<property name="tranaslator.jarfile" value="${jar.dir}/${project.name}-translator-${project.version}.jar" />
 	<property name="ext.dir" value="${basedir}/ext" />
 	<property name="ext.lib.dir" value="${ext.dir}/dependencies/jars" />
-	<property name="ext.test.lib.dir" location="${ext.dir}/dependencies/test/jars" />
+	<property name="ext.test.lib.dir" location="${ext.dir}/dependencies/test/jars"/>
+	<property name="svnant.lib.dir" location="${ext.dir}/dependencies/svnant/jars"/>
 	<property name="lib.dir" location="${basedir}/lib"/>
 	<property name="sdk.client.dir" location="${basedir}/sdk/local-client"/>
 	<property name="sdk.lib.dir" location="${sdk.client.dir}/lib"/>

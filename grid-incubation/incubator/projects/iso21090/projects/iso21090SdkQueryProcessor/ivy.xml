@@ -12,6 +12,9 @@
     <!-- Private Configurations-->
     <conf name="impl" visibility="private" extends="translator,queryProcessor,style" />
     <conf name="impl-test" visibility="private"/>
+    
+    <!-- svn ant task config -->
+    <conf name="svnant" visibility="private"/>
 
     <!-- Public Configurations-->
     <conf name="translator" visibility="public"/>
@@ -64,6 +67,7 @@
     <dependency rev="3.2" org="apache" name="commons-collections" conf="translator->default" />
     <dependency rev="2.0.0" org="jgoodies" name="validation" conf="style->default"/>
     
-    <!-- dependency on the ISO data types -->
+    <!-- SVN ant task -->
+    <dependency org="subversion" name="svnant" rev="1.3.0" conf="svnant->default"/>
   </dependencies>
 </ivy-module>
