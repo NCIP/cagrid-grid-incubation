@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -26,7 +25,6 @@ import org.hibernate.annotations.NotFoundAction;
 
 
 @Entity
-//@Table(name = "redcap_events_forms")
 @Table(name = "redcap_events_metadata")
 
 public class Events  implements java.io.Serializable {
@@ -36,7 +34,6 @@ public class Events  implements java.io.Serializable {
     private List<Forms> formsRefsCollection;
 	
     private org.cagrid.redcap.EventArms eventArmRefs;
-    
     
     private int eventId;  
    
@@ -59,11 +56,6 @@ public class Events  implements java.io.Serializable {
     }
 
 
-    //UNIDIRECTIONAL
-//    @OneToMany
-//	@JoinColumn(name="event_id")
-//	@IndexColumn(name="project_id")
-    
     //BIDIRECTIONAL
     @OneToMany(mappedBy="eventsCollection")
 	@IndexColumn(name="project_id")
@@ -85,82 +77,10 @@ public class Events  implements java.io.Serializable {
         this.eventsCalendarRefs[i] = _value;
     }
 
-
-   
-//    @LazyCollection(value=LazyCollectionOption.FALSE)
-//    @ManyToMany
-//    @JoinTable(name="redcap_events_forms",
-//			joinColumns={@JoinColumn(name="event_id")}
-//			,
-//			inverseJoinColumns={@JoinColumn(name="form_name", referencedColumnName="form_name"
-//				,unique=true)
-//		}
-//	)
-    
-    //working THIS WORKS IF USED FOR UNIDIRECTIONAL events-forms
-//    @LazyCollection(value=LazyCollectionOption.FALSE)
-//    @ManyToMany
-//    @JoinTable(name="redcap_data",
-//			joinColumns={@JoinColumn(name="event_id")}
-//			,
-//			inverseJoinColumns={@JoinColumn(name="project_id", 
-//					referencedColumnName="project_id"
-//				,unique=true),
-//				@JoinColumn(name="field_name",referencedColumnName="field_name")
-//		}
-//	)
-//	@NotFound(action=NotFoundAction.IGNORE)
-
-	
-	//BIDIRECTIONAL WORKS BUT NOT RIGHT APPROACH AS jointable has to be redcap_event_forms
+    //BIDIRECTIONAL WORKS BUT NOT RIGHT APPROACH AS jointable has to be redcap_event_forms
     @LazyCollection(value=LazyCollectionOption.FALSE)
 	@ManyToMany(mappedBy="eventsRefsCollection")
 	@NotFound(action=NotFoundAction.IGNORE)
-//	 @JoinTable(name="redcap_data",
-//				joinColumns={@JoinColumn(name="event_id",
-//						referencedColumnName="event_id",
-//						insertable=false,updatable=false)}
-//						
-//				,
-//				inverseJoinColumns={@JoinColumn(name="project_id",
-//						referencedColumnName="project_id",
-//						insertable=false,updatable=false),
-//						@JoinColumn(name="field_name",
-//								referencedColumnName="field_name",
-//								insertable=false,updatable=false)
-//			}
-//		)
-//		@IndexColumn(name="record")
-	
-	
-	//rest of the unidirectional stuff
-//    @LazyCollection(value=LazyCollectionOption.FALSE)
-//    @ManyToMany
-//    @JoinTable(name="redcap_events_calendar",
-//			joinColumns={@JoinColumn(name="event_id")}
-//			,
-//			inverseJoinColumns={@JoinColumn(name="project_id", 
-//					referencedColumnName="project_id"
-//				)
-//		}
-//	)
-//	@NotFound(action=NotFoundAction.IGNORE)
-    
-//    @LazyCollection(value=LazyCollectionOption.FALSE)
-//    @ManyToMany
-//    @JoinTable(name="redcap_events_arms",
-//			joinColumns={@JoinColumn(name="arm_id")}
-//			,
-//			inverseJoinColumns={@JoinColumn(name="project_id", 
-//					referencedColumnName="project_id"
-//				,unique=true)
-//				
-//		}
-//	)
-//	@NotFound(action=NotFoundAction.IGNORE)
-    
-    
-//	@Transient
     public List<Forms> getFormsRefsCollection() {
         return formsRefsCollection;
     }
@@ -181,9 +101,6 @@ public class Events  implements java.io.Serializable {
     //BIDIRECTIONAL
     @ManyToOne
     @JoinColumn(name="arm_id")
-    
-    //UNIDIRECTIONAL
-    //@Transient
     public org.cagrid.redcap.EventArms getEventArmRefs() {
         return eventArmRefs;
     }

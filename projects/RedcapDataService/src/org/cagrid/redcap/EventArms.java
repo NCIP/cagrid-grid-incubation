@@ -14,8 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.IndexColumn;
 
 @Entity
@@ -56,11 +54,6 @@ public class EventArms  implements java.io.Serializable {
     //BIDIRECTIONAL
     @OneToMany(mappedBy="eventArmRefs")
     @IndexColumn(name="event_id")
-    
-    //UNIDIRECTIONAL
-//   @OneToMany
-//	@JoinColumn(name="arm_id")
-//	@IndexColumn(name="event_id")
     public org.cagrid.redcap.Events[] getEventFormsCollection() {
         return eventFormsCollection;
     }
@@ -81,9 +74,6 @@ public class EventArms  implements java.io.Serializable {
     //BIDIRECTIONAL
     @ManyToOne
     @JoinColumn(name="project_id",insertable=false,updatable=false) 
-    
-    //UNIDIRECTIONAL
-    //@Transient
     public org.cagrid.redcap.Projects getProjectsRef() {
         return projectsRef;
     }

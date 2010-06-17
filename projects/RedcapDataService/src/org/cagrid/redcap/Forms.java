@@ -7,25 +7,17 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.annotations.Proxy;
 
 @Entity
 @Table(name = "redcap_metadata")
@@ -85,8 +77,6 @@ public class Forms implements java.io.Serializable {
 	private java.lang.String fieldUnits;
 
 	private java.lang.String formMenuDescription;
-
-	
 
 	@Column(name="field_name",insertable=false,updatable=false)
 	public java.lang.String getFieldName() {
@@ -150,17 +140,6 @@ public class Forms implements java.io.Serializable {
 			this.formMenuDescription = formMenuDescription;
 	}
 	
-	//UNIDIRECTIONAL from forms-data
-	
-//	@LazyCollection(LazyCollectionOption.EXTRA)
-//	@OneToMany(fetch=FetchType.LAZY)
-//	@JoinColumns( {
-//		@JoinColumn(name = "field_name"),
-//		@JoinColumn(name = "project_id")
-//		
-//	})
-//	@IndexColumn(name = "record")
-	
 	//BIDIRECTIONAL forms-data
 	@LazyCollection(LazyCollectionOption.EXTRA)
 	@OneToMany(mappedBy="dataRef",fetch=FetchType.LAZY)
@@ -210,8 +189,6 @@ public class Forms implements java.io.Serializable {
 	@ManyToOne
 	@JoinColumn(name="project_id",referencedColumnName="project_id",insertable=false,updatable=false)
 	
-	//UNIDIRECTIONAL
-	//@Transient
 	public org.cagrid.redcap.Projects getProjectsFormsRef() {
 		return projectsFormsRef;
 	}
@@ -238,8 +215,6 @@ public class Forms implements java.io.Serializable {
 		@IndexColumn(name="record")
 		@NotFound(action=NotFoundAction.IGNORE)
 	
-	//UNIDIRECTIONAL
-	//@Transient
 	public org.cagrid.redcap.Events[] getEventsRefsCollection() {
 		return eventsRefsCollection;
 	}
@@ -519,9 +494,6 @@ public class Forms implements java.io.Serializable {
 	public void setFormMenuDescription(java.lang.String formMenuDescription) {
 		this.formMenuDescription = formMenuDescription;
 	}
-
-	
-	
 	
 	@Transient
 	private java.lang.Object __equalsCalc = null;

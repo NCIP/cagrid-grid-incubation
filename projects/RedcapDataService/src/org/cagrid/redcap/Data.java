@@ -83,9 +83,6 @@ public class Data  implements java.io.Serializable {
 	
 	})
 	@NotFound(action=NotFoundAction.IGNORE)
-    
-	//UNIDIRECTIONAL
-	//@Transient
     public org.cagrid.redcap.Forms getDataRef() {
         return dataRef;
     }

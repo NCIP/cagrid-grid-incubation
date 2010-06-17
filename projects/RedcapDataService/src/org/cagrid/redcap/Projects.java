@@ -10,9 +10,6 @@ package org.cagrid.redcap;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -226,11 +223,6 @@ import org.hibernate.annotations.IndexColumn;
            this.status = status;
     }
     
-    //UNIDIRECTIONAL projects-eventArms
-//    @OneToMany
-//    @JoinColumn(name="project_id") 
-//	@IndexColumn(name = "arm_id")
-	
 	//BIDIRECTIONAL
     @OneToMany(mappedBy="projectsRef")
     @IndexColumn(name = "arm_id")
@@ -253,11 +245,6 @@ import org.hibernate.annotations.IndexColumn;
     }
 
 
-    //UNIDIRECTIONAL
-//    @OneToMany
-//	@JoinColumn(name="project_id") 
-//	@IndexColumn(name = "event_id")
-    
     //BIDIRECTIONAL
     @OneToMany(mappedBy="projectsCalendarRef")
     @IndexColumn(name="cal_id")
@@ -278,21 +265,9 @@ import org.hibernate.annotations.IndexColumn;
         this.eventsCalendarRef[i] = _value;
     }
 
-    //UNIDIRECTIONAL projects-forms
-//    @OneToMany
-//    @JoinColumns({
-//        @JoinColumn(name="project_id",referencedColumnName="project_id")
-//        
-//    })
-//	@IndexColumn(name="field_order")
-	
 	//BIDIRECTIONAL projects-forms
 	@OneToMany(mappedBy="projectsFormsRef")
 	@IndexColumn(name="field_order")
-	
-	//NO ASSOCIATION
-	//@Transient
-    
     public org.cagrid.redcap.Forms[] getFormsRefCollection() {
         return formsRefCollection;
     }
