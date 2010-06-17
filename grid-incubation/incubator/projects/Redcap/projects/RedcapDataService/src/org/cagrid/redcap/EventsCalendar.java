@@ -21,17 +21,11 @@ public class EventsCalendar  implements java.io.Serializable {
 	//BIDIRECTIONAL
 	@ManyToOne
 	@JoinColumn(name="event_id",insertable=false,updatable=false)
-	
-	
-	//UNIDIRECTIONAL
-	//@Transient
     private org.cagrid.redcap.Events eventsCollection;
     
     //UNIDIRECTIONAL
 	@ManyToOne
 	@JoinColumn(name="project_id",insertable=false,updatable=false)
-	//BIDIRECTIONAL
-	//@Transient
     private org.cagrid.redcap.Projects projectsCalendarRef;
    
     @Column(name = "baseline_date")
@@ -61,7 +55,6 @@ public class EventsCalendar  implements java.io.Serializable {
 	
 	@Column(name = "note_type")
     private java.lang.String noteType;
-	
 	
 	@Column(name = "project_id")
     private int projectId;
