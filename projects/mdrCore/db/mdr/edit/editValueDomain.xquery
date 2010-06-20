@@ -76,7 +76,10 @@ declare function local:value_domain(
    $enum_uom as xs:string?,
    $char_quantity as xs:string?,
    $value_domain_format as xs:string?,
-   $values as xs:string*
+   $values as xs:string*,
+   (: added this so that the selected version is saved in the xml:)
+   $proposedVersion as xs:float?
+   
    ) as xs:boolean
 {        
    let $version := lib-forms:substring-after-last($id,'_')
@@ -120,14 +123,20 @@ declare function local:value_domain(
       element openMDR:Enumerated_Value_Domain {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
+            (:
             attribute version {$version},
+            :)
+            attribute version {$proposedVersion},
             $content
            }
       ) else (
        element openMDR:Non_Enumerated_Value_Domain {
             attribute item_registration_authority_identifier {$reg-auth},
             attribute data_identifier {$data-identifier},
+            (:
             attribute version {$version},
+            :)
+            attribute version {$proposedVersion},
             $content
            }
       )
@@ -164,7 +173,10 @@ declare function local:input-page(
    $enum_uom as xs:string?,
    $char_quantity as xs:string?,
    $value_domain_format as xs:string?,
-   $values as xs:string*
+   $values as xs:string*,
+   (:11111111111111111:)
+   $version as xs:float?
+   
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -185,7 +197,7 @@ declare function local:input-page(
                 {lib-forms:hidden-element('id',$id)}
                 {lib-forms:hidden-element('updating','updating')}
                 
-                {lib-forms:edit-admin-item($reg-auth,
+                {lib-forms:edit-admin-item-edit($reg-auth,
                      $administrative-note,
                      $administrative-status,
                      $administered-by,
@@ -198,7 +210,10 @@ declare function local:input-page(
                      $definitions,
                      $sources,
                      $preferred,
-                     $action)}
+                     $action,
+                     (:111111111111111111111111:)
+                     $version
+                     )}
                                   
                     <table class="section">
                         <tr>
@@ -360,6 +375,21 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $enum_uom := request:get-parameter('enum_uom','')
    let $char_quantity := request:get-parameter('char_quantity','')
    let $value_domain_format := request:get-parameter('value_domain_format','')
+   (:11111111111111111111111111:)
+    let $log := util:log-system-out('printing iversion................')
+   let $iversion := data($element/@version)
+   let $version := request:get-parameter('version','')
+   let $log := util:log-system-out($iversion)   
+   
+   let $log := util:log-system-out($iversion)
+   let $log := util:log-system-out($version)
+   let $version := $iversion
+   (:getting proposed version and release version :)
+   let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
+   let $log := util:log-system-out('printing proposed version.....from here...........')
+   let $version := round-half-to-even(xs:float($proposedNextVersion),2)
+   let $log := util:log-system-out('printing proposed version.....from here...........')
+   let $log := util:log-system-out($version)
    
    return
       lib-rendering:txfrm-webpage(
@@ -390,7 +420,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $enum_uom,
                      $char_quantity,
                      $value_domain_format,
-                     $values
+                     $values,
+                      (: added this so that the version gets saved:)
+                     $version
                   )
             ) 
          then (local:success-page()  )
@@ -416,7 +448,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $enum_uom,
                      $char_quantity,
                      $value_domain_format,
-                     $values
+                     $values,
+                      (: added this so that the version gets saved:)
+                     $version
                      )
                )
          )
@@ -448,7 +482,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_uom,
                $char_quantity,
                $value_domain_format,
-               $values
+               $values,
+                (: added this so that the version gets saved:)
+                     $version
                )
          )
          else if($conceptual_domain_id eq "Cancel")
@@ -476,7 +512,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_uom,
                $char_quantity,
                $value_domain_format,
-               $values
+               $values,
+                (: added this so that the version gets saved:)
+                     $version
                ),
                session:set-attribute("conceptual_domain_id", $iconceptual_domain_id)
         ) 
@@ -507,7 +545,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_uom,
                $char_quantity,
                $value_domain_format,
-               $values
+               $values,
+                (: added this so that the version gets saved:)
+                     $version
                )
          ) else (
                local:input-page
@@ -533,7 +573,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $ienum_uom,
                $ichar_quantity,
                $ivalue_domain_format,
-               $ivalues
+               $ivalues,
+                (: added this so that the version gets saved:)
+                     $version
                )
          )
        )    

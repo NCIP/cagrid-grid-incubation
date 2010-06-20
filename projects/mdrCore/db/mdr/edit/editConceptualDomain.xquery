@@ -1,3 +1,4 @@
+
 xquery version "1.0";
 
 
@@ -71,13 +72,15 @@ declare function local:conceptual-domain(
    $sources as xs:string*,
    $preferred as xs:string?,
    $meanings as xs:string*,
-   $value_meaning_identifiers as xs:string*
+   $value_meaning_identifiers as xs:string*,
+   (: added this so that the selected version is saved in the xml:)
+   $proposedVersion as xs:float?,
+   $value_meaning_uri as xs:string*
    ) as xs:boolean
 {
    let $version := lib-forms:substring-after-last($id,'_')
    let $vmid := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
-
    let $doc-name := concat($id,'.xml')
 
    let $content := (
@@ -91,6 +94,8 @@ declare function local:conceptual-domain(
                     $definitions,
                     $preferred,
                     $sources), 
+                   
+                                       
                     for $meaning at $pos in $meanings
                     return
                     if($meaning >'') then
@@ -98,9 +103,10 @@ declare function local:conceptual-domain(
                        {
                         element openMDR:value_meaning_begin_date {$creation-date},
                         element openMDR:value_meaning_description {$meaning},
-                        element openMDR:value_meaning_identifier {$value_meaning_identifiers[$pos]}
+                        element openMDR:value_meaning_identifier {$value_meaning_identifiers[$pos]},
+                        element openMDR:value_meaning_uri {$value_meaning_uri[$pos]}
                        }
-                       else()
+                       else(element openMDR:value_meaning_uri {$value_meaning_uri[$pos]})
                     )
                         
    (: compose the document :)
@@ -109,19 +115,25 @@ declare function local:conceptual-domain(
           element openMDR:Enumerated_Conceptual_Domain {
                 attribute item_registration_authority_identifier {$reg-auth},
                 attribute data_identifier {$data-identifier},
-                attribute version {$version},
+                (:
+            attribute version {$version},
+            :)
+            attribute version {$proposedVersion},
                 $content
                }
       ) else (
           element openMDR:Non_Enumerated_Conceptual_Domain {
                 attribute item_registration_authority_identifier {$reg-auth},
                 attribute data_identifier {$data-identifier},
-                attribute version {$version},
+               (:
+            attribute version {$version},
+            :)
+            attribute version {$proposedVersion},
                 $content
                }
       )
    )
-  
+   
    let $collection := 'conceptual-domain'
    let $message := lib-forms:store-document($document) 
    return
@@ -148,7 +160,10 @@ declare function local:input-page(
    $action as xs:string?,
    $preferred as xs:string?,
    $meanings as xs:string*,
-   $value_meaning_identifiers as xs:string*
+   $value_meaning_identifiers as xs:string*,
+    (:11111111111111111:)
+   $version as xs:float?,
+   $value_meaning_uri as xs:string*
    ) 
    {
        let $skip-name := substring-after($action,'delete naming entry')
@@ -171,7 +186,7 @@ declare function local:input-page(
              <div class="section">
              {lib-forms:hidden-element('id',$id)}
              {lib-forms:hidden-element('updating','updating')}                     
-             {lib-forms:edit-admin-item($reg-auth,
+             {lib-forms:edit-admin-item-edit($reg-auth,
                      $administrative-note,
                      $administrative-status,
                      $administered-by,
@@ -184,7 +199,10 @@ declare function local:input-page(
                      $definitions,
                      $sources,
                      $preferred,
-                     $action)}
+                     $action,
+                      (:111111111111111111111111:)
+                     $version
+                     )}
                      
                 <table class="layout">
                    <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
@@ -199,7 +217,7 @@ declare function local:input-page(
                       <td>{lib-forms:action-button('update', 'action' ,'')}</td>
                      </tr>,
                      <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>,     
-                     <tr><td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>                     
+                     <tr><td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>  <td>Reference URI</td>                   
                      </tr>,
                      
                               
@@ -209,15 +227,15 @@ declare function local:input-page(
                         return (
                            <tr>
                               <td class="left_header_cell">Value {$location} Meaning</td>
-                              <td>{lib-forms:input-element('meanings', 60, $meaning)}</td>
-                              <td>{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
+                              <td>{lib-forms:input-element('meanings', 30, $meaning)}{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
+                              <td>{lib-forms:find-concept-id-CD('property_uri','get concept',$value_meaning_uri[$pos])}{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
                               <td>{lib-forms:hidden-element('value_meaning_identifiers',$value_meaning_identifiers[$pos])} </td>
                            </tr>
                            ),
                            <tr>
                               <td class="left_header_cell">New Value Meaning</td>
-                              <td>{lib-forms:input-element('meanings', 60, '')}</td>
-                              <td>{lib-forms:action-button('add new value meaning', 'action' ,'')}</td>
+                              <td>{lib-forms:input-element('meanings', 30, '')}{lib-forms:action-button('add new value meaning', 'action' ,'')}</td>
+                               <td>{lib-forms:find-concept-id-CD('property_uri','get concept','')}</td>
                            </tr>
                     ) 
                     else 
@@ -314,6 +332,29 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $preferred := request:get-parameter('preferred','')
    let $meanings := request:get-parameter('meanings','')
    let $value_meaning_identifiers := request:get-parameter('value_meaning_identifiers','')
+
+(:11111111111111111111111111:)
+    let $log := util:log-system-out('printing iversion................')
+   let $iversion := data($element/@version)
+   let $version := request:get-parameter('version','')
+   let $log := util:log-system-out($iversion)   
+   
+   let $log := util:log-system-out($iversion)
+   let $log := util:log-system-out($version)
+   let $version := $iversion
+   (:getting proposed version and release version :)
+   let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
+   let $log := util:log-system-out('printing proposed version.....from here...........')
+   let $version := round-half-to-even(xs:float($proposedNextVersion),2)
+   let $log := util:log-system-out('printing proposed version.....from here...........')
+   let $log := util:log-system-out($version)
+   
+   let $ivalue_meaning_uri := data($element//openMDR:Value_Meaning/openMDR:reference_uri)
+   let $value_meaning_uri := request:get-parameter('property_uri','')
+   let $log := util:log-system-out('.............................')
+   let $log := util:log-system-out($value_meaning_uri)   
+   let $log := util:log-system-out($ivalue_meaning_uri)
+   let $value_meaning_uri := $ivalue_meaning_uri
    return
    
       lib-rendering:txfrm-webpage(
@@ -340,7 +381,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $sources,
                      $preferred,
                      $meanings,
-                     $value_meaning_identifiers
+                     $value_meaning_identifiers,
+                      (: added this so that the version gets saved:)
+                     $version,
+                     $value_meaning_uri
+                     
                   )
             ) 
          then (local:success-page())
@@ -362,7 +407,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action,
                      $preferred,
                      $meanings,
-                     $value_meaning_identifiers
+                     $value_meaning_identifiers,
+                      (: added this so that the version gets saved:)
+                     $version,
+                     $value_meaning_uri
                   )
                )
          )
@@ -388,7 +436,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $preferred,
                $meanings,
-               $value_meaning_identifiers
+               $value_meaning_identifiers,
+                (: added this so that the version gets saved:)
+                     $version,
+                     $value_meaning_uri
                )
          ) else (
                local:input-page
@@ -410,12 +461,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $ipreferred,
                $imeanings,
-               $ivalue_meaning_identifiers
+               $ivalue_meaning_identifiers,
+                (: added this so that the version gets saved:)
+                     $version,
+                     $value_meaning_uri
                )
          )
        )
     )
-       
-
-
-

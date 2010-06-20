@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:include href="lib-rendering-new.xsl"/>
     <xsl:output method="html" media-type="text/html" indent="yes" doctype-public="-//W3C//DTD XHTML 1,0 Transitional//EN" doctype-system="http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd" omit-xml-declaration="no" exclude-result-prefixes="openMDR dc iaaaterm xs rdf cgResolver skos dcterms ISO11179"/>
     
@@ -440,7 +439,7 @@
     <xsl:template name="data-element-summary-anchor">
         <xsl:param name="id"/>
         <xsl:param name="preferred-name"/>
-        <a href="{concat('../web/data_element_summary.xquery?compound_id=',$id)}">
+        <a href="{concat('../web/data_element.xquery?compound_id=',$id)}">
             <xsl:value-of select="$preferred-name"/>
         </a>
     </xsl:template>
@@ -555,28 +554,28 @@
     
     <!-- Rearranging the Maintenance Page in tabs-->
     <xsl:template match="functions">
-        <table class="section" border="0" cellpadding="4">    
+        <table class="section" border="0" cellpadding="4">
             <table class="section">
                 <tr>
                     <td>
                         <div class="tabber">
-            <xsl:apply-templates select="subheading"/>
+                            <xsl:apply-templates select="subheading"/>
                         </div>
                     </td>
-                </tr>                
+                </tr>
             </table>
-        </table>         
-    </xsl:template>               
+        </table>
+    </xsl:template>
     <xsl:template match="subheading">
         <div class="tabbertab">
             <p>
-                <h2>   
-                    <xsl:value-of select="@title"/>                                                                   
-                </h2> 
+                <h2>
+                    <xsl:value-of select="@title"/>
+                </h2>
             </p>
             <xsl:apply-templates select="function"/>
         </div>
-    </xsl:template>  
+    </xsl:template>
     <xsl:template match="function">
         <table class="section">
             <tr>
@@ -586,11 +585,11 @@
                     </a>
                 </td>
                 <td colspan="5">
-                    <xsl:value-of select="description"/> 
+                    <xsl:value-of select="description"/>
                 </td>
             </tr>
         </table>
-   </xsl:template>
+    </xsl:template>
     
     <!--display test results-->
     <xsl:template match="test-results">

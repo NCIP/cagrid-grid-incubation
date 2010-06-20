@@ -70,7 +70,10 @@ declare function local:data_element_concept(
     
    $conceptual_domain_id as xs:string?,
    $object_class_id as xs:string?,
-   $property_id as xs:string?
+   $property_id as xs:string?,
+    (: added this so that the selected version is saved in the xml:)
+   $proposedVersion as xs:float?
+   
    ) as xs:string
    {
    let $version := '0.1'
@@ -141,7 +144,8 @@ let $property :=
    (: compose the document :)
    let $document :=
       element openMDR:Data_Element_Concept {
-            lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier,$version),
+            (:11111111111111 adding proposed version for version:)
+            lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier,string($proposedVersion)),
             $content
            }
    let $collection := 'data_element_concept'
@@ -189,7 +193,9 @@ declare function local:input-page(
    
    $conceptual_domain_id as xs:string?,
    $object_class_id as xs:string?,
-   $property_id as xs:string?
+   $property_id as xs:string?,
+    (:11111111111111111:)
+   $version as xs:float?
    ) 
    
    {
@@ -211,7 +217,7 @@ declare function local:input-page(
              {lib-forms:hidden-element('id',$id)}
              {lib-forms:hidden-element('updating','updating')}
                 
-             {lib-forms:edit-admin-item($reg-auth,
+             {lib-forms:edit-admin-item-edit($reg-auth,
                      $administrative-note,
                      $administrative-status,
                      $administered-by,
@@ -224,7 +230,10 @@ declare function local:input-page(
                      $definitions,
                      $sources,
                      $preferred,
-                     $action)}
+                     $action,
+                      (:111111111111111111111111:)
+                     $version
+                     )}
                      
                <table class="layout">
                <tr>
@@ -385,6 +394,20 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
     let $iobject_class_uri :=$element//openMDR:object_class_qualifier
     let $iproperty_uri :=$element//openMDR:property_qualifier
     
+    (:11111111111111111111111111:)
+   
+   let $iversion := data($element/@version)
+   let $version := request:get-parameter('version','')
+     
+   
+ 
+   let $version := $iversion
+   (:getting proposed version and release version :)
+   let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
+  
+   let $version := round-half-to-even(xs:float($proposedNextVersion),2)
+   
+   
     return
       lib-rendering:txfrm-webpage(
       $title,
@@ -411,7 +434,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $preferred,
                      $conceptual_domain_id,
                      $object_class_id,
-                     $property_id
+                     $property_id,
+                     (: added this so that the version gets saved:)
+                     $version
                   )
             ) 
          then (local:success-page()  )
@@ -434,7 +459,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action,
                      $conceptual_domain_id,
                      $object_class_id,
-                     $property_id
+                     $property_id,
+                     (: added this so that the version gets saved:)
+                     $version
                   )
                )
          )
@@ -461,7 +488,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $conceptual_domain_id,
                $object_class_id,
-               $property_id
+               $property_id,
+               (: added this so that the version gets saved:)
+                     $version
                )
          ) else (
                local:input-page
@@ -484,7 +513,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $iconceptual_domain_id,
                $iobject_class_id,
-               $iproperty_id
+               $iproperty_id,
+               (: added this so that the version gets saved:)
+                     $version
                )
          )
        )

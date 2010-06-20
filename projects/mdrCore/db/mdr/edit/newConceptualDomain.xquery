@@ -51,7 +51,7 @@ declare function local:conceptual-domain(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $uri as xs:string?,
+   $uri as xs:string*,
    $preferred as xs:string?,
    $meanings as xs:string*
    ) as xs:boolean
@@ -81,7 +81,8 @@ declare function local:conceptual-domain(
                         element openMDR:Value_Meaning {
                           element openMDR:value_meaning_begin_date {$creation-date},
                           element openMDR:value_meaning_description {$meaning},
-                          element openMDR:value_meaning_identifier {$vmid}
+                          element openMDR:value_meaning_identifier {$vmid},
+                          element openMDR:reference_uri {$uri[$pos]}
                         }
                  )
 
@@ -126,15 +127,15 @@ declare function local:input-page(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $property_uri as xs:string?,
+   $property_uri as xs:string*,
    $action as xs:string?,
    $preferred as xs:string?,
    $meanings as xs:string*
    ) {
-   
+    (:1111111111111111111:)
+   let $version := '0.1'
    let $skip-name := substring-after($action,'delete value meaning')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
-
    return
    (
    
@@ -143,11 +144,11 @@ declare function local:input-page(
       <table class="layout">
           <tr>
              <td>
-                This form will allow you to create a new property in the metadata repository
+                This form will allow you to create a new Conceptual Domain in the metadata repository
              </td>
           </tr>
           <tr><td>
-          <form name="new_value_domain" action="newConceptualDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="new_value_domain" action="newConceptualDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
              <div class="section">
                          
            {lib-forms:edit-admin-item($reg-auth,
@@ -163,7 +164,10 @@ declare function local:input-page(
                      $definitions,
                      $sources,
                      $preferred,
-                     $action)}
+                     $action,
+                     (:11111111111111111:)
+                     $version
+                     )}
                      
                 <table class="layout">
                    <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>
@@ -179,24 +183,22 @@ declare function local:input-page(
                      <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>,
       
                      <tr>
-                      <td class="left_header_cell">Value Domain Meanings</td><td>meaning</td>
+                      <td class="left_header_cell">Value Domain Meanings</td><td>Meaning</td><td>Reference URI</td>
                      </tr>,
-                  
-                      
                         for $meaning at $pos in $meanings
                         let $location := if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos)
                         where $pos != $skip-name-index and $meaning > ""
                         return (
                            <tr>
                               <td class="left_header_cell">Value {$location} Meaning</td>
-                              <td>{lib-forms:input-element('meanings', 60, $meaning)}</td>
-                              <td>{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
+                              <td>{lib-forms:input-element('meanings', 30, $meaning)}{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
+                              <td>{lib-forms:find-concept-id-CD('property_uri','get concept',$property_uri[$pos])}</td>
                            </tr>
                            ),
                            <tr>
                               <td class="left_header_cell">New Value Meaning</td>
-                              <td>{lib-forms:input-element('meanings', 60, '')}</td>
-                              <td>{lib-forms:action-button('add new value meaning', 'action' ,'')}</td>
+                              <td>{lib-forms:input-element('meanings', 30, '')}{lib-forms:action-button('add new value meaning', 'action' ,'')}</td>
+                              <td>{lib-forms:find-concept-id-CD('property_uri','get concept','')}</td>
                            </tr>
                        
                  ) 

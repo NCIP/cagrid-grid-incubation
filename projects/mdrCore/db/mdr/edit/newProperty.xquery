@@ -121,6 +121,8 @@ declare function local:input-page(
    $action as xs:string?,
    $preferred as xs:string?
    ) {
+   (:1111111111111111111:)
+   let $version := '0.1'
    
    let $skip-name := substring-after($action,'delete uri entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -150,7 +152,10 @@ declare function local:input-page(
                      $definitions,
                      $sources,
                      $preferred,
-                     $action)}
+                     $action,
+                     (:11111111111111111:)
+                     $version
+                     )}
                      
                      
                 <table class="section">

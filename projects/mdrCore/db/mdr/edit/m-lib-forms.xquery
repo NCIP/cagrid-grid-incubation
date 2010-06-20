@@ -149,6 +149,22 @@ declare function lib-forms:select-filler($id as xs:string?, $name as xs:string?,
       }
 };
 
+(:
+This function takes in the organization name as well along with id and name
+and concats with the name to be displayed in the administered by and
+submitted by dropdown in creation of administered items
+:)
+declare function lib-forms:select-filler-nameAndOrg($id as xs:string?, $name as xs:string?, $received-value as xs:string?, $org as xs:string*) as node()
+{
+   element option {
+      attribute value {$id},
+      if ($id=$received-value) then (attribute selected {'selected'}) else (),
+      concat($name,', ',$org)
+      }
+};
+
+
+
 declare function lib-forms:make-select-submitted_by($received-value as xs:string) as node()
 {
    element select {
@@ -163,8 +179,27 @@ declare function lib-forms:make-select-submitted_by($received-value as xs:string
       }
 };
 
-declare function lib-forms:make-select-administered_by($received-value as xs:string) as node()
+(:
+This function is to display the name,organization name values in drop down
+for submitted_by field in creation of administered objects screen
+:)
+declare function lib-forms:make-select-submitted_by-nameAndOrg($received-value as xs:string) as node()
 {
+   element select {
+      attribute id {'submitted-by'},
+      attribute name {'submitted-by'}, 
+      lib-forms:blank-filler(),      
+      for $item in lib-util:mdrElements('organization')//openMDR:Organization
+      let $name:= data($item//openMDR:Contact//openMDR:contact_name)
+      let $id:= data($item//openMDR:Contact//@contact_identifier)
+      let $organization := data($item//openMDR:organization_name)
+      order by $name
+      return lib-forms:select-filler-nameAndOrg($id, $name, $received-value,data($organization))
+      }
+};
+
+declare function lib-forms:make-select-administered_by($received-value as xs:string) as node()
+{ 
    element select {
       attribute id {'administered-by'},
       attribute name {'administered-by'},
@@ -174,6 +209,26 @@ declare function lib-forms:make-select-administered_by($received-value as xs:str
       let $id:= data($item//@contact_identifier)
       order by $name
       return lib-forms:select-filler($id, $name, $received-value)
+      }
+};
+
+(:
+Function to display the name and organization in the drop down
+in the create new administered item screen
+:)
+declare function lib-forms:make-select-administered_by-nameAndOrg($received-value as xs:string) as node()
+{ 
+   element select {
+      attribute id {'administered-by'},
+      attribute name {'administered-by'},
+      lib-forms:blank-filler(),
+              
+      for $item in lib-util:mdrElements('organization')//openMDR:Organization
+      let $name:= data($item//openMDR:Contact//openMDR:contact_name)
+      let $id:= data($item//openMDR:Contact//@contact_identifier)
+      let $organization := data($item//openMDR:organization_name)
+      order by $name 
+      return lib-forms:select-filler-nameAndOrg($id, $name, $received-value, data($organization))
       }
 };
 
@@ -457,7 +512,9 @@ declare function lib-forms:edit-admin-item(
    $definitions as xs:string*,
    $sources as xs:string*,
    $preferred as xs:string?,
-   $action as xs:string?
+   $action as xs:string?,
+   (:1111111111111111111111111111111:)
+   $version
 ){
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -474,9 +531,10 @@ declare function lib-forms:edit-admin-item(
          <p>
             <table class="section">
                 <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+                <tr><td class="left_header_cell">Version11111111111111</td><td colspan="5"> {$version}{lib-forms:radio('label',$version,'true')} </td></tr>
                 <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
-                <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by($administered-by)} </td></tr>
-                <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by($submitted-by)} </td></tr>
+                <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
+                <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
                 <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
                 <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>        
             </table>
@@ -558,7 +616,7 @@ declare function lib-forms:edit-admin-item(
           if($names > '') then (
             <h2>New Naming Entry</h2>
            ) else (
-            <h2>Name 1</h2>
+            <h2>Preferred Name</h2>
            )
           }
               <p>
@@ -594,8 +652,8 @@ declare function lib-forms:edit-admin-item(
                     <tr>
                        <td class="left_header_cell">Language Identifier</td>
                        <td colspan="5">
-                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(),'')}
-                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), '')}
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(),'US')}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), 'eng')}
                       </td>
                     </tr>
                     
@@ -801,6 +859,200 @@ declare function lib-forms:edit-admin-item(
 
 </table>
 };
+
+(:1111111111111111111111111111111 edit object class adding this for edit object class:)
+declare function lib-forms:edit-admin-item-edit(
+ $reg-auth as xs:string?,
+   $administrative-note  as xs:string?,
+   $administrative-status  as xs:string?,
+   $administered-by  as xs:string?,
+   $submitted-by  as xs:string?,
+   $registered-by  as xs:string?,
+   $context-ids as xs:string*,
+   $country-identifiers as xs:string*,
+   $language-identifiers as xs:string*,
+   $names as xs:string*,
+   $definitions as xs:string*,
+   $sources as xs:string*,
+   $preferred as xs:string?,
+   $action as xs:string?,
+   
+   $version as xs:float?
+){
+ let $proposedNextVersion := $version + 0.1
+ let $proposedReleaseVersion := ceiling($proposedNextVersion)
+ 
+ let $skip-name := substring-after($action,'delete naming entry')
+   let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+   let $test as xs:string? := ""
+   return
+   
+<table class="section">
+   <tr><td class="row-header-cell" colspan="6">Standard Administered Item Metadata</td></tr>
+   <tr>
+   <td>
+   <div class="tabber">
+     <div id='validate'class="tabbertab">
+         <h2>Administered Item Metadata</h2>
+         <p>
+            <table class="section">
+                <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+                <tr><td class="left_header_cell">Existing Version</td><td colspan="5"> {$version}{lib-forms:radio('version',string($version),'true')} </td></tr>
+                <tr><td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {$proposedNextVersion}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td></tr>
+                <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
+                <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
+                <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
+                <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+                <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>        
+            </table>
+          </p>
+     </div>
+        {
+        if($names > '') then (
+        
+     
+        for $name at $pos in $names
+        let $location := (if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos))
+        where $pos != $skip-name-index and $name > ""
+        return
+        (
+        <div class="tabbertab">
+          <h2>Naming {$location}</h2>
+          <p>
+              <table class="section">
+
+                <tr>
+                   <td class="left_header_cell">Context</td>
+                   <td colspan="5">
+                      {lib-forms:select-from-contexts-enum('context-ids',$context-ids[$pos])}
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Name <font color="red">*</font></td>
+                   <td colspan="5">
+                      {lib-forms:input-element('names',70,$name)}
+                   </td>
+                </tr>
+        
+                <tr>
+                   <td class="left_header_cell">Preferred</td>
+                   <td>
+                   <!--
+                      {lib-forms:radio('preferred', xs:string($pos), xs:string(($preferred = xs:string($pos))))}
+                   -->
+                      {lib-forms:radio('preferred', xs:string($pos), 'true')}
+                   
+                   </td>
+                </tr>
+        
+        
+                <tr>
+                   <td class="left_header_cell">Definition</td>
+                   <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, $definitions[$pos])}
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Language Identifier</td>
+                   <td colspan="5">
+                      {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(), $country-identifiers[$pos])}
+                      {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), $language-identifiers[$pos])}
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Source</td>
+                   <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
+                </tr>
+            
+                <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$location), 'action' ,'')}</td></tr>
+                <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>
+             </table>
+          </p>
+       </div>
+       )
+       
+        
+        
+        ) else (),
+        
+        if((($names > '') != xs:boolean('true')) or $action = 'add another name')  then (
+          <div class="tabbertab">
+          {
+          if($names > '') then (
+            <h2>New Naming Entry</h2>
+           ) else (
+            <h2>Name 1</h2>
+           )
+          }
+              <p>
+                  <table class="section">
+              
+                    <tr>
+                       <td class="left_header_cell">Context</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-contexts-enum('context-ids','')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Name <font color="red">*</font></td>
+                       <td colspan="5">
+                          {lib-forms:input-element('names',70,'')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Preferred</td>
+                       <td>
+                          {lib-forms:radio('preferred', '1', 'true')}
+                       </td>
+                    </tr>
+            
+                    <tr>
+                       <td class="left_header_cell">Definition</td>
+                       <td colspan="5">{lib-forms:text-area-element('definitions', 5, 70, '')}
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Language Identifier</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers', false(),'')}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers', false(), '')}
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources',70,'')}</td>
+                    </tr>
+        <!--
+        {
+        if($names > '') then (
+                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add this new name', 'action' ,'')}</td></tr>
+        ) else (
+                    <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>
+        )
+        }
+        -->
+              </table>
+          </p>
+      </div>
+      ) else ()
+      
+      
+      }
+      
+  </div>
+  </td>
+  </tr>          
+
+</table>
+
+};
+
 
 declare function lib-forms:edit-admin-item-only(
    $reg-auth as xs:string?,
@@ -1499,3 +1751,4 @@ declare function lib-forms:increment-version($admin-item-identifier as xs:string
     return
         concat(lib-forms:substring-before-last($admin-item-identifier, '_'), '_', $new-version)
 };
+
