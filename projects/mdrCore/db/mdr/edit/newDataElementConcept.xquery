@@ -55,7 +55,8 @@ declare function local:DataElementConcept(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+   $registration_status as xs:string 
    ) as xs:string
 {
    let $version := '0.1'
@@ -76,7 +77,7 @@ declare function local:DataElementConcept(
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -99,7 +100,7 @@ let $object-class :=
    (
    element openMDR:Object_Class {
         lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-oc,$version),
-         lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+         lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -117,7 +118,7 @@ let $property :=
    (
     element openMDR:Property {
         lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-pr,$version),
-         lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+         lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -176,7 +177,8 @@ declare function local:input-page(
    $definitions as xs:string*,
    $sources as xs:string*,
    $action as xs:string?,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+   $registration_status as xs:string?
    ) {
    
     (:1111111111111111111:)
@@ -213,7 +215,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                      (:11111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                      
                <table class="layout">
@@ -327,7 +330,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
-
+   let $registration_status := request:get-parameter('registration_status','')
    return
    
       lib-rendering:txfrm-webpage(
@@ -350,7 +353,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $names,
                      $definitions,
                      $sources,
-                     $preferred
+                     $preferred,
+                     $registration_status
                   ) = 'stored'
             ) 
          then local:success-page()  
@@ -369,7 +373,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $definitions,
                      $sources,
                      $action,
-                     $preferred
+                     $preferred,
+                     $registration_status
                   )
                )
          )
@@ -389,7 +394,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $definitions,
                $sources,
                $action,
-               $preferred
+               $preferred,
+               $registration_status
                )
          )
 

@@ -75,7 +75,8 @@ declare function local:conceptual-domain(
    $value_meaning_identifiers as xs:string*,
    (: added this so that the selected version is saved in the xml:)
    $proposedVersion as xs:float?,
-   $value_meaning_uri as xs:string*
+   $value_meaning_uri as xs:string*,
+   $registration_status as xs:string
    ) as xs:boolean
 {
    let $version := lib-forms:substring-after-last($id,'_')
@@ -84,7 +85,7 @@ declare function local:conceptual-domain(
    let $doc-name := concat($id,'.xml')
 
    let $content := (
-                    lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+                    lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
                     lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
                     lib-make-admin-item:havings(
                     $context-ids,
@@ -104,9 +105,9 @@ declare function local:conceptual-domain(
                         element openMDR:value_meaning_begin_date {$creation-date},
                         element openMDR:value_meaning_description {$meaning},
                         element openMDR:value_meaning_identifier {$value_meaning_identifiers[$pos]},
-                        element openMDR:value_meaning_uri {$value_meaning_uri[$pos]}
+                        element openMDR:reference_uri {$value_meaning_uri[$pos]}
                        }
-                       else(element openMDR:value_meaning_uri {$value_meaning_uri[$pos]})
+                       else()
                     )
                         
    (: compose the document :)
@@ -163,7 +164,8 @@ declare function local:input-page(
    $value_meaning_identifiers as xs:string*,
     (:11111111111111111:)
    $version as xs:float?,
-   $value_meaning_uri as xs:string*
+   $value_meaning_uri as xs:string*,
+   $registration_status as xs:string?
    ) 
    {
        let $skip-name := substring-after($action,'delete naming entry')
@@ -201,7 +203,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                       (:111111111111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                      
                 <table class="layout">
@@ -228,7 +231,7 @@ declare function local:input-page(
                            <tr>
                               <td class="left_header_cell">Value {$location} Meaning</td>
                               <td>{lib-forms:input-element('meanings', 30, $meaning)}{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
-                              <td>{lib-forms:find-concept-id-CD('property_uri','get concept',$value_meaning_uri[$pos])}{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'')}</td>
+                              <td>{lib-forms:find-concept-id-CD('property_uri','get concept',$value_meaning_uri[$pos])}</td>
                               <td>{lib-forms:hidden-element('value_meaning_identifiers',$value_meaning_identifiers[$pos])} </td>
                            </tr>
                            ),
@@ -355,6 +358,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $log := util:log-system-out($value_meaning_uri)   
    let $log := util:log-system-out($ivalue_meaning_uri)
    let $value_meaning_uri := $ivalue_meaning_uri
+   
+   let $iregistration_status := string($element//openMDR:registration_status)
+   let $registration_status := request:get-parameter('registration_status',$iregistration_status)
+   
    return
    
       lib-rendering:txfrm-webpage(
@@ -384,7 +391,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $value_meaning_identifiers,
                       (: added this so that the version gets saved:)
                      $version,
-                     $value_meaning_uri
+                     $value_meaning_uri,
+                     $registration_status
                      
                   )
             ) 
@@ -410,7 +418,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $value_meaning_identifiers,
                       (: added this so that the version gets saved:)
                      $version,
-                     $value_meaning_uri
+                     $value_meaning_uri,
+                     $registration_status
                   )
                )
          )
@@ -439,7 +448,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $value_meaning_identifiers,
                 (: added this so that the version gets saved:)
                      $version,
-                     $value_meaning_uri
+                     $value_meaning_uri,
+                     $registration_status
                )
          ) else (
                local:input-page
@@ -464,8 +474,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $ivalue_meaning_identifiers,
                 (: added this so that the version gets saved:)
                      $version,
-                     $value_meaning_uri
+                     $value_meaning_uri,
+                     $registration_status
                )
          )
        )
     )
+  

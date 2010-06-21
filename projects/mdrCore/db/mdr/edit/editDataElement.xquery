@@ -68,7 +68,8 @@ declare function local:DataElement(
    $example as xs:string?,
    $precision as xs:string?,
    (: added this so that the selected version is saved in the xml:)
-   $proposedVersion as xs:float?
+   $proposedVersion as xs:float?,
+   $registration_status as xs:string
    
 ) as xs:string
 {
@@ -77,7 +78,7 @@ declare function local:DataElement(
    let $doc-name := concat($id,'.xml')
 
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -141,7 +142,8 @@ declare function local:input-page(
    $example as xs:string?,
    $precision as xs:string?,
     (:11111111111111111:)
-   $version as xs:float?
+   $version as xs:float?,
+   $registration_status as xs:string?
    
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
@@ -178,7 +180,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                       (:111111111111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                      
                      
@@ -332,6 +335,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $log := util:log-system-out('printing proposed version.....from here...........')
    let $log := util:log-system-out($version)
    
+   let $iregistration_status := string($element//openMDR:registration_status)
+   let $registration_status := request:get-parameter('registration_status',$iregistration_status)
+   
    return
    
       lib-rendering:txfrm-webpage(
@@ -362,7 +368,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $example,
                      $precision,
                      (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                      
                   )
             ) 
@@ -389,7 +396,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $example,
                      $precision,
 (: added this so that the version gets saved:)
-                     $version                     
+                     $version,
+                     $registration_status                     
                   )
                )
          )
@@ -418,7 +426,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $example,
                $precision,
 (: added this so that the version gets saved:)
-                     $version               
+                     $version ,
+                    $registration_status                     
                )
          ) else (
                local:input-page(
@@ -443,7 +452,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $iexample,
                $iprecision,
 (: added this so that the version gets saved:)
-                     $version               
+                     $version ,
+                    $registration_status                     
                )
          )
        )

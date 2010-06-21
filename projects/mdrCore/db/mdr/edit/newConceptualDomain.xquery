@@ -53,7 +53,8 @@ declare function local:conceptual-domain(
    $sources as xs:string*,
    $uri as xs:string*,
    $preferred as xs:string?,
-   $meanings as xs:string*
+   $meanings as xs:string*,
+   $registration_status as xs:string
    ) as xs:boolean
 {
    let $version := '0.1'
@@ -63,7 +64,7 @@ declare function local:conceptual-domain(
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
             
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -130,7 +131,8 @@ declare function local:input-page(
    $property_uri as xs:string*,
    $action as xs:string?,
    $preferred as xs:string?,
-   $meanings as xs:string*
+   $meanings as xs:string*,
+   $registration_status as xs:string?
    ) {
     (:1111111111111111111:)
    let $version := '0.1'
@@ -166,7 +168,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                      (:11111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                      
                 <table class="layout">
@@ -262,6 +265,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
    let $meanings := request:get-parameter('meanings','')
+   let $registration_status := request:get-parameter('registration_status','')
    
    return   
       lib-rendering:txfrm-webpage(
@@ -286,7 +290,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $sources,
                      $property_uri,
                      $preferred,
-                     $meanings
+                     $meanings,
+                     $registration_status
                   )
             ) 
          then local:success-page()  
@@ -307,7 +312,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $property_uri,
                      $action,
                      $preferred,
-                     $meanings
+                     $meanings,
+                     $registration_status
                   )
                )
          )
@@ -329,7 +335,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $property_uri,
                $action,
                $preferred,
-               $meanings
+               $meanings,
+               $registration_status
                )
          )
 

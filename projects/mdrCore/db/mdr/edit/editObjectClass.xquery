@@ -43,7 +43,7 @@ declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
-
+declare namespace util="http://exist-db.org/xquery/util";
 
 declare function local:property(
    $id as xs:string,
@@ -63,8 +63,8 @@ declare function local:property(
    $uris as xs:string*,
    $preferred as xs:string?,
    (: added this so that the selected version is saved in the xml:)
-   $proposedVersion as xs:float?
-
+   $proposedVersion as xs:float?,
+    $registration_status as xs:string
     ) as xs:boolean
 {
 
@@ -72,9 +72,11 @@ declare function local:property(
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    (:let $doc-name := concat($id,'.xml') :)
    let $doc-name := concat($id,'.xml') 
-
+    let $log := util:log-system-out('printing registration status ...................')
+    let $log := util:log-system-out($registration_status)
+    
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -129,7 +131,8 @@ declare function local:input-page(
    $action as xs:string?,
    $preferred as xs:string?,
    (:11111111111111111:)
-   $version as xs:float?
+   $version as xs:float?,
+   $registration_status
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -188,7 +191,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                      (:111111111111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                      
                 <table class="section">
@@ -344,6 +348,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $log := util:log-system-out('printing proposed version.....from here...........')
    let $log := util:log-system-out($version)
    
+   let $iregistration_status := string($element//openMDR:registration_status)
+   let $registration_status := request:get-parameter('registration_status',$iregistration_status)
+   
    return
       lib-rendering:txfrm-webpage(
       $title,
@@ -371,7 +378,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $preferred,
                      
                      (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                   )
             ) 
          then (local:success-page()  )
@@ -394,7 +402,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action,
                      $preferred,
                      (:1111111111111111111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                   )
                )
          )
@@ -421,7 +430,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $preferred,
                (:111111111111111111111111:)
-               $version
+               $version,
+               $registration_status
                )
          ) else (
                local:input-page
@@ -444,7 +454,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $ipreferred,
                (:11111111111111111111111:)
-               $version
+               $version,
+               $registration_status
                )
          )
        )

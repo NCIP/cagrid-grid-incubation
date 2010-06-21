@@ -104,6 +104,28 @@ declare function lib-forms:find-concept-id(
       
 };
 
+(:added this for new conceptual domain class:)
+(:finders for relationships:)
+declare function lib-forms:find-concept-id-CD(
+         $control-name as xs:string,
+         $button-label as xs:string,
+         $recieved_value as xs:string*
+         ) as element()*
+{
+    let $id := lib-forms:generate-id()
+    let $javascript as xs:string := 
+        concat("window.open('popup-search-reference-uri.xquery?element=", $id,
+            "','Popup_Window','resizable=yes,width=1100,height=400,scrollbars=1,menubar=no,left=100,top=100')")
+    return
+        (<input type="text" name="{$control-name}" id="{$id}" size="30" value="{$recieved_value}" />,
+            element input {
+                attribute type {'button'},
+                attribute value {$button-label},
+                attribute class {'cgButton'},
+                attribute onclick {$javascript}            
+            })
+      
+};
 
 (: atomic functions for producing form elements :)
 declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$received-value as xs:string) as node()
@@ -514,7 +536,8 @@ declare function lib-forms:edit-admin-item(
    $preferred as xs:string?,
    $action as xs:string?,
    (:1111111111111111111111111111111:)
-   $version
+   $version,
+   $registration_status
 ){
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -536,6 +559,7 @@ declare function lib-forms:edit-admin-item(
                 <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
                 <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
                 <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+                <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Registration_Status','registration_status', false(), $registration_status)}</td></tr>
                 <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>        
             </table>
           </p>
@@ -877,7 +901,8 @@ declare function lib-forms:edit-admin-item-edit(
    $preferred as xs:string?,
    $action as xs:string?,
    
-   $version as xs:float?
+   $version as xs:float?,
+   $registration_status as xs:string?
 ){
  let $proposedNextVersion := $version + 0.1
  let $proposedReleaseVersion := ceiling($proposedNextVersion)
@@ -903,6 +928,7 @@ declare function lib-forms:edit-admin-item-edit(
                 <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
                 <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
                 <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+                <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Registration_Status','registration_status', false(), $registration_status)}</td></tr>
                 <tr><td class="left_header_cell">Administrative Note</td><td colspan="5">{lib-forms:text-area-element('administrative-note', 5, 70,$administrative-note)}</td></tr>        
             </table>
           </p>

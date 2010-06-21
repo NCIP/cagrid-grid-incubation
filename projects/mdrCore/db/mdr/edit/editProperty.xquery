@@ -65,7 +65,8 @@ declare function local:property(
    $uris as xs:string*,
    $preferred as xs:string?,
    (: added this so that the selected version is saved in the xml:)
-   $proposedVersion as xs:float?
+   $proposedVersion as xs:float?,
+   $registration_status as xs:string
    
    ) as xs:boolean
 {
@@ -74,7 +75,7 @@ declare function local:property(
    let $doc-name := concat($id,'.xml')
 
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -131,8 +132,8 @@ declare function local:input-page(
    $preferred as xs:string?,
    
    (:11111111111111111:)
-   $version as xs:float?
-   
+   $version as xs:float?,
+   $registration_status as xs:string?
    ) 
    {
 
@@ -168,7 +169,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                      (:111111111111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                    
                 <table class="section">       
@@ -323,7 +325,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $version := round-half-to-even(xs:float($proposedNextVersion),2)
    let $log := util:log-system-out('printing proposed version.....from here...........')
    let $log := util:log-system-out($version)
-
+   
+   let $iregistration_status := string($element//openMDR:registration_status)
+   let $registration_status := request:get-parameter('registration_status',$iregistration_status)  
 
    return
    
@@ -352,7 +356,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $property_uri,
                      $preferred,
                       (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                   )
             ) 
          then (local:success-page()  )
@@ -375,7 +380,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action,
                      $preferred,
                       (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                   )
                )
          )
@@ -402,7 +408,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $preferred,
                 (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                )
          ) else (
                local:input-page
@@ -425,7 +432,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $ipreferred,
                 (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                )
          )
        )

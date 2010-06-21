@@ -63,7 +63,8 @@ declare function local:object-class(
    $definitions as xs:string*,
    $sources as xs:string*,
    $uris as xs:string*,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+   $registration_status as xs:string
    ) as xs:boolean
 {
    let $version := '0.1'
@@ -72,7 +73,7 @@ declare function local:object-class(
    let $doc-name := concat($new-identifier,'.xml')
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -122,7 +123,8 @@ declare function local:input-page(
    $sources as xs:string*,
    $object_class_uri as xs:string*,
    $action as xs:string?,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+   $registration_status as xs:string
    ) {
     let $version := '0.1'
    let $skip-uri := substring-after($action,'delete uri entry')
@@ -156,7 +158,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                      (:11111111111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
 
 
@@ -250,7 +253,7 @@ session:create(),
    let $object_class_uri := request:get-parameter('object_class_uri',())
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
-   
+   let $registration_status := request:get-parameter('registration_status','')
    return
    
       lib-rendering:txfrm-webpage(
@@ -274,7 +277,8 @@ session:create(),
                      $definitions,
                      $sources,
                      $object_class_uri,
-                     $preferred
+                     $preferred,
+                     $registration_status
                   )
             ) 
          then local:success-page()  
@@ -294,7 +298,8 @@ session:create(),
                      $sources,
                      $object_class_uri,
                      $action,
-                     $preferred
+                     $preferred,
+                     $registration_status
                   )
                )
          )
@@ -315,6 +320,7 @@ session:create(),
                $sources,
                $object_class_uri,
                $action,
-               $preferred
+               $preferred,
+               $registration_status
                )
          )

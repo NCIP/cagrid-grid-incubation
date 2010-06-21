@@ -68,7 +68,8 @@ declare function local:value_domain(
    $enum_uom as xs:string?,
    $char_quantity as xs:string?,
    $value_domain_format as xs:string?,
-   $values as xs:string*
+   $values as xs:string*,
+   $registration_status as xs:string
    ) as xs:boolean
 {
    let $version := '0.1'
@@ -79,7 +80,7 @@ declare function local:value_domain(
    let $value_meaning-identifier  := data($concept_domain//openMDR:value_meaning_identifier)
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -154,7 +155,8 @@ declare function local:input-page(
    $enum_uom as xs:string?,
    $char_quantity as xs:string?,
    $value_domain_format as xs:string?,
-   $values as xs:string*
+   $values as xs:string*,
+   $registration_status as xs:string?
    ) {
    (:1111111111111111111:)
    let $version := '0.1'
@@ -190,7 +192,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                      (:11111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                      
                      <table class="section">
@@ -308,7 +311,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $enum_uom := request:get-parameter('enum_uom','')
    let $char_quantity := request:get-parameter('char_quantity','')
    let $value_domain_format := request:get-parameter('value_domain_format','')
-   
+   let $registration_status := request:get-parameter('registration_status','')
    return   
       lib-rendering:txfrm-webpage(
       $title,
@@ -336,7 +339,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $enum_uom,
                      $char_quantity,
                      $value_domain_format,
-                     $values
+                     $values,
+                     $registration_status
                   )
             ) 
          then local:success-page()  
@@ -361,7 +365,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $enum_uom,
                      $char_quantity,
                      $value_domain_format,
-                     $values
+                     $values,
+                     $registration_status
                   )
                )
          )
@@ -391,7 +396,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_uom,
                $char_quantity,
                $value_domain_format,
-               $values
+               $values,
+               $registration_status
                )
          )
          else if($conceptual_domain_id eq "Cancel")
@@ -418,7 +424,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_uom,
                $char_quantity,
                $value_domain_format,
-               $values
+               $values,
+               $registration_status
                ),
                session:set-attribute("conceptual_domain_id", "")
                
@@ -445,7 +452,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_uom,
                $char_quantity,
                $value_domain_format,
-               $values
+               $values,
+               $registration_status
                )
           )
         

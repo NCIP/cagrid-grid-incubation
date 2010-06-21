@@ -59,7 +59,8 @@ declare function local:context(
    $names as xs:string*,
    $definitions as xs:string*,
    $sources as xs:string*,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+   $registration_status as xs:string
    ) as xs:boolean
 {
    let $version := '0.1'
@@ -68,7 +69,7 @@ declare function local:context(
    let $doc-name := concat($new-identifier,'.xml')
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -115,8 +116,10 @@ declare function local:input-page(
    $definitions as xs:string*,
    $sources as xs:string*,
    $action as xs:string?,
-   $preferred as xs:string?
+   $preferred as xs:string?,
+   $registration_status as xs:string?
    ) {
+    let $version := '0.1'
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
 
@@ -146,7 +149,9 @@ declare function local:input-page(
                      $definitions,
                      $sources,
                      $preferred,
-                     $action)}
+                     $action,
+                     $version,
+                     $registration_status)}
                      
                 <table class="section">
                       <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td>
@@ -189,7 +194,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $sources := request:get-parameter('sources',())
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
-   
+   let $registration_status := request:get-parameter('registration_status','')
    return
    
       lib-rendering:txfrm-webpage(
@@ -212,7 +217,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $names,
                      $definitions,
                      $sources,
-                     $preferred
+                     $preferred,
+                     $registration_status
                   )
             ) 
          then local:success-page()  
@@ -231,7 +237,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $definitions,
                      $sources,
                      $action,
-                     $preferred
+                     $preferred,
+                     $registration_status
                   )
                )
          )
@@ -251,7 +258,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $definitions,
                $sources,
                $action,
-               $preferred
+               $preferred,
+               $registration_status
                )
          )
 

@@ -72,7 +72,8 @@ declare function local:data_element_concept(
    $object_class_id as xs:string?,
    $property_id as xs:string?,
     (: added this so that the selected version is saved in the xml:)
-   $proposedVersion as xs:float?
+   $proposedVersion as xs:float?,
+   $registration_status as xs:string
    
    ) as xs:string
    {
@@ -88,7 +89,7 @@ declare function local:data_element_concept(
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
  
    let $content := (
-           lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+           lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -109,7 +110,7 @@ let $object-class :=
    (
    element openMDR:Object_Class {
         lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-oc,$version),
-        lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+        lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
         lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
         lib-make-admin-item:havings(
                     $context-ids,
@@ -127,7 +128,7 @@ let $property :=
    (
     element openMDR:DataElementConcept {
         lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-pr,$version),
-        lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+        lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
         lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
         lib-make-admin-item:havings(
                     $context-ids,
@@ -195,7 +196,8 @@ declare function local:input-page(
    $object_class_id as xs:string?,
    $property_id as xs:string?,
     (:11111111111111111:)
-   $version as xs:float?
+   $version as xs:float?,
+   $registration_status as xs:string
    ) 
    
    {
@@ -232,7 +234,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                       (:111111111111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                      
                <table class="layout">
@@ -406,7 +409,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
   
    let $version := round-half-to-even(xs:float($proposedNextVersion),2)
-   
+   let $iregistration_status := string($element//openMDR:registration_status)
+   let $registration_status := request:get-parameter('registration_status',$iregistration_status)
    
     return
       lib-rendering:txfrm-webpage(
@@ -436,7 +440,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $object_class_id,
                      $property_id,
                      (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                   )
             ) 
          then (local:success-page()  )
@@ -461,7 +466,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $object_class_id,
                      $property_id,
                      (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                   )
                )
          )
@@ -490,7 +496,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $object_class_id,
                $property_id,
                (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                )
          ) else (
                local:input-page
@@ -515,7 +522,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $iobject_class_id,
                $iproperty_id,
                (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                )
          )
        )

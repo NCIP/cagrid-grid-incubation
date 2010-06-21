@@ -78,8 +78,8 @@ declare function local:value_domain(
    $value_domain_format as xs:string?,
    $values as xs:string*,
    (: added this so that the selected version is saved in the xml:)
-   $proposedVersion as xs:float?
-   
+   $proposedVersion as xs:float?,
+   $registration_status as xs:string
    ) as xs:boolean
 {        
    let $version := lib-forms:substring-after-last($id,'_')
@@ -89,7 +89,7 @@ declare function local:value_domain(
    let $permissible-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')    
    let $value_meaning_identifier := $concept_domain//openMDR:value_meaning_identifier/text()
    let $content := (
-            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,'Recorded'),
+            lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
                     $context-ids,
@@ -175,8 +175,8 @@ declare function local:input-page(
    $value_domain_format as xs:string?,
    $values as xs:string*,
    (:11111111111111111:)
-   $version as xs:float?
-   
+   $version as xs:float?,
+   $registration_status as xs:string?
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -212,7 +212,8 @@ declare function local:input-page(
                      $preferred,
                      $action,
                      (:111111111111111111111111:)
-                     $version
+                     $version,
+                     $registration_status
                      )}
                                   
                     <table class="section">
@@ -391,6 +392,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $log := util:log-system-out('printing proposed version.....from here...........')
    let $log := util:log-system-out($version)
    
+   let $iregistration_status := string($element//openMDR:registration_status)
+   let $registration_status := request:get-parameter('registration_status',$iregistration_status)
+   
    return
       lib-rendering:txfrm-webpage(
       $title,
@@ -422,7 +426,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $value_domain_format,
                      $values,
                       (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                   )
             ) 
          then (local:success-page()  )
@@ -450,7 +455,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $value_domain_format,
                      $values,
                       (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                      )
                )
          )
@@ -484,7 +490,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $value_domain_format,
                $values,
                 (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                )
          )
          else if($conceptual_domain_id eq "Cancel")
@@ -514,7 +521,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $value_domain_format,
                $values,
                 (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                ),
                session:set-attribute("conceptual_domain_id", $iconceptual_domain_id)
         ) 
@@ -547,7 +555,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $value_domain_format,
                $values,
                 (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                )
          ) else (
                local:input-page
@@ -575,7 +584,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $ivalue_domain_format,
                $ivalues,
                 (: added this so that the version gets saved:)
-                     $version
+                     $version,
+                     $registration_status
                )
          )
        )    
