@@ -288,6 +288,9 @@
 				<fileset dir="${globus.lib.dir}">
 					<include name="**/*.jar"/>
 				</fileset>
+				<fileset dir="${ext.lib}">
+					<include name="*.jar" />
+				</fileset>
 				<pathelement location="${ext.globus.dir}" />
 			</classpath>
 		</java>
