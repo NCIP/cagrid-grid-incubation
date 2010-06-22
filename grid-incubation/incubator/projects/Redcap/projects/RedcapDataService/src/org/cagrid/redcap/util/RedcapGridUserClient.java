@@ -33,7 +33,7 @@ public class RedcapGridUserClient {
 		
 		RedcapGridUserClient client = new RedcapGridUserClient();
 		
-		if(args.length>=3){
+		if(args.length>=4){
 			String admin = args[2];
 			String adminPwd = args[3];
 			
@@ -175,6 +175,7 @@ public class RedcapGridUserClient {
 
     	}catch(Exception apf){
     		System.out.println("Error during authentication");
+    		apf.printStackTrace();
     		System.exit(1);
     	}
 	    return credential;
