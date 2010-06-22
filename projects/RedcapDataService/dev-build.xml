@@ -279,6 +279,9 @@
 		<java fork="true" classname="org.cagrid.redcap.util.RedcapGridUserClient"
 					args="${gridGrouperUrl} ${groupName} ${adminId} ${password}"> 
 		<classpath>
+				<fileset dir="${ext.lib}">
+					<include name="*.jar" />
+				</fileset>	
 				<fileset dir="${basedir}/build/lib">
 					<include name="**/*.jar"/>
 				</fileset>
@@ -286,10 +289,10 @@
 					<include name="**/*.jar"/>
 				</fileset>
 				<fileset dir="${globus.lib.dir}">
+					<exclude name="**/resolver.jar"/>
+					<exclude name="**/xercesImpl.jar"/>
+					<exclude name="**/xml-apis.jar"/>
 					<include name="**/*.jar"/>
-				</fileset>
-				<fileset dir="${ext.lib}">
-					<include name="*.jar" />
 				</fileset>
 				<pathelement location="${ext.globus.dir}" />
 			</classpath>
