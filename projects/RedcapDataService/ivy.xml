@@ -23,36 +23,38 @@
 
     <dependencies>
 	<!-- example dependency-->
-       <dependency org="caGrid" name="core" rev="1.3" conf="default->default" />
-       <dependency org="hibernate" name="hibernate" rev="3.2.0.ga" conf="default->core"/>
-        <dependency org="hibernate" name="hibernate-annotations" rev="3.3.1.GA" conf="default"/>
-	 	 <dependency org="apache" name="commons-dbcp" rev="1.2.2" conf="default" />
-	 	 <dependency org="apache" name="commons-logging" rev="1.1" conf="default" />
-	 	 <dependency org="caGrid" name="metadatautils" rev="1.3" conf="default->default" />
-	 	 <dependency org="castor" name="castor" rev="1.0.2" conf="default->default" />
-	 	 <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" conf="default" />
-	 	 <dependency org="caGrid" name="advertisement" rev="1.3" conf="default->default" />
-	 	 <dependency rev="1.3" org="caGrid" name="introduce-servicetools" conf="default->default" />
-	 	 <!-- <dependency rev="1.3" org="caGrid" name="introduce-buildtools" conf="default->default" />-->
-	 	 <dependency org="caGrid" name="data" rev="1.3" conf="default->common,stubs" />
-	 	 <dependency org="caGrid" name="cql1toHql3.2.0ga" rev="1.0" conf="default->core" />
-	 	 <dependency org="caGrid" name="data" rev="1.3" conf="default->utils,stubs" />
-		 <dependency org="caGrid" name="data" rev="1.3" conf="default->validation,utils" />
-		 <dependency org="caGrid" name="data" rev="1.3" conf="default->service,validation,utils,processors" />	 	 
-	 	 <dependency rev="4.0.3-bigindex" org="globus" name="mds" conf="*->gars"/>
-	 	 <dependency rev="1.3" org="caGrid" name="metadata-validator" conf="default->default" transitive="false" />
-	 	 <dependency rev="1.3" org="caGrid" name="cadsr" conf="default->default" />
-	 	 <dependency rev="1.3" org="caGrid" name="cadsr" conf="default->test" />
-	 	  <dependency rev="1.3" org="caGrid" name="core" conf="default->default;impl-test->test"/>
-	 	   <dependency rev="4.4" org="junit" name="junit" conf="default->default" />
-	 	   <dependency rev="1.3" org="caGrid" name="gridgrouper-auth-extension" conf="default->base" />
-	  	   <dependency rev="1.3" org="caGrid" name="authentication-service" conf="default->client" />
-	  	   <dependency rev="1.3" org="caGrid" name="dorian" conf="default->client,stubs,common" />
-	  	    <dependency rev="2.7.1" org="apache" name="xerces2-j" conf="default->default"/>
-	  	    
-    <dependency rev="1.3" org="caGrid" name="introduce" conf="default->extension-test"/>
-    <!--   <dependency rev="1.3" org="caGrid" name="testUtils" conf="default->containers"/> --> 
-     <dependency rev="1.3" org="caGrid" name="dataExtensions" conf="default->default"/>
-     <dependency rev="1.3" org="caGrid" name="cabigextensions" conf="default->core"/>
+	    <dependency org="caGrid" name="core" rev="1.3" conf="default->default" />
+	    <dependency org="hibernate" name="hibernate" rev="3.2.0.ga" conf="default->core"/>
+	    <dependency org="hibernate" name="hibernate-annotations" rev="3.3.1.GA" conf="default"/>
+		<dependency org="apache" name="commons-dbcp" rev="1.2.2" conf="default" />
+		<dependency org="apache" name="commons-logging" rev="1.1" conf="default" />
+		<dependency org="caGrid" name="metadatautils" rev="1.3" conf="default->default" />
+		<dependency org="castor" name="castor" rev="1.0.2" conf="default->default" />
+		<dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" conf="default" />
+		<dependency org="caGrid" name="advertisement" rev="1.3" conf="default->default" />
+		<dependency rev="1.3" org="caGrid" name="introduce-servicetools" conf="default->default" />
+		<!-- <dependency rev="1.3" org="caGrid" name="introduce-buildtools" conf="default->default" />-->
+		<dependency org="caGrid" name="data" rev="1.3" conf="default->common,stubs" />
+		<dependency org="caGrid" name="cql1toHql3.2.0ga" rev="1.0" conf="default->core" />
+		<dependency org="caGrid" name="data" rev="1.3" conf="default->utils,stubs" />
+		<dependency org="caGrid" name="data" rev="1.3" conf="default->validation,utils" />
+		<dependency org="caGrid" name="data" rev="1.3" conf="default->service,validation,utils,processors" />	 	 
+		<dependency rev="4.0.3-bigindex" org="globus" name="mds" conf="*->gars"/>
+		<dependency rev="1.3" org="caGrid" name="metadata-validator" conf="default->default" transitive="false" />
+		<dependency rev="1.3" org="caGrid" name="cadsr" conf="default->default" />
+		<dependency rev="1.3" org="caGrid" name="cadsr" conf="default->test" />
+		<dependency rev="1.3" org="caGrid" name="core" conf="default->default;impl-test->test"/>
+		<dependency rev="4.4" org="junit" name="junit" conf="default->default" />
+		<dependency rev="1.3" org="caGrid" name="gridgrouper-auth-extension" conf="default->base" />
+		<dependency rev="1.3" org="caGrid" name="authentication-service" conf="default->client" />
+		<dependency rev="1.3" org="caGrid" name="dorian" conf="default->client,stubs,common" />
+		<dependency rev="2.7.1" org="apache" name="xerces2-j" conf="default->default"/>
+			    
+		 <dependency rev="1.3" org="caGrid" name="introduce" conf="default->extension-test"/>
+		 <!--   <dependency rev="1.3" org="caGrid" name="testUtils" conf="default->containers"/>
+		--> 
+	     <dependency rev="1.3" org="caGrid" name="dataExtensions" conf="default->default"/>
+	     <dependency rev="1.3" org="caGrid" name="cabigextensions" conf="default->core"/>
+	     <dependency rev="1.2.14" org="apache" name="log4j" conf="default->default"/>
     </dependencies>
 </ivy-module>
