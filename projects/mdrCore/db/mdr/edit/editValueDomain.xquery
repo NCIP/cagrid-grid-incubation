@@ -192,7 +192,7 @@ declare function local:input-page(
           </tr>
           <tr>
             <td>
-                <form name="edit_value_domain" action="editValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_adminItems ()">
+                <form name="edit_value_domain" action="editValueDomain.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_editValueDomain (this)">
                 <div class="section">
                 {lib-forms:hidden-element('id',$id)}
                 {lib-forms:hidden-element('updating','updating')}

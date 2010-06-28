@@ -132,6 +132,27 @@ function validate_valueDomain(){
     return isValid; 
 }
 
+function validate_editValueDomain(){
+    isValid = true;
+    if(validate_adminItems()){
+        for (var i = 0; i<document.edit_value_domain.elements.length; i++) {
+            if (document.edit_value_domain.elements[i].name == "values") {
+                for (var j = 0; j<document.edit_value_domain.elements.length; j++) {           
+                    if (document.edit_value_domain.elements[j].name == "values" & document.edit_value_domain.elements[i].value == document.edit_value_domain.elements[j].value & i!=j) {
+                        isValid = false;
+                    }
+                } 
+             }
+        }
+       if(!isValid){
+        alert('Permissable Values cannot be equal!');
+       }
+    }else{
+        isValid=false;
+    }
+    return isValid; 
+}
+
 function validate_Organization()
 {
     valid = true;
