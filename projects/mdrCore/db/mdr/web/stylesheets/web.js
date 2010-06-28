@@ -46,14 +46,15 @@ function validate_adminItems ()
     valid = true;
     errors = new Array();
     i=0;
- 
+    
     regauth = document.getElementById('registration-authority');
     regby = document.getElementById('registered-by');
     adminby = document.getElementById('administered-by');
     submitby = document.getElementById('submitted-by');
     adminstatus = document.getElementById('administrative-status');
+    regstatus = document.getElementById('registration_status');
     names = document.getElementById('names');
-    
+          
     if (regauth.options[regauth.selectedIndex].value == "")
     { 
         errors[i] = "Registration Authority" ;
@@ -90,6 +91,13 @@ function validate_adminItems ()
         errors[i] = "Name" ;
         i++;
     }
+    
+    if (regstatus.options[regstatus.selectedIndex].value == "")
+    { 
+        errors[i] = "Registration Status" ;
+        i++;
+    }
+    
     if(errors.length>0)
     {
         errMsg = "Please make sure you enter/select the following items :- \n ";
@@ -101,6 +109,27 @@ function validate_adminItems ()
     }    
     
     return valid;
+}
+
+function validate_valueDomain(){
+    isValid = true;
+    if(validate_adminItems()){
+        for (var i = 0; i<document.new_value_domain.elements.length; i++) {
+            if (document.new_value_domain.elements[i].name == "values") {
+                for (var j = 0; j<document.new_value_domain.elements.length; j++) {           
+                    if (document.new_value_domain.elements[j].name == "values" & document.new_value_domain.elements[i].value == document.new_value_domain.elements[j].value & i!=j) {
+                        isValid = false;
+                    }
+                } 
+             }
+        }
+       if(!isValid){
+        alert('Permissable Values cannot be equal!');
+       }
+    }else{
+        isValid=false;
+    }
+    return isValid; 
 }
 
 function validate_Organization()
@@ -144,7 +173,3 @@ function validate_Organization()
     
     return valid;
 }
-
-
-
-

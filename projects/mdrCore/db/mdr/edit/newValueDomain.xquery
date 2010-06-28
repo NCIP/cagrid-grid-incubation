@@ -263,7 +263,7 @@ declare function local:input-page(
                               </tr>
                               <tr>
                                 <td class="left_header_cell"></td>
-                                <td><input type="submit" name="update" value="Store" onClick="return validate_adminItems ()"/></td>
+                                <td><input type="submit" name="update" value="Store" onClick="return validate_valueDomain (this)"/></td>
                                 <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                               </tr>    
                         </table>
