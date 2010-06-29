@@ -615,7 +615,7 @@ declare function lib-forms:edit-admin-item(
         return
         (
         <div class="tabbertab">
-          <h2>Naming {$location}</h2>
+          <h2>Preferred Name {$location}</h2>
           <p>
               <table class="section">
 
@@ -984,7 +984,7 @@ declare function lib-forms:edit-admin-item-edit(
         return
         (
         <div class="tabbertab">
-          <h2>Naming {$location}</h2>
+          <h2>Preferred Name {$location}</h2>
           <p>
               <table class="section">
 
@@ -1050,7 +1050,7 @@ declare function lib-forms:edit-admin-item-edit(
           if($names > '') then (
             <h2>New Naming Entry</h2>
            ) else (
-            <h2>Name 1</h2>
+            <h2>Preferred Name</h2>
            )
           }
               <p>
