@@ -223,7 +223,7 @@ declare function local:input-page(
                <tr>
                   <td class="left_header_cell">Object Class URI</td>
                   <td align="left" colspan="2">
-                     {lib-forms:find-concept-id('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
+                     {lib-forms:find-concept-id-edit-false('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
                   </td>
               </tr>
               <tr>
@@ -231,15 +231,15 @@ declare function local:input-page(
                   <td align="left" colspan="2"><i> or select existing </i> 
                   {
                     if(request:get-parameter('object_class_id','') eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item('object_class','object_class_id', session:get-attribute("object_class_id"),'new_DataElementConcept', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', session:get-attribute("object_class_id"),'new_DataElementConcept', 'Change Relationship'),
                         session:set-attribute("object_class_id", "") 
                     )
                     else if(request:get-parameter('object_class_id','') != "")  then (
                         session:set-attribute("object_class_id", request:get-parameter('object_class_id','')),
-                        lib-forms:make-select-form-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''),'new_DataElementConcept', 'Change Relationship')
+                        lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''),'new_DataElementConcept', 'Change Relationship')
                     )
                     else(
-                       lib-forms:make-select-form-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''),'new_DataElementConcept', 'Select Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''),'new_DataElementConcept', 'Select Relationship') 
                   )
                   }
                   </td>
@@ -247,7 +247,7 @@ declare function local:input-page(
                <tr>
                   <td class="left_header_cell">Property URI</td>
                   <td align="left" colspan="2">
-                  {lib-forms:find-concept-id('property_uri','get property concept',request:get-parameter('property_uri',''))}
+                  {lib-forms:find-concept-id-edit-false('property_uri','get property concept',request:get-parameter('property_uri',''))}
                   </td>
               </tr>
               <tr>
@@ -255,15 +255,15 @@ declare function local:input-page(
                   <td align="left" colspan="2"><i> or select existing </i> 
                   {
                     if(request:get-parameter('property_id','') eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item('property','property_id', session:get-attribute("property_id"),'new_DataElementConcept', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('property','property_id', session:get-attribute("property_id"),'new_DataElementConcept', 'Change Relationship'),
                         session:set-attribute("property_id", "") )
                     
                     else if(request:get-parameter('property_id','') != "")  then (
                         session:set-attribute("property_id", request:get-parameter('property_id','')),
-                        lib-forms:make-select-form-admin-item('property','property_id', request:get-parameter('property_id',''),'new_DataElementConcept', 'Change Relationship'))
+                        lib-forms:make-select-form-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''),'new_DataElementConcept', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item('property','property_id', request:get-parameter('property_id',''),'new_DataElementConcept', 'Select Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''),'new_DataElementConcept', 'Select Relationship') 
                   )                 
                   }
                   </td>
@@ -274,15 +274,15 @@ declare function local:input-page(
                   <td align="left" colspan="2">
                   {
                     if(request:get-parameter('conceptual_domain_id','') eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', session:get-attribute("conceptual_domain_id"),'new_DataElementConcept', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', session:get-attribute("conceptual_domain_id"),'new_DataElementConcept', 'Change Relationship'),
                         session:set-attribute("conceptual_domain_id", "") )
                     
                     else if(request:get-parameter('conceptual_domain_id','') != "")  then (
                         session:set-attribute("conceptual_domain_id", request:get-parameter('conceptual_domain_id','')),
-                        lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''),'new_DataElementConcept', 'Change Relationship'))
+                        lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''),'new_DataElementConcept', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''),'new_DataElementConcept', 'Select Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''),'new_DataElementConcept', 'Select Relationship') 
                   )                 
                   }
                   </td>

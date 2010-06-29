@@ -250,15 +250,15 @@ declare function local:input-page(
                   <td align="left" colspan="2"><i> or select existing </i> 
                   {
                     if($object_class_id eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item('object_class','object_class_id', session:get-attribute("object_class_id"),'edit_DataElementConcept', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', session:get-attribute("object_class_id"),'edit_DataElementConcept', 'Change Relationship'),
                         session:set-attribute("object_class_id", "") )
                     
                     else if($object_class_id != "")  then (
                         session:set-attribute("object_class_id", $object_class_id),
-                        lib-forms:make-select-form-admin-item('object_class','object_class_id', $object_class_id,'edit_DataElementConcept', 'Change Relationship'))
+                        lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', $object_class_id,'edit_DataElementConcept', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item('object_class','object_class_id', $object_class_id,'edit_DataElementConcept', 'Select Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', $object_class_id,'edit_DataElementConcept', 'Select Relationship') 
                   )
                   }
                   </td>
@@ -274,15 +274,15 @@ declare function local:input-page(
                   <td align="left" colspan="2"><i> or select existing </i> 
                    {
                     if($property_id eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item('property','property_id', session:get-attribute("property_id"),'edit_DataElementConcept', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('property','property_id', session:get-attribute("property_id"),'edit_DataElementConcept', 'Change Relationship'),
                         session:set-attribute("property_id", "") )
                     
                     else if($property_id != "")  then (
                         session:set-attribute("property_id", $property_id),
-                        lib-forms:make-select-form-admin-item('property','property_id', $property_id,'edit_DataElementConcept', 'Change Relationship'))
+                        lib-forms:make-select-form-admin-item-edit-false('property','property_id', $property_id,'edit_DataElementConcept', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item('property','property_id', $property_id,'edit_DataElementConcept', 'Select Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('property','property_id', $property_id,'edit_DataElementConcept', 'Select Relationship') 
                   )
                   }
                   </td>
@@ -293,15 +293,15 @@ declare function local:input-page(
                   <td align="left" colspan="2">
                    {
                     if($conceptual_domain_id eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', session:get-attribute("conceptual_domain_id"),'edit_DataElementConcept', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', session:get-attribute("conceptual_domain_id"),'edit_DataElementConcept', 'Change Relationship'),
                         session:set-attribute("conceptual_domain_id", "") )
                     
                     else if($conceptual_domain_id != "")  then (
                         session:set-attribute("conceptual_domain_id", $conceptual_domain_id),
-                        lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', $conceptual_domain_id,'edit_DataElementConcept', 'Change Relationship'))
+                        lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', $conceptual_domain_id,'edit_DataElementConcept', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id', $conceptual_domain_id,'edit_DataElementConcept', 'Select Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', $conceptual_domain_id,'edit_DataElementConcept', 'Select Relationship') 
                   )
                   }
                   </td>

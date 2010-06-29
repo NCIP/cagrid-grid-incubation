@@ -104,6 +104,28 @@ declare function lib-forms:find-concept-id(
       
 };
 
+(:Editable false:)
+declare function lib-forms:find-concept-id-edit-false(
+         $control-name as xs:string,
+         $button-label as xs:string,
+         $recieved_value as xs:string
+         ) as element()*
+{
+    let $id := lib-forms:generate-id()
+    let $javascript as xs:string := 
+        concat("window.open('popup-search-reference-uri.xquery?element=", $id,
+            "','Popup_Window','resizable=yes,width=1100,height=400,scrollbars=1,menubar=no,left=100,top=100')")
+    return
+        (<input type="text" name="{$control-name}" id="{$id}" size="70" value="{$recieved_value}" readonly="readonly"/>,
+            element input {
+                attribute type {'button'},
+                attribute value {$button-label},
+                attribute class {'cgButton'},
+                attribute onclick {$javascript}            
+            })
+      
+};
+
 (:added this for new conceptual domain class:)
 (:finders for relationships:)
 declare function lib-forms:find-concept-id-CD(
@@ -301,6 +323,25 @@ $form-name as xs:string, $button-name as xs:string) as node()*
       attribute id {$select-name},
       attribute value {$received-value},
       attribute size {'97%'}
+      },
+      element div {
+         attribute id {concat($select-name,'-div')},
+         administered-item:preferred-name($collection,$received-value)
+      },
+      lib-forms:popup-form-search($collection, $select-name, $form-name, $button-name)     
+};
+
+declare function lib-forms:make-select-form-admin-item-edit-false($collection as xs:string, $select-name as xs:string, $received-value as xs:string, 
+$form-name as xs:string, $button-name as xs:string) as node()*
+{
+    element input {
+      attribute type {'text'},
+   
+      attribute name {$select-name},
+      attribute id {$select-name},
+      attribute value {$received-value},
+      attribute size {'97%'},
+      attribute readonly {'readonly'}
       },
       element div {
          attribute id {concat($select-name,'-div')},
