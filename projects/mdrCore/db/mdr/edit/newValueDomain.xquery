@@ -252,7 +252,7 @@ declare function local:input-page(
                             else ( 
                                  <tr>
                                     <td class="left_header_cell">Choose Conceptual Domain</td>
-                                    <td align="left">{lib-forms:make-select-form-admin-item('conceptual_domain','conceptual_domain_id',$conceptual_domain_id,'new_value_domain', 'Select Relationship')}</td>
+                                    <td align="left">{lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id',$conceptual_domain_id,'new_value_domain', 'Select Relationship')}</td>
                                </tr>
                             )
                         }
