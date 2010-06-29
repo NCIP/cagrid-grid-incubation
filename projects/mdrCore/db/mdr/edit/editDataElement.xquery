@@ -191,15 +191,15 @@ declare function local:input-page(
                   <td align="left" colspan="2">
                   {
                     if($data_element_concept_id eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', session:get-attribute("data_element_concept_id"),'edit_dataelement', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', session:get-attribute("data_element_concept_id"),'edit_dataelement', 'Change Relationship'),
                         session:set-attribute("data_element_concept_id", "") )
                     
                     else if($data_element_concept_id != "")  then (
                         session:set-attribute("data_element_concept_id", $data_element_concept_id),
-                        lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', $data_element_concept_id,'edit_dataelement', 'Change Relationship'))
+                        lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', $data_element_concept_id,'edit_dataelement', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item('data_element_concept','data_element_concept_id', $data_element_concept_id,'edit_dataelement', 'Select Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', $data_element_concept_id,'edit_dataelement', 'Select Relationship') 
                   )
                   }                  
                   </td>
@@ -214,15 +214,15 @@ declare function local:input-page(
                   <td align="left" colspan="2">
                   {
                     if($value_domain_id eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item('value_domain','value_domain_id', session:get-attribute("value_domain_id"),'edit_dataelement', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', session:get-attribute("value_domain_id"),'edit_dataelement', 'Change Relationship'),
                         session:set-attribute("value_domain_id", "") )
                     
                     else if($value_domain_id != "")  then (
                         session:set-attribute("value_domain_id", $value_domain_id),
-                        lib-forms:make-select-form-admin-item('value_domain','value_domain_id', $value_domain_id,'edit_dataelement', 'Change Relationship'))
+                        lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', $value_domain_id,'edit_dataelement', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item('value_domain','value_domain_id', $value_domain_id,'edit_dataelement', 'Select Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', $value_domain_id,'edit_dataelement', 'Select Relationship') 
                   )
                   }   
                   <!--
