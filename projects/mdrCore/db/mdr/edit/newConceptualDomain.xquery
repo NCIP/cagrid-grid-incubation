@@ -222,7 +222,8 @@ declare function local:input-page(
                       <tr><td class="row-header-cell" colspan="6">Store</td></tr>
                       <tr><td class="left_header_cell"></td>
                          <td><input type="submit" name="update" value="Store" onSubmit="return validate_adminItems ()"/></td>
-                         <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>  
+                         <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
+                         <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>                         
                       </tr>  
                  </table>
               </div>
