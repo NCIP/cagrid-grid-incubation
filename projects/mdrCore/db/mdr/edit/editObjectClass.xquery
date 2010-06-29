@@ -211,7 +211,7 @@ declare function local:input-page(
                                <td class="left_header_cell">Concept Reference {util:eval($pos - 1)}</td>
                                <td colspan="5">
                                   {
-                                     lib-forms:find-concept-id('object_class_uri','get concept',$u),
+                                     lib-forms:find-concept-id-edit-false('object_class_uri','get concept',$u),
                                      lib-forms:action-button(concat('delete uri entry ',util:eval($pos - 1)), 'action' ,'')
                                   }
                                </td>
@@ -221,7 +221,7 @@ declare function local:input-page(
                                <td class="left_header_cell">Concept Reference {$pos}</td>
                                <td colspan="5">
                                   {
-                                     lib-forms:find-concept-id('object_class_uri','get concept',$u),
+                                     lib-forms:find-concept-id-edit-false('object_class_uri','get concept',$u),
                                      lib-forms:action-button(concat('delete uri entry ',$pos), 'action' ,'')
                                   }
                                </td>
@@ -235,7 +235,7 @@ declare function local:input-page(
                            <tr>
                                <td class="left_header_cell">New Concept Reference</td>
                                <td colspan="5">
-                                  {lib-forms:find-concept-id('object_class_uri','get concept','')}
+                                  {lib-forms:find-concept-id-edit-false('object_class_uri','get concept','')}
                                   <br></br>
                                   {lib-forms:action-button('add another concept', 'action' ,'')}
                                </td>
