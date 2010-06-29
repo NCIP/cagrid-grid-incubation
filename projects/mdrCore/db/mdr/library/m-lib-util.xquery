@@ -43,9 +43,12 @@ declare function lib-util:mdrElementId($element as element()) as xs:string?
                         if ($element//@rating-identifier)
                         then xs:string($element//@rating-identifier)
                         else 
-                           if ($element//@data_identifier)
-                           then (concat(xs:string($element//@item_registration_authority_identifier), '_', xs:string($element//@data_identifier), '_', xs:string($element//@version)))
-                           else ('oops')
+                            if ($element//@annotated_model_identifier)
+                            then xs:string($element//@annotated_model_identifier)
+                            else 
+                                if ($element//@data_identifier)
+                                then (concat(xs:string($element//@item_registration_authority_identifier), '_', xs:string($element//@data_identifier), '_', xs:string($element//@version)))
+                                else ('oops')
                            
 
                         
@@ -93,7 +96,7 @@ declare function lib-util:getServer() as xs:anyURI
 
 declare function lib-util:getCollectionPath($collection_name as xs:string) as xs:anyURI
 {
-  concat($lib-util:rootURI, "/data/", $collection_name)	cast as xs:anyURI
+  concat($lib-util:rootURI, "/data/", $collection_name) cast as xs:anyURI
 };
 
 declare function lib-util:dataPath() as xs:anyURI
@@ -186,7 +189,7 @@ declare function lib-util:searchWithClassification($mdr-element-type as xs:strin
 
 declare function lib-util:mdrElements($mdr-element-type as xs:string) as element()*
 {
-	collection(lib-util:getCollectionPath($mdr-element-type))/*
+    collection(lib-util:getCollectionPath($mdr-element-type))/*
 };
 
 

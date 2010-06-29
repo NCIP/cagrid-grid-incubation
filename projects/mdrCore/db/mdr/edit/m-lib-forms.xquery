@@ -1525,6 +1525,37 @@ declare function lib-forms:store-reference-document($document as item(), $doc-na
       else 'Could not confirm collection'
 };
 
+(:added this Function to store the annotated models in the right location:)
+declare function lib-forms:store-annotated-model($document as item(), $doc-name as xs:string, 
+         $mime-type as xs:string) as xs:string
+{
+   let $user := session:get-attribute("username")
+   let $password := session:get-attribute("password")
+   let $is-ssl :=  lib-util:checkSSL()
+   
+   let $resource_location := concat(lib-util:getCollectionPath('models'),'/documents')
+   return
+      if (xmldb:collection-exists($resource_location) = true())
+      then (
+         (: check session :)
+         if ($is-ssl=true() and $user and $password)
+         then (
+            (: authenticate :)
+            if (xmldb:authenticate(concat("xmldb:exist://", $resource_location), $user, $password)=true())
+            then (
+               (: store :)
+               if (xmldb:store($resource_location, $doc-name, $document, $mime-type) >'')
+               then ('stored')
+               else ('could not store')
+               )
+            else 'could not authenticate'
+            )
+         else 'no SSL, UN or PW'
+         )
+      else 'Could not confirm collection'
+};
+
+
 declare function lib-forms:store-document($document as node()) as element()
 {
    let $doc-name := concat(lib-util:mdrElementId($document),'.xml')
@@ -1534,6 +1565,9 @@ declare function lib-forms:store-document($document as node()) as element()
    let $is-ssl :=  lib-util:checkSSL()
    
    let $resource_location := concat("xmldb:exist://", lib-util:getCollectionPath($collection))
+   let $log := util:log-system-out('printing resource location..............')
+   let $log := util:log-system-out($resource_location)
+   let $log := util:log-system-out(lib-util:mdrElementId($document))
    return
       util:catch(
          "java.lang.Exception",
