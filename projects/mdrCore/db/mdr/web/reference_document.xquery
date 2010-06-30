@@ -58,7 +58,7 @@ return
          lib-rendering:txfrm-webpage(
             $title, 
             $item, 
-            false(), 
+            true(), 
             false(), 
             $id, 
             'reference_document.xquery','../edit/editReferenceDocument.xquery'))
