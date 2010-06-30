@@ -318,3 +318,9 @@ a.term-link {
    margin-left: 5px;
    text-align: left;
 }
+
+.thickBorder td{
+border-style : solid;
+border-width: 1px;
+border-color : #A9A9A9;
+}

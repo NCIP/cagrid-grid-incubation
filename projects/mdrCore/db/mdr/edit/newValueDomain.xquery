@@ -237,13 +237,17 @@ declare function local:input-page(
                                then 
                                (
                                     <tr>
-                                        <td class="left_header_cell">Possible Values</td><td colspan="3">meaning</td><td>value</td><td/>
+                                        <td class="left_header_cell">Possible Values</td>
+                                            <td>meaning</td>
+                                            <td>value</td>
+                                        <td/>
                                     </tr>,
                                         for $meaning at $pos in $concept_domain//openMDR:value_meaning_description
                                         return (
-                                           <tr>
+                                           
+                                           <tr class="thickBorder td">
                                               <td class="left_header_cell">Permissable Value {$pos}</td>
-                                              <td colspan="3" >{$meaning}</td>
+                                              <td>{$meaning}</td>
                                               <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
                                            </tr>
                                         )
