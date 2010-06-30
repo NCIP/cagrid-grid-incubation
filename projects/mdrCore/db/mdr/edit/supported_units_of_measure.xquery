@@ -63,7 +63,7 @@ declare function local:page-entry($message as xs:string) as node()
                 <tr><td colspan="2">Add a new unit of measure to the metadata repository</td></tr>
                 <tr><td class="left_header_cell">name</td><td><input name="name" type="text" size="70"/></td></tr>
                 <tr><td class="left_header_cell">precision</td><td><input name="precision" type="text" size="70"/></td></tr>
-                <tr><td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="store"/></td></tr>    
+                <tr><td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="Save"/></td></tr>    
              </table>
          </div>
       </form>
@@ -100,7 +100,7 @@ declare function local:uom-document() as element(openMDR:Unit_of_Measure)
    session:create(),
    
    lib-rendering:txfrm-webpage($title, 
-      if (request:get-parameter('new','') = 'store')
+      if (request:get-parameter('new','') = 'Save')
       then 
       (
          let $message := lib-forms:store-document(local:uom-document())

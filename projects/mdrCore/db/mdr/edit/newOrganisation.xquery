@@ -41,6 +41,7 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace request="http://exist-db.org/xquery/request"; 
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+declare namespace util="http://exist-db.org/xquery/util";
 
 declare function local:organisation(   
    $organization_name as xs:string?,
@@ -60,21 +61,21 @@ declare function local:organisation(
    let $doc-name := concat($new-identifier,'.xml')
   
     let $organization-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
-	let $contact-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
+    let $contact-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
 
    (: compose the document :)
    let $document :=
             element openMDR:Organization {
-     										attribute organization_identifier{$organization-identifier},
-           							        element openMDR:organization_name{$organization_name},
-                							element openMDR:organization_mail_address{$organization_mail_address},
-                							element openMDR:Contact {
-    							            attribute contact_identifier{$contact-identifier},
-    							            element openMDR:contact_name{$contact_name},
-    							            element openMDR:contact_title{$contact_title},
-    							            element openMDR:contact_information{$contact_information}
-    							            }
-							             }
+                                            attribute organization_identifier{$organization-identifier},
+                                            element openMDR:organization_name{$organization_name},
+                                            element openMDR:organization_mail_address{$organization_mail_address},
+                                            element openMDR:Contact {
+                                            attribute contact_identifier{$contact-identifier},
+                                            element openMDR:contact_name{$contact_name},
+                                            element openMDR:contact_title{$contact_title},
+                                            element openMDR:contact_information{$contact_information}
+                                            }
+                                         }
       
    let $collection := 'organisation'
    let $message := lib-forms:store-document($document) 
@@ -110,44 +111,45 @@ declare function local:input-page(
           <form name="new_organisation" action="newOrganisation.xquery" method="post" class="cagridForm" enctype="multipart/form-data" onSubmit="return validate_Organization ()">
              <div class="section">
                                                                
-             	<table class="layout">
-             		<tr><td class="row-header-cell" colspan="6">Organization</td></tr>
+                <table class="layout">
+                    <tr><td class="row-header-cell" colspan="6">Organization</td></tr>
                 {
-                	<tr>
-                  	<td class="left_header_cell">Organization Name <font color="red">*</font></td>
+                    <tr>
+                    <td class="left_header_cell">Organization Name <font color="red">*</font></td>
                     <td><input type="text" name="org_name"></input></td>
                   </tr>,
                   <tr>
-                  	<td class="left_header_cell">Organization Mail Address</td>
+                    <td class="left_header_cell">Organization Mail Address</td>
                     <td><input type="text" name="org_mail_address"></input></td>
                   </tr>
  
-              	}
-             	</table>  
-             	                                          
-             	<table class="layout">
-             		<tr><td class="row-header-cell" colspan="6">Contact</td></tr>
+                }
+                </table>  
+                                                          
+                <table class="layout">
+                    <tr><td class="row-header-cell" colspan="6">Contact</td></tr>
                 {
-                	<tr>
-                  	<td class="left_header_cell">Name <font color="red">*</font></td>
+                    <tr>
+                    <td class="left_header_cell">Name <font color="red">*</font></td>
                     <td><input type="text" name="contact-name"></input></td>
                   </tr>,
                   <tr>
-                  	<td class="left_header_cell">Title</td>
+                    <td class="left_header_cell">Title</td>
                     <td><input type="text" name="contact-title"></input></td>
                   </tr>,
                    <tr>
-                  	<td class="left_header_cell">Information:Email/Phone <font color="red">*</font></td>
+                    <td class="left_header_cell">Information:Email/Phone <font color="red">*</font></td>
                     <td><input type="text" name="contact-information"></input></td>
                   </tr>
  
-              	}
-             	</table> 
-             	<table class="section">
+                }
+                </table> 
+                <table class="section">
                       <tr>
-                      	<td class="left_header_cell"></td>
-                      	<td><input type="submit" name="update" value="Store"/></td>
-                      	<td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
+                        <td class="left_header_cell"></td>
+                        <td><input type="submit" name="update" value="Save"/></td>
+                        <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
+                        <td colspan="4"><input type="button" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
                       </tr>    
                  </table>
               </div>
@@ -180,11 +182,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $contact_title :=request:get-parameter('contact-title','')
    let $contact_information :=request:get-parameter('contact-information','')
    let $action := request:get-parameter('update','')
-
+   
    return
       lib-rendering:txfrm-webpage(
       $title,
-      if ($action='Store')
+      if ($action='Save')
       then 
          (
          if (

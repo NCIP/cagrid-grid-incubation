@@ -309,7 +309,7 @@ declare function local:input-page(
             </table>
                      
                 <table class="section">
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td>
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes"/></td>
                       <td colspan="4"><input type="button"  name="update" value="Cancel" 
                               onClick= "{concat("location.href='../web/data_element_concept.xquery?compound_id=", $id, "';")}" /></td>
                       </tr>    
@@ -415,7 +415,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
     return
       lib-rendering:txfrm-webpage(
       $title,
-      if ($action='Store Changes')
+      if ($action='Save Changes')
       then 
          (
          if (
@@ -529,5 +529,3 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
        )
        
     )
-       
-

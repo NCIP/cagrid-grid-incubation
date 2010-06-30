@@ -211,7 +211,7 @@ declare function local:input-page(
                             </tr>
                             
                     <tr>
-                         <td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td>
+                         <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save"/></td>
                          <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                          <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
                     </tr>
@@ -261,7 +261,7 @@ session:create(),
    
       lib-rendering:txfrm-webpage(
       $title,
-      if ($action='Store')
+      if ($action='Save')
       then 
          (
          if (

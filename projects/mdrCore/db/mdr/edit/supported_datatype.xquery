@@ -62,7 +62,7 @@ declare function local:page-edit($message as xs:string) as element(div)
                <tr><td class="left_header_cell">scheme</td><td>{lib-forms:select-from-simpleType-enum('datatype_scheme_reference','scheme',false(),'')}</td></tr>
                <tr><td class="left_header_cell">description</td><td>{lib-forms:text-area-element('description', 5, 57, '')}</td></tr>
                <tr><td class="left_header_cell">annotation</td><td>{lib-forms:input-element('annotation',92,'')}</td></tr>
-               <tr><td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="Store"/></td></tr>    
+               <tr><td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="Save"/></td></tr>    
             </table>
          </div>
       </form>
@@ -120,7 +120,7 @@ declare function local:document() as element(openMDR:cgDatatype)
    
 session:create(),
 lib-rendering:txfrm-webpage($title, <div xmlns="http://www.w3.org/1999/xhtml"> {
-   if (request:get-parameter('new','') = 'Store')
+   if (request:get-parameter('new','') = 'Save')
    then 
    (
       let $message := lib-forms:store-document(local:document())
@@ -132,5 +132,3 @@ lib-rendering:txfrm-webpage($title, <div xmlns="http://www.w3.org/1999/xhtml"> {
    else local:page-edit('')
    }</div>
 )
-
-

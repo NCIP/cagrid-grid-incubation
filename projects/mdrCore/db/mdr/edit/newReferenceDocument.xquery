@@ -126,7 +126,7 @@ declare function local:input-page(
                         <tr>
                            <td class="row-header-cell" colspan="6">Store</td>
                         </tr>
-                        <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>
+                        <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>
                      </table>
               </div>
           </form>
@@ -163,7 +163,7 @@ session:create(),
    
       lib-rendering:txfrm-webpage(
       $title,
-      if ($action='Store')
+      if ($action='Save')
       then 
          (
          if (

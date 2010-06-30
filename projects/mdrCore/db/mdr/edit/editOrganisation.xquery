@@ -63,16 +63,16 @@ declare function local:organization(
    (: compose the document :)
     let $document :=
             element openMDR:Organization {
-     										attribute organization_identifier{$organization-identifier},
-           							        element openMDR:organization_name{$organization_name},
-                							element openMDR:organization_mail_address{$organization_mail_address},
-                							element openMDR:Contact {
-        							            attribute contact_identifier{$contact-identifier},
-        							            element openMDR:contact_name{$contact_name},
-        							            element openMDR:contact_title{$contact_title},
-        							            element openMDR:contact_information{$contact_information}
-    							            }
-							             }
+                                            attribute organization_identifier{$organization-identifier},
+                                            element openMDR:organization_name{$organization_name},
+                                            element openMDR:organization_mail_address{$organization_mail_address},
+                                            element openMDR:Contact {
+                                                attribute contact_identifier{$contact-identifier},
+                                                element openMDR:contact_name{$contact_name},
+                                                element openMDR:contact_title{$contact_title},
+                                                element openMDR:contact_information{$contact_information}
+                                            }
+                                         }
       
    let $collection := 'organisation'
    let $message := lib-forms:store-document($document) 
@@ -114,39 +114,39 @@ declare function local:input-page(
                 {lib-forms:hidden-element('organization-identifier',$organization-identifier)}
                 {lib-forms:hidden-element('contact-identifier',$contact-identifier)}
                 {lib-forms:hidden-element('updating','updating')}               
-                	<table class="layout">
-             		<tr><td class="row-header-cell" colspan="6">Organization</td></tr>
+                    <table class="layout">
+                    <tr><td class="row-header-cell" colspan="6">Organization</td></tr>
                 {
-                	<tr>
-                  	<td class="left_header_cell">Organization Name</td>
+                    <tr>
+                    <td class="left_header_cell">Organization Name</td>
                     <td><input type="text" name="org_name" value='{$org_name}'></input></td>
                   </tr>,
                   <tr>
-                  	<td class="left_header_cell">Organization Mail Address</td>
+                    <td class="left_header_cell">Organization Mail Address</td>
                     <td><input type="text" name="org_mail_address" value='{$org_mail_address}'></input></td>
                   </tr>
-              	}
-             	</table>               	                                          
-             	<table class="layout">
-             		<tr><td class="row-header-cell" colspan="6">Contact</td></tr>
+                }
+                </table>                                                          
+                <table class="layout">
+                    <tr><td class="row-header-cell" colspan="6">Contact</td></tr>
                 {
-                	<tr>
-                  	<td class="left_header_cell">Name</td>
+                    <tr>
+                    <td class="left_header_cell">Name</td>
                     <td><input type="text" name="contact-name" value='{$contact-name}'></input></td>
                   </tr>,
                   <tr>
-                  	<td class="left_header_cell">Title</td>
+                    <td class="left_header_cell">Title</td>
                     <td><input type="text" name="contact-title" value='{$contact-title}'></input></td>
                   </tr>,
                    <tr>
-                  	<td class="left_header_cell">Information Email/Phone</td>
+                    <td class="left_header_cell">Information Email/Phone</td>
                     <td><input type="text" name="contact-information" value='{$contact-information}'></input></td>
                   </tr>
-              	}
-             	</table>  
-             	
+                }
+                </table>  
+                
                 <table class="section">
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Store Changes"/></td>
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes"/></td>
                       <td colspan="4"><input type="button"  name="update" value="Cancel" 
                               onClick= "{concat("location.href='../web/organization.xquery?compound_id=", $id, "';")}" /></td>
                       </tr>    
@@ -214,7 +214,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    return
       lib-rendering:txfrm-webpage(
       $title,
-      if ($action='Store Changes')
+      if ($action='Save Changes')
       then 
          (
          if (

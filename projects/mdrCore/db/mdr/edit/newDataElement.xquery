@@ -195,7 +195,7 @@ declare function local:input-page(
                      
                 <table class="section">
                       <tr>
-                        <td class="left_header_cell"></td><td><input type="submit" name="update" value="Store" onClick="return validate_adminItems ()"/></td>
+                        <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return validate_adminItems ()"/></td>
                         <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                         <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
                       </tr>    
@@ -242,7 +242,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    
       lib-rendering:txfrm-webpage(
       $title,
-      if ($action='Store')
+      if ($action='Save')
       then 
          (
          if (
@@ -305,4 +305,3 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $registration_status
                )
          )
-
