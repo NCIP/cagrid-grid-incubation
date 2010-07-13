@@ -67,6 +67,14 @@
             <uri>../edit/newReferenceDocument.xquery
             </uri>
         </function>
+        <function>
+            <title>Annotated Model</title>
+            <description>Import a .xmi 
+                Once the information model with Logical-Data Model Mapping done, is annotated using openMDR, it needs to be stored
+            </description>
+            <uri>../edit/newAnnotatedModel.xquery
+            </uri>
+        </function>
         <!-- 
         <function>
             <title>Concept Relationship</title>
@@ -83,7 +91,7 @@
                 curators of this metadata repository</description>
             <uri>../edit/supported_datatype.xquery
             </uri>
-        </function>      
+        </function>
         <function>
             <title>Units of Measure</title>
             <description>View and maintain the units of measure available to
@@ -144,9 +152,7 @@
             </uri>
         </function>
     </subheading>
-</functions>
-
-<!-- 
+</functions><!-- 
 		<function> 
 			<title>Create a classification scheme</title>
 				<description>Creates a new classification scheme and uploads its SKOS file
