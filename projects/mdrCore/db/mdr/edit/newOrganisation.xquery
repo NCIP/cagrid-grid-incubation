@@ -46,9 +46,9 @@ declare namespace util="http://exist-db.org/xquery/util";
 declare function local:organisation(   
    $organization_name as xs:string?,
    $organization_mail_address as xs:string?,
-   $contact_name as xs:string?,
-   $contact_title as xs:string?,
-   $contact_information as xs:string?
+   $contact_name as xs:string*,
+   $contact_title as xs:string*,
+   $contact_information as xs:string*
    
    ) as xs:boolean
 {
@@ -60,8 +60,7 @@ declare function local:organisation(
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
   
-    let $organization-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
-    let $contact-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
+   let $organization-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
 
    (: compose the document :)
    let $document :=
@@ -69,11 +68,14 @@ declare function local:organisation(
                                             attribute organization_identifier{$organization-identifier},
                                             element openMDR:organization_name{$organization_name},
                                             element openMDR:organization_mail_address{$organization_mail_address},
+                                            for $u at $pos in $contact_name
+                                            let $contact-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
+                                            return
                                             element openMDR:Contact {
                                             attribute contact_identifier{$contact-identifier},
-                                            element openMDR:contact_name{$contact_name},
-                                            element openMDR:contact_title{$contact_title},
-                                            element openMDR:contact_information{$contact_information}
+                                            element openMDR:contact_name{$contact_name[$pos]},
+                                            element openMDR:contact_title{$contact_title[$pos]},
+                                            element openMDR:contact_information{$contact_information[$pos]}
                                             }
                                          }
       
@@ -83,15 +85,32 @@ declare function local:organisation(
       if ($message='stored')
       then true()
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newOrganisation.xquery&amp;",$message)))
+ 
+};
+
+declare function local:check-valid-org($organization_name as xs:string*){
+  
+  for $item  in lib-util:mdrElements('organization')//openMDR:Organization
+      (:for $u at $pos in $item//openMDR:Contact:)
+      let $org_name:= data($item//openMDR:organization_name)
+      (:let $name:= data($item//openMDR:Contact[$pos]//openMDR:contact_name):)
+      let $log := util:log-system-out('ppppppppppppppppppppp')
+      let $log := util:log-system-out($organization_name)
+      let $log := util:log-system-out($org_name)
+      return
+           if($organization_name=$org_name)
+           then false()
+           else()
+   
 };
 
 declare function local:input-page(
    $message as xs:string?,   
    $org_name as xs:string?,
    $org_mail_address as xs:string?,
-   $contact-name as xs:string?,
-   $contact-title as xs:string?,
-   $contact-information as xs:string?,
+   $contact-name as xs:string*,
+   $contact-title as xs:string*,
+   $contact-information as xs:string*,
    $action as xs:string?
 
    ) {
@@ -127,6 +146,7 @@ declare function local:input-page(
                 </table>  
                                                           
                 <table class="layout">
+                  <div id="abc">
                     <tr><td class="row-header-cell" colspan="6">Contact</td></tr>
                 {
                     <tr>
@@ -140,14 +160,23 @@ declare function local:input-page(
                    <tr>
                     <td class="left_header_cell">Information:Email/Phone <font color="red">*</font></td>
                     <td><input type="text" name="contact-information"></input></td>
-                  </tr>
- 
+                  </tr> 
                 }
-                </table> 
+                  </div>
+                </table>
+
                 <table class="section">
+                     <tr>
+                        <div id="parent">
+                        <div id="Container">
+                        </div>
+                        <td class="left_header_cell"></td>
+                        <td><input type="button" name="submit" value="Add new contact" onClick="addNewContactInfo(this);"/></td>
+                        </div>
+                      </tr>
                       <tr>
                         <td class="left_header_cell"></td>
-                        <td><input type="submit" name="update" value="Save"/></td>
+                        <td><input type="submit" name="update" value="Save" onClick="validate_Organization();"/></td>
                         <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                         <td colspan="4"><input type="button" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
                       </tr>    
@@ -155,11 +184,11 @@ declare function local:input-page(
               </div>
           </form>
           </td></tr>
-          <tr><td>{$message}</td></tr>
+          <tr><td><font color="red">{$message}</font></td></tr>
         </table>
      </div>
    };
-   
+
 declare function local:success-page() 
 {
    let $calling-page := request:get-parameter("calling-page","")
@@ -183,25 +212,18 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $contact_information :=request:get-parameter('contact-information','')
    let $action := request:get-parameter('update','')
    
+   let $validOrg := local:check-valid-org($organization_name)
+   let $log := util:log-system-out('printing valid organization/................')
+   let $log := util:log-system-out($validOrg)
+   let $orgExistsMsg := concat('Organization: ',$organization_name,' already exists')
    return
       lib-rendering:txfrm-webpage(
       $title,
       if ($action='Save')
-      then 
-         (
-         if (
-               local:organisation
-                  (
-                     $organization_name,
-                     $organization_mail_address,
-                     $contact_name,
-                     $contact_title,
-                     $contact_information
-                  )
-            ) 
-         then local:success-page()  
-         else (local:input-page(
-            'could not store document',
+      then(
+            if($validOrg=false()) then(
+             local:input-page(
+                     $orgExistsMsg,
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
@@ -209,16 +231,31 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $contact_information,
                      $action
                   )
-               )
-         )
-          else local:input-page(
+            )else(
+                if(local:organisation(
+                     $organization_name,
+                     $organization_mail_address,
+                     $contact_name,
+                     $contact_title,
+                     $contact_information)
+                  )then  local:success-page()  
+                  else (local:input-page(
+                     'could not store document',
+                     $organization_name,
+                     $organization_mail_address,
+                     $contact_name,
+                     $contact_title,
+                     $contact_information,
+                     $action)
+                  )
+            )
+          )else(local:input-page(
                      '',
                      $organization_name,
                      $organization_mail_address,
                      $contact_name,
                      $contact_title,
                      $contact_information,
-                     $action
-                  )
-         )
-
+                     $action)
+          ) 
+        )    

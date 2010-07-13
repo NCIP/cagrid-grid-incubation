@@ -198,7 +198,7 @@ This function takes in the organization name as well along with id and name
 and concats with the name to be displayed in the administered by and
 submitted by dropdown in creation of administered items
 :)
-declare function lib-forms:select-filler-nameAndOrg($id as xs:string?, $name as xs:string?, $received-value as xs:string?, $org as xs:string*) as node()
+declare function lib-forms:select-filler-nameAndOrg($id as xs:string*, $name as xs:string*, $received-value as xs:string?, $org as xs:string*) as node()
 {
    element option {
       attribute value {$id},
@@ -234,7 +234,8 @@ declare function lib-forms:make-select-submitted_by-nameAndOrg($received-value a
       attribute name {'submitted-by'}, 
       lib-forms:blank-filler(),      
       for $item in lib-util:mdrElements('organization')//openMDR:Organization
-      let $name:= data($item//openMDR:Contact//openMDR:contact_name)
+      for $u at $pos in $item//openMDR:Contact
+      let $name:= data($item//openMDR:Contact[$pos]//openMDR:contact_name)
       let $id:= data($item//openMDR:Contact//@contact_identifier)
       let $organization := data($item//openMDR:organization_name)
       order by $name
@@ -268,9 +269,16 @@ declare function lib-forms:make-select-administered_by-nameAndOrg($received-valu
       lib-forms:blank-filler(),
               
       for $item in lib-util:mdrElements('organization')//openMDR:Organization
-      let $name:= data($item//openMDR:Contact//openMDR:contact_name)
-      let $id:= data($item//openMDR:Contact//@contact_identifier)
+      for $u at $pos in $item//openMDR:Contact
+      let $name:= data($item//openMDR:Contact[$pos]//openMDR:contact_name)
+      
+      let $id:= data($item//openMDR:Contact[$pos]//@contact_identifier)
       let $organization := data($item//openMDR:organization_name)
+      let $log := util:log-system-out('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
+      let $log := util:log-system-out($name)
+      let $log := util:log-system-out($id)
+      let $log := util:log-system-out($organization)
+      let $log := util:log-system-out($received-value)
       order by $name 
       return lib-forms:select-filler-nameAndOrg($id, $name, $received-value, data($organization))
       }

@@ -42,35 +42,41 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response"; 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
-
+declare namespace request="http://exist-db.org/xquery/request"; 
 
 declare function local:organization(
    $id as xs:string,
    $organization_name as xs:string?,
    $organization_mail_address as xs:string?,
-   $contact_name as xs:string?,
-   $contact_title as xs:string?,
-   $contact_information as xs:string?,
+   $contact_name as xs:string*,
+   $contact_title as xs:string*,
+   $contact_information as xs:string*,
    $organization-identifier as xs:string?,
-   $contact-identifier as xs:string?
+   $contact-identifier as xs:string*
    ) as xs:boolean
 {
     
    let $version := lib-forms:substring-after-last($id,'_')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $doc-name := concat($id,'.xml')
-           
+   
+   let $element := lib-util:mdrElements("registration_authority")
+   let $reg-auth :=  data($element//openMDR:organization_identifier)
+    
    (: compose the document :)
     let $document :=
             element openMDR:Organization {
                                             attribute organization_identifier{$organization-identifier},
                                             element openMDR:organization_name{$organization_name},
                                             element openMDR:organization_mail_address{$organization_mail_address},
+                                            for $u at $pos in $contact_name
+                                            let $contact-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
+                                            return
                                             element openMDR:Contact {
                                                 attribute contact_identifier{$contact-identifier},
-                                                element openMDR:contact_name{$contact_name},
-                                                element openMDR:contact_title{$contact_title},
-                                                element openMDR:contact_information{$contact_information}
+                                                element openMDR:contact_name{$contact_name[$pos]},
+                                                element openMDR:contact_title{$contact_title[$pos]},
+                                                element openMDR:contact_information{$contact_information[$pos]}
                                             }
                                          }
       
@@ -87,11 +93,11 @@ declare function local:input-page(
    $id as xs:string?,
    $org_name as xs:string?,
    $org_mail_address as xs:string?,
-   $contact-name as xs:string?,
-   $contact-title as xs:string?,
-   $contact-information as xs:string?,
+   $contact-name as xs:string*,
+   $contact-title as xs:string*,
+   $contact-information as xs:string*,
    $organization-identifier as xs:string?,
-   $contact-identifier as xs:string?,
+   $contact-identifier as xs:string*,
    $action as xs:string?
    ) {
    let $skip-name := substring-after($action,'delete naming entry')
@@ -126,26 +132,41 @@ declare function local:input-page(
                     <td><input type="text" name="org_mail_address" value='{$org_mail_address}'></input></td>
                   </tr>
                 }
-                </table>                                                          
+                </table>    
+                
+                <div id="parent">
+                {for $u at $pos in $contact-name
+                return        
+                <div id="Container">                
                 <table class="layout">
                     <tr><td class="row-header-cell" colspan="6">Contact</td></tr>
                 {
                     <tr>
-                    <td class="left_header_cell">Name</td>
-                    <td><input type="text" name="contact-name" value='{$contact-name}'></input></td>
+                    <td class="left_header_cell">Name<font color="red">*</font></td>
+                    <td><input type="text" name="contact-name" value='{$contact-name[$pos]}'></input></td>
                   </tr>,
                   <tr>
                     <td class="left_header_cell">Title</td>
-                    <td><input type="text" name="contact-title" value='{$contact-title}'></input></td>
+                    <td><input type="text" name="contact-title" value='{$contact-title[$pos]}'></input></td>
                   </tr>,
                    <tr>
-                    <td class="left_header_cell">Information Email/Phone</td>
-                    <td><input type="text" name="contact-information" value='{$contact-information}'></input></td>
+                    <td class="left_header_cell">Information Email/Phone<font color="red">*</font></td>
+                    <td><input type="text" name="contact-information" value='{$contact-information[$pos]}'></input></td>
+                  </tr>,
+                  <tr>
+                    <td class="left_header_cell"></td>
+                    <td><input type="button" name="submit" value="Delete Contact" onClick="deleteContact(this);"/></td>
                   </tr>
                 }
                 </table>  
+                </div>
+                }
+                </div>
                 
                 <table class="section">
+                    <tr>
+                     <td class="left_header_cell"></td><td><input type="button" name="submit" value="Add new Contact" onClick="addNewContact(this);"/></td>
+                    </tr>
                       <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes"/></td>
                       <td colspan="4"><input type="button"  name="update" value="Cancel" 
                               onClick= "{concat("location.href='../web/organization.xquery?compound_id=", $id, "';")}" /></td>
@@ -154,7 +175,7 @@ declare function local:input-page(
               </div>
           </form>
           </td></tr>
-          <tr><td>{$message}</td></tr>
+          <tr><td><font color="red">{$message}</font></td></tr>
         </table>
      </div>
    };
@@ -184,6 +205,20 @@ declare function local:success-page()
       </div>
 };
 
+declare function local:check-valid-org($organization_name as xs:string*){
+  for $item  in lib-util:mdrElements('organization')//openMDR:Organization
+      (:for $u at $pos in $item//openMDR:Contact:)
+      let $org_name:= data($item//openMDR:organization_name)
+      (:let $name:= data($item//openMDR:Contact[$pos]//openMDR:contact_name):)
+      let $log := util:log-system-out('ppppppppppppppppppppp')
+      let $log := util:log-system-out($organization_name)
+      let $log := util:log-system-out($org_name)
+      return
+           if($organization_name=$org_name)
+           then false()
+           else()
+};
+
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
    
    session:create(),
@@ -196,7 +231,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $iorganization-identifier := string($element/@organization_identifier)
    let $iorganization_name := $element//openMDR:organization_name
    let $iorganization_mail_address := $element//openMDR:organization_mail_address   
-   let $icontact-identifier := string($element//openMDR:Contact/@contact_identifier)   
+   let $icontact-identifier := string($element//openMDR:Contact/@contact_identifier[0])   
    let $icontact_name := $element//openMDR:contact_name
    let $icontact_title := $element//openMDR:contact_title
    let $icontact_information := $element//openMDR:contact_information
@@ -211,15 +246,31 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $organization-identifier :=request:get-parameter('organization-identifier','')
    let $contact-identifier :=request:get-parameter('contact-identifier','')   
    
+   let $log := util:log-system-out('ooooooooooooooooooooooooooo')
+   let $log := util:log-system-out($organization_name)
+      
+   let $validOrg := local:check-valid-org($organization_name)
+   let $orgExistsMsg := concat('Organization: ',$organization_name,' already exists')
    return
       lib-rendering:txfrm-webpage(
       $title,
       if ($action='Save Changes')
-      then 
-         (
-         if (
-               local:organization
-                  (
+      then (
+         if($iorganization_name!=$organization_name and $validOrg=false()) then(
+             local:input-page(
+                 $orgExistsMsg,
+                 $id,
+                 $organization_name,
+                 $organization_mail_address,
+                 $contact_name,
+                 $contact_title,
+                 $contact_information,
+                 $organization-identifier,
+                 $contact-identifier,
+                 $action
+              )
+         )else(
+            if (local:organization(
                      $id,
                      $organization_name,
                      $organization_mail_address,
@@ -227,12 +278,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $contact_title,
                      $contact_information,
                      $organization-identifier,
-                     $contact-identifier
-                  )
-            ) 
-         then (local:success-page()  )
-         else (local:input-page(
-            'could not store document',
+                     $contact-identifier)
+            )then (local:success-page()  )
+            else (local:input-page(
+                    'could not store document',
                      $id,
                      $organization_name,
                      $organization_mail_address,
@@ -244,9 +293,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action
                   )
                )
+            )
          )
-      else (
-         if ($updating ='updating')
+         else(
+             if ($updating ='updating')
          then (
                local:input-page
                (
@@ -276,5 +326,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action
                )
          )
-       )  
+         )
     )
+   
