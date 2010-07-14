@@ -31,11 +31,13 @@ declare function local:reference-document(
    $description as xs:string?,
    $file as xs:string?,
    $provided-by as xs:string?,
-   $action as xs:string?
+   $action as xs:string?,
+   $id as xs:string?
    ) as xs:boolean
 {
    let $version := '0.1'
-   let $data-identifier := lib-forms:generate-id()
+  (: let $data-identifier := lib-forms:generate-id():)
+   let $data-identifier := $id
    let $doc-name := $data-identifier
    let $message := lib-forms:store-reference-document(request:get-uploaded-file('file'),request:get-uploaded-file-name('file'),'application/octet-stream') 
    let $document :=
@@ -64,11 +66,13 @@ declare function local:input-page(
    $description as xs:string?,
    $file as xs:string?,
    $provided-by as xs:string?,
-   $action as xs:string?
+   $action as xs:string?,
+   $id as xs:string?
    ) {
  let $skip-uri := substring-after($action,'delete uri entry')
    let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
-
+    let $log := util:log-system-out('......................................')
+   let $log := util:log-system-out($id)
    return
    <div xmlns="http://www.w3.org/1999/xhtml">
  
@@ -81,7 +85,8 @@ declare function local:input-page(
           </tr>
           <tr><td>
           <form name="edit_reference_document" action="editReferenceDocument.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
-             <div class="section">
+            {lib-forms:hidden-element('id',$id)}            
+            <div class="section">
                     <table class="section">
                         <tr>
                            <td class="row-header-cell" colspan="6">Reference Document</td>
@@ -92,7 +97,7 @@ declare function local:input-page(
                         </tr>
                         
                         <tr>
-                          <td class="left_header_cell">File</td><td><input type="FILE" name="file" value="{$file}"/></td>
+                          <td class="left_header_cell">File</td><td><input id="file" type="FILE" name="file" value="{$file}"/></td>
                         </tr>
                         
                         <tr>
@@ -111,7 +116,7 @@ declare function local:input-page(
                            <td class="row-header-cell" colspan="6">Store</td>
                         </tr>
                         <tr>
-                            <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save"/></td>
+                            <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes" onClick="return checkFile(this)"/></td>
                             <td colspan="4"><input type="submit" name="update" value="Clear"/></td>
                             
                         </tr>
@@ -162,7 +167,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    
       lib-rendering:txfrm-webpage(
       $title,
-      if ($action='Save')
+      if ($action='Save Changes')
       then 
          (
          if (
@@ -173,7 +178,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $description,
                      $file,
                      $provided-by,
-                     $action
+                     $action,
+                     $id
                   )
             ) 
          then local:success-page()  
@@ -184,7 +190,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $description,
                      $file,
                      $provided-by,
-                     $action
+                     $action,
+                     $iref-id
                   )
                )
          )
@@ -196,6 +203,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                  $idescription,
                  $ifile,
                  $iprovided-by,
-                 $iaction
+                 $iaction,
+                 $iref-id
                )
          )

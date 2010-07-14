@@ -226,3 +226,88 @@ function deleteContact(obj) {
 
 function addHTML(o,p,q){function r(a){var b;if(typeof DOMParser!="undefined")b=(new DOMParser()).parseFromString(a,"application/xml");else{var c=["MSXML2.DOMDocument","MSXML.DOMDocument","Microsoft.XMLDOM"];for(var i=0;i<c.length&&!b;i++){try{b=new ActiveXObject(c[i]);b.loadXML(a)}catch(e){}}}return b}function s(a,b,c){a[b]=function(){return eval(c)}}function t(b,c,d){if(typeof d=="undefined")d=1;if(d>1){if(c.nodeType==1){var e=document.createElement(c.nodeName);var f={};for(var a=0,g=c.attributes.length;a<g;a++){var h=c.attributes[a].name,k=c.attributes[a].value,l=(h.substr(0,2)=="on");if(l)f[h]=k;else{switch(h){case"class":e.className=k;break;case"for":e.htmlFor=k;break;default:e.setAttribute(h,k)}}}b=b.appendChild(e);for(l in f)s(b,l,f[l])}else if(c.nodeType==3){var m=(c.nodeValue?c.nodeValue:"");var n=m.replace(/^\s*|\s*$/g,"");if(n.length<7||(n.indexOf("<!--")!=0&&n.indexOf("-->")!=(n.length-3)))b.appendChild(document.createTextNode(m))}}for(var i=0,j=c.childNodes.length;i<j;i++)t(b,c.childNodes[i],d+1)}p="<root>"+p+"</root>";var u=r(p);if(o&&u){if(q!=false)while(o.lastChild)o.removeChild(o.lastChild);t(o,u.documentElement)}}
 
+function validate(obj)
+{
+    valid = true;
+    errors = new Array();
+    i=0;
+    
+    page = document.getElementById('move');
+    if(page.value=='page 2'){
+        
+         regauth = document.getElementById('registration-authority');
+         regby = document.getElementById('registered-by');
+         adminby = document.getElementById('administered-by');
+         submitby = document.getElementById('submitted-by');
+         adminstatus = document.getElementById('administrative-status');
+         regstatus = document.getElementById('registration-status');
+                   
+         if (regauth.options[regauth.selectedIndex].value == ""){ 
+             errors[i] = "Registration Authority" ;
+             i++;
+         }
+         
+         if (regby.options[regby.selectedIndex].value == ""){ 
+             errors[i] = "Registered By" ;
+             i++;
+         }
+     
+         if (adminby.options[adminby.selectedIndex].value == ""){ 
+             errors[i] = "Administered By" ;
+             i++;
+         }
+         
+         if (submitby.options[submitby.selectedIndex].value == ""){ 
+             errors[i] = "Submitted By" ;
+             i++;
+         }
+     
+         if (adminstatus.options[adminstatus.selectedIndex].value == ""){ 
+             errors[i] = "Administrative Status" ;
+             i++;
+         }
+             
+         if (regstatus.options[regstatus.selectedIndex].value == ""){ 
+             errors[i] = "Registration Status" ;
+             i++;
+         }
+    }
+    
+    if(page.value=='page 1'){
+        names = document.getElementById('name');
+        if (names.value == ""){ 
+             errors[i] = "Name" ;
+             i++;
+        }
+    }
+    
+    if(errors.length>0){
+        errMsg = "Please make sure you enter/select the following items :- \n ";
+        for(j=0; j<errors.length; j++){
+            errMsg = errMsg + "\n" + errors[j];
+        }
+        alert(errMsg);
+        valid = false;
+    }    
+    return valid;
+}
+
+function checkFile(obj){
+    valid = true;
+    errors = new Array();
+    i=0;
+    file = document.getElementById('file');
+    if(file.value == ""){
+       errors[i] = "Choose a file" ;
+       i++;
+    }
+     if(errors.length>0){
+        errMsg = "Please make sure you enter/select the following items :- \n ";
+        for(j=0; j<errors.length; j++){
+            errMsg = errMsg + "\n" + errors[j];
+        }
+        alert(errMsg);
+        valid = false;
+    }  
+    return valid;
+}

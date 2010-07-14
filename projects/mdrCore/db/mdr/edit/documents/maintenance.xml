@@ -75,6 +75,13 @@
             <uri>../edit/newAnnotatedModel.xquery
             </uri>
         </function>
+        <function>
+            <title>New Data Element Wizard</title>
+            <description>Use this data element wizard to simplify creation of data element
+            </description>
+            <uri>../edit/newDataElementWizard.xquery
+            </uri>
+        </function>
         <!-- 
         <function>
             <title>Concept Relationship</title>

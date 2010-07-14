@@ -30,12 +30,13 @@ declare namespace response="http://exist-db.org/xquery/response";
 declare namespace validation="http://exist-db.org/xquery/validation";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace util="http://exist-db.org/xquery/util";
+declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 
 (: wizard pages :)
 
 declare function local:page-button($button-text as xs:string) as element(input)
 {
-   <input type="submit" name="move" value="{$button-text}" class="cgButton"/>
+   <input id="move" type="submit" name="move" value="{$button-text}" class="cgButton" onClick="return validate(this);"/>
 };
 
 
@@ -75,11 +76,12 @@ declare function local:admin-item-details($message as xs:string) as node()
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
             <tr><td class="left_header_cell">Navigation</td><td width="40%"></td><td>{local:page-button("page 2")}</td></tr>
-            <tr><td class="left_header_cell">Registration Authority</td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
-            <tr><td class="left_header_cell">Registered by</td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
-            <tr><td class="left_header_cell">Administered by</td><td colspan="2"> {lib-forms:make-select-administered_by(request:get-parameter('administered-by',''))} </td></tr>
-            <tr><td class="left_header_cell">Submitted by</td><td colspan="2"> {lib-forms:make-select-submitted_by(request:get-parameter('submitted-by',''))} </td></tr>
-            <tr><td class="left_header_cell">Administrative Status</td><td colspan="2">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',''))}</td></tr>
+            <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
+            <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
+            <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-administered_by-nameAndOrg(request:get-parameter('administered-by',''))} </td></tr>
+            <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-submitted_by-nameAndOrg(request:get-parameter('submitted-by',''))} </td></tr>
+            <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="2">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',''))}</td></tr>
+            <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="2"> {lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',''))}</td></tr>
             <tr><td class="left_header_cell">Administrative Note</td><td colspan="2">{lib-forms:text-area-element('administrative-note', 5, 70, request:get-parameter('administrative-note',''))}</td></tr>
             </table>
             {local:hidden-controls-page2(), 
@@ -102,6 +104,7 @@ lib-forms:hidden-element('registered-by',request:get-parameter('registered-by','
 lib-forms:hidden-element('administered-by',request:get-parameter('administered-by','')),
 lib-forms:hidden-element('submitted-by',request:get-parameter('submitted-by','')),
 lib-forms:hidden-element('administrative-status', request:get-parameter('administrative-status','')),
+lib-forms:hidden-element('registration-status', request:get-parameter('registration-status','')),
 lib-forms:hidden-element('administrative-note', request:get-parameter('administrative-note',''))
 };
 
@@ -114,7 +117,7 @@ declare function local:data-element-details($message as xs:string) as node()
           <div xmlns="http://www.w3.org/1999/xhtml">
          <table class="layout">
          <tr><td class="left_header_cell"/><td width="40%">{local:page-button("page 1")}</td><td>{local:page-button("page 3")}</td></tr>
-         <tr><td class="left_header_cell">Preferred Name</td><td colspan="2">{lib-forms:input-element('name', 70, request:get-parameter('name',''))}</td></tr>
+         <tr><td class="left_header_cell">Preferred Name<font color="red">*</font></td><td colspan="2">{lib-forms:input-element('name', 70, request:get-parameter('name',''))}</td></tr>
          <tr><td class="left_header_cell">Preferred Definition</td><td colspan="2">{lib-forms:text-area-element('definition', 5, 70, request:get-parameter('definition',''))}</td></tr>
          <tr><td class="left_header_cell">Context of preferred name</td><td colspan="5">  {lib-forms:select-from-contexts-enum('preferred_name_context',request:get-parameter('preferred_name_context',''))} </td></tr>
          <tr>
@@ -410,7 +413,7 @@ let $full-identifier-pr := concat($registration-authority, '_', $data-identifier
 
 let $administration-record := lib-make-admin-item:administration-record(
         $administrative-note,
-        $administrative-status,
+        $administrative-status,'',
         'recorded')
 
 let $custodians := lib-make-admin-item:custodians(
