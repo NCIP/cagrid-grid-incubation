@@ -88,6 +88,8 @@ return
                   </div>
                   
                   <td><input type="submit" value="Submit query" class="cgButton" onclick="document.getElementById('processImg').style.display = '';"/></td>
+                  <td><input type="submit" value="Stop query" class="cgButton" onclick="this.form.reset();"/></td>
+                  
                </tr>       
             </table>
             <ul>
@@ -96,7 +98,7 @@ return
                     </font>
                 </li>
             </ul>
-
+        
             
             <table class="layout">
             {                                   
