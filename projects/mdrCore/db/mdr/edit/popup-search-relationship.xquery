@@ -57,7 +57,7 @@ declare function local:action-button($value as xs:string, $control as xs:string,
 };   
 
 declare function local:action-button($value as xs:string, $control as xs:string, $text as xs:string, 
-$name as xs:string, $form-name as xs:string) as node()
+$name as xs:string, $form-name as xs:string?) as node()
 {
    element input {
       attribute class {"cgButton"},
@@ -102,7 +102,7 @@ declare function local:cancel-button($form-name as xs:string, $control as xs:str
       )
    }
 };
-declare function local:popup-close($form-name as xs:string, $control as xs:string, $value as xs:string) 
+declare function local:popup-close($form-name as xs:string?, $control as xs:string, $value as xs:string) 
 {
       if( session:get-attribute($control) > '' ) then(
         attribute onunload {

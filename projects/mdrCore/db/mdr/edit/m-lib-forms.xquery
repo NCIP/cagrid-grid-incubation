@@ -321,6 +321,24 @@ declare function lib-forms:make-select-admin-item($collection as xs:string, $sel
       lib-forms:popup-search($collection, $select-name)
 };
 
+declare function lib-forms:make-select-admin-item-edit-false($collection as xs:string, $select-name as xs:string, $received-value as xs:string) as node()*
+{
+   element input {
+      attribute type {'text'},
+   
+      attribute name {$select-name},
+      attribute id {$select-name},
+      attribute value {$received-value},
+      attribute size {'97%'},
+      attribute readonly {'readonly'}
+      },
+      element div {
+         attribute id {concat($select-name,'-div')},
+         administered-item:preferred-name($collection,$received-value)
+      },
+      lib-forms:popup-search($collection, $select-name)
+};
+
 declare function lib-forms:make-select-form-admin-item($collection as xs:string, $select-name as xs:string, $received-value as xs:string, 
 $form-name as xs:string, $button-name as xs:string) as node()*
 {

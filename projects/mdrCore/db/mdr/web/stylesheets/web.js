@@ -281,6 +281,23 @@ function validate(obj)
         }
     }
     
+    if(page.value=='page 4'){
+        var isValid = true;
+        for (var k = 0; k<document.edit_admin_item.elements.length; k++) {
+            if (document.edit_admin_item.elements[k].name == "values") {
+                for (var j = 0; j<document.edit_admin_item.elements.length; j++) {           
+                    if (document.edit_admin_item.elements[j].name == "values" & document.edit_admin_item.elements[k].value == document.edit_admin_item.elements[j].value & k!=j) {
+                        isValid = false;
+                    }
+                } 
+             }
+        }
+        if(isValid == false){
+            errors[i] = "Values cannot be the same";
+            i++;
+        }
+    }
+    
     if(errors.length>0){
         errMsg = "Please make sure you enter/select the following items :- \n ";
         for(j=0; j<errors.length; j++){

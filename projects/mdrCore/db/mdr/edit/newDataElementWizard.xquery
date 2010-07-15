@@ -183,25 +183,25 @@ declare function local:data-element-concept($message as xs:string) as node()
                <tr>
                   <td class="left_header_cell">Object Class URI</td>
                   <td align="left" colspan="2">
-                     {lib-forms:find-concept-id('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
+                     {lib-forms:find-concept-id-edit-false('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
                   </td>
               </tr>
               <tr>
                   <td class="left_header_cell"> </td>
                   <td align="left" colspan="2"><i> or select existing </i> 
-                  {lib-forms:make-select-admin-item('object_class','object_class_id', request:get-parameter('object_class_id',''))}
+                  {lib-forms:make-select-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''))}
                   </td>
                </tr>
                <tr>
                   <td class="left_header_cell">Property URI</td>
                   <td align="left" colspan="2">
-                     {lib-forms:find-concept-id('property_uri','get property concept',request:get-parameter('property_uri',''))}
+                     {lib-forms:find-concept-id-edit-false('property_uri','get property concept',request:get-parameter('property_uri',''))}
                   </td>
               </tr>
               <tr>
                   <td class="left_header_cell"> </td>
                   <td align="left" colspan="2"><i> or select existing </i> 
-                     {lib-forms:make-select-admin-item('property','property_id', request:get-parameter('property_id',''))}
+                     {lib-forms:make-select-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''))}
                   </td>
                </tr>
             </table>
