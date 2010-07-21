@@ -108,7 +108,7 @@ declare function local:input-page(
                         </tr>
 
                         <tr>
-                          <td class="left_header_cell">File</td><td><input type="FILE" name="file"/></td>
+                          <td class="left_header_cell">File</td><td><input id="file" type="FILE" name="file"/></td>
                         </tr>
                         
                         <tr>
@@ -126,7 +126,7 @@ declare function local:input-page(
                         <tr>
                            <td class="row-header-cell" colspan="6">Store</td>
                         </tr>
-                        <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>
+                        <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return checkFile(this);"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>
                      </table>
               </div>
           </form>

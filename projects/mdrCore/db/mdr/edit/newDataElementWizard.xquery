@@ -31,6 +31,7 @@ declare namespace validation="http://exist-db.org/xquery/validation";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace util="http://exist-db.org/xquery/util";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+declare namespace datetime = "http://exist-db.org/xquery/datetime";
 
 (: wizard pages :)
 
@@ -71,17 +72,19 @@ lib-forms:hidden-element('refdoc3',request:get-parameter('refdoc3',''))
 declare function local:admin-item-details($message as xs:string) as node()
 {
    let $title as xs:string := "New Data Element Wizard: page 1 - common administrative item details"
+   let $version := '0.1'
    let $content as node()* := 
             (
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
             <tr><td class="left_header_cell">Navigation</td><td width="40%"></td><td>{local:page-button("page 2")}</td></tr>
-            <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
-            <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
-            <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-administered_by-nameAndOrg(request:get-parameter('administered-by',''))} </td></tr>
-            <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-submitted_by-nameAndOrg(request:get-parameter('submitted-by',''))} </td></tr>
-            <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="2">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',''))}</td></tr>
-            <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="2"> {lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',''))}</td></tr>
+            <tr><td class="left_header_cell">Registration Authority<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
+            <tr><td class="left_header_cell">Version</td><td colspan="5"> {$version}{lib-forms:radio('label',$version,'true')} </td></tr>
+            <tr><td class="left_header_cell">Registered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
+            <tr><td class="left_header_cell">Administered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-administered_by-nameAndOrg(request:get-parameter('administered-by',''))} </td></tr>
+            <tr><td class="left_header_cell">Submitted by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-submitted_by-nameAndOrg(request:get-parameter('submitted-by',''))} </td></tr>
+            <tr><td class="left_header_cell">Administrative Status<font color="red">*</font></td><td colspan="2">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',''))}</td></tr>
+            <tr><td class="left_header_cell">Registration Status<font color="red">*</font></td><td colspan="2"> {lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',''))}</td></tr>
             <tr><td class="left_header_cell">Administrative Note</td><td colspan="2">{lib-forms:text-area-element('administrative-note', 5, 70, request:get-parameter('administrative-note',''))}</td></tr>
             </table>
             {local:hidden-controls-page2(), 
@@ -174,6 +177,7 @@ declare function local:data-element-concept($message as xs:string) as node()
    let $title as xs:string := "New Data Element Wizard: page 3 - Data Element Concept"
    let $content as node()* := 
             (
+           
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
                <tr>
@@ -204,6 +208,15 @@ declare function local:data-element-concept($message as xs:string) as node()
                      {lib-forms:make-select-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''))}
                   </td>
                </tr>
+               <tr>
+                  <td class="left_header_cell">Conceptual Domain</td>
+               </tr>
+              <tr>
+                  <td class="left_header_cell"> </td>
+                  <td> 
+                     {lib-forms:make-select-admin-item-edit-false('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))}
+                  </td>
+               </tr>
             </table>
                         {
                         local:hidden-controls-page1(), 
@@ -213,6 +226,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                         local:hidden-controls-page5n(),
                         local:hidden-controls-page6()}
             </div>
+           
              )
              
    return lib-forms:wrap-form-contents($title, $content)
@@ -223,7 +237,10 @@ declare function local:hidden-controls-page3()
 lib-forms:hidden-element('object_class_uri', request:get-parameter('object_class_uri','')), 
 lib-forms:hidden-element('property_uri', request:get-parameter('property_uri','')),
 lib-forms:hidden-element('property_id', request:get-parameter('property_id','')),
-lib-forms:hidden-element('object_class_id', request:get-parameter('object_class_id',''))
+lib-forms:hidden-element('object_class_id', request:get-parameter('object_class_id','')),
+lib-forms:hidden-element('conceptual_domain_uri', request:get-parameter('conceptual_domain_uri','')),
+lib-forms:hidden-element('conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))
+
 };
 
 declare function local:value-domain-type($message as xs:string) as node()
@@ -411,10 +428,13 @@ let $full-identifier-cd := concat($registration-authority, '_', $data-identifier
 let $full-identifier-oc := concat($registration-authority, '_', $data-identifier-oc, '_', $version)
 let $full-identifier-pr := concat($registration-authority, '_', $data-identifier-pr, '_', $version)
 
+let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
+let $registration_status := request:get-parameter('registration_status','')
+ 
 let $administration-record := lib-make-admin-item:administration-record(
         $administrative-note,
-        $administrative-status,'',
-        'recorded')
+        $administrative-status,$creation-date,
+        $registration_status)
 
 let $custodians := lib-make-admin-item:custodians(
         $administered-by,

@@ -139,7 +139,7 @@ declare function lib-forms:find-concept-id-CD(
         concat("window.open('popup-search-reference-uri.xquery?element=", $id,
             "','Popup_Window','resizable=yes,width=1100,height=400,scrollbars=1,menubar=no,left=100,top=100')")
     return
-        (<input type="text" name="{$control-name}" id="{$id}" size="30" value="{$recieved_value}" />,
+        (<input type="text" name="{$control-name}" readonly="true" id="{$id}" size="30" value="{$recieved_value}" />,
             element input {
                 attribute type {'button'},
                 attribute value {$button-label},
