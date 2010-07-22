@@ -203,7 +203,7 @@ declare function local:success-page()
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
  
    session:create(),
-   let $title as xs:string := "Creating a New Organisation"
+   let $title as xs:string := "Creating a New Organization"
    
    let $organization_name :=request:get-parameter('org_name','')
    let $organization_mail_address :=request:get-parameter('org_mail_address','')
