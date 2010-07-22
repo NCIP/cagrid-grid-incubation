@@ -123,7 +123,7 @@ declare function local:input-page(
       <table class="layout">
           <tr>
              <td>
-                This form will allow you to create a new Organisation in the metadata repository
+                This form will allow you to create a new Organization in the metadata repository
              </td>
           </tr>
           <tr><td>
