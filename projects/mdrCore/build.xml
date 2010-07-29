@@ -105,6 +105,8 @@
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr/data" collection="data_element" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr/data" collection="data_element_concept" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr/data" collection="data_type" />
+		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr/data" collection="models" />
+		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr/data/models" collection="documents" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr/data" collection="object_class" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr/data" collection="organization" />
 		<xdb:create xmlns:xdb="http://exist-db.org/ant" user="${dbusername}" password="${dbpassword}" uri="xmldb:exist://${dbhost}:${dbport}/exist/xmlrpc/db/mdr/data" collection="property" />

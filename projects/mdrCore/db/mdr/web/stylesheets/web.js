@@ -117,7 +117,7 @@ function validate_valueDomain(){
         for (var i = 0; i<document.new_value_domain.elements.length; i++) {
             if (document.new_value_domain.elements[i].name == "values") {
                 for (var j = 0; j<document.new_value_domain.elements.length; j++) {           
-                    if (document.new_value_domain.elements[j].name == "values" & document.new_value_domain.elements[i].value == document.new_value_domain.elements[j].value & i!=j) {
+                    if (document.new_value_domain.elements[j].name == "values" & document.new_value_domain.elements[i].value.toLowerCase() == document.new_value_domain.elements[j].value.toLowerCase() & i!=j) {
                         isValid = false;
                     }
                 } 
@@ -138,7 +138,7 @@ function validate_editValueDomain(){
         for (var i = 0; i<document.edit_value_domain.elements.length; i++) {
             if (document.edit_value_domain.elements[i].name == "values") {
                 for (var j = 0; j<document.edit_value_domain.elements.length; j++) {           
-                    if (document.edit_value_domain.elements[j].name == "values" & document.edit_value_domain.elements[i].value == document.edit_value_domain.elements[j].value & i!=j) {
+                    if (document.edit_value_domain.elements[j].name == "values" & document.edit_value_domain.elements[i].value.toLowerCase() == document.edit_value_domain.elements[j].value.toLowerCase() & i!=j) {
                         isValid = false;
                     }
                 } 
