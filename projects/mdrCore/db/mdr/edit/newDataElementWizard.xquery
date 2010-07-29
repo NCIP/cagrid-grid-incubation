@@ -1,7 +1,5 @@
 xquery version "1.0";
-
-
-  
+ 
 import module namespace 
    lib-util="http://www.cagrid.org/xquery/library/util" 
    at "../library/m-lib-util.xquery";
@@ -40,44 +38,15 @@ declare function local:page-button($button-text as xs:string) as element(input)
    <input id="move" type="submit" name="move" value="{$button-text}" class="cgButton" onClick="return validate(this);"/>
 };
 
-
-
-declare function local:associated-refdocs($message as xs:string) as node()
-{
-   let $title as xs:string := "New Data Element Wizard: page 6 - reference documents"
-   let $content as node()* := 
-            (
-            <div xmlns="http://www.w3.org/1999/xhtml">
-            <table class="layout">
-            <tr><td class="left_header_cell"/><td width="40%">{local:page-button("page 5")}</td><td>{local:page-button("page 7")}</td></tr>
-            <tr><td class="left_header_cell">Reference document 1</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc1', request:get-parameter('refdoc1',''))} </td></tr>
-            <tr><td class="left_header_cell">Reference document 2</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc2', request:get-parameter('refdoc2',''))} </td></tr>
-            <tr><td class="left_header_cell">Reference document 3</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc3', request:get-parameter('refdoc3',''))} </td></tr>
-            </table>
-            {local:hidden-controls-page1(),local:hidden-controls-page2(), local:hidden-controls-page3(), local:hidden-controls-page4(), local:hidden-controls-page5e(),local:hidden-controls-page5n()}
-
-            </div>
-             )
-             
-   return lib-forms:wrap-form-contents($title, $content)
-};
-
-declare function local:hidden-controls-page6()
-{
-lib-forms:hidden-element('refdoc1', request:get-parameter('refdoc1','')),
-lib-forms:hidden-element('refdoc2',request:get-parameter('refdoc2','')),
-lib-forms:hidden-element('refdoc3',request:get-parameter('refdoc3',''))
-};
-
 declare function local:admin-item-details($message as xs:string) as node()
 {
-   let $title as xs:string := "New Data Element Wizard: page 1 - common administrative item details"
+   let $title as xs:string := "New Data Element Wizard:- common administrative item details"
    let $version := '0.1'
    let $content as node()* := 
             (
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-            <tr><td class="left_header_cell">Navigation</td><td width="40%"></td><td>{local:page-button("page 2")}</td></tr>
+            <tr><td class="left_header_cell">Navigation</td><td width="40%"></td><td>{local:page-button("Next->Conceptual Domain")}</td></tr>
             <tr><td class="left_header_cell">Registration Authority<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
             <tr><td class="left_header_cell">Version</td><td colspan="5"> {$version}{lib-forms:radio('label',$version,'true')} </td></tr>
             <tr><td class="left_header_cell">Registered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
@@ -87,12 +56,15 @@ declare function local:admin-item-details($message as xs:string) as node()
             <tr><td class="left_header_cell">Registration Status<font color="red">*</font></td><td colspan="2"> {lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',''))}</td></tr>
             <tr><td class="left_header_cell">Administrative Note</td><td colspan="2">{lib-forms:text-area-element('administrative-note', 5, 70, request:get-parameter('administrative-note',''))}</td></tr>
             </table>
-            {local:hidden-controls-page2(), 
-            local:hidden-controls-page3(), 
-            local:hidden-controls-page4(), 
-            local:hidden-controls-page5e(),
-            local:hidden-controls-page5n(),
-            local:hidden-controls-page6()}
+            {
+                local:hidden-controls-conceptual-domain(),
+                local:hidden-controls-object-class(),
+                local:hidden-controls-property-class(),
+                local:hidden-controls-data-element-concept(), 
+                local:hidden-controls-value-domain(), 
+                local:hidden-controls-data-element(),
+                local:hidden-controls-reference-doc()
+            }
 
             </div>
              )
@@ -100,281 +72,943 @@ declare function local:admin-item-details($message as xs:string) as node()
    return lib-forms:wrap-form-contents($title, $content)
 };
 
-declare function local:hidden-controls-page1()
+declare function local:hidden-controls-admin-items()
 {
-lib-forms:hidden-element('registration-authority', request:get-parameter('registration-authority','')),
-lib-forms:hidden-element('registered-by',request:get-parameter('registered-by','')),
-lib-forms:hidden-element('administered-by',request:get-parameter('administered-by','')),
-lib-forms:hidden-element('submitted-by',request:get-parameter('submitted-by','')),
-lib-forms:hidden-element('administrative-status', request:get-parameter('administrative-status','')),
-lib-forms:hidden-element('registration-status', request:get-parameter('registration-status','')),
-lib-forms:hidden-element('administrative-note', request:get-parameter('administrative-note',''))
+    lib-forms:hidden-element('registration-authority', request:get-parameter('registration-authority','')),
+    lib-forms:hidden-element('registered-by',request:get-parameter('registered-by','')),
+    lib-forms:hidden-element('administered-by',request:get-parameter('administered-by','')),
+    lib-forms:hidden-element('submitted-by',request:get-parameter('submitted-by','')),
+    lib-forms:hidden-element('administrative-status', request:get-parameter('administrative-status','')),
+    lib-forms:hidden-element('registration-status', request:get-parameter('registration-status','')),
+    lib-forms:hidden-element('administrative-note', request:get-parameter('administrative-note',''))
 };
 
 
-declare function local:data-element-details($message as xs:string) as node()
+(:ADDING CONCEPTUAL DOMAIN:)
+declare function local:conceptual-domain-details($message as xs:string) as node()
 {
-   let $title as xs:string := "New Data Element Wizard: page 2 - data element details"
-   let $content as node()* := 
+     let $title as xs:string := "New Data Element Wizard: - Conceptual Domain details"
+     let $skip-name := substring-after(request:get-parameter('action',''),'delete value meaning')
+     let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+     let $uris := request:get-parameter('cd-ref-uri','')
+     let $meanings := request:get-parameter('meanings','')
+     let $content as node()* := 
             (
-          <div xmlns="http://www.w3.org/1999/xhtml">
-         <table class="layout">
-         <tr><td class="left_header_cell"/><td width="40%">{local:page-button("page 1")}</td><td>{local:page-button("page 3")}</td></tr>
-         <tr><td class="left_header_cell">Preferred Name<font color="red">*</font></td><td colspan="2">{lib-forms:input-element('name', 70, request:get-parameter('name',''))}</td></tr>
-         <tr><td class="left_header_cell">Preferred Definition</td><td colspan="2">{lib-forms:text-area-element('definition', 5, 70, request:get-parameter('definition',''))}</td></tr>
-         <tr><td class="left_header_cell">Context of preferred name</td><td colspan="5">  {lib-forms:select-from-contexts-enum('preferred_name_context',request:get-parameter('preferred_name_context',''))} </td></tr>
-         <tr>
-            <td class="left_header_cell">Language Identifier for preferred name</td><td colspan="2">
-               {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifier', false(), request:get-parameter('country-identifier',''))}
-               {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifier', false(),request:get-parameter('language-identifier',''))}
-             </td>
-         </tr>         
-         <tr><td class="left_header_cell">Alternate Name</td><td colspan="2">{lib-forms:input-element('alt-name', 70,request:get-parameter('alt-name',''))}</td></tr>
-         <tr><td class="left_header_cell">Context of alternate name</td><td colspan="5"> {lib-forms:select-from-contexts-enum('alt_name_context',request:get-parameter('alt_name_context',''))} </td></tr>
-         <tr>
-            <td class="left_header_cell">Language Identifier for alternate name</td><td colspan="2">
-               {lib-forms:select-from-simpleType-enum('Country_Identifier','alt-country-identifier', false(), request:get-parameter('alt-country-identifier',''))}
-               {lib-forms:select-from-simpleType-enum('Language_Identifier','alt-language-identifier', false(), request:get-parameter('alt-language-identifier',''))}
-             </td>
-          </tr>
-         <tr><td class="left_header_cell">Representation Class</td><td colspan="5">{lib-forms:make-select-admin-item('representation_class','representation-class', request:get-parameter('representation-class',''))} </td></tr>
-         <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, request:get-parameter('example',''))}</td></tr>
-         <tr><td class="left_header_cell">Precision</td><td colspan="2">{lib-forms:input-element('precision', 70,request:get-parameter('precision','0'))}</td></tr>
-         <tr><td></td></tr>
-         </table>
-         {
-         local:hidden-controls-page1(), 
-         local:hidden-controls-page3(), 
-         local:hidden-controls-page5e(), 
-         local:hidden-controls-page4(),
-         local:hidden-controls-page5n(),
-         local:hidden-controls-page6()
+        <div class="tabbertab">
+          <table class="layout">
+              <table class="section">
+               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Admin Items")}</td><td>{local:page-button("Next->Object Class")}</td></tr>
+                {
+                if(request:get-parameter('choose-conceptual-domain','') = 'existing') 
+                then (
+                    <tr><td class="left_header_cell">Select Conceptual Domain</td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="existing" checked="true">existing</input></td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="new">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
+                    </tr>,
+                    <tr>
+                      <td class="left_header_cell">Select Existing Conceptual Domain </td>
+                      <td align="left" colspan="2"> 
+                         {lib-forms:make-select-admin-item-edit-false('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))}
+                      </td>
+                   </tr>
+               )else if(request:get-parameter('choose-conceptual-domain','')='new')
+               then(
+                    <tr><td class="left_header_cell">Select Conceptual Domain?</td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="existing">existing</input></td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="new" checked="checked">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
+                    </tr>,
+                 
+                    <tr>
+                        <td class="left_header_cell">Context</td>
+                        <td colspan="5">
+                           {lib-forms:select-from-contexts-enum('preferred_name_context_cd',request:get-parameter('preferred_name_context_cd',''))} 
+                        </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Name <font color="red">*</font></td>
+                       <td colspan="5">
+                          {lib-forms:input-element('name_cd', 70, request:get-parameter('name_cd',''))}
+                       </td>
+                    </tr>,
+        
+                    <tr>
+                        <td class="left_header_cell">Definition</td>
+                        <td colspan="5">{lib-forms:text-area-element('definitions_cd', 5, 70, request:get-parameter('definitions_cd',''))}
+                        </td>
+                    </tr>,
+                
+                    <tr>
+                        <td class="left_header_cell">Language Identifier</td>
+                        <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers_cd', false(), request:get-parameter('country-identifiers_cd','US'))}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers_cd', false(), request:get-parameter('language-identifiers_cd','eng'))}
+                        </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources_cd',70,request:get-parameter('sources_cd',''))}</td>
+                    </tr>,
+            
+                    <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>,
+                
+                <tr>
+                    <td class="left_header_cell">Conceptual Domain</td>
+                    <td colspan="5">
+                     {
+                       if(request:get-parameter('conceptual-domain-type','') = 'enumerated') 
+                        then (
+                            <tr><td class="left_header_cell">Enumerated Conceptual Domain?</td>
+                            <td><input type="radio" name="conceptual-domain-type" value="enumerated" checked="checked">enumerated</input></td>
+                            <td><input type="radio" name="conceptual-domain-type" value="non-enumerated">non-enumerated</input></td>
+                            <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
+                           </tr>,
+                            <tr><td class="row-header-cell" colspan="6">Conceptual Domain Meanings</td></tr>,
+             
+                            <tr>
+                             <td class="left_header_cell">Value Domain Meanings</td><td>Meaning</td><td>Reference URI</td>
+                            </tr>,
+                               for $meaning at $pos in $meanings
+                               let $location := if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos)
+                               where $pos != $skip-name-index and $meaning > ""
+                               return (
+                                  <tr>
+                                     <td class="left_header_cell">Value {$location} Meaning</td>
+                                     <td>{lib-forms:input-element('meanings', 30, $meaning)}{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'','cd-enum-value-update')}</td>
+                                     <td>{lib-forms:find-concept-id-CD('cd-ref-uri','get concept',$uris[$pos])}</td>
+                                  </tr>
+                                  ),
+                                  <tr>
+                                     <td class="left_header_cell">New Value Meaning</td>
+                                     <td>{lib-forms:input-element('meanings', 30, '')}{lib-forms:action-button('add new value meaning', 'action' ,'','cd-enum-value-update')}</td>
+                                     <td>{lib-forms:find-concept-id-CD('cd-ref-uri','get concept','')}</td>
+                                  </tr>
+                              
+                        )else( 
+                            <tr><td class="left_header_cell">Enumerated Conceptual Domain?</td>
+                              <td><input type="radio" name="conceptual-domain-type" value="enumerated" >enumerated</input></td>
+                              <td><input type="radio" name="conceptual-domain-type" value="non-enumerated" checked="checked">non-enumerated</input></td>
+                              <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
+                            </tr>
+                         )
+                     }
+                    
+                    </td>
+                    
+                </tr> 
+                )else(
+                    <tr><td class="left_header_cell">Select Conceptual Domain?</td>
+                   <td><input type="radio" name="choose-conceptual-domain" value="existing">existing</input></td>
+                   <td><input type="radio" name="choose-conceptual-domain" value="new">new</input></td>
+                   <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
+                 </tr>
+                )
+              }   
+             </table>
+         
+          </table>
+          {
+            local:hidden-controls-admin-items(),
+            local:hidden-controls-object-class(),
+            local:hidden-controls-property-class(),
+            local:hidden-controls-data-element-concept(), 
+            local:hidden-controls-value-domain(), 
+            local:hidden-controls-data-element(),
+            local:hidden-controls-reference-doc()
          }
-           </div>
-            )
-   return lib-forms:wrap-form-contents($title, $content)            
+       </div>
+       )
+       return lib-forms:wrap-form-contents($title, $content)  
 };
 
-declare function local:hidden-controls-page2()
+declare function local:hidden-controls-conceptual-domain()
 {
-lib-forms:hidden-element('name', request:get-parameter('name','')),
-lib-forms:hidden-element('definition', request:get-parameter('definition','')),
-lib-forms:hidden-element('preferred_name_context',request:get-parameter('preferred_name_context','')),
-lib-forms:hidden-element('country-identifier', request:get-parameter('country-identifier','')),
-lib-forms:hidden-element('language-identifier', request:get-parameter('language-identifier','')),
-lib-forms:hidden-element('alt-name', request:get-parameter('alt-name','')),
-lib-forms:hidden-element('alt_name_context',request:get-parameter('alt_name_context','')),
-lib-forms:hidden-element('alt-country-identifier', request:get-parameter('alt-country-identifier','')),
-lib-forms:hidden-element('alt-language-identifier', request:get-parameter('alt-language-identifier','')),
-lib-forms:hidden-element('representation-class', request:get-parameter('representation-class','')),
-lib-forms:hidden-element('example', request:get-parameter('example','')),
-lib-forms:hidden-element('precision', request:get-parameter('precision',''))
+    if(request:get-parameter('choose-conceptual-domain','') = 'new') then(
+        lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain','')),
+        lib-forms:hidden-element('preferred_name_context_cd', request:get-parameter('preferred_name_context_cd','')),
+        lib-forms:hidden-element('name_cd', request:get-parameter('name_cd','')),
+        lib-forms:hidden-element('definitions_cd',request:get-parameter('definitions_cd','')),
+        lib-forms:hidden-element('country-identifier_cd', request:get-parameter('country-identifier_cd','')),
+        lib-forms:hidden-element('language-identifier_cd', request:get-parameter('language-identifier_cd','')),
+        lib-forms:hidden-element('sources_cd', request:get-parameter('sources_cd','')),
+        lib-forms:hidden-element('conceptual-domain-type',request:get-parameter('conceptual-domain-type','')),
+        lib-forms:hidden-element('conceptual-domain-id',request:get-parameter('conceptual-domain-id',''))
+        
+    )else(
+        lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain','')),
+        lib-forms:hidden-element('conceptual_domain',request:get-parameter('conceptual_domain',''))
+    )
 };
+
+(:END CONCEPTUAL DOMAIN:)
+
+(:ADDING OBJECT CLASS:)
+declare function local:object-class-details($message as xs:string) as node()
+{
+    let $title as xs:string := "New Data Element Wizard: - Object Class details"
+    let $object_class_uri_oc := request:get-parameter('object_class_uri_oc','')
+    let $action := request:get-parameter('action_oc','')
+    let $skip-uri := substring-after($action,'delete uri entry')
+    let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
+    let $content as node()* := 
+        (
+        <div class="tabbertab">
+          <table class="layout">
+         
+              <table class="section">
+               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Conceptual Domain")}</td><td>{local:page-button("Next->Property Class")}</td></tr>
+               {
+                if(request:get-parameter('choose-object-class','') = 'existing') 
+                then (
+                    <tr><td class="left_header_cell">Select Object Class</td>
+                        <td><input type="radio" name="choose-object-class" value="existing" checked="true">existing</input></td>
+                        <td><input type="radio" name="choose-object-class" value="new">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','oc-concept-reference')}</td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell"> Select Existing Object Class</td>
+                       <td align="left" colspan="2"> 
+                       {lib-forms:make-select-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''))}
+                       </td>
+                    </tr>
+                )else if(request:get-parameter('choose-object-class','')='new')
+                then(  
+                    <tr><td class="left_header_cell">Select Object Class</td>
+                        <td><input type="radio" name="choose-object-class" value="existing" >existing</input></td>
+                        <td><input type="radio" name="choose-object-class" value="new" checked="true">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','oc-concept-reference')}</td>
+                    </tr>,                
+                    <tr>
+                        <td class="left_header_cell">Context</td>
+                        <td colspan="5">
+                           {lib-forms:select-from-contexts-enum('preferred_name_context_oc',request:get-parameter('preferred_name_context_oc',''))} 
+                        </td>
+                     </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Name <font color="red">*</font></td>
+                       <td colspan="5">
+                          {lib-forms:input-element('name_oc', 70, request:get-parameter('name_oc',''))}
+                       </td>
+                    </tr>,
+        
+                    <tr>
+                       <td class="left_header_cell">Definition</td>
+                       <td colspan="5">{lib-forms:text-area-element('definitions_oc', 5, 70, request:get-parameter('definitions_oc',''))}
+                       </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Language Identifier</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers_oc', false(), request:get-parameter('country-identifiers_oc','US'))}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers_oc', false(), request:get-parameter('language-identifiers_oc','eng'))}
+                       </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources_oc',70,request:get-parameter('sources_oc',''))}</td>
+                    </tr>,
+            
+                    <tr><td class="row-header-cell" colspan="6">Object Class specific properties</td></tr>,
+                      
+                         for $u at $pos in $object_class_uri_oc
+                         where $pos != $skip-uri-index and $u > ""
+                         return 
+                         (
+                            if($pos > $skip-uri-index and $skip-uri-index > 0) 
+                            then (
+                               <tr>
+                                  <td class="left_header_cell">Concept Reference {util:eval($pos - 1)}</td>
+                                  <td colspan="5">
+                                     {
+                                        lib-forms:find-concept-id-edit-false('object_class_uri_oc','get concept',$u),
+                                        lib-forms:action-button(concat('delete uri entry ',util:eval($pos - 1)), 'action' ,'','oc-concept-reference')
+                                     }
+                                  </td>
+                               </tr>
+                            ) else (
+                               <tr>
+                                  <td class="left_header_cell">Concept Reference {$pos}</td>
+                                  <td colspan="5">
+                                     {
+                                        lib-forms:find-concept-id-edit-false('object_class_uri_oc','get concept',$u),
+                                        lib-forms:action-button(concat('delete uri entry ',$pos), 'action' ,'','oc-concept-reference')
+                                     }
+                                  </td>
+                               </tr>
+                            )
+                          
+                         ),
+                     
+                    <tr>
+                       <td class="left_header_cell">New Concept Reference</td>
+                       <td colspan="5">
+                          {lib-forms:find-concept-id-edit-false('object_class_uri_oc','get concept','')}
+                          <br></br>
+                          {lib-forms:action-button('add another concept', 'action' ,'','oc-concept-reference')}
+                       </td>
+                    </tr>
+                  )else(
+                    <tr><td class="left_header_cell">Select Object Class</td>
+                        <td><input type="radio" name="choose-object-class" value="existing">existing</input></td>
+                        <td><input type="radio" name="choose-object-class" value="new">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','oc-concept-reference')}</td>
+                    </tr>
+                )
+                }
+             </table>
+         
+          </table>
+          {
+                local:hidden-controls-admin-items(),
+                local:hidden-controls-conceptual-domain(),
+                local:hidden-controls-property-class(),
+                local:hidden-controls-data-element-concept(), 
+                local:hidden-controls-value-domain(), 
+                local:hidden-controls-data-element(),
+                local:hidden-controls-reference-doc()
+         }
+       </div>
+       )
+       return lib-forms:wrap-form-contents($title, $content)  
+};
+
+declare function local:hidden-controls-object-class()
+{
+   if(request:get-parameter('choose-object-class','')='new') then(
+        lib-forms:hidden-element('choose-object-class',request:get-parameter('choose-object-class','')),
+        lib-forms:hidden-element('preferred_name_context_oc', request:get-parameter('preferred_name_context_oc','')),
+        lib-forms:hidden-element('name_oc', request:get-parameter('name_oc','')),
+        lib-forms:hidden-element('definitions_oc',request:get-parameter('definitions_oc','')),
+        lib-forms:hidden-element('country-identifiers_oc', request:get-parameter('country-identifiers_oc','')),
+        lib-forms:hidden-element('language-identifiers_oc', request:get-parameter('language-identifiers_oc','')),
+        lib-forms:hidden-element('sources_oc', request:get-parameter('sources_oc',''))
+        (:lib-forms:hidden-element('object_class_uri_oc',request:get-parameter('object_class_uri_oc','')):)
+        (:lib-forms:hidden-element('object_class_id',request:get-parameter('object_class_id','')):)
+    )else(
+        lib-forms:hidden-element('choose-object-class',request:get-parameter('choose-object-class','')),
+        lib-forms:hidden-element('object_class', request:get-parameter('object_class_id',''))
+    )
+};
+(:END OBJECT CLASS:)
+
+(:ADDING PROPERTY CLASS:)
+declare function local:property-class-details($message as xs:string) as node()
+{
+ let $title as xs:string := "New Data Element Wizard: - Property Class details"
+    let $property_class_uri_pc := request:get-parameter('property_uri_pc','')
+    let $action := request:get-parameter('action_pc','')
+    let $skip-uri := substring-after($action,'delete uri entry')
+    let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
+    let $content as node()* := 
+        (
+        <div class="tabbertab">
+          <table class="layout">
+        
+              <table class="section">
+               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Object Class")}</td><td>{local:page-button("Next->Data Element Concept")}</td></tr>
+               {
+               if(request:get-parameter('choose-property-class','') = 'existing') 
+                then (
+                    <tr><td class="left_header_cell">Choose Property Class</td>
+                        <td><input type="radio" name="choose-property-class" value="existing" checked="true">existing</input></td>
+                        <td><input type="radio" name="choose-property-class" value="new">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','p-uri')}</td>
+                    </tr>,
+                    <tr>
+                      <td class="left_header_cell">Select Existing Property Class </td>
+                      <td align="left" colspan="2"> 
+                         {lib-forms:make-select-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''))}
+                      </td>
+                   </tr>    
+               )else if(request:get-parameter('choose-property-class','')='new')
+               then(
+                    
+                    <tr><td class="left_header_cell">Select Property Class</td>
+                     <td><input type="radio" name="choose-property-class" value="existing">existing</input></td>
+                     <td><input type="radio" name="choose-property-class" value="new" checked="true">new</input></td>
+                     <td>{lib-forms:action-button('update', 'action' ,'','p-uri')}</td>
+                    </tr>,
+               
+                    <tr>
+                       <td class="left_header_cell">Context</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-contexts-enum('preferred_name_context_pc',request:get-parameter('preferred_name_context_pc',''))} 
+                       </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Name <font color="red">*</font></td>
+                       <td colspan="5">
+                          {lib-forms:input-element('name_pc', 70, request:get-parameter('name_pc',''))}
+                       </td>
+                    </tr>,
+        
+                    <tr>
+                       <td class="left_header_cell">Definition</td>
+                       <td colspan="5">{lib-forms:text-area-element('definitions_pc', 5, 70, request:get-parameter('definitions_pc',''))}
+                       </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Language Identifier</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers_pc', false(), request:get-parameter('country-identifiers_pc','US'))}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers_pc', false(), request:get-parameter('language-identifiers_pc','eng'))}
+                       </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources_pc',70,request:get-parameter('sources_pc',''))}</td>
+                    </tr>,
+            
+                    <tr><td class="row-header-cell" colspan="6">Property Class specific properties</td></tr>,
+                        
+                         for $u at $pos in $property_class_uri_pc
+                         where $pos != $skip-uri-index and $u > ""
+                         return 
+                         (
+                         if($pos > $skip-uri-index and $skip-uri-index > 0) 
+                         then (
+                            <tr>
+                               <td class="left_header_cell">Concept Reference {util:eval($pos - 1)}</td>
+                               <td colspan="5">
+                                  {
+                                     lib-forms:find-concept-id-edit-false('','get concept',$u),
+                                     lib-forms:action-button(concat('delete uri entry ',util:eval($pos - 1)), 'action' ,'','p-uri')
+                                  }
+                               </td>
+                            </tr>
+                         ) else (
+                            <tr>
+                               <td class="left_header_cell">Concept Reference {$pos}</td>
+                               <td colspan="5">
+                                  {
+                                     lib-forms:find-concept-id-edit-false('property_class_uri_pc','get concept',$u),
+                                     lib-forms:action-button(concat('delete uri entry ',$pos), 'action' ,'','p-uri')
+                                  }
+                               </td>
+                            </tr>
+                         )
+                          
+                         )
+                    ,
+                    <tr>
+                       <td class="left_header_cell">New Concept Reference</td>
+                       <td colspan="5">
+                          {lib-forms:find-concept-id-edit-false('property_class_uri_pc','get concept','')}
+                          <br></br>
+                          {lib-forms:action-button('add another concept', 'action' ,'','p-uri')}
+                       </td>
+                    </tr>
+                 )else(
+                    <tr><td class="left_header_cell">Select Property Class</td>
+                   <td><input type="radio" name="choose-property-class" value="existing">existing</input></td>
+                   <td><input type="radio" name="choose-property-class" value="new">new</input></td>
+                   <td>{lib-forms:action-button('update', 'action' ,'','p-uri')}</td>
+                 </tr>
+                )   
+               }   
+             </table>
+        
+          </table>
+          {
+                local:hidden-controls-admin-items(),
+                local:hidden-controls-conceptual-domain(),
+                local:hidden-controls-object-class(),
+                local:hidden-controls-data-element-concept(), 
+                local:hidden-controls-value-domain(), 
+                local:hidden-controls-data-element(),
+                local:hidden-controls-reference-doc()
+         }
+       </div>
+       )
+       return lib-forms:wrap-form-contents($title, $content)  
+};
+
+declare function local:hidden-controls-property-class()
+{
+    if(request:get-parameter('choose-property-class','')='new') then(
+        lib-forms:hidden-element('choose-property-class',request:get-parameter('choose-property-class','')),
+        lib-forms:hidden-element('preferred_name_context_pc', request:get-parameter('preferred_name_context_pc','')),
+        lib-forms:hidden-element('name_pc', request:get-parameter('name_pc','')),
+        lib-forms:hidden-element('definitions_pc',request:get-parameter('definitions_pc','')),
+        lib-forms:hidden-element('country-identifiers_pc', request:get-parameter('country-identifiers_pc','')),
+        lib-forms:hidden-element('language-identifiers_pc', request:get-parameter('language-identifiers_pc','')),
+        lib-forms:hidden-element('sources_pc', request:get-parameter('sources_pc','')),
+        lib-forms:hidden-element('property_class_uri_pc',request:get-parameter('property_class_uri_pc',''))
+    ) else(
+        lib-forms:hidden-element('choose-property-class',request:get-parameter('choose-property-class','')),
+        lib-forms:hidden-element('property',request:get-parameter('property',''))
+    )
+};
+(:END PROPERTY CLASS:)
 
 
 declare function local:data-element-concept($message as xs:string) as node()
 {
-   let $title as xs:string := "New Data Element Wizard: page 3 - Data Element Concept"
+   let $title as xs:string := "New Data Element Wizard: - Data Element Concept"
    let $content as node()* := 
             (
            
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
                <tr>
-                   <td class="left_header_cell"/><td width="40%">{local:page-button("page 2")}</td>
-                   <td>{local:page-button("page 4")}</td>
+                   <td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Property Class")}</td>
+                   <td>{local:page-button("Next->Value Domain")}</td>
                </tr>
-               <tr>
-                  <td class="left_header_cell">Object Class URI</td>
-                  <td align="left" colspan="2">
-                     {lib-forms:find-concept-id-edit-false('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
-                  </td>
-              </tr>
-              <tr>
-                  <td class="left_header_cell"> </td>
-                  <td align="left" colspan="2"><i> or select existing </i> 
-                  {lib-forms:make-select-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''))}
-                  </td>
-               </tr>
-               <tr>
-                  <td class="left_header_cell">Property URI</td>
-                  <td align="left" colspan="2">
-                     {lib-forms:find-concept-id-edit-false('property_uri','get property concept',request:get-parameter('property_uri',''))}
-                  </td>
-              </tr>
-              <tr>
-                  <td class="left_header_cell"> </td>
-                  <td align="left" colspan="2"><i> or select existing </i> 
-                     {lib-forms:make-select-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''))}
-                  </td>
-               </tr>
-               <tr>
-                  <td class="left_header_cell">Conceptual Domain</td>
-               </tr>
-              <tr>
-                  <td class="left_header_cell"> </td>
-                  <td> 
-                     {lib-forms:make-select-admin-item-edit-false('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))}
-                  </td>
-               </tr>
-            </table>
-                        {
-                        local:hidden-controls-page1(), 
-                        local:hidden-controls-page2(), 
-                        local:hidden-controls-page5e(), 
-                        local:hidden-controls-page4(),
-                        local:hidden-controls-page5n(),
-                        local:hidden-controls-page6()}
+               {
+                if(request:get-parameter('choose-data-element-concept','') = 'existing') 
+                then (
+                     <tr><td class="left_header_cell">Select Data Element Concept</td>
+                        <td><input type="radio" name="choose-data-element-concept" value="existing" checked="true">existing</input></td>
+                        <td><input type="radio" name="choose-data-element-concept" value="new">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','data-element-concept-update')}</td>
+                    </tr>,
+                     
+                     <tr>
+                       <td class="left_header_cell">Select Existing Data Element Concept</td>
+                       <td align="left" colspan="2"> 
+                          {lib-forms:make-select-admin-item-edit-false('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''))}
+                       </td>
+                    </tr> 
+               )else if(request:get-parameter('choose-data-element-concept','')='new')
+               then(
+                    <tr><td class="left_header_cell">Select Data Element Concept</td>
+                        <td><input type="radio" name="choose-data-element-concept" value="existing">existing</input></td>
+                        <td><input type="radio" name="choose-data-element-concept" value="new" checked="checked">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','data-element-concept-update')}</td>
+                    </tr>,
+
+                    <tr>
+                         <td class="left_header_cell">Context</td>
+                         <td colspan="5">
+                            {lib-forms:select-from-contexts-enum('preferred_name_context_dec',request:get-parameter('preferred_name_context_dec',''))} 
+                         </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Name <font color="red">*</font></td>
+                       <td colspan="5">
+                          {lib-forms:input-element('name_dec', 70, request:get-parameter('name_dec',''))}
+                       </td>
+                    </tr>,
+        
+                    <tr>
+                       <td class="left_header_cell">Definition</td>
+                       <td colspan="5">{lib-forms:text-area-element('definitions_dec', 5, 70, request:get-parameter('definitions_dec',''))}
+                       </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Language Identifier</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers_dec', false(), request:get-parameter('country-identifiers_dec','US'))}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers_dec', false(), request:get-parameter('language-identifiers_dec','eng'))}
+                       </td>
+                    </tr>,
+                    <tr></tr>,
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources_dec',70,request:get-parameter('sources_dec',''))}</td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Object Class URI</td>
+                       <td align="left" colspan="2">
+                          {lib-forms:find-concept-id-edit-false('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
+                       </td>
+                   </tr>,
+                    <tr>
+                        <td class="left_header_cell"> </td>
+                        <td align="left" colspan="2"><i> or select existing </i> 
+                        {lib-forms:make-select-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''))}
+                        </td>
+                     </tr>,
+                    <tr>
+                       <td class="left_header_cell">Property URI</td>
+                       <td align="left" colspan="2">
+                          {lib-forms:find-concept-id-edit-false('property_uri','get property concept',request:get-parameter('property_uri',''))}
+                       </td>
+                   </tr>,
+                    <tr>
+                        <td class="left_header_cell"> </td>
+                        <td align="left" colspan="2"><i> or select existing </i> 
+                           {lib-forms:make-select-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''))}
+                        </td>
+                     </tr>,
+                    <tr>
+                       <td class="left_header_cell">Conceptual Domain</td>
+                    </tr>,
+                    <tr>
+                        <td class="left_header_cell"> </td>
+                        <td> 
+                           {lib-forms:make-select-admin-item-edit-false('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))}
+                        </td>
+                     </tr>
+                 )else(
+                    <tr><td class="left_header_cell">Select Conceptual Domain?</td>
+                         <td><input type="radio" name="choose-data-element-concept" value="existing">existing</input></td>
+                         <td><input type="radio" name="choose-data-element-concept" value="new">new</input></td>
+                         <td>{lib-forms:action-button('update', 'action' ,'','data-element-concept-update')}</td>
+                    </tr>
+                )
+                }    
+                </table>
+                    {
+                        local:hidden-controls-admin-items(),
+                        local:hidden-controls-conceptual-domain(),
+                        local:hidden-controls-object-class(),
+                        local:hidden-controls-property-class(),
+                        local:hidden-controls-value-domain(), 
+                        local:hidden-controls-data-element(),
+                        local:hidden-controls-reference-doc() 
+                    }
             </div>
-           
              )
-             
+           
    return lib-forms:wrap-form-contents($title, $content)
 };
 
-declare function local:hidden-controls-page3()
+declare function local:hidden-controls-data-element-concept()
 {
-lib-forms:hidden-element('object_class_uri', request:get-parameter('object_class_uri','')), 
-lib-forms:hidden-element('property_uri', request:get-parameter('property_uri','')),
-lib-forms:hidden-element('property_id', request:get-parameter('property_id','')),
-lib-forms:hidden-element('object_class_id', request:get-parameter('object_class_id','')),
-lib-forms:hidden-element('conceptual_domain_uri', request:get-parameter('conceptual_domain_uri','')),
-lib-forms:hidden-element('conceptual_domain_id', request:get-parameter('conceptual_domain_id',''))
-
+    if(request:get-parameter('choose-data-element-concept','')='new') then(
+        lib-forms:hidden-element('choose-data-element-concept',request:get-parameter('choose-data-element-concept','')),
+        lib-forms:hidden-element('preferred_name_context_dec', request:get-parameter('preferred_name_context_dec','')),
+        lib-forms:hidden-element('name_dec', request:get-parameter('name_dec','')),
+        lib-forms:hidden-element('definitions_dec',request:get-parameter('definitions_dec','')),
+        lib-forms:hidden-element('country-identifiers_dec', request:get-parameter('country-identifiers_dec','')),
+        lib-forms:hidden-element('language-identifiers_dec', request:get-parameter('language-identifiers_dec','')),
+        lib-forms:hidden-element('sources_dec', request:get-parameter('sources_dec','')),
+        lib-forms:hidden-element('object_class_uri', request:get-parameter('object_class_uri','')), 
+        lib-forms:hidden-element('property_uri', request:get-parameter('property_uri','')),
+        (:lib-forms:hidden-element('property_id', request:get-parameter('property_id','')),:)
+        (:lib-forms:hidden-element('object_class_id', request:get-parameter('object_class_id','')),:)
+        lib-forms:hidden-element('conceptual_domain_uri', request:get-parameter('conceptual_domain_uri',''))
+        (:lib-forms:hidden-element('conceptual_domain_id', request:get-parameter('conceptual_domain_id','')):)
+    ) else (
+        lib-forms:hidden-element('choose-data-element-concept',request:get-parameter('choose-data-element-concept','')),
+        lib-forms:hidden-element('data_element_concept',request:get-parameter('data_element_concept',''))
+    )
 };
 
 declare function local:value-domain-type($message as xs:string) as node()
 {
-   let $title as xs:string := "New Data Element Wizard: page 4 - value domain type"
+   let $title as xs:string := "New Data Element Wizard:- value domain type"
+   let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
+   let $values := ''
    let $content as node()* := 
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("page 3")}</td><td>{local:page-button("page 5")}</td></tr>
-
-               <tr>
-                  <td class="left_header_cell">Value domain type</td>
-                  <td colspan="2">
-                  {
-                  if (request:get-parameter('value-domain-type','') = "enumerated") then (
-                     <input type="radio" name="value-domain-type" value="enumerated" checked="checked">enumerated</input>,
-                     <input type="radio" name="value-domain-type" value="non-enumerated">non-enumerated</input>
-                     )
-                     else
-                     (
-                     <input type="radio" name="value-domain-type" value="enumerated">enumerated</input>,
-                     <input type="radio" name="value-domain-type" value="non-enumerated" checked="checked">non-enumerated</input>
-                     )
-                  }
-                  </td>
-               </tr>
-
+               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Data Element Concept")}</td><td>{local:page-button("Next->Data Element")}</td></tr>
+                 {
+                 if(request:get-parameter('choose-value-domain','') = 'existing') 
+                 then (
+                    <tr><td class="left_header_cell">Select Value Domain</td>
+                        <td><input type="radio" name="choose-value-domain" value="existing" checked="true">existing</input></td>
+                        <td><input type="radio" name="choose-value-domain" value="new">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','value-domain-update')}</td>
+                    </tr>,
+                    <tr>
+                        <td class="left_header_cell">Select Existing Value Domain</td>
+                        <td align="left" colspan="2"> 
+                         {lib-forms:make-select-admin-item-edit-false('value_domain','value_domain', request:get-parameter('value_domain_id',''))}
+                        </td>
+                    </tr> 
+               )else if(request:get-parameter('choose-value-domain','')='new')
+               then(
+                     <tr><td class="left_header_cell">Select Value Domain?</td>
+                        <td><input type="radio" name="choose-value-domain" value="existing">existing</input></td>
+                        <td><input type="radio" name="choose-value-domain" value="new" checked="true">new</input></td>
+                        <td>{lib-forms:action-button('update', 'action' ,'','value-domain-update')}</td>
+                    </tr>,
+                    
+                    <tr>
+                        <td class="left_header_cell">Context</td>
+                        <td colspan="5">
+                           {lib-forms:select-from-contexts-enum('preferred_name_context_vd',request:get-parameter('preferred_name_context_vd',''))} 
+                        </td>
+                     </tr>,
+                
+                     <tr>
+                        <td class="left_header_cell">Name <font color="red">*</font></td>
+                        <td colspan="5">
+                           {lib-forms:input-element('name_vd', 70, request:get-parameter('name_vd',''))}
+                        </td>
+                     </tr>,
+        
+                     <tr>
+                        <td class="left_header_cell">Definition</td>
+                        <td colspan="5">{lib-forms:text-area-element('definitions_vd', 5, 70, request:get-parameter('definitions_vd',''))}
+                        </td>
+                     </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Language Identifier</td>
+                       <td colspan="5">
+                          {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers_vd', false(), request:get-parameter('country-identifiers_vd','US'))}
+                          {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers_vd', false(), request:get-parameter('language-identifiers_vd','eng'))}
+                       </td>
+                    </tr>,
+                
+                    <tr>
+                       <td class="left_header_cell">Source</td>
+                       <td colspan="5">{lib-forms:input-element('sources_vd',70,request:get-parameter('sources_vd',''))}</td>
+                    </tr>,
+                
+                    <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>,                                                
+                         
+                            let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
+                            let $log:=util:log-system-out('iiiiiiiiiiijjjjjjjjjjjjjjbhhhhhhhhhhh')
+                            let $log :=util:log-system-out($concept_domain)
+                            return
+                        
+                            if ($conceptual_domain_id > '' or $conceptual_domain_id eq "Cancel") then (                   
+                               <tr>
+                                    
+                                    <td class="left_header_cell">Conceptual Domain ID</td>
+                                    <td align="left">{$conceptual_domain_id}</td>
+                                    <td>{session:set-attribute("conceptual_domain_id", $conceptual_domain_id)}</td>
+                                    <td>{lib-forms:popup-form-search('conceptual_domain','conceptual_domain_id','new_value_domain', 'Change Relationship')}</td>                             
+                                    <td>{lib-forms:hidden-element('conceptual_domain_id',$conceptual_domain_id)}</td>
+                               </tr>,
+                               <tr>
+                                    <td class="left_header_cell">Conceptual Domain Name</td>
+                                    <td align="left">{administered-item:preferred-name('conceptual_domain',$conceptual_domain_id)}</td>
+                               </tr>,
+                               <tr><td class="row-header-cell" colspan="6">Value Domain</td></tr>,
+                               <tr>
+                                   <td class="left_header_cell">Value Domain Data Type</td>
+                                   <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
+                               </tr>,                          
+                               <tr>
+                                   <td class="left_header_cell">Value Domain Unit of Measure</td>
+                                   <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
+                               </tr>,                         
+                                  <tr>
+                                   <td class="left_header_cell">Value Domain Format (E.g. MM-DD-YYYY)</td>
+                                   <td collspan="3"><input type="text" name="value_domain_format"></input></td>
+                               </tr>,                               
+                                  <tr>
+                                   <td class="left_header_cell">Value Domain Maximum Character Count</td>
+                                   <td collspan="3"><input type="text" name="char_quantity"></input></td>
+                               </tr>,
+                               
+                               if($concept_domain//openMDR:value_meaning_description > '') 
+                               then 
+                               (
+                                    <tr>
+                                        <td class="left_header_cell">Possible Values</td>
+                                            <td>meaning</td>
+                                            <td>value</td>
+                                        <td/>
+                                    </tr>,
+                                        for $meaning at $pos in $concept_domain//openMDR:value_meaning_description
+                                        return (
+                                           
+                                           <tr class="thickBorder td">
+                                              <td class="left_header_cell">Permissable Value {$pos}</td>
+                                              <td>{$meaning}</td>
+                                              <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
+                                           </tr>
+                                        )
+                               ) else ()
+                            ) 
+                            else ( 
+                                 <tr>
+                                    <td class="left_header_cell">Choose Conceptual Domain</td>
+                                    <td align="left">{lib-forms:make-select-admin-item-edit-false('conceptual_domain','conceptual_domain_id',$conceptual_domain_id)}</td>
+                               </tr>
+                            )
+                       
+                )else(
+                    <tr><td class="left_header_cell">Select Value Domain?</td>
+                   <td><input type="radio" name="choose-value-domain" value="existing">existing</input></td>
+                   <td><input type="radio" name="choose-value-domain" value="new">new</input></td>
+                   <td>{lib-forms:action-button('update', 'action' ,'','value-domain-update')}</td>
+                 </tr>
+                )
+              }   
             </table>
-            {local:hidden-controls-page1(), 
-            local:hidden-controls-page2(),
-            local:hidden-controls-page3(), 
-            local:hidden-controls-page5e(),
-            local:hidden-controls-page5n(),
-            local:hidden-controls-page6()}
+            {
+                local:hidden-controls-admin-items(),
+                local:hidden-controls-conceptual-domain(),
+                local:hidden-controls-object-class(),
+                local:hidden-controls-property-class(),
+                local:hidden-controls-data-element-concept(), 
+                local:hidden-controls-data-element(),
+                local:hidden-controls-reference-doc()
+            }
          </div>
-
+        
    )
    return lib-forms:wrap-form-contents($title, $content)
 };
 
 
-declare function local:hidden-controls-page4()
+declare function local:hidden-controls-value-domain()
 {
-lib-forms:hidden-element('value-domain-type', request:get-parameter('value-domain-type',''))
+    if(request:get-parameter('choose-value-domain','')='new') then(
+        lib-forms:hidden-element('choose-value-domain',request:get-parameter('choose-value-domain','')),
+        lib-forms:hidden-element('preferred_name_context_vd',request:get-parameter('preferred_name_context_vd','')),
+        lib-forms:hidden-element('name_vd',request:get-parameter('name_vd','')),
+        lib-forms:hidden-element('definitions_vd',request:get-parameter('definitions_vd','')),
+        lib-forms:hidden-element('country-identifiers_vd',request:get-parameter('country-identifiers_vd','')),
+        lib-forms:hidden-element('language-identifiers_vd',request:get-parameter('language-identifiers_vd','')),
+        lib-forms:hidden-element('sources_vd',request:get-parameter('sources_vd','')),
+        lib-forms:hidden-element('conceptual_domain',request:get-parameter('conceptual_domain',''))
+    )else(
+        lib-forms:hidden-element('choose-value-domain',request:get-parameter('choose-value-domain','')),
+        lib-forms:hidden-element('value_domain',request:get-parameter('value_domain',''))
+    )
+    
+
 };
 
-declare function local:value-domain-nonenum($message as xs:string) as node()
+declare function local:data-element-details($message as xs:string) as node()
 {
-   let $title as xs:string := "New Data Element Wizard: page 5 - non-enumerated value domain details"
+   let $title as xs:string := "New Data Element Wizard:- data element details"
    let $content as node()* := 
-      (
-         <div xmlns="http://www.w3.org/1999/xhtml">
+            (
+          <div xmlns="http://www.w3.org/1999/xhtml">
+         <table class="layout">
+                <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Value Domain")}</td><td>{local:page-button("Next->Reference Doc")}</td></tr>
+                <tr>
+                   <td class="left_header_cell">Context</td>
+                   <td colspan="5">
+                      {lib-forms:select-from-contexts-enum('preferred_name_context_de',request:get-parameter('preferred_name_context_de',''))} 
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Name <font color="red">*</font></td>
+                   <td colspan="5">
+                      {lib-forms:input-element('name_de', 70, request:get-parameter('name_de',''))}
+                   </td>
+                </tr>
+        
+                <tr>
+                   <td class="left_header_cell">Definition</td>
+                   <td colspan="5">{lib-forms:text-area-element('definitions_de', 5, 70, request:get-parameter('definitions_de',''))}
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Language Identifier</td>
+                   <td colspan="5">
+                      {lib-forms:select-from-simpleType-enum('Country_Identifier','country-identifiers_de', false(), request:get-parameter('country-identifiers_de','US'))}
+                      {lib-forms:select-from-simpleType-enum('Language_Identifier','language-identifiers_de', false(), request:get-parameter('language-identifiers_de','eng'))}
+                   </td>
+                </tr>
+                
+                <tr>
+                   <td class="left_header_cell">Source</td>
+                   <td colspan="5">{lib-forms:input-element('sources_de',70,request:get-parameter('sources_de',''))}</td>
+                </tr>
+                
+                <tr>
+                  <td class="left_header_cell">Data Element Concept</td>
+                  <td align="left" colspan="2">
+                  {
+                    if(request:get-parameter('data_element_concept_id','') eq "Cancel")  then (
+                        lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', session:get-attribute("data_element_concept_id"),'new_DataElement', 'Change Relationship'),
+                        session:set-attribute("data_element_concept_id", "") )
+                    
+                    else if(request:get-parameter('data_element_concept_id','') != "")  then (
+                        session:set-attribute("data_element_concept_id", request:get-parameter('data_element_concept_id','')),
+                        lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''),'new_DataElement', 'Change Relationship'))
+                    
+                    else(
+                       lib-forms:make-select-admin-item-edit-false('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id','')) 
+                    )
+                  }
+                  </td>
+               </tr>
+               <tr>
+                  <td class="left_header_cell">Value Domain</td>
+                  <td align="left" colspan="2">
+                  {
+                    if(request:get-parameter('value_domain_id','') eq "Cancel")  then (
+                        lib-forms:make-select-admin-item-edit-false('value_domain','value_domain_id', session:get-attribute("value_domain_id")),
+                        session:set-attribute("value_domain_id", "") )
+                    
+                    else if(request:get-parameter('value_domain_id','') != "")  then (
+                        session:set-attribute("value_domain_id", request:get-parameter('value_domain_id','')),
+                        lib-forms:make-select-admin-item-edit-false('value_domain','value_domain_id', request:get-parameter('value_domain_id','')))
+                    
+                    else(
+                       lib-forms:make-select-admin-item-edit-false('value_domain','value_domain_id', request:get-parameter('value_domain_id','')) 
+                    )
+                  }
+                  </td>
+              </tr>
+              <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, request:get-parameter('example',''))}</td></tr>
+              <tr><td class="left_header_cell">Precision</td><td colspan="2">{lib-forms:input-element('precision', 70,request:get-parameter('precision',''))}</td></tr>
+
+         </table>
+         {
+                local:hidden-controls-admin-items(),
+                local:hidden-controls-conceptual-domain(),
+                local:hidden-controls-object-class(),
+                local:hidden-controls-property-class(),
+                local:hidden-controls-data-element-concept(), 
+                local:hidden-controls-value-domain(), 
+                local:hidden-controls-reference-doc()
+         }
+           </div>
+            )
+   return lib-forms:wrap-form-contents($title, $content)            
+};
+
+declare function local:hidden-controls-data-element()
+{
+    lib-forms:hidden-element('name_de', request:get-parameter('name_de','')),
+    lib-forms:hidden-element('definition_de', request:get-parameter('definition_de','')),
+    lib-forms:hidden-element('preferred_name_context_de',request:get-parameter('preferred_name_context_de','')),
+    lib-forms:hidden-element('country-identifier_de', request:get-parameter('country-identifier_de','')),
+    lib-forms:hidden-element('language-identifier_de', request:get-parameter('language-identifier_de',''))
+};
+
+declare function local:associated-refdocs($message as xs:string) as node()
+{
+   let $title as xs:string := "New Data Element Wizard:- reference documents"
+   let $content as node()* := 
+            (
+            <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("page 4")}</td><td>{local:page-button("page 6")}</td></tr>
-               <tr><td class="left_header_cell">Datatype</td><td colspan="2">{lib-forms:make-select-datatype(request:get-parameter('datatype',''))}</td></tr>
-               <tr><td class="left_header_cell">Unit of Measure</td><td colspan="2">{lib-forms:make-select-uom(request:get-parameter('uom',''))}</td></tr>               
+            <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Data Element")}</td><td>{local:page-button("Next->Confirm")}</td></tr>
+            <tr><td class="left_header_cell">Reference document 1</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc1', request:get-parameter('refdoc1',''))} </td></tr>
+            <tr><td class="left_header_cell">Reference document 2</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc2', request:get-parameter('refdoc2',''))} </td></tr>
+            <tr><td class="left_header_cell">Reference document 3</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc3', request:get-parameter('refdoc3',''))} </td></tr>
             </table>
-            {local:hidden-controls-page1(),
-            local:hidden-controls-page2(),
-            local:hidden-controls-page3(), 
-            local:hidden-controls-page4(),
-            local:hidden-controls-page6()}
-         </div>
-      )
+            {
+                local:hidden-controls-admin-items(),
+                local:hidden-controls-conceptual-domain(),
+                local:hidden-controls-object-class(),
+                local:hidden-controls-property-class(),
+                local:hidden-controls-data-element-concept(), 
+                local:hidden-controls-value-domain(), 
+                local:hidden-controls-data-element()
+            }
+            </div>
+             )
+             
    return lib-forms:wrap-form-contents($title, $content)
 };
 
-declare function local:hidden-controls-page5n()
+declare function local:hidden-controls-reference-doc()
 {
-lib-forms:hidden-element('datatype',request:get-parameter('datatype','')),
-lib-forms:hidden-element('uom',request:get-parameter('uom',''))               
-};
-
-declare function local:value-domain-enum($message as xs:string) as node()
-{
-   let $values := request:get-parameter('values',())
-   let $meanings := request:get-parameter('meanings',())
-   let $enum_datatype := request:get-parameter('enum_datatype',())
-   let $enum_uom := request:get-parameter('enum_uom',())
-   let $action := request:get-parameter('update','')
-   let $skip-name := substring-after($action,'delete value entry')
-   let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
-   let $title as xs:string := "New Data Element Wizard: page 5 - enumerated value domain details"
-   let $content as node()* := 
-      (
-         <div xmlns="http://www.w3.org/1999/xhtml">
-            <table class="layout">
-               <tr><td class="left_header_cell"/><td width="20%">{local:page-button("page 4")}</td><td/><td>{local:page-button("page 6")}</td></tr>
-               <tr>
-               <td class="left_header_cell">Value Domain Data Type</td>
-               <td collspan="3">{lib-forms:make-select-datatype('enum_datatype', request:get-parameter('enum_datatype',''))}</td>
-               </tr>
-               <tr>
-               <td class="left_header_cell">Value Domain Unit of Measure</td>
-               <td collspan="3">{lib-forms:make-select-uom('enum_uom',request:get-parameter('uom',''))}</td>
-               </tr>
-               <tr>
-               <td class="left_header_cell">Possible Values</td><td width="20%">value</td><td>meaning</td><td/>
-               </tr>
-               {
-                    for $value at $pos in $values
-                    where $pos != $skip-name-index and $value > ""
-                    return (
-                       <tr>
-                          <td class="left_header_cell">Permissable Value</td>
-                          <td width="20%">{lib-forms:input-element('values', 20, $value)}</td><td>{lib-forms:input-element('meanings', 60, $meanings[$pos])}</td>
-                          <td>{lib-forms:action-button(concat('delete value entry ',$pos), 'action' ,'' ,'enum-value-update')}</td>
-                       </tr>
-                       ),
-                       <tr>
-                          <td class="left_header_cell">New Permissable Value</td>
-                          <td width="20%">{lib-forms:input-element('values', 20, '')}</td>
-                          <td>{lib-forms:input-element('meanings', 60, '')}</td>
-                          <td>{lib-forms:action-button('add new value', 'action' ,'', 'enum-value-update')}</td>
-                       </tr>
-               }
-            </table>
-            {local:hidden-controls-page1(),
-            local:hidden-controls-page2(),
-            local:hidden-controls-page3(), 
-            local:hidden-controls-page4(),
-            local:hidden-controls-page6()}
-         </div>
-      )
-   return lib-forms:wrap-form-contents($title, $content)
-};
-
-declare function local:hidden-controls-page5e()
-{
-lib-forms:hidden-array-element('values', request:get-parameter('values',())),
-lib-forms:hidden-array-element('meanings', request:get-parameter('meanings',())),
-lib-forms:hidden-element('enum_datatype',request:get-parameter('enum_datatype','')),
-lib-forms:hidden-element('enum_uom',request:get-parameter('enum_uom',''))
+lib-forms:hidden-element('refdoc1', request:get-parameter('refdoc1','')),
+lib-forms:hidden-element('refdoc2',request:get-parameter('refdoc2','')),
+lib-forms:hidden-element('refdoc3',request:get-parameter('refdoc3',''))
 };
 
 declare function local:execute() as node()
@@ -386,17 +1020,62 @@ let $administered-by := request:get-parameter('administered-by','')
 let $submitted-by := request:get-parameter('submitted-by','')
 let $administrative-status := request:get-parameter('administrative-status','')
 let $administrative-note := request:get-parameter('administrative-note','')
+
 let $name := request:get-parameter('name','')
 let $definition := request:get-parameter('definition','')
 let $preferred_name_context := request:get-parameter('preferred_name_context','')
 let $country-identifier := request:get-parameter('country-identifier','')
 let $language-identifier := request:get-parameter('language-identifier','')
+
+let $name_cd := request:get-parameter('name_cd','')
+let $definition_cd := request:get-parameter('definition_cd','')
+let $preferred_name_context_cd := request:get-parameter('preferred_name_context_cd','')
+let $country-identifier_cd := request:get-parameter('country-identifier_cd','')
+let $language-identifier_cd := request:get-parameter('language-identifier_cd','')
+let $sources_cd := request:get-parameter('sources_cd','') 
+
+let $name_oc := request:get-parameter('name_oc','')
+let $definition_oc := request:get-parameter('definition_oc','')
+let $preferred_name_context_oc := request:get-parameter('preferred_name_context_oc','')
+let $country-identifier_oc := request:get-parameter('country-identifier_oc','')
+let $language-identifier_oc := request:get-parameter('language-identifier_oc','')
+let $sources_oc := request:get-parameter('sources_oc','') 
+
+let $name_pc := request:get-parameter('name_pc','')
+let $definition_pc := request:get-parameter('definition_pc','')
+let $preferred_name_context_pc := request:get-parameter('preferred_name_context_pc','')
+let $country-identifier_pc := request:get-parameter('country-identifier_pc','')
+let $language-identifier_pc := request:get-parameter('language-identifier_pc','')
+let $sources_pc := request:get-parameter('sources_pc','') 
+
+let $name_dec := request:get-parameter('name_dec','')
+let $definition_dec := request:get-parameter('definition_dec','')
+let $preferred_name_context_dec := request:get-parameter('preferred_name_context_dec','')
+let $country-identifier_dec := request:get-parameter('country-identifier_dec','')
+let $language-identifier_dec := request:get-parameter('language-identifier_dec','')
+let $sources_dec := request:get-parameter('sources_dec','') 
+
+let $name_vd := request:get-parameter('name_vd','')
+let $definition_vd := request:get-parameter('definition_oc','')
+let $preferred_name_context_vd := request:get-parameter('preferred_name_context_vd','')
+let $country-identifier_vd := request:get-parameter('country-identifier_vd','')
+let $language-identifier_vd := request:get-parameter('language-identifier_vd','')
+let $sources_vd := request:get-parameter('sources_vd','') 
+
+let $name_de := request:get-parameter('name_de','')
+let $definition_de := request:get-parameter('definition_de','')
+let $preferred_name_context_de := request:get-parameter('preferred_name_context_de','')
+let $country-identifier_de := request:get-parameter('country-identifier_de','')
+let $language-identifier_de := request:get-parameter('language-identifier_de','')
+let $sources_de := request:get-parameter('sources_de','') 
+
 let $alt-name := request:get-parameter('alt-name','')
 let $alt_name_context := request:get-parameter('alt_name_context','')
 let $alt-country-identifier := request:get-parameter('alt-country-identifier','')
 let $alt-language-identifier := request:get-parameter('alt-language-identifier','')
 let $representation-class := request:get-parameter('representation-class','')
 let $example := request:get-parameter('example','')
+
 let $object_class_uri := request:get-parameter('object_class_uri','') 
 let $property_uri := request:get-parameter('property_uri','')
 let $object_class_id := request:get-parameter('object_class_id','') 
@@ -430,7 +1109,9 @@ let $full-identifier-pr := concat($registration-authority, '_', $data-identifier
 
 let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
 let $registration_status := request:get-parameter('registration_status','')
- 
+
+let $object_class_uri_oc := request:get-parameter('object_class_uri_oc','')
+
 let $administration-record := lib-make-admin-item:administration-record(
         $administrative-note,
         $administrative-status,$creation-date,
@@ -441,22 +1122,54 @@ let $custodians := lib-make-admin-item:custodians(
         $registered-by,
         $submitted-by)
             
-let $having-preferred := lib-make-admin-item:having(
-        $preferred_name_context,
-        $country-identifier,
-        $language-identifier,
-        $name,
-        $definition,
-        true(), ())
+let $having-preferred-cd := lib-make-admin-item:having(
+        $preferred_name_context_cd,
+        $country-identifier_cd,
+        $language-identifier_cd,
+        $name_cd,
+        $definition_cd,
+        true(), $sources_cd)
 
-let $having-alt := lib-make-admin-item:having(
-        $alt_name_context,
-        $alt-country-identifier,
-        $alt-language-identifier,
-        $alt-name,
-        (),
-        false(), ())
-            
+let $having-preferred-oc := lib-make-admin-item:having(
+        $preferred_name_context_oc,
+        $country-identifier_oc,
+        $language-identifier_oc,
+        $name_oc,
+        $definition_oc,
+        true(), $sources_oc)
+
+let $having-preferred-pc := lib-make-admin-item:having(
+        $preferred_name_context_pc,
+        $country-identifier_pc,
+        $language-identifier_pc,
+        $name_pc,
+        $definition_pc,
+        true(), $sources_pc)
+
+let $having-preferred-dec := lib-make-admin-item:having(
+        $preferred_name_context_dec,
+        $country-identifier_dec,
+        $language-identifier_dec,
+        $name_dec,
+        $definition_dec,
+        true(), $sources_dec)
+
+let $having-preferred-vd := lib-make-admin-item:having(
+        $preferred_name_context_vd,
+        $country-identifier_vd,
+        $language-identifier_vd,
+        $name_vd,
+        $definition_vd,
+        true(), $sources_vd)
+
+let $having-preferred-de := lib-make-admin-item:having(
+        $preferred_name_context_de,
+        $country-identifier_de,
+        $language-identifier_de,
+        $name_de,
+        $definition_de,
+        true(), $sources_de)
+        
 let $described-by := (
    if ($refdoc1 > "")
    then (element openMDR:described_by {$refdoc1})
@@ -471,13 +1184,15 @@ let $described-by := (
             
 let $object-class := 
    (
+   if(request:get-parameter('choose-object-class','')='new') then(
    element openMDR:Object_Class {
         lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-oc,$version),
         $administration-record,
         $custodians,
-        $having-preferred,   
-        element openMDR:reference_uri {$object_class_uri}
+        $having-preferred-oc,   
+        element openMDR:reference_uri {$object_class_uri_oc}
         }
+    )else()    
    )
    
 let $property := 
@@ -486,7 +1201,7 @@ let $property :=
         lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-pr,$version),
         $administration-record,
         $custodians,
-        $having-preferred,   
+        $having-preferred-pc,   
         element openMDR:reference_uri {$property_uri}
         }
    )
@@ -519,7 +1234,7 @@ let $conceptual-domain :=
             $administration-record,
             $custodians,
             $described-by,
-            $having-preferred,
+            $having-preferred-cd,
             for $e in $enumerations
             return 
                 element openMDR:Value_Meaning {
@@ -536,7 +1251,7 @@ let $conceptual-domain :=
             $administration-record,
             $custodians,
             $described-by,
-            $having-preferred
+            $having-preferred-cd
          }
        )
 
@@ -548,7 +1263,7 @@ let $conceptual-domain :=
          $administration-record,
          $custodians,
          $described-by,
-         $having-preferred,
+         $having-preferred-vd,
          element openMDR:typed_by {$representation-class},
          if ($enum_datatype > "")
          then (element openMDR:value_domain_datatype{$enum_datatype})
@@ -576,7 +1291,7 @@ let $conceptual-domain :=
          $administration-record,
          $custodians,
          $described-by,         
-         $having-preferred, 
+         $having-preferred-vd, 
          element openMDR:typed_by {$representation-class}, 
          element openMDR:value_domain_datatype {$datatype},
          element openMDR:value_domain_unit_of_measure {$uom},
@@ -590,7 +1305,7 @@ let $conceptual-domain :=
          $administration-record,
          $custodians,
          $described-by,         
-         $having-preferred,
+         $having-preferred-dec,
         element openMDR:data_element_concept_conceptual_domain {$full-identifier-cd},
         element openMDR:data_element_concept_object_class {
           if ($object_class_id) then ($object_class_id) else ($full-identifier-oc)
@@ -607,8 +1322,8 @@ let $conceptual-domain :=
          $administration-record,
          $custodians,
          $described-by,         
-         $having-preferred,
-         if ($having-alt//openMDR:name > "") then $having-alt else(),
+         $having-preferred-de,
+        
               element openMDR:data_element_precision {$precision},
               element openMDR:representing {$full-identifier-vd},
               element openMDR:typed_by {$representation-class}, 
@@ -665,11 +1380,11 @@ return
                              <tr><td class="left_header_cell"/><td colspan="2">pressing 'again' will allow you to continue entering data elements with the same set of administrative values</td></tr>
                          </table>
                          {
-                              local:hidden-controls-page1(),
+                              local:hidden-controls-admin-items(),
                               lib-forms:hidden-element('preferred_name_context',request:get-parameter('preferred_name_context','')),
                               lib-forms:hidden-element('country-identifier', request:get-parameter('country-identifier','')),
                               lib-forms:hidden-element('language-identifier', request:get-parameter('language-identifier','')),
-                              local:hidden-controls-page6()
+                              local:hidden-controls-value-domain()
                           }
                           </div>
                       )
@@ -694,61 +1409,76 @@ return
 
 declare function local:confirm($message as xs:string) as node()
 {
-   let $title as xs:string := "New Data Element Wizard: page 7 - confirm details"
+   let $title as xs:string := "New Data Element Wizard: - confirm details"
    let $content as node()* := 
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td width="40%"><input type="submit" name="move" value="page 6"/></td><td><input type="submit" name="move" value="execute"/></td></tr>
+               <tr><td class="left_header_cell"/><td width="40%"><input type="submit" name="move" value="Previous->Reference Doc"/></td><td><input type="submit" name="move" value="Next->execute"/></td></tr>
                <tr><td class="left_header_cell"/><td colspan="2">Pressing 'execute' will store the documents to the database.  You will then be offered the opportunity to edit each element.</td></tr>
             </table>
-            {local:hidden-controls-page1(), 
-            local:hidden-controls-page2(), 
-            local:hidden-controls-page3(), 
-            local:hidden-controls-page5e(), 
-            local:hidden-controls-page4(), 
-            local:hidden-controls-page5n(),
-            local:hidden-controls-page6()}
+            {
+                local:hidden-controls-admin-items(),
+                local:hidden-controls-conceptual-domain(),
+                local:hidden-controls-object-class(),
+                local:hidden-controls-property-class(),
+                local:hidden-controls-data-element-concept(), 
+                local:hidden-controls-value-domain(), 
+                local:hidden-controls-data-element(),
+                local:hidden-controls-reference-doc()
+            }
          </div>
       )
    return lib-forms:wrap-form-contents($title, $content)
 };
 
 
-
-
-
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
-
 session:create(),
 let $test as xs:string := "test"
 let $relation :=  request:get-parameter('get-admin-item-id', ())
 let $next-page := request:get-parameter('move','')
 let $enum-value-update := request:get-parameter('enum-value-update','')
-
+let $cd-enum-value-update := request:get-parameter('cd-enum-value-update','')
+let $oc-concept-reference := request:get-parameter('oc-concept-reference','')
+let $p-uri := request:get-parameter('p-uri','')
+let $conceptual_domain_id_existing :=request:get-parameter('conceptual_domain_id_existing','')
+let $data-element-concept-update := request:get-parameter('data-element-concept-update','')
+let $value-domain-update := request:get-parameter('value-domain-update','')
 return
-
-if ($enum-value-update > '') then local:value-domain-enum('')
-    else (
-if ($next-page = 'page 1') then local:admin-item-details('')
-   else(
-      if ($next-page = 'page 2') then local:data-element-details('')
-      else(
-         if ($next-page = 'page 3') then local:data-element-concept('')
-         else(
-            if ($next-page = 'page 4') then local:value-domain-type('')
-            else(
-               if ($next-page = 'page 5' and request:get-parameter('value-domain-type','') = 'non-enumerated') then local:value-domain-nonenum('')
-               else(
-                  if ($next-page = 'page 5' and request:get-parameter('value-domain-type','') = 'enumerated') then local:value-domain-enum('')
-                  else(
-                     if ($next-page = 'page 6') then local:associated-refdocs('')
-                     else(
-                        if ($next-page = 'page 7') then local:confirm('')
-                        else(
-                           if ($next-page = 'execute') then local:execute()
-                           else(
-                              local:admin-item-details('')
+   
+    if ($p-uri > '') 
+        then local:property-class-details('')
+    else( if ($oc-concept-reference > '') 
+        then local:object-class-details('')
+    else(if ($cd-enum-value-update > '') 
+        then local:conceptual-domain-details('')
+    else(if ($data-element-concept-update > '') 
+        then local:data-element-concept('')
+    else(if ($value-domain-update > '') 
+        then local:value-domain-type('')
+    else (if ($next-page = 'Next->Admin Item' or $next-page = 'Previous->Admin-Item') 
+        then local:admin-item-details('')
+    (:ADDING CONCEPTUAL DOMAIN:)
+    else(if ($next-page = 'Next->Conceptual Domain' or $next-page = 'Previous->Conceptual Domain') 
+        then local:conceptual-domain-details('')
+    else(if ($next-page = 'Next->Object Class' or $next-page = 'Previous->Object Class') 
+        then local:object-class-details('')
+    else(if ($next-page = 'Next->Property Class' or $next-page = 'Previous->Property Class') 
+        then local:property-class-details('')
+    else(if ($next-page = 'Next->Data Element Concept' or $next-page = 'Previous->Data Element Concept') 
+        then local:data-element-concept('')
+    else(if ($next-page = 'Next->Value Domain' or $next-page = 'Previous->Value Domain') 
+        then local:value-domain-type('')
+    else(if ($next-page = 'Next->Data Element' or $next-page = 'Previous->Data Element') 
+        then local:data-element-details('')
+    else(if ($next-page = 'Next->Reference Doc' or $next-page = 'Previous->Reference Doc') 
+        then local:associated-refdocs('')
+    else(if ($next-page = 'Next->Confirm' or $next-page = 'Previous->Confirm') 
+        then local:confirm('')
+    else(if ($next-page = 'Next->execute' or $next-page = 'Previous->execute') 
+        then local:execute()
+    else(local:admin-item-details('')
                               )
                            )
                         )
@@ -759,3 +1489,4 @@ if ($next-page = 'page 1') then local:admin-item-details('')
          )
       )
       )
+    )))))
