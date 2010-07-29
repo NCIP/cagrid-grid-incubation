@@ -117,7 +117,7 @@ declare function local:input-page(
                         </tr>
                         <tr>
                             <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes" onClick="return checkFile(this)"/></td>
-                            <td colspan="4"><input type="submit" name="update" value="Clear"/></td>
+                            <td colspan="4"><input type="button" name="update" value="Cancel"  onClick= "{concat("location.href='../web/reference_document.xquery?compound_id=", $id, "';")}" /></td>
                             
                         </tr>
                      </table>
