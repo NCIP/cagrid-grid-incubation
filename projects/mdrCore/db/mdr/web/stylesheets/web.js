@@ -233,15 +233,16 @@ function validate(obj)
     i=0;
     
     page = document.getElementById('move');
-    if(page.value=='page 2'){
-        
+    
+    if(page.value=='Next->Conceptual Domain'){
          regauth = document.getElementById('registration-authority');
          regby = document.getElementById('registered-by');
          adminby = document.getElementById('administered-by');
          submitby = document.getElementById('submitted-by');
          adminstatus = document.getElementById('administrative-status');
          regstatus = document.getElementById('registration-status');
-                   
+         
+         
          if (regauth.options[regauth.selectedIndex].value == ""){ 
              errors[i] = "Registration Authority" ;
              i++;
@@ -272,16 +273,42 @@ function validate(obj)
              i++;
          }
     }
-    
-    if(page.value=='page 1'){
-        names = document.getElementById('name');
+   
+    if(page.value=='Previous->Admin Items'){
+                
+        names = document.getElementById('name_cd');
         if (names.value == ""){ 
-             errors[i] = "Name" ;
+             errors[i] = "Conceptual Domain Name" ;
              i++;
         }
     }
     
-    if(page.value=='page 4'){
+    if(page.value=='Previous->Conceptual Domain'){
+       
+        names = document.getElementById('name_oc');
+        if (names.value == ""){ 
+             errors[i] = "Object Class Name" ;
+             i++;
+        }
+    }
+    
+     if(page.value=='Previous->Object Class'){
+        names = document.getElementById('name_pc');
+        if (names.value == ""){ 
+             errors[i] = "Property Name" ;
+             i++;
+        }
+    }
+    
+     if(page.value=='Previous->Property Class'){
+        names = document.getElementById('name');
+        if (names.value == ""){ 
+             errors[i] = "Data Element Name" ;
+             i++;
+        }
+    }
+    
+    if(page.value=='Previous->Data Element'){
         var isValid = true;
         for (var k = 0; k<document.edit_admin_item.elements.length; k++) {
             if (document.edit_admin_item.elements[k].name == "values") {
@@ -328,3 +355,5 @@ function checkFile(obj){
     }  
     return valid;
 }
+
+
