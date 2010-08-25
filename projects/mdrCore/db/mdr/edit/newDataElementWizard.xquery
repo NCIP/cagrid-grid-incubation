@@ -94,11 +94,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
      let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
      let $uris := request:get-parameter('cd-ref-uri','')
      let $meanings := request:get-parameter('meanings','')
-     let $log:=util:log-system-out('reg statUS')
-     let $log:=util:log-system-out(request:get-parameter('registration-status',''))
-     let $log := util:log-system-out('::::::::::::::::::::::::{{{{{{{}}}}}}}}}}}}}}}}}}:::::::::::::')
-let $log := util:log-system-out(lib-forms:radio('choose-conceptual-domain','new','true'))
-     
+    
      let $content as node()* := 
             (
             
@@ -116,7 +112,7 @@ let $log := util:log-system-out(lib-forms:radio('choose-conceptual-domain','new'
                     </tr>,
                     
                     <tr>
-                        <td class="left_header_cell">Select Conceptual Domain</td>
+                        <td class="left_header_cell">Select Existing Conceptual Domain</td>
                         <td>{
                          
                             if(request:get-parameter('conceptual_domain_id','') eq "Cancel")  then (
@@ -199,7 +195,7 @@ let $log := util:log-system-out(lib-forms:radio('choose-conceptual-domain','new'
                                return (
                                   <tr>
                                      <td class="left_header_cell">Value {$location} Meaning</td>
-                                     <td>{lib-forms:input-element('meanings', 30, $meaning)}{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'','cd-enum-value-update')}</td>
+                                     <td>{lib-forms:input-element('meanings', 30, $meanings[$pos])}{lib-forms:action-button(concat('delete value meaning ',$location), 'action' ,'','cd-enum-value-update')}</td>
                                      <td>{lib-forms:find-concept-id-CD('cd-ref-uri','get concept',$uris[$pos])}</td>
                            
                                   </tr>
@@ -259,15 +255,26 @@ declare function local:hidden-controls-conceptual-domain()
         lib-forms:hidden-element('country-identifiers_cd', request:get-parameter('country-identifiers_cd','')),
         lib-forms:hidden-element('language-identifiers_cd', request:get-parameter('language-identifiers_cd','')),
         lib-forms:hidden-element('sources_cd', request:get-parameter('sources_cd','')),
-        lib-forms:hidden-element('conceptual-domain-type',request:get-parameter('conceptual-domain-type',''))(:,
+        lib-forms:hidden-element('conceptual-domain-type',request:get-parameter('conceptual-domain-type','')),(:,
         lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id','')):)
        
-       
-    )else(
-        lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain','')),
-       lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id',''))
-       
-    )
+        let $meanings := request:get-parameter('meanings','')
+        let $skip-name := substring-after(request:get-parameter('action',''),'delete value meaning')
+        let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
+        let $uris := request:get-parameter('cd-ref-uri','')
+        let $meanings := request:get-parameter('meanings','')
+        let $uris := request:get-parameter('cd-ref-uri','')                
+        for $meaning at $pos in $meanings
+           let $location := if($pos > $skip-name-index and $skip-name-index > 0) then (util:eval($pos - 1)) else ($pos)
+           where $pos != $skip-name-index and $meaning > ""
+           return(
+                lib-forms:hidden-element('meanings',$meanings[$pos]),
+                lib-forms:hidden-element('cd-ref-uri',$uris[$pos])
+           )
+     )else(
+         lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain','')),
+         lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id',''))
+     )
 };
 
 (:END CONCEPTUAL DOMAIN:)
