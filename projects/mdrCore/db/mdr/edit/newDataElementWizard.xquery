@@ -439,7 +439,18 @@ declare function local:hidden-controls-object-class()
         lib-forms:hidden-element('language-identifiers_oc', request:get-parameter('language-identifiers_oc','')),
         lib-forms:hidden-element('sources_oc', request:get-parameter('sources_oc','')),
         (:lib-forms:hidden-element('object_class_uri_oc',request:get-parameter('object_class_uri_oc','')):)
-        lib-forms:hidden-element('object_class_id',request:get-parameter('object_class_id',''))
+        lib-forms:hidden-element('object_class_id',request:get-parameter('object_class_id','')),
+        let $object_class_uri_oc := request:get-parameter('object_class_uri_oc','')
+        let $action := request:get-parameter('action_oc','')
+        let $skip-uri := substring-after($action,'delete uri entry')
+        let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
+        
+        for $u at $pos in $object_class_uri_oc
+             where $pos != $skip-uri-index and $u > ""
+             return(
+                lib-forms:hidden-element('object_class_uri_oc',$object_class_uri_oc[$pos])
+             ) 
+                         
     )else(
         lib-forms:hidden-element('choose-object-class',request:get-parameter('choose-object-class','')),
         lib-forms:hidden-element('object_class_id', request:get-parameter('object_class_id',''))
@@ -452,7 +463,7 @@ declare function local:property-class-details($message as xs:string) as node()
 {
     let $form_name := 'newDataElementWizard_pc'
     let $title as xs:string := "New Data Element Wizard: - Property Class details"
-    let $property_class_uri_pc := request:get-parameter('property_uri_pc','')
+    let $property_class_uri_pc := request:get-parameter('property_class_uri_pc','')
     let $action := request:get-parameter('action_pc','')
     let $skip-uri := substring-after($action,'delete uri entry')
     let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
@@ -607,8 +618,19 @@ declare function local:hidden-controls-property-class()
         lib-forms:hidden-element('country-identifiers_pc', request:get-parameter('country-identifiers_pc','')),
         lib-forms:hidden-element('language-identifiers_pc', request:get-parameter('language-identifiers_pc','')),
         lib-forms:hidden-element('sources_pc', request:get-parameter('sources_pc','')),
-        lib-forms:hidden-element('property_class_uri_pc',request:get-parameter('property_class_uri_pc','')),
-        lib-forms:hidden-element('property_id',request:get-parameter('property_id',''))
+       (: lib-forms:hidden-element('property_class_uri_pc',request:get-parameter('property_class_uri_pc','')),:)
+        lib-forms:hidden-element('property_id',request:get-parameter('property_id','')),
+        
+        let $property_class_uri_pc := request:get-parameter('property_class_uri_pc','')
+        let $action := request:get-parameter('action_pc','')
+        let $skip-uri := substring-after($action,'delete uri entry')
+        let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
+         for $u at $pos in $property_class_uri_pc
+            where $pos != $skip-uri-index and $u > ""
+             return 
+             (
+                lib-forms:hidden-element('property_class_uri_pc',$property_class_uri_pc[$pos])
+             )
     ) else(
         lib-forms:hidden-element('choose-property-class',request:get-parameter('choose-property-class','')),
         lib-forms:hidden-element('property_id',request:get-parameter('property_id',''))
