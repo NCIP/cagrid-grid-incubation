@@ -44,7 +44,7 @@ declare function local:admin-item-details($message as xs:string) as node()
    let $version := '0.1'
    
    let $content as node()* := 
-            (
+   (
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
             <tr><td class="left_header_cell">Navigation</td><td width="40%"></td><td>{local:page-button("Next->Conceptual Domain")}</td></tr>
@@ -68,14 +68,8 @@ declare function local:admin-item-details($message as xs:string) as node()
             }
 
             </div>
-             )
-             (:let $log:=util:log-system-out('222222222222222222222222222222222')
-             let $log:=util:log-system-out(request:get-parameter('registration-status',''))
-             let $log:=util:log-system-out(request:get-parameter('administrative-status',''))
-             let $log:=util:log-system-out('content')
-             let $log:=util:log-system-out($content)
-            :)
-        return lib-forms:wrap-form-contents($title, $content)
+     )
+     return lib-forms:wrap-form-contents($title, $content)
 };
 
 declare function local:hidden-controls-admin-items()
@@ -102,7 +96,8 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
      let $meanings := request:get-parameter('meanings','')
      let $log:=util:log-system-out('reg statUS')
      let $log:=util:log-system-out(request:get-parameter('registration-status',''))
-
+     let $log := util:log-system-out('::::::::::::::::::::::::{{{{{{{}}}}}}}}}}}}}}}}}}:::::::::::::')
+let $log := util:log-system-out(lib-forms:radio('choose-conceptual-domain','new','true'))
      
      let $content as node()* := 
             (
@@ -115,8 +110,8 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                 if(request:get-parameter('choose-conceptual-domain','') = 'existing') 
                 then (
                     <tr><td class="left_header_cell">Select Conceptual Domain</td>
-                        <td><input type="radio" name="choose-conceptual-domain" value="existing" checked="true">existing</input></td>
-                        <td><input type="radio" name="choose-conceptual-domain" value="new">new</input></td>
+                        <td>{lib-forms:radio('choose-conceptual-domain','existing','true')}existing</td>
+                        <td>{lib-forms:radio('choose-conceptual-domain','new','false')}new</td>
                         <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
                     </tr>,
                     
@@ -142,8 +137,8 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                )else if(request:get-parameter('choose-conceptual-domain','')='new')
                then(
                     <tr><td class="left_header_cell">Select Conceptual Domain?</td>
-                        <td><input type="radio" name="choose-conceptual-domain" value="existing">existing</input></td>
-                        <td><input type="radio" name="choose-conceptual-domain" value="new" checked="checked">new</input></td>
+                         <td>{lib-forms:radio('choose-conceptual-domain','existing','false')}existing</td>
+                    <td>{lib-forms:radio('choose-conceptual-domain','new','true')}new</td>
                         <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
                     </tr>,
                  
@@ -230,8 +225,8 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                 )else(
                     <tr>{session:set-attribute("choose-conceptual-domain", "")}</tr>,
                     <tr><td class="left_header_cell">Select Conceptual Domain?</td>
-                   <td><input type="radio" name="choose-conceptual-domain" value="existing">existing</input></td>
-                   <td><input type="radio" name="choose-conceptual-domain" value="new">new</input></td>
+                    <td>{lib-forms:radio('choose-conceptual-domain','existing','false')}existing</td>
+                    <td>{lib-forms:radio('choose-conceptual-domain','new','false')}new</td>
                    <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
                  </tr>
                 )
@@ -261,16 +256,16 @@ declare function local:hidden-controls-conceptual-domain()
         lib-forms:hidden-element('preferred_name_context_cd', request:get-parameter('preferred_name_context_cd','')),
         lib-forms:hidden-element('name_cd', request:get-parameter('name_cd','')),
         lib-forms:hidden-element('definitions_cd',request:get-parameter('definitions_cd','')),
-        lib-forms:hidden-element('country-identifier_cd', request:get-parameter('country-identifier_cd','')),
-        lib-forms:hidden-element('language-identifier_cd', request:get-parameter('language-identifier_cd','')),
+        lib-forms:hidden-element('country-identifiers_cd', request:get-parameter('country-identifiers_cd','')),
+        lib-forms:hidden-element('language-identifiers_cd', request:get-parameter('language-identifiers_cd','')),
         lib-forms:hidden-element('sources_cd', request:get-parameter('sources_cd','')),
-        lib-forms:hidden-element('conceptual-domain-type',request:get-parameter('conceptual-domain-type','')),
-        (:lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id','')),:)
-        lib-forms:hidden-element('meanings0',request:get-parameter('meanings0',''))
+        lib-forms:hidden-element('conceptual-domain-type',request:get-parameter('conceptual-domain-type',''))(:,
+        lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id','')):)
+       
        
     )else(
-        lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain',''))
-       (: lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id','')):)
+        lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain','')),
+       lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id',''))
        
     )
 };
@@ -808,12 +803,12 @@ declare function local:hidden-controls-data-element-concept()
         lib-forms:hidden-element('property_uri', request:get-parameter('property_uri','')),
         lib-forms:hidden-element('property_id_dec', request:get-parameter('property_id_dec','')),
         lib-forms:hidden-element('object_class_id_dec', request:get-parameter('object_class_id_dec','')),
-        lib-forms:hidden-element('conceptual_domain_uri', request:get-parameter('conceptual_domain_uri',''))
-        (:lib-forms:hidden-element('conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id_dec','')),
-        lib-forms:hidden-element('data_element_concept_id',request:get-parameter('data_element_concept_id','')):)
+        lib-forms:hidden-element('conceptual_domain_uri', request:get-parameter('conceptual_domain_uri','')),
+        (:lib-forms:hidden-element('conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id_dec','')),:)
+        lib-forms:hidden-element('data_element_concept_id',request:get-parameter('data_element_concept_id',''))
     ) else (
-        lib-forms:hidden-element('choose-data-element-concept',request:get-parameter('choose-data-element-concept',''))
-        (:lib-forms:hidden-element('data_element_concept_id',request:get-parameter('data_element_concept_id','')):)
+        lib-forms:hidden-element('choose-data-element-concept',request:get-parameter('choose-data-element-concept','')),
+        lib-forms:hidden-element('data_element_concept_id',request:get-parameter('data_element_concept_id',''))
     )
 };
 
@@ -997,7 +992,7 @@ declare function local:hidden-controls-value-domain()
         lib-forms:hidden-element('country-identifiers_vd',request:get-parameter('country-identifiers_vd','')),
         lib-forms:hidden-element('language-identifiers_vd',request:get-parameter('language-identifiers_vd','')),
         lib-forms:hidden-element('sources_vd',request:get-parameter('sources_vd','')),
-        lib-forms:hidden-element('conceptual_domain_id_dec',request:get-parameter('conceptual_domain_id_dec','')),
+        lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id','')),
         lib-forms:hidden-element('value_domain_id',request:get-parameter('value_domain_id',''))
     )else(
         lib-forms:hidden-element('choose-value-domain',request:get-parameter('choose-value-domain','')),
@@ -1107,9 +1102,13 @@ declare function local:hidden-controls-data-element()
     lib-forms:hidden-element('name_de', request:get-parameter('name_de','')),
     lib-forms:hidden-element('definition_de', request:get-parameter('definition_de','')),
     lib-forms:hidden-element('preferred_name_context_de',request:get-parameter('preferred_name_context_de','')),
-    lib-forms:hidden-element('country-identifier_de', request:get-parameter('country-identifier_de','')),
-    lib-forms:hidden-element('language-identifier_de', request:get-parameter('language-identifier_de','')),
-    lib-forms:hidden-element('sources_de', request:get-parameter('sources_de',''))
+    lib-forms:hidden-element('country-identifiers_de', request:get-parameter('country-identifiers_de','')),
+    lib-forms:hidden-element('language-identifiers_de', request:get-parameter('language-identifiers_de','')),
+    lib-forms:hidden-element('sources_de', request:get-parameter('sources_de','')),
+    lib-forms:hidden-element('data_element_concept_id_de', request:get-parameter('data_element_concept_id_de','')),
+    lib-forms:hidden-element('value_domain_id_de', request:get-parameter('value_domain_id_de','')),
+    lib-forms:hidden-element('example', request:get-parameter('example','')),
+    lib-forms:hidden-element('precision', request:get-parameter('precision','')) 
     
 };
 
@@ -1505,13 +1504,7 @@ return
                              <tr><td class="left_header_cell"/><td width="40%"></td><td><input type="submit" name="move" value="again"/></td></tr>
                              <tr><td class="left_header_cell"/><td colspan="2">pressing 'again' will allow you to continue entering data elements with the same set of administrative values</td></tr>
                          </table>
-                         {
-                              local:hidden-controls-admin-items(),
-                              lib-forms:hidden-element('preferred_name_context',request:get-parameter('preferred_name_context','')),
-                              lib-forms:hidden-element('country-identifier', request:get-parameter('country-identifier','')),
-                              lib-forms:hidden-element('language-identifier', request:get-parameter('language-identifier','')),
-                              local:hidden-controls-value-domain()
-                          }
+                          
                           </div>
                       )
                       return
@@ -1567,6 +1560,8 @@ declare function local:executeCD()
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
    let $country-identifiers := request:get-parameter('country-identifiers_cd',())
+   let $log := util:log-system-out('ppppppppppppdddddddddddddddddsssssssssssssssssssssss')
+   let $log := util:log-system-out($country-identifiers)
    let $language-identifiers := request:get-parameter('language-identifiers_cd',())
    let $names := request:get-parameter('name_cd',())
    let $definitions := request:get-parameter('definitions_cd',())
