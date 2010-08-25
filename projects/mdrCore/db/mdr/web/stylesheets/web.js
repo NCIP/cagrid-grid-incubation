@@ -138,7 +138,7 @@ function validate_editValueDomain(){
         for (var i = 0; i<document.edit_value_domain.elements.length; i++) {
             if (document.edit_value_domain.elements[i].name == "values") {
                 for (var j = 0; j<document.edit_value_domain.elements.length; j++) {           
-                    if (document.edit_value_domain.elements[j].name == "values" & document.edit_value_domain.elements[i].value.toLowerCase() == document.edit_value_domain.elements[j].value.toLowerCase() & i!=j) {
+                	if (document.edit_value_domain.elements[j].name == "values" & document.edit_value_domain.elements[i].value.toLowerCase() == document.edit_value_domain.elements[j].value.toLowerCase() & i!=j) {
                         isValid = false;
                     }
                 } 
@@ -275,16 +275,22 @@ function validate(obj)
     }
    
     if(page.value=='Previous->Admin Items'){
-                
+              
         names = document.getElementById('name_cd');
+        cdid = document.getElementById('conceptual_domain_id');
         if (names.value == ""){ 
              errors[i] = "Conceptual Domain Name" ;
              i++;
-        }
+        }else
+        if (cdid.value == ""){ 
+             alert(cdid.value);
+             errors[i] = "CDID" ;
+             i++;
+        }else{ alert('within else'); alert(cdid.value);}
     }
     
     if(page.value=='Previous->Conceptual Domain'){
-       
+      
         names = document.getElementById('name_oc');
         if (names.value == ""){ 
              errors[i] = "Object Class Name" ;
@@ -301,7 +307,24 @@ function validate(obj)
     }
     
      if(page.value=='Previous->Property Class'){
-        names = document.getElementById('name');
+        names = document.getElementById('name_dec');
+        if (names.value == ""){ 
+             errors[i] = "Data Element Concept Name" ;
+             i++;
+        }
+    }
+    
+    if(page.value=='Previous->Data Element Concept'){
+         names = document.getElementById('name_vd');
+        if (names.value == ""){ 
+             errors[i] = "Value Domain Name" ;
+             i++;
+        }
+    }
+    
+    
+    if(page.value == 'Previous->Value Domain'){
+         names = document.getElementById('name_de');
         if (names.value == ""){ 
              errors[i] = "Data Element Name" ;
              i++;
@@ -355,5 +378,4 @@ function checkFile(obj){
     }  
     return valid;
 }
-
 
