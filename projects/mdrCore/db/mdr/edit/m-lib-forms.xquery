@@ -352,7 +352,8 @@ $form-name as xs:string, $button-name as xs:string) as node()*
       },
       element div {
          attribute id {concat($select-name,'-div')},
-         administered-item:preferred-name($collection,$received-value)
+         administered-item:preferred-name($collection,$received-value),
+         attribute value {administered-item:preferred-name($collection,$received-value)}
       },
       lib-forms:popup-form-search($collection, $select-name, $form-name, $button-name)     
 };
@@ -438,6 +439,11 @@ declare function lib-forms:input-element($name as xs:string, $size as xs:integer
 };
 
 declare function lib-forms:hidden-element($name as xs:string, $value as xs:string?) as node()
+{
+   <input type="hidden" name="{$name}" value="{$value}"/>
+};
+
+declare function lib-forms:hidden-element-multi($name as xs:string, $value as xs:string*) as node()
 {
    <input type="hidden" name="{$name}" value="{$value}"/>
 };
@@ -529,6 +535,7 @@ declare function lib-forms:make-select-uom($control as xs:string?, $received-val
 declare function lib-forms:radio($name as xs:string, $value as xs:string, $received-value as xs:string?) as node()
 {
       element input {
+      attribute id {$name},
          attribute type {'radio'},
          attribute name {$name},
          attribute value {$value},
@@ -544,6 +551,17 @@ declare function lib-forms:wrap-form-contents($title as xs:string, $form-content
    let $content as node() :=
       <div xmlns="http://www.w3.org/1999/xhtml">
       <form name="edit_admin_item" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
+      {$form-content}
+      </form>
+      </div>
+      return lib-rendering:txfrm-webpage($title, $content)
+};
+
+declare function lib-forms:wrap-form-name-contents($title as xs:string,$form_name as xs:string, $form-content as element()*) as node()*
+{
+   let $content as node() :=
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      <form name="newDataElementWizard_cd" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}" enctype="multipart/form-data">
       {$form-content}
       </form>
       </div>
