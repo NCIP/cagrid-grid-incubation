@@ -247,6 +247,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
 
 declare function local:hidden-controls-conceptual-domain()
 {
+   
      if(request:get-parameter('choose-conceptual-domain','') = 'new') then(
         lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain','')),
         lib-forms:hidden-element('preferred_name_context_cd', request:get-parameter('preferred_name_context_cd','')),
@@ -257,7 +258,7 @@ declare function local:hidden-controls-conceptual-domain()
         lib-forms:hidden-element('sources_cd', request:get-parameter('sources_cd','')),
         lib-forms:hidden-element('conceptual-domain-type',request:get-parameter('conceptual-domain-type','')),(:,
         lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id','')):)
-       
+      
         let $meanings := request:get-parameter('meanings','')
         let $skip-name := substring-after(request:get-parameter('action',''),'delete value meaning')
         let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
@@ -274,6 +275,7 @@ declare function local:hidden-controls-conceptual-domain()
      )else(
          lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain','')),
          lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id',''))
+        
      )
 };
 
@@ -282,6 +284,9 @@ declare function local:hidden-controls-conceptual-domain()
 (:ADDING OBJECT CLASS:)
 declare function local:object-class-details($message as xs:string) as node()
 {
+    let $savedCD := session:get-attribute('savedCD')
+    let $element := lib-util:mdrElement("conceptual_domain",$savedCD)
+       
     let $form_name := 'newDataElementWizard_oc'
     let $title as xs:string := "New Data Element Wizard: - Object Class details"
     let $object_class_uri_oc := request:get-parameter('object_class_uri_oc','')
@@ -414,17 +419,23 @@ declare function local:object-class-details($message as xs:string) as node()
              </table>
          
           </table>
-          {
-                local:hidden-controls-admin-items(),
-                local:hidden-controls-conceptual-domain(),
-                local:hidden-controls-property-class(),
-                local:hidden-controls-data-element-concept(), 
-                local:hidden-controls-value-domain(), 
-                local:hidden-controls-data-element(),
-                local:hidden-controls-reference-doc()
-         }
+         
+            {
+                  local:hidden-controls-admin-items(),
+                  local:hidden-controls-conceptual-domain(),
+                  local:hidden-controls-property-class(),
+                  local:hidden-controls-data-element-concept(), 
+                  local:hidden-controls-value-domain(), 
+                  local:hidden-controls-data-element(),
+                  local:hidden-controls-reference-doc()
+                  ,
+                 administered-item:html-anchor($element)
+           }
+        
        </div>
+      
        )
+      
        return lib-forms:wrap-form-contents($title, $content)  
 };
 
@@ -461,6 +472,11 @@ declare function local:hidden-controls-object-class()
 (:ADDING PROPERTY CLASS:)
 declare function local:property-class-details($message as xs:string) as node()
 {
+    let $savedCD := session:get-attribute('savedCD')
+    let $elementCD := lib-util:mdrElement("conceptual_domain",$savedCD)
+    let $savedOC := session:get-attribute('savedOC')
+    let $elementOC := lib-util:mdrElement("object_class",$savedOC)
+    
     let $form_name := 'newDataElementWizard_pc'
     let $title as xs:string := "New Data Element Wizard: - Property Class details"
     let $property_class_uri_pc := request:get-parameter('property_class_uri_pc','')
@@ -601,7 +617,9 @@ declare function local:property-class-details($message as xs:string) as node()
                 local:hidden-controls-data-element-concept(), 
                 local:hidden-controls-value-domain(), 
                 local:hidden-controls-data-element(),
-                local:hidden-controls-reference-doc()
+                local:hidden-controls-reference-doc(),
+                administered-item:html-anchor($elementCD),
+                administered-item:html-anchor($elementOC)
          }
        </div>
        )
@@ -641,10 +659,15 @@ declare function local:hidden-controls-property-class()
 
 declare function local:data-element-concept($message as xs:string) as node()
 {
+    let $savedCD := session:get-attribute('savedCD')
+    let $elementCD := lib-util:mdrElement("conceptual_domain",$savedCD)
+    let $savedOC := session:get-attribute('savedOC')
+    let $elementOC := lib-util:mdrElement("object_class",$savedOC)
+    let $savedPC := session:get-attribute('savedPC')
+    let $elementPC := lib-util:mdrElement("property",$savedPC)
+    
    let $form_name := 'newDataElementWizard_dec'
    let $title as xs:string := "New Data Element Wizard: - Data Element Concept"
-   let $log := util:log-system-out('222222222222222222333333333333333344444444444444444444')
-   let $log := util:log-system-out(request:get-parameter('object_class_id',''))
    let $content as node()* := 
             (
            
@@ -810,7 +833,11 @@ declare function local:data-element-concept($message as xs:string) as node()
                         local:hidden-controls-property-class(),
                         local:hidden-controls-value-domain(), 
                         local:hidden-controls-data-element(),
-                        local:hidden-controls-reference-doc() 
+                        local:hidden-controls-reference-doc() ,
+                        administered-item:html-anchor($elementCD),
+                        administered-item:html-anchor($elementOC),
+                        administered-item:html-anchor($elementPC)
+                         
                     }
             </div>
              )
@@ -833,7 +860,7 @@ declare function local:hidden-controls-data-element-concept()
         lib-forms:hidden-element('property_id_dec', request:get-parameter('property_id_dec','')),
         lib-forms:hidden-element('object_class_id_dec', request:get-parameter('object_class_id_dec','')),
         lib-forms:hidden-element('conceptual_domain_uri', request:get-parameter('conceptual_domain_uri','')),
-        (:lib-forms:hidden-element('conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id_dec','')),:)
+        lib-forms:hidden-element('conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id_dec','')),
         lib-forms:hidden-element('data_element_concept_id',request:get-parameter('data_element_concept_id',''))
     ) else (
         lib-forms:hidden-element('choose-data-element-concept',request:get-parameter('choose-data-element-concept','')),
@@ -843,6 +870,15 @@ declare function local:hidden-controls-data-element-concept()
 
 declare function local:value-domain-type($message as xs:string) as node()
 {
+    let $savedCD := session:get-attribute('savedCD')
+    let $elementCD := lib-util:mdrElement("conceptual_domain",$savedCD)
+    let $savedOC := session:get-attribute('savedOC')
+    let $elementOC := lib-util:mdrElement("object_class",$savedOC)
+    let $savedPC := session:get-attribute('savedPC')
+    let $elementPC := lib-util:mdrElement("property",$savedPC)
+    let $savedDEC := session:get-attribute('savedDEC')
+    let $elementDEC := lib-util:mdrElement("data_element_concept",$savedDEC)
+    
    let $form_name := 'newDataElementWizard_vd'
    let $title as xs:string := "New Data Element Wizard:- value domain type"
    let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
@@ -1002,7 +1038,12 @@ declare function local:value-domain-type($message as xs:string) as node()
                 local:hidden-controls-property-class(),
                 local:hidden-controls-data-element-concept(), 
                 local:hidden-controls-data-element(),
-                local:hidden-controls-reference-doc()
+                local:hidden-controls-reference-doc(),
+                administered-item:html-anchor($elementCD),
+                administered-item:html-anchor($elementOC),
+                administered-item:html-anchor($elementPC),
+                administered-item:html-anchor($elementDEC)
+                
             }
          </div>
         
@@ -1032,6 +1073,18 @@ declare function local:hidden-controls-value-domain()
 
 declare function local:data-element-details($message as xs:string) as node()
 {
+   
+   let $savedCD := session:get-attribute('savedCD')
+   let $elementCD := lib-util:mdrElement("conceptual_domain",$savedCD)
+   let $savedOC := session:get-attribute('savedOC')
+   let $elementOC := lib-util:mdrElement("object_class",$savedOC)
+   let $savedPC := session:get-attribute('savedPC')
+   let $elementPC := lib-util:mdrElement("property",$savedPC)
+   let $savedDEC := session:get-attribute('savedDEC')
+   let $elementDEC := lib-util:mdrElement("data_element_concept",$savedDEC)
+   let $savedVD := session:get-attribute('savedVD')
+   let $elementVD := lib-util:mdrElement("value_domain",$savedVD)
+   
    let $form_name := 'newDataElementWizard_de'
    let $title as xs:string := "New Data Element Wizard:- data element details"
    let $content as node()* := 
@@ -1119,7 +1172,12 @@ declare function local:data-element-details($message as xs:string) as node()
                 local:hidden-controls-property-class(),
                 local:hidden-controls-data-element-concept(),
                 local:hidden-controls-value-domain(), 
-                local:hidden-controls-reference-doc()
+                local:hidden-controls-reference-doc(),
+                administered-item:html-anchor($elementCD),
+                administered-item:html-anchor($elementOC),
+                administered-item:html-anchor($elementPC),
+                administered-item:html-anchor($elementDEC),
+                administered-item:html-anchor($elementVD)
          }
            </div>
             )
@@ -1143,6 +1201,19 @@ declare function local:hidden-controls-data-element()
 
 declare function local:associated-refdocs($message as xs:string) as node()
 {
+   let $savedCD := session:get-attribute('savedCD')
+   let $elementCD := lib-util:mdrElement("conceptual_domain",$savedCD)
+   let $savedOC := session:get-attribute('savedOC')
+   let $elementOC := lib-util:mdrElement("object_class",$savedOC)
+   let $savedPC := session:get-attribute('savedPC')
+   let $elementPC := lib-util:mdrElement("property",$savedPC)
+   let $savedDEC := session:get-attribute('savedDEC')
+   let $elementDEC := lib-util:mdrElement("data_element_concept",$savedDEC)
+   let $savedVD := session:get-attribute('savedVD')
+   let $elementVD := lib-util:mdrElement("value_domain",$savedVD)
+   let $savedDE := session:get-attribute('savedDE')
+   let $elementDE := lib-util:mdrElement("data_element",$savedDE)
+   
    let $title as xs:string := "New Data Element Wizard:- reference documents"
    let $content as node()* := 
             (
@@ -1160,7 +1231,13 @@ declare function local:associated-refdocs($message as xs:string) as node()
                 local:hidden-controls-property-class(),
                 local:hidden-controls-data-element-concept(), 
                 local:hidden-controls-value-domain(), 
-                local:hidden-controls-data-element()
+                local:hidden-controls-data-element(),
+                administered-item:html-anchor($elementCD),
+                administered-item:html-anchor($elementOC),
+                administered-item:html-anchor($elementPC),
+                administered-item:html-anchor($elementDEC),
+                administered-item:html-anchor($elementVD),
+                administered-item:html-anchor($elementDE)
             }
             </div>
              )
@@ -1177,395 +1254,51 @@ lib-forms:hidden-element('refdoc3',request:get-parameter('refdoc3',''))
 
 declare function local:execute() as node()
 {
-
-let $registration-authority :=request:get-parameter('registration-authority','')
-let $registered-by := request:get-parameter('registered-by','')
-let $administered-by := request:get-parameter('administered-by','')
-let $submitted-by := request:get-parameter('submitted-by','')
-let $administrative-status := request:get-parameter('administrative-status','')
-let $administrative-note := request:get-parameter('administrative-note','')
-
-let $name_cd := request:get-parameter('name_cd','')
-let $definition_cd := request:get-parameter('definition_cd','')
-let $preferred_name_context_cd := request:get-parameter('preferred_name_context_cd','')
-let $country-identifier_cd := request:get-parameter('country-identifier_cd','')
-let $language-identifier_cd := request:get-parameter('language-identifier_cd','')
-let $sources_cd := request:get-parameter('sources_cd','') 
-
-let $name_oc := request:get-parameter('name_oc','')
-let $definition_oc := request:get-parameter('definition_oc','')
-let $preferred_name_context_oc := request:get-parameter('preferred_name_context_oc','')
-let $country-identifier_oc := request:get-parameter('country-identifier_oc','')
-let $language-identifier_oc := request:get-parameter('language-identifier_oc','')
-let $sources_oc := request:get-parameter('sources_oc','') 
-
-let $name_pc := request:get-parameter('name_pc','')
-let $definition_pc := request:get-parameter('definition_pc','')
-let $preferred_name_context_pc := request:get-parameter('preferred_name_context_pc','')
-let $country-identifier_pc := request:get-parameter('country-identifier_pc','')
-let $language-identifier_pc := request:get-parameter('language-identifier_pc','')
-let $sources_pc := request:get-parameter('sources_pc','') 
-
-let $name_dec := request:get-parameter('name_dec','')
-let $definition_dec := request:get-parameter('definition_dec','')
-let $preferred_name_context_dec := request:get-parameter('preferred_name_context_dec','')
-let $country-identifier_dec := request:get-parameter('country-identifier_dec','')
-let $language-identifier_dec := request:get-parameter('language-identifier_dec','')
-let $sources_dec := request:get-parameter('sources_dec','') 
-
-let $name_vd := request:get-parameter('name_vd','')
-let $definition_vd := request:get-parameter('definition_oc','')
-let $preferred_name_context_vd := request:get-parameter('preferred_name_context_vd','')
-let $country-identifier_vd := request:get-parameter('country-identifier_vd','')
-let $language-identifier_vd := request:get-parameter('language-identifier_vd','')
-let $sources_vd := request:get-parameter('sources_vd','') 
-
-let $name_de := request:get-parameter('name_de','')
-let $definition_de := request:get-parameter('definition_de','')
-let $preferred_name_context_de := request:get-parameter('preferred_name_context_de','')
-let $country-identifier_de := request:get-parameter('country-identifier_de','')
-let $language-identifier_de := request:get-parameter('language-identifier_de','')
-let $sources_de := request:get-parameter('sources_de','') 
-
-let $representation-class := request:get-parameter('representation-class','')
-let $example := request:get-parameter('example','')
-
-let $object_class_uri := request:get-parameter('object_class_uri','') 
-let $property_uri := request:get-parameter('property_uri','')
-let $object_class_id := request:get-parameter('object_class_id','') 
-let $property_id := request:get-parameter('property_id','')
-let $value-domain-type :=request:get-parameter('value-domain-type','')
-let $values := request:get-parameter('values',())
-let $meanings := request:get-parameter('meanings',())
-let $datatype := request:get-parameter('datatype','')
-let $uom := request:get-parameter('uom','')     
-let $enum_datatype := request:get-parameter('enum_datatype','')
-let $enum_uom := request:get-parameter('enum_uom','')   
-let $precision := request:get-parameter('precision','0')
-let $refdoc1 := request:get-parameter('refdoc1','')
-let $refdoc2 := request:get-parameter('refdoc2','')
-let $refdoc3 := request:get-parameter('refdoc3','')
-
-let $version := '0.1'
-let $data-identifier-de := lib-forms:generate-id()
-let $data-identifier-vd := lib-forms:generate-id()
-let $data-identifier-dec := lib-forms:generate-id()
-let $data-identifier-cd := lib-forms:generate-id()
-let $data-identifier-oc := lib-forms:generate-id()
-let $data-identifier-pr := lib-forms:generate-id()
-
-let $full-identifier-de := concat($registration-authority, '_', $data-identifier-de, '_', $version)
-let $full-identifier-vd := concat($registration-authority, '_', $data-identifier-vd, '_', $version)
-let $full-identifier-dec := concat($registration-authority, '_', $data-identifier-dec, '_', $version)
-let $full-identifier-cd := concat($registration-authority, '_', $data-identifier-cd, '_', $version)
-let $full-identifier-oc := concat($registration-authority, '_', $data-identifier-oc, '_', $version)
-let $full-identifier-pr := concat($registration-authority, '_', $data-identifier-pr, '_', $version)
-
-let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
-let $registration_status := request:get-parameter('registration_status','')
-
-let $object_class_uri_oc := request:get-parameter('object_class_uri_oc','')
-
-let $administration-record := lib-make-admin-item:administration-record(
-        $administrative-note,
-        $administrative-status,$creation-date,
-        $registration_status)
-
-let $custodians := lib-make-admin-item:custodians(
-        $administered-by,
-        $registered-by,
-        $submitted-by)
-            
-let $having-preferred-cd := lib-make-admin-item:having(
-        $preferred_name_context_cd,
-        $country-identifier_cd,
-        $language-identifier_cd,
-        $name_cd,
-        $definition_cd,
-        true(), $sources_cd)
-
-let $having-preferred-oc := lib-make-admin-item:having(
-        $preferred_name_context_oc,
-        $country-identifier_oc,
-        $language-identifier_oc,
-        $name_oc,
-        $definition_oc,
-        true(), $sources_oc)
-
-let $having-preferred-pc := lib-make-admin-item:having(
-        $preferred_name_context_pc,
-        $country-identifier_pc,
-        $language-identifier_pc,
-        $name_pc,
-        $definition_pc,
-        true(), $sources_pc)
-
-let $having-preferred-dec := lib-make-admin-item:having(
-        $preferred_name_context_dec,
-        $country-identifier_dec,
-        $language-identifier_dec,
-        $name_dec,
-        $definition_dec,
-        true(), $sources_dec)
-
-let $having-preferred-vd := lib-make-admin-item:having(
-        $preferred_name_context_vd,
-        $country-identifier_vd,
-        $language-identifier_vd,
-        $name_vd,
-        $definition_vd,
-        true(), $sources_vd)
-
-let $having-preferred-de := lib-make-admin-item:having(
-        $preferred_name_context_de,
-        $country-identifier_de,
-        $language-identifier_de,
-        $name_de,
-        $definition_de,
-        true(), $sources_de)
-        
-let $described-by := (
-   if ($refdoc1 > "")
-   then (element openMDR:described_by {$refdoc1})
-   else(),
-   if ($refdoc2 > "")
-   then (element openMDR:described_by {$refdoc2})
-   else(),
-   if ($refdoc3 > "")
-   then (element openMDR:described_by {$refdoc3})
-   else()
-)
-            
-let $object-class := 
-   (
-   if(request:get-parameter('choose-object-class','')='new') then(
-   element openMDR:Object_Class {
-        lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-oc,$version),
-        $administration-record,
-        $custodians,
-        $having-preferred-oc,   
-        element openMDR:reference_uri {$object_class_uri_oc}
-        }
-    )else()    
-   )
-   
-let $property := 
-   (
-    element openMDR:Property {
-        lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-pr,$version),
-        $administration-record,
-        $custodians,
-        $having-preferred-pc,   
-        element openMDR:reference_uri {$property_uri}
-        }
-   )
-   
-   let $enumerations :=
-      (
-      for $value at $pos in $values
-      let $vmd := $meanings[$pos]
-      let $pv := $value
-      let $vmi := lib-forms:generate-id()
-      let $pvi := lib-forms:generate-id()
-      return
-         if ($vmd>"") then (
-            element enumeration {
-               element value-meaning-id {$vmi},
-               element value-meaning-desc {$vmd},
-               element permissible-value-id {$pvi},
-               element permissible-value {$pv}
-               }
-         )
-         else()
-      )
-
-   
-let $conceptual-domain :=
-      if ($value-domain-type = 'enumerated') then
-      (   
-      element openMDR:Enumerated_Conceptual_Domain {
-            lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-cd,$version),
-            $administration-record,
-            $custodians,
-            $described-by,
-            $having-preferred-cd,
-            for $e in $enumerations
-            return 
-                element openMDR:Value_Meaning {
-                    element openMDR:value_meaning_begin_date {current-date()},
-                    element openMDR:value_meaning_description {data($e/value-meaning-desc)},
-                    element openMDR:value_meaning_identifier {data($e/value-meaning-id)}
-                  }
-         }
-       )
-       else
-       (
-       element openMDR:Non_Enumerated_Conceptual_Domain {
-            lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-cd,$version),
-            $administration-record,
-            $custodians,
-            $described-by,
-            $having-preferred-cd
-         }
-       )
-
-   let $value-domain :=
-      if ($value-domain-type = 'enumerated') then 
-      (
-      element openMDR:Enumerated_Value_Domain {
-      lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-vd,$version),
-         $administration-record,
-         $custodians,
-         $described-by,
-         $having-preferred-vd,
-         element openMDR:typed_by {$representation-class},
-         if ($enum_datatype > "")
-         then (element openMDR:value_domain_datatype{$enum_datatype})
-         else(),
-         if ($enum_uom > "")
-         then (element openMDR:value_domain_unit_of_measure{$enum_uom})
-         else(),
-         for $e in $enumerations
-         return 
-         (
-         element openMDR:containing {
-            attribute permissible_value_identifier {data($e/permissible-value-id)},
-            element openMDR:permissible_value_begin_date {current-date()},
-            element openMDR:value_item {data($e/permissible-value)},
-            element openMDR:contained_in {data($e/value-meaning-id)}
-            }
-         ),
-         element openMDR:representing {$full-identifier-cd}        
-         }
-      )
-      else 
-      (
-         element openMDR:Non_Enumerated_Value_Domain {
-         lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-vd,$version),
-         $administration-record,
-         $custodians,
-         $described-by,         
-         $having-preferred-vd, 
-         element openMDR:typed_by {$representation-class}, 
-         element openMDR:value_domain_datatype {$datatype},
-         element openMDR:value_domain_unit_of_measure {$uom},
-         element openMDR:representing {$full-identifier-cd}         
-         }      
-      )
-      
-   let $data-element-concept := (
-         element openMDR:Data_Element_Concept {
-         lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-dec,$version),
-         $administration-record,
-         $custodians,
-         $described-by,         
-         $having-preferred-dec,
-        element openMDR:data_element_concept_conceptual_domain {$full-identifier-cd},
-        element openMDR:data_element_concept_object_class {
-          if ($object_class_id) then ($object_class_id) else ($full-identifier-oc)
-        },
-        element openMDR:data_element_concept_property {
-          if ($property_id) then ($property_id) else ($full-identifier-pr)
-        }
-      }
-   )
-   
-   let $data-element := (
-      element openMDR:Data_Element {
-      lib-make-admin-item:identifier-attributes($registration-authority,$data-identifier-de,$version),
-         $administration-record,
-         $custodians,
-         $described-by,         
-         $having-preferred-de,
-        
-              element openMDR:data_element_precision {$precision},
-              element openMDR:representing {$full-identifier-vd},
-              element openMDR:typed_by {$representation-class}, 
-              element openMDR:expressing {$full-identifier-dec},
-              element openMDR:exemplified_by {
-              element openMDR:data_element_example_item {$example}
-        }
-      }
-      )
-   
-   (: save documents :)
-   
-return
-   if ((
-      if ($object_class_id > '')
-      then 'stored'
-      else lib-forms:store-document($object-class))='stored' 
-      )
-   then (
-      if ((
-         if ($property_id > '')
-         then 'stored'
-         else lib-forms:store-document($property))='stored')
-      then (
-         if (lib-forms:store-document($conceptual-domain)='stored')
-         then (
-            if (lib-forms:store-document($value-domain)='stored')
-            then (
-               if (lib-forms:store-document($data-element-concept)='stored')
-               then (
-                  if (lib-forms:store-document($data-element)='stored')
-                  then 
-                      let $success-webpage := ( 
-                          <div xmlns="http://www.w3.org/1999/xhtml">
-                          <table>
-                             <tr><td colspan="2">The following documents were created</td></tr>
-                             <tr><td class="left_header_cell">data element</td><td>{administered-item:html-anchor($data-element)}</td></tr>
-                             <tr><td class="left_header_cell">value domain</td><td>{administered-item:html-anchor($value-domain)}</td></tr>
-                             <tr><td class="left_header_cell">data element concept</td><td>{administered-item:html-anchor($data-element-concept)}</td></tr>
-                             <tr><td class="left_header_cell">conceptual domain</td><td>{administered-item:html-anchor($conceptual-domain)}</td></tr>
-                             {
-                                 if ($object_class_id) 
-                                 then () 
-                                 else (
-                                    <tr><td class="left_header_cell">object class</td><td>{administered-item:html-anchor($object-class)}</td></tr>
-                                 ),
-                                 if ($property_id) 
-                                 then () 
-                                 else (
-                                     <tr><td class="left_header_cell">property</td><td>{administered-item:html-anchor($property)}</td></tr>
-                                 )
-                             }
-                             <tr><td class="left_header_cell"/><td width="40%"></td><td><input type="submit" name="move" value="again"/></td></tr>
-                             <tr><td class="left_header_cell"/><td colspan="2">pressing 'again' will allow you to continue entering data elements with the same set of administrative values</td></tr>
-                         </table>
-                          
-                          </div>
-                      )
-                      return
-                          lib-forms:wrap-form-contents("success", $success-webpage)
-                  else (<div>failed to save data element</div>)
-               )
-               else (<div>failed to save data element concept</div>)
-            )
-            else (<div>failed to save value domain</div>)
-         )
-         else (<div>failed to save conceptual domain</div>)
-      )
-      else (<div>failed to save property</div>)
-   )
-   else (<div>failed to save object class</div>)
-   
-   (: show UI with links to documents :)
-   
-
+    local:executeCD(),
+    local:executeOC(),
+    local:executePC(),
+    local:executeDEC(),
+    local:executeVD(),
+    local:executeDE()
+    (:administered-item:html-anchor(session:get-attribute('namesCD')):)
+    
 };
 
 declare function local:confirm($message as xs:string) as node()
 {
+    let $savedCD := session:get-attribute('savedCD')
+   let $elementCD := lib-util:mdrElement("conceptual_domain",$savedCD)
+   let $savedOC := session:get-attribute('savedOC')
+   let $elementOC := lib-util:mdrElement("object_class",$savedOC)
+   let $savedPC := session:get-attribute('savedPC')
+   let $elementPC := lib-util:mdrElement("property",$savedPC)
+   let $savedDEC := session:get-attribute('savedDEC')
+   let $elementDEC := lib-util:mdrElement("data_element_concept",$savedDEC)
+   let $savedVD := session:get-attribute('savedVD')
+   let $elementVD := lib-util:mdrElement("value_domain",$savedVD)
+   let $savedDE := session:get-attribute('savedDE')
+   let $elementDE := lib-util:mdrElement("data_element",$savedDE)
+   
    let $title as xs:string := "New Data Element Wizard: - confirm details"
    let $content as node()* := 
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td width="40%"><input type="submit" name="move" value="Previous->Reference Doc"/></td><td><input type="submit" name="move" value="Next->execute"/></td></tr>
-               <tr><td class="left_header_cell"/><td colspan="2">Pressing 'execute' will store the documents to the database.  You will then be offered the opportunity to edit each element.</td></tr>
+               <tr><td class="left_header_cell"/><td width="40%"><input type="submit" name="move" value="Previous->Reference Doc"/></td></tr>
+               <tr><td class="left_header_cell"/><td colspan="2">Summary of the Elements created</td></tr>
+               <tr><td class="left_header_cell">Conceptual Domain</td><td colspan="2">{administered-item:html-anchor($elementCD)}</td></tr>
+               <tr><td class="left_header_cell">Object Class</td><td colspan="2">{administered-item:html-anchor($elementOC)}</td></tr>
+               <tr><td class="left_header_cell">Property Class</td><td colspan="2">{administered-item:html-anchor($elementPC)}</td></tr>
+               <tr><td class="left_header_cell">Data Element Concept</td><td colspan="2">{administered-item:html-anchor($elementDEC)}</td></tr>
+               <tr><td class="left_header_cell">Value Domain</td><td colspan="2">{administered-item:html-anchor($elementVD)}</td></tr>
+               <tr><td class="left_header_cell">Data Element</td><td colspan="2">{administered-item:html-anchor($elementDE)}</td></tr>
+               <tr><td class="left_header_cell"></td><td colspan="2">pressing 'again' will allow you to continue entering data elements with the same set of administrative values</td></tr>              
+              <tr><td class="left_header_cell"></td><td width="40%"><input type="submit" name="move" value="again"/></td></tr>              
+              
             </table>
-            {
+           (:
+              uncomment the following to continue with the same form details
+               {
                 local:hidden-controls-admin-items(),
                 local:hidden-controls-conceptual-domain(),
                 local:hidden-controls-object-class(),
@@ -1574,7 +1307,7 @@ declare function local:confirm($message as xs:string) as node()
                 local:hidden-controls-value-domain(), 
                 local:hidden-controls-data-element(),
                 local:hidden-controls-reference-doc()
-            }
+            }:)
          </div>
       )
    return lib-forms:wrap-form-contents($title, $content)
@@ -1589,8 +1322,6 @@ declare function local:executeCD()
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
    let $country-identifiers := request:get-parameter('country-identifiers_cd',())
-   let $log := util:log-system-out('ppppppppppppdddddddddddddddddsssssssssssssssssssssss')
-   let $log := util:log-system-out($country-identifiers)
    let $language-identifiers := request:get-parameter('language-identifiers_cd',())
    let $names := request:get-parameter('name_cd',())
    let $definitions := request:get-parameter('definitions_cd',())
@@ -1609,7 +1340,7 @@ declare function local:executeCD()
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    
    let $content := (
-            
+          
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
             lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
             lib-make-admin-item:havings(
@@ -1653,13 +1384,12 @@ declare function local:executeCD()
    )
       
    let $collection := 'conceptual_domain'
+  
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
-      then true()
+      then ( session:set-attribute("savedCD",$new-identifier),true())
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newConceptualDomain.xquery&amp;",$message)))
-
-    
 };
 
 
@@ -1716,7 +1446,7 @@ declare function local:executeOC()
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
-      then true()
+      then( session:set-attribute("savedOC",$new-identifier), true())
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newObjectClass.xquery&amp;",$message)))
 
 };
@@ -1773,7 +1503,7 @@ declare function local:executePC()
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
-      then true()
+      then( session:set-attribute("savedPC",$new-identifier), true())
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newProperty.xquery&amp;",$message)))
 
 };
@@ -1798,12 +1528,8 @@ declare function local:executeDEC()
    let $definitions := request:get-parameter('definitions_dec',())
    let $sources := request:get-parameter('sources_dec',())
    let $preferred := '1'
-   
-   
+      
    let $object_class_id := request:get-parameter('object_class_id_dec','')
-   
-   let $log := util:log-system-out('11111111111111111000000000000111111111111111')
-   let $log :=util:log-system-out($object_class_id)
    
    let $property_id := request:get-parameter('property_id_dec','')
    let $conceptual_domain_id := request:get-parameter('conceptual_domain_id_dec','')
@@ -1898,7 +1624,7 @@ declare function local:executeDEC()
          else lib-forms:store-document($property))='stored')
       then (
           if(lib-forms:store-document($document)='stored')
-          then 'stored'
+          then (session:set-attribute("savedDEC",$new-identifier),'stored')
           else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newDataElementConcept.xquery&amp;","Could not store data element concept"))) )
           )
       else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newDataElementConcept.xquery&amp;","Could not store property"))) )
@@ -1909,6 +1635,7 @@ declare function local:executeDEC()
 
 declare function local:executeVD() 
 {
+   
    let $version := '0.1'
    let $reg-auth := request:get-parameter('registration-authority','')
    let $administrative-note := request:get-parameter('administrative-note','')
@@ -1989,7 +1716,7 @@ declare function local:executeVD()
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
-      then true()
+      then ( session:set-attribute("savedVD",$new-identifier), true())
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newValueDomain.xquery&amp;",$message)))
 
 };
@@ -2047,7 +1774,7 @@ declare function local:executeDE()
       
    return
           if(lib-forms:store-document($document)='stored')
-          then 'stored'
+          then (session:set-attribute("savedDE",$new-identifier), 'stored')
           else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newDataElement.xquery&amp;","Could not store data element"))) )
 
 };
@@ -2101,8 +1828,7 @@ return
         then( if($choose_de = 'new' and local:executeDE())then local:associated-refdocs('') else if($choose_de='existing') then local:associated-refdocs('') else local:data-element-details('Cannot Save') )
     else(if ($next-page = 'Next->Confirm' or $next-page = 'Previous->Confirm') 
         then local:confirm('')
-    else(if ($next-page = 'Next->execute' or $next-page = 'Previous->execute') 
-        then local:execute()
+    
     else(local:admin-item-details('')
                               )
                            )
@@ -2114,7 +1840,7 @@ return
          )
       )
       )
-    )))))
+    ))))
     
     
     
