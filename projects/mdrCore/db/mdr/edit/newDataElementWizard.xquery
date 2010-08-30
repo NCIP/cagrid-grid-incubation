@@ -227,6 +227,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
              </table>
          
           </table>
+          
           {
             local:hidden-controls-admin-items(),
             local:hidden-controls-object-class(),
@@ -1203,7 +1204,7 @@ declare function local:associated-refdocs($message as xs:string) as node()
             (
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-            <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Data Element")}</td><td>{local:page-button("Next->Confirm")}</td></tr>
+            <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Data Element")}</td><td>{local:page-button("Next->Summary")}</td></tr>
             <tr><td class="left_header_cell">Reference document 1</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc1', request:get-parameter('refdoc1',''))} </td></tr>
             <tr><td class="left_header_cell">Reference document 2</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc2', request:get-parameter('refdoc2',''))} </td></tr>
             <tr><td class="left_header_cell">Reference document 3</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc3', request:get-parameter('refdoc3',''))} </td></tr>
@@ -1236,17 +1237,6 @@ lib-forms:hidden-element('refdoc2',request:get-parameter('refdoc2','')),
 lib-forms:hidden-element('refdoc3',request:get-parameter('refdoc3',''))
 };
 
-declare function local:execute() as node()
-{
-    local:executeCD(),
-    local:executeOC(),
-    local:executePC(),
-    local:executeDEC(),
-    local:executeVD(),
-    local:executeDE()
-    (:administered-item:html-anchor(session:get-attribute('namesCD')):)
-    
-};
 
 declare function local:confirm($message as xs:string) as node()
 {
@@ -1263,12 +1253,11 @@ declare function local:confirm($message as xs:string) as node()
    let $savedDE := session:get-attribute('savedDE')
    let $elementDE := lib-util:mdrElement("data_element",$savedDE)
    
-   let $title as xs:string := "New Data Element Wizard: - confirm details"
+   let $title as xs:string := "New Data Element Wizard: - Summary"
    let $content as node()* := 
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td width="40%"><input type="submit" name="move" value="Previous->Reference Doc"/></td></tr>
                <tr><td class="left_header_cell"/><td colspan="2">Summary of the Elements created</td></tr>
                <tr><td class="left_header_cell">Conceptual Domain</td><td colspan="2">{administered-item:html-anchor($elementCD)}</td></tr>
                <tr><td class="left_header_cell">Object Class</td><td colspan="2">{administered-item:html-anchor($elementOC)}</td></tr>
@@ -1834,7 +1823,7 @@ return
        then( if($choose_vd = 'new' and local:executeVD())then local:data-element-details('') else if($choose_vd='existing') then local:data-element-details('') else local:value-domain-type('Cannot Save') )        
     else(if ($next-page = 'Next->Reference Doc' or $next-page = 'Previous->Reference Doc') 
         then( if($choose_de = 'new' and local:executeDE())then local:associated-refdocs('') else if($choose_de='existing') then local:associated-refdocs('') else local:data-element-details('Cannot Save') )
-    else(if ($next-page = 'Next->Confirm' or $next-page = 'Previous->Confirm') 
+    else(if ($next-page = 'Next->Summary' or $next-page = 'Previous->Summary') 
         then local:confirm('')
     else(if($choose_vd >'')
        then local:value-domain-type('')
