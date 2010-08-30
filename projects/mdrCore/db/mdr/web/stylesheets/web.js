@@ -346,7 +346,7 @@ function validate(obj)
     }
     
     if(page.value=='Previous->Data Element'){
-       var answer = confirm("Save Conceptual Domain")
+       var answer = confirm("Save Reference Docs")
 	   if (answer){ 
          var isValid = true;
          for (var k = 0; k<document.edit_admin_item.elements.length; k++) {
