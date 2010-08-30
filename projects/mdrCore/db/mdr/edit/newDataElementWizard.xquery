@@ -1296,18 +1296,10 @@ declare function local:confirm($message as xs:string) as node()
               <tr><td class="left_header_cell"></td><td width="40%"><input type="submit" name="move" value="again"/></td></tr>              
               
             </table>
-           (:
-              uncomment the following to continue with the same form details
-               {
-                local:hidden-controls-admin-items(),
-                local:hidden-controls-conceptual-domain(),
-                local:hidden-controls-object-class(),
-                local:hidden-controls-property-class(),
-                local:hidden-controls-data-element-concept(), 
-                local:hidden-controls-value-domain(), 
-                local:hidden-controls-data-element(),
-                local:hidden-controls-reference-doc()
-            }:)
+           
+            {
+             local:hidden-controls-admin-items()
+            }
          </div>
       )
    return lib-forms:wrap-form-contents($title, $content)
@@ -1335,6 +1327,14 @@ declare function local:executeCD()
    
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
+   
+   let $data-identifier-Existing := session:get-attribute('savedDataIdCD')
+    let $data-identifier := (
+        if($data-identifier-Existing>'')
+        then ($data-identifier-Existing)
+        else ($data-identifier)
+   )
+   
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
@@ -1388,10 +1388,9 @@ declare function local:executeCD()
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
-      then ( session:set-attribute("savedCD",$new-identifier),true())
+      then ( session:set-attribute("savedCD",$new-identifier),session:set-attribute("savedDataIdCD",$data-identifier),true())
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newConceptualDomain.xquery&amp;",$message)))
 };
-
 
 declare function local:executeOC() 
 {
@@ -1404,6 +1403,14 @@ declare function local:executeOC()
    let $registered-by := request:get-parameter('registered-by','')
    let $registration_status := request:get-parameter('registration-status','')
    let $data-identifier := lib-forms:generate-id()
+   
+   let $data-identifier-Existing := session:get-attribute('savedDataIdOC')
+    let $data-identifier := (
+        if($data-identifier-Existing>'')
+        then ($data-identifier-Existing)
+        else ($data-identifier)
+   )
+   
    let $context-ids := request:get-parameter('preferred_name_context_oc',())
    let $names := request:get-parameter('name_oc',())
    let $definitions := request:get-parameter('definitions_oc',())
@@ -1446,7 +1453,7 @@ declare function local:executeOC()
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
-      then( session:set-attribute("savedOC",$new-identifier), true())
+      then( session:set-attribute("savedOC",$new-identifier),session:set-attribute("savedDataIdOC",$data-identifier), true())
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newObjectClass.xquery&amp;",$message)))
 
 };
@@ -1462,6 +1469,14 @@ declare function local:executePC()
    let $registered-by := request:get-parameter('registered-by','')
    let $registration_status := request:get-parameter('registration-status','')
    let $data-identifier := lib-forms:generate-id()
+   
+   let $data-identifier-Existing := session:get-attribute('savedDataIdPC')
+    let $data-identifier := (
+        if($data-identifier-Existing>'')
+        then ($data-identifier-Existing)
+        else ($data-identifier)
+   )
+   
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
@@ -1503,7 +1518,7 @@ declare function local:executePC()
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
-      then( session:set-attribute("savedPC",$new-identifier), true())
+      then( session:set-attribute("savedPC",$new-identifier),session:set-attribute("savedDataIdPC",$data-identifier), true())
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newProperty.xquery&amp;",$message)))
 
 };
@@ -1543,6 +1558,14 @@ declare function local:executeDEC()
    let $full-identifier-pr := concat($reg-auth, '_', $data-identifier-pr, '_', $version)
 
    let $data-identifier := lib-forms:generate-id()
+   
+    let $data-identifier-Existing := session:get-attribute('savedDataIdDEC')
+    let $data-identifier := (
+        if($data-identifier-Existing>'')
+        then ($data-identifier-Existing)
+        else ($data-identifier)
+   )
+   
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $choose_dec := request:get-parameter('choose-data-element-concept','')
@@ -1624,7 +1647,7 @@ declare function local:executeDEC()
          else lib-forms:store-document($property))='stored')
       then (
           if(lib-forms:store-document($document)='stored')
-          then (session:set-attribute("savedDEC",$new-identifier),'stored')
+          then (session:set-attribute("savedDEC",$new-identifier),session:set-attribute("savedDataIdDEC",$data-identifier),'stored')
           else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newDataElementConcept.xquery&amp;","Could not store data element concept"))) )
           )
       else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newDataElementConcept.xquery&amp;","Could not store property"))) )
@@ -1660,6 +1683,14 @@ declare function local:executeVD()
    let $value_domain_format := request:get-parameter('value_domain_format','')
    
    let $data-identifier := lib-forms:generate-id()
+   
+   let $data-identifier-Existing := session:get-attribute('savedDataIdVD')
+    let $data-identifier := (
+        if($data-identifier-Existing>'')
+        then ($data-identifier-Existing)
+        else ($data-identifier)
+   )
+   
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
    let $concept_domain := lib-util:mdrElement("conceptual_domain_dec",$conceptual_domain_id)   
@@ -1716,7 +1747,7 @@ declare function local:executeVD()
    let $message := lib-forms:store-document($document) 
    return
       if ($message='stored')
-      then ( session:set-attribute("savedVD",$new-identifier), true())
+      then ( session:set-attribute("savedVD",$new-identifier),session:set-attribute("savedDataIdVD",$data-identifier), true())
       else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newValueDomain.xquery&amp;",$message)))
 
 };
@@ -1745,6 +1776,14 @@ declare function local:executeDE()
    let $preferred := '1'
    
    let $data-identifier := lib-forms:generate-id()
+   
+   let $data-identifier-Existing := session:get-attribute('savedDataIdDE')
+    let $data-identifier := (
+        if($data-identifier-Existing>'')
+        then ($data-identifier-Existing)
+        else ($data-identifier)
+   )
+   
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
@@ -1774,13 +1813,20 @@ declare function local:executeDE()
       
    return
           if(lib-forms:store-document($document)='stored')
-          then (session:set-attribute("savedDE",$new-identifier), 'stored')
+          then (session:set-attribute("savedDE",$new-identifier),session:set-attribute("savedDataIdDE",$data-identifier), 'stored')
           else ( response:redirect-to(xs:anyURI(concat("login.xquery?calling_page=newDataElement.xquery&amp;","Could not store data element"))) )
 
 };
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
 session:create(),
+session:set-attribute("savedDataIdCD",""),
+session:set-attribute("savedDataIdOC",""),
+session:set-attribute("savedDataIdPC",""),
+session:set-attribute("savedDataIdDEC",""),
+session:set-attribute("savedDataIdVD",""),
+session:set-attribute("savedDataIdDE",""),
+
 let $test as xs:string := "test"
 let $relation :=  request:get-parameter('get-admin-item-id', ())
 let $next-page := request:get-parameter('move','')
@@ -1811,7 +1857,6 @@ return
         then local:value-domain-type('')
     else (if ($next-page = 'Next->Admin Item' or $next-page = 'Previous->Admin-Item') 
         then local:admin-item-details('')
-    (:ADDING CONCEPTUAL DOMAIN:)
     else(if ($next-page = 'Next->Conceptual Domain' or $next-page = 'Previous->Conceptual Domain') 
         then local:conceptual-domain-details('')
     else(if ($next-page = 'Next->Object Class' or $next-page = 'Previous->Object Class') 
