@@ -117,7 +117,7 @@ function validate_valueDomain(){
         for (var i = 0; i<document.new_value_domain.elements.length; i++) {
             if (document.new_value_domain.elements[i].name == "values") {
                 for (var j = 0; j<document.new_value_domain.elements.length; j++) {           
-                    if (document.new_value_domain.elements[j].name == "values" & document.new_value_domain.elements[i].value.toLowerCase() == document.new_value_domain.elements[j].value.toLowerCase() & i!=j) {
+                    if (document.new_value_domain.elements[j].name == "values" & document.new_value_domain.elements[i].value == document.new_value_domain.elements[j].value & i!=j) {
                         isValid = false;
                     }
                 } 
@@ -138,7 +138,7 @@ function validate_editValueDomain(){
         for (var i = 0; i<document.edit_value_domain.elements.length; i++) {
             if (document.edit_value_domain.elements[i].name == "values") {
                 for (var j = 0; j<document.edit_value_domain.elements.length; j++) {           
-                	if (document.edit_value_domain.elements[j].name == "values" & document.edit_value_domain.elements[i].value.toLowerCase() == document.edit_value_domain.elements[j].value.toLowerCase() & i!=j) {
+                    if (document.edit_value_domain.elements[j].name == "values" & document.edit_value_domain.elements[i].value == document.edit_value_domain.elements[j].value & i!=j) {
                         isValid = false;
                     }
                 } 
@@ -275,77 +275,94 @@ function validate(obj)
     }
    
     if(page.value=='Previous->Admin Items'){
-              
-        names = document.getElementById('name_cd');
-        cdid = document.getElementById('conceptual_domain_id');
-        if (names.value == ""){ 
-             errors[i] = "Conceptual Domain Name" ;
-             i++;
-        }else
-        if (cdid.value == ""){ 
-             alert(cdid.value);
-             errors[i] = "CDID" ;
-             i++;
-        }else{ alert('within else'); alert(cdid.value);}
+        
+       var answer = confirm("Save Conceptual Domain and Continue")
+	   if (answer){        
+            names = document.getElementById('name_cd');
+            
+           
+            if (names.value == ""){ 
+                 errors[i] = "Conceptual Domain Name" ;
+                 i++;
+            }
+            
+        }else{return false;}
     }
     
     if(page.value=='Previous->Conceptual Domain'){
-      
-        names = document.getElementById('name_oc');
-        if (names.value == ""){ 
-             errors[i] = "Object Class Name" ;
-             i++;
-        }
+       var answer = confirm("Save Object Class and Continue")
+	   if (answer){ 
+            names = document.getElementById('name_oc');
+            if (names.value == ""){ 
+                 errors[i] = "Object Class Name" ;
+                 i++;
+            }
+        }else{return false;}
     }
     
      if(page.value=='Previous->Object Class'){
-        names = document.getElementById('name_pc');
-        if (names.value == ""){ 
-             errors[i] = "Property Name" ;
-             i++;
-        }
+       var answer = confirm("Save Property Class and Continue")
+	   if (answer){ 
+         names = document.getElementById('name_pc');
+         if (names.value == ""){ 
+              errors[i] = "Property Name" ;
+              i++;
+         }
+       }else{return false;}  
     }
     
      if(page.value=='Previous->Property Class'){
-        names = document.getElementById('name_dec');
-        if (names.value == ""){ 
-             errors[i] = "Data Element Concept Name" ;
-             i++;
-        }
+       var answer = confirm("Save Data Element Concept and Continue")
+	   if (answer){ 
+            names = document.getElementById('name_dec');
+            if (names.value == ""){ 
+                 errors[i] = "Data Element Concept Name" ;
+                 i++;
+            }
+       }else{return false;}  
     }
     
     if(page.value=='Previous->Data Element Concept'){
-         names = document.getElementById('name_vd');
-        if (names.value == ""){ 
-             errors[i] = "Value Domain Name" ;
-             i++;
-        }
+       var answer = confirm("Save Value Domain and Continue")
+	   if (answer){ 
+            names = document.getElementById('name_vd');
+            if (names.value == ""){ 
+                 errors[i] = "Value Domain Name" ;
+                 i++;
+            }
+        }else{return false;}  
     }
     
     
     if(page.value == 'Previous->Value Domain'){
-         names = document.getElementById('name_de');
-        if (names.value == ""){ 
-             errors[i] = "Data Element Name" ;
-             i++;
-        }
+       var answer = confirm("Save Data Element and Continue")
+	   if (answer){        
+          names = document.getElementById('name_de');
+           if (names.value == ""){ 
+                errors[i] = "Data Element Name" ;
+                i++;
+           }
+        }else{return false;}  
     }
     
     if(page.value=='Previous->Data Element'){
-        var isValid = true;
-        for (var k = 0; k<document.edit_admin_item.elements.length; k++) {
-            if (document.edit_admin_item.elements[k].name == "values") {
-                for (var j = 0; j<document.edit_admin_item.elements.length; j++) {           
-                    if (document.edit_admin_item.elements[j].name == "values" & document.edit_admin_item.elements[k].value == document.edit_admin_item.elements[j].value & k!=j) {
-                        isValid = false;
-                    }
-                } 
-             }
-        }
-        if(isValid == false){
-            errors[i] = "Values cannot be the same";
-            i++;
-        }
+       var answer = confirm("Save Conceptual Domain")
+	   if (answer){ 
+         var isValid = true;
+         for (var k = 0; k<document.edit_admin_item.elements.length; k++) {
+             if (document.edit_admin_item.elements[k].name == "values") {
+                 for (var j = 0; j<document.edit_admin_item.elements.length; j++) {           
+                     if (document.edit_admin_item.elements[j].name == "values" & document.edit_admin_item.elements[k].value.toLowerCase() == document.edit_admin_item.elements[j].value.toLowerCase() & k!=j) {
+                         isValid = false;
+                     }
+                 } 
+              }
+         }
+         if(isValid == false){
+             errors[i] = "Values cannot be the same";
+             i++;
+         }
+        }else{return false;}   
     }
     
     if(errors.length>0){
