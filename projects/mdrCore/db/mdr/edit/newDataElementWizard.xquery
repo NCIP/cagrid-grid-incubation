@@ -106,9 +106,8 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                 if(request:get-parameter('choose-conceptual-domain','') = 'existing') 
                 then (
                     <tr><td class="left_header_cell">Select Conceptual Domain</td>
-                        <td>{lib-forms:radio('choose-conceptual-domain','existing','true')}existing</td>
-                        <td>{lib-forms:radio('choose-conceptual-domain','new','false')}new</td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="existing" checked="checked" onClick="this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="new" onClick="this.form.submit();">new</input></td>
                     </tr>,
                     
                     <tr>
@@ -133,9 +132,8 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                )else if(request:get-parameter('choose-conceptual-domain','')='new')
                then(
                     <tr><td class="left_header_cell">Select Conceptual Domain?</td>
-                         <td>{lib-forms:radio('choose-conceptual-domain','existing','false')}existing</td>
-                    <td>{lib-forms:radio('choose-conceptual-domain','new','true')}new</td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="existing" onClick="this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="new" checked="checked" onClick="this.form.submit();">new</input></td>
                     </tr>,
                  
                     <tr>
@@ -221,10 +219,9 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                 )else(
                     <tr>{session:set-attribute("choose-conceptual-domain", "")}</tr>,
                     <tr><td class="left_header_cell">Select Conceptual Domain?</td>
-                    <td>{lib-forms:radio('choose-conceptual-domain','existing','false')}existing</td>
-                    <td>{lib-forms:radio('choose-conceptual-domain','new','false')}new</td>
-                   <td>{lib-forms:action-button('update', 'action' ,'','cd-enum-value-update')}</td>
-                 </tr>
+                        <td><input type="radio" name="choose-conceptual-domain" value="existing" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-conceptual-domain" value="new" onClick="return this.form.submit();">new</input></td>
+                    </tr>
                 )
               }   
              </table>
@@ -304,9 +301,8 @@ declare function local:object-class-details($message as xs:string) as node()
                 if(request:get-parameter('choose-object-class','') = 'existing') 
                 then (
                     <tr><td class="left_header_cell">Select Object Class</td>
-                        <td><input type="radio" name="choose-object-class" value="existing" checked="true">existing</input></td>
-                        <td><input type="radio" name="choose-object-class" value="new">new</input></td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','oc-concept-reference')}</td>
+                        <td><input type="radio" name="choose-object-class" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-object-class" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>,
                 
                     <tr>
@@ -332,10 +328,9 @@ declare function local:object-class-details($message as xs:string) as node()
                 )else if(request:get-parameter('choose-object-class','')='new')
                 then(  
                     <tr><td class="left_header_cell">Select Object Class</td>
-                        <td><input type="radio" name="choose-object-class" value="existing" >existing</input></td>
-                        <td><input type="radio" name="choose-object-class" value="new" checked="true">new</input></td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','oc-concept-reference')}</td>
-                    </tr>,                
+                        <td><input type="radio" name="choose-object-class" value="existing" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-object-class" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
+                     </tr>,                
                     <tr>
                         <td class="left_header_cell">Context</td>
                         <td colspan="5">
@@ -410,9 +405,8 @@ declare function local:object-class-details($message as xs:string) as node()
                     </tr>
                   )else(
                     <tr><td class="left_header_cell">Select Object Class</td>
-                        <td><input type="radio" name="choose-object-class" value="existing">existing</input></td>
-                        <td><input type="radio" name="choose-object-class" value="new">new</input></td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','oc-concept-reference')}</td>
+                        <td><input type="radio" name="choose-object-class" value="existing" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-object-class" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>
                 )
                 }
@@ -494,9 +488,8 @@ declare function local:property-class-details($message as xs:string) as node()
                if(request:get-parameter('choose-property-class','') = 'existing') 
                 then (
                     <tr><td class="left_header_cell">Choose Property Class</td>
-                        <td><input type="radio" name="choose-property-class" value="existing" checked="true">existing</input></td>
-                        <td><input type="radio" name="choose-property-class" value="new">new</input></td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','p-uri')}</td>
+                        <td><input type="radio" name="choose-property-class" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-property-class" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>,
                     <tr>
                       <td class="left_header_cell">Select Existing Property Class </td>
@@ -522,9 +515,8 @@ declare function local:property-class-details($message as xs:string) as node()
                then(
                     
                     <tr><td class="left_header_cell">Select Property Class</td>
-                     <td><input type="radio" name="choose-property-class" value="existing">existing</input></td>
-                     <td><input type="radio" name="choose-property-class" value="new" checked="true">new</input></td>
-                     <td>{lib-forms:action-button('update', 'action' ,'','p-uri')}</td>
+                         <td><input type="radio" name="choose-property-class" value="existing" onClick="return this.form.submit();">existing</input></td>
+                         <td><input type="radio" name="choose-property-class" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
                     </tr>,
                
                     <tr>
@@ -601,10 +593,9 @@ declare function local:property-class-details($message as xs:string) as node()
                     </tr>
                  )else(
                     <tr><td class="left_header_cell">Select Property Class</td>
-                   <td><input type="radio" name="choose-property-class" value="existing">existing</input></td>
-                   <td><input type="radio" name="choose-property-class" value="new">new</input></td>
-                   <td>{lib-forms:action-button('update', 'action' ,'','p-uri')}</td>
-                 </tr>
+                        <td><input type="radio" name="choose-property-class" value="existing" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-property-class" value="new" onClick="return this.form.submit();">new</input></td>
+                    </tr>
                 )   
                }   
              </table>
@@ -681,10 +672,9 @@ declare function local:data-element-concept($message as xs:string) as node()
                 if(request:get-parameter('choose-data-element-concept','') = 'existing') 
                 then (
                      <tr><td class="left_header_cell">Select Data Element Concept</td>
-                        <td><input type="radio" name="choose-data-element-concept" value="existing" checked="true">existing</input></td>
-                        <td><input type="radio" name="choose-data-element-concept" value="new">new</input></td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','data-element-concept-update')}</td>
-                    </tr>,
+                        <td><input type="radio" name="choose-data-element-concept" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-data-element-concept" value="new" onClick="return this.form.submit();">new</input></td>
+                   </tr>,
                      
                      <tr>
                        <td class="left_header_cell">Select Existing Data Element Concept</td>
@@ -709,9 +699,8 @@ declare function local:data-element-concept($message as xs:string) as node()
                )else if(request:get-parameter('choose-data-element-concept','')='new')
                then(
                     <tr><td class="left_header_cell">Select Data Element Concept</td>
-                        <td><input type="radio" name="choose-data-element-concept" value="existing">existing</input></td>
-                        <td><input type="radio" name="choose-data-element-concept" value="new" checked="checked">new</input></td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','data-element-concept-update')}</td>
+                        <td><input type="radio" name="choose-data-element-concept" value="existing" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-data-element-concept" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
                     </tr>,
 
                     <tr>
@@ -819,9 +808,8 @@ declare function local:data-element-concept($message as xs:string) as node()
                      </tr>
                  )else(
                     <tr><td class="left_header_cell">Select Conceptual Domain?</td>
-                         <td><input type="radio" name="choose-data-element-concept" value="existing">existing</input></td>
-                         <td><input type="radio" name="choose-data-element-concept" value="new">new</input></td>
-                         <td>{lib-forms:action-button('update', 'action' ,'','data-element-concept-update')}</td>
+                         <td><input type="radio" name="choose-data-element-concept" value="existing" onClick="return this.form.submit();">existing</input></td>
+                         <td><input type="radio" name="choose-data-element-concept" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>
                 )
                 }    
@@ -892,9 +880,9 @@ declare function local:value-domain-type($message as xs:string) as node()
                  if(request:get-parameter('choose-value-domain','') = 'existing') 
                  then (
                     <tr><td class="left_header_cell">Select Value Domain</td>
-                        <td><input type="radio" name="choose-value-domain" value="existing" checked="true">existing</input></td>
-                        <td><input type="radio" name="choose-value-domain" value="new">new</input></td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','value-domain-update')}</td>
+                        <td><input type="radio" name="choose-value-domain" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-value-domain" value="new" onClick="return this.form.submit();">new</input></td>
+
                     </tr>,
                     <tr>
                         <td class="left_header_cell">Select Existing Value Domain</td>
@@ -919,9 +907,8 @@ declare function local:value-domain-type($message as xs:string) as node()
                )else if(request:get-parameter('choose-value-domain','')='new')
                then(
                      <tr><td class="left_header_cell">Select Value Domain?</td>
-                        <td><input type="radio" name="choose-value-domain" value="existing">existing</input></td>
-                        <td><input type="radio" name="choose-value-domain" value="new" checked="true">new</input></td>
-                        <td>{lib-forms:action-button('update', 'action' ,'','value-domain-update')}</td>
+                        <td><input type="radio" name="choose-value-domain" value="existing" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-value-domain" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
                     </tr>,
                     
                     <tr>
@@ -960,8 +947,6 @@ declare function local:value-domain-type($message as xs:string) as node()
                     <tr><td class="row-header-cell" colspan="6">Conceptual Domain</td></tr>,                                                
                          
                             let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)
-                            let $log:=util:log-system-out('iiiiiiiiiiijjjjjjjjjjjjjjbhhhhhhhhhhh')
-                            let $log :=util:log-system-out($concept_domain)
                             return
                         
                             if ($conceptual_domain_id > '' or $conceptual_domain_id eq "Cancel") then (                   
@@ -1024,10 +1009,9 @@ declare function local:value-domain-type($message as xs:string) as node()
                        
                 )else(
                     <tr><td class="left_header_cell">Select Value Domain?</td>
-                   <td><input type="radio" name="choose-value-domain" value="existing">existing</input></td>
-                   <td><input type="radio" name="choose-value-domain" value="new">new</input></td>
-                   <td>{lib-forms:action-button('update', 'action' ,'','value-domain-update')}</td>
-                 </tr>
+                         <td><input type="radio" name="choose-value-domain" value="existing" onClick="return this.form.submit();">existing</input></td>
+                        <td><input type="radio" name="choose-value-domain" value="new" onClick="return this.form.submit();">new</input></td>
+                    </tr>
                 )
               }   
             </table>
@@ -1820,23 +1804,12 @@ declare function local:executeDE()
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
 session:create(),
-session:set-attribute("savedDataIdCD",""),
-session:set-attribute("savedDataIdOC",""),
-session:set-attribute("savedDataIdPC",""),
-session:set-attribute("savedDataIdDEC",""),
-session:set-attribute("savedDataIdVD",""),
-session:set-attribute("savedDataIdDE",""),
 
-let $test as xs:string := "test"
 let $relation :=  request:get-parameter('get-admin-item-id', ())
 let $next-page := request:get-parameter('move','')
 let $enum-value-update := request:get-parameter('enum-value-update','')
 let $cd-enum-value-update := request:get-parameter('cd-enum-value-update','')
 let $oc-concept-reference := request:get-parameter('oc-concept-reference','')
-let $p-uri := request:get-parameter('p-uri','')
-let $conceptual_domain_id_existing :=request:get-parameter('conceptual_domain_id_existing','')
-let $data-element-concept-update := request:get-parameter('data-element-concept-update','')
-let $value-domain-update := request:get-parameter('value-domain-update','')
 let $choose_cd := request:get-parameter('choose-conceptual-domain','')
 let $choose_oc := request:get-parameter('choose-object-class','')
 let $choose_pc := request:get-parameter('choose-property-class','')
@@ -1845,17 +1818,7 @@ let $choose_vd := request:get-parameter('choose-value-domain','')
 let $choose_de := 'new'
 return
    
-    if ($p-uri > '') 
-        then local:property-class-details('')
-    else( if ($oc-concept-reference > '') 
-        then local:object-class-details('')
-    else(if ($cd-enum-value-update > '') 
-        then local:conceptual-domain-details('')
-    else(if ($data-element-concept-update > '') 
-        then local:data-element-concept('')
-    else(if ($value-domain-update > '') 
-        then local:value-domain-type('')
-    else (if ($next-page = 'Next->Admin Item' or $next-page = 'Previous->Admin-Item') 
+   if ($next-page = 'Next->Admin Item' or $next-page = 'Previous->Admin-Item') 
         then local:admin-item-details('')
     else(if ($next-page = 'Next->Conceptual Domain' or $next-page = 'Previous->Conceptual Domain') 
         then local:conceptual-domain-details('')
@@ -1873,8 +1836,30 @@ return
         then( if($choose_de = 'new' and local:executeDE())then local:associated-refdocs('') else if($choose_de='existing') then local:associated-refdocs('') else local:data-element-details('Cannot Save') )
     else(if ($next-page = 'Next->Confirm' or $next-page = 'Previous->Confirm') 
         then local:confirm('')
-    
-    else(local:admin-item-details('')
+    else(if($choose_vd >'')
+       then local:value-domain-type('')
+    else( if ($choose_dec > '') 
+        then local:data-element-concept('')
+    else( if ($choose_pc > '') 
+        then local:property-class-details('')
+    else( if ($choose_oc > '') 
+        then local:object-class-details('')
+    else( if ($choose_cd > '') 
+        then local:conceptual-domain-details('')
+   
+    else(local:admin-item-details(''),
+            session:set-attribute("savedDataIdCD",""),
+            session:set-attribute("savedDataIdOC",""),
+            session:set-attribute("savedDataIdPC",""),
+            session:set-attribute("savedDataIdDEC",""),
+            session:set-attribute("savedDataIdVD",""),
+            session:set-attribute("savedDataIdDE",""),
+            session:set-attribute("savedCD",""),
+            session:set-attribute("savedOC",""),
+            session:set-attribute("savedPC",""),
+            session:set-attribute("savedDEC",""),
+            session:set-attribute("savedVD",""),
+            session:set-attribute("savedDE","")
                               )
                            )
                         )
