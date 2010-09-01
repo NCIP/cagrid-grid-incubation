@@ -123,7 +123,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                                 lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''),'newDataElementWizard_cd', 'Change Relationship'))
                             
                             else(
-                                lib-forms:make-select-admin-item-edit-false('conceptual_domain','conceptual_domain_id',request:get-parameter("conceptual_domain_id",""))
+                                lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id',request:get-parameter("conceptual_domain_id",""),'newDataElementWizard_cd', 'Select Relationship')
                             )    
                             
                         }
@@ -312,15 +312,15 @@ declare function local:object-class-details($message as xs:string) as node()
                        <td align="left" colspan="2">{
                          
                             if(request:get-parameter('object_class_id','') eq "Cancel")  then (
-                                lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', session:get-attribute("object_class_id"),'newDataElementWizard_oc', 'Change Relationship'),
+                                lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', session:get-attribute("object_class_id"),'edit_admin_item', 'Change Relationship'),
                                 session:set-attribute("object_class_id", "") )
                             
                             else if(request:get-parameter('object_class_id','') != "")  then (
                                 session:set-attribute("object_class_id", request:get-parameter('object_class_id','')),
-                                lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''),'newDataElementWizard_oc', 'Change Relationship'))
+                                lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''),'edit_admin_item', 'Change Relationship'))
                             
                             else(
-                                lib-forms:make-select-admin-item-edit-false('object_class','object_class_id',request:get-parameter("object_class_id",""))
+                                lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id',request:get-parameter("object_class_id",""),'edit_admin_item', 'Select Relationship')
                             )    
                             
                         }
@@ -870,7 +870,7 @@ declare function local:value-domain-type($message as xs:string) as node()
     
    let $form_name := 'newDataElementWizard_vd'
    let $title as xs:string := "New Data Element Wizard:- value domain type"
-   let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
+   let $conceptual_domain_id := request:get-parameter('conceptual_domain_id_dec','')
    let $values := ''
    let $content as node()* := 
       (
@@ -1563,43 +1563,7 @@ declare function local:executeDEC()
                     }
     )
 
-    let $object-class := 
-       (
-       element openMDR:Object_Class {
-            lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-oc,$version),
-             lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
-                lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
-                lib-make-admin-item:havings(
-                        $context-ids,
-                        $country-identifiers,
-                        $language-identifiers,
-                        $names,
-                        $definitions,
-                        $preferred,
-                        $sources),   
-            element openMDR:reference_uri {$object_class_uri}
-            }
-       )
-   
-    let $property := 
-       (
-        element openMDR:Property {
-            lib-make-admin-item:identifier-attributes($reg-auth,$data-identifier-pr,$version),
-             lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
-                lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
-                lib-make-admin-item:havings(
-                        $context-ids,
-                        $country-identifiers,
-                        $language-identifiers,
-                        $names,
-                        $definitions,
-                        $preferred,
-                        $sources),   
-            element openMDR:reference_uri {$property_uri}
-            }
-       )
-
-   
+     
    (: compose the document :)
    let $document :=
       element openMDR:Data_Element_Concept {
@@ -1611,13 +1575,13 @@ declare function local:executeDEC()
    if ((
       if ($object_class_id > '')
       then 'stored'
-      else lib-forms:store-document($object-class))='stored' 
+      else ())
       )
    then (
       if ((
          if ($property_id > '')
          then 'stored'
-         else lib-forms:store-document($property))='stored')
+         else ()))
       then (
           if(lib-forms:store-document($document)='stored')
           then (session:set-attribute("savedDEC",$new-identifier),session:set-attribute("savedDataIdDEC",$data-identifier),'stored')
