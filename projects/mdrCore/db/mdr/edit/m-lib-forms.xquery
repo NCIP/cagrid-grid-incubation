@@ -166,6 +166,34 @@ declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$
 };
 
 
+declare function lib-forms:select-from-contexts-enum-default($select-name as xs:string,$received-value as xs:string,$default as xs:string?) as node()
+{
+   element select {
+      attribute name {$select-name},
+      lib-forms:default-filler($default),
+     for $item in lib-util:mdrElements('context')
+      let $name:= data($item//openMDR:name/text())
+      let $id := concat(data($item//openMDR:Context/@item_registration_authority_identifier),'_', data($item//openMDR:Context/@data_identifier),'_',data($item//openMDR:Context/@version))
+      (:let $id:= data($item//openMDR:context_identifier/text()):)      
+      order by $name
+      return lib-forms:select-filler($id, $name, $default)
+   }
+
+};
+
+declare function lib-forms:default-filler($default as xs:string) as node()
+{
+      if($default > '') then (
+      for $default-item in lib-util:mdrElement('context',$default)
+      let $def-name := data($default-item//openMDR:name/text())
+      let $id := concat(data($default-item//openMDR:Context/@item_registration_authority_identifier),'_', data($default-item//openMDR:Context/@data_identifier),'_',data($default-item//openMDR:Context/@version))
+      return
+      element option {
+        attribute value {''}, $def-name
+      }
+      ) else (lib-forms:blank-filler())
+};
+
 declare function lib-forms:select-from-simpleType-enum($simple-type-name as xs:string, $select-name as xs:string, $useDocumentation as xs:boolean, $received-value as xs:string) as node()
 {
    element select {
