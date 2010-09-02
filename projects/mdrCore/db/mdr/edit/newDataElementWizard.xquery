@@ -335,7 +335,7 @@ declare function local:object-class-details($message as xs:string) as node()
                     <tr>
                         <td class="left_header_cell">Context</td>
                         <td colspan="5">
-                           {lib-forms:select-from-contexts-enum('preferred_name_context_oc',request:get-parameter('preferred_name_context_oc',''))} 
+                           {lib-forms:select-from-contexts-enum-default('preferred_name_context_oc',request:get-parameter('preferred_name_context_oc',''),request:get-parameter('preferred_name_context_cd',''))} 
                         </td>
                      </tr>,
                 
@@ -523,7 +523,7 @@ declare function local:property-class-details($message as xs:string) as node()
                     <tr>
                        <td class="left_header_cell">Context</td>
                        <td colspan="5">
-                          {lib-forms:select-from-contexts-enum('preferred_name_context_pc',request:get-parameter('preferred_name_context_pc',''))} 
+                          {lib-forms:select-from-contexts-enum-default('preferred_name_context_pc',request:get-parameter('preferred_name_context_pc',''),request:get-parameter('preferred_name_context_cd',''))} 
                        </td>
                     </tr>,
                 
@@ -683,15 +683,15 @@ declare function local:data-element-concept($message as xs:string) as node()
                        <td align="left" colspan="2">{
                          
                             if(request:get-parameter('data_element_concept_id','') eq "Cancel")  then (
-                                lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', session:get-attribute("data_element_concept_id"),'newDataElementWizard_dec', 'Change Relationship'),
+                                lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', session:get-attribute("data_element_concept_id"),'edit_admin_item', 'Change Relationship'),
                                 session:set-attribute("data_element_concept_id", "") )
                             
                             else if(request:get-parameter('data_element_concept_id','') != "")  then (
                                 session:set-attribute("data_element_concept_id", request:get-parameter('data_element_concept_id','')),
-                                lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''),'newDataElementWizard_dec', 'Change Relationship'))
+                                lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''),'edit_admin_item', 'Change Relationship'))
                             
                             else(
-                                lib-forms:make-select-admin-item-edit-false('data_element_concept','data_element_concept_id',request:get-parameter("data_element_concept_id",""))
+                                lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id',request:get-parameter("data_element_concept_id",""),'edit_admin_item', 'Change Relationship')
                             )    
                             
                         }
@@ -707,7 +707,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                     <tr>
                          <td class="left_header_cell">Context</td>
                          <td colspan="5">
-                            {lib-forms:select-from-contexts-enum('preferred_name_context_dec',request:get-parameter('preferred_name_context_dec',''))} 
+                            {lib-forms:select-from-contexts-enum-default('preferred_name_context_dec',request:get-parameter('preferred_name_context_dec',''),request:get-parameter('preferred_name_context_cd',''))} 
                          </td>
                     </tr>,
                 
@@ -749,15 +749,15 @@ declare function local:data-element-concept($message as xs:string) as node()
                         {
                         
                             if(request:get-parameter('object_class_id_dec','') eq "Cancel")  then (
-                                lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id_dec', session:get-attribute("object_class_id_dec"),'newDataElementWizard_dec', 'Change Relationship'),
+                                lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id_dec', session:get-attribute("object_class_id_dec"),'edit_admin_item', 'Change Relationship'),
                                 session:set-attribute("object_class_id_dec", "") 
                              )
                             else if(request:get-parameter('object_class_id_dec','') != "")  then (
                                  session:set-attribute("object_class_id_dec", request:get-parameter('object_class_id_dec','')),
-                                 lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id_dec', request:get-parameter('object_class_id_dec',''),'newDataElementWizard_dec', 'Change Relationship')
+                                 lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id_dec', request:get-parameter('object_class_id_dec',''),'edit_admin_item', 'Change Relationship')
                             )
                             else(
-                                 lib-forms:make-select-admin-item-edit-false('object_class','object_class_id_dec', request:get-parameter('object_class_id','')) 
+                                 lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id_dec', request:get-parameter('object_class_id',''),'edit_admin_item', 'Select Relationship') 
                             )
                         }
                         </td>
@@ -773,15 +773,15 @@ declare function local:data-element-concept($message as xs:string) as node()
                         <td align="left" colspan="2"><i> or select existing </i> 
                             {
                                 if(request:get-parameter('property_id_dec','') eq "Cancel")  then (
-                                    lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', session:get-attribute("property_id_dec"),'new_DataElementConcept_dec', 'Change Relationship'),
+                                    lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', session:get-attribute("property_id_dec"),'edit_admin_item', 'Change Relationship'),
                                     session:set-attribute("property_id_dec", "") )
                                 
                                 else if(request:get-parameter('property_id_dec','') != "")  then (
                                     session:set-attribute("property_id_dec", request:get-parameter('property_id_dec','')),
-                                    lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', request:get-parameter('property_id_dec',''),'new_DataElementConcept_dec', 'Change Relationship'))
+                                    lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', request:get-parameter('property_id_dec',''),'edit_admin_item', 'Change Relationship'))
                                 
                                 else(
-                                   lib-forms:make-select-admin-item-edit-false('property','property_id_dec', request:get-parameter('property_id','')) 
+                                   lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', request:get-parameter('property_id',''),'edit_admin_item', 'Select Relationship') 
                               )                 
                             }
                         </td>
@@ -794,15 +794,15 @@ declare function local:data-element-concept($message as xs:string) as node()
                         <td> 
                            {
                                 if(request:get-parameter('conceptual_domain_id_dec','') eq "Cancel")  then (
-                                    lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec', session:get-attribute("conceptual_domain_id_dec"),'new_DataElementConcept_dec', 'Change Relationship'),
+                                    lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec', session:get-attribute("conceptual_domain_id_dec"),'edit_admin_item', 'Change Relationship'),
                                     session:set-attribute("conceptual_domain_id", "") )
                                 
                                 else if(request:get-parameter('conceptual_domain_id_dec','') != "")  then (
                                     session:set-attribute("conceptual_domain_id_dec", request:get-parameter('conceptual_domain_id_dec','')),
-                                    lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id_dec',''),'new_DataElementConcept_dec', 'Change Relationship'))
+                                    lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id_dec',''),'edit_admin_item', 'Change Relationship'))
                                 
                                 else(
-                                   lib-forms:make-select-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id','')) 
+                                   lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id',''),'edit_admin_item', 'Select Relationship') 
                                 )                 
                           }
                         </td>
@@ -891,15 +891,15 @@ declare function local:value-domain-type($message as xs:string) as node()
                         <td align="left" colspan="2">{
                          
                             if(request:get-parameter('value_domain_id','') eq "Cancel")  then (
-                                lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', session:get-attribute("value_domain_id"),'newDataElementWizard_vd', 'Change Relationship'),
+                                lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', session:get-attribute("value_domain_id"),'edit_admin_item', 'Change Relationship'),
                                 session:set-attribute("value_domain_id", "") )
                             
                             else if(request:get-parameter('value_domain_id','') != "")  then (
                                 session:set-attribute("value_domain_id", request:get-parameter('value_domain_id','')),
-                                lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', request:get-parameter('value_domain_id',''),'newDataElementWizard_vd', 'Change Relationship'))
+                                lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', request:get-parameter('value_domain_id',''),'edit_admin_item', 'Change Relationship'))
                             
                             else(
-                                lib-forms:make-select-admin-item-edit-false('value_domain','value_domain_id',request:get-parameter("value_domain_id",""))
+                                lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id',request:get-parameter("value_domain_id",""),'edit_admin_item', 'Select Relationship')
                             )    
                             
                         }
@@ -915,7 +915,7 @@ declare function local:value-domain-type($message as xs:string) as node()
                     <tr>
                         <td class="left_header_cell">Context</td>
                         <td colspan="5">
-                           {lib-forms:select-from-contexts-enum('preferred_name_context_vd',request:get-parameter('preferred_name_context_vd',''))} 
+                           {lib-forms:select-from-contexts-enum-default('preferred_name_context_vd',request:get-parameter('preferred_name_context_vd',''),request:get-parameter('preferred_name_context_cd',''))} 
                         </td>
                      </tr>,
                 
@@ -1080,7 +1080,7 @@ declare function local:data-element-details($message as xs:string) as node()
                 <tr>
                    <td class="left_header_cell">Context</td>
                    <td colspan="5">
-                      {lib-forms:select-from-contexts-enum('preferred_name_context_de',request:get-parameter('preferred_name_context_de',''))} 
+                      {lib-forms:select-from-contexts-enum-default('preferred_name_context_de',request:get-parameter('preferred_name_context_de',''),request:get-parameter('preferred_name_context_cd',''))} 
                    </td>
                 </tr>
                 
@@ -1115,15 +1115,15 @@ declare function local:data-element-details($message as xs:string) as node()
                   <td align="left" colspan="2">
                   {
                     if(request:get-parameter('data_element_concept_id_de','') eq "Cancel")  then (
-                        lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id_de', session:get-attribute("data_element_concept_id_de"),'newDataElementWizard_de', 'Change Relationship'),
+                        lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id_de', session:get-attribute("data_element_concept_id_de"),'edit_admin_item', 'Change Relationship'),
                         session:set-attribute("data_element_concept_id_de", "") )
                     
                     else if(request:get-parameter('data_element_concept_id_de','') != "")  then (
                         session:set-attribute("data_element_concept_id_de", request:get-parameter('data_element_concept_id_de','')),
-                        lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id_de', request:get-parameter('data_element_concept_id_de',''),'newDataElementWizard_de', 'Change Relationship'))
+                        lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id_de', request:get-parameter('data_element_concept_id_de',''),'edit_admin_item', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-admin-item-edit-false('data_element_concept','data_element_concept_id_de', request:get-parameter('data_element_concept_id','')) 
+                       lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id_de', request:get-parameter('data_element_concept_id',''),'edit_admin_item', 'Change Relationship') 
                     )
                   }
                   </td>
@@ -1133,15 +1133,15 @@ declare function local:data-element-details($message as xs:string) as node()
                   <td align="left" colspan="2">
                   {
                     if(request:get-parameter('value_domain_id_de','') eq "Cancel")  then (
-                        lib-forms:make-select-admin-item-edit-false('value_domain','value_domain_id_de', session:get-attribute("value_domain_id_de")),
+                        lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id_de', session:get-attribute("value_domain_id_de"),'edit_admin_item', 'Change Relationship'),
                         session:set-attribute("value_domain_id_de", "") )
                     
                     else if(request:get-parameter('value_domain_id_de','') != "")  then (
                         session:set-attribute("value_domain_id_de", request:get-parameter('value_domain_id_de','')),
-                        lib-forms:make-select-admin-item-edit-false('value_domain','value_domain_id_de', request:get-parameter('value_domain_id_de','')))
+                        lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id_de', request:get-parameter('value_domain_id_de',''),'edit_admin_item', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-admin-item-edit-false('value_domain','value_domain_id_de', request:get-parameter('value_domain_id','')) 
+                       lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id_de', request:get-parameter('value_domain_id',''),'edit_admin_item', 'Change Relationship') 
                     )
                   }
                   </td>
