@@ -498,15 +498,15 @@ declare function local:property-class-details($message as xs:string) as node()
                       <td align="left" colspan="2">{
                          
                             if(request:get-parameter('property_id','') eq "Cancel")  then (
-                                lib-forms:make-select-form-admin-item-edit-false('property','property_id', session:get-attribute("property_id"),'newDataElementWizard_pc', 'Change Relationship'),
+                                lib-forms:make-select-form-admin-item-edit-false('property','property_id', session:get-attribute("property_id"),'edit_admin_item', 'Change Relationship'),
                                 session:set-attribute("property_id", "") )
                             
                             else if(request:get-parameter('property_id','') != "")  then (
                                 session:set-attribute("property_id", request:get-parameter('property_id','')),
-                                lib-forms:make-select-form-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''),'newDataElementWizard_pc', 'Change Relationship'))
+                                lib-forms:make-select-form-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''),'edit_admin_item', 'Change Relationship'))
                             
                             else(
-                                lib-forms:make-select-admin-item-edit-false('property','property_id',request:get-parameter('property_id',''))
+                                lib-forms:make-select-form-admin-item-edit-false('property','property_id',request:get-parameter('property_id',''),'edit_admin_item', 'Select Relationship')
                             )    
                             
                         }
@@ -648,6 +648,17 @@ declare function local:hidden-controls-property-class()
 };
 (:END PROPERTY CLASS:)
 
+declare function local:get-referenceID($id as xs:string?,$idExisting) as xs:string
+{
+    let $version := '0.1'
+    let $reg-auth := request:get-parameter('registration-authority','')
+    let $idFull := concat($reg-auth, '_', $id, '_', $version)
+    let $doc-name := concat($idFull,'.xml')
+    return 
+    if($id>'')
+    then($doc-name)
+    else($idExisting)
+};
 
 declare function local:data-element-concept($message as xs:string) as node()
 {
@@ -657,6 +668,15 @@ declare function local:data-element-concept($message as xs:string) as node()
     let $elementOC := lib-util:mdrElement("object_class",$savedOC)
     let $savedPC := session:get-attribute('savedPC')
     let $elementPC := lib-util:mdrElement("property",$savedPC)
+    
+    let $savedDataIdOC := session:get-attribute('savedDataIdOC')
+    let $doc-nameOC := local:get-referenceID($savedDataIdOC,request:get-parameter('object_class_id',''))
+    
+    let $savedDataIdPC := session:get-attribute('savedDataIdPC')
+    let $doc-namePC := concat($savedDataIdPC,request:get-parameter('property_id',''))
+    
+    let $savedDataIdCD := session:get-attribute('savedDataIdCD')
+    let $doc-nameCD := concat($savedDataIdCD,request:get-parameter('conceptual_domain_id',''))
     
    let $form_name := 'newDataElementWizard_dec'
    let $title as xs:string := "New Data Element Wizard: - Data Element Concept"
@@ -757,7 +777,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                                  lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id_dec', request:get-parameter('object_class_id_dec',''),'edit_admin_item', 'Change Relationship')
                             )
                             else(
-                                 lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id_dec', request:get-parameter('object_class_id',''),'edit_admin_item', 'Select Relationship') 
+                                 lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id_dec', $doc-nameOC,'edit_admin_item', 'Select Relationship') 
                             )
                         }
                         </td>
@@ -781,7 +801,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                                     lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', request:get-parameter('property_id_dec',''),'edit_admin_item', 'Change Relationship'))
                                 
                                 else(
-                                   lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', request:get-parameter('property_id',''),'edit_admin_item', 'Select Relationship') 
+                                   lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', $doc-namePC,'edit_admin_item', 'Select Relationship') 
                               )                 
                             }
                         </td>
@@ -802,7 +822,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                                     lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id_dec',''),'edit_admin_item', 'Change Relationship'))
                                 
                                 else(
-                                   lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec', request:get-parameter('conceptual_domain_id',''),'edit_admin_item', 'Select Relationship') 
+                                   lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_dec',$doc-nameCD,'edit_admin_item', 'Select Relationship') 
                                 )                 
                           }
                         </td>
@@ -1070,6 +1090,12 @@ declare function local:data-element-details($message as xs:string) as node()
    let $savedVD := session:get-attribute('savedVD')
    let $elementVD := lib-util:mdrElement("value_domain",$savedVD)
    
+   let $savedDataIdDEC := session:get-attribute('savedDataIdDEC')
+   let $doc-nameDEC := local:get-referenceID($savedDataIdDEC,request:get-parameter('data_element_concept_id',''))
+    
+   let $savedDataIdVD := session:get-attribute('savedDataIdVD')
+   let $doc-nameVD := local:get-referenceID($savedDataIdVD,request:get-parameter('value_domain_id',''))
+    
    let $form_name := 'newDataElementWizard_de'
    let $title as xs:string := "New Data Element Wizard:- data element details"
    let $content as node()* := 
@@ -1123,7 +1149,7 @@ declare function local:data-element-details($message as xs:string) as node()
                         lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id_de', request:get-parameter('data_element_concept_id_de',''),'edit_admin_item', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id_de', request:get-parameter('data_element_concept_id',''),'edit_admin_item', 'Change Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id_de', $doc-nameDEC,'edit_admin_item', 'Change Relationship') 
                     )
                   }
                   </td>
@@ -1141,7 +1167,7 @@ declare function local:data-element-details($message as xs:string) as node()
                         lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id_de', request:get-parameter('value_domain_id_de',''),'edit_admin_item', 'Change Relationship'))
                     
                     else(
-                       lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id_de', request:get-parameter('value_domain_id',''),'edit_admin_item', 'Change Relationship') 
+                       lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id_de', $doc-nameVD,'edit_admin_item', 'Change Relationship') 
                     )
                   }
                   </td>
