@@ -673,10 +673,11 @@ declare function local:data-element-concept($message as xs:string) as node()
     let $doc-nameOC := local:get-referenceID($savedDataIdOC,request:get-parameter('object_class_id',''))
     
     let $savedDataIdPC := session:get-attribute('savedDataIdPC')
-    let $doc-namePC := concat($savedDataIdPC,request:get-parameter('property_id',''))
+    let $doc-namePC := local:get-referenceID($savedDataIdPC,request:get-parameter('property_id',''))
     
     let $savedDataIdCD := session:get-attribute('savedDataIdCD')
-    let $doc-nameCD := concat($savedDataIdCD,request:get-parameter('conceptual_domain_id',''))
+    let $doc-nameCD := local:get-referenceID($savedDataIdCD,request:get-parameter('conceptual_domain_id',''))
+       
     
    let $form_name := 'newDataElementWizard_dec'
    let $title as xs:string := "New Data Element Wizard: - Data Element Concept"
