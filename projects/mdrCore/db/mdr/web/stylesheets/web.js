@@ -233,7 +233,7 @@ function validate(obj)
     i=0;
     
     page = document.getElementById('move');
-    
+     
     if(page.value=='Next->Conceptual Domain'){
          regauth = document.getElementById('registration-authority');
          regby = document.getElementById('registered-by');
@@ -241,7 +241,6 @@ function validate(obj)
          submitby = document.getElementById('submitted-by');
          adminstatus = document.getElementById('administrative-status');
          regstatus = document.getElementById('registration-status');
-         
          
          if (regauth.options[regauth.selectedIndex].value == ""){ 
              errors[i] = "Registration Authority" ;
@@ -274,7 +273,7 @@ function validate(obj)
          }
     }
    
-    if(page.value=='Previous->Admin Items'){
+    if(page.value=='Next->Object Class'){
         
        var answer = confirm("Save Conceptual Domain and Continue")
 	   if (answer){        
@@ -292,7 +291,7 @@ function validate(obj)
         }else{return false;}
     }
     
-    if(page.value=='Previous->Conceptual Domain'){
+    if(page.value=='Next->Property Class'){
        var answer = confirm("Save Object Class and Continue")
 	   if (answer){ 
             names = document.getElementById('name_oc');
@@ -310,7 +309,7 @@ function validate(obj)
         }else{return false;}
     }
     
-     if(page.value=='Previous->Object Class'){
+     if(page.value=='Next->Data Element Concept'){
        var answer = confirm("Save Property Class and Continue")
 	   if (answer){ 
          names = document.getElementById('name_pc');
@@ -328,7 +327,7 @@ function validate(obj)
        }else{return false;}  
     }
     
-     if(page.value=='Previous->Property Class'){
+     if(page.value=='Next->Value Domain'){
        var answer = confirm("Save Data Element Concept and Continue")
 	   if (answer){ 
             names = document.getElementById('name_dec');
@@ -346,7 +345,7 @@ function validate(obj)
        }else{return false;}  
     }
     
-    if(page.value=='Previous->Data Element Concept'){
+    if(page.value=='Next->Data Element'){
        var answer = confirm("Save Value Domain and Continue")
 	   if (answer){ 
             names = document.getElementById('name_vd');
@@ -364,7 +363,7 @@ function validate(obj)
     }
     
     
-    if(page.value == 'Previous->Value Domain'){
+    if(page.value == 'Next->Reference Doc'){
        var answer = confirm("Save Data Element and Continue")
 	   if (answer){        
           names = document.getElementById('name_de');
@@ -381,7 +380,7 @@ function validate(obj)
         }else{return false;}  
     }
     
-    if(page.value=='Previous->Data Element'){
+    if(page.value=='Next->Confirm'){
        var answer = confirm("Save Reference Docs")
 	   if (answer){ 
          var isValid = true;
@@ -410,6 +409,33 @@ function validate(obj)
         valid = false;
     }    
     return valid;
+}
+
+function validatePrev(obj){
+    valid = true;
+    errors = new Array();
+    i=0;
+   
+    pagePrev = document.getElementById('movePrev');
+      
+    if(pagePrev.value == 'Previous->Admin Items' ||
+       pagePrev.value == 'Previous->Conceptual Domain' ||
+       pagePrev.value == 'Previous->Object Class' ||
+       pagePrev.value == 'Previous->Property Class' ||
+       pagePrev.value == 'Previous->Data Element Concept' ||
+       pagePrev.value == 'Previous->Value Domain' ||
+       pagePrev.value == 'Previous->Data Element' ){
+       var str = 'move to '+pagePrev.value+'?';
+              
+       var answer = confirm(str)
+    	   if (answer){   
+    	       valid = true;
+    	   }else{
+    	       valid = false;
+    	   }
+    }
+    return valid;
+    
 }
 
 function checkFile(obj){

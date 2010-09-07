@@ -38,6 +38,11 @@ declare function local:page-button($button-text as xs:string) as element(input)
    <input id="move" type="submit" name="move" value="{$button-text}" class="cgButton" onClick="return validate(this);"/>
 };
 
+declare function local:page-button-prev($button-text as xs:string) as element(input)
+{
+   <input id="movePrev" type="submit" name="move" value="{$button-text}" class="cgButton" onClick="return validatePrev(this);"/>
+};
+
 declare function local:admin-item-details($message as xs:string) as node()
 {
    let $title as xs:string := "New Data Element Wizard:- common administrative item details"
@@ -101,7 +106,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
         <div class="tabbertab">
           <table class="layout">
               <table class="section">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Admin Items")}</td><td>{local:page-button("Next->Object Class")}</td></tr>
+               <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Admin Items")}</td><td>{local:page-button("Next->Object Class")}</td></tr>
                 {
                 if(request:get-parameter('choose-conceptual-domain','') = 'existing') 
                 then (
@@ -297,7 +302,7 @@ declare function local:object-class-details($message as xs:string) as node()
           <table class="layout">
          
               <table class="section">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Conceptual Domain")}</td><td>{local:page-button("Next->Property Class")}</td></tr>
+               <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Conceptual Domain")}</td><td>{local:page-button("Next->Property Class")}</td></tr>
                {
                 if(request:get-parameter('choose-object-class','') = 'existing') 
                 then (
@@ -484,7 +489,7 @@ declare function local:property-class-details($message as xs:string) as node()
           <table class="layout">
         
               <table class="section">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Object Class")}</td><td>{local:page-button("Next->Data Element Concept")}</td></tr>
+               <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Object Class")}</td><td>{local:page-button("Next->Data Element Concept")}</td></tr>
                {
                if(request:get-parameter('choose-property-class','') = 'existing') 
                 then (
@@ -687,7 +692,7 @@ declare function local:data-element-concept($message as xs:string) as node()
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
                <tr>
-                   <td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Property Class")}</td>
+                   <td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Property Class")}</td>
                    <td>{local:page-button("Next->Value Domain")}</td>
                </tr>
                {
@@ -897,7 +902,7 @@ declare function local:value-domain-type($message as xs:string) as node()
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Data Element Concept")}</td><td>{local:page-button("Next->Data Element")}</td></tr>
+               <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Data Element Concept")}</td><td>{local:page-button("Next->Data Element")}</td></tr>
                  {
                  if(request:get-parameter('choose-value-domain','') = 'existing') 
                  then (
@@ -1103,7 +1108,7 @@ declare function local:data-element-details($message as xs:string) as node()
             (
           <div xmlns="http://www.w3.org/1999/xhtml">
          <table class="layout">
-                <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Value Domain")}</td><td>{local:page-button("Next->Reference Doc")}</td></tr>
+                <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Value Domain")}</td><td>{local:page-button("Next->Reference Doc")}</td></tr>
                 <tr>
                    <td class="left_header_cell">Context <font color="red">*</font></td>
                    <td colspan="5">
@@ -1231,7 +1236,7 @@ declare function local:associated-refdocs($message as xs:string) as node()
             (
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-            <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Data Element")}</td><td>{local:page-button("Next->Summary")}</td></tr>
+            <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Data Element")}</td><td>{local:page-button("Next->Summary")}</td></tr>
             <tr><td class="left_header_cell">Reference document 1</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc1', request:get-parameter('refdoc1',''))} </td></tr>
             <tr><td class="left_header_cell">Reference document 2</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc2', request:get-parameter('refdoc2',''))} </td></tr>
             <tr><td class="left_header_cell">Reference document 3</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc3', request:get-parameter('refdoc3',''))} </td></tr>
@@ -1787,6 +1792,7 @@ session:create(),
 
 let $relation :=  request:get-parameter('get-admin-item-id', ())
 let $next-page := request:get-parameter('move','')
+
 let $enum-value-update := request:get-parameter('enum-value-update','')
 let $cd-enum-value-update := request:get-parameter('cd-enum-value-update','')
 let $oc-concept-reference := request:get-parameter('oc-concept-reference','')
@@ -1798,59 +1804,97 @@ let $choose_vd := request:get-parameter('choose-value-domain','')
 let $choose_de := 'new'
 return
    
-   if ($next-page = 'Next->Admin Item' or $next-page = 'Previous->Admin-Item') 
+   if ($next-page = 'Previous->Admin Item') 
         then local:admin-item-details('')
-    else(if ($next-page = 'Next->Conceptual Domain' or $next-page = 'Previous->Conceptual Domain') 
-        then local:conceptual-domain-details('')
-    else(if ($next-page = 'Next->Object Class' or $next-page = 'Previous->Object Class') 
-        then( if($choose_cd = 'new' and local:executeCD())then local:object-class-details('') else if($choose_cd='existing') then local:object-class-details('') else local:conceptual-domain-details('Cannot Save') )
-    else(if ($next-page = 'Next->Property Class' or $next-page = 'Previous->Property Class') 
-        then( if($choose_oc = 'new' and local:executeOC())then local:property-class-details('') else if($choose_oc='existing') then local:property-class-details('') else local:object-class-details('Cannot Save') )
-    else(if ($next-page = 'Next->Data Element Concept' or $next-page = 'Previous->Data Element Concept') 
-        then( if($choose_pc = 'new' and local:executePC())then local:data-element-concept('') else if($choose_pc='existing') then local:data-element-concept('') else local:property-class-details('Cannot Save') )
-    else(if ($next-page = 'Next->Value Domain' or $next-page = 'Previous->Value Domain') 
-        then( if($choose_dec = 'new' and local:executeDEC())then local:value-domain-type('') else if($choose_dec='existing') then local:value-domain-type('') else local:data-element-concept('Cannot Save') )
-    else(if ($next-page = 'Next->Data Element' or $next-page = 'Previous->Data Element') 
-       then( if($choose_vd = 'new' and local:executeVD())then local:data-element-details('') else if($choose_vd='existing') then local:data-element-details('') else local:value-domain-type('Cannot Save') )        
-    else(if ($next-page = 'Next->Reference Doc' or $next-page = 'Previous->Reference Doc') 
-        then( if($choose_de = 'new' and local:executeDE())then local:associated-refdocs('') else if($choose_de='existing') then local:associated-refdocs('') else local:data-element-details('Cannot Save') )
-    else(if ($next-page = 'Next->Summary' or $next-page = 'Previous->Summary') 
-        then local:confirm('')
-    else(if($choose_vd >''  and $next-page = '')
-       then local:value-domain-type('')
-    else( if ($choose_dec > '' and $next-page = '') 
-        then local:data-element-concept('')
-    else( if ($choose_pc > '' and $next-page = '') 
-        then local:property-class-details('')
-    else( if ($choose_oc > '' and $next-page = '') 
-        then local:object-class-details('')
-    else( if ($choose_cd > '' and $next-page = '') 
-        then local:conceptual-domain-details('')
+   else(
+        if ($next-page = 'Previous->Conceptual Domain') 
+            then local:conceptual-domain-details('')
+        else(
+             if ($next-page = 'Previous->Object Class') 
+                then local:object-class-details('')
+            else(
+                if ($next-page = 'Previous->Property Class') 
+                    then local:property-class-details('')
+                else(
+                    if ($next-page = 'Previous->Data Element Concept') 
+                        then local:data-element-concept('')
+                    else(
+                        if ($next-page = 'Previous->Value Domain') 
+                            then local:value-domain-type('')
+                        else(
+                            if ($next-page = 'Previous->Data Element') 
+                                then local:data-element-details('')
+                            else(
+                                if ($next-page = 'Next->Conceptual Domain') 
+                                    then local:conceptual-domain-details('')
+                                else(
+                                    if ($next-page = 'Next->Object Class') 
+                                        then( if($choose_cd = 'new' and local:executeCD())then local:object-class-details('') else if($choose_cd='existing') then local:object-class-details('') else local:conceptual-domain-details('Cannot Save') )
+                                    else(
+                                        if ($next-page = 'Next->Property Class') 
+                                            then( if($choose_oc = 'new' and local:executeOC())then local:property-class-details('') else if($choose_oc='existing') then local:property-class-details('') else local:object-class-details('Cannot Save') )
+                                        else(
+                                            if ($next-page = 'Next->Data Element Concept') 
+                                                then( if($choose_pc = 'new' and local:executePC())then local:data-element-concept('') else if($choose_pc='existing') then local:data-element-concept('') else local:property-class-details('Cannot Save') )
+                                            else(if ($next-page = 'Next->Value Domain') 
+                                                then( if($choose_dec = 'new' and local:executeDEC())then local:value-domain-type('') else if($choose_dec='existing') then local:value-domain-type('') else local:data-element-concept('Cannot Save') )
+                                                else(
+                                                    if ($next-page = 'Next->Data Element') 
+                                                        then( if($choose_vd = 'new' and local:executeVD())then local:data-element-details('') else if($choose_vd='existing') then local:data-element-details('') else local:value-domain-type('Cannot Save') )        
+                                                    else(
+                                                        if ($next-page = 'Next->Reference Doc') 
+                                                            then( if($choose_de = 'new' and local:executeDE())then local:associated-refdocs('') else if($choose_de='existing') then local:associated-refdocs('') else local:data-element-details('Cannot Save') )
+                                                        else(
+                                                            if ($next-page = 'Next->Summary') 
+                                                                then local:confirm('')
+                                                            else(
+                                                                if($choose_vd >''  and $next-page = '')
+                                                                    then local:value-domain-type('')
+                                                                else(
+                                                                    if ($choose_dec > '' and $next-page = '') 
+                                                                        then local:data-element-concept('')
+                                                                    else(
+                                                                        if ($choose_pc > '' and $next-page = '') 
+                                                                            then local:property-class-details('')
+                                                                        else(
+                                                                            if ($choose_oc > '' and $next-page = '') 
+                                                                                then local:object-class-details('')
+                                                                            else( 
+                                                                                if ($choose_cd > '' and $next-page = '') 
+                                                                                    then local:conceptual-domain-details('')
    
-    else(local:admin-item-details(''),
-            session:set-attribute("savedDataIdCD",""),
-            session:set-attribute("savedDataIdOC",""),
-            session:set-attribute("savedDataIdPC",""),
-            session:set-attribute("savedDataIdDEC",""),
-            session:set-attribute("savedDataIdVD",""),
-            session:set-attribute("savedDataIdDE",""),
-            session:set-attribute("savedCD",""),
-            session:set-attribute("savedOC",""),
-            session:set-attribute("savedPC",""),
-            session:set-attribute("savedDEC",""),
-            session:set-attribute("savedVD",""),
-            session:set-attribute("savedDE","")
-                              )
-                           )
-                        )
-                     )
-                  )
-               )
-            )
-         )
-      )
-      )
-    ))))
-    
+                                                                                else(local:admin-item-details(''),
+                                                                                session:set-attribute("savedDataIdCD",""),
+                                                                                session:set-attribute("savedDataIdOC",""),
+                                                                                session:set-attribute("savedDataIdPC",""),
+                                                                                session:set-attribute("savedDataIdDEC",""),
+                                                                                session:set-attribute("savedDataIdVD",""),
+                                                                                session:set-attribute("savedDataIdDE",""),
+                                                                                session:set-attribute("savedCD",""),
+                                                                                session:set-attribute("savedOC",""),
+                                                                                session:set-attribute("savedPC",""),
+                                                                                session:set-attribute("savedDEC",""),
+                                                                                session:set-attribute("savedVD",""),
+                                                                                session:set-attribute("savedDE","")
+                                                                                  )
+                                                                               )
+                                                                            )
+                                                                         )
+                                                                      )
+                                                                   )
+                                                                )
+                                                             )
+                                                          )
+                                                        )
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                    )
+                                )
+                            )
     
     
