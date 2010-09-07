@@ -279,8 +279,11 @@ function validate(obj)
        var answer = confirm("Save Conceptual Domain and Continue")
 	   if (answer){        
             names = document.getElementById('name_cd');
-            
-           
+            context = document.getElementById('preferred_name_context_cd');
+            if(context.value == ""){
+                errors[i] = "Context" ;
+                i++;
+            }
             if (names.value == ""){ 
                  errors[i] = "Conceptual Domain Name" ;
                  i++;
@@ -293,6 +296,13 @@ function validate(obj)
        var answer = confirm("Save Object Class and Continue")
 	   if (answer){ 
             names = document.getElementById('name_oc');
+            context = document.getElementById('preferred_name_context_oc');
+            
+            if(context.value == ""){
+                errors[i] = "Context" ;
+                i++;
+            }
+            
             if (names.value == ""){ 
                  errors[i] = "Object Class Name" ;
                  i++;
@@ -304,6 +314,13 @@ function validate(obj)
        var answer = confirm("Save Property Class and Continue")
 	   if (answer){ 
          names = document.getElementById('name_pc');
+         context = document.getElementById('preferred_name_context_pc');
+         
+         if(context.value == ""){
+             errors[i] = "Context" ;
+             i++;
+         }
+            
          if (names.value == ""){ 
               errors[i] = "Property Name" ;
               i++;
@@ -315,6 +332,13 @@ function validate(obj)
        var answer = confirm("Save Data Element Concept and Continue")
 	   if (answer){ 
             names = document.getElementById('name_dec');
+            context = document.getElementById('preferred_name_context_dec');
+         
+            if(context.value == ""){
+                errors[i] = "Context" ;
+                i++;
+            }
+            
             if (names.value == ""){ 
                  errors[i] = "Data Element Concept Name" ;
                  i++;
@@ -326,6 +350,12 @@ function validate(obj)
        var answer = confirm("Save Value Domain and Continue")
 	   if (answer){ 
             names = document.getElementById('name_vd');
+            context = document.getElementById('preferred_name_context_vd');
+         
+            if(context.value == ""){
+                errors[i] = "Context" ;
+                i++;
+            }
             if (names.value == ""){ 
                  errors[i] = "Value Domain Name" ;
                  i++;
@@ -338,7 +368,13 @@ function validate(obj)
        var answer = confirm("Save Data Element and Continue")
 	   if (answer){        
           names = document.getElementById('name_de');
-           if (names.value == ""){ 
+          context = document.getElementById('preferred_name_context_de');
+         
+          if(context.value == ""){
+              errors[i] = "Context" ;
+              i++;
+          }          
+          if (names.value == ""){ 
                 errors[i] = "Data Element Name" ;
                 i++;
            }

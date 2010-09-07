@@ -154,6 +154,7 @@ declare function lib-forms:select-from-contexts-enum($select-name as xs:string,$
 {
    element select {
       attribute name {$select-name},
+      attribute id {$select-name},
       lib-forms:blank-filler(),
      for $item in lib-util:mdrElements('context')
       let $name:= data($item//openMDR:name/text())
@@ -170,6 +171,7 @@ declare function lib-forms:select-from-contexts-enum-default($select-name as xs:
 {
    element select {
       attribute name {$select-name},
+       attribute id {$select-name},
       lib-forms:default-filler($default),
      for $item in lib-util:mdrElements('context')
       let $name:= data($item//openMDR:name/text())

@@ -94,7 +94,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
      let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
      let $uris := request:get-parameter('cd-ref-uri','')
      let $meanings := request:get-parameter('meanings','')
-    
+     
      let $content as node()* := 
             (
             
@@ -137,7 +137,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                     </tr>,
                  
                     <tr>
-                        <td class="left_header_cell">Context</td>
+                        <td class="left_header_cell">Context <font color="red">*</font></td>
                         <td colspan="5">
                            {lib-forms:select-from-contexts-enum('preferred_name_context_cd',request:get-parameter('preferred_name_context_cd',''))} 
                         </td>
@@ -333,7 +333,7 @@ declare function local:object-class-details($message as xs:string) as node()
                         <td><input type="radio" name="choose-object-class" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
                      </tr>,                
                     <tr>
-                        <td class="left_header_cell">Context</td>
+                        <td class="left_header_cell">Context <font color="red">*</font></td>
                         <td colspan="5">
                            {lib-forms:select-from-contexts-enum-default('preferred_name_context_oc',request:get-parameter('preferred_name_context_oc',''),request:get-parameter('preferred_name_context_cd',''))} 
                         </td>
@@ -521,7 +521,7 @@ declare function local:property-class-details($message as xs:string) as node()
                     </tr>,
                
                     <tr>
-                       <td class="left_header_cell">Context</td>
+                       <td class="left_header_cell">Context <font color="red">*</font></td>
                        <td colspan="5">
                           {lib-forms:select-from-contexts-enum-default('preferred_name_context_pc',request:get-parameter('preferred_name_context_pc',''),request:get-parameter('preferred_name_context_cd',''))} 
                        </td>
@@ -726,7 +726,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                     </tr>,
 
                     <tr>
-                         <td class="left_header_cell">Context</td>
+                         <td class="left_header_cell">Context <font color="red">*</font></td>
                          <td colspan="5">
                             {lib-forms:select-from-contexts-enum-default('preferred_name_context_dec',request:get-parameter('preferred_name_context_dec',''),request:get-parameter('preferred_name_context_cd',''))} 
                          </td>
@@ -934,7 +934,7 @@ declare function local:value-domain-type($message as xs:string) as node()
                     </tr>,
                     
                     <tr>
-                        <td class="left_header_cell">Context</td>
+                        <td class="left_header_cell">Context <font color="red">*</font></td>
                         <td colspan="5">
                            {lib-forms:select-from-contexts-enum-default('preferred_name_context_vd',request:get-parameter('preferred_name_context_vd',''),request:get-parameter('preferred_name_context_cd',''))} 
                         </td>
@@ -1105,7 +1105,7 @@ declare function local:data-element-details($message as xs:string) as node()
          <table class="layout">
                 <tr><td class="left_header_cell"/><td width="40%">{local:page-button("Previous->Value Domain")}</td><td>{local:page-button("Next->Reference Doc")}</td></tr>
                 <tr>
-                   <td class="left_header_cell">Context</td>
+                   <td class="left_header_cell">Context <font color="red">*</font></td>
                    <td colspan="5">
                       {lib-forms:select-from-contexts-enum-default('preferred_name_context_de',request:get-parameter('preferred_name_context_de',''),request:get-parameter('preferred_name_context_cd',''))} 
                    </td>
