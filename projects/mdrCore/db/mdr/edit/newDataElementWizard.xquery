@@ -52,7 +52,6 @@ declare function local:admin-item-details($message as xs:string) as node()
    (
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-            <tr><td class="left_header_cell">Navigation</td><td width="40%"></td><td>{local:page-button("Next->Conceptual Domain")}</td></tr>
             <tr><td class="left_header_cell">Registration Authority<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
             <tr><td class="left_header_cell">Version</td><td colspan="5"> {$version}{lib-forms:radio('label',$version,'true')} </td></tr>
             <tr><td class="left_header_cell">Registered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
@@ -61,6 +60,8 @@ declare function local:admin-item-details($message as xs:string) as node()
             <tr><td class="left_header_cell">Administrative Status<font color="red">*</font></td><td colspan="2">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',''))}</td></tr>
             <tr><td class="left_header_cell">Registration Status<font color="red">*</font></td><td colspan="2"> {lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',''))}</td></tr>
             <tr><td class="left_header_cell">Administrative Note</td><td colspan="2">{lib-forms:text-area-element('administrative-note', 5, 70, request:get-parameter('administrative-note',''))}</td></tr>
+            <tr><td class="left_header_cell"></td><td colspan="2"></td></tr>
+            <tr><td></td><td width="40%"></td><td>{local:page-button("Next->Conceptual Domain")}</td></tr>
             </table>
             {
                 local:hidden-controls-conceptual-domain(),
@@ -106,7 +107,6 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
         <div class="tabbertab">
           <table class="layout">
               <table class="section">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Admin Items")}</td><td>{local:page-button("Next->Object Class")}</td></tr>
                 {
                 if(request:get-parameter('choose-conceptual-domain','') = 'existing') 
                 then (
@@ -229,6 +229,9 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                     </tr>
                 )
               }   
+              <tr></tr>
+             <tr><td/><td width="40%">{local:page-button-prev("Previous->Admin Items")}</td><td>{local:page-button("Next->Object Class")}</td></tr>
+               
              </table>
          
           </table>
@@ -302,7 +305,6 @@ declare function local:object-class-details($message as xs:string) as node()
           <table class="layout">
          
               <table class="section">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Conceptual Domain")}</td><td>{local:page-button("Next->Property Class")}</td></tr>
                {
                 if(request:get-parameter('choose-object-class','') = 'existing') 
                 then (
@@ -416,6 +418,8 @@ declare function local:object-class-details($message as xs:string) as node()
                     </tr>
                 )
                 }
+                <tr><td/><td width="40%">{local:page-button-prev("Previous->Conceptual Domain")}</td><td>{local:page-button("Next->Property Class")}</td></tr>
+               
              </table>
          
           </table>
@@ -489,7 +493,6 @@ declare function local:property-class-details($message as xs:string) as node()
           <table class="layout">
         
               <table class="section">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Object Class")}</td><td>{local:page-button("Next->Data Element Concept")}</td></tr>
                {
                if(request:get-parameter('choose-property-class','') = 'existing') 
                 then (
@@ -604,6 +607,8 @@ declare function local:property-class-details($message as xs:string) as node()
                     </tr>
                 )   
                }   
+               <tr><td/><td width="40%">{local:page-button-prev("Previous->Object Class")}</td><td>{local:page-button("Next->Data Element Concept")}</td></tr>
+               
              </table>
         
           </table>
@@ -691,10 +696,7 @@ declare function local:data-element-concept($message as xs:string) as node()
            
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr>
-                   <td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Property Class")}</td>
-                   <td>{local:page-button("Next->Value Domain")}</td>
-               </tr>
+               
                {
                 if(request:get-parameter('choose-data-element-concept','') = 'existing') 
                 then (
@@ -839,7 +841,11 @@ declare function local:data-element-concept($message as xs:string) as node()
                          <td><input type="radio" name="choose-data-element-concept" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>
                 )
-                }    
+                }  
+                <tr>
+                   <td/><td width="40%">{local:page-button-prev("Previous->Property Class")}</td>
+                   <td>{local:page-button("Next->Value Domain")}</td>
+               </tr>                
                 </table>
                     {
                         local:hidden-controls-admin-items(),
@@ -883,6 +889,21 @@ declare function local:hidden-controls-data-element-concept()
     )
 };
 
+declare function local:get-CD-from-DEC($message as xs:string) 
+{
+    if(request:get-parameter('choose-data-element-concept','')='new')
+     then(
+        request:get-parameter('conceptual_domain_id_dec','')
+     )
+     else(
+         let $data_element_concept_id := request:get-parameter('data_element_concept_id','')
+         let $data_element_concept := lib-util:mdrElement("data_element_concept",$data_element_concept_id)
+         let $conceptual_domain_id := data($data_element_concept//openMDR:data_element_concept_conceptual_domain)
+         return
+               $conceptual_domain_id        
+     )
+};
+
 declare function local:value-domain-type($message as xs:string) as node()
 {
     let $savedCD := session:get-attribute('savedCD')
@@ -896,13 +917,16 @@ declare function local:value-domain-type($message as xs:string) as node()
     
    let $form_name := 'newDataElementWizard_vd'
    let $title as xs:string := "New Data Element Wizard:- value domain type"
-   let $conceptual_domain_id := request:get-parameter('conceptual_domain_id_dec','')
+   
+   let $conceptual_domain_id := local:get-CD-from-DEC('')
+   (:let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
+   :)
+   
    let $values := ''
    let $content as node()* := 
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Data Element Concept")}</td><td>{local:page-button("Next->Data Element")}</td></tr>
                  {
                  if(request:get-parameter('choose-value-domain','') = 'existing') 
                  then (
@@ -982,7 +1006,7 @@ declare function local:value-domain-type($message as xs:string) as node()
                                     <td class="left_header_cell">Conceptual Domain ID</td>
                                     <td align="left">{$conceptual_domain_id}</td>
                                     <td>{session:set-attribute("conceptual_domain_id_vd", $conceptual_domain_id)}</td>
-                                    <td>{lib-forms:popup-form-search('conceptual_domain','conceptual_domain_id','new_value_domain', 'Change Relationship')}</td>                             
+                                    <td>{lib-forms:popup-form-search('conceptual_domain','conceptual_domain_id','edit_admin_item', 'Change Relationship')}</td>                             
                                     <td>{lib-forms:hidden-element('conceptual_domain_id_vd',$conceptual_domain_id)}</td>
                                </tr>,
                                <tr>
@@ -1030,7 +1054,7 @@ declare function local:value-domain-type($message as xs:string) as node()
                             else ( 
                                  <tr>
                                     <td class="left_header_cell">Choose Conceptual Domain</td>
-                                    <td align="left">{lib-forms:make-select-admin-item-edit-false('conceptual_domain','conceptual_domain_id',$conceptual_domain_id)}</td>
+                                    <td align="left">{lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id_vd',$conceptual_domain_id,'edit_admin_item','Select Relationship')}</td>
                                </tr>
                             )
                        
@@ -1040,7 +1064,9 @@ declare function local:value-domain-type($message as xs:string) as node()
                         <td><input type="radio" name="choose-value-domain" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>
                 )
-              }   
+              }  
+            <tr><td/><td width="40%">{local:page-button-prev("Previous->Data Element Concept")}</td><td>{local:page-button("Next->Data Element")}</td></tr>
+                             
             </table>
             {
                 local:hidden-controls-admin-items(),
@@ -1108,7 +1134,6 @@ declare function local:data-element-details($message as xs:string) as node()
             (
           <div xmlns="http://www.w3.org/1999/xhtml">
          <table class="layout">
-                <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Value Domain")}</td><td>{local:page-button("Next->Reference Doc")}</td></tr>
                 <tr>
                    <td class="left_header_cell">Context <font color="red">*</font></td>
                    <td colspan="5">
@@ -1180,7 +1205,8 @@ declare function local:data-element-details($message as xs:string) as node()
               </tr>
               <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, request:get-parameter('example',''))}</td></tr>
               <tr><td class="left_header_cell">Precision</td><td colspan="2">{lib-forms:input-element('precision', 70,request:get-parameter('precision',''))}</td></tr>
-
+            <tr><td/><td width="40%">{local:page-button-prev("Previous->Value Domain")}</td><td>{local:page-button("Next->Reference Doc")}</td></tr>
+                
          </table>
          {
                 local:hidden-controls-admin-items(),
@@ -1236,10 +1262,10 @@ declare function local:associated-refdocs($message as xs:string) as node()
             (
             <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-            <tr><td class="left_header_cell"/><td width="40%">{local:page-button-prev("Previous->Data Element")}</td><td>{local:page-button("Next->Summary")}</td></tr>
             <tr><td class="left_header_cell">Reference document 1</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc1', request:get-parameter('refdoc1',''))} </td></tr>
             <tr><td class="left_header_cell">Reference document 2</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc2', request:get-parameter('refdoc2',''))} </td></tr>
             <tr><td class="left_header_cell">Reference document 3</td><td colspan="2"> {lib-forms:make-select-refdoc('refdoc3', request:get-parameter('refdoc3',''))} </td></tr>
+            <tr><td/><td width="40%">{local:page-button-prev("Previous->Data Element")}</td><td>{local:page-button("Next->Summary")}</td></tr>
             </table>
             {
                 local:hidden-controls-admin-items(),
@@ -1297,8 +1323,8 @@ declare function local:confirm($message as xs:string) as node()
                <tr><td class="left_header_cell">Data Element Concept</td><td colspan="2">{administered-item:html-anchor($elementDEC)}</td></tr>
                <tr><td class="left_header_cell">Value Domain</td><td colspan="2">{administered-item:html-anchor($elementVD)}</td></tr>
                <tr><td class="left_header_cell">Data Element</td><td colspan="2">{administered-item:html-anchor($elementDE)}</td></tr>
-               <tr><td class="left_header_cell"></td><td colspan="2">pressing 'again' will allow you to continue entering data elements with the same set of administrative values</td></tr>              
-              <tr><td class="left_header_cell"></td><td width="40%"><input type="submit" name="move" value="again"/></td></tr>              
+               <tr><td></td><td colspan="2">pressing 'again' will allow you to continue entering data elements with the same set of administrative values</td></tr>              
+              <tr><td></td><td width="40%"><input type="submit" name="move" value="again"/></td></tr>              
               
             </table>
            
