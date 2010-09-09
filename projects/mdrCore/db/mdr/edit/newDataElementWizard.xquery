@@ -111,12 +111,12 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                 if(request:get-parameter('choose-conceptual-domain','') = 'existing') 
                 then (
                     <tr><td class="left_header_cell">Select Conceptual Domain</td>
-                        <td><input type="radio" name="choose-conceptual-domain" value="existing" checked="checked" onClick="this.form.submit();">existing</input></td>
+                        <td><input id="choose-conceptual-domain" type="radio" name="choose-conceptual-domain" value="existing" checked="checked" onClick="this.form.submit();">existing</input></td>
                         <td><input type="radio" name="choose-conceptual-domain" value="new" onClick="this.form.submit();">new</input></td>
                     </tr>,
                     
                     <tr>
-                        <td class="left_header_cell">Select Existing Conceptual Domain</td>
+                        <td class="left_header_cell">Select Existing Conceptual Domain<font color="red">*</font></td>
                         <td>{
                          
                             if(request:get-parameter('conceptual_domain_id','') eq "Cancel")  then (
@@ -138,7 +138,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                then(
                     <tr><td class="left_header_cell">Select Conceptual Domain?</td>
                         <td><input type="radio" name="choose-conceptual-domain" value="existing" onClick="this.form.submit();">existing</input></td>
-                        <td><input type="radio" name="choose-conceptual-domain" value="new" checked="checked" onClick="this.form.submit();">new</input></td>
+                        <td><input id="choose-conceptual-domain" type="radio" name="choose-conceptual-domain" value="new" checked="checked" onClick="this.form.submit();">new</input></td>
                     </tr>,
                  
                     <tr>
@@ -224,8 +224,8 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                 )else(
                     <tr>{session:set-attribute("choose-conceptual-domain", "")}</tr>,
                     <tr><td class="left_header_cell">Select Conceptual Domain?</td>
-                        <td><input type="radio" name="choose-conceptual-domain" value="existing" onClick="return this.form.submit();">existing</input></td>
-                        <td><input type="radio" name="choose-conceptual-domain" value="new" onClick="return this.form.submit();">new</input></td>
+                        <td><input  type="radio" name="choose-conceptual-domain" value="existing" onClick="return this.form.submit();">existing</input></td>
+                        <td><input  type="radio" name="choose-conceptual-domain" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>
                 )
               }   
@@ -309,12 +309,12 @@ declare function local:object-class-details($message as xs:string) as node()
                 if(request:get-parameter('choose-object-class','') = 'existing') 
                 then (
                     <tr><td class="left_header_cell">Select Object Class</td>
-                        <td><input type="radio" name="choose-object-class" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
+                        <td><input id="choose-object-class" type="radio" name="choose-object-class" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
                         <td><input type="radio" name="choose-object-class" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>,
                 
                     <tr>
-                       <td class="left_header_cell"> Select Existing Object Class</td>
+                       <td class="left_header_cell"> Select Existing Object Class<font color="red">*</font></td>
                        
                        <td align="left" colspan="2">{
                          
@@ -337,7 +337,7 @@ declare function local:object-class-details($message as xs:string) as node()
                 then(  
                     <tr><td class="left_header_cell">Select Object Class</td>
                         <td><input type="radio" name="choose-object-class" value="existing" onClick="return this.form.submit();">existing</input></td>
-                        <td><input type="radio" name="choose-object-class" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
+                        <td><input id="choose-object-class" type="radio" name="choose-object-class" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
                      </tr>,                
                     <tr>
                         <td class="left_header_cell">Context <font color="red">*</font></td>
@@ -497,11 +497,11 @@ declare function local:property-class-details($message as xs:string) as node()
                if(request:get-parameter('choose-property-class','') = 'existing') 
                 then (
                     <tr><td class="left_header_cell">Choose Property Class</td>
-                        <td><input type="radio" name="choose-property-class" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
+                        <td><input id="choose-property-class" type="radio" name="choose-property-class" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
                         <td><input type="radio" name="choose-property-class" value="new" onClick="return this.form.submit();">new</input></td>
                     </tr>,
                     <tr>
-                      <td class="left_header_cell">Select Existing Property Class </td>
+                      <td class="left_header_cell">Select Existing Property Class<font color="red">*</font> </td>
                       
                       <td align="left" colspan="2">{
                          
@@ -525,7 +525,7 @@ declare function local:property-class-details($message as xs:string) as node()
                     
                     <tr><td class="left_header_cell">Select Property Class</td>
                          <td><input type="radio" name="choose-property-class" value="existing" onClick="return this.form.submit();">existing</input></td>
-                         <td><input type="radio" name="choose-property-class" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
+                         <td><input id="choose-property-class" type="radio" name="choose-property-class" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
                     </tr>,
                
                     <tr>
@@ -701,12 +701,12 @@ declare function local:data-element-concept($message as xs:string) as node()
                 if(request:get-parameter('choose-data-element-concept','') = 'existing') 
                 then (
                      <tr><td class="left_header_cell">Select Data Element Concept</td>
-                        <td><input type="radio" name="choose-data-element-concept" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
+                        <td><input id="choose-data-element-concept" type="radio" name="choose-data-element-concept" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
                         <td><input type="radio" name="choose-data-element-concept" value="new" onClick="return this.form.submit();">new</input></td>
                    </tr>,
                      
                      <tr>
-                       <td class="left_header_cell">Select Existing Data Element Concept</td>
+                       <td class="left_header_cell">Select Existing Data Element Concept<font color="red">*</font></td>
                        
                        <td align="left" colspan="2">{
                          
@@ -729,7 +729,7 @@ declare function local:data-element-concept($message as xs:string) as node()
                then(
                     <tr><td class="left_header_cell">Select Data Element Concept</td>
                         <td><input type="radio" name="choose-data-element-concept" value="existing" onClick="return this.form.submit();">existing</input></td>
-                        <td><input type="radio" name="choose-data-element-concept" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
+                        <td><input id="choose-data-element-concept" type="radio" name="choose-data-element-concept" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
                     </tr>,
 
                     <tr>
@@ -931,12 +931,12 @@ declare function local:value-domain-type($message as xs:string) as node()
                  if(request:get-parameter('choose-value-domain','') = 'existing') 
                  then (
                     <tr><td class="left_header_cell">Select Value Domain</td>
-                        <td><input type="radio" name="choose-value-domain" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
+                        <td><input id="choose-value-domain" type="radio" name="choose-value-domain" value="existing" checked="checked" onClick="return this.form.submit();">existing</input></td>
                         <td><input type="radio" name="choose-value-domain" value="new" onClick="return this.form.submit();">new</input></td>
 
                     </tr>,
                     <tr>
-                        <td class="left_header_cell">Select Existing Value Domain</td>
+                        <td class="left_header_cell">Select Existing Value Domain<font color="red">*</font></td>
                        
                         <td align="left" colspan="2">{
                          
@@ -959,7 +959,7 @@ declare function local:value-domain-type($message as xs:string) as node()
                then(
                      <tr><td class="left_header_cell">Select Value Domain?</td>
                         <td><input type="radio" name="choose-value-domain" value="existing" onClick="return this.form.submit();">existing</input></td>
-                        <td><input type="radio" name="choose-value-domain" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
+                        <td><input id="choose-value-domain" type="radio" name="choose-value-domain" value="new" checked="checked" onClick="return this.form.submit();">new</input></td>
                     </tr>,
                     
                     <tr>
@@ -1316,7 +1316,7 @@ declare function local:confirm($message as xs:string) as node()
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
             <table class="layout">
-               <tr><td class="left_header_cell"/><td colspan="2">Summary of the Elements created</td></tr>
+               <tr><td/><td colspan="2">Summary of the Elements created</td></tr>
                <tr><td class="left_header_cell">Conceptual Domain</td><td colspan="2">{administered-item:html-anchor($elementCD)}</td></tr>
                <tr><td class="left_header_cell">Object Class</td><td colspan="2">{administered-item:html-anchor($elementOC)}</td></tr>
                <tr><td class="left_header_cell">Property Class</td><td colspan="2">{administered-item:html-anchor($elementPC)}</td></tr>

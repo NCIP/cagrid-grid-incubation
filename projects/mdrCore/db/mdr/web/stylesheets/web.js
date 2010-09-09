@@ -274,73 +274,108 @@ function validate(obj)
     }
    
     if(page.value=='Next->Object Class'){
-        
+
        var answer = confirm("Save Conceptual Domain and Continue")
 	   if (answer){        
-            names = document.getElementById('name_cd');
-            context = document.getElementById('preferred_name_context_cd');
-            if(context.value == ""){
-                errors[i] = "Context" ;
-                i++;
-            }
-            if (names.value == ""){ 
-                 errors[i] = "Conceptual Domain Name" ;
+            choose = document.getElementById('choose-conceptual-domain');
+            if(choose.value== "existing"){
+                cdid = document.getElementById('conceptual_domain_id');
+                if(cdid.value == ""){
+                    errors[i] = "Choose existing conceptual domain";
+                    i++;
+                }
+            }else{
+             names = document.getElementById('name_cd');
+             context = document.getElementById('preferred_name_context_cd');
+             if(context.value == ""){
+                 errors[i] = "Context" ;
                  i++;
+             }
+             if (names.value == ""){ 
+                  errors[i] = "Conceptual Domain Name" ;
+                  i++;
+             }
             }
-            
         }else{return false;}
     }
     
     if(page.value=='Next->Property Class'){
        var answer = confirm("Save Object Class and Continue")
 	   if (answer){ 
-            names = document.getElementById('name_oc');
-            context = document.getElementById('preferred_name_context_oc');
-            
-            if(context.value == ""){
-                errors[i] = "Context" ;
-                i++;
-            }
-            
-            if (names.value == ""){ 
-                 errors[i] = "Object Class Name" ;
-                 i++;
-            }
+            choose = document.getElementById('choose-object-class');
+            if(choose.value== "existing"){
+                ocid = document.getElementById('object_class_id');
+                if(ocid.value == ""){
+                    errors[i] = "Choose existing object class";
+                    i++;
+                }
+            }else{
+                names = document.getElementById('name_oc');
+                context = document.getElementById('preferred_name_context_oc');
+                
+                if(context.value == ""){
+                    errors[i] = "Context" ;
+                    i++;
+                }
+                
+                if (names.value == ""){ 
+                     errors[i] = "Object Class Name" ;
+                     i++;
+                }
+           }
         }else{return false;}
     }
     
      if(page.value=='Next->Data Element Concept'){
        var answer = confirm("Save Property Class and Continue")
 	   if (answer){ 
-         names = document.getElementById('name_pc');
-         context = document.getElementById('preferred_name_context_pc');
-         
-         if(context.value == ""){
-             errors[i] = "Context" ;
-             i++;
-         }
-            
-         if (names.value == ""){ 
-              errors[i] = "Property Name" ;
-              i++;
-         }
+            choose = document.getElementById('choose-property-class');
+            if(choose.value== "existing"){
+                pcid = document.getElementById('property_id');
+                if(pcid.value == ""){
+                    errors[i] = "Choose existing property class";
+                    i++;
+                }
+            }else{
+                 names = document.getElementById('name_pc');
+                 context = document.getElementById('preferred_name_context_pc');
+                 
+                 if(context.value == ""){
+                     errors[i] = "Context" ;
+                     i++;
+                 }
+                    
+                 if (names.value == ""){ 
+                      errors[i] = "Property Name" ;
+                      i++;
+                 }
+           }
        }else{return false;}  
     }
     
      if(page.value=='Next->Value Domain'){
        var answer = confirm("Save Data Element Concept and Continue")
 	   if (answer){ 
-            names = document.getElementById('name_dec');
-            context = document.getElementById('preferred_name_context_dec');
-         
-            if(context.value == ""){
-                errors[i] = "Context" ;
-                i++;
-            }
-            
-            if (names.value == ""){ 
-                 errors[i] = "Data Element Concept Name" ;
-                 i++;
+            choose = document.getElementById('choose-data-element-concept');
+            if(choose.value== "existing"){
+                decid = document.getElementById('data_element_concept_id');
+                if(decid.value == ""){
+                    errors[i] = "Choose existing data element concept";
+                    i++;
+                }
+            }else{
+                 names = document.getElementById('name_dec');
+                 context = document.getElementById('preferred_name_context_dec');
+              
+                 if(context.value == ""){
+                     errors[i] = "Context" ;
+                     i++;
+                 }
+                 
+                 if (names.value == ""){ 
+                      errors[i] = "Data Element Concept Name" ;
+                      i++;
+                 }
             }
        }else{return false;}  
     }
@@ -348,16 +383,25 @@ function validate(obj)
     if(page.value=='Next->Data Element'){
        var answer = confirm("Save Value Domain and Continue")
 	   if (answer){ 
-            names = document.getElementById('name_vd');
-            context = document.getElementById('preferred_name_context_vd');
-         
-            if(context.value == ""){
-                errors[i] = "Context" ;
-                i++;
-            }
-            if (names.value == ""){ 
-                 errors[i] = "Value Domain Name" ;
-                 i++;
+            choose = document.getElementById('choose-value-domain');
+            if(choose.value== "existing"){
+                vdid = document.getElementById('value_domain_id');
+                if(vdid.value == ""){
+                    errors[i] = "Choose existing value domain";
+                    i++;
+                }
+            }else{
+                names = document.getElementById('name_vd');
+                context = document.getElementById('preferred_name_context_vd');
+             
+                if(context.value == ""){
+                    errors[i] = "Context" ;
+                    i++;
+                }
+                if (names.value == ""){ 
+                     errors[i] = "Value Domain Name" ;
+                     i++;
+                }
             }
         }else{return false;}  
     }
