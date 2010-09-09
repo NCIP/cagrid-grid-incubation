@@ -93,7 +93,7 @@ declare function administered-item:html-anchor-small($collection_name as xs:stri
            else (
                 let $uri as xs:anyURI := session:encode-url(xs:anyURI(concat('../web/',$collection_name,".xquery?compound_id=", $id)))
                 return
-                    <a xmlns="http://www.w3.org/1999/xhtml" href="{$uri}">
+                    <a xmlns="http://www.w3.org/1999/xhtml" href="{$uri}" target="_blank">
                       <font size="2"> {administered-item:preferred-name($collection_name, $id)}</font>
                     </a>
                   ))
