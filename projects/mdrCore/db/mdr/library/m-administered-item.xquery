@@ -64,7 +64,7 @@ declare function administered-item:html-anchor($collection_name as xs:string?, $
                 let $uri as xs:anyURI := session:encode-url(xs:anyURI(concat('../web/',$collection_name,".xquery?compound_id=", $id)))
                 return
                     <a xmlns="http://www.w3.org/1999/xhtml" href="{$uri}">
-                        {administered-item:preferred-name($collection_name, $id)}
+                       {administered-item:preferred-name($collection_name, $id)}
                     </a>
                   ))
 };
@@ -74,4 +74,27 @@ declare function administered-item:html-anchor($admin-item as node()?) as elemen
     if (empty($admin-item))
     then ()
     else (administered-item:html-anchor(lib-util:mdrElementType($admin-item),lib-util:mdrElementId($admin-item)))
+};
+
+declare function administered-item:html-anchor-small($admin-item as node()?) as element(a)?
+{
+    if (empty($admin-item))
+    then ()
+    else (administered-item:html-anchor-small(lib-util:mdrElementType($admin-item),lib-util:mdrElementId($admin-item)))
+};
+
+declare function administered-item:html-anchor-small($collection_name as xs:string?, $id as xs:string?) as element(a)?
+   {
+       if (empty($collection_name))
+       then ()
+       else (
+           if (empty($id))
+           then ()
+           else (
+                let $uri as xs:anyURI := session:encode-url(xs:anyURI(concat('../web/',$collection_name,".xquery?compound_id=", $id)))
+                return
+                    <a xmlns="http://www.w3.org/1999/xhtml" href="{$uri}">
+                      <font size="2"> {administered-item:preferred-name($collection_name, $id)}</font>
+                    </a>
+                  ))
 };

@@ -432,15 +432,13 @@ declare function local:object-class-details($message as xs:string) as node()
                   local:hidden-controls-value-domain(), 
                   local:hidden-controls-data-element(),
                   local:hidden-controls-reference-doc()
-                  ,
-                 administered-item:html-anchor($element)
            }
         
        </div>
       
        )
       
-       return lib-forms:wrap-form-contents($title, $content)  
+       return lib-forms:wrap-form-contents-withFooter($title, $content, administered-item:html-anchor-small($element))  
 };
 
 declare function local:hidden-controls-object-class()
@@ -619,13 +617,13 @@ declare function local:property-class-details($message as xs:string) as node()
                 local:hidden-controls-data-element-concept(), 
                 local:hidden-controls-value-domain(), 
                 local:hidden-controls-data-element(),
-                local:hidden-controls-reference-doc(),
-                administered-item:html-anchor($elementCD),
-                administered-item:html-anchor($elementOC)
+                local:hidden-controls-reference-doc()
+               
+                
          }
        </div>
        )
-       return lib-forms:wrap-form-contents($title, $content)  
+       return lib-forms:wrap-form-contents-withFooter($title, $content, administered-item:html-anchor-small($elementCD),administered-item:html-anchor-small($elementOC))  
 };
 
 declare function local:hidden-controls-property-class()
@@ -854,16 +852,12 @@ declare function local:data-element-concept($message as xs:string) as node()
                         local:hidden-controls-property-class(),
                         local:hidden-controls-value-domain(), 
                         local:hidden-controls-data-element(),
-                        local:hidden-controls-reference-doc() ,
-                        administered-item:html-anchor($elementCD),
-                        administered-item:html-anchor($elementOC),
-                        administered-item:html-anchor($elementPC)
-                         
+                        local:hidden-controls-reference-doc() 
                     }
             </div>
              )
            
-   return lib-forms:wrap-form-contents($title, $content)
+   return lib-forms:wrap-form-contents-withFooter($title, $content,administered-item:html-anchor-small($elementCD), administered-item:html-anchor-small($elementOC), administered-item:html-anchor-small($elementPC))
 };
 
 declare function local:hidden-controls-data-element-concept()
@@ -1075,17 +1069,12 @@ declare function local:value-domain-type($message as xs:string) as node()
                 local:hidden-controls-property-class(),
                 local:hidden-controls-data-element-concept(), 
                 local:hidden-controls-data-element(),
-                local:hidden-controls-reference-doc(),
-                administered-item:html-anchor($elementCD),
-                administered-item:html-anchor($elementOC),
-                administered-item:html-anchor($elementPC),
-                administered-item:html-anchor($elementDEC)
-                
+                local:hidden-controls-reference-doc()
             }
          </div>
         
    )
-   return lib-forms:wrap-form-contents($title, $content)
+   return lib-forms:wrap-form-contents-withFooter($title, $content, administered-item:html-anchor-small($elementCD), administered-item:html-anchor-small($elementOC), administered-item:html-anchor-small($elementPC), administered-item:html-anchor-small($elementDEC))
 };
 
 
@@ -1215,16 +1204,13 @@ declare function local:data-element-details($message as xs:string) as node()
                 local:hidden-controls-property-class(),
                 local:hidden-controls-data-element-concept(),
                 local:hidden-controls-value-domain(), 
-                local:hidden-controls-reference-doc(),
-                administered-item:html-anchor($elementCD),
-                administered-item:html-anchor($elementOC),
-                administered-item:html-anchor($elementPC),
-                administered-item:html-anchor($elementDEC),
-                administered-item:html-anchor($elementVD)
+                local:hidden-controls-reference-doc()
          }
            </div>
             )
-   return lib-forms:wrap-form-contents($title, $content)            
+   return lib-forms:wrap-form-contents-withFooter($title, $content, administered-item:html-anchor-small($elementCD),
+   administered-item:html-anchor-small($elementOC), administered-item:html-anchor-small($elementPC),
+   administered-item:html-anchor-small($elementDEC), administered-item:html-anchor-small($elementVD))            
 };
 
 declare function local:hidden-controls-data-element()
@@ -1274,18 +1260,15 @@ declare function local:associated-refdocs($message as xs:string) as node()
                 local:hidden-controls-property-class(),
                 local:hidden-controls-data-element-concept(), 
                 local:hidden-controls-value-domain(), 
-                local:hidden-controls-data-element(),
-                administered-item:html-anchor($elementCD),
-                administered-item:html-anchor($elementOC),
-                administered-item:html-anchor($elementPC),
-                administered-item:html-anchor($elementDEC),
-                administered-item:html-anchor($elementVD),
-                administered-item:html-anchor($elementDE)
+                local:hidden-controls-data-element()
             }
             </div>
              )
              
-   return lib-forms:wrap-form-contents($title, $content)
+   return lib-forms:wrap-form-contents-withFooter($title, $content,administered-item:html-anchor-small($elementCD),
+   administered-item:html-anchor-small($elementOC),administered-item:html-anchor-small($elementPC),
+   administered-item:html-anchor-small($elementDEC),administered-item:html-anchor-small($elementVD),
+   administered-item:html-anchor-small($elementDE))
 };
 
 declare function local:hidden-controls-reference-doc()
