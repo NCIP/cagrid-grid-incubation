@@ -587,11 +587,11 @@ declare function lib-forms:wrap-form-contents($title as xs:string, $form-content
       return lib-rendering:txfrm-webpage($title, $content)
 };
 
-declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$element as element()*) as node()*
+declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$form_name as xs:string*,$element as element()*) as node()*
 {
    let $content as node() :=
       <div xmlns="http://www.w3.org/1999/xhtml">
-      <form name="edit_admin_item" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
+      <form name="{$form_name}" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
       {$form-content}
       </form>
       {$element}
@@ -599,11 +599,11 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       return lib-rendering:txfrm-webpage($title, $content)
 };
 
-declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$element as element()*,$element2 as element()*) as node()*
+declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$form_name as xs:string*,$element as element()*,$element2 as element()*) as node()*
 {
    let $content as node() :=
       <div xmlns="http://www.w3.org/1999/xhtml">
-      <form name="edit_admin_item" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
+      <form name="{$form_name}" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
       {$form-content}
       </form>
       <table>
@@ -614,11 +614,11 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       return lib-rendering:txfrm-webpage($title, $content)
 };
 
-declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$element as element()*,$element2 as element()*,$element3 as element()*) as node()*
+declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$form_name as xs:string*,$element as element()*,$element2 as element()*,$element3 as element()*) as node()*
 {
    let $content as node() :=
       <div xmlns="http://www.w3.org/1999/xhtml">
-      <form name="edit_admin_item" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
+      <form name="{$form_name}" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
       {$form-content}
       </form>
       <table>
@@ -630,11 +630,11 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       return lib-rendering:txfrm-webpage($title, $content)
 };
 
-declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$element as element()*,$element2 as element()*,$element3 as element()*,$element4 as element()*) as node()*
+declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$form_name as xs:string*,$element as element()*,$element2 as element()*,$element3 as element()*,$element4 as element()*) as node()*
 {
    let $content as node() :=
       <div xmlns="http://www.w3.org/1999/xhtml">
-      <form name="edit_admin_item" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
+      <form name="{$form_name}" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
       {$form-content}
       </form>
       <table>
@@ -647,11 +647,11 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       return lib-rendering:txfrm-webpage($title, $content)
 };
 
-declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$element as element()*,$element2 as element()*,$element3 as element()*,$element4 as element()*,$element5 as element()*) as node()*
+declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$form_name as xs:string*,$element as element()*,$element2 as element()*,$element3 as element()*,$element4 as element()*,$element5 as element()*) as node()*
 {
    let $content as node() :=
       <div xmlns="http://www.w3.org/1999/xhtml">
-      <form name="edit_admin_item" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
+      <form name="{$form_name}" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
       {$form-content}
       </form>
       <table>
@@ -665,11 +665,11 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       return lib-rendering:txfrm-webpage($title, $content)
 };
 
-declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$element as element()*,$element2 as element()*,$element3 as element()*,$element4 as element()*,$element5 as element()*,$element6 as element()*) as node()*
+declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $form-content as element()*,$form_name as xs:string*,$element as element()*,$element2 as element()*,$element3 as element()*,$element4 as element()*,$element5 as element()*,$element6 as element()*) as node()*
 {
    let $content as node() :=
       <div xmlns="http://www.w3.org/1999/xhtml">
-      <form name="edit_admin_item" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
+      <form name="{$form_name}" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
       {$form-content}
       </form>
       <table>
