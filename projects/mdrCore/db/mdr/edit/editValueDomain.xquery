@@ -16,6 +16,7 @@ xquery version "1.0";
 (:~
  :    @author Rakesh Dhaval
  :    @author Puneet Mathur
+ :    @author Sreekant Lalkota
  :    @version 3.0
  :    allows editing the DataElementConcept
 ~ :)
@@ -455,7 +456,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $value_domain_format,
                      $values,
                       (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                      )
                )
@@ -490,7 +491,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $value_domain_format,
                $values,
                 (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                )
          )
@@ -521,7 +522,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $value_domain_format,
                $values,
                 (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                ),
                session:set-attribute("conceptual_domain_id", $iconceptual_domain_id)
@@ -555,7 +556,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $value_domain_format,
                $values,
                 (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                )
          ) else (
@@ -584,9 +585,11 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $ivalue_domain_format,
                $ivalues,
                 (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                )
          )
        )    
     )
+       
+

@@ -18,6 +18,7 @@ xquery version "1.0";
 (:~
  :    @author Rakesh Dhaval
  :    @author Puneet Mathur
+ :    @author Sreekant Lalkota
  :    @version 1.0
  :    allows editing the DataElementConcept
 ~ :)
@@ -336,27 +337,16 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $meanings := request:get-parameter('meanings','')
    let $value_meaning_identifiers := request:get-parameter('value_meaning_identifiers','')
 
-(:11111111111111111111111111:)
-    let $log := util:log-system-out('printing iversion................')
    let $iversion := data($element/@version)
    let $version := request:get-parameter('version','')
-   let $log := util:log-system-out($iversion)   
    
-   let $log := util:log-system-out($iversion)
-   let $log := util:log-system-out($version)
    let $version := $iversion
    (:getting proposed version and release version :)
    let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
-   let $log := util:log-system-out('printing proposed version.....from here...........')
    let $version := round-half-to-even(xs:float($proposedNextVersion),2)
-   let $log := util:log-system-out('printing proposed version.....from here...........')
-   let $log := util:log-system-out($version)
    
    let $ivalue_meaning_uri := data($element//openMDR:Value_Meaning/openMDR:reference_uri)
    let $value_meaning_uri := request:get-parameter('property_uri','')
-   let $log := util:log-system-out('.............................')
-   let $log := util:log-system-out($value_meaning_uri)   
-   let $log := util:log-system-out($ivalue_meaning_uri)
    let $value_meaning_uri := $ivalue_meaning_uri
    
    let $iregistration_status := string($element//openMDR:registration_status)
@@ -417,7 +407,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $meanings,
                      $value_meaning_identifiers,
                       (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $value_meaning_uri,
                      $registration_status
                   )
@@ -447,7 +437,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $meanings,
                $value_meaning_identifiers,
                 (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $value_meaning_uri,
                      $registration_status
                )
@@ -473,10 +463,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $imeanings,
                $ivalue_meaning_identifiers,
                 (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $value_meaning_uri,
                      $registration_status
                )
          )
        )
     )
+       
+
+
+

@@ -17,6 +17,7 @@ xquery version "1.0";
 (:~
  :    @author Rakesh Dhaval
  :    @author Puneet Mathur
+ :    @author Sreekant Lalkota
  :    @version 0.1
  :
  :    Edit Property information 
@@ -310,21 +311,13 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $preferred := request:get-parameter('preferred','')
    let $action := request:get-parameter('update','')
       
-   (:11111111111111111111111111:)
-    let $log := util:log-system-out('printing iversion................')
    let $iversion := data($element/@version)
    let $version := request:get-parameter('version','')
-   let $log := util:log-system-out($iversion)   
    
-   let $log := util:log-system-out($iversion)
-   let $log := util:log-system-out($version)
    let $version := $iversion
-   (:getting proposed version and release version :)
+   
    let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
-   let $log := util:log-system-out('printing proposed version.....from here...........')
    let $version := round-half-to-even(xs:float($proposedNextVersion),2)
-   let $log := util:log-system-out('printing proposed version.....from here...........')
-   let $log := util:log-system-out($version)
    
    let $iregistration_status := string($element//openMDR:registration_status)
    let $registration_status := request:get-parameter('registration_status',$iregistration_status)  
@@ -380,7 +373,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $action,
                      $preferred,
                       (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                   )
                )
@@ -408,7 +401,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $preferred,
                 (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                )
          ) else (
@@ -432,10 +425,12 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $action,
                $ipreferred,
                 (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                )
          )
        )
        
     )
+       
+

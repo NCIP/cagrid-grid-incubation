@@ -17,6 +17,7 @@ xquery version "1.0";
 (:~
  :    @author Rakesh Dhaval
  :    @author Puneet Mathur
+ :    @author Sreekant Lalkota
  :    @version 0.1
  :
  :    Edit Data Element information 
@@ -395,8 +396,8 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $value_domain_id,
                      $example,
                      $precision,
-(: added this so that the version gets saved:)
-                     $version,
+                    (: added this so that the version gets saved:)
+                     $iversion,
                      $registration_status                     
                   )
                )
@@ -425,9 +426,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $value_domain_id,
                $example,
                $precision,
-(: added this so that the version gets saved:)
-                     $version ,
-                    $registration_status                     
+                (: added this so that the version gets saved:)
+                $iversion ,
+                $registration_status                     
                )
          ) else (
                local:input-page(
@@ -451,9 +452,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $ivalue_domain_id,
                $iexample,
                $iprecision,
-(: added this so that the version gets saved:)
-                     $version ,
-                    $registration_status                     
+                (: added this so that the version gets saved:)
+                $iversion ,
+                $registration_status                     
                )
          )
        )

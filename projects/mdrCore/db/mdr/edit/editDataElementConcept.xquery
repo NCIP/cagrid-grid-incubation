@@ -23,6 +23,7 @@ xquery version "1.0";
  :    
  :    @author Rakesh Dhaval
  :    @author Puneet Mathur
+ :    @author Sreekant Lalkota
  :    @version 3.0
  :    allows editing the DataElementConcept
 ~ :)
@@ -397,13 +398,9 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
     let $iobject_class_uri :=$element//openMDR:object_class_qualifier
     let $iproperty_uri :=$element//openMDR:property_qualifier
     
-    (:11111111111111111111111111:)
-   
    let $iversion := data($element/@version)
    let $version := request:get-parameter('version','')
-     
    
- 
    let $version := $iversion
    (:getting proposed version and release version :)
    let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
@@ -466,7 +463,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $object_class_id,
                      $property_id,
                      (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                   )
                )
@@ -496,7 +493,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $object_class_id,
                $property_id,
                (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                )
          ) else (
@@ -522,10 +519,12 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $iobject_class_id,
                $iproperty_id,
                (: added this so that the version gets saved:)
-                     $version,
+                     $iversion,
                      $registration_status
                )
          )
        )
        
     )
+       
+
