@@ -46,12 +46,11 @@ declare function local:action-button($value as xs:string, $control as xs:string,
             "window.opener.document.getElementById('", $control, "-div').innerHTML='",$name,"';",
             "}")}
       }
-   
 };  
 
 declare option exist:serialize "media-type=text/html";
 session:create(),
-let $resource as xs:string := xs:string(request:get-parameter("resource", "EVS-DescLogicConcept"))
+let $resource as xs:string := xs:string(request:get-parameter("resource", "NCIThesaurus"))
 let $element as xs:string := xs:string(request:get-parameter("element", ""))
 let $form-name as xs:string := xs:string(request:get-parameter("form-name", ""))
 let $phrase as xs:string := xs:string(request:get-parameter("phrase", ""))
@@ -110,14 +109,24 @@ return
                         if ($phrase != "") 
                             then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:concept)
                     else ()
+                  let $log:= util:log-system-out('CONCEPTS HERE')
+                  let $log:= util:log-system-out($concepts)
+
                   for $concept in $concepts
                   let $id := $concept/rs:names/rs:id
+                  let $log:=util:log-system-out($id)
                   let $name := $concept/rs:names/rs:preferred
+                  let $log:= util:log-system-out($name)
+
                   let $definition := $concept/rs:definition
+                  let $log:= util:log-system-out($id)
+
                   return
                   <tr class="light-rule">
+                  
                          <td style="vertical-align:top;width:250px;padding:5px;">{lib-uri-resolution:html-anchor($id)}</td>
-                          <td style="vertical-align:top;width:600px;padding:5px;">{$name}: {$definition}</td>
+                  
+                  <td style="vertical-align:top;width:600px;padding:5px;">{$name}: {$definition}</td>
                           <td style="vertical-align:top;width:100px;padding:5px;">{local:action-button($id, $element, "use this term", $name)}</td>     
                   </tr>
             }             
@@ -133,10 +142,11 @@ return
                     else  
                         if ($phrase != "") 
                             then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:recordCounter)
-                    else ()
+                        else ()
 
                     let $div := xs:integer(xs:integer($recordCounter) div xs:integer($count))                    
                     let $mod := xs:integer($recordCounter mod $count)
+                    
                     let $div:= 
                         if (exists($div))
                         then
@@ -147,201 +157,30 @@ return
                             else
                                 let $div:=$div
                             return $div
-                        else()
-                    let $query := lib-qs:getURL($resource, (), $phrase, $start, $count)
-                    let $increment := xs:integer(50)
-                    let $div:=xs:integer($div)-xs:integer(1)
-                    for $i in (0 to $div)  
-                    return
-                    (
-                           if($i gt 0)
-                           then
-                           (
-                               <a href='popup-search-reference-uri.xquery?control={$control}&amp;element={$element}&amp;phrase={$phrase}&amp;request={encode-for-uri(replace($query,'startIndex=0',concat('startIndex=',$i*$increment)))}&amp;resource={$resource}'>{$i+1}</a>
-                            )
-                           else(
-                               <a href='popup-search-reference-uri.xquery?control={$control}&amp;phrase={$phrase}&amp;request={encode-for-uri($query)}&amp;resource={$resource}'>{$i+1}</a>                           
-                           )
-                    )                       
+                        else()                
+                            let $query := lib-qs:getURL($resource, (), $phrase, $start, $count)
+                            (:let $log:= util:log-system-out('QUERY')
+                            let $log:= util:log-system-out($query)
+                            :)
+                            let $increment := xs:integer(50)
+                            let $div:=xs:integer($div)-xs:integer(1)
+                            for $i in (0 to $div)  
+                         return
+                        (
+                               if($i gt 0)
+                               then
+                               (
+                                   <a href='popup-search-reference-uri.xquery?control={$control}&amp;element={$element}&amp;phrase={$phrase}&amp;request={encode-for-uri(replace($query,'startIndex=0',concat('startIndex=',$i*$increment)))}&amp;resource={$resource}'>{$i+1}</a>
+                                )
+                               else(
+                                   <a href='popup-search-reference-uri.xquery?control={$control}&amp;phrase={$phrase}&amp;request={encode-for-uri($query)}&amp;resource={$resource}'>{$i+1}</a>                           
+                               )
+                        )                       
+                     
             }
             </td>
               </tr>
              </table>
-             
-<!--
-                ////
-                return
-                    (
-                           if($i gt 0)
-                           then
-                           (
-                               <td style="vertical-align:top;width:250px;padding:5px;">
-                               <a href='popup-search-reference-uri.xquery?control={$control}&amp;phrase={$phrase}&amp;request={encode-for-uri(replace($query,'startIndex=0',concat('startIndex=',$i*$increment)))}&amp;resource={$resource}'>{$i+1}</a>
-                               </td>
-                           )
-                           else(
-                            <td style="vertical-align:top;width:250px;padding:5px;">
-                               <a href='popup-search-reference-uri.xquery?control={$control}&amp;phrase={$phrase}&amp;request={encode-for-uri($query)}&amp;resource={$resource}'>{$i+1}</a>
-                               </td>
-                           
-                           )
-                    )            
-                    
-                    ///
-                    
-          <table class="layout">
-            {
-                let $concepts :=
-                    if ($request != "") 
-                        then (lib-qs:query($request,$resource)//rs:concept)
-                    else  
-                        if ($phrase != "") 
-                            then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:concept)
-                    else ()
-                  for $concept in $concepts
-                  let $id := $concept/rs:names/rs:id
-                  let $name := $concept/rs:names/rs:preferred
-                  let $definition := $concept/rs:definition
-                  return
-                  <tr class="light-rule">
-                         <td style="vertical-align:top;width:250px;padding:5px;">{lib-uri-resolution:html-anchor($id)}</td>
-                          <td style="vertical-align:top;width:600px;padding:5px;">{$name}: {$definition}</td>
-                          <td style="vertical-align:top;width:100px;padding:5px;">{local:action-button($id, $element, "use this term", $name)}</td>     
-                  </tr>
-            }             
-            </table>    
-            <table class="layout">
-            <tr class="light-rule">
-         
-            {          
-                let $pages :=
-                  if ($request != "") 
-                        then (lib-qs:query($request,$resource)//rs:pages)
-                    else  
-                        if ($phrase != "") 
-                            then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:pages)
-                    else ()
-                    
-                    for $page in $pages/rs:page
-                        let $pagelink:= encode-for-uri($page/rs:pageurl)
-                        let $pagenum:= $page/rs:pagenum
-                    return
-                       <td style="vertical-align:top;width:250px;padding:5px;">
-                       <a href='popup-search-reference-uri.xquery?control=$control&amp;request={$pagelink}&amp;resource={$resource}'>{$pagenum}</a>
-                       </td>   
-            }
-            {             
-                  let $prevlink :=
-                  if ($request != "") 
-                        then (lib-qs:query($request,$resource)//rs:previous)
-                    else  
-                        if ($phrase != "") 
-                            then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:previous)
-                    else ()                   
-                return
-                    <td style="vertical-align:top;width:250px;padding:5px;">
-                    <a href='popup-search-reference-uri.xquery?$control&amp;request={encode-for-uri($prevlink/rs:prevurl)}&amp;resource={$resource}'>{$prevlink/rs:prevname}</a>
-                    </td>                 
-             }             
-            {
-                  let $nextlink :=
-                  if ($request != "") 
-                        then (lib-qs:query($request,$resource)//rs:next)
-                    else  
-                        if ($phrase != "") 
-                            then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:next)
-                    else ()
-                 return
-                    <td style="vertical-align:top;width:250px;padding:5px;">
-                    <a href='popup-search-reference-uri.xquery?request={encode-for-uri($nextlink/rs:nexturl)}&amp;resource={$resource}'>{$nextlink/rs:nextname}</a>
-                    </td>
-             }
-           
-             </tr>
-             </table>
--->
             </form>
       </body>
    </html>
-   
-(: works
-<table class="layout">
-            {
-                let $concepts :=
-                    if ($request != "") 
-                        then (lib-qs:query($request,$resource)//rs:concept)
-                    else  
-                        if ($phrase != "") 
-                            then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:concept)
-                    else ()
-                  for $concept in $concepts
-                  let $id := $concept/rs:names/rs:id
-                  let $name := $concept/rs:names/rs:preferred
-                  let $definition := $concept/rs:definition
-                  return
-                  <tr class="light-rule">
-                         <td style="vertical-align:top;width:250px;padding:5px;">{lib-uri-resolution:html-anchor($id)}</td>
-                          <td style="vertical-align:top;width:600px;padding:5px;">{$name}: {$definition}</td>
-                          <td style="vertical-align:top;width:100px;padding:5px;">{local:action-button($id, $element, "use this term", $name)}</td>     
-                  </tr>
-            }             
-            </table>    
-
-            <table class="layout">
-            <tr class="light-rule">
-            
-            {
-                if (($phrase != "") and ($resource != ""))
-                then
-                (
-                    let $pages := lib-qs:query($resource, (), $phrase, $start, $count)//rs:pages
-                    for $page in $pages/rs:page
-                        let $pagelink:= encode-for-uri($page/rs:pageurl)
-                        let $log:= util:log-system-err($pagelink)
-                        let $pagenum:= $page/rs:pagenum
-                    return
-                       <td style="vertical-align:top;width:250px;padding:5px;">
-                       <a href='popup-search-reference-uri.xquery?request={$pagelink}&amp;resource={$resource}'>{$pagenum}</a>
-                       </td>
-                )
-                else ()                              
-            }
-
-            {
-                if (($phrase != "") and ($resource != ""))
-                then
-                (
-                let $nextlink := lib-qs:query($resource, (), $phrase, $start, $count)//rs:next
-                return
-                    <td style="vertical-align:top;width:250px;padding:5px;">
-                    <a href='popup-search-reference-uri.xquery?request={encode-for-uri($nextlink/rs:nexturl)}&amp;resource={$resource}'>{$nextlink/rs:nextname}</a>
-                    </td>
-                )
-                else ()    
-             }
-             </tr>
-             </table>
-:)
-
-
-            (:        
-            {
-                let $pages := if ($phrase)
-                    then lib-qs:query($resource, (), $phrase, $start, $count)//rs:pages
-                else ()            
-                for $page in $pages/rs:page
-                    let $pagelink:= $page/rs:pageurl
-                    let $pagenum:= $page/rs:pagenum
-                return
-                    <td style="vertical-align:top;width:250px;padding:5px;">
-                    <a href='{$pagelink}'>{$pagenum}</a>
-                    </td>    
-            }
-              {
-                    let $nextlink := if ($phrase)
-                        then lib-qs:query($resource, (), $phrase, $start, $count)//rs:next
-                        else ()
-                    return
-                        <td style="vertical-align:top;width:250px;padding:5px;"><a href='{$nextlink/rs:nexturl}'>{$nextlink/rs:nextname}</a></td>
-             }
-            :)
