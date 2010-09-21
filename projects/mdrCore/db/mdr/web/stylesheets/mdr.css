@@ -1,5 +1,5 @@
 #main_title {
-float:right
+float:left
 }
 
 th {
@@ -22,7 +22,7 @@ td.row-header-cell {
     width: 25%;
     vertical-align:text-top;
     background-color: #dddddd;
-    text-align: right;
+    text-align: left;
     font-weight: bold;
     }
 
@@ -38,7 +38,7 @@ td.left_header_cell_last {
     }
     
 h3.admin_item {
-        text-align: right
+        text-align: left
         }
 
 h2.admin_item {
@@ -58,7 +58,7 @@ div.admin_item_header {
 div.admin_item_section_header {
         font-size: large;
         font-weight: bold;
-        text-align: right;
+        text-align: left;
         border-bottom: 1px solid #000000;
         }
 
