@@ -281,8 +281,15 @@ declare function local:hidden-controls-conceptual-domain()
                 lib-forms:hidden-element('cd-ref-uri',$uris[$pos])
            )
      )else(
+       
          lib-forms:hidden-element('choose-conceptual-domain',request:get-parameter('choose-conceptual-domain','')),
-         lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id',''))
+         lib-forms:hidden-element('conceptual_domain_id',request:get-parameter('conceptual_domain_id','')),
+         
+         let $cd :=  lib-util:mdrElement("conceptual_domain",request:get-parameter('conceptual_domain_id',''))
+         let $context_cd := data($cd//openMDR:context_identifier)
+         return
+         lib-forms:hidden-element('preferred_name_context_cd', $context_cd)
+         
         
      )
 };
