@@ -594,7 +594,7 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       <form name="{$form_name}" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
       {$form-content}
       </form>
-      {$element}
+      <font size="2">Items Selected/Created :</font> {$element}
       </div>
       return lib-rendering:txfrm-webpage($title, $content)
 };
@@ -607,6 +607,7 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       {$form-content}
       </form>
       <table>
+        <td><font size="2">Items Selected/Created :</font></td> 
         <td>{$element}</td>
         <td>{$element2}</td>
       </table>
@@ -622,6 +623,7 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       {$form-content}
       </form>
       <table>
+        <td><font size="2">Items Selected/Created :</font></td> 
         <td>{$element}</td>
         <td>{$element2}</td>
         <td>{$element3}</td>
@@ -638,6 +640,7 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       {$form-content}
       </form>
       <table>
+         <td><font size="2">Items Selected/Created :</font></td> 
          <td>{$element}</td>
          <td>{$element2}</td>
          <td>{$element3}</td>
@@ -655,6 +658,7 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       {$form-content}
       </form>
       <table>
+         <td><font size="2">Items Selected/Created :</font></td> 
          <td>{$element}</td>
          <td>{$element2}</td>
          <td>{$element3}</td>
@@ -673,6 +677,7 @@ declare function lib-forms:wrap-form-contents-withFooter($title as xs:string, $f
       {$form-content}
       </form>
       <table>
+         <td><font size="2">Items Selected/Created :</font></td> 
          <td>{$element}</td>
          <td>{$element2}</td>
          <td>{$element3}</td>
