@@ -20,7 +20,7 @@
         <!--<concept xmlns="http://cagrid.org/schema/result-set">-->
         <concept>
             <names>
-                <id>lexevsapi.nci.nih.gov_EVS-DescLogicConcept_<xsl:value-of select="Code"/></id>
+                <id>lexevsapi.nci.nih.gov_NCIThesaurus_<xsl:value-of select="Code"/></id>
                 <preferred><xsl:value-of select="PropertyCollection/Property[Name='Preferred_Name']/Value"/></preferred>
                 <all-names>
                     <name><xsl:value-of select="PropertyCollection/Property[Name='Preferred_Name']/Value"/></name>
