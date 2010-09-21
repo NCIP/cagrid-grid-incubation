@@ -778,15 +778,15 @@ declare function local:data-element-concept($message as xs:string) as node()
                        <td colspan="5">{lib-forms:input-element('sources_dec',70,request:get-parameter('sources_dec',''))}</td>
                     </tr>,
                 
-                    <tr>
+                    <!--<tr>
                        <td class="left_header_cell">Object Class URI</td>
                        <td align="left" colspan="2">
                           {lib-forms:find-concept-id-edit-false('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
                        </td>
-                   </tr>,
+                   </tr>-->,
                     <tr>
-                        <td class="left_header_cell"> </td>
-                        <td align="left" colspan="2"><i> or select existing </i> 
+                        <td class="left_header_cell"> Object Class URI</td>
+                        <td align="left" colspan="2">
                         {
                         
                             if(request:get-parameter('object_class_id_dec','') eq "Cancel")  then (
@@ -816,15 +816,15 @@ declare function local:data-element-concept($message as xs:string) as node()
                         }
                         </td>
                      </tr>,
-                    <tr>
+                    <!--<tr>
                        <td class="left_header_cell">Property URI</td>
                        <td align="left" colspan="2">
                           {lib-forms:find-concept-id-edit-false('property_uri','get property concept',request:get-parameter('property_uri',''))}
                        </td>
-                   </tr>,
+                   </tr>-->,
                     <tr>
-                        <td class="left_header_cell"> </td>
-                        <td align="left" colspan="2"><i> or select existing </i> 
+                        <td class="left_header_cell">Property URI </td>
+                        <td align="left" colspan="2">
                             {
                                 if(request:get-parameter('property_id_dec','') eq "Cancel")  then (
                                     lib-forms:make-select-form-admin-item-edit-false('property','property_id_dec', session:get-attribute("property_id_dec"),'newDataElementWizard_dec', 'Change Relationship'),
