@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" version="2.0">
+<xsl:stylesheet xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" omit-xml-declaration="yes"/>
     <xsl:strip-space elements="*"/>
     <xsl:template match="/">
@@ -15,7 +15,7 @@
     <xsl:template match="searchBean">
         <concept>
             <names>
-                <id>rest.bioontology.org_Bioportal-OCRe_<xsl:value-of select="conceptIdShort"/>
+                <id>rest.bioontology.org_BioPortal-OCRe_<xsl:value-of select="conceptIdShort"/>
                 </id>
                 <preferred>
                     <xsl:value-of select="preferredName"/>
@@ -67,5 +67,4 @@
         </recordCounter>
     </xsl:template> 
     <!-- Filter out extra nodes -->
-    
 </xsl:stylesheet>

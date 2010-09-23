@@ -29,7 +29,7 @@
                 address NCI's needs for controlled vocabulary.</description>
             <webUrl>http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/vocabulary</webUrl>
         </query_service>
-        <query_service name="BioPortal-Ocre" identifier_prefix="rest.bioontology.org_BioPortal-Ocre" class="org.cagrid.openmdr.ws.query.RestQueryService" serviceUrl="http://rest.bioontology.org/bioportal" cache_collection_id="BioPortal-Ocre" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPT" connection_type="REST" requestSequence="Bioportal-OCRe_Concept_query" digestSequence="Bioportal-OCRe_Concept_construct Bioportal-OCRe_Concept_url Bioportal-OCRe_Concept_def Bioportal-OCRe_Concept_transform add_namespace">
+        <query_service name="BioPortal-Ocre" identifier_prefix="rest.bioontology.org_BioPortal-OCRe" class="org.cagrid.openmdr.ws.query.RestQueryService" serviceUrl="http://rest.bioontology.org/bioportal" cache_collection_id="BioPortal-Ocre" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPT" connection_type="REST" requestSequence="Bioportal-OCRe_Concept_query" digestSequence="Bioportal-OCRe_Concept_construct Bioportal-OCRe_Concept_url Bioportal-OCRe_Concept_def Bioportal-OCRe_Concept_transform add_namespace">
             <title>NCI Enterprise Vocabulary Services (EVS)</title>
             <description>The NCI EVS is a set of services and resources that
                 address NCI's needs for controlled vocabulary.</description>
