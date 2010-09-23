@@ -17,8 +17,9 @@
                 <fdfd> fdfdsfsd</fdfd>
                 <xsl:copy-of select="success/data/classBean/relations/entry"/>
             </xsl:if>  
-            -->
             <xsl:value-of select="success/data/classBean/relations/entry[string='DEFINITION']/list/string"/>
+            -->
+            <xsl:value-of select="success/data/classBean/definitions/string"/>
         </definition>
         <conceptCode>
             <xsl:value-of select="success/data/classBean/relations/entry[string='code']/list/string"/>
