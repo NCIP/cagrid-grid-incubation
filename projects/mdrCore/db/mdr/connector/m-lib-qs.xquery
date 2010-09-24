@@ -123,7 +123,7 @@ declare function lib-qs:makeQuery($qs as node(), $src as xs:string?, $term as xs
                 <q:serviceUrl>{data($qs/@serviceUrl)}</q:serviceUrl>
                 <q:resource>{data($qs/@name)}</q:resource>
                 <q:src>{$src}</q:src>
-                <q:term>{$term}</q:term>
+                <q:term>{encode-for-uri($term)}</q:term>
                 <q:startIndex>{$startIndex}</q:startIndex>
                 <q:numResults>{$numResults}</q:numResults>
             </q:query>
