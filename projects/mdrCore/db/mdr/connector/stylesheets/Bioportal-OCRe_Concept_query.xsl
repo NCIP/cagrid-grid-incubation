@@ -11,7 +11,7 @@
                 </xsl:variable>
                 <xsl:variable name="bioportalURL">
                     <xsl:value-of select="concat(/q:query/q:serviceUrl, '/search/',/q:query/q:term,'?email=rakesh.dhaval@osumc.edu&amp;')" disable-output-escaping="yes"/>
-                    <xsl:text>ontologyids=1032</xsl:text>
+                    <xsl:text>ontologyids=1076</xsl:text>
                 </xsl:variable>
                 <xsl:value-of select="$bioportalURL"/>
             </xsl:when>
@@ -19,7 +19,7 @@
             <xsl:when test="normalize-space(/q:query/q:src/text()) != ''">
                 <xsl:variable name="bioportalURL">
                     <xsl:value-of select="concat(/q:query/q:serviceUrl, '/search/',/q:query/q:term,'?email=rakesh.dhaval@osumc.edu&amp;')" disable-output-escaping="yes"/>
-                    <xsl:text>ontologyids=1032</xsl:text>
+                    <xsl:text>ontologyids=1076</xsl:text>
                 </xsl:variable>
                 <xsl:value-of select="$bioportalURL"/>
             </xsl:when>
@@ -27,14 +27,14 @@
                 <xsl:if test="/q:query/q:term">
                     <xsl:variable name="bioportalURL">
                         <xsl:value-of select="concat(/q:query/q:serviceUrl, '/search/',/q:query/q:term,'?email=rakesh.dhaval@osumc.edu&amp;')" disable-output-escaping="yes"/>
-                        <xsl:text>ontologyids=1032</xsl:text>
+                        <xsl:text>ontologyids=1076</xsl:text>
                     </xsl:variable>
                     <xsl:value-of select="$bioportalURL"/>
                 </xsl:if>
                 <xsl:if test="/q:query/q:id">
                     <xsl:variable name="bioportalURL">
                         <xsl:value-of select="concat(/q:query/q:serviceUrl, '/search/',/q:query/q:term,'?email=rakesh.dhaval@osumc.edu&amp;')" disable-output-escaping="yes"/>
-                        <xsl:text>ontologyids=1032</xsl:text>
+                        <xsl:text>ontologyids=1076</xsl:text>
                     </xsl:variable>
                     <xsl:value-of select="$bioportalURL"/>
                 </xsl:if>

@@ -7,6 +7,6 @@
         <cgResolver:uri rank="1" return="html">http://ncim.nci.nih.gov/ncimbrowser/ConceptReport.jsp?dictionary=NCI%20MetaThesaurus&amp;code=</cgResolver:uri>
     </cgResolver:resource>
     <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-OCRe_">
-        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1032/?conceptid=</cgResolver:uri>
+        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1076/?conceptid=</cgResolver:uri>
     </cgResolver:resource>
 </cgResolver:resolver>
