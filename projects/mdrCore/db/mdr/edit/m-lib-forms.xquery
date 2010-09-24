@@ -304,11 +304,6 @@ declare function lib-forms:make-select-administered_by-nameAndOrg($received-valu
       
       let $id:= data($item//openMDR:Contact[$pos]//@contact_identifier)
       let $organization := data($item//openMDR:organization_name)
-      let $log := util:log-system-out('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
-      let $log := util:log-system-out($name)
-      let $log := util:log-system-out($id)
-      let $log := util:log-system-out($organization)
-      let $log := util:log-system-out($received-value)
       order by $name 
       return lib-forms:select-filler-nameAndOrg($id, $name, $received-value, data($organization))
       }
