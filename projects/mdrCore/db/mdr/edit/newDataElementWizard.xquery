@@ -101,7 +101,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
      let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
      let $uris := request:get-parameter('cd-ref-uri','')
      let $meanings := request:get-parameter('meanings','')
-     
+          
      let $content as node()* := 
             (
             
@@ -127,9 +127,12 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                             else if(request:get-parameter('conceptual_domain_id','') != "")  then (
                                 session:set-attribute("conceptual_domain_id", request:get-parameter('conceptual_domain_id','')),
                                 lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', request:get-parameter('conceptual_domain_id',''),'newDataElementWizard_cd', 'Change Relationship'))
+                            else if(session:get-attribute("conceptual_domain_id") != "")  then (
+                                lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id', session:get-attribute("conceptual_domain_id"),'newDataElementWizard_cd', 'Change Relationship'))
                             
                             else(
                                 lib-forms:make-select-form-admin-item-edit-false('conceptual_domain','conceptual_domain_id',request:get-parameter("conceptual_domain_id",""),'newDataElementWizard_cd', 'Select Relationship')
+                               
                             )    
                             
                         }
@@ -137,6 +140,7 @@ declare function local:conceptual-domain-details($message as xs:string) as node(
                     </tr>                  
                )else if(request:get-parameter('choose-conceptual-domain','')='new')
                then(
+               
                     <tr><td class="left_header_cell">Select Conceptual Domain?</td>
                         <td><input type="radio" name="choose-conceptual-domain" value="existing" onClick="this.form.submit();">existing</input></td>
                         <td><input id="choose-conceptual-domain" type="radio" name="choose-conceptual-domain" value="new" checked="checked" onClick="this.form.submit();">new</input></td>
@@ -334,6 +338,8 @@ declare function local:object-class-details($message as xs:string) as node()
                             else if(request:get-parameter('object_class_id','') != "")  then (
                                 session:set-attribute("object_class_id", request:get-parameter('object_class_id','')),
                                 lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', request:get-parameter('object_class_id',''),'newDataElementWizard_oc', 'Change Relationship'))
+                             else if(session:get-attribute("object_class_id") != "")  then (
+                                lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', session:get-attribute("object_class_id"),'newDataElementWizard_oc', 'Change Relationship'))
                             
                             else(
                                 lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id',request:get-parameter("object_class_id",""),'newDataElementWizard_oc', 'Select Relationship')
@@ -520,6 +526,8 @@ declare function local:property-class-details($message as xs:string) as node()
                             else if(request:get-parameter('property_id','') != "")  then (
                                 session:set-attribute("property_id", request:get-parameter('property_id','')),
                                 lib-forms:make-select-form-admin-item-edit-false('property','property_id', request:get-parameter('property_id',''),'newDataElementWizard_pc', 'Change Relationship'))
+                            else if(session:get-attribute("property_id") != "")  then (
+                                lib-forms:make-select-form-admin-item-edit-false('property','property_id', session:get-attribute("property_id"),'newDataElementWizard_pc', 'Change Relationship'))
                             
                             else(
                                 lib-forms:make-select-form-admin-item-edit-false('property','property_id',request:get-parameter('property_id',''),'newDataElementWizard_pc', 'Select Relationship')
@@ -737,6 +745,8 @@ declare function local:data-element-concept($message as xs:string) as node()
                             else if(request:get-parameter('data_element_concept_id','') != "")  then (
                                 session:set-attribute("data_element_concept_id", request:get-parameter('data_element_concept_id','')),
                                 lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', request:get-parameter('data_element_concept_id',''),'newDataElementWizard_dec', 'Change Relationship'))
+                             else if(session:get-attribute("data_element_concept_id") != "")  then (
+                                lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id', session:get-attribute("data_element_concept_id"),'newDataElementWizard_dec', 'Change Relationship'))
                             
                             else(
                                 lib-forms:make-select-form-admin-item-edit-false('data_element_concept','data_element_concept_id',request:get-parameter("data_element_concept_id",""),'newDataElementWizard_dec', 'Select Relationship')
@@ -998,6 +1008,8 @@ declare function local:value-domain-type($message as xs:string) as node()
                             else if(request:get-parameter('value_domain_id','') != "")  then (
                                 session:set-attribute("value_domain_id", request:get-parameter('value_domain_id','')),
                                 lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', request:get-parameter('value_domain_id',''),'newDataElementWizard_vd', 'Change Relationship'))
+                             else if(session:get-attribute("value_domain_id") != "")  then (
+                                lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id', session:get-attribute("value_domain_id"),'newDataElementWizard_vd', 'Change Relationship'))
                             
                             else(
                                 lib-forms:make-select-form-admin-item-edit-false('value_domain','value_domain_id',request:get-parameter("value_domain_id",""),'newDataElementWizard_vd', 'Select Relationship')
@@ -1401,7 +1413,12 @@ declare function local:confirm($message as xs:string) as node()
             </table>
            
             {
-             local:hidden-controls-admin-items()
+             local:hidden-controls-admin-items(),
+             session:set-attribute("conceptual_domain_id",""),
+             session:set-attribute("object_class_id",""),
+             session:set-attribute("property_id",""),
+             session:set-attribute("data_element_concept_id",""),
+             session:set-attribute("value_domain_id","")
             }
          </div>
       )
@@ -1886,7 +1903,6 @@ declare function local:executeDE()
 };
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
-session:create(),
 
 let $next-page := request:get-parameter('move','')
 let $enum-value-update := request:get-parameter('enum-value-update','')
@@ -1963,6 +1979,12 @@ return
                                                                                          if($state='state_de') 
                                                                                              then local:data-element-details('')
                                                                                          else(
+                                                                                                session:create(),
+                                                                                                session:set-attribute("conceptual_domain_id",""),
+                                                                                                session:set-attribute("object_class_id",""),
+                                                                                                session:set-attribute("property_id",""),
+                                                                                                session:set-attribute("data_element_concept_id",""),
+                                                                                                session:set-attribute("value_domain_id",""),
                                                                                                 local:admin-item-details(''),
                                                                                                 session:set-attribute("savedDataIdCD",""),
                                                                                                 session:set-attribute("savedDataIdOC",""),
