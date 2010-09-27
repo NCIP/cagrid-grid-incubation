@@ -359,13 +359,17 @@ declare function lib-rendering:render_value_domain_common_properties($administer
                             <td>{lib-rendering:unspecified( $unit-of-measure)}</td>
                         </tr>
                         <tr><td class="left_header_cell">Maximum Character Quantity</td><td>{lib-rendering:unspecified($administered_item/openMDR:value_domain_maximum_character_quantity)}</td></tr>
+                        <tr><td class="left_header_cell">Minimum Character Quantity</td><td>{lib-rendering:unspecified($administered_item/openMDR:value_domain_minimum_character_quantity)}</td></tr>
+                        <tr><td class="left_header_cell">Value Domain High Value</td><td>{lib-rendering:unspecified($administered_item/openMDR:value_domain_high_value)}</td></tr>
+                        <tr><td class="left_header_cell">Value Domain Low Value</td><td>{lib-rendering:unspecified($administered_item/openMDR:value_domain_low_value)}</td></tr>
+                        <tr><td class="left_header_cell">Value Domain Decimal Place</td><td>{lib-rendering:unspecified($administered_item/openMDR:value_domain_decimal_place)}</td></tr>
                         <tr><td class="left_header_cell">Format</td><td>{lib-rendering:unspecified($administered_item/openMDR:value_domain_format)}</td></tr>
                         <tr><td class="left_header_cell">Represents conceptual domain</td><td>{administered-item:html-anchor("conceptual_domain",$conceptual_domain_id)}</td></tr>
                  </table>
               </div>
             
 };
-
+                     
 declare function lib-rendering:value_domain_used_in_data_elements($value_domain_id) as element(div)
 {
     <div class="section">
@@ -458,8 +462,8 @@ declare function lib-rendering:related-administered-items($administered-item as 
                         for $related_domain in lib-util:mdrElements($doc_type)
                             let $related_domain_id := lib-util:mdrElementId($related_domain)
                             let $how_related := if ($related_domain//openMDR:related_to[openMDR:related_to=$id]/openMDR:related_to/following-sibling::* >"")
-                                                                 then ($related_domain//openMDR:related_to[openMDR:related_to=$id]/openMDR:related_to/following-sibling::*/text())
-                                                                 else ($related_domain//openMDR:related_to[openMDR:related_to=$id]/openMDR:related_to/preceding-sibling::*/text())
+                                                 then ($related_domain//openMDR:related_to[openMDR:related_to=$id]/openMDR:related_to/following-sibling::*/text())
+                                                 else ($related_domain//openMDR:related_to[openMDR:related_to=$id]/openMDR:related_to/preceding-sibling::*/text())
                               where $related_domain//openMDR:related_to/openMDR:related_to=$id
                              order by  $related_domain_id
                             
@@ -479,8 +483,6 @@ declare function lib-rendering:related-administered-items($administered-item as 
                 </div>
                 
 };
-
-
 
 declare function lib-rendering:registrar($registrar as node()?) as node()
 {

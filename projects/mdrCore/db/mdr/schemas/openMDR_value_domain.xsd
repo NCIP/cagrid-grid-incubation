@@ -17,6 +17,26 @@
                     </xs:element>
                     <xs:element name="value_domain_format" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
                     <xs:element name="value_domain_maximum_character_quantity" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element name="value_domain_minimum_character_quantity" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                    <xs:annotation>
+                        <xs:documentation>the minimum number of characters to represent the Data Element value</xs:documentation>
+                    </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_high_value" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the high value from the range in Data Element value</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_low_value" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the low value from the range in Data Element value</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_decimal_place" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                    <xs:annotation>
+                        <xs:documentation>the decimal place to which the value conforms to in Data Element value</xs:documentation>
+                    </xs:annotation>
+                    </xs:element>
                     <xs:element name="value_domain_unit_of_measure" type="unit_of_measure_identifier" minOccurs="0" maxOccurs="1" nillable="false">
                         <xs:annotation>
                             <xs:documentation>foreignKey: Unit_Of_Measure@unit_of_measure_identifier</xs:documentation>

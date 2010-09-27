@@ -67,6 +67,10 @@ declare function local:value_domain(
    $enum_datatype as xs:string?,
    $enum_uom as xs:string?,
    $char_quantity as xs:string?,
+   $min_char_quantity as xs:string?,
+   $value_domain_high_value as xs:string?,
+   $value_domain_low_value as xs:string?,
+   $value_domain_decimal_place as xs:string?,
    $value_domain_format as xs:string?,
    $values as xs:string*,
    $registration_status as xs:string
@@ -104,8 +108,14 @@ declare function local:value_domain(
             element openMDR:value_domain_datatype {$enum_datatype},
             element openMDR:value_domain_unit_of_measure {$enum_uom},
             element openMDR:value_domain_maximum_character_quantity{$char_quantity},
+            element openMDR:value_domain_minimum_character_quantity{$min_char_quantity},
+            element openMDR:value_domain_high_value{$value_domain_high_value},
+            element openMDR:value_domain_low_value{$value_domain_low_value},
+            element openMDR:value_domain_decimal_place{$value_domain_decimal_place},
             element openMDR:value_domain_format{$value_domain_format}
-    )
+
+
+)
  
    (: compose the document :)
    let $document := (
@@ -154,11 +164,14 @@ declare function local:input-page(
    $enum_datatype as xs:string?,
    $enum_uom as xs:string?,
    $char_quantity as xs:string?,
+   $min_char_quantity as xs:string?,
+   $value_domain_high_value as xs:string?,
+   $value_domain_low_value as xs:string?,
+   $value_domain_decimal_place as xs:string?,
    $value_domain_format as xs:string?,
    $values as xs:string*,
    $registration_status as xs:string?
    ) {
-   (:1111111111111111111:)
    let $version := '0.1'
    
    let $skip-name := substring-after($action,'delete naming entry')
@@ -191,7 +204,6 @@ declare function local:input-page(
                      $sources,
                      $preferred,
                      $action,
-                     (:11111111111111111:)
                      $version,
                      $registration_status
                      )}
@@ -232,7 +244,23 @@ declare function local:input-page(
                                    <td class="left_header_cell">Value Domain Maximum Character Count</td>
                                    <td collspan="3"><input type="text" name="char_quantity"></input></td>
                                </tr>,
-                               
+                                <tr>
+                                   <td class="left_header_cell">Value Domain Minimum Character Length</td>
+                                   <td collspan="3"><input type="text" name="min_char_quantity"></input></td>
+                               </tr>,
+                                <tr>
+                                   <td class="left_header_cell">Value Domain High Value</td>
+                                   <td collspan="3"><input type="text" name="value_domain_high_value"></input></td>
+                               </tr>,
+                                <tr>
+                                   <td class="left_header_cell">Value Domain Low Value</td>
+                                   <td collspan="3"><input type="text" name="value_domain_low_value"></input></td>
+                               </tr>,
+                                <tr>
+                                   <td class="left_header_cell">Value Domain Decimal Place</td>
+                                   <td collspan="3"><input type="text" name="value_domain_decimal_place"></input></td>
+                               </tr>,
+
                                if($concept_domain//openMDR:value_meaning_description > '') 
                                then 
                                (
@@ -315,6 +343,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $enum_datatype := request:get-parameter('enum_datatype','')
    let $enum_uom := request:get-parameter('enum_uom','')
    let $char_quantity := request:get-parameter('char_quantity','')
+   let $min_char_quantity := request:get-parameter('min_char_quantity','')
+   let $value_domain_high_value := request:get-parameter('value_domain_high_value','')
+   let $value_domain_low_value := request:get-parameter('value_domain_low_value','')
+   let $value_domain_decimal_place := request:get-parameter('value_domain_decimal_place','')
    let $value_domain_format := request:get-parameter('value_domain_format','')
    let $registration_status := request:get-parameter('registration_status','')
    return   
@@ -343,6 +375,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $enum_datatype,
                      $enum_uom,
                      $char_quantity,
+                     $min_char_quantity,
+                     $value_domain_high_value,
+                     $value_domain_low_value,
+                     $value_domain_decimal_place,
                      $value_domain_format,
                      $values,
                      $registration_status
@@ -369,6 +405,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $enum_datatype,
                      $enum_uom,
                      $char_quantity,
+                     $min_char_quantity,
+                     $value_domain_high_value,
+                     $value_domain_low_value,
+                     $value_domain_decimal_place,
                      $value_domain_format,
                      $values,
                      $registration_status
@@ -400,6 +440,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_datatype,
                $enum_uom,
                $char_quantity,
+               $min_char_quantity,
+               $value_domain_high_value,
+               $value_domain_low_value,
+               $value_domain_decimal_place,
                $value_domain_format,
                $values,
                $registration_status
@@ -428,6 +472,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_datatype,
                $enum_uom,
                $char_quantity,
+               $min_char_quantity,
+               $value_domain_high_value,
+               $value_domain_low_value,
+               $value_domain_decimal_place,
                $value_domain_format,
                $values,
                $registration_status
@@ -456,6 +504,10 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $enum_datatype,
                $enum_uom,
                $char_quantity,
+               $min_char_quantity,
+               $value_domain_high_value,
+               $value_domain_low_value,
+               $value_domain_decimal_place,
                $value_domain_format,
                $values,
                $registration_status
