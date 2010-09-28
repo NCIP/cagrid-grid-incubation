@@ -37,7 +37,7 @@
     <xsl:template match="conceptIdShort">
         <xsl:variable name="conceptIdShort" select="."/>
         <conceptIdShort>
-			<xsl:value-of select="encode-for-uri($conceptIdShort)"/>
+			<xsl:value-of select="$conceptIdShort"/>
         </conceptIdShort>
     </xsl:template>
     <xsl:template match="preferredName">

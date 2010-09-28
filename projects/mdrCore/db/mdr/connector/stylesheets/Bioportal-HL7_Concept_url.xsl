@@ -39,7 +39,7 @@
                     <xsl:value-of select="'simple'"/>
                 </xsl:attribute>
                 <xsl:attribute name="xlink:href">
-                    <xsl:value-of select="concat(htmlURL,'/',ontologyId,'/','?conceptid=',conceptIdShort)"/>
+					<xsl:value-of select="concat(definitionRef,'/',ontologyId,'/',encode-for-uri(conceptIdShort))"/>
                 </xsl:attribute>
             </htmlURL>
             <original_data>
