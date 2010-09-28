@@ -9,4 +9,7 @@
     <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-OCRe_">
         <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1076/?conceptid=</cgResolver:uri>
     </cgResolver:resource>
+        <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-HL7_">
+        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1343/?conceptid=</cgResolver:uri>
+    </cgResolver:resource>
 </cgResolver:resolver>

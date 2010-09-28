@@ -64,6 +64,20 @@ if (starts-with($urn,"lexevsapi.nci.nih.gov_NCIThesaurus"))
             and $uri/@return=$return-type
             return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
         )
+    else if (starts-with($urn,"rest.bioontology.org_BioPortal-HL7"))
+    then (
+        let $log:= util:log-system-out('RESOURCE-URN')
+        let $urn := concat("urn:",$urn)
+        for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
+        let $resource-urn := data($resource/@urn)
+        let $log:= util:log-system-out('RESOURCE-URN')
+        let $log:= util:log-system-out($resource-urn)
+        return
+            for $uri in $resource/cgResolver:uri  
+            where $uri/@rank = "1"
+            and $uri/@return=$return-type
+            return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
+        )
     else $urn
 )    
    

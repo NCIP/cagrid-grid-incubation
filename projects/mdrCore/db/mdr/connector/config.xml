@@ -34,5 +34,10 @@
             <description>The NCBO Bioportal is a BioPortal is a Web-based application for accessing and sharing biomedical ontologies.</description>
             <webUrl>http://bioportal.bioontology.org/</webUrl>
         </query_service>
+        <query_service name="BioPortal-HL7" identifier_prefix="rest.bioontology.org_BioPortal-HL7" class="org.cagrid.openmdr.ws.query.RestQueryService" serviceUrl="http://rest.bioontology.org/bioportal" cache_collection_id="BioPortal-Ocre" cache="false" cache_provider="HibernateCacheProvider" category="CONCEPT" connection_type="REST" requestSequence="Bioportal-HL7_Concept_query" digestSequence="Bioportal-OCRe_Concept_construct Bioportal-HL7_Concept_url Bioportal-OCRe_Concept_def Bioportal-OCRe_Concept_transform add_namespace">
+            <title>NCBO BioPortal Services</title>
+            <description>The NCBO Bioportal is a BioPortal is a Web-based application for accessing and sharing biomedical ontologies.</description>
+            <webUrl>http://bioportal.bioontology.org/</webUrl>
+        </query_service>
     </resources>
 </config>
