@@ -66,12 +66,53 @@ if (starts-with($urn,"lexevsapi.nci.nih.gov_NCIThesaurus"))
         )
     else if (starts-with($urn,"rest.bioontology.org_BioPortal-HL7"))
     then (
-        let $log:= util:log-system-out('RESOURCE-URN')
         let $urn := concat("urn:",$urn)
         for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
         let $resource-urn := data($resource/@urn)
-        let $log:= util:log-system-out('RESOURCE-URN')
-        let $log:= util:log-system-out($resource-urn)
+        return
+            for $uri in $resource/cgResolver:uri  
+            where $uri/@rank = "1"
+            and $uri/@return=$return-type
+            return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
+        )
+        else if (starts-with($urn,"rest.bioontology.org_BioPortal-GO"))
+    then (
+        let $urn := concat("urn:",$urn)
+        for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
+        let $resource-urn := data($resource/@urn)
+        return
+            for $uri in $resource/cgResolver:uri  
+            where $uri/@rank = "1"
+            and $uri/@return=$return-type
+            return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
+        )
+        else if (starts-with($urn,"rest.bioontology.org_BioPortal-ICD9"))
+    then (
+        let $urn := concat("urn:",$urn)
+        for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
+        let $resource-urn := data($resource/@urn)
+        return
+            for $uri in $resource/cgResolver:uri  
+            where $uri/@rank = "1"
+            and $uri/@return=$return-type
+            return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
+        )
+        else if (starts-with($urn,"rest.bioontology.org_BioPortal-SNOMEDCT"))
+    then (
+        let $urn := concat("urn:",$urn)
+        for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
+        let $resource-urn := data($resource/@urn)
+        return
+            for $uri in $resource/cgResolver:uri  
+            where $uri/@rank = "1"
+            and $uri/@return=$return-type
+            return replace(xs:string($urn), xs:string($resource-urn), xs:string($uri/text()))
+        )
+        else if (starts-with($urn,"rest.bioontology.org_BioPortal-LOINC"))
+    then (
+        let $urn := concat("urn:",$urn)
+        for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
+        let $resource-urn := data($resource/@urn)
         return
             for $uri in $resource/cgResolver:uri  
             where $uri/@rank = "1"
@@ -85,9 +126,10 @@ if (starts-with($urn,"lexevsapi.nci.nih.gov_NCIThesaurus"))
 
 declare function lib-uri-resolution:html-anchor($urn as xs:string, $return-type as xs:string) as element(a)
 {
+(:
 let $log:= util:log-system-err('PASSING URN')
 let $log:= util:log-system-err($urn)
-(:let $log:= util:log-system-err(lib-uri-resolution:resolve($urn, $return-type))
+let $log:= util:log-system-err(lib-uri-resolution:resolve($urn, $return-type))
 :)
 let $uri as xs:anyURI := lib-uri-resolution:resolve($urn, $return-type)
 return
