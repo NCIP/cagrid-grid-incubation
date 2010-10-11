@@ -983,7 +983,7 @@ declare function local:value-domain-type($message as xs:string) as node()
    (:let $conceptual_domain_id := request:get-parameter('conceptual_domain_id','')
    :)
    
-   let $values := ''
+   
    let $content as node()* := 
       (
          <div xmlns="http://www.w3.org/1999/xhtml">
@@ -1087,11 +1087,11 @@ declare function local:value-domain-type($message as xs:string) as node()
                                </tr>,                         
                                   <tr>
                                    <td class="left_header_cell">Value Domain Format (E.g. MM-DD-YYYY)</td>
-                                   <td collspan="3"><input type="text" name="value_domain_format"></input></td>
+                                   <td collspan="3">{lib-forms:input-element('value_domain_format', 20, request:get-parameter('value_domain_format',''))}</td>
                                </tr>,                               
                                   <tr>
                                    <td class="left_header_cell">Value Domain Maximum Character Count</td>
-                                   <td collspan="3"><input type="text" name="char_quantity"></input></td>
+                                   <td collspan="3">{lib-forms:input-element('char_quantity', 20, request:get-parameter('char_quantity',''))}</td>
                                </tr>,
                                
                                if($concept_domain//openMDR:value_meaning_description > '') 
@@ -1104,12 +1104,16 @@ declare function local:value-domain-type($message as xs:string) as node()
                                         <td/>
                                     </tr>,
                                         for $meaning at $pos in $concept_domain//openMDR:value_meaning_description
+                                        let $values := request:get-parameter('values[$pos]','')
+                                        let $log := util:log-system-out('*******************')
+                                        let $log := util:log-system-out($values)
                                         return (
                                            
                                            <tr class="thickBorder td">
                                               <td class="left_header_cell">Permissable Value {$pos}</td>
                                               <td>{$meaning}</td>
                                               <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
+                                              
                                            </tr>
                                         )
                                ) else ()
@@ -1159,12 +1163,19 @@ declare function local:hidden-controls-value-domain()
         lib-forms:hidden-element('language-identifiers_vd',request:get-parameter('language-identifiers_vd','')),
         lib-forms:hidden-element('sources_vd',request:get-parameter('sources_vd','')),
         lib-forms:hidden-element('conceptual_domain_id_vd',request:get-parameter('conceptual_domain_id_vd','')),
-        lib-forms:hidden-element('value_domain_id',request:get-parameter('value_domain_id',''))
+        lib-forms:hidden-element('value_domain_id',request:get-parameter('value_domain_id','')),
+        
+        lib-forms:hidden-element('enum_datatype',request:get-parameter('enum_datatype','')),
+        lib-forms:hidden-element('enum_uom',request:get-parameter('enum_uom','')),
+        lib-forms:hidden-element('value_domain_format',request:get-parameter('value_domain_format','')),
+        lib-forms:hidden-element('char_quantity',request:get-parameter('char_quantity','')),
+        for $val at $pos in request:get-parameter('values','')
+        return
+        lib-forms:hidden-element('values[$pos]',$val)
     )else(
         lib-forms:hidden-element('choose-value-domain',request:get-parameter('choose-value-domain','')),
         lib-forms:hidden-element('value_domain_id',request:get-parameter('value_domain_id',''))
     )
-
 };
 
 declare function local:savedDEDEC()
@@ -1751,7 +1762,7 @@ declare function local:executeVD()
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
    let $registration_status := request:get-parameter('registration-status','')
-   let $conceptual_domain_id as xs:string? := request:get-parameter('conceptual_domain_id_dec','')
+   let $conceptual_domain_id := request:get-parameter('conceptual_domain_id_vd','')
    
    let $context-ids := request:get-parameter('preferred_name_context_vd',())
    let $country-identifiers := request:get-parameter('country-identifiers_vd',())
@@ -1777,7 +1788,7 @@ declare function local:executeVD()
    
    let $new-identifier := concat($reg-auth, '_', $data-identifier, '_', $version)
    let $doc-name := concat($new-identifier,'.xml')
-   let $concept_domain := lib-util:mdrElement("conceptual_domain_dec",$conceptual_domain_id)   
+   let $concept_domain := lib-util:mdrElement("conceptual_domain",$conceptual_domain_id)   
    let $value_meaning-identifier  := data($concept_domain//openMDR:value_meaning_identifier)
    let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
    let $content := (
