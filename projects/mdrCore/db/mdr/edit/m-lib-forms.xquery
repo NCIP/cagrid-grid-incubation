@@ -784,13 +784,13 @@ declare function lib-forms:edit-admin-item(
         where $pos != $skip-name-index and $name > ""
         return
         (
-        <div class="tabbertab">
-          <h2>Preferred Name {$location}</h2>
+        <div class="section">
+          <!--<h2>Preferred Name {$location}</h2>-->
           <p>
               <table class="section">
-
+                <tr><td class="row-header-cell" colspan="6">Preferred Name</td></tr>
                 <tr>
-                   <td class="left_header_cell">Context</td>
+                   <td class="left_header_cell">Context <font color="red">*</font></td>
                    <td colspan="5">
                       {lib-forms:select-from-contexts-enum('context-ids',$context-ids[$pos])}
                    </td>
@@ -834,8 +834,9 @@ declare function lib-forms:edit-admin-item(
                    <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
                 </tr>
             
+                <!-- commenting this as we do not support adding another name
                 <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$location), 'action' ,'')}</td></tr>
-                <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>
+                <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>-->
              </table>
           </p>
        </div>
@@ -846,19 +847,26 @@ declare function lib-forms:edit-admin-item(
         ) else (),
         
         if((($names > '') != xs:boolean('true')) or $action = 'add another name')  then (
-          <div class="tabbertab">
-          {
+          <div class="section">
+          
+          <!--{
           if($names > '') then (
             <h2>New Naming Entry</h2>
            ) else (
             <h2>Preferred Name</h2>
            )
-          }
+          }-->
               <p>
                   <table class="section">
-              
+                    {
+                     if($names > '') then(
+                        <tr><td class="row-header-cell" colspan="6">New Naming Entry</td></tr>
+                      )else(
+                       <tr><td class="row-header-cell" colspan="6">Preferred Name</td></tr>
+                      )
+                    }
                     <tr>
-                       <td class="left_header_cell">Context</td>
+                       <td class="left_header_cell">Context <font color="red">*</font></td>
                        <td colspan="5">
                           {lib-forms:select-from-contexts-enum('context-ids','')}
                        </td>
@@ -1095,7 +1103,7 @@ declare function lib-forms:edit-admin-item(
 </table>
 };
 
-(:1111111111111111111111111111111 edit object class adding this for edit object class:)
+(: edit object class adding this for edit object class:)
 declare function lib-forms:edit-admin-item-edit(
  $reg-auth as xs:string?,
    $administrative-note  as xs:string?,
@@ -1153,13 +1161,14 @@ declare function lib-forms:edit-admin-item-edit(
         where $pos != $skip-name-index and $name > ""
         return
         (
-        <div class="tabbertab">
-          <h2>Preferred Name {$location}</h2>
+        <div class="section">
+        <!--<div class="tabbertab">
+          <h2>Preferred Name {$location}</h2>-->
           <p>
               <table class="section">
-
+                <tr><td class="row-header-cell" colspan="6">Preferred Name</td></tr>
                 <tr>
-                   <td class="left_header_cell">Context</td>
+                   <td class="left_header_cell">Context <font color="red">*</font></td>
                    <td colspan="5">
                       {lib-forms:select-from-contexts-enum('context-ids',$context-ids[$pos])}
                    </td>
@@ -1203,8 +1212,9 @@ declare function lib-forms:edit-admin-item-edit(
                    <td colspan="5">{lib-forms:input-element('sources',70,$sources[$pos])}</td>
                 </tr>
             
+                <!-- disabling this feature to add additional name
                 <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button(concat('delete naming entry ',$location), 'action' ,'')}</td></tr>
-                <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>
+                <tr><td class="left_header_cell"/><td colspan="5">{lib-forms:action-button('add another name', 'action' ,'')}</td></tr>-->
              </table>
           </p>
        </div>
@@ -1215,19 +1225,26 @@ declare function lib-forms:edit-admin-item-edit(
         ) else (),
         
         if((($names > '') != xs:boolean('true')) or $action = 'add another name')  then (
-          <div class="tabbertab">
+          <div class="section">
+          <!--<div class="tabbertab">
           {
           if($names > '') then (
             <h2>New Naming Entry</h2>
            ) else (
             <h2>Preferred Name</h2>
            )
-          }
+          }-->
               <p>
                   <table class="section">
-              
+                     {
+                        if($names > '') then (
+                          <tr><td class="row-header-cell" colspan="6">New Naming Entry</td></tr>
+                         ) else (
+                          <tr><td class="row-header-cell" colspan="6">Preferred Name</td></tr>
+                         )
+                     }
                     <tr>
-                       <td class="left_header_cell">Context</td>
+                       <td class="left_header_cell">Context <font color="red">*</font></td>
                        <td colspan="5">
                           {lib-forms:select-from-contexts-enum('context-ids','')}
                        </td>

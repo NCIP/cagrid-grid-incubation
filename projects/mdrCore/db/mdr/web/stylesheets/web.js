@@ -54,7 +54,8 @@ function validate_adminItems ()
     adminstatus = document.getElementById('administrative-status');
     regstatus = document.getElementById('registration_status');
     names = document.getElementById('names');
-          
+    context = document.getElementById('context-ids');
+    
     if (regauth.options[regauth.selectedIndex].value == "")
     { 
         errors[i] = "Registration Authority" ;
@@ -86,11 +87,6 @@ function validate_adminItems ()
         errors[i] = "Administrative Status" ;
         i++;
     }
-    if (names.value == "")
-    { 
-        errors[i] = "Name" ;
-        i++;
-    }
     
     if (regstatus.options[regstatus.selectedIndex].value == "")
     { 
@@ -98,6 +94,18 @@ function validate_adminItems ()
         i++;
     }
     
+    if (names.value == "")
+    { 
+        errors[i] = "Name" ;
+        i++;
+    }
+    
+    if (context.value == "")
+    { 
+        errors[i] = "Context" ;
+        i++;
+    }
+   
     if(errors.length>0)
     {
         errMsg = "Please make sure you enter/select the following items :- \n ";
