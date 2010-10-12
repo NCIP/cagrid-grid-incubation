@@ -1094,6 +1094,23 @@ declare function local:value-domain-type($message as xs:string) as node()
                                    <td collspan="3">{lib-forms:input-element('char_quantity', 20, request:get-parameter('char_quantity',''))}</td>
                                </tr>,
                                
+                                <tr>
+                                   <td class="left_header_cell">Value Domain Minimum Character Length</td>
+                                   <td collspan="3">{lib-forms:input-element('min_char_quantity', 20, request:get-parameter('min_char_quantity',''))}</td>
+                               </tr>,
+                                <tr>
+                                   <td class="left_header_cell">Value Domain High Value</td>
+                                   <td collspan="3">{lib-forms:input-element('value_domain_high_value', 20, request:get-parameter('value_domain_high_value',''))}</td>
+                               </tr>,
+                                <tr>
+                                   <td class="left_header_cell">Value Domain Low Value</td>
+                                   <td collspan="3">{lib-forms:input-element('value_domain_low_value', 20, request:get-parameter('value_domain_low_value',''))}</td>
+                               </tr>,
+                                <tr>
+                                   <td class="left_header_cell">Value Domain Decimal Place</td>
+                                   <td collspan="3">{lib-forms:input-element('value_domain_decimal_place', 20, request:get-parameter('value_domain_decimal_place',''))}</td>
+                               </tr>,
+                               
                                if($concept_domain//openMDR:value_meaning_description > '') 
                                then 
                                (
@@ -1105,16 +1122,12 @@ declare function local:value-domain-type($message as xs:string) as node()
                                     </tr>,
                                         for $meaning at $pos in $concept_domain//openMDR:value_meaning_description
                                         let $values := request:get-parameter('values[$pos]','')
-                                        let $log := util:log-system-out('*******************')
-                                        let $log := util:log-system-out($values)
                                         return (
-                                           
                                            <tr class="thickBorder td">
                                               <td class="left_header_cell">Permissable Value {$pos}</td>
                                               <td>{$meaning}</td>
                                               <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
-                                              
-                                           </tr>
+                                            </tr>
                                         )
                                ) else ()
                             ) 
@@ -1169,6 +1182,12 @@ declare function local:hidden-controls-value-domain()
         lib-forms:hidden-element('enum_uom',request:get-parameter('enum_uom','')),
         lib-forms:hidden-element('value_domain_format',request:get-parameter('value_domain_format','')),
         lib-forms:hidden-element('char_quantity',request:get-parameter('char_quantity','')),
+        
+        lib-forms:hidden-element('min_char_quantity',request:get-parameter('min_char_quantity','')),
+        lib-forms:hidden-element('value_domain_high_value',request:get-parameter('value_domain_high_value','')),
+        lib-forms:hidden-element('value_domain_low_value',request:get-parameter('value_domain_low_value','')),
+        lib-forms:hidden-element('value_domain_decimal_place',request:get-parameter('value_domain_decimal_place','')),
+        
         for $val at $pos in request:get-parameter('values','')
         return
         lib-forms:hidden-element('values[$pos]',$val)
@@ -1777,6 +1796,11 @@ declare function local:executeVD()
    let $char_quantity := request:get-parameter('char_quantity','')
    let $value_domain_format := request:get-parameter('value_domain_format','')
    
+   let $min_char_quantity := request:get-parameter('min_char_quantity','')
+   let $value_domain_high_value := request:get-parameter('value_domain_high_value','')
+   let $value_domain_low_value := request:get-parameter('value_domain_low_value','')
+   let $value_domain_decimal_place := request:get-parameter('value_domain_decimal_place','')
+   
    let $data-identifier := lib-forms:generate-id()
    
    let $data-identifier-Existing := session:get-attribute('savedDataIdVD')
@@ -1816,6 +1840,10 @@ declare function local:executeVD()
             element openMDR:value_domain_datatype {$enum_datatype},
             element openMDR:value_domain_unit_of_measure {$enum_uom},
             element openMDR:value_domain_maximum_character_quantity{$char_quantity},
+            element openMDR:value_domain_minimum_character_quantity{$min_char_quantity},
+            element openMDR:value_domain_high_value{$value_domain_high_value},
+            element openMDR:value_domain_low_value{$value_domain_low_value},
+            element openMDR:value_domain_decimal_place{$value_domain_decimal_place},
             element openMDR:value_domain_format{$value_domain_format}
     )
  
