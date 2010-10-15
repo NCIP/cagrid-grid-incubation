@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:q="http://cagrid.org/schema/query" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:q="http://cagrid.org/schema/query" version="2.0">
     <xsl:output indent="yes" omit-xml-declaration="yes" method="text"/>
     <xsl:template match="/">
         <xsl:choose>
