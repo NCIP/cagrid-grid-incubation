@@ -40,7 +40,81 @@ function changeLetter(letter)
       form.start.value = 1;
       form.submit();
     }
+
+function validate_AnnotatedModel ()
+{
+    valid = true;
+    errors = new Array();
+    i=0;
     
+    file = document.getElementById('file');
+    projectLongName = document.getElementById('project_long_name');
+    projectShortName = document.getElementById('project_short_name');
+    projectVersion = document.getElementById('project_version');
+    projectDescription = document.getElementById('project_description')
+    serviceURL = document.getElementById('service_url')
+    
+    if(file.value > "" && file.value.lastIndexOf(".xmi")==-1)
+    {
+        errors[i] = "Select a valid XMI File" ;
+        i++;
+    }
+    
+    if(projectVersion.value > ""  && !projectVersion.value.match(/^\d+\.\d{1}$/) )
+    {
+        errors[i] = "Project version must be of format x or x.x (Ex: 1.0 or 1.1)" ;
+        i++;
+    }
+    
+    if (file.value == "")
+    { 
+        errors[i] = "Valid XMI File" ;
+        i++;
+    }
+    
+    if (projectLongName.value == "")
+    { 
+        errors[i] = "Project Long Name" ;
+        i++;
+    }
+    
+    if (projectShortName.value == "")
+    { 
+        errors[i] = "Project Short Name" ;
+        i++;
+    }
+    
+    if (projectVersion.value == "")
+    { 
+        errors[i] = "Project Version" ;
+        i++;
+    }
+    
+    if (projectDescription.value == "")
+    { 
+        errors[i] = "Project Description" ;
+        i++;
+    }
+    
+    if (serviceURL.value == "")
+    { 
+        errors[i] = "Service URL" ;
+        i++;
+    }
+    
+    if(errors.length>0)
+    {
+        errMsg = "Please make sure you enter/select the following items :- \n ";
+        for(j=0; j<errors.length; j++){
+            errMsg = errMsg + "\n" + errors[j];
+        }
+        alert(errMsg);
+        valid = false;
+    }    
+    
+    return valid;
+}
+
 function validate_adminItems ()
 {
     valid = true;

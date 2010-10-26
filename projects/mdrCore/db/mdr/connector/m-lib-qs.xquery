@@ -83,6 +83,47 @@ declare function lib-qs:getURL($resource as xs:string, $src as xs:string?, $term
     else ()
 };
 
+(:Get URL for openMDR:)
+(:~ Create Query URL :)
+declare function lib-qs:getURLopenMDR($resource as xs:string, $src as xs:string?, $term as xs:string, $startIndex as xs:int, $numResults as xs:int) as node()
+{
+    let $qs := doc("/db/mdr/connector/config.xml")/c:config/c:resources/c:query_service[@name=$resource]
+    let $query :=  lib-qs:makeQueryopenMDR($qs, $src, $term, $startIndex, $numResults)
+    let $connectionType := $qs/@connection_type
+    return
+    if ($query)  
+    then
+        if ($qs/@connection_type = "REST")
+        then
+            (: Generate resource specific query :)
+            let $request := lib-qs:chain-transform($query, tokenize(data($qs/@requestSequence), ' '))    
+            return
+                $request
+        else ()
+    else ()
+};
+
+(:Get URL for caDSR:)
+(:~ Create Query URL :)
+declare function lib-qs:getURLcaDSR($resource as xs:string, $src as xs:string?, $term as xs:string, $startIndex as xs:int, $numResults as xs:int) as node()
+{
+    let $qs := doc("/db/mdr/connector/config.xml")/c:config/c:resources/c:query_service[@name=$resource]
+    let $query :=  lib-qs:makeQuerycaDSR($qs, $src, $term, $startIndex, $numResults)
+    let $connectionType := $qs/@connection_type
+    return
+    if ($query)  
+    then
+        if ($qs/@connection_type = "REST")
+        then
+            (: Generate resource specific query :)
+            let $request := lib-qs:chain-transform($query, tokenize(data($qs/@requestSequence), ' '))    
+            return
+                $request
+        else ()
+    else ()
+};
+
+
 (:~ Query knowledge resources :)
 declare function lib-qs:query($resource as xs:string, $src as xs:string?, $term as xs:string, $startIndex as xs:int, $numResults as xs:int) as node()?
 {
@@ -124,6 +165,33 @@ declare function lib-qs:makeQuery($qs as node(), $src as xs:string?, $term as xs
                 <q:resource>{data($qs/@name)}</q:resource>
                 <q:src>{$src}</q:src>
                 <q:term>{encode-for-uri($term)}</q:term>
+                <q:startIndex>{$startIndex}</q:startIndex>
+                <q:numResults>{$numResults}</q:numResults>
+            </q:query>
+};
+
+
+(:~ Convert user input to common query format expected by the XSLTs :)
+declare function lib-qs:makeQueryopenMDR($qs as node(), $src as xs:string?, $term as xs:string, $startIndex as xs:int, $numResults as xs:int) as node()?
+{
+            <q:query>
+                <q:serviceUrl>{data($qs/@serviceUrl)}</q:serviceUrl>
+                <q:resource>{data($qs/@name)}</q:resource>
+                <q:src>{$src}</q:src>
+                <q:id>{encode-for-uri($term)}</q:id>
+                <q:startIndex>{$startIndex}</q:startIndex>
+                <q:numResults>{$numResults}</q:numResults>
+            </q:query>
+};
+
+(:~ Convert user input to common query format expected by the XSLTs :)
+declare function lib-qs:makeQuerycaDSR($qs as node(), $src as xs:string?, $term as xs:string, $startIndex as xs:int, $numResults as xs:int) as node()?
+{
+            <q:query>
+                <q:serviceUrl>{data($qs/@serviceUrl)}</q:serviceUrl>
+                <q:resource>{data($qs/@name)}</q:resource>
+                <q:src>{$src}</q:src>
+                <q:id>{encode-for-uri($term)}</q:id>
                 <q:startIndex>{$startIndex}</q:startIndex>
                 <q:numResults>{$numResults}</q:numResults>
             </q:query>

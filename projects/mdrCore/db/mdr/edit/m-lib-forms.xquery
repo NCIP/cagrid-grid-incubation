@@ -266,7 +266,7 @@ declare function lib-forms:make-select-submitted_by-nameAndOrg($received-value a
       for $item in lib-util:mdrElements('organization')//openMDR:Organization
       for $u at $pos in $item//openMDR:Contact
       let $name:= data($item//openMDR:Contact[$pos]//openMDR:contact_name)
-      let $id:= data($item//openMDR:Contact//@contact_identifier)
+      let $id:= data($item//openMDR:Contact[$pos]//@contact_identifier)
       let $organization := data($item//openMDR:organization_name)
       order by $name
       return lib-forms:select-filler-nameAndOrg($id, $name, $received-value,data($organization))
