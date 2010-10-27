@@ -113,7 +113,7 @@ declare function local:checkValidity($aftertransform as element()*) as xs:string
                 if($qs eq 'openMDR')
                 then(
                     let $log := util:log-system-out('Searching openMDR for CDE with id')
-                    let $id := substring-after($element/@value,'_')
+                    let $id := string($element/@value)
                     let $log := util:log-system-out($id)
                                   
                     let $query := lib-qs:getURLcaDSR($qs, (), $id, $start, $end)
