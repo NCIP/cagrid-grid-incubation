@@ -62,7 +62,7 @@ function validate_AnnotatedModel ()
     
     if(projectVersion.value > ""  && !projectVersion.value.match(/^\d+\.\d{1}$/) )
     {
-        errors[i] = "Project version must be of format x or x.x (Ex: 1.0 or 1.1)" ;
+        errors[i] = "Project version must be decimal of format x.x (Ex: 1.0 or 1.1)" ;
         i++;
     }
     
