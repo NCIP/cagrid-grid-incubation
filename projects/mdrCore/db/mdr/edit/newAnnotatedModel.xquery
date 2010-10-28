@@ -65,11 +65,12 @@ declare function local:validateUML($file-name as xs:string) as xs:string
     return
     if($search-CDERef > '')
         then (
-             let $transform := doc("/db/mdr/connector/stylesheets/openMDR_transform.xsl")
+             let $transform := doc("/db/mdr/connector/stylesheets/umlValidation_transform.xsl")
              let $aftertransform := transform:transform($uml-doc,$transform,())
+             
              let $check := local:checkValidity($aftertransform)
              return 
-             if(contains($check,'invalid'))
+             if(count($check) eq 0 or contains($check,'invalid'))
                 then 'invalid'             
              else 
                 'valid'
@@ -87,7 +88,7 @@ declare function local:validateUML($file-name as xs:string) as xs:string
     param: aftertransform contains values of CDERef extracted from the xmi 
 :)
 declare function local:checkValidity($aftertransform as element()*) as xs:string* {
-    for $element at $pos in $aftertransform
+     for $element at $pos in $aftertransform
         let $resource := substring-before($element/@value,'_')
         let $qs := string(doc("/db/mdr/connector/config.xml")/c:config/c:resources/c:query_service[@identifier_prefix=$resource]/@name)
         let $start := 0
@@ -107,7 +108,8 @@ declare function local:checkValidity($aftertransform as element()*) as xs:string
                     if($response > '')
                         then 'valid'
                     else
-                        'invalid' 
+                        let $invalidCDEs :=   session:set-attribute("invalidCDEs",concat(session:get-attribute('invalidCDEs'),' ',$id))
+                        return 'invalid' 
              )
             else(
                 if($qs eq 'openMDR')
@@ -247,7 +249,8 @@ declare function local:input-page(
               </div>
           </form>
           </td></tr>
-          <tr><td><font color="red">{$message}</font></td></tr>
+          <tr><td><font size="3" color="red">{$message}</font></td></tr>
+          <tr><td><font size="2" color="red">{session:get-attribute('invalidCDEs'),session:set-attribute("invalidCDEs","")}</font></td></tr>
         </table>
      </div>
    };
@@ -297,7 +300,7 @@ session:create(),
             ) 
          then local:success-page()  
          else (local:input-page(
-            'Cannot store Invalid UML. Make sure you select .xmi file with valid CDEs in openMDR or caDSR',
+         'Select UML (.xmi) file with valid CDEs in openMDR or caDSR. Invalid CDEs :',
                      $project_long_name,
                      $project_short_name,
                      $project_version,
