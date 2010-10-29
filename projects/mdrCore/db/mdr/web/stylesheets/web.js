@@ -50,7 +50,7 @@ function validate_AnnotatedModel ()
     file = document.getElementById('file');
     projectLongName = document.getElementById('project_long_name');
     projectShortName = document.getElementById('project_short_name');
-    projectVersion = document.getElementById('project_version');
+    //projectVersion = document.getElementById('project_version');
     projectDescription = document.getElementById('project_description')
     serviceURL = document.getElementById('service_url')
     
@@ -60,11 +60,11 @@ function validate_AnnotatedModel ()
         i++;
     }
     
-    if(projectVersion.value > ""  && !projectVersion.value.match(/^\d+\.\d{1}$/) )
-    {
-        errors[i] = "Project version must be decimal of format x.x (Ex: 1.0 or 1.1)" ;
-        i++;
-    }
+    //if(projectVersion.value > ""  && !projectVersion.value.match(/^\d+\.\d{1}$/) )
+    //{
+    //    errors[i] = "Project version must be decimal of format x.x (Ex: 1.0 or 1.1)" ;
+    //    i++;
+    //}
     
     if (file.value == "")
     { 
@@ -84,11 +84,11 @@ function validate_AnnotatedModel ()
         i++;
     }
     
-    if (projectVersion.value == "")
-    { 
-        errors[i] = "Project Version" ;
-        i++;
-    }
+    //if (projectVersion.value == "")
+    //{ 
+    //    errors[i] = "Project Version" ;
+    //    i++;
+    //}
     
     if (projectDescription.value == "")
     { 

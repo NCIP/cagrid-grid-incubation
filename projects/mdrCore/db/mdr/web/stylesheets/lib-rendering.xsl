@@ -1790,6 +1790,9 @@
                     <td>
                         <div class="admin_item_table_header">name</div>
                     </td>
+                    <td>
+                        <div class="admin_item_table_header">version</div>
+                    </td>
                 </tr>
                 <xsl:apply-templates mode="annotated-model-list"/>
             </table>
@@ -1802,6 +1805,9 @@
             </td>
             <td>
                 <xsl:copy-of select="anchor/html:a"/>
+            </td>
+            <td>
+                <xsl:value-of select="@version"/>
             </td>
         </tr>
     </xsl:template>
@@ -1852,9 +1858,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Document</td>
+                    <td class="left_header_cell">Latest version <xsl:value-of select="@version"/></td>
                     <td>
                         <a href="{string(./openMDR:annotated_model_uri)}">download</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left_header_cell">Previous Version</td>
+                    <td>
+                        <a href="{string(./openMDR:previous_annotated_model_uri)}">download</a>
                     </td>
                 </tr>
             </tbody>

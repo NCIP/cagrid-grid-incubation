@@ -1,40 +1,24 @@
 xquery version "1.0";
-
-(: ~
- : Module Name:             new object class webpage and XQuery
- :
- : Module Version           1.0
- :
- : Date                     25th October 2009
- :
- : Author                   Sreekant Lalkota
- :
- : Copyright                The cangrid consortium
- :
- : Module overview          Creates reference documents
- :
- :)
- 
 import module namespace 
-lib-forms="http://www.cagrid.org/xquery/library/forms"
-at "../edit/m-lib-forms.xquery";
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
+  at "../edit/m-lib-forms.xquery";
   
-import module namespace 
-lib-util="http://www.cagrid.org/xquery/library/util" 
-at "../library/m-lib-util.xquery";
+  import module namespace 
+  lib-util="http://www.cagrid.org/xquery/library/util" 
+  at "../library/m-lib-util.xquery";
   
-import module namespace 
-lib-rendering="http://www.cagrid.org/xquery/library/rendering"
-at "../web/m-lib-rendering.xquery";   
+  import module namespace 
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering"
+  at "../web/m-lib-rendering.xquery";   
+  
+  import module namespace 
+  lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item" 
+  at "../edit/m-lib-make-admin-item.xquery";     
 
-import module namespace 
-lib-make-admin-item="http://www.cagrid.org/xquery/library/make-admin-item" 
-at "../edit/m-lib-make-admin-item.xquery";     
-    
-import module namespace 
-lib-qs="http://www.cagrid.org/xquery/library/query_service" 
-at "../connector/m-lib-qs.xquery";  
-      
+  import module namespace 
+  lib-qs="http://www.cagrid.org/xquery/library/query_service" 
+  at "../connector/m-lib-qs.xquery";  
+
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
 declare namespace xdt = "http://xdt.gate2.net/v1.0";
@@ -43,15 +27,14 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
 declare namespace util="http://exist-db.org/xquery/util";
-declare namespace UML ="omg.org/UML1.3";
-declare namespace transform="http://exist-db.org/xquery/transform";
+declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace q="http://cagrid.org/schema/query";
 declare namespace c="http://cagrid.org/schema/config";
-declare namespace rs="http://cagrid.org/schema/result-set";
+declare namespace UML ="omg.org/UML1.3";
+declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace x="http://cagrid.org/schema/result-set";
 
-(: Validates the given UML Model :)
 declare function local:validateUML($file-name as xs:string) as xs:string
 {
   let $port := string(doc('/db/mdr/config.xml')/config/common/@port)
@@ -132,45 +115,53 @@ declare function local:checkValidity($aftertransform as element()*) as xs:string
                     'invalid'
                )
             )
-};
-
+};                    
+                     
 declare function local:annotated-model(
-     $project_long_name as xs:string?,
-     $project_short_name as xs:string?,
-     $project_version as xs:string?,
-     $project_description as xs:string?,
-     $service_url as xs:string?,
-     $file as xs:string?,
-     $action as xs:string?
+   $project_long_name as xs:string?,
+   $project_short_name as xs:string?,
+   $project_version as xs:float?,
+   $project_description as xs:string?,
+   $service_url as xs:string?,
+   $file as xs:string?,
+   $action as xs:string?,
+   $id as xs:string?,
+   $previous-file as xs:string?
    ) as xs:boolean
 {
-   let $version := '0.1'
-   let $data-identifier := lib-forms:generate-id()
+   
    let $idprefix := 'cagrid.org'
-   let $doc-name := concat($idprefix,'_',$data-identifier,'_',$version,'_',request:get-uploaded-file-name('file'))
+   let $data-identifier := $id
+   let $doc-name := concat($idprefix,'_',substring-before(substring-after($data-identifier,'_'),'_'),'_',$project_version,'_',request:get-uploaded-file-name('file'))
    let $message := lib-forms:store-annotated-model(request:get-uploaded-file('file'),$doc-name,'application/octet-stream') 
+   
    let $document :=
       element openMDR:models {
            (:attribute annotated_model_identifier {$data-identifier},
-           attribute version {$version},:)
+           attribute version {$project_version},:)
            attribute item_registration_authority_identifier {'cagrid.org'},
-           attribute data_identifier {$data-identifier},
-           attribute version {$version},
+           attribute data_identifier {substring-before(substring-after($data-identifier,'_'),'_')},
+           attribute version {$project_version},
            element openMDR:annotated_model_project_long_name{$project_long_name},
            element openMDR:annotated_model_project_short_name {$project_short_name},
            element openMDR:annotated_model_project_description {$project_description},
            element openMDR:service_url {$service_url},
            element openMDR:annotated_model_uri {concat('../data/models/documents/',$doc-name)},
+           element openMDR:previous_annotated_model_uri {$previous-file},
            element openMDR:file_name {request:get-uploaded-file-name('file')},
            element openMDR:file_type {'application/octet-stream'}
            }
    
-   (:Calling the validate method to validate the selected xmi:)   
    let $validUML := local:validateUML($doc-name)
    let $log := util:log-system-out('Valid UML document???')
    let $log := util:log-system-out($validUML)
-   (::)
    
+   (:let $collection := 'models'
+   let $message := lib-forms:store-document($document) 
+   return
+      if ($message='stored')
+      then true()
+      else response:redirect-to(xs:anyURI(concat("../web/login.xquery?calling_page=newReferenceDocument.xquery&amp;",$message))):)
    return 
     if($validUML eq 'valid')
         then (
@@ -194,10 +185,14 @@ declare function local:input-page(
      $project_description as xs:string?,
      $service_url as xs:string?,
      $file as xs:string?,
-     $action as xs:string?
+     $action as xs:string?,
+     $id as xs:string?,
+     $version as xs:float?
    ) {
 
-   let $project_version := '0.1'
+   let $proposedNextVersion := $version + 0.1
+   let $proposedReleaseVersion := ceiling($proposedNextVersion)
+   
    let $skip-uri := substring-after($action,'delete uri entry')
    let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
    
@@ -212,7 +207,8 @@ declare function local:input-page(
              </td>
           </tr>
           <tr><td>
-          <form name="new_annotated_model" action="newAnnotatedModel.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+          <form name="new_annotated_model" action="editAnnotatedModel.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+             {lib-forms:hidden-element('id',$id)}        
              <div class="section">
                     <table class="section">
                         <tr>
@@ -231,12 +227,15 @@ declare function local:input-page(
                           <td class="left_header_cell">Project Short Name <font color="red">*</font></td><td>{lib-forms:input-element('project_short_name', 80, $project_short_name)}</td>
                         </tr>
                         
-                        <!-- <tr>
-                          <td class="left_header_cell">Project Version <font color="red">*</font></td><td>{lib-forms:input-element('project_version', 1, $project_version)}</td>
-                        </tr> -->
-  
-                        <tr><td class="left_header_cell">Version</td><td colspan="5"> {$project_version}{lib-forms:radio('label',$project_version,'true')} </td></tr>
-
+                        <tr>
+                          <td class="left_header_cell">Existing Version</td><td colspan="5"> {$version}{lib-forms:radio('label',$project_version,'true')} </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {$proposedNextVersion}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td>
+                        </tr>
+                
+                        
                         <tr>
                           <td class="left_header_cell">Project Description <font color="red">*</font></td><td>{lib-forms:input-element('project_description', 80, $project_description)}</td>
                         </tr>
@@ -264,23 +263,24 @@ declare function local:input-page(
         </table>
      </div>
    };
-   
+
 declare function local:success-page() 
 {
    let $calling-page := request:get-parameter("calling-page","")
    return
    <div xmlns="http://www.w3.org/1999/xhtml">   
-         <p>Annotated Model created</p>
+         <p>Reference Document created</p>
          <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../edit/newAnnotatedModel.xquery">Create annotated model</a></p>    
+         <p><a href="../edit/newReferenceDocument.xquery">Create reference document</a></p>    
       </div>
 };
 
-
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
+ 
+   session:create(),
    
-session:create(),
-
+   let $title := 'Edit Annotated Model'
+   let $id := request:get-parameter('id','')
    let $project_long_name := request:get-parameter('project_long_name','')
    let $project_short_name := request:get-parameter('project_short_name','')
    let $project_version := request:get-parameter('project_version','')
@@ -288,48 +288,69 @@ session:create(),
    let $service_url := request:get-parameter('service_url','')
    let $file := request:get-parameter('file','')
    let $action := request:get-parameter('update','')
-  
+   
+   let $element := lib-util:mdrElement("models",$id)
+   let $iannotated-id := string($element/@annotated_model_identifier)
+   let $iversion := string($element/@version)
+   let $iproject_long_name := string($element//openMDR:annotated_model_project_long_name)
+   let $iproject_short_name := string($element//openMDR:annotated_model_project_short_name)
+   let $iproject_version := string($element/@version)
+   let $iproject_description := string($element//openMDR:annotated_model_project_description)
+   let $iservice_url := string($element//openMDR:service_url)
+   let $ifile := string($element//openMDR:file_name)
+   let $iaction := request:get-parameter('update','')
+   
+   let $previous-file := string($element//openMDR:annotated_model_uri)
+   
+   let $version := $iversion
+   let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
+   let $version := round-half-to-even(xs:float($proposedNextVersion),2)
+   
    return
    
       lib-rendering:txfrm-webpage(
-      $project_long_name,
+      $title,
       if ($action='Save')
       then 
          (
          if (
-               local:annotated-model
-                  (
+               local:annotated-model(
                      $project_long_name,
                      $project_short_name,
-                     $project_version,
+                     $version,
                      $project_description,
                      $service_url,
                      $file,
-                     $action
+                     $action,
+                     $id,
+                     $previous-file
                   )
             ) 
          then local:success-page()  
          else (local:input-page(
-         'Select UML (.xmi) file with valid CDEs in openMDR or caDSR. Invalid CDEs :',
-                     $project_long_name,
-                     $project_short_name,
-                     $project_version,
-                     $project_description,
-                     $service_url,
-                     $file,
-                     $action
-                  )
-               )
-         )
-      else local:input-page
-               (
-               '',
+                'Select UML (.xmi) file with valid CDEs in openMDR or caDSR. Invalid CDEs :',
                   $project_long_name,
                   $project_short_name,
                   $project_version,
                   $project_description,
                   $service_url,
                   $file,
-                  $action
+                  $action,
+                  $id,
+                  round-half-to-even(xs:float($iversion),2)
+                )
                )
+         )
+      else local:input-page(
+                '',
+                  $iproject_long_name,
+                  $iproject_short_name,
+                  $iproject_version,
+                  $iproject_description,
+                  $iservice_url,
+                  $ifile,
+                  $iaction,
+                  $id,
+                  $version
+                )
          )

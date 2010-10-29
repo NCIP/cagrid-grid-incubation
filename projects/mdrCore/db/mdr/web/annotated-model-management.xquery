@@ -43,13 +43,15 @@ return
       {
       for $item in lib-util:mdrElements('models')
       let $name:= $item/openMDR:annotated_model_project_long_name
-      let $id := $item/@annotated_model_identifier
+      let $version:= $item/@version
+      let $id := concat($item/@item_registration_authority_identifier,'_',$item/@data_identifier,'_',$item/@version)
       let $anchor := <a xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" href='../web/annotated_model.xquery?compound_id={$id}'>{$name}</a>
       where starts-with(lower-case($name),$letter)
       order by $name
       return
          element annotated-model {
                attribute id {$id},
+               attribute version {$version},
                element anchor {$anchor},
                element name {$name}, $item
          }
