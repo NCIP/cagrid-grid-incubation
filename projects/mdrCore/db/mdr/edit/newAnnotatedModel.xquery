@@ -7,6 +7,8 @@ xquery version "1.0";
  :
  : Date                     25th October 2009
  :
+ : Author                   Sreekant Lalkota
+ :
  : Copyright                The cangrid consortium
  :
  : Module overview          Creates reference documents
@@ -153,7 +155,7 @@ declare function local:reference-document(
            element openMDR:annotated_model_project_short_name {$project_short_name},
            element openMDR:annotated_model_project_description {$project_description},
            element openMDR:service_url {$service_url},
-           element openMDR:annotated_model_uri {concat('../data/models/documents/',request:get-uploaded-file-name('file'))},
+           element openMDR:annotated_model_uri {concat('../data/models/documents/',$data-identifier,'_',request:get-uploaded-file-name('file'))},
            element openMDR:file_name {request:get-uploaded-file-name('file')},
            element openMDR:file_type {'application/octet-stream'}
            }

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:include href="lib-rendering-new.xsl"/>
     <xsl:output method="html" media-type="text/html" indent="yes" doctype-public="-//W3C//DTD XHTML 1,0 Transitional//EN" doctype-system="http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd" omit-xml-declaration="no" exclude-result-prefixes="openMDR dc iaaaterm xs rdf cgResolver skos dcterms ISO11179"/>
     
@@ -1776,5 +1776,88 @@
                 </table>
             </td>
         </tr>
+    </xsl:template>
+    <xsl:template match="annotated-models">
+        <div>
+            <xsl:call-template name="alphabet-links">
+                <xsl:with-param name="calling-webpage">annotated-model-management.xquery</xsl:with-param>
+            </xsl:call-template>
+            <table class="layout">
+                <tr>
+                    <td>
+                        <div class="admin_item_table_header">identifier</div>
+                    </td>
+                    <td>
+                        <div class="admin_item_table_header">name</div>
+                    </td>
+                </tr>
+                <xsl:apply-templates mode="annotated-model-list"/>
+            </table>
+        </div>
+    </xsl:template>
+    <xsl:template match="annotated-model" mode="annotated-model-list">
+        <tr>
+            <td class="left_header_cell">
+                <xsl:value-of select="@id"/>
+            </td>
+            <td>
+                <xsl:copy-of select="anchor/html:a"/>
+            </td>
+        </tr>
+    </xsl:template>
+    <xsl:template match="openMDR:models">
+        <table class="layout">
+            <thead>
+                <tr>
+                    <td colspan="2">
+                        <div class="admin_item_section_header">details</div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="left_header_cell">Project Long Name</td>
+                    <td>
+                        <xsl:value-of select="openMDR:annotated_model_project_long_name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left_header_cell">Project Short Name</td>
+                    <td>
+                        <xsl:value-of select="openMDR:annotated_model_project_short_name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left_header_cell">Project Description</td>
+                    <td>
+                        <xsl:value-of select="openMDR:annotated_model_project_description"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left_header_cell">Service URL</td>
+                    <td>
+                        <xsl:value-of select="openMDR:service_url"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left_header_cell">File Name</td>
+                    <td>
+                        <xsl:value-of select="openMDR:file_name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left_header_cell">Type</td>
+                    <td>
+                        <xsl:value-of select="openMDR:file_type"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Document</td>
+                    <td>
+                        <a href="{string(./openMDR:annotated_model_uri)}">download</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </xsl:template>
 </xsl:stylesheet>

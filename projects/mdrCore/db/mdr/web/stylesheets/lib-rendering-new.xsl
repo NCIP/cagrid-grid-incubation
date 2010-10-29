@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:param name="user" select="guest"/>
     <xsl:param name="title" select="title"/>
     <xsl:param name="footer">true</xsl:param>
@@ -79,6 +79,15 @@
                                     </xsl:call-template>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <xsl:call-template name="css-rollover-button">
+                                        <xsl:with-param name="text">annotated models</xsl:with-param>
+                                        <xsl:with-param name="alt">annotated models</xsl:with-param>
+                                        <xsl:with-param name="link">../web/annotated-model-management.xquery</xsl:with-param>
+                                    </xsl:call-template>
+                                </td>
+                            </tr>
                             <xsl:choose>
                                 <xsl:when test="$user='guest'"/>
                                 <xsl:otherwise>
@@ -93,7 +102,7 @@
                                     </tr>
                                 </xsl:otherwise>
                             </xsl:choose>
-                             <tr>
+                            <tr>
                                 <td>
                                     <xsl:call-template name="css-rollover-button">
                                         <xsl:with-param name="text">openMDR wiki</xsl:with-param>
@@ -107,7 +116,7 @@
                     </td>
                     <td valign="top" align="left">
                         <a href="../web/homepage.xquery">
-                            <img src="../web/images/mdr.jpg" alt="openMDR"  style="border: 1px white solid;"/>
+                            <img src="../web/images/mdr.jpg" alt="openMDR" style="border: 1px white solid;"/>
                         </a>
                     </td>
                     <td align="right" valign="top">
