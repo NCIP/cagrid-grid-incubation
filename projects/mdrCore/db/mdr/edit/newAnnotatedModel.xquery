@@ -50,6 +50,7 @@ declare namespace c="http://cagrid.org/schema/config";
 declare namespace rs="http://cagrid.org/schema/result-set";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace x="http://cagrid.org/schema/result-set";
+declare namespace datetime = "http://exist-db.org/xquery/datetime";
 
 (: Validates the given UML Model :)
 declare function local:validateUML($file-name as xs:string) as xs:string
@@ -141,21 +142,33 @@ declare function local:annotated-model(
      $project_description as xs:string?,
      $service_url as xs:string?,
      $file as xs:string?,
-     $action as xs:string?
+     $action as xs:string?,
+     $reg-auth  as xs:string?,
+     $registered-by  as xs:string?,
+     $administered-by  as xs:string?,
+     $submitted-by as xs:string?,
+     $administrative-status  as xs:string?,
+     $registration_status  as xs:string?
    ) as xs:boolean
 {
+  
    let $version := '0.1'
    let $data-identifier := lib-forms:generate-id()
    let $idprefix := 'cagrid.org'
    let $doc-name := concat($idprefix,'_',$data-identifier,'_',$version,'_',request:get-uploaded-file-name('file'))
    let $message := lib-forms:store-annotated-model(request:get-uploaded-file('file'),$doc-name,'application/octet-stream') 
+   let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
+    
    let $document :=
       element openMDR:models {
            (:attribute annotated_model_identifier {$data-identifier},
            attribute version {$version},:)
-           attribute item_registration_authority_identifier {'cagrid.org'},
+           attribute item_registration_authority_identifier {$reg-auth},
            attribute data_identifier {$data-identifier},
            attribute version {$version},
+           lib-make-admin-item:administration-record('',$administrative-status,$creation-date,$registration_status),
+            lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
+           
            element openMDR:annotated_model_project_long_name{$project_long_name},
            element openMDR:annotated_model_project_short_name {$project_short_name},
            element openMDR:annotated_model_project_description {$project_description},
@@ -189,80 +202,82 @@ declare function local:annotated-model(
 declare function local:input-page(
    $message as xs:string?,
    $project_long_name as xs:string?,
-     $project_short_name as xs:string?,
-     $project_version as xs:string?,
-     $project_description as xs:string?,
-     $service_url as xs:string?,
-     $file as xs:string?,
-     $action as xs:string?
+   $project_short_name as xs:string?,
+   $project_version as xs:string?,
+   $project_description as xs:string?,
+   $service_url as xs:string?,
+   $file as xs:string?,
+   $action as xs:string?,
+   $reg-auth  as xs:string?,
+   $registered-by  as xs:string?,
+   $administered-by  as xs:string?,
+   $submitted-by as xs:string?,
+   $administrative-status  as xs:string?,
+   $registration_status  as xs:string?
    ) {
 
    let $project_version := '0.1'
    let $skip-uri := substring-after($action,'delete uri entry')
    let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
    
-   return
+  return
    <div xmlns="http://www.w3.org/1999/xhtml">
- 
-      
       <table class="layout">
-          <tr>
-             <td>
-                This form will allow you to upload the annotated model
-             </td>
-          </tr>
+          <tr><td> This form will allow you to upload the annotated model</td></tr>
           <tr><td>
           <form name="new_annotated_model" action="newAnnotatedModel.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
-             <div class="section">
-                    <table class="section">
-                        <tr>
-                           <td class="row-header-cell" colspan="6">Annotated Model</td>
-                        </tr>
-                        
-                         <tr>
-                          <td class="left_header_cell">Annotated XMI File <font color="red">*</font></td><td><input id="file" type="FILE" name="file"/></td>
-                         </tr>
-                         
-                        <tr>
-                          <td class="left_header_cell">Project Long Name <font color="red">*</font></td><td>{lib-forms:input-element('project_long_name', 80, $project_long_name)}</td>
-                        </tr>
-
-                        <tr>
-                          <td class="left_header_cell">Project Short Name <font color="red">*</font></td><td>{lib-forms:input-element('project_short_name', 80, $project_short_name)}</td>
-                        </tr>
-                        
-                        <!-- <tr>
-                          <td class="left_header_cell">Project Version <font color="red">*</font></td><td>{lib-forms:input-element('project_version', 1, $project_version)}</td>
-                        </tr> -->
-  
-                        <tr><td class="left_header_cell">Version</td><td colspan="5"> {$project_version}{lib-forms:radio('label',$project_version,'true')} </td></tr>
-
-                        <tr>
-                          <td class="left_header_cell">Project Description <font color="red">*</font></td><td>{lib-forms:input-element('project_description', 80, $project_description)}</td>
-                        </tr>
-                        
-                        <tr>
-                          <td class="left_header_cell">Service URL <font color="red">*</font></td><td>{lib-forms:input-element('service_url', 80, $service_url)}</td>
-                        </tr>                
-                        
-                        <tr>
-                           <td class="row-header-cell" colspan="6">Store</td>
-                        </tr>
-                        <tr>
-                            <td class="left_header_cell"></td>
-                            <td><input type="submit" name="update" value="Save" onClick="return validate_AnnotatedModel();"/></td>
-                            <td colspan="4">
-                                <input type="submit" name="update" value="Clear" onClick="this.form.reset()"/>
-                            </td>
-                        </tr>
-                     </table>
+              <div class="section">
+                
+                <tr><td class="row-header-cell" colspan="6">Standard Administered Item Metadata</td></tr>
+                <tr><td>
+                <div class="tabber">
+                <div id='validate' class="tabbertab">
+              
+                
+                <table class="section">
+                    <h2>Administered Item Metadata</h2>
+                    <tr><td> This form will allow you to upload the annotated model</td></tr>
+                    <tr>
+                       <p>
+                          <table class="section">
+                              <tr><td class="left_header_cell">Registration Authority<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
+                              <tr><td class="left_header_cell">Version</td><td colspan="5"> {$project_version}{lib-forms:radio('label',$project_version,'true')} </td></tr>
+                              <tr><td class="left_header_cell">Registered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
+                              <tr><td class="left_header_cell">Administered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-administered_by-nameAndOrg(request:get-parameter('administered-by',''))} </td></tr>
+                              <tr><td class="left_header_cell">Submitted by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-submitted_by-nameAndOrg(request:get-parameter('submitted-by',''))} </td></tr>
+                              <tr><td class="left_header_cell">Administrative Status<font color="red">*</font></td><td colspan="2">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',''))}</td></tr>
+                              <tr><td class="left_header_cell">Registration Status<font color="red">*</font></td><td colspan="2"> {lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',''))}</td></tr>
+                           </table>
+                       </p>
+                     </tr>
+                </table>
+              
+                <table class="section">
+                    <tr><td class="row-header-cell" colspan="6">Annotated Model</td></tr>
+                    <tr><td class="left_header_cell">Annotated XMI File <font color="red">*</font></td><td><input id="file" type="FILE" name="file"/></td></tr>
+                    <tr><td class="left_header_cell">Project Long Name <font color="red">*</font></td><td>{lib-forms:input-element('project_long_name', 80, $project_long_name)}</td></tr>
+                    <tr><td class="left_header_cell">Project Short Name <font color="red">*</font></td><td>{lib-forms:input-element('project_short_name', 80, $project_short_name)}</td></tr>
+                    <tr><td class="left_header_cell">Project Description <font color="red">*</font></td><td>{lib-forms:input-element('project_description', 80, $project_description)}</td></tr>
+                    <tr><td class="left_header_cell">Service URL <font color="red">*</font></td><td>{lib-forms:input-element('service_url', 80, $service_url)}</td></tr>                
+                    <tr><td class="row-header-cell" colspan="6">Store</td></tr>
+                    <tr>
+                        <td class="left_header_cell"></td>
+                        <td><input type="submit" name="update" value="Save" onClick="return validate_AnnotatedModel();"/></td>
+                        <td colspan="4">
+                            <input type="submit" name="update" value="Clear" onClick="this.form.reset()"/>
+                        </td>
+                    </tr>
+                 </table>
               </div>
-          </form>
-          </td></tr>
+            </div>
+            </td></tr>
+            </div>
+         </form>
+         </td></tr>
           <tr><td><font size="3" color="red">{$message}</font></td></tr>
           <tr><td><font size="2" color="red">{session:get-attribute('invalidCDEs'),session:set-attribute("invalidCDEs","")}</font></td></tr>
         </table>
-     </div>
+      </div>
    };
    
 declare function local:success-page() 
@@ -288,7 +303,14 @@ session:create(),
    let $service_url := request:get-parameter('service_url','')
    let $file := request:get-parameter('file','')
    let $action := request:get-parameter('update','')
-  
+   
+   let $reg-auth := request:get-parameter('registration-authority','')
+   let $administrative-status := request:get-parameter('administrative-status','')
+   let $administered-by := request:get-parameter('administered-by','')
+   let $submitted-by := request:get-parameter('submitted-by','')
+   let $registered-by := request:get-parameter('registered-by','')
+   let $registration_status := request:get-parameter('registration-status','')
+   
    return
    
       lib-rendering:txfrm-webpage(
@@ -305,7 +327,13 @@ session:create(),
                      $project_description,
                      $service_url,
                      $file,
-                     $action
+                     $action,
+                     $reg-auth,
+                     $registered-by,
+                     $administered-by,
+                     $submitted-by,
+                     $administrative-status,
+                     $registration_status
                   )
             ) 
          then local:success-page()  
@@ -317,7 +345,13 @@ session:create(),
                      $project_description,
                      $service_url,
                      $file,
-                     $action
+                     $action,
+                     $reg-auth,
+                     $registered-by,
+                     $administered-by,
+                     $submitted-by,
+                     $administrative-status,
+                     $registration_status
                   )
                )
          )
@@ -330,6 +364,12 @@ session:create(),
                   $project_description,
                   $service_url,
                   $file,
-                  $action
+                  $action,
+                  $reg-auth,
+                  $registered-by,
+                  $administered-by,
+                  $submitted-by,
+                  $administrative-status,
+                  $registration_status
                )
          )

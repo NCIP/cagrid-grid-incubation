@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:html="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:include href="lib-rendering-new.xsl"/>
     <xsl:output method="html" media-type="text/html" indent="yes" doctype-public="-//W3C//DTD XHTML 1,0 Transitional//EN" doctype-system="http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd" omit-xml-declaration="no" exclude-result-prefixes="openMDR dc iaaaterm xs rdf cgResolver skos dcterms ISO11179"/>
     
@@ -1785,31 +1785,79 @@
             <table class="layout">
                 <tr>
                     <td>
-                        <div class="admin_item_table_header">identifier</div>
+                        <div class="admin_item_table_header">Name</div>
+                    </td>
+                    <td width="60%">
+                        <div class="admin_item_table_header">Description</div>
                     </td>
                     <td>
-                        <div class="admin_item_table_header">name</div>
-                    </td>
-                    <td>
-                        <div class="admin_item_table_header">version</div>
+                        <div class="admin_item_table_header">Submitted by</div>
                     </td>
                 </tr>
                 <xsl:apply-templates mode="annotated-model-list"/>
             </table>
         </div>
     </xsl:template>
+   
     <xsl:template match="annotated-model" mode="annotated-model-list">
-        <tr>
+        <xsl:param name="start" select="start"></xsl:param>
+        <xsl:param name="extent" select="extent"></xsl:param>
+        <xsl:variable name="pos" select="pos"></xsl:variable>
+        <xsl:variable name="until" select="number($start+$extent)"></xsl:variable>      
+        
+        <xsl:if test="(number($pos) ge number($start)) and (number($pos) &lt; number($until))"> 
+            <tr>
             <td class="left_header_cell">
-                <xsl:value-of select="@id"/>
-            </td>
-            <td>
                 <xsl:copy-of select="anchor/html:a"/>
             </td>
-            <td>
-                <xsl:value-of select="@version"/>
+            <td class="left_header_cell">
+                <xsl:value-of select="description"/>
             </td>
-        </tr>
+            <td class="left_header_cell">
+                <xsl:variable name="contactinfo" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_information"/>
+                <xsl:variable name="contactname" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_name"/>
+                <xsl:variable name="contacttitle" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_title"/>
+                <xsl:variable name="orgname" select="submitted_by/openMDR:Organization/openMDR:organization_name"/>
+                <xsl:variable name="orgmailaddr" select="submitted_by/openMDR:Organization/openMDR:organization_mail_address"/>
+                <table>
+                    <xsl:if test="$contactname &gt; ''">
+                        <tr>
+                            <i>Name:</i>
+                            <xsl:value-of select="$contactname"/>
+                        </tr>
+                    </xsl:if>
+                    <br/>
+                    <xsl:if test="$contacttitle &gt; ''">
+                        <tr>
+                            <i>Title:</i>
+                            <xsl:value-of select="$contacttitle"/>
+                        </tr>
+                    </xsl:if>
+                    <br/>
+                    <xsl:if test="$contactinfo &gt; ''">
+                        <tr>
+                            <i>Email:</i>
+                            <xsl:value-of select="$contactinfo"/>
+                        </tr>
+                    </xsl:if>
+                    <br/>
+                    <xsl:if test="$orgname &gt; ''">
+                        <tr>
+                            <i>Org Name:</i>
+                            <xsl:value-of select="$orgname"/>
+                        </tr>
+                    </xsl:if>
+                    <br/>
+                    <xsl:if test="$orgmailaddr &gt; ''">
+                        <tr>
+                            <i>Address:</i>
+                            <xsl:value-of select="$orgmailaddr"/>
+                        </tr>
+                    </xsl:if>
+                </table>
+            </td>
+            </tr>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="openMDR:models">
         <table class="layout">
@@ -1857,8 +1905,9 @@
                         <xsl:value-of select="openMDR:file_type"/>
                     </td>
                 </tr>
-                <tr>
-                    <td class="left_header_cell">Latest version <xsl:value-of select="@version"/></td>
+                <!-- <tr>
+                    <td class="left_header_cell">Latest version <xsl:value-of select="@version"/>
+                    </td>
                     <td>
                         <a href="{string(./openMDR:annotated_model_uri)}">download</a>
                     </td>
@@ -1868,8 +1917,46 @@
                     <td>
                         <a href="{string(./openMDR:previous_annotated_model_uri)}">download</a>
                     </td>
+                    <td>
+                    </td>
+                </tr> -->
+                <tr>
+                    <xsl:variable name="dataid" select="string(./@data_identifier)"></xsl:variable>
+                    <xsl:variable name="port" select="string(document('/db/mdr/config.xml')/config/common/@port)"></xsl:variable>
+                    <xsl:variable name="modelLoc" select="concat('http://localhost:',$port,'/exist/rest/db/mdr/data/models')"></xsl:variable>
+                    <xsl:for-each select="document($modelLoc)"> 
+                        <xsl:for-each select="/exist:result/exist:collection/exist:resource">
+                            <xsl:variable name="filename" select="@name"></xsl:variable>
+                            <xsl:variable name="id" select="substring-before(substring-after($filename,'_'),'_')"></xsl:variable>
+                            <xsl:variable name="idandversion" select="@version"></xsl:variable>
+                            <xsl:variable name="version" select="substring-before(substring-after(substring-after($filename,'_'),'_'),'.xml')"></xsl:variable>
+                            <xsl:if test="$id eq $dataid">
+                              <tr>
+                                <td class="left_header_cell">Version <xsl:value-of select="$version"></xsl:value-of></td>
+                                  <td> <xsl:variable name="xmiloc" select="document(concat('http://localhost:9090/exist/rest/db/mdr/data/models/',$filename))/openMDR:models/openMDR:annotated_model_uri"></xsl:variable>
+                                    <a href="{$xmiloc}">download</a>
+                                  </td>
+                              </tr>
+                            </xsl:if>
+                        </xsl:for-each>
+                    </xsl:for-each>  
                 </tr>
             </tbody>
         </table>
     </xsl:template>
+    
+    <!-- Added these as we do not need the types to be displayed for annotated models -->
+    <xsl:template match="content-by-letter-annotated-model">
+        <br/>
+        <div class="content_one_pane">
+            <xsl:apply-templates select="tabular-content-annotated-model"/>
+        </div>
+    </xsl:template>
+    
+    <!-- Displaying the annotated models as the content -->
+    <xsl:template match="tabular-content-annotated-model">
+        <xsl:apply-templates select="annotated-models"/>
+        
+        <xsl:apply-templates select="index"/>
+        </xsl:template>
 </xsl:stylesheet>

@@ -35,7 +35,7 @@ session:create(),
 let $id := request:get-parameter("compound_id", "")
 
 let $item := lib-util:mdrElement("models", $id)
-let $title := concat('Annotated Model: ', $item/openMDR:annotated_model_project_long_name)
+let $title := concat('Annotated Model: ', concat($item/openMDR:annotated_model_project_long_name,' ',$id))
 return
    if (request:get-parameter("as-xml",()))
    then (lib-rendering:as-xml($item))
