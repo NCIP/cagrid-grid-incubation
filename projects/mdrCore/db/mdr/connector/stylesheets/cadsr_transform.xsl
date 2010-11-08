@@ -52,11 +52,7 @@
             </registration-status>
             <xsl:apply-templates select="context/gov.nih.nci.cadsr.domain.Context"/>
             <xsl:apply-templates select="valueDomain"/>
-            <!--
-                <xsl:apply-templates select="dataElementConcept/DataElementConcept/objectClass/ObjectClass"/>
-                <xsl:apply-templates select="dataElementConcept/DataElementConcept/property/Property"/>
-            -->
-                <xsl:apply-templates select="dataElementConcept"/>
+            <xsl:apply-templates select="dataElementConcept"/>
         </data-element>
     </xsl:template>
     <xsl:template match="valueDomain">
@@ -66,7 +62,6 @@
       <xsl:template match="dataElementConcept">
           <xsl:apply-templates select="gov.nih.nci.cadsr.domain.DataElementConcept/property/gov.nih.nci.cadsr.domain.Property"></xsl:apply-templates>
           <xsl:apply-templates select="gov.nih.nci.cadsr.domain.DataElementConcept/objectClass/gov.nih.nci.cadsr.domain.ObjectClass"></xsl:apply-templates>
-          
       </xsl:template>
     
     <xsl:template match="NonenumeratedValueDomain|gov.nih.nci.cadsr.domain.NonenumeratedValueDomain">
@@ -82,7 +77,6 @@
     </xsl:template>
     
     <xsl:template match="gov.nih.nci.cadsr.domain.EnumeratedValueDomain|EnumeratedValueDomain">
-        <!--<values xmlns="http://cagrid.org/schema/result-set">-->
         <values>
             <enumerated>
                 <xsl:apply-templates select="valueDomainPermissibleValueCollection/gov.nih.nci.cadsr.domain.ValueDomainPermissibleValue/permissibleValue/gov.nih.nci.cadsr.domain.PermissibleValue"/>
@@ -99,8 +93,27 @@
             <meaning>
                 <xsl:value-of select="valueMeaning/gov.nih.nci.cadsr.domain.ValueMeaning/shortMeaning"/>
             </meaning>
-            <xsl:apply-templates select="valueMeaning/gov.nih.nci.cadsr.domain.ValueMeaning/conceptDerivationRule/ConceptDerivationRule/componentConceptCollection"/>
+            <conceptCollection> 
+             <xsl:apply-templates select="valueMeaning/gov.nih.nci.cadsr.domain.ValueMeaning/conceptDerivationRule/gov.nih.nci.cadsr.domain.ConceptDerivationRule/componentConceptCollection/gov.nih.nci.cadsr.domain.ComponentConcept/concept/gov.nih.nci.cadsr.domain.Concept"/>
+       		</conceptCollection> 
         </valid-value>
+    </xsl:template>
+    
+    <xsl:template match="valueMeaning/gov.nih.nci.cadsr.domain.ValueMeaning/conceptDerivationRule/gov.nih.nci.cadsr.domain.ConceptDerivationRule/componentConceptCollection/gov.nih.nci.cadsr.domain.ComponentConcept/concept/gov.nih.nci.cadsr.domain.Concept">
+    	<conceptRef>
+		    <id>
+		    	<xsl:value-of select="preferredName"/>
+		    </id>
+		    <source>
+		    	<xsl:value-of select="definitionSource"/>
+		    </source>
+		    <name>
+		    	<xsl:value-of select="longName"/>
+		    </name>
+		    <definition>
+		    	<xsl:value-of select="preferredDefinition"/>
+		    </definition>
+		</conceptRef>
     </xsl:template>
     
     <xsl:template match="gov.nih.nci.cadsr.domain.DataElementConcept/objectClass/gov.nih.nci.cadsr.domain.ObjectClass|gov.nih.nci.cadsr.domain.ObjectClass">
