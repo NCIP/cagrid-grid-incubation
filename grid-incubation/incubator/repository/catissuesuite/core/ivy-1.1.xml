@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+  <info organisation="catissuesuite" module="core" revision="1.1">
+    <description homepage="https://cabig.nci.nih.gov/tools/catissuesuite">CaTissue Suite Core</description>
+  </info>
+  <publications>
+    <artifact name="catissuecore" type="jar"/>
+  </publications>
+</ivy-module>
