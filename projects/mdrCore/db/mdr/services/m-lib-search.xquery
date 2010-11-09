@@ -440,7 +440,24 @@ declare function lib-search:dataElementSummary($term as xs:string, $exactTerm as
                                      element valid-value
                                      {
                                          element code {data($value/openMDR:value_item)},
-                                         element meaning {data(value-meaning:value-meaning($value/openMDR:contained_in)//openMDR:value_meaning_description)}
+                                         element meaning {data(value-meaning:value-meaning($value/openMDR:contained_in)//openMDR:value_meaning_description)},
+                                           element conceptCollection
+                                            {
+                                                let $resource := lib-qs:selectResource-form('CONCEPTID')
+                                                let $request:=""
+                           
+                                                for $u in (data(value-meaning:value-meaning($value/openMDR:contained_in)//openMDR:reference_uri))
+                                                    let $phrase-id := tokenize(data($u),'_')[last()]
+                                                    let $conceptRef :=
+                                                    if ($request != "") 
+                                                         then (lib-qs:query($request,$resource))
+                                                     else  
+                                                     if ($phrase-id != "") 
+                                                         then (lib-qs:query($resource, (), $phrase-id, $start, $num))
+                                                     else ()                             
+                                                return
+                                                     $conceptRef    
+                                            }
                                      }
                               }
                           else
