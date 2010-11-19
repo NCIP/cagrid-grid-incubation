@@ -1821,36 +1821,31 @@
                     <table>
                         <xsl:if test="$contactname &gt; ''">
                             <tr>
-                                Name:
-                                <xsl:value-of select="$contactname"/>
+                                <td>Name:</td><td><xsl:value-of select="$contactname"/></td>
                             </tr>
                         </xsl:if>
-                        <br/>
+                        
                         <xsl:if test="$contacttitle &gt; ''">
                             <tr>
-                                Title:
-                                <xsl:value-of select="$contacttitle"/>
+                                <td>Title:</td><td><xsl:value-of select="$contacttitle"/></td>
                             </tr>
                         </xsl:if>
-                        <br/>
+                        
                         <xsl:if test="$contactinfo &gt; ''">
                             <tr>
-                                Email:
-                                <xsl:value-of select="$contactinfo"/>
+                                <td>Email:</td><td><xsl:value-of select="$contactinfo"/></td>
                             </tr>
                         </xsl:if>
-                        <br/>
+                        
                         <xsl:if test="$orgname &gt; ''">
                             <tr>
-                                Org Name:
-                                <xsl:value-of select="$orgname"/>
+                                <td>Org Name:</td><td><xsl:value-of select="$orgname"/></td>
                             </tr>
                         </xsl:if>
-                        <br/>
+                        
                         <xsl:if test="$orgmailaddr &gt; ''">
                             <tr>
-                                Address:
-                                <xsl:value-of select="$orgmailaddr"/>
+                                <td>Address:</td><td><xsl:value-of select="$orgmailaddr"/></td>
                             </tr>
                         </xsl:if>
                     </table>
