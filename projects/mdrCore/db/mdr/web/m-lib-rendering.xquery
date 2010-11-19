@@ -60,7 +60,9 @@ declare function lib-rendering:admin-item($displayed-items) as element()
        let $administered-item-id := lib-util:mdrElementId($administered-item)
        let $preferred-name := administered-item:preferred-name($administered-item)
        let $preferred-definition := administered-item:preferred-definition($administered-item)
-       return element {lib-util:mdrElementType($administered-item)} {
+       return element {lib-util:mdrElementType($administered-item)} { attribute class {if (($record-id mod 2) = 0)
+        then "odd_row"
+        else "even_row"},
              element names {
                  element id {$administered-item-id},
                  element preferred {$preferred-name},
@@ -82,7 +84,9 @@ declare function lib-rendering:conceptual-domain-reduced($displayed-items) as el
      let $administered-item-id := lib-util:mdrElementId($administered-item)
      let $preferred-name := administered-item:preferred-name($administered-item)
      return
-        element conceptual_domain {
+        element conceptual_domain { attribute class {if (($record-id mod 2) = 0)
+        then "odd_row"
+        else "even_row"},
               element names {
                  element id {$administered-item-id},
                  element preferred {$preferred-name},
@@ -104,8 +108,6 @@ declare function lib-rendering:conceptual-domain-reduced($displayed-items) as el
     }
 };
 
-
-
 declare function lib-rendering:value-domain-reduced($displayed-items) as element()
 {
    element result-set {
@@ -115,7 +117,9 @@ declare function lib-rendering:value-domain-reduced($displayed-items) as element
      let $uom := lib-util:mdrElement("unit_of_measure", xs:string($administered-item//openMDR:value_domain_unit_of_measure))
      let $preferred-name := administered-item:preferred-name($administered-item)
      return
-        element value_domain {
+        element value_domain { attribute class {if (($record-id mod 2) = 0)
+        then "odd_row"
+        else "even_row"},
               element names {
                  element id {$administered-item-id},
                  element preferred {$preferred-name},

@@ -117,7 +117,9 @@ let $new-displayed-items :=
         (:order by $annotated_model_name:)
         order by $pos
         return
-            element annotated-model {
+            element annotated-model { attribute class {if (($pos mod 2) = 0)
+        then "odd_row"
+        else "even_row"},
                 attribute version {$annotated_model_version},
                 element description {$annotated_model_description},
                 element anchor {$anchor},

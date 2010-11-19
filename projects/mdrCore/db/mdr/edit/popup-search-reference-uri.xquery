@@ -68,7 +68,8 @@ return
           <link rel="stylesheet" href="../web/stylesheets/cagrid-style.css" type="text/css"/>
           <link rel="stylesheet" href="../classification/stylesheets/treeview.css" type="text/css"/>
       </head>
-      <body>   
+      <body>
+        <div id="central">      
          <form name='select-item' class='cagridForm' action='popup-search-reference-uri.xquery'>
             <input type='hidden' name='element' value='{$element}'/>
              <input type='hidden' name='control' value='{$control}'/>
@@ -112,7 +113,7 @@ return
                   let $log:= util:log-system-out('CONCEPTS HERE')
                   let $log:= util:log-system-out($concepts)
 
-                  for $concept in $concepts
+                  for $concept at $pos in $concepts
                   let $id := $concept/rs:names/rs:id
                   let $log:=util:log-system-out($id)
                   let $name := $concept/rs:names/rs:preferred
@@ -122,13 +123,25 @@ return
                   let $log:= util:log-system-out($id)
 
                   return
-                  <tr class="light-rule">
+                  if(($pos mod 2) = 0)
+                  then(
+                    <tr class="odd_row">
+                      <td>{lib-uri-resolution:html-anchor($id)}</td>
+                      <td>{$name}: {$definition}</td>
+                      <td>{local:action-button($id, $element, "use this term", $name)}</td>     
+                    </tr>
+                    
+                  )
+                  else (
+                    <tr class="even_row">
+                      <td>{lib-uri-resolution:html-anchor($id)}</td>
+                      <td>{$name}: {$definition}</td>
+                      <td>{local:action-button($id, $element, "use this term", $name)}</td>     
+                    </tr>
+                  )
                   
-                         <td style="vertical-align:top;width:250px;padding:5px;">{lib-uri-resolution:html-anchor($id)}</td>
                   
-                  <td style="vertical-align:top;width:600px;padding:5px;">{$name}: {$definition}</td>
-                          <td style="vertical-align:top;width:100px;padding:5px;">{local:action-button($id, $element, "use this term", $name)}</td>     
-                  </tr>
+                  
             }             
             </table>   
             <table class="layout">
@@ -182,5 +195,6 @@ return
               </tr>
              </table>
             </form>
+            </div>
       </body>
    </html>

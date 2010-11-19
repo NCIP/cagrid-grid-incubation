@@ -584,7 +584,7 @@
                         <xsl:value-of select="title"/>
                     </a>
                 </td>
-                <td colspan="5">
+                <td class="maintenance_descrip">
                     <xsl:value-of select="description"/>
                 </td>
             </tr>
@@ -1798,64 +1798,63 @@
             </table>
         </div>
     </xsl:template>
-   
     <xsl:template match="annotated-model" mode="annotated-model-list">
-        <xsl:param name="start" select="start"></xsl:param>
-        <xsl:param name="extent" select="extent"></xsl:param>
-        <xsl:variable name="pos" select="pos"></xsl:variable>
-        <xsl:variable name="until" select="number($start+$extent)"></xsl:variable>      
-        
-        <xsl:if test="(number($pos) ge number($start)) and (number($pos) &lt; number($until))"> 
-            <tr>
-            <td class="left_header_cell">
-                <xsl:copy-of select="anchor/html:a"/>
-            </td>
-            <td class="left_header_cell">
-                <xsl:value-of select="description"/>
-            </td>
-            <td class="left_header_cell">
-                <xsl:variable name="contactinfo" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_information"/>
-                <xsl:variable name="contactname" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_name"/>
-                <xsl:variable name="contacttitle" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_title"/>
-                <xsl:variable name="orgname" select="submitted_by/openMDR:Organization/openMDR:organization_name"/>
-                <xsl:variable name="orgmailaddr" select="submitted_by/openMDR:Organization/openMDR:organization_mail_address"/>
-                <table>
-                    <xsl:if test="$contactname &gt; ''">
-                        <tr>
-                            <i>Name:</i>
-                            <xsl:value-of select="$contactname"/>
-                        </tr>
-                    </xsl:if>
-                    <br/>
-                    <xsl:if test="$contacttitle &gt; ''">
-                        <tr>
-                            <i>Title:</i>
-                            <xsl:value-of select="$contacttitle"/>
-                        </tr>
-                    </xsl:if>
-                    <br/>
-                    <xsl:if test="$contactinfo &gt; ''">
-                        <tr>
-                            <i>Email:</i>
-                            <xsl:value-of select="$contactinfo"/>
-                        </tr>
-                    </xsl:if>
-                    <br/>
-                    <xsl:if test="$orgname &gt; ''">
-                        <tr>
-                            <i>Org Name:</i>
-                            <xsl:value-of select="$orgname"/>
-                        </tr>
-                    </xsl:if>
-                    <br/>
-                    <xsl:if test="$orgmailaddr &gt; ''">
-                        <tr>
-                            <i>Address:</i>
-                            <xsl:value-of select="$orgmailaddr"/>
-                        </tr>
-                    </xsl:if>
-                </table>
-            </td>
+        <xsl:param name="start" select="start"/>
+        <xsl:param name="extent" select="extent"/>
+        <xsl:variable name="pos" select="pos"/>
+        <xsl:variable name="until" select="number($start+$extent)"/>
+        <xsl:variable name="class" select="@class"/>
+        <xsl:if test="(number($pos) ge number($start)) and (number($pos) &lt; number($until))">
+            <tr valign="top" class="{$class}">
+                <td>
+                    <xsl:copy-of select="anchor/html:a"/>
+                </td>
+                <td>
+                    <xsl:value-of select="description"/>
+                </td>
+                <td>
+                    <xsl:variable name="contactinfo" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_information"/>
+                    <xsl:variable name="contactname" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_name"/>
+                    <xsl:variable name="contacttitle" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_title"/>
+                    <xsl:variable name="orgname" select="submitted_by/openMDR:Organization/openMDR:organization_name"/>
+                    <xsl:variable name="orgmailaddr" select="submitted_by/openMDR:Organization/openMDR:organization_mail_address"/>
+                    <table>
+                        <xsl:if test="$contactname &gt; ''">
+                            <tr>
+                                Name:
+                                <xsl:value-of select="$contactname"/>
+                            </tr>
+                        </xsl:if>
+                        <br/>
+                        <xsl:if test="$contacttitle &gt; ''">
+                            <tr>
+                                Title:
+                                <xsl:value-of select="$contacttitle"/>
+                            </tr>
+                        </xsl:if>
+                        <br/>
+                        <xsl:if test="$contactinfo &gt; ''">
+                            <tr>
+                                Email:
+                                <xsl:value-of select="$contactinfo"/>
+                            </tr>
+                        </xsl:if>
+                        <br/>
+                        <xsl:if test="$orgname &gt; ''">
+                            <tr>
+                                Org Name:
+                                <xsl:value-of select="$orgname"/>
+                            </tr>
+                        </xsl:if>
+                        <br/>
+                        <xsl:if test="$orgmailaddr &gt; ''">
+                            <tr>
+                                Address:
+                                <xsl:value-of select="$orgmailaddr"/>
+                            </tr>
+                        </xsl:if>
+                    </table>
+                </td>
             </tr>
         </xsl:if>
     </xsl:template>
@@ -1921,25 +1920,27 @@
                     </td>
                 </tr> -->
                 <tr>
-                    <xsl:variable name="dataid" select="string(./@data_identifier)"></xsl:variable>
-                    <xsl:variable name="port" select="string(document('/db/mdr/config.xml')/config/common/@port)"></xsl:variable>
-                    <xsl:variable name="modelLoc" select="concat('http://localhost:',$port,'/exist/rest/db/mdr/data/models')"></xsl:variable>
-                    <xsl:for-each select="document($modelLoc)"> 
+                    <xsl:variable name="dataid" select="string(./@data_identifier)"/>
+                    <xsl:variable name="port" select="string(document('/db/mdr/config.xml')/config/common/@port)"/>
+                    <xsl:variable name="modelLoc" select="concat('http://localhost:',$port,'/exist/rest/db/mdr/data/models')"/>
+                    <xsl:for-each select="document($modelLoc)">
                         <xsl:for-each select="/exist:result/exist:collection/exist:resource">
-                            <xsl:variable name="filename" select="@name"></xsl:variable>
-                            <xsl:variable name="id" select="substring-before(substring-after($filename,'_'),'_')"></xsl:variable>
-                            <xsl:variable name="idandversion" select="@version"></xsl:variable>
-                            <xsl:variable name="version" select="substring-before(substring-after(substring-after($filename,'_'),'_'),'.xml')"></xsl:variable>
+                            <xsl:variable name="filename" select="@name"/>
+                            <xsl:variable name="id" select="substring-before(substring-after($filename,'_'),'_')"/>
+                            <xsl:variable name="idandversion" select="@version"/>
+                            <xsl:variable name="version" select="substring-before(substring-after(substring-after($filename,'_'),'_'),'.xml')"/>
                             <xsl:if test="$id eq $dataid">
-                              <tr>
-                                <td class="left_header_cell">Version <xsl:value-of select="$version"></xsl:value-of></td>
-                                  <td> <xsl:variable name="xmiloc" select="document(concat('http://localhost:9090/exist/rest/db/mdr/data/models/',$filename))/openMDR:models/openMDR:annotated_model_uri"></xsl:variable>
-                                    <a href="{$xmiloc}">download</a>
-                                  </td>
-                              </tr>
+                                <tr>
+                                    <td class="left_header_cell">Version <xsl:value-of select="$version"/>
+                                    </td>
+                                    <td>
+                                        <xsl:variable name="xmiloc" select="document(concat('http://localhost:9090/exist/rest/db/mdr/data/models/',$filename))/openMDR:models/openMDR:annotated_model_uri"/>
+                                        <a href="{$xmiloc}">download</a>
+                                    </td>
+                                </tr>
                             </xsl:if>
                         </xsl:for-each>
-                    </xsl:for-each>  
+                    </xsl:for-each>
                 </tr>
             </tbody>
         </table>
@@ -1956,7 +1957,6 @@
     <!-- Displaying the annotated models as the content -->
     <xsl:template match="tabular-content-annotated-model">
         <xsl:apply-templates select="annotated-models"/>
-        
         <xsl:apply-templates select="index"/>
-        </xsl:template>
+    </xsl:template>
 </xsl:stylesheet>

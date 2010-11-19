@@ -1,9 +1,37 @@
+head{
+   border-bottom-style:double;         
+}
 body {
-    font-family:verdana, arial, helvetica, sans-serif;
-    width:1024px;
+    font-family: 'Arial Unicode MS', serif,verdana, arial, helvetica, sans-serif;
+    width:1000px;
     position:relative;
     margin-left:auto;
     margin-right:auto;
+    text-align: center;
+	background-color:#9C9C9C; /*#5E5E5E*/
+	font-size:14px;
+	color:black;
+    
+}
+#central{
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 10px;
+	position: relative;
+	width: 880px;
+	text-align: left;
+	background:#fff;
+	padding-bottom:20px;
+}
+html{
+    background:repeat;
+    background-color:#9C9C9C; /*#5E5E5E*/
+}
+#navtop{
+	position: absolute;
+	height: 100px;
+	width: 780px;
+	
 }
 h1 {
     margin: 0;
@@ -13,13 +41,14 @@ h1 img {
     float:left
 }
 h2 {
-    margin: 5px;
+    margin: 5px; 
 }
 
 h3 {
     margin: 5px;
     font-weight:bold;
-    }
+    background-color:#F0F0F0;
+}
     
 #message {
     background-color:#bbbbbb;
@@ -32,9 +61,42 @@ h3 {
 }
 
 tr.odd_row {
-    background-color: #ddd;
+    
 }
 tr.even_row {
+    background-color: #ddd;
 }
 
+#nt1 ,#nt2 ,#nt3{
+	padding-left: 40px;
+	width: 79px;
+	background-image: url(../images/greenbutton.bmp);
+ }
 
+a {
+    text-decoration:none;
+    color:#00B2EE;
+}
+
+a:visited{
+    color:#236B8E;    
+}
+
+a:hover {
+    color:#1E90FF;
+} 
+
+.log {
+    color:gray;
+} 
+.log_login {
+    color:gray;
+    text-decoration:blink;
+} 
+.login{
+    font-family: 'Arial Unicode MS', serif,verdana, arial, helvetica, sans-serif;
+    text-align:right;
+    font-size:x-small;
+    color:gray;
+    background-image: url(../images/newMenuButtonLight.jpg);
+}
