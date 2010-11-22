@@ -3,6 +3,7 @@ package gov.nih.nci.cagrid.metadata.xmi;
 import gov.nih.nci.cagrid.metadata.common.SemanticMetadata;
 import gov.nih.nci.cagrid.metadata.common.UMLAttribute;
 import gov.nih.nci.cagrid.metadata.common.UMLClass;
+import gov.nih.nci.cagrid.metadata.common.ValueDomain;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModel;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModelExposedUMLAssociationCollection;
 import gov.nih.nci.cagrid.metadata.dataservice.DomainModelExposedUMLClassCollection;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,6 +37,9 @@ public abstract class BaseXMIHandler extends DefaultHandler {
     
     private static Log logger = LogFactory.getLog(BaseXMIHandler.class);
 
+    // regex that matches variations on the "value domain" package name for exclusion
+    public static final String VALUE_DOMAIN_REGEX = ".*?[V|v]alue.?domain.*";
+
     // parser contains configuration options and information for the handler
     private XMIParser parser;
 
@@ -47,10 +53,14 @@ public abstract class BaseXMIHandler extends DefaultHandler {
     
     // maps from XMI name to domain model component
     private Map<String, UMLClass> classTable; // class ID to class instance
+    private Map<String, UMLClassExtension> classExtensionTable; // class ID to class instance
     private Map<String, UMLAttribute> attribTable; // attribute ID to attribute instance
     private Map<String, List<SemanticMetadata>> semanticMetadataTable; // element ID to semantic metadata list
+    private Map<String, List<ValueDomain>> valueDomainMetadataTable; // element ID to semantic metadata list
+    
     private Map<String, String> typeTable; // type ID to type name
     
+        
     public BaseXMIHandler(XMIParser parser) {
         super();
         this.parser = parser;
@@ -64,7 +74,9 @@ public abstract class BaseXMIHandler extends DefaultHandler {
         this.classTable = new HashMap<String, UMLClass>();
         this.attribTable = new HashMap<String, UMLAttribute>();
         this.semanticMetadataTable = new HashMap<String, List<SemanticMetadata>>();
+        this.classExtensionTable = new HashMap<String, UMLClassExtension>();
         this.typeTable = new HashMap<String, String>();
+        this.valueDomainMetadataTable = new HashMap<String, List<ValueDomain>>();
     }
     
     
@@ -83,6 +95,10 @@ public abstract class BaseXMIHandler extends DefaultHandler {
         classTable.put(clazz.getId(), clazz);
     }
     
+    public void addClass(UMLClassExtension clazz) {
+        classList.add(clazz);
+        classTable.put(clazz.getId(), clazz);
+    }
     
     public UMLClass getLastClass() {
         return classList.get(classList.size() - 1);
@@ -146,7 +162,12 @@ public abstract class BaseXMIHandler extends DefaultHandler {
         return semanticMetadataTable;
     }
 
+    
+    public Map<String, List<ValueDomain>> getValueDomainMetadataTable() {
+        return valueDomainMetadataTable;
+    }
 
+    
     public Map<String, String> getTypeTable() {
         return typeTable;
     }
@@ -163,7 +184,8 @@ public abstract class BaseXMIHandler extends DefaultHandler {
     
     
     public void endDocument() throws SAXException {
-        applySemanticMetadata();
+    	applyValueDomain();
+    	applySemanticMetadata();
         applyDataTypes();
         flattenAttributes();
         applyFilters();
@@ -180,8 +202,8 @@ public abstract class BaseXMIHandler extends DefaultHandler {
             new gov.nih.nci.cagrid.metadata.dataservice.UMLClass[classList.size()];
         int i = 0;
         for (UMLClass commonClass : classList) {
-            gov.nih.nci.cagrid.metadata.dataservice.UMLClass dataClass = 
-                new gov.nih.nci.cagrid.metadata.dataservice.UMLClass();
+            UMLClassExtension dataClass = 
+                new UMLClassExtension();
             dataClass.setClassName(commonClass.getClassName());
             dataClass.setDescription(commonClass.getDescription());
             dataClass.setId(commonClass.getId());
@@ -189,6 +211,9 @@ public abstract class BaseXMIHandler extends DefaultHandler {
             dataClass.setProjectName(commonClass.getProjectName());
             dataClass.setProjectVersion(commonClass.getProjectVersion());
             dataClass.setSemanticMetadata(commonClass.getSemanticMetadata());
+            
+          //dataClass.setValueDomainMetadata(commonClass.getValueDomainMetadata());
+            
             dataClass.setUmlAttributeCollection(commonClass.getUmlAttributeCollection());
             dataClass.setAllowableAsTarget(true); // NEW attribute for data classes
             dataClasses[i++] = dataClass;
@@ -219,6 +244,18 @@ public abstract class BaseXMIHandler extends DefaultHandler {
         }
     }
 
+    private void applyValueDomain(){
+    	for (String id : valueDomainMetadataTable.keySet()) {
+            if (classExtensionTable.containsKey(id)) {
+                classExtensionTable.get(id).setValueDomainMetadata(
+                    valueDomainMetadataTable.get(id).toArray(new ValueDomain[0]));
+            } 
+            else if (attribTable.containsKey(id)) {
+                
+            	attribTable.get(id).setValueDomain(valueDomainMetadataTable.get(id).get(0));
+            }
+        }
+    }
 
     private void applyDataTypes() {
         for (String id : attribTable.keySet()) {
@@ -255,14 +292,14 @@ public abstract class BaseXMIHandler extends DefaultHandler {
 
 
     private void flattenAttributes() {
-        // build parent table
+        // build table of class reference IDs from subclass -> superclass
         Map<String, String> parentTable = new HashMap<String, String>();
         for (UMLGeneralization gen : generalizationList) {
             parentTable.put(gen.getSubClassReference().getRefid(), 
                 gen.getSuperClassReference().getRefid());
         }
 
-        // flatten each class by ID
+        // flatten attributes of each class
         for (String classId : classTable.keySet()) {
             UMLClass clazz = classTable.get(classId);
             List<UMLAttribute> flatAttributes = 
@@ -275,40 +312,45 @@ public abstract class BaseXMIHandler extends DefaultHandler {
 
     private List<UMLAttribute> flattenAttributesOfClass(
         Map<String, String> parentTable, String classId) {
-        if (classId == null) {
+        // if no class ID, don't return any attributes
+    	if (classId == null) {
             return new ArrayList<UMLAttribute>(0);
         }
-        List<UMLAttribute> flat = new ArrayList<UMLAttribute>();
+        List<UMLAttribute> flatAttributes = new ArrayList<UMLAttribute>();
 
-        // my atts
+        // attributes of this class directly
         UMLClass cl = classTable.get(classId);
         if (cl.getUmlAttributeCollection() != null && cl.getUmlAttributeCollection().getUMLAttribute() != null) {
             for (UMLAttribute att : cl.getUmlAttributeCollection().getUMLAttribute()) {
-                flat.add(att);
+                flatAttributes.add(att);
             }
         }
-        // my parent's atts
+
+        // attributes of my parent class (and so on...)
         for (UMLAttribute att : flattenAttributesOfClass(parentTable, parentTable.get(classId))) {
-            flat.add(att);
+        	 if (!flatAttributes.contains(att)) {
+                 flatAttributes.add(att);
+             }        
         }
 
-        return flat;
+        return flatAttributes;
     }
 
 
     private void applyFilters() {
         // build a set of class IDs which are valid to keep references to
         // from oteher components of the model
-        HashSet<String> validClassIds = new HashSet<String>();
-        
-        for (UMLClass clazz : classList) {
-            String pack = clazz.getPackageName();
-            if ((this.parser.filterPrimitiveClasses && !pack.startsWith("java")) && 
-                !pack.startsWith("ValueDomain") && 
-                !pack.equals("")) {
-                validClassIds.add(clazz.getId());
-            }
-        }
+    	 Set<String> validClassIds = new HashSet<String>();
+         
+         Pattern valueDomainPattern = Pattern.compile(VALUE_DOMAIN_REGEX);
+         for (UMLClass clazz : classList) {
+             String pack = clazz.getPackageName();
+             if ((this.parser.filterPrimitiveClasses && !pack.startsWith("java")) && 
+                 !valueDomainPattern.matcher(pack).matches() && 
+                 !pack.equals("")) {
+                 validClassIds.add(clazz.getId());
+             }
+         }
         
         // filter class list
         List<UMLClass> filteredClasses = new ArrayList<UMLClass>(this.classList.size());

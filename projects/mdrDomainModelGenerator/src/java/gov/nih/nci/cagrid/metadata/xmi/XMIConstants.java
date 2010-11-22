@@ -52,6 +52,10 @@ public class XMIConstants {
     public static final String XMI_UML_TAGGED_VALUE_MODEL_ELEMENT = "modelElement";
     public static final String XMI_UML_TAGGED_VALUE_VALUE = "value";
     
+    // cadsr ID tag values
+    public static final String XMI_TAG_CADSR_DE_ID = "CADSR_DE_ID";
+    public static final String XMI_TAG_CADSR_DE_VERSION = "CADSR_DE_VERSION";
+    
     // tag values
     public static final String XMI_TAG_PROPERTY_CDE_REF = "CDERef";
     public static final String XMI_TAG_PROPERTY = "Property";

@@ -2,10 +2,13 @@ package gov.nih.nci.cagrid.metadata.xmi;
 
 
 import gov.nih.nci.cagrid.metadata.MDRUtils;
+import gov.nih.nci.cagrid.metadata.common.Enumeration;
 import gov.nih.nci.cagrid.metadata.common.SemanticMetadata;
 import gov.nih.nci.cagrid.metadata.common.UMLAttribute;
 import gov.nih.nci.cagrid.metadata.common.UMLClass;
 import gov.nih.nci.cagrid.metadata.common.UMLClassUmlAttributeCollection;
+import gov.nih.nci.cagrid.metadata.common.ValueDomain;
+import gov.nih.nci.cagrid.metadata.common.ValueDomainEnumerationCollection;
 import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociation;
 import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociationEdge;
 import gov.nih.nci.cagrid.metadata.dataservice.UMLAssociationSourceUMLAssociationEdge;
@@ -20,6 +23,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cancergrid.schema.result_set.ConceptRef;
+import org.cancergrid.schema.result_set.ValidValue;
+import org.globus.wsrf.tests.security.GetValue;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -217,6 +222,7 @@ class MDREaXMIHandler extends BaseXMIHandler {
             LOG.debug("\ttag=" + tag);
             LOG.debug("\tvalue=" + value);
         }
+                
         if (handlingAttribute && "ea_guid".equals(tag)) {
             currentAttribute.setPublicID(value.hashCode());
         } else if (tag.equals(XMIConstants.XMI_TAG_DESCRIPTION)) {
@@ -233,12 +239,21 @@ class MDREaXMIHandler extends BaseXMIHandler {
                 && !tag.startsWith(XMIConstants.XMI_TAG_PROPERTY_QUALIFIER_CONCEPT_DEFINITION_SOURCE))) {
         	LOG.debug("\tConceptCode tag original:"+tag+"; Public Id original: "+ String.valueOf(currentAttribute.getPublicID())+"; Value original: "+ value);            
         	addSemanticMetadata(tag, String.valueOf(currentAttribute.getPublicID()), value);
+        	
         } else if (tag.startsWith(XMIConstants.XMI_TAG_PROPERTY_CDE_REF)) {
         	mdrutils.idTokenizer(value);
     		List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
+    		List<ValidValue> listValidValues = new LinkedList<ValidValue>();
     		listConceptRef = mdrutils.getConceptRefs();
-    		for (int l=0;l<listConceptRef.size();l++)
-            {
+    		listValidValues = mdrutils.getValidValues();
+    		
+    		if(listValidValues!=null && listValidValues.size()>0){
+    			for(int l=0;l<listValidValues.size();l++){
+    	    		addValueDomain(Long.toString(currentAttribute.getPublicID()), ((ValidValue)listValidValues.get(l)).getCode(),l,listValidValues);
+ 	   			}
+    		}
+    		
+    		for(int l=0;l<listConceptRef.size();l++){
     			addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_CODE, Long.toString(currentAttribute.getPublicID()), ((ConceptRef)listConceptRef.get(l)).getId(),l);
 	        	addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_PREFERRED_NAME, Long.toString(currentAttribute.getPublicID()), ((ConceptRef)listConceptRef.get(l)).getName(),l);
 	        	addSemanticMetadata(XMIConstants.XMI_TAG_PROPERTY_CONCEPT_DEFINITION, Long.toString(currentAttribute.getPublicID()), ((ConceptRef)listConceptRef.get(l)).getDefinition(),l);
@@ -246,6 +261,56 @@ class MDREaXMIHandler extends BaseXMIHandler {
 		}
     }
     
+    private void addValueDomain(String elementId, String value,int orderValue,List<ValidValue> listValidValues) {
+    	    	
+    	List<ValueDomain> vdList = getValueDomainMetadataTable().get(elementId);
+    	
+    	//Size must be same as the number of valid values
+    	Enumeration[] enumerationArr = new Enumeration[listValidValues.size()];
+    	ValueDomainEnumerationCollection vdEnum = new ValueDomainEnumerationCollection();
+    	
+    	for(int i=0;i<listValidValues.size();i++){
+	    	
+    		if(vdList == null){
+	    		getValueDomainMetadataTable().put(elementId, vdList = new ArrayList<ValueDomain>(2));
+	    	}
+	    	int size = vdList.size();
+	    	if (size <= i) {
+                for (int j = vdList.size(); j <= i; j++) {
+                    vdList.add(new ValueDomain());
+                }
+            }
+	    	ValueDomain valueDomain = vdList.get(i);
+	    	
+	    	Enumeration eumeration = new Enumeration();
+	    	if(listValidValues.get(i)!=null){
+	    		eumeration.setPermissibleValue(listValidValues.get(i).getCode());
+	    		eumeration.setValueMeaning(listValidValues.get(i).getMeaning().toString());
+	    	}
+	    	SemanticMetadata sm = new SemanticMetadata();
+	    	if(listValidValues.get(i).getConceptCollection()!=null && 
+	    			listValidValues.get(i).getConceptCollection().getConceptRef()!=null){
+		    	//populate new Semantic Metadata with attribute values
+		    	sm.setOrder(Integer.valueOf(i));
+	            sm.setConceptCode(((ConceptRef)listValidValues.get(i).getConceptCollection().getConceptRef()[0]).getId());
+	            sm.setConceptName(((ConceptRef)listValidValues.get(i).getConceptCollection().getConceptRef()[0]).getName());
+	            sm.setConceptDefinition(((ConceptRef)listValidValues.get(i).getConceptCollection().getConceptRef()[0]).getDefinition());
+	    	}
+	    	SemanticMetadata[] smArr = new SemanticMetadata[1];
+            smArr[0] = sm;
+            
+            //set semanticMetadata in enumeration
+            eumeration.setSemanticMetadata(smArr);
+            //set enumeration in Enumeration arr
+            enumerationArr[i]=eumeration;
+            
+	    	vdEnum.setEnumeration(enumerationArr);
+	    	valueDomain.setEnumerationCollection(vdEnum);
+	    	
+    	}
+    	
+    }
+
     
     private void handleClassTag(String tag, String value, String modelElement) {
         if (LOG.isDebugEnabled()) {
@@ -334,10 +399,11 @@ class MDREaXMIHandler extends BaseXMIHandler {
             sm.setConceptDefinition(value);
         }
     }
-  
-
+    
+    
     private void addSemanticMetadata(String tag, String elementId, String value, int orderValue) {
-        if (LOG.isDebugEnabled()) {
+        
+    	if (LOG.isDebugEnabled()) {
             LOG.debug("Adding semantic metadata for MDR DataElements");
             UMLClass clazz = getClassById(elementId);
             UMLAttribute attr = getAttributeById(elementId);
@@ -350,13 +416,13 @@ class MDREaXMIHandler extends BaseXMIHandler {
             }
         }
         int order = orderValue;
-
+        
         List<SemanticMetadata> smList = getSemanticMetadataTable().get(elementId);
         if (smList == null) {
             getSemanticMetadataTable().put(elementId, 
                 smList = new ArrayList<SemanticMetadata>(2));
         }
-
+        
         int size = smList.size();
         if (size <= order) {
             for (int i = smList.size(); i <= order; i++) {
@@ -374,5 +440,6 @@ class MDREaXMIHandler extends BaseXMIHandler {
             sm.setConceptDefinition(value);
         }
     }
+    
     
 }

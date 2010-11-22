@@ -1,10 +1,13 @@
 package gov.nih.nci.cagrid.metadata;
 
 
+import gov.nih.nci.cagrid.common.Utils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,6 +31,8 @@ import org.cancergrid.schema.result_set.DataElement;
 import org.cancergrid.schema.result_set.ObjectClass;
 import org.cancergrid.schema.result_set.Property;
 import org.cancergrid.schema.result_set.ResultSet;
+import org.cancergrid.schema.result_set.ValidValue;
+import org.cancergrid.schema.result_set.Values;
 
 /**
  * MDRUtils
@@ -91,6 +96,7 @@ public class MDRUtils {
 		Set<ConceptRef> setConceptRef = new HashSet<ConceptRef>();
         List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
         Properties properties = new Properties(); 
+        Set<ValidValue> validValues = new HashSet<ValidValue>();
 	  	try {
 	  		FileInputStream fin = new FileInputStream("./mdrQuery.properties");
 	  		properties.load(fin); 
@@ -149,11 +155,11 @@ public class MDRUtils {
 				query.setNumResults(100);
 				ResultSet results = client.query(query);
 				dataElement = results.getDataElement();
-				/*
+				
 				PrintWriter pw = new PrintWriter(System.out);
 				Utils.serializeObject(results, results.getTypeDesc()
 						.getXmlType(), pw);						
-				*/
+				
 				if (dataElement!=null)
 				{
 					for (int numDataElement=0;numDataElement<dataElement.length;numDataElement++)
@@ -166,6 +172,7 @@ public class MDRUtils {
 							{
 								vectorConceptRef.addElement(conRef[numConRef]);
 								setConceptRef.add(conRef[numConRef]);
+								System.out.print(conRef[numConRef].getName());
 							}
 						
 						}
@@ -181,7 +188,18 @@ public class MDRUtils {
 
 							}
 						
-						}	
+						}
+						
+					    Values valuesClass = dataElement[numDataElement].getValues();
+				        if(valuesClass.getEnumerated()!=null){
+						    ValidValue[] validValue  = valuesClass.getEnumerated().getValidValue();
+						    
+						    for (int numvalidValues=0;numvalidValues<validValue.length;numvalidValues++)
+						    {
+						    	validValues.add(validValue[numvalidValues]);
+						    }
+				        }
+					    
 					}
 				    listConceptRef.addAll(setConceptRef);
 					}			
@@ -222,5 +240,137 @@ public class MDRUtils {
 			System.out.println("\t"+((ConceptRef)listConceptRef.get(l)).getDefinition());
         }
 		
+	}
+	  
+  /**
+     * This method queries the MDR and returns the Valid Values
+	 * @return 
+     * 	
+     * @return 	List ValidValues
+     */	
+  public  List<ValidValue> getValidValues() {	
+
+		DataElement dataElement[]=null;
+		Vector<ConceptRef> vectorConceptRef = new Vector<ConceptRef>();
+		Set<ConceptRef> setConceptRef = new HashSet<ConceptRef>();
+        List<ConceptRef> listConceptRef = new LinkedList<ConceptRef>();
+        Properties properties = new Properties(); 
+        List<ValidValue> listValidValues = new LinkedList<ValidValue>();
+        Set<ValidValue> validValues = new HashSet<ValidValue>();
+	  	try {
+	  		FileInputStream fin = new FileInputStream("./mdrQuery.properties");
+	  		properties.load(fin); 
+		  	mdrQueryURL = properties.getProperty("mdrQueryUrl"); 
+	  	} 
+	  	
+  		catch(FileNotFoundException fnf)
+	  	{
+  			System.out.println("File : mdrQuery.properties Not Found!! Please check for the file!!!!");
+  			System.out.println("Using default mdrQueryUrl : File : http://localhost:8080/wsrf/services/cagrid/MDRQuery ");
+  			mdrQueryURL = "http://localhost:8080/wsrf/services/cagrid/MDRQuery";
+	  	}
+  		catch (IOException e) {  
+  			System.out.println("Some IO Exception occurred. Please again!!!!");
+  			System.out.println("Using default mdrQueryUrl : File : http://localhost:8080/wsrf/services/cagrid/MDRQuery ");
+  			mdrQueryURL = "http://localhost:8080/wsrf/services/cagrid/MDRQuery";
+  		}
+  		try 
+  		{
+  			 QueryServiceConfig config = new QueryServiceConfig(new File("./etc/config.xml"));
+  			 Map<String, Query_service> qrs = config.listAvailableServices();
+  			 Set entries = qrs.entrySet();
+  			 Iterator iterator = entries.iterator();
+  		     while (iterator.hasNext()) {
+  		       Map.Entry entry = (Map.Entry)iterator.next();
+  		       Query_service info = config.getQueryServiceInfo(entry.getKey().toString());      
+  		       if((info.getIdentifier_prefix())!=null)
+  		       {
+	  		       if (info.getIdentifier_prefix().equalsIgnoreCase(identifier_prefix))
+	  		       {		  		    		   
+	  		    	   resourceName = info.getName();
+	  		    	   if(info.getName().equalsIgnoreCase("openMDR"))
+	  		    	   {
+	  		    		   publicId = MDRId;
+	  		    	   }
+	  		       }
+  		       }
+
+  		     }	 
+  	  	} 
+  		catch (Exception e) {
+             LOG.error("QueryServiceManager: " + e);
+         }
+  		
+		// query grid service and return DataElements Array
+		LOG.debug("Running the Grid Service Client Now...");
+		try {
+			if (publicId != null) {
+
+				MDRQueryClient client = new MDRQueryClient(mdrQueryURL);
+				Query query = new Query();
+				query.setId(publicId);
+				query.setVersion(version);
+				LOG.debug("\tFinding Concepts for CDE PublicId: " + publicId);
+				query.setResource(resourceName);
+				query.setNumResults(100);
+				ResultSet results = client.query(query);
+				dataElement = results.getDataElement();
+				
+				PrintWriter pw = new PrintWriter(System.out);
+				Utils.serializeObject(results, results.getTypeDesc()
+						.getXmlType(), pw);						
+				
+				if (dataElement!=null)
+				{
+					for (int numDataElement=0;numDataElement<dataElement.length;numDataElement++)
+					{
+						ObjectClass[] objClass = dataElement[numDataElement].getObjectClass();
+						for (int numObjectClass=0;numObjectClass<objClass.length;numObjectClass++)
+						{
+							ConceptRef[] conRef  = objClass[numObjectClass].getConceptCollection().getConceptRef();
+							for (int numConRef=0;numConRef<conRef.length;numConRef++)
+							{
+								vectorConceptRef.addElement(conRef[numConRef]);
+								setConceptRef.add(conRef[numConRef]);
+								System.out.print(conRef[numConRef].getName());
+							}
+						
+						}
+						
+						Property[] propClass = dataElement[numDataElement].getProperty();
+						for (int numPropertyClass=0;numPropertyClass<propClass.length;numPropertyClass++)
+						{
+							ConceptRef[] conRef  = propClass[numPropertyClass].getConceptCollection().getConceptRef();
+							for (int numConRef=0;numConRef<conRef.length;numConRef++)
+							{
+								vectorConceptRef.addElement(conRef[numConRef]);
+								setConceptRef.add(conRef[numConRef]);
+
+							}
+						
+						}
+						
+					    Values valuesClass = dataElement[numDataElement].getValues();
+				        if(valuesClass.getEnumerated()!=null){
+						    ValidValue[] validValue  = valuesClass.getEnumerated().getValidValue();
+						    System.out.println("Printing valid value lenght:"+validValue.length);
+						   
+						    for (int numvalidValues=0;numvalidValues<validValue.length;numvalidValues++)
+						    {
+						    	validValues.add(validValue[numvalidValues]);
+
+						    }
+				        }
+					    
+					}
+				    listValidValues.addAll(validValues);
+					}			
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return listValidValues;
 	}
 }
