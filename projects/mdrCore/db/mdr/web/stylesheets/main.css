@@ -22,6 +22,9 @@ body {
 	text-align: left;
 	background:#fff;
 	padding-bottom:20px;
+    border-style:outset;
+    border-color:#C3E4ED /*#00B2EE;*/
+	
 }
 html{
     background:repeat;
@@ -66,12 +69,6 @@ tr.odd_row {
 tr.even_row {
     background-color: #ddd;
 }
-
-#nt1 ,#nt2 ,#nt3{
-	padding-left: 40px;
-	width: 79px;
-	background-image: url(../images/greenbutton.bmp);
- }
 
 a {
     text-decoration:none;

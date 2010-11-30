@@ -16,6 +16,7 @@ td.left_header_cell {
     width: 25%;
     vertical-align:text-top;
     background-color:#F0F0F0;
+    padding-left:10px;
 }
     
 td.row-header-cell {
@@ -392,6 +393,8 @@ div.cssnavinner
 } 
 
 select{
-    max-width:200px;   
+    width:auto;
+    max-width:700px;
 }
+
 
