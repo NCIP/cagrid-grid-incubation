@@ -233,7 +233,7 @@ declare function local:input-page(
    <div xmlns="http://www.w3.org/1999/xhtml">
       <table class="layout">
           <tr><td>This form will allow you to upload the annotated model</td></tr>
-          <tr><td>
+          <tr>
           <form name="new_annotated_model" action="editAnnotatedModel.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
              {lib-forms:hidden-element('id',$id)}        
               <div class="section">
@@ -241,22 +241,17 @@ declare function local:input-page(
                  <tr><td>
                  <div class="tabber">
                   <div id='validate' class="tabbertab">
+                      <h2>Administered Item Metadata</h2>
                       <table class="section">
-                        <h2>Administered Item Metadata</h2>
-                        <tr><td> This form will allow you to upload the annotated model</td></tr>
                         <tr>
-                            <p>
-                              <table class="section">
-                                  <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
-                                  <tr><td class="left_header_cell">Existing Version</td><td colspan="5"> {$version}{lib-forms:radio('version',string($version),'true')} </td></tr>
-                                  <tr><td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {$proposedNextVersion}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td></tr>
-                                  <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
-                                  <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
-                                  <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
-                                  <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
-                                  <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Registration_Status','registration_status', false(), $registration_status)}</td></tr>
-                              </table>
-                           </p>
+                              <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+                              <tr><td class="left_header_cell">Existing Version</td><td colspan="5"> {$version}{lib-forms:radio('version',string($version),'true')} </td></tr>
+                              <tr><td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {$proposedNextVersion}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td></tr>
+                              <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
+                              <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
+                              <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
+                              <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+                              <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Registration_Status','registration_status', false(), $registration_status)}</td></tr>
                         </tr>
                       </table>
                
@@ -282,7 +277,7 @@ declare function local:input-page(
                 </td></tr>
              </div>
           </form>
-          </td></tr>
+          </tr>
           <tr><td><font size="3" color="red">{$message}</font></td></tr>
           <tr><td><font size="2" color="red">{session:get-attribute('invalidCDEs'),session:set-attribute("invalidCDEs","")}</font></td></tr>
         </table>

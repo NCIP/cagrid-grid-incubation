@@ -50,7 +50,7 @@ declare function local:action-button($value as xs:string, $control as xs:string,
 
 declare option exist:serialize "media-type=text/html";
 session:create(),
-let $resource as xs:string := xs:string(request:get-parameter("resource", "NCIThesaurus"))
+let $resource as xs:string := xs:string(request:get-parameter("resource", "BioPortal-Ocre"))
 let $element as xs:string := xs:string(request:get-parameter("element", ""))
 let $form-name as xs:string := xs:string(request:get-parameter("form-name", ""))
 let $phrase as xs:string := xs:string(request:get-parameter("phrase", ""))

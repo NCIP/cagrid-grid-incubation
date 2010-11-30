@@ -224,31 +224,25 @@ declare function local:input-page(
    <div xmlns="http://www.w3.org/1999/xhtml">
       <table class="layout">
           <tr><td> This form will allow you to upload the annotated model</td></tr>
-          <tr><td>
+          <tr>
           <form name="new_annotated_model" action="newAnnotatedModel.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
               <div class="section">
                 
                 <tr><td class="row-header-cell" colspan="6">Standard Administered Item Metadata</td></tr>
                 <tr><td>
                 <div class="tabber">
-                <div id='validate' class="tabbertab">
-              
+                <div id="validate" class="tabbertab">
+                <h2>Administered Item Metadata</h2>
                 
                 <table class="section">
-                    <h2>Administered Item Metadata</h2>
-                    <tr><td> This form will allow you to upload the annotated model</td></tr>
                     <tr>
-                       <p>
-                          <table class="section">
-                              <tr><td class="left_header_cell">Registration Authority<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
-                              <tr><td class="left_header_cell">Version</td><td colspan="5"> {$project_version}{lib-forms:radio('label',$project_version,'true')} </td></tr>
-                              <tr><td class="left_header_cell">Registered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
-                              <tr><td class="left_header_cell">Administered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-administered_by-nameAndOrg(request:get-parameter('administered-by',''))} </td></tr>
-                              <tr><td class="left_header_cell">Submitted by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-submitted_by-nameAndOrg(request:get-parameter('submitted-by',''))} </td></tr>
-                              <tr><td class="left_header_cell">Administrative Status<font color="red">*</font></td><td colspan="2">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',''))}</td></tr>
-                              <tr><td class="left_header_cell">Registration Status<font color="red">*</font></td><td colspan="2"> {lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',''))}</td></tr>
-                           </table>
-                       </p>
+                          <tr><td class="left_header_cell">Registration Authority<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registration-authority(request:get-parameter('registration-authority',''))} </td></tr>
+                          <tr><td class="left_header_cell">Version</td><td colspan="5"> {$project_version}{lib-forms:radio('label',$project_version,'true')} </td></tr>
+                          <tr><td class="left_header_cell">Registered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-registered_by(request:get-parameter('registered-by',''))} </td></tr>
+                          <tr><td class="left_header_cell">Administered by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-administered_by-nameAndOrg(request:get-parameter('administered-by',''))} </td></tr>
+                          <tr><td class="left_header_cell">Submitted by<font color="red">*</font></td><td colspan="2"> {lib-forms:make-select-submitted_by-nameAndOrg(request:get-parameter('submitted-by',''))} </td></tr>
+                          <tr><td class="left_header_cell">Administrative Status<font color="red">*</font></td><td colspan="2">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(),request:get-parameter('administrative-status',''))}</td></tr>
+                          <tr><td class="left_header_cell">Registration Status<font color="red">*</font></td><td colspan="2"> {lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(),request:get-parameter('registration-status',''))}</td></tr>
                      </tr>
                 </table>
               
@@ -273,7 +267,7 @@ declare function local:input-page(
             </td></tr>
             </div>
          </form>
-         </td></tr>
+         </tr>
           <tr><td><font size="3" color="red">{$message}</font></td></tr>
           <tr><td><font size="2" color="red">{session:get-attribute('invalidCDEs'),session:set-attribute("invalidCDEs","")}</font></td></tr>
         </table>
@@ -296,6 +290,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    
 session:create(),
 
+   let $title := 'Creating new Annotated Model'
    let $project_long_name := request:get-parameter('project_long_name','')
    let $project_short_name := request:get-parameter('project_short_name','')
    let $project_version := request:get-parameter('project_version','')
@@ -314,7 +309,7 @@ session:create(),
    return
    
       lib-rendering:txfrm-webpage(
-      $project_long_name,
+      $title,
       if ($action='Save')
       then 
          (

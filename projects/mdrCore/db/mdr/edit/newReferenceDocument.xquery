@@ -85,55 +85,71 @@ declare function local:input-page(
    let $skip-uri := substring-after($action,'delete uri entry')
    let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
 
-   return
-   <div xmlns="http://www.w3.org/1999/xhtml">
- 
-      
-      <table class="layout">
-          <tr>
-             <td>
-                This form will allow you to create a new reference document in the metadata repository
-             </td>
-          </tr>
-          <tr><td>
-          <form name="new_reference_document" action="newReferenceDocument.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
-             <div class="section">
+   return(
+        <div xmlns="http://www.w3.org/1999/xhtml">
+   
+            <table class="layout">
+                <tr>
+                  <td colspan="6">
+                      This form will allow you to create a new reference document in the metadata repository
+                   </td>
+                </tr>
+                <tr>
                     <table class="section">
-                        <tr>
-                           <td class="row-header-cell" colspan="6">Reference Document</td>
-                        </tr>
-                        
-                        <tr>
-                          <td class="left_header_cell">Title</td><td>{lib-forms:input-element('title', 80, $title)}</td>
-                        </tr>
-
-                        <tr>
-                          <td class="left_header_cell">File</td><td><input id="file" type="FILE" name="file"/></td>
-                        </tr>
-                        
-                        <tr>
-                          <td class="left_header_cell">Language</td><td>{lib-forms:select-from-simpleType-enum('Language_Identifier','language', false(), $language)}</td>
-                        </tr>
-
-                        <tr>
-                          <td class="left_header_cell">Document Type</td><td>{lib-forms:select-from-simpleType-enum('Reference_Document_Type','description', true(), $description)}</td>
-                        </tr>
-                        
-                        <tr>
-                          <td class="left_header_cell">Providing Organization</td><td>{lib-forms:input-element('provided-by', 80, $provided-by)}</td>
-                        </tr>                
-
-                        <tr>
-                           <td class="row-header-cell" colspan="6">Store</td>
-                        </tr>
-                        <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return checkFile(this);"/></td><td colspan="4"><input type="submit" name="update" value="Clear"/></td></tr>
-                     </table>
-              </div>
-          </form>
-          </td></tr>
-          <tr><td>{$message}</td></tr>
-        </table>
-     </div>
+                        <td class="row-header-cell">Reference Document</td>
+                    </table> 
+                </tr>
+                <tr>
+                <form name="new_reference_document" action="newReferenceDocument.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
+                   <div class="section">
+                          
+                          <tr>
+                          <td>
+                          <table class="section">
+                              
+                              <tr>
+                                <td class="left_header_cell">Title</td><td>{lib-forms:input-element('title', 80, $title)}</td>
+                              </tr>
+      
+                              <tr>
+                                <td class="left_header_cell">File</td><td><input id="file" type="FILE" name="file"/></td>
+                              </tr>
+                              
+                              <tr>
+                                <td class="left_header_cell">Language</td><td>{lib-forms:select-from-simpleType-enum('Language_Identifier','language', false(), $language)}</td>
+                              </tr>
+      
+                              <tr>
+                                <td class="left_header_cell">Document Type</td><td>{lib-forms:select-from-simpleType-enum('Reference_Document_Type','description', true(), $description)}</td>
+                              </tr>
+                              <tr>
+                                <td class="left_header_cell">Providing Organization</td><td>{lib-forms:input-element('provided-by', 80, $provided-by)}</td>
+                              </tr>                
+                         </table>
+                          <table class="section">
+                              <tr>
+                                 <td class="row-header-cell" colspan="6">Store</td>
+                              </tr>
+                              <tr>
+                                  <td class="left_header_cell"></td>
+                                  <td>
+                                      <input type="submit" name="update" value="Save" onClick="return checkFile(this);"/>
+                                  </td>
+                                  <td colspan="4">
+                                      <input type="submit" name="update" value="Clear"/>
+                                  </td>
+                              </tr>
+                          </table>
+                          </td>
+                          </tr>
+                    </div>
+                </form>
+                </tr>
+                <tr><td>{$message}</td></tr>
+              </table>
+      
+        </div>
+     )
    };
    
 declare function local:success-page() 

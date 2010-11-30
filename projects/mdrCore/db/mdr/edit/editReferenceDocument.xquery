@@ -83,15 +83,18 @@ declare function local:input-page(
                 This form will allow you to edit the reference document in the metadata repository
              </td>
           </tr>
+          <tr>
+            <table class="section">
+                <td class="row-header-cell">Reference Document</td>
+            </table> 
+          </tr>
           <tr><td>
           <form name="edit_reference_document" action="editReferenceDocument.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
             {lib-forms:hidden-element('id',$id)}            
             <div class="section">
                     <table class="section">
-                        <tr>
-                           <td class="row-header-cell" colspan="6">Reference Document</td>
-                        </tr>
-                        
+                     <tr>
+                      <td>                       
                         <tr>
                           <td class="left_header_cell">Title</td><td>{lib-forms:input-element('title', 80, $title)}</td>
                         </tr>
@@ -111,7 +114,9 @@ declare function local:input-page(
                         <tr>
                           <td class="left_header_cell">Providing Organization</td><td>{lib-forms:input-element('provided-by', 80, $provided-by)}</td>
                         </tr>                
-
+                        </td></tr>
+                     </table>
+                     <table class="section">
                         <tr>
                            <td class="row-header-cell" colspan="6">Store</td>
                         </tr>
