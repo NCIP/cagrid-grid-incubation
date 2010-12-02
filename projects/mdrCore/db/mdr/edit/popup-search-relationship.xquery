@@ -140,7 +140,7 @@ return
                 <link rel="search" type="application/opensearchdescription+xml" title="OpenMDR Data Element Search" href="../web/cde_search.xquery"/>
 
       </head>
-      <body>
+      <body>  <div id="central">   
          {if($form-name > "") then
               (session:set-attribute("current_form", $form-name) )
            else(),
@@ -168,13 +168,25 @@ return
                   let $id := lib-util:mdrElementId($document)
                   let $name := administered-item:preferred-name($document)
                   where $pos >= $start and $pos < $start + $count 
-                  return element tr {
+                  return 
+                  if($pos mod 2 = 0) then(
+                        element tr {
+                        attribute class {"odd_row"},
                         element td {$id},
                         element td {$name},
                         element td {
                         local:action-button($id, $control, "use this document",$name, session:get-attribute("current_form"))
                         } 
-                     },                     
+                     })else(
+                        element tr {
+                        attribute class {"even_row"},
+                        element td {$id},
+                        element td {$name},
+                        element td {
+                        local:action-button($id, $control, "use this document",$name, session:get-attribute("current_form"))
+                        } 
+                     }
+                     ),                     
                   <tr>
                      <td>
                         {
@@ -234,6 +246,6 @@ return
                   )
                   }
             </table>
-         </form>
+         </form> </div>
       </body>
    </html>
