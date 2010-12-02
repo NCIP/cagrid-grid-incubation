@@ -154,7 +154,7 @@ declare function local:input-page(
                      
                <table class="layout">
               <tr>
-                  <td class="left_header_cell">Data Element Concept</td>
+                  <td class="left_header_cell">Data Element Concept <font color="red">*</font></td>
                   <td align="left" colspan="2">
                   {
                     if(request:get-parameter('data_element_concept_id','') eq "Cancel")  then (
@@ -172,7 +172,7 @@ declare function local:input-page(
                   </td>
                </tr>
                <tr>
-                  <td class="left_header_cell">Value Domain</td>
+                  <td class="left_header_cell" >Value Domain <font color="red">*</font></td>
                   <td align="left" colspan="2">
                   {
                     if(request:get-parameter('value_domain_id','') eq "Cancel")  then (
@@ -195,7 +195,7 @@ declare function local:input-page(
                      
                 <table class="section">
                       <tr>
-                        <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return validate_adminItems ()"/></td>
+                        <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return validate_dataelement()"/></td>
                         <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                         <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
                       </tr>    

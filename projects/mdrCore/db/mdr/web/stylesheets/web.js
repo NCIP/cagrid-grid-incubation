@@ -115,6 +115,129 @@ function validate_AnnotatedModel ()
     return valid;
 }
 
+function validate_dataelement()
+{
+    valid = true;
+    errors = new Array();
+    i=0;
+    
+    valuedomain = document.getElementById('value_domain_id');
+    dataelementconcept = document.getElementById('data_element_concept_id');
+    
+    if(validate_adminItems ()){
+        if (dataelementconcept.value == "")
+        { 
+            errors[i] = "Data Element Concept" ;
+            i = i+1;
+            valid = false;
+        }
+        if (valuedomain.value == "")
+        { 
+            errors[i] = "Value Domain" ;
+            i = i+1;
+            valid = false;
+        }
+        if(errors.length>0)
+        {
+            errMsg = "Please make sure you enter/select the following items :- \n ";
+            for(j=0; j<errors.length; j++){
+                errMsg = errMsg + "\n" + errors[j];
+            }
+            alert(errMsg);
+            valid = false;
+        } 
+    }
+    return valid;
+}
+
+function validate_dataelementconcept()
+{
+    valid = true;
+    errors = new Array();
+    i=0;
+    
+    objectclass = document.getElementById('object_class_id');
+    property = document.getElementById('property_id');
+    conceptualdomain = document.getElementById('conceptual_domain_id');
+    objectclassuri = document.getElementsByName('object_class_uri')[0];
+    propertyuri = document.getElementsByName('property_uri')[0];
+           
+    if(validate_adminItems ()){
+        if (objectclassuri.value == "" & objectclass.value == "")
+        {
+            errors[i] = "Object Class URI" ;
+            i = i+1;
+            valid = false;
+        }
+        if (property.value == "" & propertyuri.value == "")
+        { 
+            errors[i] = "Property URI" ;
+            i = i+1;
+            valid = false;
+        }
+        if (conceptualdomain.value == "")
+        { 
+            errors[i] = "Conceptual Domain" ;
+            i = i+1;
+            valid = false;
+        }
+        if(errors.length>0)
+        {
+            errMsg = "Please make sure you enter/select the following items :- \n ";
+            for(j=0; j<errors.length; j++){
+                errMsg = errMsg + "\n" + errors[j];
+            }
+            alert(errMsg);
+            valid = false;
+        }    
+    }
+    return valid;
+}
+
+function validate_dataelementconceptedit()
+{
+    valid = true;
+    errors = new Array();
+    i=0;
+    
+    objectclass = document.getElementById('object_class_id');
+    property = document.getElementById('property_id');
+    conceptualdomain = document.getElementById('conceptual_domain_id');
+               
+    if(validate_adminItems ()){
+        if (objectclass.value == "")
+        {
+            errors[i] = "Object Class URI" ;
+            i = i+1;
+            valid = false;
+        }
+        if (property.value == "")
+        { 
+            errors[i] = "Property URI" ;
+            i = i+1;
+            valid = false;
+        }
+        if (conceptualdomain.value == "")
+        { 
+            errors[i] = "Conceptual Domain" ;
+            i = i+1;
+            valid = false;
+        }
+        if(errors.length>0)
+        {
+            errMsg = "Please make sure you enter/select the following items :- \n ";
+            for(j=0; j<errors.length; j++){
+                errMsg = errMsg + "\n" + errors[j];
+            }
+            alert(errMsg);
+            valid = false;
+        }    
+    }
+    return valid;
+}
+
+
+
 function validate_adminItems ()
 {
     valid = true;
@@ -195,7 +318,7 @@ function validate_adminItems ()
 
 function validate_valueDomain(){
     isValid = true;
-    if(validate_adminItems()){
+    if(validate_adminItems() && valid_conceptualDomain()){
         for (var i = 0; i<document.new_value_domain.elements.length; i++) {
             if (document.new_value_domain.elements[i].name == "values") {
                 for (var j = 0; j<document.new_value_domain.elements.length; j++) {           
@@ -213,6 +336,20 @@ function validate_valueDomain(){
     }
     return isValid; 
 }
+
+function valid_conceptualDomain(){
+    try{
+        conceptualdomain = document.getElementById('conceptual_domain_id');
+        if(conceptualdomain.value == ""){
+            alert('Enter Conceptual Domain');
+            return false;
+        }
+    }catch(err){
+        return true;
+    }
+    return true;
+}
+
 
 function validate_editValueDomain(){
     isValid = true;

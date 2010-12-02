@@ -178,7 +178,7 @@ input.cgButton
 {
     font-size: 10px;
     font-family: arial, helvetica, sans-serif;
-    width: 110px;
+    width:auto;
     height: 24px;
     margin: 1px;
     vertical-align:text-top; 

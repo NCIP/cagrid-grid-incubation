@@ -241,7 +241,7 @@ declare function local:input-page(
                      
                <table class="layout">
                <tr>
-                  <td class="left_header_cell">Object Class URI</td>
+                  <td class="left_header_cell">Object Class URI <font color="red">*</font></td>
                   <td align="left" colspan="2">
                     <a href="../edit/newObjectClass.xquery">Create a New Object Class</a>
                   </td>
@@ -265,7 +265,7 @@ declare function local:input-page(
                   </td>
                </tr>
                <tr>
-                  <td class="left_header_cell">Property URI</td>
+                  <td class="left_header_cell">Property URI <font color="red">*</font></td>
                   <td align="left" colspan="2">
                         <a href="../edit/newProperty.xquery">Create a New Property</a>
                   </td>
@@ -290,7 +290,7 @@ declare function local:input-page(
                </tr>
                
                 <tr>
-                  <td class="left_header_cell">Conceptual Domain</td>
+                  <td class="left_header_cell">Conceptual Domain <font color="red">*</font></td>
                   <td align="left" colspan="2">
                    {
                     if($conceptual_domain_id eq "Cancel")  then (
@@ -310,7 +310,7 @@ declare function local:input-page(
             </table>
                      
                 <table class="section">
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes"/></td>
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes" onClick="return validate_dataelementconceptedit ()"/></td>
                       <td colspan="4"><input type="button"  name="update" value="Cancel" 
                               onClick= "{concat("location.href='../web/data_element_concept.xquery?compound_id=", $id, "';")}" /></td>
                       </tr>    

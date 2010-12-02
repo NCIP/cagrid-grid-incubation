@@ -221,7 +221,7 @@ declare function local:input-page(
                      
                <table class="layout">
                <tr>
-                  <td class="left_header_cell">Object Class URI</td>
+                  <td class="left_header_cell">Object Class URI <font color="red">*</font></td>
                   <td align="left" colspan="2">
                      {lib-forms:find-concept-id-edit-false('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
                   </td>
@@ -245,7 +245,7 @@ declare function local:input-page(
                   </td>
                </tr>
                <tr>
-                  <td class="left_header_cell">Property URI</td>
+                  <td class="left_header_cell">Property URI <font color="red">*</font></td>
                   <td align="left" colspan="2">
                   {lib-forms:find-concept-id-edit-false('property_uri','get property concept',request:get-parameter('property_uri',''))}
                   </td>
@@ -270,7 +270,7 @@ declare function local:input-page(
                </tr>
                
                 <tr>
-                  <td class="left_header_cell">Conceptual Domain</td>
+                  <td class="left_header_cell">Conceptual Domain <font color="red">*</font></td>
                   <td align="left" colspan="2">
                   {
                     if(request:get-parameter('conceptual_domain_id','') eq "Cancel")  then (
@@ -291,7 +291,7 @@ declare function local:input-page(
                      
                 <table class="section">
                       <tr>
-                      <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return validate_adminItems ()"/></td>
+                      <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return validate_dataelementconcept ()"/></td>
                       <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                       <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
                       </tr>    
