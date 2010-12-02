@@ -15,16 +15,16 @@ declare function lib-uri-resolution:resolve($urn as xs:string?, $return-type as 
 xs:anyURI(
 if (starts-with($urn,"lexevsapi.nci.nih.gov_NCIThesaurus"))
     then (
-        let $log:= util:log-system-out('NCITHES')
-        let $log:= util:log-system-out($urn)
+        (:let $log:= util:log-system-out('NCITHES')
+        let $log:= util:log-system-out($urn):)
         let $urn := concat("urn:",$urn)
-        let $log:= util:log-system-out('RESOLVER')
-        let $log := util:log-system-out(collection(lib-util:resolverPath()))
+        (:let $log:= util:log-system-out('RESOLVER')
+        let $log := util:log-system-out(collection(lib-util:resolverPath())):)
         for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
-                let $log:= util:log-system-out($resource)
+               (: let $log:= util:log-system-out($resource):)
 
         let $resource-urn := data($resource/@urn)
-        let $log:= util:log-system-out($resource-urn)
+        (:let $log:= util:log-system-out($resource-urn):)
 
         return
             for $uri in $resource/cgResolver:uri  
@@ -34,15 +34,14 @@ if (starts-with($urn,"lexevsapi.nci.nih.gov_NCIThesaurus"))
         )
     else if (starts-with($urn,"lexevsapi.nci.nih.gov_NCIMetaThesaurusConcept"))
     then (
-        let $log:= util:log-system-out('NCIMETA')
+        (:let $log:= util:log-system-out('NCIMETA'):)
 
         let $urn := concat("urn:",$urn)
-        let $log := util:log-system-out(collection(lib-util:resolverPath()))
+        (:let $log := util:log-system-out(collection(lib-util:resolverPath())):)
         for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
-        let $log:= util:log-system-out($resource)
-
+        (:let $log:= util:log-system-out($resource):)
         let $resource-urn := data($resource/@urn)
-        let $log:= util:log-system-out($resource-urn)
+        (:let $log:= util:log-system-out($resource-urn):)
 
         return
             for $uri in $resource/cgResolver:uri  
@@ -52,12 +51,12 @@ if (starts-with($urn,"lexevsapi.nci.nih.gov_NCIThesaurus"))
         )
     else if (starts-with($urn,"rest.bioontology.org_BioPortal-OCRe"))
     then (
-        let $log:= util:log-system-out('RESOURCE-URN')
+        (:let $log:= util:log-system-out('RESOURCE-URN'):)
         let $urn := concat("urn:",$urn)
         for $resource as element()* in collection(lib-util:resolverPath())//cgResolver:resource[starts-with($urn, @urn)]
         let $resource-urn := data($resource/@urn)
-        let $log:= util:log-system-out('RESOURCE-URN')
-        let $log:= util:log-system-out($resource-urn)
+        (:let $log:= util:log-system-out('RESOURCE-URN')
+        let $log:= util:log-system-out($resource-urn):)
         return
             for $uri in $resource/cgResolver:uri  
             where $uri/@rank = "1"

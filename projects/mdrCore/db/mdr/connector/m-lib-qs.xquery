@@ -8,6 +8,8 @@ declare namespace q="http://cagrid.org/schema/query";
 
 declare namespace util="http://exist-db.org/xquery/util";
 
+declare namespace xlink="http://www.w3.org/1999/xlink";
+
 (:~ List supported knowledge resources (names only) :)
 declare function lib-qs:listResources() as node()
 {
@@ -136,20 +138,14 @@ declare function lib-qs:query($resource as xs:string, $src as xs:string?, $term 
         if ($qs/@connection_type = "REST")
         then
             (: Generate resource specific query :)
-(:            let $log:= util:log-system-out($query)       :)
             let $request := lib-qs:chain-transform($query, tokenize(data($qs/@requestSequence), ' '))   
-            (:
-            let $log:= util:log-system-out($qs)
-            let $log:= util:log-system-out($query)          
-            let $log:= util:log-system-out($request)
-            :)
+            (:let $log := util:log-system-out('QUERYING IN RESOURCE')
+            let $log := util:log-system-out($resource)
+            let $log := util:log-system-out('FOR QUERY')
+            let $log := util:log-system-out($query):)
             (: Query the resource:)
             let $content := httpclient:get(xs:anyURI($request), xs:boolean("false"), ())/httpclient:body/*
-            (:
-            let $log:= util:log-system-out('content')
-            let $log:= util:log-system-out($content)
-            let $log:= util:log-system-out(lib-qs:chain-transform($content, tokenize(data($qs/@digestSequence), ' ')))
-            :)
+            
             return
                 (: Generate a digest of the result before return :)
                 lib-qs:chain-transform($content, tokenize(data($qs/@digestSequence), ' '))
@@ -200,23 +196,12 @@ declare function lib-qs:makeQuerycaDSR($qs as node(), $src as xs:string?, $term 
 (:~ Apply the specified sequence of XSLTs to the input XML. :)
 declare function lib-qs:chain-transform($query as node()?, $sequence as xs:string+) as node()?
 {      
-    let $log:= util:log-system-out('IN CHAIN')          
     let $xsl := doc(concat("/db/mdr/connector/stylesheets/",$sequence[1],".xsl"))
-    let $log:= util:log-system-out($sequence)
-
-   (:
-    let $log:= util:log-system-out('TEST TRANSFORM')
-    let $log:= util:log-system-out($query)
-    let $log:= util:log-system-out($xsl)
-    let $log:= util:log-system-out($sequence[1])
-    :)
-    let $log:= util:log-system-out(transform:transform($query, $xsl, ()))
-            
+       
     return
         if (count($sequence) = 1)
         then
             transform:transform($query, $xsl, ())
-        else
+        else         
             lib-qs:chain-transform(transform:transform($query, $xsl, ()), subsequence($sequence, 2))
-            
 };

@@ -25,7 +25,6 @@ declare namespace op="http://www.w3.org/2002/11/xquery-operators";
 declare namespace c="http://cagrid.org/schema/config";
 declare namespace q="http://cagrid.org/schema/query";
 
-
 import module namespace 
       lib-qs="http://www.cagrid.org/xquery/library/query_service" 
       at "../connector/m-lib-qs.xquery";  
@@ -56,9 +55,20 @@ let $form-name as xs:string := xs:string(request:get-parameter("form-name", ""))
 let $phrase as xs:string := xs:string(request:get-parameter("phrase", ""))
 let $control as xs:string := xs:string(request:get-parameter("control", ""))
 let $start as xs:int := xs:int(request:get-parameter("start", 0))
-let $count as xs:int := xs:int(request:get-parameter("count", 50))
+let $count as xs:int := xs:int(request:get-parameter("count", 20))
 let $request as xs:string := xs:string(request:get-parameter("request",""))
 
+let $query :=
+        if ($request != "") 
+            then (lib-qs:query($request,$resource))
+        else  
+            if ($phrase != "") 
+                then (lib-qs:query($resource, (), $phrase, $start, $count))
+        else ()
+
+let $concepts := $query//rs:concept
+let $recordCounter := $query//rs:recordCounter
+                    
 return
     <html>
       <head>
@@ -102,25 +112,11 @@ return
             
             <table class="layout">
             {                                   
-                    
-                let $concepts :=
-                    if ($request != "") 
-                        then (lib-qs:query($request,$resource)//rs:concept)
-                    else  
-                        if ($phrase != "") 
-                            then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:concept)
-                    else ()
-                  let $log:= util:log-system-out('CONCEPTS HERE')
-                  let $log:= util:log-system-out($concepts)
-
                   for $concept at $pos in $concepts
                   let $id := $concept/rs:names/rs:id
-                  let $log:=util:log-system-out($id)
                   let $name := $concept/rs:names/rs:preferred
-                  let $log:= util:log-system-out($name)
-
                   let $definition := $concept/rs:definition
-                  let $log:= util:log-system-out($id)
+                  
 
                   return
                   if(($pos mod 2) = 0)
@@ -140,23 +136,12 @@ return
                     </tr>
                   )
                   
-                  
-                  
             }             
             </table>   
             <table class="layout">
             <tr class="light-rule" align="right">
             <td>
-         
             {          
-                let $recordCounter :=          
-                    if ($request != "") 
-                        then (lib-qs:query($request,$resource)//rs:recordCounter)
-                    else  
-                        if ($phrase != "") 
-                            then (lib-qs:query($resource, (), $phrase, $start, $count)//rs:recordCounter)
-                        else ()
-
                     let $div := xs:integer(xs:integer($recordCounter) div xs:integer($count))                    
                     let $mod := xs:integer($recordCounter mod $count)
                     
@@ -172,10 +157,8 @@ return
                             return $div
                         else()                
                             let $query := lib-qs:getURL($resource, (), $phrase, $start, $count)
-                            (:let $log:= util:log-system-out('QUERY')
-                            let $log:= util:log-system-out($query)
-                            :)
-                            let $increment := xs:integer(50)
+                           
+                            let $increment := xs:integer(20)
                             let $div:=xs:integer($div)-xs:integer(1)
                             for $i in (0 to $div)  
                          return
