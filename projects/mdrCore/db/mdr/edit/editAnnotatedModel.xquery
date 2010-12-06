@@ -246,7 +246,7 @@ declare function local:input-page(
                         <tr>
                               <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
                               <tr><td class="left_header_cell">Existing Version</td><td colspan="5"> {$version}{lib-forms:radio('version',string($version),'true')} </td></tr>
-                              <tr><td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {$proposedNextVersion}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td></tr>
+                              <tr><td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {round-half-to-even(xs:float($proposedNextVersion),2)}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td></tr>
                               <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
                               <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
                               <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
@@ -341,9 +341,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $iregistered-by := string($element//openMDR:registered_by)
    let $iregistration_status := string($element/openMDR:administered_item_administration_record/openMDR:registration_status)
    let $registration_status := request:get-parameter('registration_status','')
-   let $log := util:log-system-out('pppppppppppppppppppppppoooooooooooooooooo')
-   let $log := util:log-system-out($iadministrative-status)
-   
+      
    return
    
       lib-rendering:txfrm-webpage(

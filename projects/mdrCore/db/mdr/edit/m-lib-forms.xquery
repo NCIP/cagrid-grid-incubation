@@ -1142,7 +1142,7 @@ declare function lib-forms:edit-admin-item-edit(
             <table class="section">
                 <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
                 <tr><td class="left_header_cell">Existing Version</td><td colspan="5"> {$version}{lib-forms:radio('version',string($version),'true')} </td></tr>
-                <tr><td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {$proposedNextVersion}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td></tr>
+                <tr><td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {round-half-to-even(xs:float($proposedNextVersion),2)}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td></tr>
                 <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
                 <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
                 <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
@@ -1793,9 +1793,7 @@ declare function lib-forms:store-document($document as node()) as element()
    let $is-ssl :=  lib-util:checkSSL()
    
    let $resource_location := concat("xmldb:exist://", lib-util:getCollectionPath($collection))
-   let $log := util:log-system-out('printing resource location..............')
-   let $log := util:log-system-out($resource_location)
-   let $log := util:log-system-out(lib-util:mdrElementId($document))
+  
    return
       util:catch(
          "java.lang.Exception",
