@@ -149,6 +149,7 @@ td.tree-container {
 
 table.layout {
     width:100%;
+    padding-top:10px;
 }
     
 table.toolbar {
@@ -396,5 +397,6 @@ select{
     width:auto;
     max-width:700px;
 }
+
 
 

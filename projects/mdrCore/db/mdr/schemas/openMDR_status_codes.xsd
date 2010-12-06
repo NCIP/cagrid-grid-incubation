@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns="http://www.cagrid.org/schema/openMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" finalDefault="" blockDefault="" attributeFormDefault="unqualified" elementFormDefault="unqualified">
+<xs:schema xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.cagrid.org/schema/openMDR" targetNamespace="http://www.cagrid.org/schema/openMDR" finalDefault="" blockDefault="" attributeFormDefault="unqualified" elementFormDefault="unqualified">
     <xs:simpleType name="Reference_Document_Type">
         <xs:restriction base="xs:string">
             <xs:enumeration value="commissioning">
                 <xs:annotation>
-                    <xs:documentation>reference documents that commission the creation of data
+                    <xs:documentation>documents that commission the creation of data
                elements</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="descriptive">
                 <xs:annotation>
-                    <xs:documentation>reference documents that describe and support a data element, value
-                  domain or any of the semantic classes in the knowledge domain</xs:documentation>
+                    <xs:documentation>describes and supports a data element, value
+                  domain or any semantic classes in the knowledge domain</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="operational">
                 <xs:annotation>
-                    <xs:documentation>reference documents that support the operation of the metadata
+                    <xs:documentation>documents that support the operation of the metadata
                   repository</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>

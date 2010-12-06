@@ -24,6 +24,7 @@ declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
 declare namespace util="http://exist-db.org/xquery/util";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+declare namespace datetime = "http://exist-db.org/xquery/datetime";
 
 declare function local:reference-document(
    $language as xs:string?,
@@ -32,22 +33,40 @@ declare function local:reference-document(
    $file as xs:string?,
    $provided-by as xs:string?,
    $action as xs:string?,
-   $id as xs:string?
+   $id as xs:string?,
+   $version as xs:float?,
+   $reg-auth  as xs:string?,
+   $registered-by  as xs:string?,
+   $administered-by  as xs:string?,
+   $submitted-by as xs:string?,
+   $administrative-status  as xs:string?,
+   $registration_status  as xs:string?
    ) as xs:boolean
 {
-   let $version := '0.1'
+   let $idprefix := 'cagrid.org'
   (: let $data-identifier := lib-forms:generate-id():)
-   let $data-identifier := $id
-   let $doc-name := $data-identifier
-   let $message := lib-forms:store-reference-document(request:get-uploaded-file('file'),request:get-uploaded-file-name('file'),'application/octet-stream') 
+   (:let $data-identifier := $id:)
+   let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
+   let $doc-name := concat($idprefix,'_',$data-identifier,'_',$version,'_',request:get-uploaded-file-name('file'))
+   let $document-name := concat($idprefix,'_',$data-identifier,'_',$version)   
+   let $message := lib-forms:store-reference-document(request:get-uploaded-file('file'),$doc-name,'application/octet-stream') 
+   let $creation-date := datetime:format-dateTime(current-dateTime(), "MM-dd-yyyy '  ' HH:mm:ss")
+   
    let $document :=
       element openMDR:Reference_Document {
-           attribute reference_document_identifier {$data-identifier},
+           attribute item_registration_authority_identifier {$reg-auth},
+           attribute reference_document_identifier {$document-name},
+           attribute data_identifier {$data-identifier},
+           attribute version {$version},
+           
+           lib-make-admin-item:administration-record('',$administrative-status,$creation-date,$registration_status),
+           lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
+           
            element openMDR:reference_document_language_identifier {$language},
            element openMDR:reference_document_title {$title},
            element openMDR:reference_document_type_description {$description},
            element openMDR:provided_by {$provided-by},
-           element openMDR:reference_document_uri {concat('../data/reference_document/documents/',request:get-uploaded-file-name('file'))},
+           element openMDR:reference_document_uri {concat('../data/reference_document/documents/',$doc-name)},
            element openMDR:file_name {request:get-uploaded-file-name('file')},
            element openMDR:file_type {'application/octet-stream'}
            }
@@ -67,68 +86,70 @@ declare function local:input-page(
    $file as xs:string?,
    $provided-by as xs:string?,
    $action as xs:string?,
-   $id as xs:string?
+   $id as xs:string?,
+   $version as xs:float?,
+   $reg-auth  as xs:string?,
+   $registered-by  as xs:string?,
+   $administered-by  as xs:string?,
+   $submitted-by as xs:string?,
+   $administrative-status  as xs:string?,
+   $registration_status  as xs:string?
    ) {
- let $skip-uri := substring-after($action,'delete uri entry')
+    
+   let $proposedNextVersion := $version + 0.1
+   let $proposedReleaseVersion := ceiling($proposedNextVersion)
+   
+   let $skip-uri := substring-after($action,'delete uri entry')
    let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
-    let $log := util:log-system-out('......................................')
-   let $log := util:log-system-out($id)
+      
    return
    <div xmlns="http://www.w3.org/1999/xhtml">
- 
-      
       <table class="layout">
-          <tr>
-             <td>
-                This form will allow you to edit the reference document in the metadata repository
-             </td>
-          </tr>
-          <tr>
-            <table class="section">
-                <td class="row-header-cell">Reference Document</td>
-            </table> 
-          </tr>
-          <tr><td>
+          <tr><td>This form will allow you to edit the reference document in the metadata repository</td></tr>
+          
           <form name="edit_reference_document" action="editReferenceDocument.xquery" method="post" class="cagridForm" enctype="multipart/form-data">
             {lib-forms:hidden-element('id',$id)}            
             <div class="section">
-                    <table class="section">
-                     <tr>
-                      <td>                       
-                        <tr>
-                          <td class="left_header_cell">Title</td><td>{lib-forms:input-element('title', 80, $title)}</td>
-                        </tr>
-                        
-                        <tr>
-                          <td class="left_header_cell">File</td><td><input id="file" type="FILE" name="file" value="{$file}"/></td>
-                        </tr>
-                        
-                        <tr>
-                          <td class="left_header_cell">Language</td><td>{lib-forms:select-from-simpleType-enum('Language_Identifier','language', false(), $language)}</td>
-                        </tr>
-
-                        <tr>
-                          <td class="left_header_cell">Document Type</td><td>{lib-forms:select-from-simpleType-enum('Reference_Document_Type','description', true(), $description)}</td>
-                        </tr>
-                        
-                        <tr>
-                          <td class="left_header_cell">Providing Organization</td><td>{lib-forms:input-element('provided-by', 80, $provided-by)}</td>
-                        </tr>                
-                        </td></tr>
-                     </table>
+                    <tr><td class="row-header-cell" colspan="6">Standard Administered Item Metadata</td></tr>
+                     <tr><td>
+                     <div class="tabber">
+                     <div id="validate" class="tabbertab">
+                     <h2>Administered Item Metadata</h2>     
                      <table class="section">
                         <tr>
-                           <td class="row-header-cell" colspan="6">Store</td>
+                              <tr><td class="left_header_cell">Registration Authority <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registration-authority($reg-auth)} </td></tr>
+                              <tr><td class="left_header_cell">Existing Version</td><td colspan="5"> {$version}{lib-forms:radio('version',string($version),'true')} </td></tr>
+                              <tr><td class="left_header_cell">Proposed/Release Version</td><td colspan="5"> {$proposedNextVersion}{lib-forms:radio('proposedNextVersion',string($proposedNextVersion),'true')}  {$proposedReleaseVersion}{lib-forms:radio('proposedNextVersion',string($proposedReleaseVersion),'false')}</td></tr>
+                              <tr><td class="left_header_cell">Registered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-registered_by($registered-by)} </td></tr>
+                              <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
+                              <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
+                              <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
+                              <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Registration_Status','registration_status', false(), $registration_status)}</td></tr>
                         </tr>
-                        <tr>
-                            <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes" onClick="return checkFile(this)"/></td>
-                            <td colspan="4"><input type="button" name="update" value="Cancel"  onClick= "{concat("location.href='../web/reference_document.xquery?compound_id=", $id, "';")}" /></td>
+                      </table>
+                     <table class="section">
+                           <tr><td class="row-header-cell" colspan="6">Reference Document</td></tr>
+                           <tr><td class="left_header_cell">Title <font color="red">*</font></td><td>{lib-forms:input-element('title', 80, $title)}</td></tr>
+                           <tr><td class="left_header_cell">File <font color="red">*</font></td><td><input id="file" type="FILE" name="file" value="{$file}"/></td></tr>
+                           <tr><td class="left_header_cell">Language <font color="red">*</font></td><td>{lib-forms:select-from-simpleType-enum('Language_Identifier','language', false(), $language)}</td></tr>
+                           <tr><td class="left_header_cell">Document Type <font color="red">*</font></td><td>{lib-forms:select-from-simpleType-enum('Reference_Document_Type','description', true(), $description)}</td></tr>
+                           <tr><td class="left_header_cell">Providing Organization <font color="red">*</font></td><td>{lib-forms:input-element('provided-by', 80, $provided-by)}</td></tr>                
+                           <tr><td class="row-header-cell" colspan="6">Store</td></tr>
                             
-                        </tr>
-                     </table>
-              </div>
-          </form>
-          </td></tr>
+                            <tr>
+                               <td class="left_header_cell"></td>
+                               <td><input type="submit" name="update" value="Save Changes" onClick="return checkFile(this)"/></td>
+                               <td colspan="4">
+                                    <input type="button" name="update" value="Cancel"  onClick= "{concat("location.href='../web/reference_document.xquery?compound_id=", $id, "';")}" />
+                               </td>
+                            </tr>
+                      </table>
+                      </div>
+                      </div>
+                      </td></tr>
+                 </div>
+             </form>
+           
           <tr><td>{$message}</td></tr>
         </table>
      </div>
@@ -168,6 +189,27 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $iprovided-by := string($element//openMDR:provided_by)
    let $iaction := request:get-parameter('update','')
    
+   let $iversion := string($element/@version)
+   let $version := $iversion
+   let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
+   let $version := round-half-to-even(xs:float($proposedNextVersion),2)
+   
+   let $reg-auth := request:get-parameter('registration-authority','')
+   let $administrative-status := request:get-parameter('administrative-status','')
+   let $administered-by := request:get-parameter('administered-by','')
+   let $submitted-by := request:get-parameter('submitted-by','')
+   let $registered-by := request:get-parameter('registered-by','')
+   let $registration_status := request:get-parameter('registration_status','')
+   
+   let $ireg-auth := string($element/@item_registration_authority_identifier)
+   let $iadministrative-note := string($element/openMDR:administered_item_administration_record/openMDR:administrative_note)
+   let $iadministrative-status := string($element/openMDR:administered_item_administration_record/openMDR:administrative_status)
+   let $iadministered-by := string($element//openMDR:administered_by)
+   let $isubmitted-by := string($element//openMDR:submitted_by)
+   let $iregistered-by := string($element//openMDR:registered_by)
+   let $iregistration_status := string($element/openMDR:administered_item_administration_record/openMDR:registration_status)
+   let $registration_status := request:get-parameter('registration_status','')
+   
    return
    
       lib-rendering:txfrm-webpage(
@@ -184,7 +226,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $file,
                      $provided-by,
                      $action,
-                     $id
+                     $id,
+                     $version,
+                     $reg-auth,
+                     $registered-by,
+                     $administered-by,
+                     $submitted-by,
+                     $administrative-status,
+                     $registration_status
                   )
             ) 
          then local:success-page()  
@@ -196,7 +245,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                      $file,
                      $provided-by,
                      $action,
-                     $iref-id
+                     $iref-id,
+                     $version,
+                     $reg-auth,
+                     $registered-by,
+                     $administered-by,
+                     $submitted-by,
+                     $administrative-status,
+                     $registration_status
                   )
                )
          )
@@ -209,6 +265,13 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                  $ifile,
                  $iprovided-by,
                  $iaction,
-                 $iref-id
+                 $iref-id,
+                 $version,
+                 $ireg-auth,
+                 $iregistered-by,
+                 $iadministered-by,
+                 $isubmitted-by,
+                 $iadministrative-status,
+                 $iregistration_status
                )
          )

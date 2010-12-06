@@ -706,10 +706,42 @@ function checkFile(obj){
     errors = new Array();
     i=0;
     file = document.getElementById('file');
-    if(file.value == ""){
-       errors[i] = "Choose a file" ;
+    title = document.getElementById('title');
+    language = document.getElementById('language');
+    description = document.getElementById('description');
+    providedby = document.getElementById('provided-by');
+    
+    if(file.value > "" && file.value.lastIndexOf(".xml")==-1){
+       errors[i] = "Choose a valid file" ;
        i++;
     }
+    
+    if (file.value == "")
+    { 
+        errors[i] = "Valid XML File" ;
+        i++;
+    }
+    
+    if(title.value == ""){
+       errors[i] = "Title" ;
+       i++;
+    }
+    
+    if(language.value == ""){
+       errors[i] = "Language" ;
+       i++;
+    }
+    
+    if(description.value == ""){
+       errors[i] = "Document Type" ;
+       i++;
+    }
+    
+    if(providedby.value == ""){
+       errors[i] = "Providing Organization" ;
+       i++;
+    }
+    
      if(errors.length>0){
         errMsg = "Please make sure you enter/select the following items :- \n ";
         for(j=0; j<errors.length; j++){
