@@ -49,14 +49,14 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
 session:invalidate(),
 session:create(),
 
-let $title as xs:string := "login"
+let $title as xs:string := ""
 let $content  :=
         (
         <div xmlns="http://www.w3.org/1999/xhtml" >
            <form name="login" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
-               <table class="login" cellpadding="5">
+               <table cellpadding="5">
                    <tr>
-                       <th colspan="2" align="left">Please Login</th>
+                       <td></td>
                    </tr>
                    <tr>
                        <td align="left">Username:</td>

@@ -353,7 +353,7 @@
                 <td>
                     <xsl:copy-of select="anchor/html:a"/>
                 </td>
-                <td>
+                <td class="small">
                     <xsl:value-of select="description"/>
                 </td>
                 <td>
@@ -364,7 +364,7 @@
                     <xsl:variable name="orgmailaddr" select="submitted_by/openMDR:Organization/openMDR:organization_mail_address"/>
                     <table>
                         <xsl:if test="$contactname &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Name:</td>
                                 <td>
                                     <xsl:value-of select="$contactname"/>
@@ -372,7 +372,7 @@
                             </tr>
                         </xsl:if>
                         <xsl:if test="$contacttitle &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Title:</td>
                                 <td>
                                     <xsl:value-of select="$contacttitle"/>
@@ -380,7 +380,7 @@
                             </tr>
                         </xsl:if>
                         <xsl:if test="$contactinfo &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Email:</td>
                                 <td>
                                     <xsl:value-of select="$contactinfo"/>
@@ -388,7 +388,7 @@
                             </tr>
                         </xsl:if>
                         <xsl:if test="$orgname &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Org Name:</td>
                                 <td>
                                     <xsl:value-of select="$orgname"/>
@@ -396,7 +396,7 @@
                             </tr>
                         </xsl:if>
                         <xsl:if test="$orgmailaddr &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Address:</td>
                                 <td>
                                     <xsl:value-of select="$orgmailaddr"/>
@@ -1885,7 +1885,7 @@
                 <td>
                     <xsl:copy-of select="anchor/html:a"/>
                 </td>
-                <td>
+                <td class="small">
                     <xsl:value-of select="description"/>
                 </td>
                 <td>
@@ -1896,7 +1896,7 @@
                     <xsl:variable name="orgmailaddr" select="submitted_by/openMDR:Organization/openMDR:organization_mail_address"/>
                     <table>
                         <xsl:if test="$contactname &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Name:</td>
                                 <td>
                                     <xsl:value-of select="$contactname"/>
@@ -1904,7 +1904,7 @@
                             </tr>
                         </xsl:if>
                         <xsl:if test="$contacttitle &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Title:</td>
                                 <td>
                                     <xsl:value-of select="$contacttitle"/>
@@ -1912,7 +1912,7 @@
                             </tr>
                         </xsl:if>
                         <xsl:if test="$contactinfo &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Email:</td>
                                 <td>
                                     <xsl:value-of select="$contactinfo"/>
@@ -1920,7 +1920,7 @@
                             </tr>
                         </xsl:if>
                         <xsl:if test="$orgname &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Org Name:</td>
                                 <td>
                                     <xsl:value-of select="$orgname"/>
@@ -1928,7 +1928,7 @@
                             </tr>
                         </xsl:if>
                         <xsl:if test="$orgmailaddr &gt; ''">
-                            <tr>
+                            <tr class="small">
                                 <td>Address:</td>
                                 <td>
                                     <xsl:value-of select="$orgmailaddr"/>

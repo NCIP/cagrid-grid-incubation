@@ -392,7 +392,7 @@ $form-name as xs:string, $button-name as xs:string) as node()*
       attribute name {$select-name},
       attribute id {$select-name},
       attribute value {$received-value},
-      attribute size {'97%'},
+      attribute size {'60%'},
       attribute readonly {'readonly'}
       },
       element div {

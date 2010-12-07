@@ -58,11 +58,12 @@ div.admin_item_header {
 }
         
 div.admin_item_section_header {
-    font-size: large;
+    
     font-weight: bold;
     text-align: left;
     border-bottom: 1px solid #dddddd;
     background-color:#F0F0F0;
+    padding-left:10px;
 }
 
 div.admin_item_table_header {
@@ -162,7 +163,7 @@ td.layout {
 }
 
 form.cagridForm {
-   border-style: solid;    
+   border-style: none;    
    border-color: 	#A9A9A9;
    border-width: 1pt;
 }
@@ -398,5 +399,15 @@ select{
     max-width:700px;
 }
 
+tr.small{
+    font-size:11.5px;    
+}
 
+td.small{
+    font-size:11.5px;    
+}
 
+input[readonly] {
+    background-color:#F0F0F0;
+    color:gray;
+}
