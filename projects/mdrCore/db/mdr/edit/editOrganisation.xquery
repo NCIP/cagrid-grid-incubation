@@ -124,7 +124,7 @@ declare function local:input-page(
                     <tr><td class="row-header-cell" colspan="6">Organization</td></tr>
                 {
                     <tr>
-                    <td class="left_header_cell">Organization Name</td>
+                    <td class="left_header_cell">Organization Name<font color="red">*</font></td>
                     <td><input type="text" name="org_name" value='{$org_name}'></input></td>
                   </tr>,
                   <tr>
@@ -137,7 +137,7 @@ declare function local:input-page(
                 <div id="parent">
                 {for $u at $pos in $contact-name
                 return        
-                <div id="Container">                
+                <div id="existing{$pos}">        
                 <table class="layout">
                     <tr><td class="row-header-cell" colspan="6">Contact</td></tr>
                 {
@@ -155,19 +155,25 @@ declare function local:input-page(
                   </tr>,
                   <tr>
                     <td class="left_header_cell"></td>
-                    <td><input type="button" name="submit" value="Delete Contact" onClick="deleteContact(this);"/></td>
+                    <td><input id="{$pos}" type="button" name="submit" value="Delete Contact" onClick="deleteExistingContact(this);"/></td>
                   </tr>
                 }
                 </table>  
                 </div>
                 }
+                
+                 
+                 <table id="Container" class="layout">
+                 
+                 </table>
+
                 </div>
                 
                 <table class="section">
                     <tr>
                      <td class="left_header_cell"></td><td><input type="button" name="submit" value="Add new Contact" onClick="addNewContact(this);"/></td>
                     </tr>
-                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes"/></td>
+                      <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes" onClick="return validate_Organization();"/></td>
                       <td colspan="4"><input type="button"  name="update" value="Cancel" 
                               onClick= "{concat("location.href='../web/organization.xquery?compound_id=", $id, "';")}" /></td>
                       </tr>    

@@ -164,19 +164,22 @@ declare function local:input-page(
                 }
                   </div>
                 </table>
-
-                <table class="section">
+                
+                <table id="Container" class="layout">
+                    
+                </table>
+                
+                <table class="layout">
                      <tr>
                         <div id="parent">
-                        <div id="Container">
-                        </div>
+                       
                         <td class="left_header_cell"></td>
                         <td><input type="button" name="submit" value="Add new contact" onClick="addNewContactInfo(this);"/></td>
                         </div>
                       </tr>
                       <tr>
                         <td class="left_header_cell"></td>
-                        <td><input type="submit" name="update" value="Save" onClick="validate_Organization();"/></td>
+                        <td><input type="submit" name="update" value="Save" onClick="return validate_Organization();"/></td>
                         <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                         <td colspan="4"><input type="button" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
                       </tr>    

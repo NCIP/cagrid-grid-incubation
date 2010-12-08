@@ -385,30 +385,35 @@ function validate_Organization()
     }
     
     var noofcontacts = document.getElementsByName('contact-name').length;
-    contactname = document.getElementsByName('contact-name')[noofcontacts-1].value;
-    contactinformation = document.getElementsByName('contact-information')[noofcontacts-1].value;
     
-    if (contactname == ""){ 
-        errors[i] = "Contact Name" ;
+    if (noofcontacts > 0){ 
+        contactname = document.getElementsByName('contact-name')[noofcontacts-1].value;
+        contactinformation = document.getElementsByName('contact-information')[noofcontacts-1].value;
+        if (contactname == ""){ 
+            errors[i] = "Contact Name" ;
+            i++;
+        }
+    
+        if (contactinformation == ""){ 
+            errors[i] = "Contact Information" ;
+            i++;
+        }
+        
+        for(var size=0;size<noofcontacts;size++){
+            for(var j=size+1;j<noofcontacts;j++){
+                if(document.getElementsByName('contact-name')[size].value == 
+                   document.getElementsByName('contact-name')[j].value){
+                   errors[i] = "Contact Names cannot be same" ;
+                   i++;  
+                   break;               
+                }   
+            }    
+        }
+    
+    }else{
+        errors[i] = "Provide atleast one Contact for Organization" ;
         i++;
     }
-
-    if (contactinformation == ""){ 
-        errors[i] = "Contact Information" ;
-        i++;
-    }
-    
-    for(var size=0;size<noofcontacts;size++){
-        for(var j=size+1;j<noofcontacts;j++){
-            if(document.getElementsByName('contact-name')[size].value == 
-               document.getElementsByName('contact-name')[j].value){
-               errors[i] = "Contact Names cannot be same" ;
-               i++;  
-               break;               
-            }   
-        }    
-    }
-    
     if(errors.length>0){
         errMsg = "Please make sure you enter/select the following items :- \n ";
         for(j=0; j<errors.length; j++){
@@ -421,12 +426,12 @@ function validate_Organization()
 }
 
 function addNewContact(obj) {
-    if(validate_Organization()){
-        addHTML(document.getElementById('Container'),'<tr><td class="row-header-cell" colspan="6">New Contact</td></tr><tr><td class="left_header_cell">Name<font color="red">*</font></td><td><input id ="contact-name" type="text" name="contact-name"/></td></tr>',false);
-        addHTML(document.getElementById('Container'),'<tr><td class="left_header_cell">Title</td><td><input type="text" name="contact-title"/></td></tr>',false);
-        addHTML(document.getElementById('Container'),'<tr><td class="left_header_cell">Information:Email/Phone<font color="red">*</font></td><td><input type="text" name="contact-information"/></td></tr>',false);
-        addHTML(document.getElementById('Container'),'<tr><td class="left_header_cell"></td><td><input type="button" name="submit" value="Delete Contact" onClick="deleteContact(this);"/></td></tr>',false);
-    }
+    
+    addHTML(document.getElementById('Container'),'<tr><td class="row-header-cell" colspan="6">New Contact</td></tr><tr><td class="left_header_cell">Name<font color="red">*</font></td><td><input id ="contact-name" type="text" name="contact-name"/></td></tr>',false);
+    addHTML(document.getElementById('Container'),'<tr><td class="left_header_cell">Title</td><td><input type="text" name="contact-title"/></td></tr>',false);
+    addHTML(document.getElementById('Container'),'<tr><td class="left_header_cell">Information:Email/Phone<font color="red">*</font></td><td><input type="text" name="contact-information"/></td></tr>',false);
+    addHTML(document.getElementById('Container'),'<tr><td class="left_header_cell"></td><td><input type="submit" name="submit" value="Delete Contact" onClick="deleteContact(this);"/></td></tr>',false);
+    
 }
 
 function addNewContactInfo(obj) {
@@ -440,6 +445,12 @@ function addNewContactInfo(obj) {
 function deleteContact(obj) {
     var d1=document.getElementById('parent');
     var d2=document.getElementById('Container');
+    d1.removeChild(d2);
+}
+
+function deleteExistingContact(obj) {
+    var d1=document.getElementById('parent');
+    var d2=document.getElementById('existing'+obj.id);
     d1.removeChild(d2);
 }
 
