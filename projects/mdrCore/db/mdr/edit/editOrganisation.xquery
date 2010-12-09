@@ -43,6 +43,7 @@ declare namespace response="http://exist-db.org/xquery/response";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace util="http://exist-db.org/xquery/util";
 declare namespace request="http://exist-db.org/xquery/request"; 
+declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare function local:organization(
    $id as xs:string,
@@ -112,6 +113,8 @@ declare function local:input-page(
 
    return
 
+    if(local:validateUser()=true()) then
+    (
    <div xmlns="http://www.w3.org/1999/xhtml">
    
       <table class="layout">
@@ -192,8 +195,52 @@ declare function local:input-page(
           <tr><td><font color="red">{$message}</font></td></tr>
         </table>
      </div>
+     )
+       else(
+        
+        <div xmlns="http://www.w3.org/1999/xhtml">
+        <table>
+          <tr>
+            <td><span style="color:red"><b>Error : Access Denied !! Only users of "dba" group have access</b></span>
+            </td>
+          </tr>
+          <tr/><tr/><tr/><tr/>
+          <tr>
+          <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
+          </tr>
+         </table>
+       </div>
+
+        )
    };
+
+
+declare function local:validateUser() as xs:boolean
+{
+   let $hostname :=  request:get-hostname() 
    
+   let $database-uri := xs:string("xmldb:exist:///db")
+   let $user := session:get-attribute("username")
+   let $password := session:get-attribute("password")
+   let $is-ssl :=  lib-util:checkSSL()
+   return
+           if(xmldb:is-admin-user($user)) then
+           (
+                if (xmldb:login($database-uri, $user, $password))
+              then (
+        true()
+    )
+    else(
+        false()
+    )
+          )
+          else(
+              false()
+          )
+          
+
+};
+
 declare function local:success-page() 
 {
    let $calling-page := request:get-parameter("calling-page","")
