@@ -865,13 +865,19 @@ declare function lib-forms:edit-admin-item(
                        <tr><td class="row-header-cell" colspan="6">Preferred Name</td></tr>
                       )
                     }
+                    {
+                    if($context-ids eq 'cagrid_default') then(
+                        <input type="hidden" id="context-ids" name="context-ids" value=" "/>
+                    )else(
+                    
                     <tr>
                        <td class="left_header_cell">Context <font color="red">*</font></td>
                        <td colspan="5">
                           {lib-forms:select-from-contexts-enum('context-ids','')}
                        </td>
                     </tr>
-                    
+                    )
+                    }
                     <tr>
                        <td class="left_header_cell">Name <font color="red">*</font></td>
                        <td colspan="5">
@@ -2037,4 +2043,3 @@ declare function lib-forms:increment-version($admin-item-identifier as xs:string
     return
         concat(lib-forms:substring-before-last($admin-item-identifier, '_'), '_', $new-version)
 };
-

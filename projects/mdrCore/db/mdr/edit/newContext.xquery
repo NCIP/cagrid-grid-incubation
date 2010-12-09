@@ -122,7 +122,7 @@ declare function local:input-page(
     let $version := '0.1'
    let $skip-name := substring-after($action,'delete naming entry')
    let $skip-name-index := if ($skip-name>'') then xs:int($skip-name) else 0
-
+   let $context-ids := 'cagrid_default'
    return
    <div xmlns="http://www.w3.org/1999/xhtml">
    
@@ -156,7 +156,7 @@ declare function local:input-page(
                 <table class="section">
                       <tr><td class="row-header-cell" colspan="6">Store</td></tr>
                       <tr>
-                        <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save"/></td>
+                        <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return validateContext"/></td>
                         <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
                         <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
                      </tr>                     
@@ -190,7 +190,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-   let $context-ids := request:get-parameter('context-ids',())
+   let $context-ids := request:get-parameter('context-ids','')
    let $country-identifiers := request:get-parameter('country-identifiers',())
    let $language-identifiers := request:get-parameter('language-identifiers',())
    let $names := request:get-parameter('names',())
