@@ -24,6 +24,8 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
 declare namespace response="http://exist-db.org/xquery/response";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+declare namespace util="http://exist-db.org/xquery/util";
+
 
 import module 
    namespace lib-rendering="http://www.cagrid.org/xquery/library/rendering"
@@ -38,22 +40,26 @@ import module namespace
     at "../library/m-administered-item.xquery";  
 
 
-declare function local:getSubmittedby($submittedby as xs:string?) as element()*
+declare function local:getSubmittedbyContact($submittedby as xs:string?) as element()*
 {
-  let $port := string(doc('/db/mdr/config.xml')/config/common/@port)
-  let $file-loc := concat('http://localhost:',$port,'/exist/rest',lib-util:getCollectionPath('organization'))
-  let $uml-doc := doc($file-loc)/exist:result/exist:collection/exist:resource
-  
   for $item at $pos in lib-util:mdrElements('organization')
    let $org_name := lib-util:mdrElements('organization')[$pos]//openMDR:Organization
-   let $contact_identifier := $org_name/openMDR:Contact/@contact_identifier
+   let $contact := $org_name/openMDR:Contact[@contact_identifier eq $submittedby]
    return
-   if(string($contact_identifier) eq string($submittedby))
-   then $org_name
-   else element Organization{
-        }
+    $contact
 };
 
+
+declare function local:getSubmittedbyOrg($submittedby as xs:string?) as element()*
+{
+  for $item at $pos in lib-util:mdrElements('organization')
+   let $org_name := lib-util:mdrElements('organization')[$pos]//openMDR:Organization
+   return
+   if($org_name//openMDR:Contact[@contact_identifier eq $submittedby])
+   then $org_name
+   else ()
+   
+};
 
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
@@ -95,49 +101,29 @@ let $new-displayed-items :=
         else ()     
    
    return
-   (:if(contains($check,'true'))
-   then ()
-   else ( $item):)
    if(contains($check,'true') eq false())
    then ($item)
    else ()
    
    
-  (:return
-  lib-rendering:txfrm-webpage("Reference Documents",
-   <reference-documents>  
-      {
-      for $item in $new-displayed-items
-      let $name:= $item/openMDR:reference_document_title
-      let $id := $item/@reference_document_identifier
-      let $anchor := <a xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" href='../web/reference_document.xquery?compound_id={$id}'>{$name}</a>
-      where starts-with(lower-case($name),$letter)
-      order by $name
-      return
-         element reference-document {
-               attribute id {$id},
-               element anchor {$anchor},
-               element name {$name}, $item
-         }
-      }
-   </reference-documents>
-   ):)
-   
-   
    let $content := ( <reference-documents>  
       {
-      for $displayitem at $pos in $new-displayed-items (:lib-util:mdrElements('models'):)
+      for $displayitem at $pos in $new-displayed-items 
         let $id := lib-util:mdrElementId($displayitem)
         let $count := xs:integer(session:set-attribute("count",xs:integer(session:get-attribute("count"))+1)) 
         let $reference_document_title:= $displayitem/openMDR:reference_document_title
         let $reference_document_version:= $displayitem/@version
         let $reference_document_description := $displayitem/openMDR:reference_document_type_description
         let $reference_document_submitted_by := data($displayitem/openMDR:submitted_by)
-        let $getSubmittedby := local:getSubmittedby($reference_document_submitted_by)
+        let $getSubmittedbyContact := local:getSubmittedbyContact($reference_document_submitted_by)
+        let $getSubmittedbyOrg := local:getSubmittedbyOrg($reference_document_submitted_by)
+        
+        let $log := util:log-system-out($getSubmittedbyOrg)
+        
         let $anchor := <a xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" href='../web/reference_document.xquery?compound_id={$id}'>{$reference_document_title}</a>
-        (:let $until := if($pos mod 5 eq 0) then ($extent+5) else (if($extent <= $pos) then($extent+5) else $extent):)  
+        
+          
         where starts-with(lower-case($reference_document_title),$letter) 
-        (:order by $annotated_model_name:)
         order by $pos
         return
             element reference-document { attribute class {if (($pos mod 2) = 0)
@@ -150,7 +136,8 @@ let $new-displayed-items :=
                 element start {$start},
                 element extent {$extent},
                 element name {$reference_document_title}, 
-                element submitted_by {$getSubmittedby},
+                element submitted_by_contact {$getSubmittedbyContact},
+                element submitted_by {$getSubmittedbyOrg},
                 $displayitem
             }
       } 

@@ -38,7 +38,7 @@ import module namespace
   lib-forms="http://www.cagrid.org/xquery/library/forms"
   at "../edit/m-lib-forms.xquery";
   
-declare function local:getSubmittedby($submittedby as xs:string?) as element()*
+(:declare function local:getSubmittedby($submittedby as xs:string?) as element()*
 {
   let $port := string(doc('/db/mdr/config.xml')/config/common/@port)
   let $file-loc := concat('http://localhost:',$port,'/exist/rest',lib-util:getCollectionPath('organization'))
@@ -52,6 +52,27 @@ declare function local:getSubmittedby($submittedby as xs:string?) as element()*
    then $org_name
    else element Organization{
         }
+};:)
+
+declare function local:getSubmittedbyContact($submittedby as xs:string?) as element()*
+{
+  for $item at $pos in lib-util:mdrElements('organization')
+   let $org_name := lib-util:mdrElements('organization')[$pos]//openMDR:Organization
+   let $contact := $org_name/openMDR:Contact[@contact_identifier eq $submittedby]
+   return
+    $contact
+};
+
+
+declare function local:getSubmittedbyOrg($submittedby as xs:string?) as element()*
+{
+  for $item at $pos in lib-util:mdrElements('organization')
+   let $org_name := lib-util:mdrElements('organization')[$pos]//openMDR:Organization
+   return
+   if($org_name//openMDR:Contact[@contact_identifier eq $submittedby])
+   then $org_name
+   else ()
+   
 };
 
 declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
@@ -92,9 +113,6 @@ let $new-displayed-items :=
         else ()     
    
    return
-   (:if(contains($check,'true'))
-   then ()
-   else ( $item):)
    if(contains($check,'true') eq false())
    then ($item)
    else ()
@@ -110,11 +128,13 @@ let $new-displayed-items :=
         let $annotated_model_version:= $displayitem/@version
         let $annotated_model_description := $displayitem/openMDR:annotated_model_project_description
         let $annotated_model_submitted_by := data($displayitem/openMDR:submitted_by)
-        let $getSubmittedby := local:getSubmittedby($annotated_model_submitted_by)
+        (:let $getSubmittedby := local:getSubmittedby($annotated_model_submitted_by):)
+        
+        let $getSubmittedbyContact := local:getSubmittedbyContact($annotated_model_submitted_by)
+        let $getSubmittedbyOrg := local:getSubmittedbyOrg($annotated_model_submitted_by)
+        
         let $anchor := <a xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" href='../web/annotated_model.xquery?compound_id={$id}'>{$annotated_model_name}</a>
-        (:let $until := if($pos mod 5 eq 0) then ($extent+5) else (if($extent <= $pos) then($extent+5) else $extent):)  
         where starts-with(lower-case($annotated_model_name),$letter) 
-        (:order by $annotated_model_name:)
         order by $pos
         return
             element annotated-model { attribute class {if (($pos mod 2) = 0)
@@ -127,7 +147,8 @@ let $new-displayed-items :=
                 element start {$start},
                 element extent {$extent},
                 element name {$annotated_model_name}, 
-                element submitted_by {$getSubmittedby},
+                element submitted_by_contact {$getSubmittedbyContact},
+                element submitted_by {$getSubmittedbyOrg},
                 $displayitem
             }
       } 

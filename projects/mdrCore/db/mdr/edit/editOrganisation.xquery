@@ -70,10 +70,17 @@ declare function local:organization(
                                             element openMDR:organization_name{$organization_name},
                                             element openMDR:organization_mail_address{$organization_mail_address},
                                             for $u at $pos in $contact_name
-                                            let $contact-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
+                                            (:let $contact-identifier := concat($reg-auth, '_',lib-forms:generate-id(),'_',$version):)
+                                            
+                                            let $contact-identifier-at-pos := (
+                                                if(string($contact-identifier[$pos]) eq '')
+                                                then  concat($reg-auth, '_',lib-forms:generate-id(),'_',$version)
+                                                else  $contact-identifier[$pos]
+                                            )
+                                            
                                             return
                                             element openMDR:Contact {
-                                                attribute contact_identifier{$contact-identifier},
+                                                attribute contact_identifier{$contact-identifier-at-pos},
                                                 element openMDR:contact_name{$contact_name[$pos]},
                                                 element openMDR:contact_title{$contact_title[$pos]},
                                                 element openMDR:contact_information{$contact_information[$pos]}
@@ -118,7 +125,7 @@ declare function local:input-page(
              <div class="section">
                 {lib-forms:hidden-element('id',$id)}
                 {lib-forms:hidden-element('organization-identifier',$organization-identifier)}
-                {lib-forms:hidden-element('contact-identifier',$contact-identifier)}
+               
                 {lib-forms:hidden-element('updating','updating')}               
                     <table class="layout">
                     <tr><td class="row-header-cell" colspan="6">Organization</td></tr>
@@ -137,7 +144,8 @@ declare function local:input-page(
                 <div id="parent">
                 {for $u at $pos in $contact-name
                 return        
-                <div id="existing{$pos}">        
+                <div id="existing{$pos}">       
+                {lib-forms:hidden-element('contact-identifier',$contact-identifier[$pos])}                
                 <table class="layout">
                     <tr><td class="row-header-cell" colspan="6">Contact</td></tr>
                 {
@@ -155,7 +163,7 @@ declare function local:input-page(
                   </tr>,
                   <tr>
                     <td class="left_header_cell"></td>
-                    <td><input id="{$pos}" type="button" name="submit" value="Delete Contact" onClick="deleteExistingContact(this);"/></td>
+                    <td><input id="{$pos}" type="button" name="submit" value="Delete Contact" onClick="return deleteExistingContact(this);"/></td>
                   </tr>
                 }
                 </table>  
@@ -237,7 +245,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $iorganization-identifier := string($element/@organization_identifier)
    let $iorganization_name := $element//openMDR:organization_name
    let $iorganization_mail_address := $element//openMDR:organization_mail_address   
-   let $icontact-identifier := string($element//openMDR:Contact/@contact_identifier[0])   
+   let $icontact-identifier := string($element//openMDR:Contact[1]/@contact_identifier)   
    let $icontact_name := $element//openMDR:contact_name
    let $icontact_title := $element//openMDR:contact_title
    let $icontact_information := $element//openMDR:contact_information
@@ -253,10 +261,19 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $contact-identifier :=request:get-parameter('contact-identifier','')   
    
    let $log := util:log-system-out('ooooooooooooooooooooooooooo')
-   let $log := util:log-system-out($organization_name)
+   let $log := util:log-system-out($element)
+   let $log := util:log-system-out($icontact-identifier)
       
    let $validOrg := local:check-valid-org($organization_name)
    let $orgExistsMsg := concat('Organization: ',$organization_name,' already exists')
+   
+   let $icontact-identifier := (    
+            for $item at $pos in $element//openMDR:Contact
+            let $icontact-identifier := data($item//openMDR:Contact/@contact_identifier)
+            return $icontact-identifier
+            )
+   let $log := util:log-system-out($icontact-identifier)
+   
    return
       lib-rendering:txfrm-webpage(
       $title,

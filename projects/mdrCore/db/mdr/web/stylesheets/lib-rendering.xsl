@@ -357,9 +357,12 @@
                     <xsl:value-of select="description"/>
                 </td>
                 <td>
-                    <xsl:variable name="contactinfo" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_information"/>
+                    <!-- <xsl:variable name="contactinfo" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_information"/>
                     <xsl:variable name="contactname" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_name"/>
-                    <xsl:variable name="contacttitle" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_title"/>
+                    <xsl:variable name="contacttitle" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_title"/> -->
+                    <xsl:variable name="contactinfo" select="submitted_by_contact/openMDR:Contact/openMDR:contact_information"/>
+                    <xsl:variable name="contactname" select="submitted_by_contact/openMDR:Contact/openMDR:contact_name"/>
+                    <xsl:variable name="contacttitle" select="submitted_by_contact/openMDR:Contact/openMDR:contact_title"/>
                     <xsl:variable name="orgname" select="submitted_by/openMDR:Organization/openMDR:organization_name"/>
                     <xsl:variable name="orgmailaddr" select="submitted_by/openMDR:Organization/openMDR:organization_mail_address"/>
                     <table>
@@ -1889,9 +1892,12 @@
                     <xsl:value-of select="description"/>
                 </td>
                 <td>
-                    <xsl:variable name="contactinfo" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_information"/>
+                    <!-- <xsl:variable name="contactinfo" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_information"/>
                     <xsl:variable name="contactname" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_name"/>
-                    <xsl:variable name="contacttitle" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_title"/>
+                    <xsl:variable name="contacttitle" select="submitted_by/openMDR:Organization/openMDR:Contact/openMDR:contact_title"/> -->
+                    <xsl:variable name="contactinfo" select="submitted_by_contact/openMDR:Contact/openMDR:contact_information"/>
+                    <xsl:variable name="contactname" select="submitted_by_contact/openMDR:Contact/openMDR:contact_name"/>
+                    <xsl:variable name="contacttitle" select="submitted_by_contact/openMDR:Contact/openMDR:contact_title"/>
                     <xsl:variable name="orgname" select="submitted_by/openMDR:Organization/openMDR:organization_name"/>
                     <xsl:variable name="orgmailaddr" select="submitted_by/openMDR:Organization/openMDR:organization_mail_address"/>
                     <table>
