@@ -65,7 +65,7 @@ declare function local:success-page()
       <div xmlns="http://www.w3.org/1999/xhtml">
        <table class="layout">
           <tr/>
-            <tr><th colspan="2">General</th></tr>
+            <tr><td class="row-header-cell" colspan="6">General</td></tr>
             {
                 status:status-line("eXist Version", system:get-version()),
                 status:status-line("eXist Build", system:get-build()),
@@ -79,7 +79,7 @@ declare function local:success-page()
                 )
             }
             <tr/><tr/><tr/><tr/>
-            <tr><th colspan="2">Memory Usage</th></tr>
+            <tr><td class="row-header-cell" colspan="6">Memory Usage</td></tr>
             {
                     let $max := system:get-memory-max() idiv 1024,
                     $current := system:get-memory-total() idiv 1024,
@@ -93,8 +93,8 @@ declare function local:success-page()
             <tr> </tr>
             <tr> </tr>
           <tr>
-            <td><a href='maintenance.xquery'>Return to Maintenance Menu</a>
-            </td>
+            <!-- <td><a href='maintenance.xquery'>Return to Maintenance Menu</a></td> -->
+            <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
           </tr>
         </table>
       </div>

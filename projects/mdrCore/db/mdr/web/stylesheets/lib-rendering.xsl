@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:html="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:html="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
     <xsl:include href="lib-rendering-new.xsl"/>
     <xsl:output method="html" media-type="text/html" indent="yes" doctype-public="-//W3C//DTD XHTML 1,0 Transitional//EN" doctype-system="http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd" omit-xml-declaration="no" exclude-result-prefixes="openMDR dc iaaaterm xs rdf cgResolver skos dcterms ISO11179"/>
     
@@ -1587,16 +1587,18 @@
             </tr>
         </table>
     </xsl:template>
+
     <xsl:template match="broken-refs">
         <table class="layout">
-            <hr>
-                <th>from</th>
-                <th>to</th>
-                <th>id</th>
-            </hr>
-            <xsl:apply-templates/>
+           <tr>
+               <td><div class="admin_item_table_header">from</div></td>
+               <td><div class="admin_item_table_header">to</div></td>
+               <td><div class="admin_item_table_header">id</div></td>
+           </tr>
+           <xsl:apply-templates/>
         </table>
     </xsl:template>
+
     <xsl:template match="broken-ref">
         <tr>
             <td>
