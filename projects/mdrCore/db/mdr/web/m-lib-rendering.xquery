@@ -272,8 +272,12 @@ return
            let $context_id := data($having/openMDR:context_identifier)
            return
            <table class="section">
+
                <tr>
-                   <td  class="left_header_cell">Context</td><td>{administered-item:html-anchor("context", $context_id)}</td></tr>
+                   <td  class="left_header_cell">Context</td><td>
+                   { if(data($context_id) eq ' ') then ($context_id) else( administered-item:html-anchor("context", $context_id))}
+                   </td>
+               </tr>
                {
                for $containing in $having/openMDR:containing
                    order by $containing//openMDR:preferred_designation descending
