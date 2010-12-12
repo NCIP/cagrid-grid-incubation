@@ -22,7 +22,7 @@ td.left_header_cell {
 td.row-header-cell {
     width: 25%;
     vertical-align:text-top;
-    background-color: #C3E4ED;
+    background-color: #0174DF;
     text-align: left;
     font-weight: bold;
 }
@@ -191,7 +191,7 @@ div.cssnav
     position: relative;
     float:right;
     font-family: arial, helvetica, sans-serif;
-    background: url(../images/newMenuButtonLight.jpg) no-repeat;
+    background: gray;
     white-space:normal;
     display: table-cell;
     width: 140px;
@@ -203,13 +203,13 @@ div.cssnav
 {
     display: block;
     font-size: 10px;
-    width: 169px;
+    width: 148px;
     height: 25px;
     display: block;
     float: left;
     color: green;
     text-decoration: none;
-    background: url(../images/newMenuButtonLight.jpg) no-repeat;
+    background: #3366CC;
 }
 
 .cssnav img
@@ -221,7 +221,7 @@ div.cssnav
 
 .cssnav a:hover
 {
-    color: white;
+    color: black;
     visibility:visible;
     text-decoration: none;    
 }
@@ -242,7 +242,7 @@ div.cssnav
     margin: 0px;
     padding: 0px;
     cursor: pointer;
-    color:gray;
+    color:white;
     text-align: center;
     font-weight:bold;
 } 
@@ -321,7 +321,7 @@ a.term-link {
 .content_one_pane{
   border:1px;
   border-style:solid;
-  border-color:#C3E4ED;
+  border-color:gray;
   border-left-color:white;
   border-right-color:white;
   padding-left:10px;
@@ -336,34 +336,36 @@ div.cssnavinner
     position: relative;
     float:right;
     font-family: arial, helvetica, sans-serif;
-    
+    background:white;
     white-space:normal;
     display: table-cell;
     width: 130px;
-    height: 18px;
+    height: 8px;
     font-size:small;
-    padding-bottom:20px;
+    padding-bottom:17px;
 }
 
 .cssnavinner a
 {
     display: block;
     font-size: 10px;
-    width: 169px;
+    width: 130px;
     height: 25px;
     display: block;
     float: left;
     color: green;
     text-decoration: none;
-   
+    background: #3366CC;
+
+
 }
+
 
 .cssnavinner img
 {
-    width: 129px;
+    width: 130px;
     height: 25px;
     border: 0px;
-    padding-left:30px; 
 }
 
 .cssnavinner a:hover
@@ -389,7 +391,7 @@ div.cssnavinner
     margin: 0px;
     padding: 0px;
     cursor: pointer;
-    color:gray;
+    color:#FFFFFF;
     text-align: center;
     font-weight:bold;
 } 

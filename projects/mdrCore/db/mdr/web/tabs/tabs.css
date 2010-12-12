@@ -26,7 +26,7 @@ ul.tabbernav
 {
  margin:0;
  padding: 3px 0;
- border-bottom: 1px solid #C3E4ED;
+ border-bottom: 1px solid #1E90FF;
  font: bold 12px  'Arial Unicode MS',Verdana, sans-serif;
 }
 
@@ -93,7 +93,7 @@ ul.tabbernav
  padding: 3px 0;
  border-bottom: 1px solid #778;
  font: bold 12px 'Arial Unicode MS',Verdana, sans-serif;
- border-color:#C3E4ED; width:858px;
+ border-color:#1E90FF; width:858px;
 }
 
 ul.tabbernav li
@@ -107,7 +107,7 @@ ul.tabbernav li a
 {
  padding: 3px 0.5em;
  margin-left: 3px;
- border: 2px solid #C3E4ED;
+ border: 2px solid #1E90FF;
  border-bottom: none;
  background: #F0F0F0;
  text-decoration: none;
@@ -119,8 +119,8 @@ ul.tabbernav li a:visited { color: #667; }
 ul.tabbernav li a:hover
 {
  color: #000;
- background: #C3E4ED;
- border-color: #C3E4ED;
+ background: #1E90FF;
+ border-color: #1E90FF;
 }
 
 ul.tabbernav li.tabberactive a
@@ -187,7 +187,7 @@ beractive a:hover
   --------------------------------------------------*/
 .tabberlive .tabbertab {
  padding:5px;
- border:2px solid #C3E4ED;
+ border:2px solid #1E90FF;
  border-top:0;
  width:845px;
  /* If you don't want the tab size changing whenever a tab is changed

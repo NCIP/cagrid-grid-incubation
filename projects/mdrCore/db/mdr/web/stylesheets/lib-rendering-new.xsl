@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:html="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:param name="user" select="guest"/>
     <xsl:param name="title" select="title"/>
     <xsl:param name="footer">true</xsl:param>
@@ -271,7 +271,7 @@
     <xsl:template name="XHTML-transitional">
         <p align="right">
             <a href="http://validator.w3.org/check?uri=referer">
-                <img src="../web/images/valid-xhtml-blue.gif" alt="Valid XHTML 1.0 Transitional" height="31" width="88"/>
+                <img style="border:0;width:88px;height:31px" src="../web/images/valid-xhtml-blue.gif" alt="Valid XHTML 1.0 Transitional"/>
             </a>
             <a href="http://jigsaw.w3.org/css-validator/check/referer">
                 <img style="border:0;width:88px;height:31px" src="../web/images/vcss-blue.gif" alt="Valid CSS!"/>
@@ -362,7 +362,7 @@
                 <tr>
                     <td align="center">
                         <xsl:choose>
-                            <xsl:when test="start=1"> this is the first page </xsl:when>
+                            <xsl:when test="start=1">First Page</xsl:when>
                             <xsl:otherwise>
                                 <a href="{concat('javascript:showPage(1,',extent,')')}">first page</a>
                             </xsl:otherwise>
@@ -370,7 +370,7 @@
                     </td>
                     <td align="center">
                         <xsl:choose>
-                            <xsl:when test="start=1"> there are no previous pages </xsl:when>
+                            <xsl:when test="start=1"> No Previous Page </xsl:when>
                             <xsl:otherwise>
                                 <a href="{concat('javascript:showPage(', previous, ',' , extent,')')}">previous page</a>
                             </xsl:otherwise>
@@ -378,7 +378,7 @@
                     </td>
                     <td align="center">
                         <xsl:choose>
-                            <xsl:when test="start+extent&gt;count"> there are no following pages </xsl:when>
+                            <xsl:when test="start+extent&gt;count"> No Following Pages </xsl:when>
                             <xsl:otherwise>
                                 <a href="{concat('javascript:showPage(', next, ',' ,extent,')')}">next page</a>
                             </xsl:otherwise>
@@ -386,7 +386,7 @@
                     </td>
                     <td type="button" align="center">
                         <xsl:choose>
-                            <xsl:when test="start+extent&gt;count"> this is the last page </xsl:when>
+                            <xsl:when test="start+extent&gt;count"> Last Page </xsl:when>
                             <xsl:otherwise>
                                 <a href="{concat('javascript:showPage(', last, ',' ,extent,')')}">last page</a>
                             </xsl:otherwise>
@@ -394,7 +394,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" align="center">records <xsl:value-of select="start"/> to
+                    <td colspan="4" align="center">Records <xsl:value-of select="start"/> to
                         <xsl:value-of select="recordlimit"/> of <xsl:value-of select="count"/>
                     </td>
                 </tr>
