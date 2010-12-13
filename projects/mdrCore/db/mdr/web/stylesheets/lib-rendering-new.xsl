@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
+<xsl:stylesheet xmlns:html="http://www.w3.org/1999/xhtml" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:iaaaterm="http://iaaa.cps.unizar.es/iaaaterms/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/1999/xhtml" xmlns:ISO11179="http://www.cagrid.org/schema/ISO11179" version="2.0">
     <xsl:param name="user" select="guest"/>
     <xsl:param name="title" select="title"/>
     <xsl:param name="footer">true</xsl:param>
@@ -197,7 +197,7 @@
         <xsl:param name="onclick" required="no"/>
         <xsl:param name="target" required="no">default</xsl:param>
         <xsl:element name="div">
-                <xsl:attribute name="class">cssnavinner</xsl:attribute>
+            <xsl:attribute name="class">cssnavinner</xsl:attribute>
             <xsl:element name="a">
                 <xsl:if test="$link &gt; ''">
                     <xsl:attribute name="href" select="$link"/>

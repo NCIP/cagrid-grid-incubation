@@ -67,10 +67,10 @@ div.admin_item_section_header {
 }
 
 div.admin_item_table_header {
-    font-size: medium;
+    font-size: small;
     font-weight: bold;
     text-align: left;
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 0px solid #dddddd;
     background-color: #F0F0F0;
     vertical-align:text-bottom;
 }
@@ -150,7 +150,6 @@ td.tree-container {
 
 table.layout {
     width:100%;
-    padding-top:10px;
 }
     
 table.toolbar {
@@ -416,5 +415,10 @@ input[readonly] {
 
 .left-padding{
     padding-left: 30px;
+}
+
+.bold-sub-head{
+    font-size: small;
+    font-weight:bold;
 }
 
