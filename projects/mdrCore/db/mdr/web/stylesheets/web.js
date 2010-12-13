@@ -329,7 +329,7 @@ function validate_valueDomain(){
              }
         }
        if(!isValid){
-        alert('Permissable Values cannot be equal!');
+        alert('Permissible Values cannot be equal!');
        }
     }else{
         isValid=false;
@@ -364,7 +364,7 @@ function validate_editValueDomain(){
              }
         }
        if(!isValid){
-        alert('Permissable Values cannot be equal!');
+        alert('Permissible Values cannot be equal!');
        }
     }else{
         isValid=false;

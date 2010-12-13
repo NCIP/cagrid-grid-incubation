@@ -1185,7 +1185,7 @@ declare function local:value-domain-type($message as xs:string) as node()
                                                            let $values := request:get-parameter('values[$pos]','')
                                                            return (
                                                               <tr class="thickBorder td">
-                                                                 <td class="left_header_cell">Permissable Value {$pos}</td>
+                                                                 <td class="left_header_cell">Permissible Value {$pos}</td>
                                                                  <td>{$meaning}</td>
                                                                  <td>{lib-forms:input-element('values', 20, $values[$pos])}</td>
                                                                </tr>
