@@ -279,9 +279,9 @@ declare function local:success-page()
    let $calling-page := request:get-parameter("calling-page","")
    return
    <div xmlns="http://www.w3.org/1999/xhtml">   
-         <p>Annotated Model created</p>
+         <p>Annotated Model Stored!</p>
          <p><a href="../edit/maintenance.xquery">Return to maintenance menu</a></p>    
-         <p><a href="../edit/newAnnotatedModel.xquery">Create annotated model</a></p>    
+         <p><a href="../edit/newAnnotatedModel.xquery">Stored Annotated model</a></p>    
       </div>
 };
 
