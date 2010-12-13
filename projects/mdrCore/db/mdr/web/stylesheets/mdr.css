@@ -22,9 +22,13 @@ td.left_header_cell {
 td.row-header-cell {
     width: 25%;
     vertical-align:text-top;
-    background-color: #1E90FF;
+    background-color: #F0F0F0;
     text-align: left;
-    font-weight: bold;
+    color:black;
+    border-color:black;
+    border-style:solid;
+    border-width:1px;
+     
 }
 
 td.left_spacer_cell {
@@ -335,7 +339,7 @@ div.cssnavinner
     position: relative;
     float:right;
     font-family: arial, helvetica, sans-serif;
-    background:white;
+    background:#A1A8AD;
     white-space:normal;
     display: table-cell;
     width: 130px;

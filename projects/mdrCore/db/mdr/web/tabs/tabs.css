@@ -93,7 +93,7 @@ ul.tabbernav
  padding: 3px 0;
  border-bottom: 1px solid #778;
  font: bold 12px 'Arial Unicode MS',Verdana, sans-serif;
- border-color:#1E90FF; width:858px;
+ border-color:black; width:858px;
 }
 
 ul.tabbernav li
@@ -107,7 +107,7 @@ ul.tabbernav li a
 {
  padding: 3px 0.5em;
  margin-left: 3px;
- border: 2px solid #1E90FF;
+ border: 1px solid black;
  border-bottom: none;
  background: #F0F0F0;
  text-decoration: none;
@@ -187,7 +187,7 @@ beractive a:hover
   --------------------------------------------------*/
 .tabberlive .tabbertab {
  padding:5px;
- border:2px solid #1E90FF;
+ border:1px solid black;
  border-top:0;
  width:845px;
  /* If you don't want the tab size changing whenever a tab is changed

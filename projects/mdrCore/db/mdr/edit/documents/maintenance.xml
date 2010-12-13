@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../stylesheets/maintenance.xsl"?>
 <functions>
     <subheading title="Maintenance">
@@ -76,7 +75,7 @@
             </uri>
         </function>
         <function>
-            <title>New Data Element Wizard</title>
+            <title>Data Element Wizard</title>
             <description>Use this data element wizard to simplify creation of data element
             </description>
             <uri>../edit/newDataElementWizard.xquery

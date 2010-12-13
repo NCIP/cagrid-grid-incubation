@@ -209,7 +209,7 @@
                 <xsl:if test="$onclick&gt;''">
                     <xsl:attribute name="onclick" select="$onclick"/>
                 </xsl:if>
-                <img src="../web/images/newMenuButtonSkyBlue.jpg" alt="{$alt}" height="1000"/>
+                <img src="../web/images/newMenuButtonLight.jpg" alt="{$alt}" height="1000"/>
                 <span>
                     <xsl:value-of select="$text"/>
                 </span>
