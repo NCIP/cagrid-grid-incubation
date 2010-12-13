@@ -54,7 +54,7 @@ let $content  :=
         (
         <div xmlns="http://www.w3.org/1999/xhtml" >
            <form name="login" method="post" class="cagridForm" action="{session:encode-url(request:get-uri())}">
-               <table cellpadding="5">
+               <table cellpadding="5" align="center">
                    <tr>
                        <td></td>
                    </tr>
@@ -67,7 +67,7 @@ let $content  :=
                        <td><input name="pass" type="password" size="20"/></td>
                    </tr>
                    <tr>
-                       <td colspan="2" align="left"><input type="submit" value="login"/></td>
+                       <td colspan="2" align="center"><input type="submit" value="Login"/></td>
                    </tr>
                </table>
            </form>
