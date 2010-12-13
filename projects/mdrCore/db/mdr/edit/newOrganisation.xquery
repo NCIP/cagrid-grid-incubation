@@ -121,6 +121,7 @@ declare function local:input-page(
    <div xmlns="http://www.w3.org/1999/xhtml">
    
       <table class="layout">
+         <tr><td><font color="red">{$message}</font></td></tr>
           <tr>
              <td>
                 This form will allow you to create a new Organization in the metadata repository
@@ -177,7 +178,13 @@ declare function local:input-page(
                         <td><input type="button" name="submit" value="Add new contact" onClick="addNewContactInfo(this);"/></td>
                         </div>
                       </tr>
-                      <tr>
+                      
+                     
+                 </table>
+                 
+                 <tr><td class="row-header-cell" colspan="6">Store</td></tr>
+                 <table class="layout">
+                  <tr>
                         <td class="left_header_cell"></td>
                         <td><input type="submit" name="update" value="Save" onClick="return validate_Organization();"/></td>
                         <td colspan="4"><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
@@ -187,7 +194,7 @@ declare function local:input-page(
               </div>
           </form>
           </td></tr>
-          <tr><td><font color="red">{$message}</font></td></tr>
+          
         </table>
      </div>
    };

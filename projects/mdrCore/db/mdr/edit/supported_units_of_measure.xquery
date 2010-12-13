@@ -40,11 +40,39 @@ import module namespace
 declare function local:page-entry($message as xs:string) as node()
 {     
    <div xmlns="http://www.w3.org/1999/xhtml">
-     <p>
-        <table class="layout">
-           <tr><td colspan="3">This form allows you to maintain the units of measure supported by this metadata repository</td></tr>
-           <tr><td colspan="3"><p><div class="message">{$message}</div></p></td></tr>
-           <tr><td><div class="admin_item_table_header">identifier</div></td><td><div class="admin_item_table_header">name</div></td><td><div class="admin_item_table_header">precision</div></td></tr>
+    <div id="central">
+     <table class="layout">
+        <tr><td class="row-header-cell" colspan="6">Unit of measure</td></tr>
+        <tr><td>
+        <form name="new_uom" action="{session:encode-url(request:get-uri())}" method="post" class="cagridForm">
+            <div class="section">
+               <table class="section">
+                  <tr><td colspan="2">Add a new unit of measure to the metadata repository</td></tr>
+                  <tr><td class="left_header_cell">name</td><td><input name="name" type="text" size="70"/></td></tr>
+                  <tr><td class="left_header_cell">precision</td><td><input name="precision" type="text" size="70"/></td></tr>
+               </table>
+              <tr><td class="row-header-cell" colspan="6">Store</td></tr>
+              <table class="section">     
+              
+                  <tr>
+                      <td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="Save"/></td>
+                      <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
+                      <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
+                  </tr>                
+              </table>
+           </div>
+        </form>
+        
+       <p>
+       <table class="layout">
+           <tr>
+           <td ><p><div class="message">{$message}</div></p></td>
+           </tr>
+           <tr>
+            <td><div class="admin_item_table_header">identifier</div></td>
+            <td><div class="admin_item_table_header">name</div></td>
+            <td><div class="admin_item_table_header">precision</div></td>
+           </tr>
            {
            for $uom in lib-util:mdrElements("unit_of_measure")
               let $id := data($uom//@unit_of_measure_identifier)
@@ -55,18 +83,11 @@ declare function local:page-entry($message as xs:string) as node()
                  <tr><td>{$id}</td><td>{$name}</td><td>{$precision}</td></tr>
            }
         </table>
-     </p>
+        </p>
         
-      <form name="new_uom" action="{session:encode-url(request:get-uri())}" method="post" class="cagridForm">
-          <div class="section">
-             <table class="section">
-                <tr><td colspan="2">Add a new unit of measure to the metadata repository</td></tr>
-                <tr><td class="left_header_cell">name</td><td><input name="name" type="text" size="70"/></td></tr>
-                <tr><td class="left_header_cell">precision</td><td><input name="precision" type="text" size="70"/></td></tr>
-                <tr><td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="Save"/></td></tr>    
-             </table>
-         </div>
-      </form>
+      </td></tr>
+      </table>
+      </div>
    </div>
 };
    

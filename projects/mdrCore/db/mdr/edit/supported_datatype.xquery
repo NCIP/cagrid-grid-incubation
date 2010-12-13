@@ -53,16 +53,35 @@ declare function local:page-success() as element(div)
 declare function local:page-edit($message as xs:string) as element(div)
 {
    <div xmlns="http://www.w3.org/1999/xhtml">
+      <table class="layout">
+      <tr>
+         <td>
+           This form allows you to maintain the data types supported by this metadata repository
+         </td>
+      </tr>
+      <tr>
+         <td>
+          <div class="message">{$message}</div>
+         </td>
+      </tr>
+       <tr><td class="row-header-cell" colspan="6">Data Type</td></tr>
+      <tr><td>
       <form name="new_datatype" action="{session:encode-url(request:get-uri())}" method="post" class="cagridForm">
          <div class="section">
             <table class="section">
-               <tr><td colspan="2">This form allows you to maintain the data types supported by this metadata repository</td></tr>
-               <tr><td colspan="2"><p><div class="message">{$message}</div></p></td></tr>
+               <tr><td colspan="2"></td></tr>
                <tr><td class="left_header_cell">name</td><td>{lib-forms:input-element('name',92,'')}</td></tr>
                <tr><td class="left_header_cell">scheme</td><td>{lib-forms:select-from-simpleType-enum('datatype_scheme_reference','scheme',false(),'')}</td></tr>
                <tr><td class="left_header_cell">description</td><td>{lib-forms:text-area-element('description', 5, 57, '')}</td></tr>
                <tr><td class="left_header_cell">annotation</td><td>{lib-forms:input-element('annotation',92,'')}</td></tr>
-               <tr><td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="Save"/></td></tr>    
+            </table>
+            <tr><td class="row-header-cell" colspan="6">Store</td></tr>
+            <table class="section">     
+                <tr>
+                    <td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="Save"/></td>
+                    <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
+                    <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
+                </tr>                
             </table>
          </div>
       </form>
@@ -98,7 +117,7 @@ declare function local:page-edit($message as xs:string) as element(div)
          </table>
       </p>
            
-
+    </td></tr></table>
    </div>
    };
    

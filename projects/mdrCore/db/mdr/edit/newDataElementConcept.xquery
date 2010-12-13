@@ -220,6 +220,7 @@ declare function local:input-page(
                      )}
                      
                <table class="layout">
+               <tr><td class="row-header-cell" colspan="6">Data Element Concept Specific properties</td></tr>
                <!--
                <tr>
                   <td class="left_header_cell">Object Class URI <font color="red">*</font></td>
@@ -294,6 +295,7 @@ declare function local:input-page(
             </table>
                      
                 <table class="section">
+                    <tr><td class="row-header-cell" colspan="6">Store</td></tr>
                       <tr>
                       <td class="left_header_cell"></td><td><input type="submit" name="update" value="Save" onClick="return validate_dataelementconcept ()"/></td>
                       <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
