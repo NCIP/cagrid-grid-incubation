@@ -22,7 +22,7 @@ td.left_header_cell {
 td.row-header-cell {
     width: 25%;
     vertical-align:text-top;
-    background-color: #0174DF;
+    background-color: #1E90FF;
     text-align: left;
     font-weight: bold;
 }
@@ -208,7 +208,7 @@ div.cssnav
     float: left;
     color: green;
     text-decoration: none;
-    background: #3366CC;
+    background: #1E90FF;
 }
 
 .cssnav img
@@ -354,7 +354,7 @@ div.cssnavinner
     float: left;
     color: green;
     text-decoration: none;
-    background: #3366CC;
+    background: #1E90FF;
 
 
 }
