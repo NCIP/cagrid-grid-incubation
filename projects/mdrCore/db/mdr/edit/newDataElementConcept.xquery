@@ -220,15 +220,17 @@ declare function local:input-page(
                      )}
                      
                <table class="layout">
+               <!--
                <tr>
                   <td class="left_header_cell">Object Class URI <font color="red">*</font></td>
                   <td align="left" colspan="2">
                      {lib-forms:find-concept-id-edit-false('object_class_uri','get object class concept',request:get-parameter('object_class_uri',''))}
                   </td>
               </tr>
+              -->
               <tr>
-                  <td class="left_header_cell"> </td>
-                  <td align="left" colspan="2"><i> or select existing </i> 
+                 <td class="left_header_cell">Object Class URI <font color="red">*</font></td>
+                  <td align="left" colspan="2">
                   {
                     if(request:get-parameter('object_class_id','') eq "Cancel")  then (
                         lib-forms:make-select-form-admin-item-edit-false('object_class','object_class_id', session:get-attribute("object_class_id"),'new_DataElementConcept', 'Change Relationship'),
@@ -244,15 +246,17 @@ declare function local:input-page(
                   }
                   </td>
                </tr>
+               <!--
                <tr>
                   <td class="left_header_cell">Property URI <font color="red">*</font></td>
                   <td align="left" colspan="2">
                   {lib-forms:find-concept-id-edit-false('property_uri','get property concept',request:get-parameter('property_uri',''))}
                   </td>
               </tr>
+              -->
               <tr>
-                  <td class="left_header_cell"> </td>
-                  <td align="left" colspan="2"><i> or select existing </i> 
+                  <td class="left_header_cell">Property URI <font color="red">*</font></td>
+                  <td align="left" colspan="2">
                   {
                     if(request:get-parameter('property_id','') eq "Cancel")  then (
                         lib-forms:make-select-form-admin-item-edit-false('property','property_id', session:get-attribute("property_id"),'new_DataElementConcept', 'Change Relationship'),

@@ -197,7 +197,7 @@
         <xsl:param name="onclick" required="no"/>
         <xsl:param name="target" required="no">default</xsl:param>
         <xsl:element name="div">
-            <xsl:attribute name="class">cssnavinner</xsl:attribute>
+                <xsl:attribute name="class">cssnavinner</xsl:attribute>
             <xsl:element name="a">
                 <xsl:if test="$link &gt; ''">
                     <xsl:attribute name="href" select="$link"/>
@@ -406,48 +406,48 @@
         <xsl:apply-templates select="index"/>
     </xsl:template>
     <xsl:template name="type-menu">
-        <div>
+        <div class="left-padding">
             <table>
                 <tr>
                     <td>
                         <xsl:call-template name="css-rollover-button-inner">
-                            <xsl:with-param name="text">data element</xsl:with-param>
-                            <xsl:with-param name="alt">data element</xsl:with-param>
+                            <xsl:with-param name="text">Data Element</xsl:with-param>
+                            <xsl:with-param name="alt">Data Element</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('data_element')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button-inner">
-                            <xsl:with-param name="text">value domain</xsl:with-param>
-                            <xsl:with-param name="alt">value domain</xsl:with-param>
+                            <xsl:with-param name="text">Value Domain</xsl:with-param>
+                            <xsl:with-param name="alt">Value Domain</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('value_domain')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button-inner">
-                            <xsl:with-param name="text">data element concept</xsl:with-param>
-                            <xsl:with-param name="alt">data element concept</xsl:with-param>
+                            <xsl:with-param name="text">Data Element Concept</xsl:with-param>
+                            <xsl:with-param name="alt">Data Element Concept</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('data_element_concept')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button-inner">
-                            <xsl:with-param name="text">object class</xsl:with-param>
-                            <xsl:with-param name="alt">object class</xsl:with-param>
+                            <xsl:with-param name="text">Object Class</xsl:with-param>
+                            <xsl:with-param name="alt">Object Class</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('object_class')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button-inner">
-                            <xsl:with-param name="text">property</xsl:with-param>
-                            <xsl:with-param name="alt">property</xsl:with-param>
+                            <xsl:with-param name="text">Property</xsl:with-param>
+                            <xsl:with-param name="alt">Property</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('property')</xsl:with-param>
                         </xsl:call-template>
                     </td>
                     <td>
                         <xsl:call-template name="css-rollover-button-inner">
-                            <xsl:with-param name="text">conceptual domain</xsl:with-param>
-                            <xsl:with-param name="alt">conceptual domain</xsl:with-param>
+                            <xsl:with-param name="text">Conceptual Domain</xsl:with-param>
+                            <xsl:with-param name="alt">Conceptual Domain</xsl:with-param>
                             <xsl:with-param name="link">javascript:changeType('conceptual_domain')</xsl:with-param>
                         </xsl:call-template>
                     </td>

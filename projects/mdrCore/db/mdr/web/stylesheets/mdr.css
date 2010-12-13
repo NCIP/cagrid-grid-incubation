@@ -349,7 +349,7 @@ div.cssnavinner
 {
     display: block;
     font-size: 10px;
-    width: 130px;
+    width: auto;
     height: 25px;
     display: block;
     float: left;
@@ -384,7 +384,7 @@ div.cssnavinner
 .cssnavinner span
 {
     position: absolute;
-    left: 40px;
+    left: 15px;
     top: 5px;
     width: 108px;
     height: 14px;    
@@ -393,7 +393,7 @@ div.cssnavinner
     cursor: pointer;
     color:#FFFFFF;
     text-align: center;
-    font-weight:bold;
+    
 } 
 
 select{
@@ -413,3 +413,8 @@ input[readonly] {
     background-color:#F0F0F0;
     color:gray;
 }
+
+.left-padding{
+    padding-left: 30px;
+}
+
