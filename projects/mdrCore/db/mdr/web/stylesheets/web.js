@@ -725,14 +725,11 @@ function checkFile(obj){
     description = document.getElementById('description');
     providedby = document.getElementById('provided-by');
     
-    if(file.value > "" && file.value.lastIndexOf(".xml")==-1){
-       errors[i] = "Choose a valid file" ;
-       i++;
-    }
+    
     
     if (file.value == "")
     { 
-        errors[i] = "Valid XML File" ;
+        errors[i] = "File name without spaces" ;
         i++;
     }
     
