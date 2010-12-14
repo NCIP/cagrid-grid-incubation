@@ -235,6 +235,7 @@ declare function local:input-page(
               </tr>
               <tr><td class="left_header_cell">Example</td><td colspan="2">{lib-forms:text-area-element('example', 5, 70, $example)}</td></tr>
               <tr><td class="left_header_cell">Precision</td><td colspan="2">{lib-forms:input-element('precision', 70,$precision)}</td></tr>                  
+               <tr><td class="row-header-cell" colspan="6">Store</td></tr>
               <tr><td class="left_header_cell"></td><td><input type="submit" name="update" value="Save Changes" onClick="return validate_dataelement()" /></td>
               <td colspan="4"><input type="button"  name="update" value="Cancel" 
                               onClick= "{concat("location.href='../web/data_element.xquery?compound_id=", $id, "';")}" /></td>
