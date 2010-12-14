@@ -146,7 +146,7 @@ let $new-displayed-items :=
    let $count-all-items as xs:integer := xs:integer(session:get-attribute("count"))
      
    return
-   lib-rendering:txfrm-webpage($title, 
+   lib-rendering:txfrm-webpage('Reference Documents', 
         element content-by-letter-reference-document {
             element tabular-content-reference-document {
             $content,
