@@ -84,7 +84,7 @@ declare function local:conceptual-domain(
    let $vmid := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    let $doc-name := concat($id,'.xml')
-
+    
    let $content := (
                     lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
                     lib-make-admin-item:custodians($administered-by,$registered-by,$submitted-by),
@@ -99,13 +99,16 @@ declare function local:conceptual-domain(
                    
                                        
                     for $meaning at $pos in $meanings
+                    let $vmid := if($value_meaning_identifiers[$pos] > '')
+                            then $value_meaning_identifiers[$pos]
+                            else lib-forms:generate-id()
                     return
                     if($meaning >'') then
                        element openMDR:Value_Meaning 
                        {
                         element openMDR:value_meaning_begin_date {$creation-date},
                         element openMDR:value_meaning_description {$meaning},
-                        element openMDR:value_meaning_identifier {$value_meaning_identifiers[$pos]},
+                        element openMDR:value_meaning_identifier {$vmid},
                         element openMDR:reference_uri {$value_meaning_uri[$pos]}
                        }
                        else()
@@ -174,7 +177,10 @@ declare function local:input-page(
        
        let $skip-uri := substring-after($action,'delete value meaning')
        let $skip-uri-index := if ($skip-uri>'') then xs:int($skip-uri) else 0
-  
+       
+       let $vmid := if($action eq 'updating')
+            then lib-forms:generate-id() 
+            else $value_meaning_identifiers
     return
         <div xmlns="http://www.w3.org/1999/xhtml">
     
@@ -227,7 +233,8 @@ declare function local:input-page(
                               
                        for $meaning at $pos in $meanings                   
                        let $location := if($pos > $skip-uri-index and $skip-uri-index > 0) then (util:eval($pos - 1)) else ($pos)
-                        where $pos != $skip-uri-index and $meaning > ""
+                                              
+                       where $pos != $skip-uri-index and $meaning > ""
                         return (
                            <tr>
                               <td class="left_header_cell">Value {$location} Meaning</td>
@@ -347,7 +354,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    
    let $ivalue_meaning_uri := data($element//openMDR:Value_Meaning/openMDR:reference_uri)
    let $value_meaning_uri := request:get-parameter('property_uri','')
-   let $value_meaning_uri := $ivalue_meaning_uri
+   (:let $value_meaning_uri := $ivalue_meaning_uri:)
    
    let $iregistration_status := string($element//openMDR:registration_status)
    let $registration_status := request:get-parameter('registration_status',$iregistration_status)
@@ -464,7 +471,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
                $ivalue_meaning_identifiers,
                 (: added this so that the version gets saved:)
                      $iversion,
-                     $value_meaning_uri,
+                     $ivalue_meaning_uri,
                      $registration_status
                )
          )
