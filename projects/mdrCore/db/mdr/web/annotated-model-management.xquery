@@ -160,7 +160,7 @@ let $new-displayed-items :=
    let $log := util:log-system-out($extent)   
    
    return
-   lib-rendering:txfrm-webpage($title, 
+   lib-rendering:txfrm-webpage('Annotated Models', 
         element content-by-letter-annotated-model {
             element tabular-content-annotated-model {
             $content,
