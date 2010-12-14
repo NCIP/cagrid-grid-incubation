@@ -104,12 +104,14 @@ declare function local:checkValidity($aftertransform as element()*) as xs:string
                     let $id := string($element/@value)
                     let $log := util:log-system-out($id)
                                   
-                    let $query := lib-qs:getURLcaDSR($qs, (), $id, $start, $end)
+                    let $query := lib-qs:getURLopenMDR($qs, (), $id, $start, $end)
                     let $response := doc($query)/x:result-set/x:data-element
                     return 
                          if($response > '')
                             then 'valid'
                          else
+                            let $invalidCDEs :=   session:set-attribute("invalidCDEs",concat(session:get-attribute('invalidCDEs'),' ',$id))
+                            return
                             'invalid'                     
                 )
                else(
