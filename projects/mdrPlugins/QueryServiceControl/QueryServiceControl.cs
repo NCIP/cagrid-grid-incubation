@@ -822,6 +822,7 @@ namespace QueryServiceControl
                                 {
                                     conceptConcat += ":" + con.name;
                                 }
+                                if(conceptConcat!=null && conceptConcat.Length>0)
                                 conceptConcat = conceptConcat.Substring(1);
                                 values += "<tr><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + vv.code + "</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + vv.meaning.Value + "</td><td style=\"border: 1px solid #ddd;padding: 5px;vertical-align: top;\">" + conceptConcat + "</td></tr>";
                             }
