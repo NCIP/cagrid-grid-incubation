@@ -155,7 +155,7 @@ declare function local:input-page(
                                   <td class="left_header_cell"></td>
                                   <td><input type="submit" name="update" value="Save" onClick="return checkFile(this);"/></td>
                                   <td colspan="4">
-                                    <input type="submit" name="update" value="Clear"/>
+                                    <input type="submit" name="update" value="Clear"  onClick="this.form.reset()"/>
                                   </td>
                               </tr>
                           </table>

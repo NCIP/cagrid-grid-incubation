@@ -394,7 +394,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" align="center">Records <xsl:value-of select="start"/> to
+                    <td colspan="4" align="center">Records
+                        <xsl:variable name="norecords" select="count"></xsl:variable>                        
+                        <xsl:choose>
+                            <xsl:when test="number($norecords) eq number(0) ">
+                                <xsl:value-of select="$norecords"/> 
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="start"/> 
+                            </xsl:otherwise>
+                        </xsl:choose> to
                         <xsl:value-of select="recordlimit"/> of <xsl:value-of select="count"/>
                     </td>
                 </tr>
