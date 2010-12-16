@@ -94,9 +94,6 @@ declare function local:check-valid-org($organization_name as xs:string*){
       (:for $u at $pos in $item//openMDR:Contact:)
       let $org_name:= data($item//openMDR:organization_name)
       (:let $name:= data($item//openMDR:Contact[$pos]//openMDR:contact_name):)
-      let $log := util:log-system-out('ppppppppppppppppppppp')
-      let $log := util:log-system-out($organization_name)
-      let $log := util:log-system-out($org_name)
       return
            if($organization_name=$org_name)
            then false()
@@ -223,8 +220,6 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $action := request:get-parameter('update','')
    
    let $validOrg := local:check-valid-org($organization_name)
-   let $log := util:log-system-out('printing valid organization/................')
-   let $log := util:log-system-out($validOrg)
    let $orgExistsMsg := concat('Organization: ',$organization_name,' already exists')
    return
       lib-rendering:txfrm-webpage(

@@ -73,8 +73,6 @@ declare function local:property(
    let $data-identifier := substring-after(lib-forms:substring-before-last($id,'_'),'_')
    (:let $doc-name := concat($id,'.xml') :)
    let $doc-name := concat($id,'.xml') 
-    let $log := util:log-system-out('printing registration status ...................')
-    let $log := util:log-system-out($registration_status)
     
    let $content := (
             lib-make-admin-item:administration-record($administrative-note,$administrative-status,$creation-date,$registration_status),
@@ -131,7 +129,6 @@ declare function local:input-page(
    $object_class_uri as xs:string*,
    $action as xs:string?,
    $preferred as xs:string?,
-   (:11111111111111111:)
    $version as xs:float?,
    $registration_status
    ) {

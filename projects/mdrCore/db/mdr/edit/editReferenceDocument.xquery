@@ -179,8 +179,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    
    let $element := lib-util:mdrElement("reference_document",$id)
    let $iref-id := string($element/@reference_document_identifier)
-   let $log := util:log-system-out('printing id printing id printing id')
-   let $log := util:log-system-out($iref-id)
+
    
    let $heading := concat('Editing Reference Document ',$id)
    

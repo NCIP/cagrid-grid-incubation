@@ -321,21 +321,12 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $example := request:get-parameter('example','')
    let $precision := request:get-parameter('precision','')
       
-       (:11111111111111111111111111:)
-    let $log := util:log-system-out('printing iversion................')
    let $iversion := data($element/@version)
    let $version := request:get-parameter('version','')
-   let $log := util:log-system-out($iversion)   
-   
-   let $log := util:log-system-out($iversion)
-   let $log := util:log-system-out($version)
    let $version := $iversion
    (:getting proposed version and release version :)
    let $proposedNextVersion := request:get-parameter('proposedNextVersion',$iversion)
-   let $log := util:log-system-out('printing proposed version.....from here...........')
    let $version := round-half-to-even(xs:float($proposedNextVersion),2)
-   let $log := util:log-system-out('printing proposed version.....from here...........')
-   let $log := util:log-system-out($version)
    
    let $iregistration_status := string($element//openMDR:registration_status)
    let $registration_status := request:get-parameter('registration_status',$iregistration_status)
