@@ -124,7 +124,7 @@ declare function local:input-page(
                               <tr><td class="left_header_cell">Administered by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-administered_by-nameAndOrg($administered-by)} </td></tr>
                               <tr><td class="left_header_cell">Submitted by <font color="red">*</font></td><td colspan="5"> {lib-forms:make-select-submitted_by-nameAndOrg($submitted-by)} </td></tr>
                               <tr><td class="left_header_cell">Administrative Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Administrative_Status','administrative-status', false(), $administrative-status)}</td></tr>
-                              <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Registration_Status','registration_status', false(), $registration_status)}</td></tr>
+                              <tr><td class="left_header_cell">Registration Status <font color="red">*</font></td><td colspan="5">{lib-forms:select-from-simpleType-enum('Registration_Status','registration-status', false(), $registration_status)}</td></tr>
                         </tr>
                       </table>
                      <table class="section">
@@ -201,7 +201,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $administered-by := request:get-parameter('administered-by','')
    let $submitted-by := request:get-parameter('submitted-by','')
    let $registered-by := request:get-parameter('registered-by','')
-   let $registration_status := request:get-parameter('registration_status','')
+   let $registration_status := request:get-parameter('registration-status','')
    
    let $ireg-auth := string($element/@item_registration_authority_identifier)
    let $iadministrative-note := string($element/openMDR:administered_item_administration_record/openMDR:administrative_note)
@@ -210,7 +210,7 @@ declare option exist:serialize "media-type=text/html method=xhtml doctype-public
    let $isubmitted-by := string($element//openMDR:submitted_by)
    let $iregistered-by := string($element//openMDR:registered_by)
    let $iregistration_status := string($element/openMDR:administered_item_administration_record/openMDR:registration_status)
-   let $registration_status := request:get-parameter('registration_status','')
+   let $registration_status := request:get-parameter('registration-status','')
    
    return
    
