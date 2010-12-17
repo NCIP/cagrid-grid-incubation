@@ -98,7 +98,7 @@ return
                   </div>
                   
                   <td><input type="submit" value="Submit query" class="cgButton" onclick="document.getElementById('processImg').style.display = '';"/></td>
-                  <td><input type="submit" value="Stop query" class="cgButton" onclick="this.form.reset();"/></td>
+                  <td><input type="submit" value="Clear" class="cgButton" onclick="this.form.reset();"/></td>
                   
                </tr>       
             </table>
@@ -141,7 +141,7 @@ return
             <table class="layout">
             <tr class="light-rule" align="right">
             <td>
-            {          
+            {       
                     let $div := xs:integer(xs:integer($recordCounter) div xs:integer($count))                    
                     let $mod := xs:integer($recordCounter mod $count)
                     
@@ -157,16 +157,24 @@ return
                             return $div
                         else()                
                             let $query := lib-qs:getURL($resource, (), $phrase, $start, $count)
-                           
+                            let $log := util:log-system-out($query)
                             let $increment := xs:integer(20)
                             let $div:=xs:integer($div)-xs:integer(1)
+                            
                             for $i in (0 to $div)  
                          return
                         (
                                if($i gt 0)
                                then
                                (
-                                   <a href='popup-search-reference-uri.xquery?control={$control}&amp;element={$element}&amp;phrase={$phrase}&amp;request={encode-for-uri(replace($query,'startIndex=0',concat('startIndex=',$i*$increment)))}&amp;resource={$resource}'>{$i+1}</a>
+                                  if(starts-with($resource,'BioPortal') )
+                                  then(
+                                    <a href='popup-search-reference-uri.xquery?control={$control}&amp;element={$element}&amp;phrase={$phrase}&amp;request={encode-for-uri(replace($query,'pagenum=0',concat('pagenum=',$i*$increment)))}&amp;resource={$resource}'>{$i+1}</a>
+                                  )else(
+                                  <a href='popup-search-reference-uri.xquery?control={$control}&amp;element={$element}&amp;phrase={$phrase}&amp;request={encode-for-uri(replace($query,'startIndex=0',concat('startIndex=',$i*$increment)))}&amp;resource={$resource}'>{$i+1}</a>
+                                  )
+                                  
+                                  
                                 )
                                else(
                                    <a href='popup-search-reference-uri.xquery?control={$control}&amp;phrase={$phrase}&amp;request={encode-for-uri($query)}&amp;resource={$resource}'>{$i+1}</a>                           
