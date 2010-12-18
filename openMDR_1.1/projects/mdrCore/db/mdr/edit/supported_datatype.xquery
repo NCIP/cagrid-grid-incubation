@@ -1,0 +1,153 @@
+xquery version "1.0";
+
+(: ~
+ : Module Name:             datatype webpage and XQuery
+ :
+ : Module Version           1.0
+ :
+ : Date                    22nd September 2006
+ :
+ : Copyright               The cancergrid consortium
+ :
+ : Module overview         maintains datatype resources
+ :
+ :)
+ 
+(:~
+ :    @author Steve Harris
+ :    @version 0.1
+~ :)
+
+  
+import module namespace 
+  lib-forms="http://www.cagrid.org/xquery/library/forms"
+  at "../edit/m-lib-forms.xquery";
+  
+import module namespace 
+  lib-util="http://www.cagrid.org/xquery/library/util" 
+  at "../library/m-lib-util.xquery";
+  
+import module namespace 
+  lib-rendering="http://www.cagrid.org/xquery/library/rendering"
+  at "../web/m-lib-rendering.xquery";   
+  
+import module namespace 
+   administered-item="http://www.cagrid.org/xquery/library/administered-item" 
+   at "../library/m-administered-item.xquery";   
+   
+   
+declare namespace openMDR = "http://www.cagrid.org/schema/openMDR";
+declare namespace ISO11179= "http://www.cagrid.org/schema/ISO11179";  
+declare namespace request="http://exist-db.org/xquery/request";
+declare namespace session="http://exist-db.org/xquery/session";
+
+declare variable $title as xs:string := "Supported Datatypes";
+
+declare function local:page-success() as element(div)
+{
+      <div xmlns="http://www.w3.org/1999/xhtml" class="message"> Datatype stored.  
+      <a href="../edit/supported_datatype.xquery">Return to calling page</a>
+      </div>
+};
+
+declare function local:page-edit($message as xs:string) as element(div)
+{
+   <div xmlns="http://www.w3.org/1999/xhtml">
+      <table class="layout">
+      <tr>
+         <td>
+           This form allows you to maintain the data types supported by this metadata repository
+         </td>
+      </tr>
+      <tr>
+         <td>
+          <div class="message">{$message}</div>
+         </td>
+      </tr>
+       <tr><td class="row-header-cell" colspan="6">Data Type</td></tr>
+      <tr><td>
+      <form name="new_datatype" action="{session:encode-url(request:get-uri())}" method="post" class="cagridForm">
+         <div class="section">
+            <table class="section">
+               <tr><td colspan="2"></td></tr>
+               <tr><td class="left_header_cell">name</td><td>{lib-forms:input-element('name',92,'')}</td></tr>
+               <tr><td class="left_header_cell">scheme</td><td>{lib-forms:select-from-simpleType-enum('datatype_scheme_reference','scheme',false(),'')}</td></tr>
+               <tr><td class="left_header_cell">description</td><td>{lib-forms:text-area-element('description', 5, 57, '')}</td></tr>
+               <tr><td class="left_header_cell">annotation</td><td>{lib-forms:input-element('annotation',92,'')}</td></tr>
+            </table>
+            <tr><td class="row-header-cell" colspan="6">Store</td></tr>
+            <table class="section">     
+                <tr>
+                    <td class="left_header_cell"></td><td colspan="5"><input type="submit" name="new" value="Save"/></td>
+                    <td><input type="button" name="update" value="Clear" onClick="this.form.reset()"/></td>
+                    <td><input type="button" name="return" value="Return to Maintenance Menu" onclick="location.href='../edit/maintenance.xquery'"/></td>
+                </tr>                
+            </table>
+         </div>
+      </form>
+
+      <p>
+      
+         <table class="layout">
+            <tr>
+
+            <td><div class="admin_item_table_header">data type</div></td>
+            <td><div class="admin_item_table_header">scheme</div></td>
+            <td><div class="admin_item_table_header">description</div></td>
+            <td><div class="admin_item_table_header">annotation</div></td>
+            </tr>
+            {
+            
+            for $datatype in lib-util:mdrElements("data_type")
+               let $id := data($datatype//@datatype_identifier)
+               let $name :=data($datatype//openMDR:datatype_name)
+               let $scheme :=data($datatype//openMDR:datatype_scheme_reference)
+               let $annotation := data($datatype//openMDR:datatype_annotation)
+               let $description := data($datatype//openMDR:datatype_description)                   
+               order by $name
+               return
+               <tr>
+                  <td>{$name}</td>
+                  <td>{$scheme}</td>
+                  <td>{$description}</td>
+                  <td>{$annotation}</td>
+               </tr>
+            }
+            
+         </table>
+      </p>
+           
+    </td></tr></table>
+   </div>
+   };
+   
+declare function local:document() as element(openMDR:cgDatatype)
+   {
+   element openMDR:cgDatatype
+         {
+            attribute datatype_identifier {lib-forms:generate-id()},
+            element openMDR:datatype_annotation {request:get-parameter('annotation', ())},
+            element openMDR:datatype_description {request:get-parameter('description', ())},             
+            element openMDR:datatype_name {request:get-parameter('name','please supply name')},
+            element openMDR:datatype_scheme_reference {request:get-parameter('scheme',())}
+         }
+   };
+   
+   
+   declare option exist:serialize "media-type=text/html method=xhtml doctype-public=-//W3C//DTD&#160;XHTML&#160;1.0&#160;Transitional//EN doctype-system=http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-transitional.dtd";
+   
+   
+session:create(),
+lib-rendering:txfrm-webpage($title, <div xmlns="http://www.w3.org/1999/xhtml"> {
+   if (request:get-parameter('new','') = 'Save')
+   then 
+   (
+      let $message := lib-forms:store-document(local:document())
+      return
+         if ($message = "stored") 
+         then local:page-success()
+         else local:page-edit($message)
+   )
+   else local:page-edit('')
+   }</div>
+)

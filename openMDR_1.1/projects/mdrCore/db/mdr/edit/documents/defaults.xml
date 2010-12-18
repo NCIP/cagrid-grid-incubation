@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openMDR:edit-defaults xmlns:openMDR="http://www.cagrid.org/schema/openMDR">
+    <openMDR:country_identifier>US</openMDR:country_identifier>
+    <openMDR:language_identifier>eng</openMDR:language_identifier>
+    <openMDR:context_identifier>GB-OUCL-000011-1</openMDR:context_identifier>
+    <openMDR:Data_Element version="1"/>
+    <openMDR:Classification_Scheme version="1"/>
+    <openMDR:Enumerated_Value_Domain version="1">
+        <openMDR:typed_by>GB-OUCL-000010-1</openMDR:typed_by>
+        <openMDR:value_domain_datatype>KRMZ1P97F</openMDR:value_domain_datatype>
+        <openMDR:value_domain_unit_of_measure>MV3QWZ2YG</openMDR:value_domain_unit_of_measure>
+    </openMDR:Enumerated_Value_Domain>
+    <openMDR:Non_Enumerated_Value_Domain version="1"/>
+    <openMDR:Enumerated_Conceptual_Domain version="1"/>
+    <openMDR:Non_Enumerated_Conceptual_Domain version="1"/>
+    <openMDR:administrative_status>scheduledForReview</openMDR:administrative_status>
+    <openMDR:registration_status>Recorded</openMDR:registration_status>
+    <openMDR:origin>CCVTM</openMDR:origin>
+    <openMDR:data_element_concept_object_class>GB-OUCL-000101-1</openMDR:data_element_concept_object_class>
+    <openMDR:data_element_concept_property>GB-OUCL-000102-1</openMDR:data_element_concept_property>
+</openMDR:edit-defaults>

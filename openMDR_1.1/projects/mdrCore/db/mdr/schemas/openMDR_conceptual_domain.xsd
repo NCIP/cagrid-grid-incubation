@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:iso11179="http://www.cagrid.org/schema/ISO11179" xmlns="http://www.cagrid.org/schema/openMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:include schemaLocation="../schemas/openMDR_resources.xsd"/>
+    <xs:import namespace="http://www.cagrid.org/schema/ISO11179"
+        schemaLocation="../schemas/iso11179.xsd"/>
+    <xs:element name="Conceptual_Domain" type="Conceptual_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Conceptual_Domain" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="cgAdministered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="dimensionality" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element name="related_to" type="Conceptual_Domain_Relationship" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Non_Enumerated_Conceptual_Domain" type="Non_Enumerated_Conceptual_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Non_Enumerated_Conceptual_Domain" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>non-enumerated conceptual domain description has been dropped as the administered item designation property offers identical function</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Conceptual_Domain">
+                <xs:sequence minOccurs="1" maxOccurs="1"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+     <xs:element name="Value_Meaning" type="Value_Meaning" nillable="false" abstract="false"/>
+    <xs:complexType name="Value_Meaning" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="iso11179:Value_Meaning">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="reference_uri" type="xs:anyURI" minOccurs="0" maxOccurs="1"
+                        nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>uri of supporting controlled vocabulary or ontology resource</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Enumerated_Conceptual_Domain" type="Enumerated_Conceptual_Domain"
+        nillable="false" abstract="false"/>
+    <xs:complexType name="Enumerated_Conceptual_Domain" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="Conceptual_Domain">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="containing" type="Value_Meaning" maxOccurs="unbounded"
+                        minOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+     <xs:element name="Conceptual_Domain_Relationship" type="Conceptual_Domain_Relationship" nillable="false" abstract="false"/>
+    <xs:complexType name="Conceptual_Domain_Relationship" mixed="false" abstract="false">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="related_to" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="conceptual_domain_relationship_type_description" type="relationship_type_name" minOccurs="0" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

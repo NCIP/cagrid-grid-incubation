@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.cagrid.org/schema/openMDR" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:iso11179="http://www.cagrid.org/schema/ISO11179" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.cagrid.org/schema/ISO11179" schemaLocation="../schemas/iso11179.xsd"/>
+    <xs:include schemaLocation="../schemas/openMDR_resources.xsd"/>
+    <xs:element name="Organization" type="Organization" nillable="false" abstract="false"/>
+    <xs:complexType name="Organization" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="iso11179:Organization">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="Contact" type="Contact" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+                </xs:sequence>
+                <xs:attribute name="organization_identifier" use="required" type="organization_identifier"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Contact" type="Contact" nillable="false" abstract="false"/>
+    <xs:complexType name="Contact" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="iso11179:Contact">
+                <xs:sequence minOccurs="1" maxOccurs="1"/>
+                <xs:attribute name="contact_identifier" use="required" type="contact_identifier"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>

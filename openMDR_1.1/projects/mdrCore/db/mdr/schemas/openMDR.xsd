@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://www.cagrid.org/schema/openMDR"
+    targetNamespace="http://www.cagrid.org/schema/openMDR">
+
+    <xs:include schemaLocation="openMDR_classification.xsd"/>
+    <xs:include schemaLocation="openMDR_classification_scheme_item.xsd"/>
+    <xs:include schemaLocation="openMDR_conceptual_domain.xsd"/>
+    <xs:include schemaLocation="openMDR_reference_document.xsd"/>
+    <xs:include schemaLocation="openMDR_context.xsd"/>
+    <xs:include schemaLocation="openMDR_data_element.xsd"/>
+    <xs:include schemaLocation="openMDR_data_element_concept.xsd"/>
+    <xs:include schemaLocation="openMDR_object_class.xsd"/>
+    <xs:include schemaLocation="openMDR_organization.xsd"/>
+    <xs:include schemaLocation="openMDR_property.xsd"/>
+    <xs:include schemaLocation="openMDR_registrationAuthority.xsd"/>
+</xs:schema>

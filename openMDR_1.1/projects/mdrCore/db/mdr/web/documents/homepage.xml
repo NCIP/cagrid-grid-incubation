@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <div class="content_one_pane">
+        <p>Welcome to the MDR ISO/IEC11179 compliant metadata repository.</p>
+        <p>An ISO/IEC11179 metadata repository is a resource where the meaning and allowed values of
+            measurements are declared by linking terms in controlled vocabularies - such as SNOMED
+            CT - to value domains restricting the values that may be assigned through the
+            declaration of <i>data elements</i> - reusable definitions of measurement or declaration
+            of clinical variables. This is the place where the meaning and derivation of the
+            elements of National Minimum Dataset for Cancer can be properly declared and maintained.</p>
+        <p>By reusing these measurements you guarantee that the data you collect is interoperable
+            with other people who collect the same type of data. In conjunction of models of
+            experiments - such as the CONSORT model for clinical trials - it facilitates the type of
+            meta-analysis previously only achieved by a few groups such as the Early Breast Cancer
+            Triallists' Collaborative Group.</p>
+        <p>You can <a href="contents.xquery">browse them alphabetically</a>, <a href="search.xquery">search for text</a> within the names and definitions, inspect the underlying <a href="../model/index.htm" target="_blank">data model of the repository</a>, or read some <a href="documentation.xquery">useful documents</a> that describe how this resource is
+            maintained. </p>
+    </div>
+</div>

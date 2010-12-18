@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.cagrid.org/schema/openMDR"
+    xmlns:openMDR="http://www.cagrid.org/schema/openMDR"
+    xmlns:iso11179="http://www.cagrid.org/schema/ISO11179"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.cagrid.org/schema/openMDR" elementFormDefault="qualified"
+    finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.cagrid.org/schema/ISO11179"
+        schemaLocation="../schemas/iso11179.xsd"/>
+    <xs:include schemaLocation="../schemas/openMDR_resources.xsd"/>
+    <xs:element name="Registration_Authority" type="Registration_Authority" nillable="false"
+        abstract="false"/>
+    <xs:complexType name="Registration_Authority" mixed="false" abstract="false">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="organization_name" type="xs:string" minOccurs="1" maxOccurs="1"
+                nillable="false"/>
+            <xs:element name="organization_mail_address" type="xs:string" minOccurs="1"
+                maxOccurs="1" nillable="false"/>
+            <xs:element name="documentation_language_identifier" type="cgLanguage_Identification"
+                maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+            <xs:element name="registration_authority_identifier"
+                type="Registration_Authority_Identifier" minOccurs="1" maxOccurs="1"
+                nillable="false"/>
+            <xs:element name="represented_by" type="Registrar" maxOccurs="unbounded" minOccurs="1"
+                nillable="false"/>
+        </xs:sequence>
+        <xs:attribute name="organization_identifier" use="required" type="xs:string"/>
+    </xs:complexType>
+    <xs:element name="Registrar" type="Registrar" nillable="false" abstract="false"/>
+    <xs:complexType name="Registrar" mixed="false" abstract="false">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="registrar_contact" type="openMDR:Contact" minOccurs="1" maxOccurs="1"
+                nillable="false"/>
+            <xs:element name="registrar_identifier" type="xs:string" minOccurs="1" maxOccurs="1"
+                nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="Registration_Authority_Identifier">
+        <xs:restriction base="xs:string"></xs:restriction>
+    </xs:simpleType>
+</xs:schema>

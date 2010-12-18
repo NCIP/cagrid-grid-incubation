@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cgResolver:resolver xmlns:cgResolver="http://www.cagrid.org/schema/cgResolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="directory.xsd">
+    <cgResolver:resource urn="urn:lexevsapi.nci.nih.gov_NCIThesaurusEVS_">
+        <cgResolver:uri rank="1" return="html">http://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI%20Thesaurus&amp;code=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:lexevsapi.nci.nih.gov_NCIMetaThesaurusConcept_">
+        <cgResolver:uri rank="1" return="html">http://ncim.nci.nih.gov/ncimbrowser/ConceptReport.jsp?dictionary=NCI%20MetaThesaurus&amp;code=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-OCRe_">
+        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1076/?conceptid=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-HL7_">
+        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1343/?conceptid=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-GO_">
+        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1070/?conceptid=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-SNOMEDCT_">
+        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1353/?conceptid=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-LOINC_">
+        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1350/?conceptid=</cgResolver:uri>
+    </cgResolver:resource>
+    <cgResolver:resource urn="urn:rest.bioontology.org_BioPortal-ICD9_">
+        <cgResolver:uri rank="1" return="html">http://bioportal.bioontology.org/visualize/virtual/1101/?conceptid=</cgResolver:uri>
+    </cgResolver:resource>
+</cgResolver:resolver>
+

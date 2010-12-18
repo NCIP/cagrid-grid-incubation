@@ -1,0 +1,9 @@
+<openMDR:Organization xmlns:openMDR="http://www.cagrid.org/schema/openMDR" organization_identifier="cagrid.org">
+    <openMDR:organization_name>caGrid</openMDR:organization_name>
+    <openMDR:organization_mail_address>Columbus, OH</openMDR:organization_mail_address>
+    <openMDR:Contact contact_identifier="cagrid.org.1">
+        <openMDR:contact_information>rakesh.dhaval@osumc.edu</openMDR:contact_information>
+        <openMDR:contact_name>Rakesh Dhaval</openMDR:contact_name>
+        <openMDR:contact_title>Metadata Creator</openMDR:contact_title>
+    </openMDR:Contact>
+</openMDR:Organization>

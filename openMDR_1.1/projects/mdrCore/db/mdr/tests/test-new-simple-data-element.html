@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>new-simple-data-element</title>
+    </head>
+    <body>
+        <table cellpadding="1" cellspacing="1" border="1">
+            <thead>
+                <tr>
+                    <td rowspan="1" colspan="3">new-simple-data-element</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>link=maintenance</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>link=Create data element</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>preferred-name</td>
+                    <td>steves test</td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>other-name</td>
+                    <td>steves test alt1</td>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>update</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>document.edit_admin_item.elements['other-name'][1]</td>
+                    <td>steves test alt2</td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>definition</td>
+                    <td>steves definition</td>
+                </tr>
+                <tr>
+                    <td>select</td>
+                    <td>datatype</td>
+                    <td>label=xs:boolean: XMLSchema</td>
+                </tr>
+                <tr>
+                    <td>select</td>
+                    <td>uom</td>
+                    <td>label=(not applicable)</td>
+                </tr>
+                <tr>
+                    <td>select</td>
+                    <td>submitted-by</td>
+                    <td>label=Steve Harris</td>
+                </tr>
+                <tr>
+                    <td>select</td>
+                    <td>administered-by</td>
+                    <td>label=Steve Harris</td>
+                </tr>
+                <tr>
+                    <td>select</td>
+                    <td>registered-by</td>
+                    <td>label=Dr. Steve Harris</td>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>document.edit_admin_item.update[2]</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Success</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Data Element: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Value Domain: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Data Element Concept: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Conceptual Domain: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>You can view a complete summary here: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>link=steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Preferred Name: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>steves definition</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>non-enumerated</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>xs:boolean (XMLSchema)</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>steves test alt1</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>steves test alt2</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyText</td>
+                    <td>link=default object class</td>
+                    <td>default object class</td>
+                </tr>
+                <tr>
+                    <td>verifyText</td>
+                    <td>link=default property</td>
+                    <td>default property</td>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//tr[2]/td[5]/div/a/span</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//a[contains(@href, 'data_element.xquery')]</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyTitle</td>
+                    <td>Data Element: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>link=edit</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Item Registration Authority Identifier</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Data Identifier</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Version</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//tr[2]/td[5]/div/a/span</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//tr[2]/td[5]/div/a/span</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//a[contains(@href, 'value_domain.xquery')]</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyTitle</td>
+                    <td>Value Domain: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>link=edit</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Item Registration Authority Identifier</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Data Identifier</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>assertTextPresent</td>
+                    <td>Version</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//tr[2]/td[5]/div/a/span</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//tr[2]/td[5]/div/a/span</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//a[contains(@href, 'data_element_concept.xquery')]</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyTitle</td>
+                    <td>Data Element Concept: steves test</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//tr[2]/td[5]/div/a/span</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>//a[contains(@href, 'conceptual_domain.xquery')]</td>
+                    <td/>
+                </tr>
+                <tr>
+                    <td>verifyTitle</td>
+                    <td>Conceptual Domain: steves test</td>
+                    <td/>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

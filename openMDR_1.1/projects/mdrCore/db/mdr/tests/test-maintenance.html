@@ -1,0 +1,264 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>test-maintenance</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">test-maintenance</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/exist/rest//db/mdr/edit/maintenance.xquery</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Maintenance</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Browse Object Classes supported by this metadata repository</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTitle</td>
+	<td>Supported Object Classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Clinician Name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTitle</td>
+	<td>Object class: Clinician Name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=as XML</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/exist/rest//db/mdr/edit/maintenance.xquery</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Browse Properties supported by this metadata repository</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Acne</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTitle</td>
+	<td>exact:Property: Acne</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=as XML</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/exist/rest//db/mdr/edit/maintenance.xquery</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Browse Representation classes supported by this metadata repository</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTitle</td>
+	<td>exact:Representation Class Listing</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Boolean</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTitle</td>
+	<td>Representation Class: Boolean</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=as XML</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/exist/rest//db/mdr/edit/maintenance.xquery</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Maintain Datatypes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>xs:boolean</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>xs:date</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>my data type</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>scheme</td>
+	<td>label=Java</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>description</td>
+	<td>my description</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>annotation</td>
+	<td>my annotation</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Return to calling page</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>my data type</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Java</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>my description</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>my annotation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/exist/rest//db/mdr/edit/maintenance.xquery</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Maintain units of measure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>(not applicable)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>mg/day</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>my unit of measure</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>precision</td>
+	<td>my precision</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Return to calling page</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>my unit of measure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>my precision</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/exist/rest//db/mdr/edit/maintenance.xquery</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Organisations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Computing Laboratory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Computing Laboratory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Steve Harris</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>steve.harris@comlab.ox.ac.uk</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=as XML</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/exist/rest//db/mdr/edit/maintenance.xquery</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

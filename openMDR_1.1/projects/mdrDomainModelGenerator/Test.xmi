@@ -1,0 +1,2355 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2010-02-11 13:08:05">
+	<XMI.header>
+		<XMI.documentation>
+			<XMI.exporter>Enterprise Architect</XMI.exporter>
+			<XMI.exporterVersion>2.5</XMI.exporterVersion>
+		</XMI.documentation>
+	</XMI.header>
+	<XMI.content>
+		<UML:Model name="EA Model" xmi.id="MX_EAID_6318152E_A62D_4c4d_BE2E_1F237D6F09C1">
+			<UML:Namespace.ownedElement>
+				<UML:Class name="EARootClass" xmi.id="EAID_11111111_5487_4080_A7F4_41526CB0AA00" isRoot="true" isLeaf="false" isAbstract="false"/>
+				<UML:Package name="Logical View" xmi.id="EAPK_6318152E_A62D_4c4d_BE2E_1F237D6F09C1" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+					<UML:ModelElement.taggedValue>
+						<UML:TaggedValue tag="parent" value="EAPK_F2745F69_6AE0_4cfb_A22D_B361134DAFDF"/>
+						<UML:TaggedValue tag="ea_package_id" value="186"/>
+						<UML:TaggedValue tag="created" value="2006-10-24 11:05:29"/>
+						<UML:TaggedValue tag="modified" value="2006-10-24 11:05:29"/>
+						<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+						<UML:TaggedValue tag="lastloaddate" value="2006-10-24 11:05:29"/>
+						<UML:TaggedValue tag="lastsavedate" value="2006-10-24 11:05:29"/>
+						<UML:TaggedValue tag="isprotected" value="FALSE"/>
+						<UML:TaggedValue tag="usedtd" value="FALSE"/>
+						<UML:TaggedValue tag="logxml" value="FALSE"/>
+						<UML:TaggedValue tag="tpos" value="5"/>
+						<UML:TaggedValue tag="packageFlags" value="isModel=1;VICON=3;CRC=0;"/>
+						<UML:TaggedValue tag="batchsave" value="0"/>
+						<UML:TaggedValue tag="batchload" value="0"/>
+						<UML:TaggedValue tag="phase" value="1.0"/>
+						<UML:TaggedValue tag="status" value="Proposed"/>
+						<UML:TaggedValue tag="complexity" value="1"/>
+						<UML:TaggedValue tag="ea_stype" value="Public"/>
+						<UML:TaggedValue tag="tpos" value="5"/>
+						<UML:TaggedValue tag="gentype" value="Java"/>
+					</UML:ModelElement.taggedValue>
+					<UML:Namespace.ownedElement>
+						<UML:Collaboration xmi.id="EAID_6318152E_A62D_4c4d_BE2E_1F237D6F09C1_Collaboration" name="Collaborations">
+							<UML:Namespace.ownedElement>
+								<UML:ClassifierRole name="Data Model" xmi.id="EAID_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isAbstract" value="false"/>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="Package"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_6318152E_A62D_4c4d_BE2E_1F237D6F09C1"/>
+										<UML:TaggedValue tag="date_created" value="2006-10-24 11:06:38"/>
+										<UML:TaggedValue tag="date_modified" value="2006-10-24 11:06:38"/>
+										<UML:TaggedValue tag="genfile" value="C:\Documents and Settings\patelsat\Desktop\SDKDataModel"/>
+										<UML:TaggedValue tag="gentype" value="Java"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package2" value="EAID_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8"/>
+										<UML:TaggedValue tag="package_name" value="Logical View"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="The Administrator"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="187"/>
+										<UML:TaggedValue tag="ea_eleType" value="package"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:ClassifierRole>
+								<UML:ClassifierRole name="Logical Model" xmi.id="EAID_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isAbstract" value="false"/>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="Package"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_6318152E_A62D_4c4d_BE2E_1F237D6F09C1"/>
+										<UML:TaggedValue tag="date_created" value="2006-10-24 11:06:27"/>
+										<UML:TaggedValue tag="date_modified" value="2006-10-24 11:06:27"/>
+										<UML:TaggedValue tag="gentype" value="Java"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package2" value="EAID_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077"/>
+										<UML:TaggedValue tag="package_name" value="Logical View"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="The Administrator"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="189"/>
+										<UML:TaggedValue tag="ea_eleType" value="package"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:ClassifierRole>
+							</UML:Namespace.ownedElement>
+							<UML:Collaboration.interaction/>
+						</UML:Collaboration>
+						<UML:Package name="Data Model" xmi.id="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="parent" value="EAPK_6318152E_A62D_4c4d_BE2E_1F237D6F09C1"/>
+								<UML:TaggedValue tag="created" value="2006-10-24 11:06:38"/>
+								<UML:TaggedValue tag="modified" value="2006-10-24 11:06:38"/>
+								<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+								<UML:TaggedValue tag="lastloaddate" value="2006-10-25 10:53:37"/>
+								<UML:TaggedValue tag="lastsavedate" value="2006-10-25 10:53:37"/>
+								<UML:TaggedValue tag="isprotected" value="FALSE"/>
+								<UML:TaggedValue tag="usedtd" value="FALSE"/>
+								<UML:TaggedValue tag="logxml" value="FALSE"/>
+								<UML:TaggedValue tag="batchsave" value="0"/>
+								<UML:TaggedValue tag="batchload" value="0"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="author" value="The Administrator"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="ea_stype" value="Public"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Namespace.ownedElement>
+								<UML:Collaboration xmi.id="EAID_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8_Collaboration" name="Collaborations">
+									<UML:Namespace.ownedElement>
+										<UML:ClassifierRole name="Diagrams" xmi.id="EAID_13C2A393_A2C6_4d7c_9441_319ED9A21FBA" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="isAbstract" value="false"/>
+												<UML:TaggedValue tag="isSpecification" value="false"/>
+												<UML:TaggedValue tag="ea_stype" value="Package"/>
+												<UML:TaggedValue tag="ea_ntype" value="0"/>
+												<UML:TaggedValue tag="version" value="1.0"/>
+												<UML:TaggedValue tag="package" value="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8"/>
+												<UML:TaggedValue tag="date_created" value="2006-10-24 20:02:24"/>
+												<UML:TaggedValue tag="date_modified" value="2006-10-24 20:02:24"/>
+												<UML:TaggedValue tag="gentype" value="Java"/>
+												<UML:TaggedValue tag="tagged" value="0"/>
+												<UML:TaggedValue tag="package2" value="EAID_13C2A393_A2C6_4d7c_9441_319ED9A21FBA"/>
+												<UML:TaggedValue tag="package_name" value="Data Model"/>
+												<UML:TaggedValue tag="phase" value="1.0"/>
+												<UML:TaggedValue tag="author" value="The Administrator"/>
+												<UML:TaggedValue tag="complexity" value="1"/>
+												<UML:TaggedValue tag="status" value="Proposed"/>
+												<UML:TaggedValue tag="tpos" value="0"/>
+												<UML:TaggedValue tag="ea_localid" value="188"/>
+												<UML:TaggedValue tag="ea_eleType" value="package"/>
+												<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+											</UML:ModelElement.taggedValue>
+										</UML:ClassifierRole>
+									</UML:Namespace.ownedElement>
+									<UML:Collaboration.interaction/>
+								</UML:Collaboration>
+								<UML:Class name="PARTICIPANT" xmi.id="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3" visibility="public" namespace="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="table"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="Class"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8"/>
+										<UML:TaggedValue tag="date_created" value="2009-02-06 10:04:03"/>
+										<UML:TaggedValue tag="date_modified" value="2009-02-06 10:06:26"/>
+										<UML:TaggedValue tag="gentype" value="MySql"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Data Model"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="product_name" value="MySql"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="stereotype" value="table"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="1085"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={5C4602C8-CA30-45cc-9CB9-7969B7BE8F7F}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=table;GUID={76339B58-8C24-4bc4-8B4E-FD444E54FCF2};@ENDSTEREO;$DES;$CLT={30EEFC14-D74B-4581-9575-2562594DBDA3}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={A12195F7-8229-4ad6-8946-5F542B52B786}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={30EEFC14-D74B-4581-9575-2562594DBDA3}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Classifier.feature>
+										<UML:Attribute name="ID" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="NUMERIC"/>
+												<UML:TaggedValue tag="ordered" value="1"/>
+												<UML:TaggedValue tag="precision" value="8"/>
+												<UML:TaggedValue tag="scale" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="0"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="1"/>
+												<UML:TaggedValue tag="ea_guid" value="{90F83D7A-C9F3-4408-98CB-71D736FDAB9F}"/>
+												<UML:TaggedValue tag="ea_localid" value="1726"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Participant.id" xmi.id="EAID_9BF55222_E0A7_44f0_88D9_AF2AF49A680E"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="BIRTH_DATE" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="DATE"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="1"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{14F9C38F-0128-4bca-9728-602CD14DDC66}"/>
+												<UML:TaggedValue tag="ea_localid" value="1727"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Participant.birthDate" xmi.id="EAID_6C925582_A028_4c45_A1F5_F6B2CB48B13A"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="FIRST_NAME" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="VARCHAR"/>
+												<UML:TaggedValue tag="length" value="50"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="2"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{8737129A-0ED8-4b27-B3F7-838AC13AEB2B}"/>
+												<UML:TaggedValue tag="ea_localid" value="1728"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Participant.firstName" xmi.id="EAID_C919AC0B_F541_48a4_A418_1C752C84F772"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="LAST_NAME" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="VARCHAR"/>
+												<UML:TaggedValue tag="length" value="50"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="3"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{3EBD5EBB-D76A-4655-BA1E-27AC6A2BA823}"/>
+												<UML:TaggedValue tag="ea_localid" value="1729"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Participant.lastName" xmi.id="EAID_E066774C_1241_4ddc_AD7A_C9551D88DE76"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="GENDER" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="VARCHAR"/>
+												<UML:TaggedValue tag="length" value="10"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="4"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{2C38D513-7163-4d76-A390-467FDE818613}"/>
+												<UML:TaggedValue tag="ea_localid" value="1730"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Participant.gender" xmi.id="EAID_E97D58AA_DF25_473e_8803_4FC1A0FD6BCA"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Operation name="PK_PARTICIPANT" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="PK"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="const" value="false"/>
+												<UML:TaggedValue tag="stereotype" value="PK"/>
+												<UML:TaggedValue tag="synchronised" value="0"/>
+												<UML:TaggedValue tag="position" value="0"/>
+												<UML:TaggedValue tag="returnarray" value="0"/>
+												<UML:TaggedValue tag="pure" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{89C11F28-CA66-4153-AADC-F9EBA8F97BB6}"/>
+												<UML:TaggedValue tag="ea_localid" value="680"/>
+											</UML:ModelElement.taggedValue>
+											<UML:BehavioralFeature.parameter>
+												<UML:Parameter kind="return" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid3"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{RETURNID-CA66-4153-AADC-F9EBA8F97BB6}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+												<UML:Parameter name="ID" kind="in" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid0"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="type" value="NUMERIC"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{0D10653C-F92F-4ca9-ADC7-E93CF035724E}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+											</UML:BehavioralFeature.parameter>
+										</UML:Operation>
+									</UML:Classifier.feature>
+								</UML:Class>
+								<UML:Dependency client="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3" supplier="EAID_8BEF11CA_0CFF_473c_8BFD_62978B6AED95" name="dependency" xmi.id="EAID_9AEC57E2_8E99_4e5b_8AD3_338E1A24183F" visibility="public">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="DataSource"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="style" value="3"/>
+										<UML:TaggedValue tag="ea_type" value="Dependency"/>
+										<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+										<UML:TaggedValue tag="linemode" value="3"/>
+										<UML:TaggedValue tag="linecolor" value="-1"/>
+										<UML:TaggedValue tag="linewidth" value="0"/>
+										<UML:TaggedValue tag="seqno" value="0"/>
+										<UML:TaggedValue tag="stereotype" value="DataSource"/>
+										<UML:TaggedValue tag="headStyle" value="0"/>
+										<UML:TaggedValue tag="lineStyle" value="0"/>
+										<UML:TaggedValue tag="conditional" value="«DataSource»"/>
+										<UML:TaggedValue tag="ea_localid" value="919"/>
+										<UML:TaggedValue tag="ea_sourceName" value="PARTICIPANT"/>
+										<UML:TaggedValue tag="ea_targetName" value="Participant"/>
+										<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+										<UML:TaggedValue tag="ea_targetType" value="Class"/>
+										<UML:TaggedValue tag="ea_sourceID" value="1085"/>
+										<UML:TaggedValue tag="ea_targetID" value="1082"/>
+										<UML:TaggedValue tag="src_visibility" value="Public"/>
+										<UML:TaggedValue tag="src_aggregation" value="0"/>
+										<UML:TaggedValue tag="src_isOrdered" value="false"/>
+										<UML:TaggedValue tag="src_targetScope" value="instance"/>
+										<UML:TaggedValue tag="src_changeable" value="none"/>
+										<UML:TaggedValue tag="src_isNavigable" value="false"/>
+										<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+										<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+										<UML:TaggedValue tag="dst_visibility" value="Public"/>
+										<UML:TaggedValue tag="dst_aggregation" value="0"/>
+										<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+										<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+										<UML:TaggedValue tag="dst_changeable" value="none"/>
+										<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+										<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+										<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={51F312E4-08FD-40fc-B164-34452EFE1383}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=DataSource;GUID={9E3A1533-84B4-4ddc-9085-92FE23831410};@ENDSTEREO;$DES;$CLT={9AEC57E2-8E99-4e5b-8AD3-338E1A24183F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="virtualInheritance" value="0"/>
+										<UML:TaggedValue tag="mb" value=" &#xA;«DataSource»"/>
+										<UML:TaggedValue tag="mt" value="dependency"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Dependency>
+								<UML:Association name="(PARTICIPANT_ID = ID)" xmi.id="EAID_44647AE4_F394_4626_BCD8_F34D9B487556" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="FK"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="style" value="3"/>
+										<UML:TaggedValue tag="ea_type" value="Association"/>
+										<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+										<UML:TaggedValue tag="linemode" value="3"/>
+										<UML:TaggedValue tag="linecolor" value="-1"/>
+										<UML:TaggedValue tag="linewidth" value="0"/>
+										<UML:TaggedValue tag="seqno" value="0"/>
+										<UML:TaggedValue tag="stereotype" value="FK"/>
+										<UML:TaggedValue tag="styleex" value="FKINFO=SRC=FK_PROTOCOL_REGISTRATION_PARTICIPANT:DST=PK_PARTICIPANT:;"/>
+										<UML:TaggedValue tag="headStyle" value="0"/>
+										<UML:TaggedValue tag="lineStyle" value="0"/>
+										<UML:TaggedValue tag="conditional" value=" &#xA;«FK»"/>
+										<UML:TaggedValue tag="ea_localid" value="918"/>
+										<UML:TaggedValue tag="ea_sourceName" value="PROTOCOL_REGISTRATION"/>
+										<UML:TaggedValue tag="ea_targetName" value="PARTICIPANT"/>
+										<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+										<UML:TaggedValue tag="ea_targetType" value="Class"/>
+										<UML:TaggedValue tag="ea_sourceID" value="1087"/>
+										<UML:TaggedValue tag="ea_targetID" value="1085"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={5797CD34-D06D-4049-97F2-C3BD86F31A95}$XID;$NAM=CustomProperties$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={44647AE4-F394-4626-BCD8-F34D9B487556}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={3B9A317A-72A7-417a-B789-C41500A893E1}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=FK;GUID={3E575904-27E1-483a-89A3-B85E25D32F85};@ENDSTEREO;$DES;$CLT={44647AE4-F394-4626-BCD8-F34D9B487556}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="$ea_src_xref_property" value="$XREFPROP=$XID={C9E0333F-003E-4789-844E-89E88CF8DFDE}$XID;$NAM=CustomProperties$NAM;$TYP=connectorSrcEnd property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerivedUnion@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=default@ENDNAME;@TYPE=String@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReadOnly@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isComposite@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=aggregation@ENDNAME;@TYPE=AggregationKind@ENDTYPE;@VALU=none@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={44647AE4-F394-4626-BCD8-F34D9B487556}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="$ea_dst_xref_property" value="$XREFPROP=$XID={C3D20DCA-1BFC-49da-BB54-D2B922409BFC}$XID;$NAM=CustomProperties$NAM;$TYP=connectorDestEnd property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerivedUnion@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=default@ENDNAME;@TYPE=String@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReadOnly@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isComposite@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=aggregation@ENDNAME;@TYPE=AggregationKind@ENDTYPE;@VALU=none@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={44647AE4-F394-4626-BCD8-F34D9B487556}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="virtualInheritance" value="0"/>
+										<UML:TaggedValue tag="lb" value="0..*"/>
+										<UML:TaggedValue tag="lt" value="+FK_PROTOCOL_REGISTRATION_PARTICIPANT"/>
+										<UML:TaggedValue tag="mb" value=" &#xA;«FK»"/>
+										<UML:TaggedValue tag="mt" value="(PARTICIPANT_ID = ID)"/>
+										<UML:TaggedValue tag="rb" value="1"/>
+										<UML:TaggedValue tag="rt" value="+PK_PARTICIPANT"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Association.connection>
+										<UML:AssociationEnd visibility="public" multiplicity="0..*" name="FK_PROTOCOL_REGISTRATION_PARTICIPANT" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_624296C9_81D5_4402_8D5F_6C0838039201">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="containment" value="Unspecified"/>
+												<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+												<UML:TaggedValue tag="ea_end" value="source"/>
+											</UML:ModelElement.taggedValue>
+										</UML:AssociationEnd>
+										<UML:AssociationEnd visibility="public" multiplicity="1" name="PK_PARTICIPANT" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="containment" value="Unspecified"/>
+												<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+												<UML:TaggedValue tag="ea_end" value="target"/>
+											</UML:ModelElement.taggedValue>
+										</UML:AssociationEnd>
+									</UML:Association.connection>
+								</UML:Association>
+								<UML:Class name="PROTOCOL_REGISTRATION" xmi.id="EAID_624296C9_81D5_4402_8D5F_6C0838039201" visibility="public" namespace="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="table"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="Class"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8"/>
+										<UML:TaggedValue tag="date_created" value="2009-02-06 10:08:41"/>
+										<UML:TaggedValue tag="date_modified" value="2009-02-06 10:08:49"/>
+										<UML:TaggedValue tag="gentype" value="MySql"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Data Model"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="product_name" value="MySql"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="stereotype" value="table"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="1087"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={BE8EBC72-3A75-48d1-B799-895442647B2C}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=table;GUID={76339B58-8C24-4bc4-8B4E-FD444E54FCF2};@ENDSTEREO;$DES;$CLT={624296C9-81D5-4402-8D5F-6C0838039201}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={33CBD3D9-4D47-47ad-8E77-FC5ED06715FB}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={624296C9-81D5-4402-8D5F-6C0838039201}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Classifier.feature>
+										<UML:Attribute name="ID" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="NUMERIC"/>
+												<UML:TaggedValue tag="ordered" value="1"/>
+												<UML:TaggedValue tag="precision" value="8"/>
+												<UML:TaggedValue tag="scale" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="0"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="1"/>
+												<UML:TaggedValue tag="ea_guid" value="{49D27D31-1906-4ee5-A988-8ED84FC0FCB1}"/>
+												<UML:TaggedValue tag="ea_localid" value="1739"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.ProtocolRegistration.id" xmi.id="EAID_77E15EAE_0258_44d0_A3CF_E1A4F0757168"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="PARTICIPANT_ID" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="NUMERIC"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="precision" value="8"/>
+												<UML:TaggedValue tag="scale" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="true"/>
+												<UML:TaggedValue tag="position" value="1"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{8E98BFF7-DEAA-49be-A903-8F011987243F}"/>
+												<UML:TaggedValue tag="ea_localid" value="1738"/>
+												<UML:TaggedValue tag="implements-association" value="edu.osu.ccts.ctsatest.domain.ProtocolRegistration.participant" xmi.id="EAID_DFB1AA4E_1CA4_4797_B550_0AA0C900C975"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="PROTOCOL_ID" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="NUMERIC"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="precision" value="8"/>
+												<UML:TaggedValue tag="scale" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="true"/>
+												<UML:TaggedValue tag="position" value="2"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{065BFFCE-CF59-4d88-A299-8B6C9E5F3AF9}"/>
+												<UML:TaggedValue tag="ea_localid" value="1742"/>
+												<UML:TaggedValue tag="implements-association" value="edu.osu.ccts.ctsatest.domain.ProtocolRegistration.protocol" xmi.id="EAID_23A95AB7_53B7_4075_B430_BD8A594F3B8F"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="ENROLLMENT_DATE" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="DATE"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="3"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{BDA510A0-C58D-4220-8AD8-F1E20BF51539}"/>
+												<UML:TaggedValue tag="ea_localid" value="1740"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.ProtocolRegistration.enrollmentDate" xmi.id="EAID_C4DAD030_B310_4fbe_830B_F04E39139630"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="STATUS" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="VARCHAR"/>
+												<UML:TaggedValue tag="length" value="50"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="4"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{CE0C8153-EAFB-45cc-870C-2CC4F3B739C7}"/>
+												<UML:TaggedValue tag="ea_localid" value="1741"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.ProtocolRegistration.status" xmi.id="EAID_294A9B62_1858_43a0_AFB2_94BA47A822C0"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Operation name="FK_PROTOCOL_REGISTRATION_PARTICIPANT" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="FK"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="const" value="false"/>
+												<UML:TaggedValue tag="stereotype" value="FK"/>
+												<UML:TaggedValue tag="synchronised" value="0"/>
+												<UML:TaggedValue tag="position" value="0"/>
+												<UML:TaggedValue tag="pure" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{5C737005-B93B-4247-967C-AF29042EA1BF}"/>
+												<UML:TaggedValue tag="ea_localid" value="683"/>
+												<UML:TaggedValue tag="property" value="Delete Cascade=0;Update Cascade=0;" xmi.id="EAID_713BC287_0D3B_44dd_BE44_EF66E3AEFD1C"/>
+											</UML:ModelElement.taggedValue>
+											<UML:BehavioralFeature.parameter>
+												<UML:Parameter kind="return" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid3"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{RETURNID-B93B-4247-967C-AF29042EA1BF}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+												<UML:Parameter name="PARTICIPANT_ID" kind="in" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid0"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="type" value="NUMERIC"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{0BE5C9D6-1684-4c2d-9924-E3E6DEA285B0}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+											</UML:BehavioralFeature.parameter>
+										</UML:Operation>
+										<UML:Operation name="FK_PROTOCOL_REGISTRATION_PROTOCOL" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="FK"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="const" value="false"/>
+												<UML:TaggedValue tag="stereotype" value="FK"/>
+												<UML:TaggedValue tag="synchronised" value="0"/>
+												<UML:TaggedValue tag="position" value="0"/>
+												<UML:TaggedValue tag="pure" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{08F8F7AA-EBF5-43bc-9773-DA75411F6E16}"/>
+												<UML:TaggedValue tag="ea_localid" value="684"/>
+												<UML:TaggedValue tag="property" value="Delete Cascade=0;Update Cascade=0;" xmi.id="EAID_FB3E145E_18D9_496b_871F_FA472E979FE7"/>
+											</UML:ModelElement.taggedValue>
+											<UML:BehavioralFeature.parameter>
+												<UML:Parameter kind="return" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid3"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{RETURNID-EBF5-43bc-9773-DA75411F6E16}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+												<UML:Parameter name="PROTOCOL_ID" kind="in" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid0"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="type" value="NUMERIC"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{0C501D0C-4198-459f-8592-2A4043AEB855}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+											</UML:BehavioralFeature.parameter>
+										</UML:Operation>
+										<UML:Operation name="PK_PROTOCOL_REGISTRATION" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="PK"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="const" value="false"/>
+												<UML:TaggedValue tag="stereotype" value="PK"/>
+												<UML:TaggedValue tag="synchronised" value="0"/>
+												<UML:TaggedValue tag="position" value="0"/>
+												<UML:TaggedValue tag="returnarray" value="0"/>
+												<UML:TaggedValue tag="pure" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{5F566380-540F-4f71-BEA6-F8F7F23F6404}"/>
+												<UML:TaggedValue tag="ea_localid" value="682"/>
+											</UML:ModelElement.taggedValue>
+											<UML:BehavioralFeature.parameter>
+												<UML:Parameter kind="return" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid3"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{RETURNID-540F-4f71-BEA6-F8F7F23F6404}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+												<UML:Parameter name="ID" kind="in" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid0"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="type" value="NUMERIC"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{5A632589-41C7-4c02-A873-C6CD6C2593D7}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+											</UML:BehavioralFeature.parameter>
+										</UML:Operation>
+									</UML:Classifier.feature>
+								</UML:Class>
+								<UML:Association name="(PROTOCOL_ID = ID)" xmi.id="EAID_089BA9E0_218C_40bf_9F77_63E19E48A00F" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="FK"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="style" value="3"/>
+										<UML:TaggedValue tag="ea_type" value="Association"/>
+										<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+										<UML:TaggedValue tag="linemode" value="3"/>
+										<UML:TaggedValue tag="linecolor" value="-1"/>
+										<UML:TaggedValue tag="linewidth" value="0"/>
+										<UML:TaggedValue tag="seqno" value="0"/>
+										<UML:TaggedValue tag="stereotype" value="FK"/>
+										<UML:TaggedValue tag="styleex" value="FKINFO=SRC=FK_PROTOCOL_REGISTRATION_PROTOCOL:DST=PK_PROTOCOL:;"/>
+										<UML:TaggedValue tag="headStyle" value="0"/>
+										<UML:TaggedValue tag="lineStyle" value="0"/>
+										<UML:TaggedValue tag="conditional" value=" &#xA;«FK»"/>
+										<UML:TaggedValue tag="ea_localid" value="922"/>
+										<UML:TaggedValue tag="ea_sourceName" value="PROTOCOL_REGISTRATION"/>
+										<UML:TaggedValue tag="ea_targetName" value="PROTOCOL"/>
+										<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+										<UML:TaggedValue tag="ea_targetType" value="Class"/>
+										<UML:TaggedValue tag="ea_sourceID" value="1087"/>
+										<UML:TaggedValue tag="ea_targetID" value="1086"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={C61C1470-E81F-4bcd-B0A9-0596C29FE28C}$XID;$NAM=CustomProperties$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={089BA9E0-218C-40bf-9F77-63E19E48A00F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={663846B2-80CF-40e2-ACFC-D5ADB6312C88}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=FK;GUID={3E575904-27E1-483a-89A3-B85E25D32F85};@ENDSTEREO;$DES;$CLT={089BA9E0-218C-40bf-9F77-63E19E48A00F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="$ea_src_xref_property" value="$XREFPROP=$XID={6C522E66-F389-423c-A74A-C8EBBCD3EF9F}$XID;$NAM=CustomProperties$NAM;$TYP=connectorSrcEnd property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerivedUnion@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=default@ENDNAME;@TYPE=String@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReadOnly@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isComposite@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=aggregation@ENDNAME;@TYPE=AggregationKind@ENDTYPE;@VALU=none@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={089BA9E0-218C-40bf-9F77-63E19E48A00F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="$ea_dst_xref_property" value="$XREFPROP=$XID={915C3287-2B3E-4bfa-AAD1-2D30DEB170E2}$XID;$NAM=CustomProperties$NAM;$TYP=connectorDestEnd property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerivedUnion@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=default@ENDNAME;@TYPE=String@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReadOnly@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isComposite@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=aggregation@ENDNAME;@TYPE=AggregationKind@ENDTYPE;@VALU=none@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={089BA9E0-218C-40bf-9F77-63E19E48A00F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="virtualInheritance" value="0"/>
+										<UML:TaggedValue tag="lb" value="0..*"/>
+										<UML:TaggedValue tag="lt" value="+FK_PROTOCOL_REGISTRATION_PROTOCOL"/>
+										<UML:TaggedValue tag="mb" value=" &#xA;«FK»"/>
+										<UML:TaggedValue tag="mt" value="(PROTOCOL_ID = ID)"/>
+										<UML:TaggedValue tag="rb" value="1"/>
+										<UML:TaggedValue tag="rt" value="+PK_PROTOCOL"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Association.connection>
+										<UML:AssociationEnd visibility="public" multiplicity="0..*" name="FK_PROTOCOL_REGISTRATION_PROTOCOL" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_624296C9_81D5_4402_8D5F_6C0838039201">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="containment" value="Unspecified"/>
+												<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+												<UML:TaggedValue tag="ea_end" value="source"/>
+											</UML:ModelElement.taggedValue>
+										</UML:AssociationEnd>
+										<UML:AssociationEnd visibility="public" multiplicity="1" name="PK_PROTOCOL" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="containment" value="Unspecified"/>
+												<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+												<UML:TaggedValue tag="ea_end" value="target"/>
+											</UML:ModelElement.taggedValue>
+										</UML:AssociationEnd>
+									</UML:Association.connection>
+								</UML:Association>
+								<UML:Dependency client="EAID_624296C9_81D5_4402_8D5F_6C0838039201" supplier="EAID_0F41DEB9_FE48_44f0_AF61_D3132ACC3D4F" name="dependency" xmi.id="EAID_731885CB_485D_4458_A2CC_CB6381FCD093" visibility="public">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="DataSource"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="style" value="3"/>
+										<UML:TaggedValue tag="ea_type" value="Dependency"/>
+										<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+										<UML:TaggedValue tag="linemode" value="3"/>
+										<UML:TaggedValue tag="linecolor" value="-1"/>
+										<UML:TaggedValue tag="linewidth" value="0"/>
+										<UML:TaggedValue tag="seqno" value="0"/>
+										<UML:TaggedValue tag="stereotype" value="DataSource"/>
+										<UML:TaggedValue tag="headStyle" value="0"/>
+										<UML:TaggedValue tag="lineStyle" value="0"/>
+										<UML:TaggedValue tag="conditional" value="«DataSource»"/>
+										<UML:TaggedValue tag="ea_localid" value="920"/>
+										<UML:TaggedValue tag="ea_sourceName" value="PROTOCOL_REGISTRATION"/>
+										<UML:TaggedValue tag="ea_targetName" value="ProtocolRegistration"/>
+										<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+										<UML:TaggedValue tag="ea_targetType" value="Class"/>
+										<UML:TaggedValue tag="ea_sourceID" value="1087"/>
+										<UML:TaggedValue tag="ea_targetID" value="1084"/>
+										<UML:TaggedValue tag="src_visibility" value="Public"/>
+										<UML:TaggedValue tag="src_aggregation" value="0"/>
+										<UML:TaggedValue tag="src_isOrdered" value="false"/>
+										<UML:TaggedValue tag="src_targetScope" value="instance"/>
+										<UML:TaggedValue tag="src_changeable" value="none"/>
+										<UML:TaggedValue tag="src_isNavigable" value="false"/>
+										<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+										<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+										<UML:TaggedValue tag="dst_visibility" value="Public"/>
+										<UML:TaggedValue tag="dst_aggregation" value="0"/>
+										<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+										<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+										<UML:TaggedValue tag="dst_changeable" value="none"/>
+										<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+										<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+										<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={14B50BEE-1178-4438-AAB6-E7105E877343}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=DataSource;GUID={9E3A1533-84B4-4ddc-9085-92FE23831410};@ENDSTEREO;$DES;$CLT={731885CB-485D-4458-A2CC-CB6381FCD093}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="virtualInheritance" value="0"/>
+										<UML:TaggedValue tag="mb" value=" &#xA;«DataSource»"/>
+										<UML:TaggedValue tag="mt" value="dependency"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Dependency>
+								<UML:Class name="PROTOCOL" xmi.id="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813" visibility="public" namespace="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="table"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="Class"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8"/>
+										<UML:TaggedValue tag="date_created" value="2009-02-06 10:07:15"/>
+										<UML:TaggedValue tag="date_modified" value="2009-02-06 10:07:26"/>
+										<UML:TaggedValue tag="gentype" value="MySql"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Data Model"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="product_name" value="MySql"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="stereotype" value="table"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="1086"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={20E1B690-7984-4ccc-94FC-4D8545EFC6F5}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=table;GUID={76339B58-8C24-4bc4-8B4E-FD444E54FCF2};@ENDSTEREO;$DES;$CLT={D8700EEC-D7CA-43fc-9865-0266E199F813}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={E42B3A76-3F88-419a-AC6B-0C79B531B456}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={D8700EEC-D7CA-43fc-9865-0266E199F813}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Classifier.feature>
+										<UML:Attribute name="ID" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="NUMERIC"/>
+												<UML:TaggedValue tag="ordered" value="1"/>
+												<UML:TaggedValue tag="precision" value="8"/>
+												<UML:TaggedValue tag="scale" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="0"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="1"/>
+												<UML:TaggedValue tag="ea_guid" value="{561BEF00-2D6C-4050-B68F-871562D28ABD}"/>
+												<UML:TaggedValue tag="ea_localid" value="1731"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Protocol.id" xmi.id="EAID_A142A154_D87E_4dad_AC70_981A6529E5CC"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="LONG_NAME" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="VARCHAR"/>
+												<UML:TaggedValue tag="length" value="50"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="1"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{EFFC80C8-5D60-44a8-B643-38A1A69D24EC}"/>
+												<UML:TaggedValue tag="ea_localid" value="1732"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Protocol.longName" xmi.id="EAID_4430C873_8ABC_4aff_BB4F_0E38C41EA84E"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="SHORT_NAME" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="VARCHAR"/>
+												<UML:TaggedValue tag="length" value="50"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="2"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{7C418DCF-210E-4bd3-AFF2-AD4200B9D89D}"/>
+												<UML:TaggedValue tag="ea_localid" value="1733"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Protocol.shortName" xmi.id="EAID_F288334E_3FB9_486b_8B86_BD82C0B2EAE8"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="START_DATE" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="DATE"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="3"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{4D552217-5978-42d6-884D-705FD02039E1}"/>
+												<UML:TaggedValue tag="ea_localid" value="1734"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Protocol.startDate" xmi.id="EAID_E9561042_96BA_41b5_A7E5_E592B09ABF8A"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="END_DATE" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="DATE"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="4"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{3263A2FA-900B-4aed-B454-103A20144B50}"/>
+												<UML:TaggedValue tag="ea_localid" value="1735"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Protocol.endDate" xmi.id="EAID_F08B3845_C3F3_4b7f_B00C_8D22225B79E2"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="PHASE" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="VARCHAR"/>
+												<UML:TaggedValue tag="length" value="50"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="5"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{C63456EB-9E90-45ef-BC9A-56AA83D91923}"/>
+												<UML:TaggedValue tag="ea_localid" value="1736"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Protocol.phase" xmi.id="EAID_FDBD5A1F_00BF_4094_95C2_C37DC2C441C4"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Attribute name="OVERALL_ACCRUAL_TARGET" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+											<UML:Attribute.initialValue>
+												<UML:Expression/>
+											</UML:Attribute.initialValue>
+											<UML:StructuralFeature.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:StructuralFeature.type>
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="column"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="type" value="NUMERIC"/>
+												<UML:TaggedValue tag="ordered" value="0"/>
+												<UML:TaggedValue tag="precision" value="8"/>
+												<UML:TaggedValue tag="scale" value="0"/>
+												<UML:TaggedValue tag="stereotype" value="column"/>
+												<UML:TaggedValue tag="collection" value="false"/>
+												<UML:TaggedValue tag="position" value="6"/>
+												<UML:TaggedValue tag="lowerBound" value="1"/>
+												<UML:TaggedValue tag="upperBound" value="1"/>
+												<UML:TaggedValue tag="duplicates" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{28AA03C3-4FFE-4bed-8170-31134E0BD4B1}"/>
+												<UML:TaggedValue tag="ea_localid" value="1737"/>
+												<UML:TaggedValue tag="mapped-attributes" value="edu.osu.ccts.ctsatest.domain.Protocol.overallAccrualTarget" xmi.id="EAID_991C1C5F_346E_47f6_B862_9E7EEC120A39"/>
+											</UML:ModelElement.taggedValue>
+										</UML:Attribute>
+										<UML:Operation name="PK_PROTOCOL" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+											<UML:ModelElement.stereotype>
+												<UML:Stereotype name="PK"/>
+											</UML:ModelElement.stereotype>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="const" value="false"/>
+												<UML:TaggedValue tag="stereotype" value="PK"/>
+												<UML:TaggedValue tag="synchronised" value="0"/>
+												<UML:TaggedValue tag="position" value="0"/>
+												<UML:TaggedValue tag="returnarray" value="0"/>
+												<UML:TaggedValue tag="pure" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{366F2BB5-8AEA-4d31-9D5C-E32F90F5A2BE}"/>
+												<UML:TaggedValue tag="ea_localid" value="681"/>
+											</UML:ModelElement.taggedValue>
+											<UML:BehavioralFeature.parameter>
+												<UML:Parameter kind="return" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid3"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{RETURNID-8AEA-4d31-9D5C-E32F90F5A2BE}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+												<UML:Parameter name="ID" kind="in" visibility="public">
+													<UML:Parameter.type>
+														<UML:Classifier xmi.idref="eaxmiid0"/>
+													</UML:Parameter.type>
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="pos" value="0"/>
+														<UML:TaggedValue tag="type" value="NUMERIC"/>
+														<UML:TaggedValue tag="const" value="0"/>
+														<UML:TaggedValue tag="ea_guid" value="{700E8533-5936-4e5b-B893-54772B07AE5A}"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Parameter.defaultValue>
+														<UML:Expression/>
+													</UML:Parameter.defaultValue>
+												</UML:Parameter>
+											</UML:BehavioralFeature.parameter>
+										</UML:Operation>
+									</UML:Classifier.feature>
+								</UML:Class>
+								<UML:Dependency client="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813" supplier="EAID_968017BA_CD78_4595_A79A_EDD270AFA79A" name="dependency" xmi.id="EAID_83D05260_2140_44f1_B617_8ED37E68356D" visibility="public">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="DataSource"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="style" value="3"/>
+										<UML:TaggedValue tag="ea_type" value="Dependency"/>
+										<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+										<UML:TaggedValue tag="linemode" value="3"/>
+										<UML:TaggedValue tag="linecolor" value="-1"/>
+										<UML:TaggedValue tag="linewidth" value="0"/>
+										<UML:TaggedValue tag="seqno" value="0"/>
+										<UML:TaggedValue tag="stereotype" value="DataSource"/>
+										<UML:TaggedValue tag="headStyle" value="0"/>
+										<UML:TaggedValue tag="lineStyle" value="0"/>
+										<UML:TaggedValue tag="conditional" value="«DataSource»"/>
+										<UML:TaggedValue tag="ea_localid" value="921"/>
+										<UML:TaggedValue tag="ea_sourceName" value="PROTOCOL"/>
+										<UML:TaggedValue tag="ea_targetName" value="Protocol"/>
+										<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+										<UML:TaggedValue tag="ea_targetType" value="Class"/>
+										<UML:TaggedValue tag="ea_sourceID" value="1086"/>
+										<UML:TaggedValue tag="ea_targetID" value="1083"/>
+										<UML:TaggedValue tag="src_visibility" value="Public"/>
+										<UML:TaggedValue tag="src_aggregation" value="0"/>
+										<UML:TaggedValue tag="src_isOrdered" value="false"/>
+										<UML:TaggedValue tag="src_targetScope" value="instance"/>
+										<UML:TaggedValue tag="src_changeable" value="none"/>
+										<UML:TaggedValue tag="src_isNavigable" value="false"/>
+										<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+										<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+										<UML:TaggedValue tag="dst_visibility" value="Public"/>
+										<UML:TaggedValue tag="dst_aggregation" value="0"/>
+										<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+										<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+										<UML:TaggedValue tag="dst_changeable" value="none"/>
+										<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+										<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+										<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={32CA3D83-6303-437d-9EB0-A609D714A0A7}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=DataSource;GUID={9E3A1533-84B4-4ddc-9085-92FE23831410};@ENDSTEREO;$DES;$CLT={83D05260-2140-44f1-B617-8ED37E68356D}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="virtualInheritance" value="0"/>
+										<UML:TaggedValue tag="mb" value=" &#xA;«DataSource»"/>
+										<UML:TaggedValue tag="mt" value="dependency"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Dependency>
+								<UML:Package name="Diagrams" xmi.id="EAPK_13C2A393_A2C6_4d7c_9441_319ED9A21FBA" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="parent" value="EAPK_6693F63C_DA3B_4a30_B5CD_EC5DEAC518E8"/>
+										<UML:TaggedValue tag="created" value="2006-10-24 20:02:24"/>
+										<UML:TaggedValue tag="modified" value="2006-10-24 20:02:24"/>
+										<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+										<UML:TaggedValue tag="lastloaddate" value="2006-10-25 10:53:40"/>
+										<UML:TaggedValue tag="lastsavedate" value="2006-10-25 10:53:40"/>
+										<UML:TaggedValue tag="isprotected" value="FALSE"/>
+										<UML:TaggedValue tag="usedtd" value="FALSE"/>
+										<UML:TaggedValue tag="logxml" value="FALSE"/>
+										<UML:TaggedValue tag="batchsave" value="0"/>
+										<UML:TaggedValue tag="batchload" value="0"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="author" value="The Administrator"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="ea_stype" value="Public"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Namespace.ownedElement/>
+								</UML:Package>
+							</UML:Namespace.ownedElement>
+						</UML:Package>
+						<UML:Package name="Logical Model" xmi.id="EAPK_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="parent" value="EAPK_6318152E_A62D_4c4d_BE2E_1F237D6F09C1"/>
+								<UML:TaggedValue tag="created" value="2006-10-24 11:06:27"/>
+								<UML:TaggedValue tag="modified" value="2006-10-24 11:06:27"/>
+								<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+								<UML:TaggedValue tag="lastloaddate" value="2006-10-25 10:53:40"/>
+								<UML:TaggedValue tag="lastsavedate" value="2006-10-25 10:53:40"/>
+								<UML:TaggedValue tag="isprotected" value="FALSE"/>
+								<UML:TaggedValue tag="usedtd" value="FALSE"/>
+								<UML:TaggedValue tag="logxml" value="FALSE"/>
+								<UML:TaggedValue tag="batchsave" value="0"/>
+								<UML:TaggedValue tag="batchload" value="0"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="author" value="The Administrator"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="ea_stype" value="Public"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Namespace.ownedElement>
+								<UML:Collaboration xmi.id="EAID_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077_Collaboration" name="Collaborations">
+									<UML:Namespace.ownedElement>
+										<UML:ClassifierRole name="java" xmi.id="EAID_43BAE89C_5241_4bc7_B74B_FC946B52F491" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="isAbstract" value="false"/>
+												<UML:TaggedValue tag="isSpecification" value="false"/>
+												<UML:TaggedValue tag="ea_stype" value="Package"/>
+												<UML:TaggedValue tag="ea_ntype" value="0"/>
+												<UML:TaggedValue tag="version" value="1.0"/>
+												<UML:TaggedValue tag="package" value="EAPK_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077"/>
+												<UML:TaggedValue tag="date_created" value="2006-10-24 11:07:02"/>
+												<UML:TaggedValue tag="date_modified" value="2006-10-24 11:07:02"/>
+												<UML:TaggedValue tag="gentype" value="Java"/>
+												<UML:TaggedValue tag="tagged" value="0"/>
+												<UML:TaggedValue tag="package2" value="EAID_43BAE89C_5241_4bc7_B74B_FC946B52F491"/>
+												<UML:TaggedValue tag="package_name" value="Logical Model"/>
+												<UML:TaggedValue tag="phase" value="1.0"/>
+												<UML:TaggedValue tag="author" value="The Administrator"/>
+												<UML:TaggedValue tag="complexity" value="1"/>
+												<UML:TaggedValue tag="status" value="Proposed"/>
+												<UML:TaggedValue tag="tpos" value="0"/>
+												<UML:TaggedValue tag="ea_localid" value="232"/>
+												<UML:TaggedValue tag="ea_eleType" value="package"/>
+												<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+											</UML:ModelElement.taggedValue>
+										</UML:ClassifierRole>
+										<UML:ClassifierRole name="edu" xmi.id="EAID_50551F9D_2B53_4f73_AB2C_2D749F7351F9" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="isAbstract" value="false"/>
+												<UML:TaggedValue tag="isSpecification" value="false"/>
+												<UML:TaggedValue tag="ea_stype" value="Package"/>
+												<UML:TaggedValue tag="ea_ntype" value="0"/>
+												<UML:TaggedValue tag="version" value="1.0"/>
+												<UML:TaggedValue tag="package" value="EAPK_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077"/>
+												<UML:TaggedValue tag="date_created" value="2009-02-06 09:53:02"/>
+												<UML:TaggedValue tag="date_modified" value="2009-02-06 09:53:02"/>
+												<UML:TaggedValue tag="gentype" value="Java"/>
+												<UML:TaggedValue tag="tagged" value="0"/>
+												<UML:TaggedValue tag="package2" value="EAID_50551F9D_2B53_4f73_AB2C_2D749F7351F9"/>
+												<UML:TaggedValue tag="package_name" value="Logical Model"/>
+												<UML:TaggedValue tag="phase" value="1.0"/>
+												<UML:TaggedValue tag="author" value="bigcat"/>
+												<UML:TaggedValue tag="complexity" value="1"/>
+												<UML:TaggedValue tag="status" value="Proposed"/>
+												<UML:TaggedValue tag="tpos" value="0"/>
+												<UML:TaggedValue tag="ea_localid" value="235"/>
+												<UML:TaggedValue tag="ea_eleType" value="package"/>
+												<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+											</UML:ModelElement.taggedValue>
+										</UML:ClassifierRole>
+										<UML:ClassifierRole name="Diagrams" xmi.id="EAID_CB699A04_2FDB_43de_9F15_2FBB5DA90527" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="isAbstract" value="false"/>
+												<UML:TaggedValue tag="isSpecification" value="false"/>
+												<UML:TaggedValue tag="ea_stype" value="Package"/>
+												<UML:TaggedValue tag="ea_ntype" value="0"/>
+												<UML:TaggedValue tag="version" value="1.0"/>
+												<UML:TaggedValue tag="package" value="EAPK_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077"/>
+												<UML:TaggedValue tag="date_created" value="2006-10-25 11:01:28"/>
+												<UML:TaggedValue tag="date_modified" value="2006-10-25 11:01:28"/>
+												<UML:TaggedValue tag="gentype" value="Java"/>
+												<UML:TaggedValue tag="tagged" value="0"/>
+												<UML:TaggedValue tag="package2" value="EAID_CB699A04_2FDB_43de_9F15_2FBB5DA90527"/>
+												<UML:TaggedValue tag="package_name" value="Logical Model"/>
+												<UML:TaggedValue tag="phase" value="1.0"/>
+												<UML:TaggedValue tag="author" value="Satish Patel"/>
+												<UML:TaggedValue tag="complexity" value="1"/>
+												<UML:TaggedValue tag="status" value="Proposed"/>
+												<UML:TaggedValue tag="tpos" value="0"/>
+												<UML:TaggedValue tag="ea_localid" value="190"/>
+												<UML:TaggedValue tag="ea_eleType" value="package"/>
+												<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+											</UML:ModelElement.taggedValue>
+										</UML:ClassifierRole>
+									</UML:Namespace.ownedElement>
+									<UML:Collaboration.interaction/>
+								</UML:Collaboration>
+								<UML:Package name="Diagrams" xmi.id="EAPK_CB699A04_2FDB_43de_9F15_2FBB5DA90527" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="parent" value="EAPK_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077"/>
+										<UML:TaggedValue tag="created" value="2006-10-25 00:00:00"/>
+										<UML:TaggedValue tag="modified" value="2006-10-25 00:00:00"/>
+										<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+										<UML:TaggedValue tag="lastloaddate" value="2006-10-25 11:20:23"/>
+										<UML:TaggedValue tag="lastsavedate" value="2006-10-25 11:20:23"/>
+										<UML:TaggedValue tag="isprotected" value="FALSE"/>
+										<UML:TaggedValue tag="usedtd" value="FALSE"/>
+										<UML:TaggedValue tag="logxml" value="FALSE"/>
+										<UML:TaggedValue tag="batchsave" value="0"/>
+										<UML:TaggedValue tag="batchload" value="0"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="author" value="Satish Patel"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="ea_stype" value="Public"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Namespace.ownedElement/>
+								</UML:Package>
+								<UML:Package name="edu" xmi.id="EAPK_50551F9D_2B53_4f73_AB2C_2D749F7351F9" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="parent" value="EAPK_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077"/>
+										<UML:TaggedValue tag="created" value="2009-02-06 00:00:00"/>
+										<UML:TaggedValue tag="modified" value="2009-02-06 00:00:00"/>
+										<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="isprotected" value="FALSE"/>
+										<UML:TaggedValue tag="usedtd" value="FALSE"/>
+										<UML:TaggedValue tag="logxml" value="FALSE"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="author" value="bigcat"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="ea_stype" value="Public"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Namespace.ownedElement>
+										<UML:Collaboration xmi.id="EAID_50551F9D_2B53_4f73_AB2C_2D749F7351F9_Collaboration" name="Collaborations">
+											<UML:Namespace.ownedElement>
+												<UML:ClassifierRole name="osu" xmi.id="EAID_2E6E4442_EC74_4773_A771_804BAE617468" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isAbstract" value="false"/>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Package"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_50551F9D_2B53_4f73_AB2C_2D749F7351F9"/>
+														<UML:TaggedValue tag="date_created" value="2009-02-06 09:53:13"/>
+														<UML:TaggedValue tag="date_modified" value="2009-02-06 09:53:13"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package2" value="EAID_2E6E4442_EC74_4773_A771_804BAE617468"/>
+														<UML:TaggedValue tag="package_name" value="edu"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="bigcat"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="236"/>
+														<UML:TaggedValue tag="ea_eleType" value="package"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:ClassifierRole>
+											</UML:Namespace.ownedElement>
+											<UML:Collaboration.interaction/>
+										</UML:Collaboration>
+										<UML:Package name="osu" xmi.id="EAPK_2E6E4442_EC74_4773_A771_804BAE617468" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="parent" value="EAPK_50551F9D_2B53_4f73_AB2C_2D749F7351F9"/>
+												<UML:TaggedValue tag="created" value="2009-02-06 00:00:00"/>
+												<UML:TaggedValue tag="modified" value="2009-02-06 00:00:00"/>
+												<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+												<UML:TaggedValue tag="version" value="1.0"/>
+												<UML:TaggedValue tag="isprotected" value="FALSE"/>
+												<UML:TaggedValue tag="usedtd" value="FALSE"/>
+												<UML:TaggedValue tag="logxml" value="FALSE"/>
+												<UML:TaggedValue tag="phase" value="1.0"/>
+												<UML:TaggedValue tag="status" value="Proposed"/>
+												<UML:TaggedValue tag="author" value="bigcat"/>
+												<UML:TaggedValue tag="complexity" value="1"/>
+												<UML:TaggedValue tag="ea_stype" value="Public"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Namespace.ownedElement>
+												<UML:Collaboration xmi.id="EAID_2E6E4442_EC74_4773_A771_804BAE617468_Collaboration" name="Collaborations">
+													<UML:Namespace.ownedElement>
+														<UML:ClassifierRole name="ccts" xmi.id="EAID_FD97F65E_C97F_4eab_8A06_962B406E2268" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+															<UML:ModelElement.taggedValue>
+																<UML:TaggedValue tag="isAbstract" value="false"/>
+																<UML:TaggedValue tag="isSpecification" value="false"/>
+																<UML:TaggedValue tag="ea_stype" value="Package"/>
+																<UML:TaggedValue tag="ea_ntype" value="0"/>
+																<UML:TaggedValue tag="version" value="1.0"/>
+																<UML:TaggedValue tag="package" value="EAPK_2E6E4442_EC74_4773_A771_804BAE617468"/>
+																<UML:TaggedValue tag="date_created" value="2009-02-06 09:53:27"/>
+																<UML:TaggedValue tag="date_modified" value="2009-02-06 09:53:27"/>
+																<UML:TaggedValue tag="gentype" value="Java"/>
+																<UML:TaggedValue tag="tagged" value="0"/>
+																<UML:TaggedValue tag="package2" value="EAID_FD97F65E_C97F_4eab_8A06_962B406E2268"/>
+																<UML:TaggedValue tag="package_name" value="osu"/>
+																<UML:TaggedValue tag="phase" value="1.0"/>
+																<UML:TaggedValue tag="author" value="bigcat"/>
+																<UML:TaggedValue tag="complexity" value="1"/>
+																<UML:TaggedValue tag="status" value="Proposed"/>
+																<UML:TaggedValue tag="tpos" value="0"/>
+																<UML:TaggedValue tag="ea_localid" value="237"/>
+																<UML:TaggedValue tag="ea_eleType" value="package"/>
+																<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+															</UML:ModelElement.taggedValue>
+														</UML:ClassifierRole>
+													</UML:Namespace.ownedElement>
+													<UML:Collaboration.interaction/>
+												</UML:Collaboration>
+												<UML:Package name="ccts" xmi.id="EAPK_FD97F65E_C97F_4eab_8A06_962B406E2268" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="parent" value="EAPK_2E6E4442_EC74_4773_A771_804BAE617468"/>
+														<UML:TaggedValue tag="created" value="2009-02-06 00:00:00"/>
+														<UML:TaggedValue tag="modified" value="2009-02-06 00:00:00"/>
+														<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="isprotected" value="FALSE"/>
+														<UML:TaggedValue tag="usedtd" value="FALSE"/>
+														<UML:TaggedValue tag="logxml" value="FALSE"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="author" value="bigcat"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="ea_stype" value="Public"/>
+													</UML:ModelElement.taggedValue>
+													<UML:Namespace.ownedElement>
+														<UML:Collaboration xmi.id="EAID_FD97F65E_C97F_4eab_8A06_962B406E2268_Collaboration" name="Collaborations">
+															<UML:Namespace.ownedElement>
+																<UML:ClassifierRole name="ctsatest" xmi.id="EAID_FE890864_7EAE_4fbf_974A_C828BEEBBE98" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+																	<UML:ModelElement.taggedValue>
+																		<UML:TaggedValue tag="isAbstract" value="false"/>
+																		<UML:TaggedValue tag="isSpecification" value="false"/>
+																		<UML:TaggedValue tag="ea_stype" value="Package"/>
+																		<UML:TaggedValue tag="ea_ntype" value="0"/>
+																		<UML:TaggedValue tag="version" value="1.0"/>
+																		<UML:TaggedValue tag="package" value="EAPK_FD97F65E_C97F_4eab_8A06_962B406E2268"/>
+																		<UML:TaggedValue tag="date_created" value="2009-02-06 09:53:41"/>
+																		<UML:TaggedValue tag="date_modified" value="2009-02-06 09:53:41"/>
+																		<UML:TaggedValue tag="gentype" value="Java"/>
+																		<UML:TaggedValue tag="tagged" value="0"/>
+																		<UML:TaggedValue tag="package2" value="EAID_FE890864_7EAE_4fbf_974A_C828BEEBBE98"/>
+																		<UML:TaggedValue tag="package_name" value="ccts"/>
+																		<UML:TaggedValue tag="phase" value="1.0"/>
+																		<UML:TaggedValue tag="author" value="bigcat"/>
+																		<UML:TaggedValue tag="complexity" value="1"/>
+																		<UML:TaggedValue tag="status" value="Proposed"/>
+																		<UML:TaggedValue tag="tpos" value="0"/>
+																		<UML:TaggedValue tag="ea_localid" value="238"/>
+																		<UML:TaggedValue tag="ea_eleType" value="package"/>
+																		<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+																	</UML:ModelElement.taggedValue>
+																</UML:ClassifierRole>
+															</UML:Namespace.ownedElement>
+															<UML:Collaboration.interaction/>
+														</UML:Collaboration>
+														<UML:Package name="ctsatest" xmi.id="EAPK_FE890864_7EAE_4fbf_974A_C828BEEBBE98" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+															<UML:ModelElement.taggedValue>
+																<UML:TaggedValue tag="parent" value="EAPK_FD97F65E_C97F_4eab_8A06_962B406E2268"/>
+																<UML:TaggedValue tag="created" value="2009-02-06 00:00:00"/>
+																<UML:TaggedValue tag="modified" value="2009-02-06 00:00:00"/>
+																<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+																<UML:TaggedValue tag="version" value="1.0"/>
+																<UML:TaggedValue tag="isprotected" value="FALSE"/>
+																<UML:TaggedValue tag="usedtd" value="FALSE"/>
+																<UML:TaggedValue tag="logxml" value="FALSE"/>
+																<UML:TaggedValue tag="phase" value="1.0"/>
+																<UML:TaggedValue tag="status" value="Proposed"/>
+																<UML:TaggedValue tag="author" value="bigcat"/>
+																<UML:TaggedValue tag="complexity" value="1"/>
+																<UML:TaggedValue tag="ea_stype" value="Public"/>
+															</UML:ModelElement.taggedValue>
+															<UML:Namespace.ownedElement>
+																<UML:Collaboration xmi.id="EAID_FE890864_7EAE_4fbf_974A_C828BEEBBE98_Collaboration" name="Collaborations">
+																	<UML:Namespace.ownedElement>
+																		<UML:ClassifierRole name="domain" xmi.id="EAID_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+																			<UML:ModelElement.taggedValue>
+																				<UML:TaggedValue tag="isAbstract" value="false"/>
+																				<UML:TaggedValue tag="isSpecification" value="false"/>
+																				<UML:TaggedValue tag="ea_stype" value="Package"/>
+																				<UML:TaggedValue tag="ea_ntype" value="0"/>
+																				<UML:TaggedValue tag="version" value="1.0"/>
+																				<UML:TaggedValue tag="package" value="EAPK_FE890864_7EAE_4fbf_974A_C828BEEBBE98"/>
+																				<UML:TaggedValue tag="date_created" value="2009-02-06 09:54:36"/>
+																				<UML:TaggedValue tag="date_modified" value="2009-02-06 09:54:36"/>
+																				<UML:TaggedValue tag="gentype" value="Java"/>
+																				<UML:TaggedValue tag="tagged" value="0"/>
+																				<UML:TaggedValue tag="package2" value="EAID_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5"/>
+																				<UML:TaggedValue tag="package_name" value="ctsatest"/>
+																				<UML:TaggedValue tag="phase" value="1.0"/>
+																				<UML:TaggedValue tag="author" value="bigcat"/>
+																				<UML:TaggedValue tag="complexity" value="1"/>
+																				<UML:TaggedValue tag="status" value="Proposed"/>
+																				<UML:TaggedValue tag="tpos" value="0"/>
+																				<UML:TaggedValue tag="ea_localid" value="239"/>
+																				<UML:TaggedValue tag="ea_eleType" value="package"/>
+																				<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+																			</UML:ModelElement.taggedValue>
+																		</UML:ClassifierRole>
+																	</UML:Namespace.ownedElement>
+																	<UML:Collaboration.interaction/>
+																</UML:Collaboration>
+																<UML:Package name="domain" xmi.id="EAPK_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+																	<UML:ModelElement.taggedValue>
+																		<UML:TaggedValue tag="parent" value="EAPK_FE890864_7EAE_4fbf_974A_C828BEEBBE98"/>
+																		<UML:TaggedValue tag="created" value="2009-02-06 00:00:00"/>
+																		<UML:TaggedValue tag="modified" value="2009-02-06 00:00:00"/>
+																		<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+																		<UML:TaggedValue tag="version" value="1.0"/>
+																		<UML:TaggedValue tag="isprotected" value="FALSE"/>
+																		<UML:TaggedValue tag="usedtd" value="FALSE"/>
+																		<UML:TaggedValue tag="logxml" value="FALSE"/>
+																		<UML:TaggedValue tag="phase" value="1.0"/>
+																		<UML:TaggedValue tag="status" value="Proposed"/>
+																		<UML:TaggedValue tag="author" value="bigcat"/>
+																		<UML:TaggedValue tag="complexity" value="1"/>
+																		<UML:TaggedValue tag="ea_stype" value="Public"/>
+																	</UML:ModelElement.taggedValue>
+																	<UML:Namespace.ownedElement>
+																		<UML:Class name="ProtocolRegistration" xmi.id="EAID_0F41DEB9_FE48_44f0_AF61_D3132ACC3D4F" visibility="public" namespace="EAPK_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+																			<UML:ModelElement.taggedValue>
+																				<UML:TaggedValue tag="isSpecification" value="false"/>
+																				<UML:TaggedValue tag="ea_stype" value="Class"/>
+																				<UML:TaggedValue tag="ea_ntype" value="0"/>
+																				<UML:TaggedValue tag="version" value="1.0"/>
+																				<UML:TaggedValue tag="package" value="EAPK_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5"/>
+																				<UML:TaggedValue tag="date_created" value="2009-02-06 09:58:37"/>
+																				<UML:TaggedValue tag="date_modified" value="2009-02-06 09:58:41"/>
+																				<UML:TaggedValue tag="gentype" value="Java"/>
+																				<UML:TaggedValue tag="tagged" value="0"/>
+																				<UML:TaggedValue tag="package_name" value="domain"/>
+																				<UML:TaggedValue tag="phase" value="1.0"/>
+																				<UML:TaggedValue tag="complexity" value="1"/>
+																				<UML:TaggedValue tag="status" value="Proposed"/>
+																				<UML:TaggedValue tag="tpos" value="0"/>
+																				<UML:TaggedValue tag="ea_localid" value="1084"/>
+																				<UML:TaggedValue tag="ea_eleType" value="element"/>
+																				<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+																				<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={41C0F61D-F905-49d5-A80B-BF125372225F}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={0F41DEB9-FE48-44f0-AF61-D3132ACC3D4F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																			</UML:ModelElement.taggedValue>
+																			<UML:Classifier.feature>
+																				<UML:Attribute name="enrollmentDate" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D50C9E68_E240_456a_A166_F1706281B491"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="Date"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="1"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{06C4210A-C082-49ed-86C2-E350E631D1DF}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1724"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="preferred name" value="Collection Protocol Participant Registration Registration Date java.util.Date" xmi.id="EAID_0C42B339_D1E8_4440_A2D4_DD826C1793A8"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2513739_1.0" xmi.id="EAID_5F9035F3_7BCB_495f_8DE1_AA15BE204EF1"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="id" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_61D84993_837B_48c3_9F63_E3020F52FA13"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="Integer"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="0"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{4FFC5564-9F49-4e60-9851-F8DF6FA6FA1B}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1723"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="preferred name" value="Collection Protocol Participant Registration Offset java.lang.Integer" xmi.id="EAID_05024EC7_6F6F_4493_93AF_355744B29E16"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2783929_1.0" xmi.id="EAID_3F0C1F94_C636_4509_BC09_4D512B085D89"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="status" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D1A51FE0_90DA_4977_B520_F3A871CBA44E"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="String"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="2"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{FCE8975B-ADEB-4393-91E6-B24D67274F41}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1725"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="preferred name" value="Collection Protocol Participant Registration Activity Status java.lang.String" xmi.id="EAID_92C9AD3C_17B6_4515_9774_C005B3F7E637"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2553315_1.0" xmi.id="EAID_BFB81F7F_9383_49f1_A1D6_357491A44B4A"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																			</UML:Classifier.feature>
+																		</UML:Class>
+																		<UML:Association xmi.id="EAID_6F2A5518_7297_4565_BAEC_2F83B779E487" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+																			<UML:ModelElement.taggedValue>
+																				<UML:TaggedValue tag="style" value="3"/>
+																				<UML:TaggedValue tag="ea_type" value="Association"/>
+																				<UML:TaggedValue tag="direction" value="Bi-Directional"/>
+																				<UML:TaggedValue tag="linemode" value="3"/>
+																				<UML:TaggedValue tag="linecolor" value="-1"/>
+																				<UML:TaggedValue tag="linewidth" value="0"/>
+																				<UML:TaggedValue tag="seqno" value="0"/>
+																				<UML:TaggedValue tag="headStyle" value="0"/>
+																				<UML:TaggedValue tag="lineStyle" value="0"/>
+																				<UML:TaggedValue tag="ea_localid" value="917"/>
+																				<UML:TaggedValue tag="ea_sourceName" value="Protocol"/>
+																				<UML:TaggedValue tag="ea_targetName" value="ProtocolRegistration"/>
+																				<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+																				<UML:TaggedValue tag="ea_targetType" value="Class"/>
+																				<UML:TaggedValue tag="ea_sourceID" value="1083"/>
+																				<UML:TaggedValue tag="ea_targetID" value="1084"/>
+																				<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={4CFBA059-F34B-400c-BE21-EEDC5A4982BC}$XID;$NAM=CustomProperties$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={6F2A5518-7297-4565-BAEC-2F83B779E487}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																				<UML:TaggedValue tag="$ea_src_xref_property" value="$XREFPROP=$XID={0E0E2DA0-041F-444d-AF77-967416AF0608}$XID;$NAM=CustomProperties$NAM;$TYP=connectorSrcEnd property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerivedUnion@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=default@ENDNAME;@TYPE=String@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReadOnly@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isComposite@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=aggregation@ENDNAME;@TYPE=AggregationKind@ENDTYPE;@VALU=none@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={6F2A5518-7297-4565-BAEC-2F83B779E487}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																				<UML:TaggedValue tag="$ea_dst_xref_property" value="$XREFPROP=$XID={3519122F-71E2-482a-82FB-F36C6C5F98BE}$XID;$NAM=CustomProperties$NAM;$TYP=connectorDestEnd property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerivedUnion@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=default@ENDNAME;@TYPE=String@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReadOnly@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isComposite@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=aggregation@ENDNAME;@TYPE=AggregationKind@ENDTYPE;@VALU=none@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={6F2A5518-7297-4565-BAEC-2F83B779E487}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																				<UML:TaggedValue tag="virtualInheritance" value="0"/>
+																				<UML:TaggedValue tag="lb" value="1"/>
+																				<UML:TaggedValue tag="lt" value="+protocol"/>
+																				<UML:TaggedValue tag="rb" value="0..*"/>
+																				<UML:TaggedValue tag="rt" value="+protocolRegistrationCollection"/>
+																			</UML:ModelElement.taggedValue>
+																			<UML:Association.connection>
+																				<UML:AssociationEnd visibility="public" multiplicity="1" name="protocol" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_968017BA_CD78_4595_A79A_EDD270AFA79A">
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="containment" value="Unspecified"/>
+																						<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+																						<UML:TaggedValue tag="ea_end" value="source"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:AssociationEnd>
+																				<UML:AssociationEnd visibility="public" multiplicity="0..*" name="protocolRegistrationCollection" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_0F41DEB9_FE48_44f0_AF61_D3132ACC3D4F">
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="containment" value="Unspecified"/>
+																						<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+																						<UML:TaggedValue tag="ea_end" value="target"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:AssociationEnd>
+																			</UML:Association.connection>
+																		</UML:Association>
+																		<UML:Association xmi.id="EAID_E0489428_094F_4e50_878B_0A97DBF48DAB" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+																			<UML:ModelElement.taggedValue>
+																				<UML:TaggedValue tag="style" value="3"/>
+																				<UML:TaggedValue tag="ea_type" value="Association"/>
+																				<UML:TaggedValue tag="direction" value="Bi-Directional"/>
+																				<UML:TaggedValue tag="linemode" value="3"/>
+																				<UML:TaggedValue tag="linecolor" value="-1"/>
+																				<UML:TaggedValue tag="linewidth" value="0"/>
+																				<UML:TaggedValue tag="seqno" value="0"/>
+																				<UML:TaggedValue tag="headStyle" value="0"/>
+																				<UML:TaggedValue tag="lineStyle" value="0"/>
+																				<UML:TaggedValue tag="ea_localid" value="915"/>
+																				<UML:TaggedValue tag="ea_sourceName" value="Participant"/>
+																				<UML:TaggedValue tag="ea_targetName" value="ProtocolRegistration"/>
+																				<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+																				<UML:TaggedValue tag="ea_targetType" value="Class"/>
+																				<UML:TaggedValue tag="ea_sourceID" value="1082"/>
+																				<UML:TaggedValue tag="ea_targetID" value="1084"/>
+																				<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={4C492EA2-6555-43ad-947B-C6CB2B15FEF1}$XID;$NAM=CustomProperties$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={E0489428-094F-4e50-878B-0A97DBF48DAB}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																				<UML:TaggedValue tag="$ea_src_xref_property" value="$XREFPROP=$XID={64701E44-BC9A-476b-87EB-2B9A1CBC0B8C}$XID;$NAM=CustomProperties$NAM;$TYP=connectorSrcEnd property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerivedUnion@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=default@ENDNAME;@TYPE=String@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReadOnly@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isComposite@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=aggregation@ENDNAME;@TYPE=AggregationKind@ENDTYPE;@VALU=none@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={E0489428-094F-4e50-878B-0A97DBF48DAB}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																				<UML:TaggedValue tag="$ea_dst_xref_property" value="$XREFPROP=$XID={317435B7-D5C1-49b8-B86A-5C71161A5E2E}$XID;$NAM=CustomProperties$NAM;$TYP=connectorDestEnd property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isDerivedUnion@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDerived@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=default@ENDNAME;@TYPE=String@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReadOnly@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isComposite@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=aggregation@ENDNAME;@TYPE=AggregationKind@ENDTYPE;@VALU=none@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={E0489428-094F-4e50-878B-0A97DBF48DAB}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																				<UML:TaggedValue tag="virtualInheritance" value="0"/>
+																				<UML:TaggedValue tag="lb" value="1"/>
+																				<UML:TaggedValue tag="lt" value="+participant"/>
+																				<UML:TaggedValue tag="rb" value="0..*"/>
+																				<UML:TaggedValue tag="rt" value="+protocolRegistrationCollection"/>
+																			</UML:ModelElement.taggedValue>
+																			<UML:Association.connection>
+																				<UML:AssociationEnd visibility="public" multiplicity="1" name="participant" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_8BEF11CA_0CFF_473c_8BFD_62978B6AED95">
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="containment" value="Unspecified"/>
+																						<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+																						<UML:TaggedValue tag="ea_end" value="source"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:AssociationEnd>
+																				<UML:AssociationEnd visibility="public" multiplicity="0..*" name="protocolRegistrationCollection" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_0F41DEB9_FE48_44f0_AF61_D3132ACC3D4F">
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="containment" value="Unspecified"/>
+																						<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+																						<UML:TaggedValue tag="ea_end" value="target"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:AssociationEnd>
+																			</UML:Association.connection>
+																		</UML:Association>
+																		<UML:Class name="Participant" xmi.id="EAID_8BEF11CA_0CFF_473c_8BFD_62978B6AED95" visibility="public" namespace="EAPK_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+																			<UML:ModelElement.taggedValue>
+																				<UML:TaggedValue tag="isSpecification" value="false"/>
+																				<UML:TaggedValue tag="ea_stype" value="Class"/>
+																				<UML:TaggedValue tag="ea_ntype" value="0"/>
+																				<UML:TaggedValue tag="version" value="1.0"/>
+																				<UML:TaggedValue tag="package" value="EAPK_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5"/>
+																				<UML:TaggedValue tag="date_created" value="2009-02-06 09:56:53"/>
+																				<UML:TaggedValue tag="date_modified" value="2009-02-06 09:58:06"/>
+																				<UML:TaggedValue tag="gentype" value="Java"/>
+																				<UML:TaggedValue tag="tagged" value="0"/>
+																				<UML:TaggedValue tag="package_name" value="domain"/>
+																				<UML:TaggedValue tag="phase" value="1.0"/>
+																				<UML:TaggedValue tag="complexity" value="1"/>
+																				<UML:TaggedValue tag="status" value="Proposed"/>
+																				<UML:TaggedValue tag="tpos" value="0"/>
+																				<UML:TaggedValue tag="ea_localid" value="1082"/>
+																				<UML:TaggedValue tag="ea_eleType" value="element"/>
+																				<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+																				<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={22F9ED3F-389C-4ecf-A701-CE791FACB662}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={8BEF11CA-0CFF-473c-8BFD-62978B6AED95}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																			</UML:ModelElement.taggedValue>
+																			<UML:Classifier.feature>
+																				<UML:Attribute name="birthDate" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D50C9E68_E240_456a_A166_F1706281B491"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="Date"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="3"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{9C3629C4-47F7-4afa-A346-57FEEA570395}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1714"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2493321_1.0" xmi.id="EAID_01561DD5_AE4D_4549_847A_DC2CE25BE996"/>
+																						<UML:TaggedValue tag="preferred name" value="Participant Birth Date java.util.Date" xmi.id="EAID_3AE26B2C_E59C_4b46_B22F_BB01081A9F7F"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="firstName" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D1A51FE0_90DA_4977_B520_F3A871CBA44E"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="String"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="2"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{7F20B041-CAE0-4aab-A1F6-870F5F0A75BF}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1713"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2493328_1.0" xmi.id="EAID_5325746B_2B6E_491d_8955_1E5C931E7009"/>
+																						<UML:TaggedValue tag="preferred name" value="Participant First Name java.lang.String" xmi.id="EAID_71CC2E1F_95CA_4788_9108_9CD094C9339B"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="gender" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D1A51FE0_90DA_4977_B520_F3A871CBA44E"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="String"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="4"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{191076EF-3CDC-48e0-AA0D-CB48F52C159B}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1715"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_62_6.0" xmi.id="EAID_9952EF08_7687_49b5_8C8C_83BAAD3CB23C"/>
+																						<UML:TaggedValue tag="preferred name" value="Patient Gender Category" xmi.id="EAID_E4DB995A_FF66_4765_82D4_689670F3F74D"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="id" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_61D84993_837B_48c3_9F63_E3020F52FA13"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="Integer"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="0"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{B85DAA79-1F70-4468-AFAB-13BAF55E02AC}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1711"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2513658_1.0" xmi.id="EAID_1D06FB6B_16C3_4473_BEE2_4BC8CF675A30"/>
+																						<UML:TaggedValue tag="preferred name" value="Participant Identifier java.lang.Long" xmi.id="EAID_DF58F306_B841_4de7_A2E1_D3259AFB27E7"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="lastName" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D1A51FE0_90DA_4977_B520_F3A871CBA44E"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="String"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="1"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{44590AB0-A407-4802-91E9-39B5567E6C31}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1712"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="preferred name" value="Participant Last Name java.lang.String" xmi.id="EAID_31847DFA_73C1_41e8_80C0_9FEDDE2E5980"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2493329_1.0" xmi.id="EAID_36889D3D_7921_4352_B297_EEC3274B5D2E"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																			</UML:Classifier.feature>
+																		</UML:Class>
+																		<UML:Class name="Protocol" xmi.id="EAID_968017BA_CD78_4595_A79A_EDD270AFA79A" visibility="public" namespace="EAPK_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+																			<UML:ModelElement.taggedValue>
+																				<UML:TaggedValue tag="isSpecification" value="false"/>
+																				<UML:TaggedValue tag="ea_stype" value="Class"/>
+																				<UML:TaggedValue tag="ea_ntype" value="0"/>
+																				<UML:TaggedValue tag="version" value="1.0"/>
+																				<UML:TaggedValue tag="package" value="EAPK_C6DCAEFE_CBC5_4016_B3DA_191B3E5D0CE5"/>
+																				<UML:TaggedValue tag="date_created" value="2009-02-06 09:58:19"/>
+																				<UML:TaggedValue tag="date_modified" value="2009-02-06 09:58:24"/>
+																				<UML:TaggedValue tag="gentype" value="Java"/>
+																				<UML:TaggedValue tag="tagged" value="0"/>
+																				<UML:TaggedValue tag="package_name" value="domain"/>
+																				<UML:TaggedValue tag="phase" value="1.0"/>
+																				<UML:TaggedValue tag="complexity" value="1"/>
+																				<UML:TaggedValue tag="status" value="Proposed"/>
+																				<UML:TaggedValue tag="tpos" value="0"/>
+																				<UML:TaggedValue tag="ea_localid" value="1083"/>
+																				<UML:TaggedValue tag="ea_eleType" value="element"/>
+																				<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+																				<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={692145B0-7566-4b62-B657-DF0795564830}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={968017BA-CD78-4595-A79A-EDD270AFA79A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+																			</UML:ModelElement.taggedValue>
+																			<UML:Classifier.feature>
+																				<UML:Attribute name="endDate" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D50C9E68_E240_456a_A166_F1706281B491"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="Date"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="5"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{0036571B-10E7-4190-ABA8-9F1A859C767A}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1721"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2513861_1.0" xmi.id="EAID_2FB31E97_AA05_4803_9B09_0C1EB6C4B3EC"/>
+																						<UML:TaggedValue tag="preferred name" value="Distribution Protocol End Date java.util.Date" xmi.id="EAID_9B8D7E35_0742_47aa_B134_5FC30ED16D2A"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="id" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_61D84993_837B_48c3_9F63_E3020F52FA13"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="Integer"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="0"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{5DDB40F5-14DF-4b79-AA9E-0529481D9F0E}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1716"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="preferred name" value="Protocol Identifier java.lang.Long" xmi.id="EAID_1171EDF3_B258_4c66_81A9_8170DF1F4E4B"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2223850_3.0" xmi.id="EAID_A837A4D0_1FB5_4a2a_96D5_1CC2529E4F9F"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="longName" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D1A51FE0_90DA_4977_B520_F3A871CBA44E"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="String"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="2"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{D1554695-FE89-4f76-8E8C-5470693F35AD}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1718"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="preferred name" value="Protocol Long Title Text" xmi.id="EAID_30C1BFBE_DD41_43fb_A990_91A6B6262C86"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2182451_1.0" xmi.id="EAID_B900EAB6_001B_40c8_AAF0_FC9F410FD0EE"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="overallAccrualTarget" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_61D84993_837B_48c3_9F63_E3020F52FA13"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="Integer"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="6"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{41528ACF-179A-4823-BA31-01644CB8E225}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1722"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2405459_1.0" xmi.id="EAID_2B38263D_D09A_4584_84E2_6DBE402EF01B"/>
+																						<UML:TaggedValue tag="preferred name" value="Protocol Planned Accrual Number" xmi.id="EAID_DDB1F4B9_0A13_46c4_B5A3_E7CB8084C21C"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="phase" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D1A51FE0_90DA_4977_B520_F3A871CBA44E"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="String"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="1"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{4DBAD700-33A1-4b8b-91C3-316DE6C0C7B4}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1717"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="preferred name" value="Protocol Phase java.lang.String" xmi.id="EAID_587BB8D9_672A_4dbc_B49F_8FD1A19C58D4"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2529583_1.0" xmi.id="EAID_F2A329EB_E71D_4493_9F30_53A430B6A139"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="shortName" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D1A51FE0_90DA_4977_B520_F3A871CBA44E"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="String"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="3"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{0A3404D8-18B4-47f9-8BBF-1C8DF09EDE0D}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1719"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="preferred name" value="Protocol Short Title Text" xmi.id="EAID_32122024_DAC7_4b85_B9FC_499C7BFA0130"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2183084_1.0" xmi.id="EAID_C7375DA4_93CB_4653_AC65_EA72D6AD9171"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																				<UML:Attribute name="startDate" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+																					<UML:Attribute.initialValue>
+																						<UML:Expression/>
+																					</UML:Attribute.initialValue>
+																					<UML:StructuralFeature.type>
+																						<UML:Classifier xmi.idref="EAID_D50C9E68_E240_456a_A166_F1706281B491"/>
+																					</UML:StructuralFeature.type>
+																					<UML:ModelElement.taggedValue>
+																						<UML:TaggedValue tag="type" value="Date"/>
+																						<UML:TaggedValue tag="derived" value="0"/>
+																						<UML:TaggedValue tag="containment" value="Not Specified"/>
+																						<UML:TaggedValue tag="ordered" value="0"/>
+																						<UML:TaggedValue tag="collection" value="false"/>
+																						<UML:TaggedValue tag="position" value="4"/>
+																						<UML:TaggedValue tag="lowerBound" value="1"/>
+																						<UML:TaggedValue tag="upperBound" value="1"/>
+																						<UML:TaggedValue tag="duplicates" value="0"/>
+																						<UML:TaggedValue tag="ea_guid" value="{77023B45-30A3-4665-A6FB-18498D94A34D}"/>
+																						<UML:TaggedValue tag="ea_localid" value="1720"/>
+																						<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+																						<UML:TaggedValue tag="CDERef" value="cabio.nci.nih.gov_2003363_4.0" xmi.id="EAID_0B2EEF0D_950A_4521_929A_43D90EE1F181"/>
+																						<UML:TaggedValue tag="preferred name" value="Treatment Start Date" xmi.id="EAID_16EBAF61_9648_44e0_A167_BCF7553EFA83"/>
+																					</UML:ModelElement.taggedValue>
+																				</UML:Attribute>
+																			</UML:Classifier.feature>
+																		</UML:Class>
+																	</UML:Namespace.ownedElement>
+																</UML:Package>
+															</UML:Namespace.ownedElement>
+														</UML:Package>
+													</UML:Namespace.ownedElement>
+												</UML:Package>
+											</UML:Namespace.ownedElement>
+										</UML:Package>
+									</UML:Namespace.ownedElement>
+								</UML:Package>
+								<UML:Package name="java" xmi.id="EAPK_43BAE89C_5241_4bc7_B74B_FC946B52F491" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="parent" value="EAPK_6A1F7B6A_C113_44b4_85DC_AC4BBBA11077"/>
+										<UML:TaggedValue tag="created" value="2006-10-24 11:07:02"/>
+										<UML:TaggedValue tag="modified" value="2006-10-24 11:07:02"/>
+										<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+										<UML:TaggedValue tag="lastloaddate" value="2006-10-25 10:53:43"/>
+										<UML:TaggedValue tag="lastsavedate" value="2006-10-25 10:53:43"/>
+										<UML:TaggedValue tag="isprotected" value="FALSE"/>
+										<UML:TaggedValue tag="usedtd" value="FALSE"/>
+										<UML:TaggedValue tag="logxml" value="FALSE"/>
+										<UML:TaggedValue tag="batchsave" value="0"/>
+										<UML:TaggedValue tag="batchload" value="0"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="author" value="The Administrator"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="ea_stype" value="Public"/>
+									</UML:ModelElement.taggedValue>
+									<UML:Namespace.ownedElement>
+										<UML:Collaboration xmi.id="EAID_43BAE89C_5241_4bc7_B74B_FC946B52F491_Collaboration" name="Collaborations">
+											<UML:Namespace.ownedElement>
+												<UML:ClassifierRole name="lang" xmi.id="EAID_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isAbstract" value="false"/>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Package"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_43BAE89C_5241_4bc7_B74B_FC946B52F491"/>
+														<UML:TaggedValue tag="date_created" value="2006-10-24 11:07:07"/>
+														<UML:TaggedValue tag="date_modified" value="2006-10-24 11:07:07"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package2" value="EAID_0CA6AD77_D114_4100_AE05_E65AB1F45D7E"/>
+														<UML:TaggedValue tag="package_name" value="java"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="The Administrator"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="233"/>
+														<UML:TaggedValue tag="ea_eleType" value="package"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:ClassifierRole>
+												<UML:ClassifierRole name="util" xmi.id="EAID_65413A3A_338B_4a5c_96B7_B456DA3809A1" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isAbstract" value="false"/>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Package"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_43BAE89C_5241_4bc7_B74B_FC946B52F491"/>
+														<UML:TaggedValue tag="date_created" value="2006-10-24 11:08:06"/>
+														<UML:TaggedValue tag="date_modified" value="2006-10-24 11:08:06"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package2" value="EAID_65413A3A_338B_4a5c_96B7_B456DA3809A1"/>
+														<UML:TaggedValue tag="package_name" value="java"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="The Administrator"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="234"/>
+														<UML:TaggedValue tag="ea_eleType" value="package"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:ClassifierRole>
+											</UML:Namespace.ownedElement>
+											<UML:Collaboration.interaction/>
+										</UML:Collaboration>
+										<UML:Package name="lang" xmi.id="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="parent" value="EAPK_43BAE89C_5241_4bc7_B74B_FC946B52F491"/>
+												<UML:TaggedValue tag="created" value="2006-10-24 11:07:07"/>
+												<UML:TaggedValue tag="modified" value="2006-10-24 11:07:07"/>
+												<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+												<UML:TaggedValue tag="lastloaddate" value="2006-10-25 10:53:44"/>
+												<UML:TaggedValue tag="lastsavedate" value="2006-10-25 10:53:44"/>
+												<UML:TaggedValue tag="isprotected" value="FALSE"/>
+												<UML:TaggedValue tag="usedtd" value="FALSE"/>
+												<UML:TaggedValue tag="logxml" value="FALSE"/>
+												<UML:TaggedValue tag="batchsave" value="0"/>
+												<UML:TaggedValue tag="batchload" value="0"/>
+												<UML:TaggedValue tag="phase" value="1.0"/>
+												<UML:TaggedValue tag="status" value="Proposed"/>
+												<UML:TaggedValue tag="author" value="The Administrator"/>
+												<UML:TaggedValue tag="complexity" value="1"/>
+												<UML:TaggedValue tag="ea_stype" value="Public"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Namespace.ownedElement>
+												<UML:Class name="Float" xmi.id="EAID_0BE8D824_9BDD_478b_A20C_613CD28C5AC4" visibility="public" namespace="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Class"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E"/>
+														<UML:TaggedValue tag="date_created" value="2006-10-24 11:07:51"/>
+														<UML:TaggedValue tag="date_modified" value="2006-10-24 11:07:51"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package_name" value="lang"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="The Administrator"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="1068"/>
+														<UML:TaggedValue tag="ea_eleType" value="element"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={D35A85FD-1F5D-421a-BDAA-B326D17C8B97}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={0BE8D824-9BDD-478b-A20C-613CD28C5AC4}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:Class>
+												<UML:Class name="Long" xmi.id="EAID_1C629429_347E_4f3f_8D5A_E52B555F406C" visibility="public" namespace="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Class"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E"/>
+														<UML:TaggedValue tag="date_created" value="2007-06-18 07:38:41"/>
+														<UML:TaggedValue tag="date_modified" value="2007-06-18 07:38:41"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package_name" value="lang"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="1069"/>
+														<UML:TaggedValue tag="ea_eleType" value="element"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={96176BD3-9F25-412e-AFA4-DB306D304799}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={1C629429-347E-4f3f-8D5A-E52B555F406C}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:Class>
+												<UML:Class name="Integer" xmi.id="EAID_61D84993_837B_48c3_9F63_E3020F52FA13" visibility="public" namespace="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Class"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E"/>
+														<UML:TaggedValue tag="date_created" value="2006-10-24 11:07:38"/>
+														<UML:TaggedValue tag="date_modified" value="2006-10-24 11:07:38"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package_name" value="lang"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="The Administrator"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="1070"/>
+														<UML:TaggedValue tag="ea_eleType" value="element"/>
+														<UML:TaggedValue tag="$ea_attsclassified" value="{4FFC5564-9F49-4e60-9851-F8DF6FA6FA1B},{41528ACF-179A-4823-BA31-01644CB8E225},{5DDB40F5-14DF-4b79-AA9E-0529481D9F0E},{B85DAA79-1F70-4468-AFAB-13BAF55E02AC}"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={4F16756A-674A-48e3-A244-64AC52D59A0C}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={61D84993-837B-48c3-9F63-E3020F52FA13}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:Class>
+												<UML:Class name="Character" xmi.id="EAID_AE46712A_1AD0_4ff4_9C93_0497DFD25D8F" visibility="public" namespace="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Class"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E"/>
+														<UML:TaggedValue tag="date_created" value="2007-06-18 07:42:06"/>
+														<UML:TaggedValue tag="date_modified" value="2007-06-18 07:42:06"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package_name" value="lang"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="1071"/>
+														<UML:TaggedValue tag="ea_eleType" value="element"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={0D633B5F-A9D0-4a86-BA4B-3D95D10961F7}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={AE46712A-1AD0-4ff4-9C93-0497DFD25D8F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:Class>
+												<UML:Class name="Boolean" xmi.id="EAID_C97D344F_72B7_4704_A8DB_7392DF5D80D0" visibility="public" namespace="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Class"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E"/>
+														<UML:TaggedValue tag="date_created" value="2006-10-24 11:07:43"/>
+														<UML:TaggedValue tag="date_modified" value="2006-10-24 11:07:43"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package_name" value="lang"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="The Administrator"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="1072"/>
+														<UML:TaggedValue tag="ea_eleType" value="element"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={A23D818D-A8A7-45d9-AE41-081802BAB751}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={C97D344F-72B7-4704-A8DB-7392DF5D80D0}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:Class>
+												<UML:Class name="String" xmi.id="EAID_D1A51FE0_90DA_4977_B520_F3A871CBA44E" visibility="public" namespace="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Class"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E"/>
+														<UML:TaggedValue tag="date_created" value="2006-10-24 11:07:45"/>
+														<UML:TaggedValue tag="date_modified" value="2006-10-24 11:07:45"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package_name" value="lang"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="The Administrator"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="1073"/>
+														<UML:TaggedValue tag="ea_eleType" value="element"/>
+														<UML:TaggedValue tag="$ea_attsclassified" value="{FCE8975B-ADEB-4393-91E6-B24D67274F41},{0A3404D8-18B4-47f9-8BBF-1C8DF09EDE0D},{D1554695-FE89-4f76-8E8C-5470693F35AD},{4DBAD700-33A1-4b8b-91C3-316DE6C0C7B4},{191076EF-3CDC-48e0-AA0D-CB48F52C159B},{7F20B041-CAE0-4aab-A1F6-870F5F0A75BF},{44590AB0-A407-4802-91E9-39B5567E6C31}"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={77BFCE39-617B-4738-B772-96BA9494FBCD}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={D1A51FE0-90DA-4977-B520-F3A871CBA44E}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:Class>
+												<UML:Class name="Double" xmi.id="EAID_D2DA7AC3_01F2_405e_995D_672D8DFD6E99" visibility="public" namespace="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Class"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_0CA6AD77_D114_4100_AE05_E65AB1F45D7E"/>
+														<UML:TaggedValue tag="date_created" value="2006-10-24 11:07:48"/>
+														<UML:TaggedValue tag="date_modified" value="2006-10-24 11:07:48"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package_name" value="lang"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="The Administrator"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="1074"/>
+														<UML:TaggedValue tag="ea_eleType" value="element"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={2C477FF0-C2F9-4cdb-838D-6EFC23959704}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={D2DA7AC3-01F2-405e-995D-672D8DFD6E99}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:Class>
+											</UML:Namespace.ownedElement>
+										</UML:Package>
+										<UML:Package name="util" xmi.id="EAPK_65413A3A_338B_4a5c_96B7_B456DA3809A1" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="parent" value="EAPK_43BAE89C_5241_4bc7_B74B_FC946B52F491"/>
+												<UML:TaggedValue tag="created" value="2006-10-24 11:08:05"/>
+												<UML:TaggedValue tag="modified" value="2006-10-24 11:08:05"/>
+												<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+												<UML:TaggedValue tag="lastloaddate" value="2006-10-25 10:53:44"/>
+												<UML:TaggedValue tag="lastsavedate" value="2006-10-25 10:53:44"/>
+												<UML:TaggedValue tag="isprotected" value="FALSE"/>
+												<UML:TaggedValue tag="usedtd" value="FALSE"/>
+												<UML:TaggedValue tag="logxml" value="FALSE"/>
+												<UML:TaggedValue tag="batchsave" value="0"/>
+												<UML:TaggedValue tag="batchload" value="0"/>
+												<UML:TaggedValue tag="phase" value="1.0"/>
+												<UML:TaggedValue tag="status" value="Proposed"/>
+												<UML:TaggedValue tag="author" value="The Administrator"/>
+												<UML:TaggedValue tag="complexity" value="1"/>
+												<UML:TaggedValue tag="ea_stype" value="Public"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Namespace.ownedElement>
+												<UML:Class name="Date" xmi.id="EAID_D50C9E68_E240_456a_A166_F1706281B491" visibility="public" namespace="EAPK_65413A3A_338B_4a5c_96B7_B456DA3809A1" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+													<UML:ModelElement.taggedValue>
+														<UML:TaggedValue tag="isSpecification" value="false"/>
+														<UML:TaggedValue tag="ea_stype" value="Class"/>
+														<UML:TaggedValue tag="ea_ntype" value="0"/>
+														<UML:TaggedValue tag="version" value="1.0"/>
+														<UML:TaggedValue tag="package" value="EAPK_65413A3A_338B_4a5c_96B7_B456DA3809A1"/>
+														<UML:TaggedValue tag="date_created" value="2006-10-24 11:08:13"/>
+														<UML:TaggedValue tag="date_modified" value="2006-10-24 11:08:13"/>
+														<UML:TaggedValue tag="gentype" value="Java"/>
+														<UML:TaggedValue tag="tagged" value="0"/>
+														<UML:TaggedValue tag="package_name" value="util"/>
+														<UML:TaggedValue tag="phase" value="1.0"/>
+														<UML:TaggedValue tag="author" value="The Administrator"/>
+														<UML:TaggedValue tag="complexity" value="1"/>
+														<UML:TaggedValue tag="status" value="Proposed"/>
+														<UML:TaggedValue tag="tpos" value="0"/>
+														<UML:TaggedValue tag="ea_localid" value="1075"/>
+														<UML:TaggedValue tag="ea_eleType" value="element"/>
+														<UML:TaggedValue tag="$ea_attsclassified" value="{06C4210A-C082-49ed-86C2-E350E631D1DF},{0036571B-10E7-4190-ABA8-9F1A859C767A},{77023B45-30A3-4665-A6FB-18498D94A34D},{9C3629C4-47F7-4afa-A346-57FEEA570395}"/>
+														<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={A433EEC4-51CB-4022-B731-721246C8D0E3}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={D50C9E68-E240-456a-A166-F1706281B491}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+													</UML:ModelElement.taggedValue>
+												</UML:Class>
+											</UML:Namespace.ownedElement>
+										</UML:Package>
+									</UML:Namespace.ownedElement>
+								</UML:Package>
+							</UML:Namespace.ownedElement>
+						</UML:Package>
+					</UML:Namespace.ownedElement>
+				</UML:Package>
+				<UML:DataType xmi.id="eaxmiid3" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid1" name="DATE" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid2" name="VARCHAR" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid0" name="NUMERIC" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+			</UML:Namespace.ownedElement>
+		</UML:Model>
+		<UML:TaggedValue tag="DBVERSION" xmi.id="EAID_6110716C_A3D0_c5a3_865B_448C0CCB75FD" modelElement="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3"/>
+		<UML:TaggedValue tag="OWNER" xmi.id="EAID_081BC26B_3B4F_c93b_B94C_5CE1E74483BF" modelElement="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3"/>
+		<UML:TaggedValue tag="TABLESPACE" xmi.id="EAID_D6AED194_5058_0a50_B5F0_CD0917DC95D0" modelElement="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3"/>
+		<UML:TaggedValue tag="DBVERSION" xmi.id="EAID_6110716C_A3D0_c5a3_8017_F74DBDD031A6" modelElement="EAID_624296C9_81D5_4402_8D5F_6C0838039201"/>
+		<UML:TaggedValue tag="OWNER" xmi.id="EAID_081BC26B_3B4F_c93b_B4CB_AD7BD94C6785" modelElement="EAID_624296C9_81D5_4402_8D5F_6C0838039201"/>
+		<UML:TaggedValue tag="TABLESPACE" xmi.id="EAID_D6AED194_5058_0a50_95A0_2B2BBC613230" modelElement="EAID_624296C9_81D5_4402_8D5F_6C0838039201"/>
+		<UML:TaggedValue tag="DBVERSION" xmi.id="EAID_6110716C_A3D0_c5a3_9E1F_F1A3AB8E9267" modelElement="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813"/>
+		<UML:TaggedValue tag="OWNER" xmi.id="EAID_081BC26B_3B4F_c93b_8E82_6EFFE35D4A3E" modelElement="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813"/>
+		<UML:TaggedValue tag="TABLESPACE" xmi.id="EAID_D6AED194_5058_0a50_AAA7_1E76F1CA23C6" modelElement="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813"/>
+		<UML:Diagram name="Data Model" xmi.id="EAID_E7E6CFD0_2C01_4e2d_9F17_0CAA87466BEE" diagramType="ClassDiagram" owner="EAPK_13C2A393_A2C6_4d7c_9441_319ED9A21FBA" toolName="Enterprise Architect 2.5">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="version" value="1.0"/>
+				<UML:TaggedValue tag="author" value="bigcat"/>
+				<UML:TaggedValue tag="created_date" value="2009-02-06 10:10:05"/>
+				<UML:TaggedValue tag="modified_date" value="2010-02-08 16:01:38"/>
+				<UML:TaggedValue tag="package" value="EAPK_13C2A393_A2C6_4d7c_9441_319ED9A21FBA"/>
+				<UML:TaggedValue tag="type" value="Logical"/>
+				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
+				<UML:TaggedValue tag="matrixitems" value="locked=false;matrixactive=false;swimlanesactive=true;width=1;"/>
+				<UML:TaggedValue tag="ea_localid" value="62"/>
+				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=1;PPgs.cy=1;DocSize.cx=776;DocSize.cy=1000;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=1;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<UML:TaggedValue tag="styleex" value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+			</UML:ModelElement.taggedValue>
+			<UML:Diagram.element>
+				<UML:DiagramElement geometry="Left=156;Top=408;Right=478;Bottom=609;" subject="EAID_624296C9_81D5_4402_8D5F_6C0838039201" seqno="1" style="DUID=B6FEF49D;NSL=0;"/>
+				<UML:DiagramElement geometry="Left=460;Top=40;Right=709;Bottom=224;" subject="EAID_D8700EEC_D7CA_43fc_9865_0266E199F813" seqno="2" style="DUID=67AEBC2F;NSL=0;"/>
+				<UML:DiagramElement geometry="Left=58;Top=24;Right=230;Bottom=182;" subject="EAID_30EEFC14_D74B_4581_9575_2562594DBDA3" seqno="3" style="DUID=02855541;NSL=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=CX=16:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=231:CY=13:OX=276:OY=-6:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=CX=102:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMB=CX=25:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRT=CX=84:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_089BA9E0_218C_40bf_9F77_63E19E48A00F" style="Mode=3;EOID=67AEBC2F;SOID=B6FEF49D;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=CX=16:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=242:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=CX=113:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMB=CX=25:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRT=CX=95:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_44647AE4_F394_4626_BCD8_F34D9B487556" style="Mode=3;EOID=02855541;SOID=B6FEF49D;Color=-1;LWidth=0;Hidden=0;"/>
+			</UML:Diagram.element>
+		</UML:Diagram>
+		<UML:Diagram name="Logical Model" xmi.id="EAID_42AEA3A9_A6B3_4b93_BC43_C27681D2BC2B" diagramType="ClassDiagram" owner="EAPK_CB699A04_2FDB_43de_9F15_2FBB5DA90527" toolName="Enterprise Architect 2.5">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="version" value="1.0"/>
+				<UML:TaggedValue tag="author" value="bigcat"/>
+				<UML:TaggedValue tag="created_date" value="2009-02-06 09:55:06"/>
+				<UML:TaggedValue tag="modified_date" value="2010-02-08 16:01:35"/>
+				<UML:TaggedValue tag="package" value="EAPK_CB699A04_2FDB_43de_9F15_2FBB5DA90527"/>
+				<UML:TaggedValue tag="type" value="Logical"/>
+				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
+				<UML:TaggedValue tag="matrixitems" value="locked=false;matrixactive=false;swimlanesactive=true;width=1;"/>
+				<UML:TaggedValue tag="ea_localid" value="61"/>
+				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=1;PPgs.cy=1;DocSize.cx=776;DocSize.cy=1000;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=1;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<UML:TaggedValue tag="styleex" value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+			</UML:ModelElement.taggedValue>
+			<UML:Diagram.element>
+				<UML:DiagramElement geometry="Left=288;Top=357;Right=416;Bottom=445;" subject="EAID_0F41DEB9_FE48_44f0_AF61_D3132ACC3D4F" seqno="1" style="DUID=0A1BF1AA;NSL=0;"/>
+				<UML:DiagramElement geometry="Left=475;Top=105;Right=638;Bottom=232;" subject="EAID_968017BA_CD78_4595_A79A_EDD270AFA79A" seqno="2" style="DUID=0CEC6240;NSL=0;"/>
+				<UML:DiagramElement geometry="Left=97;Top=108;Right=203;Bottom=209;" subject="EAID_8BEF11CA_0CFF_473c_8BFD_62978B6AED95" seqno="3" style="DUID=28CF544F;NSL=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=44:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=CX=148:CY=13:OX=194:OY=-7:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRB=CX=16:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_6F2A5518_7297_4565_BAEC_2F83B779E487" style="Mode=3;EOID=0A1BF1AA;SOID=0CEC6240;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=56:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=CX=148:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRB=CX=16:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_E0489428_094F_4e50_878B_0A97DBF48DAB" style="Mode=3;EOID=0A1BF1AA;SOID=28CF544F;Color=-1;LWidth=0;Hidden=0;"/>
+			</UML:Diagram.element>
+		</UML:Diagram>
+	</XMI.content>
+	<XMI.difference/>
+	<XMI.extensions xmi.extender="Enterprise Architect 2.5"/>
+</XMI>

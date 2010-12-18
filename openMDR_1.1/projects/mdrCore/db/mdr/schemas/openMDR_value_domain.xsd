@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.cagrid.org/schema/openMDR" xmlns:iso11179="http://www.cagrid.org/schema/ISO11179" xmlns:openMDR="http://www.cagrid.org/schema/openMDR" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.cagrid.org/schema/openMDR" elementFormDefault="qualified" finalDefault="" blockDefault="" attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.cagrid.org/schema/ISO11179"
+        schemaLocation="../schemas/iso11179.xsd"/>
+    <xs:include schemaLocation="../schemas/openMDR_resources.xsd"/>
+
+    <xs:element name="Value_Domain" type="Value_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Value_Domain" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="cgAdministered_Item">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="typed_by" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false"/>
+                    <xs:element name="value_domain_datatype" type="datatype_identifier" minOccurs="1" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>foreignKey:Datatype@datatype_identifier</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_format" type="xs:string" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element name="value_domain_maximum_character_quantity" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element name="value_domain_minimum_character_quantity" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                    <xs:annotation>
+                        <xs:documentation>the minimum number of characters to represent the Data Element value</xs:documentation>
+                    </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_high_value" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the high value from the range in Data Element value</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_low_value" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>the low value from the range in Data Element value</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_decimal_place" type="xs:int" minOccurs="0" maxOccurs="1" nillable="false">
+                    <xs:annotation>
+                        <xs:documentation>the decimal place to which the value conforms to in Data Element value</xs:documentation>
+                    </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value_domain_unit_of_measure" type="unit_of_measure_identifier" minOccurs="0" maxOccurs="1" nillable="false">
+                        <xs:annotation>
+                            <xs:documentation>foreignKey: Unit_Of_Measure@unit_of_measure_identifier</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="related_to" type="Value_Domain_Relationship" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Unit_of_Measure" type="Unit_of_Measure" nillable="false" abstract="false"/>
+    <xs:complexType name="Unit_of_Measure" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="iso11179:Unit_of_Measure">
+                <xs:sequence minOccurs="1" maxOccurs="1"/>
+                <xs:attribute name="unit_of_measure_identifier" use="required" type="unit_of_measure_identifier"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Non_Enumerated_Value_Domain" type="Non_Enumerated_Value_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Non_Enumerated_Value_Domain" mixed="false" abstract="false">
+        <xs:annotation>
+            <xs:documentation>non-enumerated value domain description was not used as it duplicates data in the naming and definition areas of the administered item superclass</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Value_Domain">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="representing" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Permissible_Value" type="Permissible_Value" nillable="false" abstract="false"/>
+    <xs:complexType name="Permissible_Value" mixed="false" abstract="false">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="permissible_value_begin_date" type="xs:date" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="permissible_value_end_date" type="xs:date" minOccurs="0" maxOccurs="1" nillable="false"/>
+            <xs:element name="value_item" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="contained_in" type="value_meaning_identifier" maxOccurs="unbounded" minOccurs="1" nillable="false"/>
+        </xs:sequence>
+        <xs:attribute name="permissible_value_identifier" use="required" type="xs:string"/>
+    </xs:complexType>
+    <xs:element name="Enumerated_Value_Domain" type="Enumerated_Value_Domain" nillable="false" abstract="false"/>
+    <xs:complexType name="Enumerated_Value_Domain" mixed="false" abstract="false">
+        <xs:complexContent>
+            <xs:extension base="Value_Domain">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="containing" type="Permissible_Value" minOccurs="2" maxOccurs="unbounded" nillable="false"/>
+                    <xs:element name="representing" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Value_Domain_Relationship" type="Value_Domain_Relationship" nillable="false" abstract="false"/>
+    <xs:complexType name="Value_Domain_Relationship" mixed="false" abstract="false">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="value_domain_relationship_type_description" type="relationship_type_name" minOccurs="1" maxOccurs="1" nillable="false"/>
+            <xs:element name="related_to" type="administered_item_identifier" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+	<info organisation="caGrid" module="mdr" revision="1.3" status="release" publication="20100126145958">
+		<license name="caGrid" url="http://cagrid.org/wiki/CaGrid:LICENSE-1.3"/>
+		<description>MDR ISO 11179 Database and Application</description>
+	</info>
+
+	<configurations>
+		<conf name="impl" visibility="private"/>
+		<conf name="stylesheets" visibility="public"/>
+		<conf name="default" visibility="public" extends="impl"/>
+	</configurations>
+
+	<publications>
+		<artifact name="stylesheets/add_namespace" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/cadsr_construct" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/cadsr_OC_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/cadsr_prop_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/cadsr_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/cadsr_transform" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/CombinatorialQuery_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/CombinatorialQuery_transform" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/config_filter" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/DescLogicConcept_construct" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/DescLogicConcept_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/DescLogicConcept_transform" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/direct-copy" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/fixtag" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexEVSConceptId_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexEVSConceptId_construct" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexEVSConceptId_fixtag" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexEVSConceptId_transform" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexEVSDescLogicConcept_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexEVSDescLogicConcept_construct" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexEVSDescLogicConcept_transform" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexMetaThesaurusConcept_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexMetaThesaurusConcept_construct" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexMetaThesaurusConcept_sources" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/LexMetaThesaurusConcept_transform" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/MetaThesaurusConcept_construct" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/MetaThesaurusConcept_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/MetaThesaurusConcept_sources" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/MetaThesaurusConcept_transform" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/no_arg_REST" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/openMDR_Classification_Tree" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/openMDR_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/openMDR_construct" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/openMDR_REST_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/openMDR_SKOS_REST_query" conf="stylesheets" type="xsl"/>
+		<artifact name="stylesheets/openMDR_transform" conf="stylesheets" type="xsl"/>
+	</publications>
+
+	<dependencies>
+		<dependency rev="9" org="saxonica" name="saxon" conf="impl->default"/>
+		<dependency rev="9" org="saxonica" name="saxon-dom" conf="impl->default"/>
+		<dependency rev="9" org="saxonica" name="saxon-xpath" conf="impl->default"/>
+	</dependencies>
+
+</ivy-module>

@@ -1,0 +1,6 @@
+<openMDR:cgDatatype xmlns:openMDR="http://www.cagrid.org/schema/openMDR" datatype_identifier="000000033">
+    <openMDR:datatype_annotation>http://www.w3.org/2001/XMLSchema</openMDR:datatype_annotation>
+    <openMDR:datatype_description>the xml nonPositiveInteger datatype</openMDR:datatype_description>
+    <openMDR:datatype_name>nonPositiveInteger</openMDR:datatype_name>
+    <openMDR:datatype_scheme_reference>XMLSchema</openMDR:datatype_scheme_reference>
+</openMDR:cgDatatype>

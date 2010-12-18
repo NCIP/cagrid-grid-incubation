@@ -1,0 +1,21 @@
+<openMDR:Registration_Authority xmlns:openMDR="http://www.cagrid.org/schema/openMDR" organization_identifier="cagrid.org">
+    <openMDR:organization_name>caGrid</openMDR:organization_name>
+    <openMDR:organization_mail_address/>
+    <openMDR:documentation_language_identifier>
+        <openMDR:language_identifier>eng</openMDR:language_identifier>
+    </openMDR:documentation_language_identifier>
+    <openMDR:registration_authority_identifier>
+        <openMDR:international_code_designator>US</openMDR:international_code_designator>
+        <openMDR:OPI_Source>BSI</openMDR:OPI_Source>
+        <openMDR:organization_identifier>cagrid.org</openMDR:organization_identifier>
+        <openMDR:organization_part_identifier>cagrid</openMDR:organization_part_identifier>
+    </openMDR:registration_authority_identifier>
+    <openMDR:represented_by>
+        <openMDR:registrar_contact>
+            <openMDR:contact_information>614-293-9591</openMDR:contact_information>
+            <openMDR:contact_name>Rakesh Dhaval</openMDR:contact_name>
+            <openMDR:contact_title>Administrator</openMDR:contact_title>
+        </openMDR:registrar_contact>
+        <openMDR:registrar_identifier>mdr.cagrid.org</openMDR:registrar_identifier>
+    </openMDR:represented_by>
+</openMDR:Registration_Authority>

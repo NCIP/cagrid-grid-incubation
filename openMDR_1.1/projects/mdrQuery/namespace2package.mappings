@@ -1,0 +1,15 @@
+http\://mdrq.cagrid.org/MDRQuery=org.cagrid.mdrq.stubs
+http\://mdrq.cagrid.org/MDRQuery/bindings=org.cagrid.mdrq.stubs.bindings
+http\://mdrq.cagrid.org/MDRQuery/service=org.cagrid.mdrq.stubs.service
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl=org.oasis.wsrf.properties
+http\://security.introduce.cagrid.nci.nih.gov/ServiceSecurity=gov.nih.nci.cagrid.introduce.security.stubs
+
+http\://cagrid.org/schema/result-set=org.cancergrid.schema.result_set
+http\://cagrid.org/schema/config=org.cancergrid.schema.config
+gme\://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security=gov.nih.nci.cagrid.metadata.security
+http\://cagrid.org/schema/context=org.cancergrid.schema.context
+http\://cagrid.org/schema/query=org.cancergrid.schema.query
+http\://mdrq.cagrid.org/MDRQuery/types=org.cagrid.mdrq.stubs.types
+

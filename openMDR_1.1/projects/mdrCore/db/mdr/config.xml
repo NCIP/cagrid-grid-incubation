@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example configuration. On local changes, this file should not be committed
+ to the source control repository, as it is local configuration specific
+-->
+<config>
+    <common port="8080"/>
+    <secure port="8443"/>
+    <root path="/db/mdr"/>
+</config>
