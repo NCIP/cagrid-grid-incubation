@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<project name="SDK43SortLimitQueryProcessor" basedir="." default="all">
+	
+	<property environment="env" />
+	<property file="${basedir}/../../project.properties" />
+	
+	<!-- define file locations for the build -->
+	<property name="src.dir" location="${basedir}/src"/>
+	<property name="build.dir" location="${basedir}/build"/>
+	<property name="build.classes.dir" location="${build.dir}/classes"/>
+	<property name="build.report.dir" location="${build.dir}/report"/>
+	<property name="build.jars.dir" location="${build.dir}/jars"/>
+	<property name="ext.dir" value="${basedir}/ext" />
+	<property name="ext.lib.dir" value="${ext.dir}/dependencies/jars" />
+	<property name="lib.dir" location="${basedir}/lib"/>
+	
+	<property name="jar.filename" value="${build.jars.dir}/caGrid-SDK43SortLimitQueryProcessor-${project.version}.jar"/>
+	
+	<!-- =============================================================== -->
+	<!-- The Build Classpath                                             -->
+	<!-- =============================================================== -->
+	<path id="build.classpath">
+		<fileset dir="${ext.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="test.build.classpath">
+		<path refid="build.classpath"/>
+		<fileset dir="${ext.test.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="unit.test.run.classpath">
+		<fileset dir="${build.jars.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ext.test.lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<!-- =============================================================== -->
+	<!-- Prepares the build directory                                    -->
+	<!-- =============================================================== -->
+	<target name="prepare">
+		<tstamp />
+		<delete dir="${build.dir}"/>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.classes.dir}"/>
+		<mkdir dir="${build.jars.dir}"/>
+	</target>
+	
+	
+	<!-- ============================================================== -->
+	<!-- Cleans up generated stuff                                      -->
+	<!-- ============================================================== -->
+	<target name="clean" depends="" description="Removes generated files.">
+		<delete dir="${build.dir}" />
+	</target>
+	
+	<!-- build the custom query processor.  This obviously depends on the 
+		prepare and resolve targets so the directory structure and required
+		libraries are good to go -->
+	<target name="compile" depends="prepare" description="Compiles the query processor">
+		<!-- define the classpath for the build to include everything in the lib directory.
+			By default, this is where Ivy will drop off resolved dependencies -->
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" >
+			<classpath refid="build.classpath"/>
+		</javac>
+	</target>
+	
+	<!-- Package the resulting class files and source into a jar file -->
+	<target name="jar" depends="compile" description="Compiles and creates the jar">
+		<mkdir dir="${build.jars.dir}" />
+		<jar jarfile="${jar.filename}">
+			<fileset dir="${build.classes.dir}">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir="${src.dir}">
+				<include name="**/*"/>
+			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Specification-Version" value="${project.version}" />
+				<attribute name="Implementation-Version" value="${project.version}" />
+			</manifest>
+		</jar>
+	</target>
+	
+	
+	<!-- =================================================================== -->
+	<!-- Builds Code Docuementation                                          -->
+	<!-- =================================================================== -->
+	<target name="javadoc" depends="compile" description="Creates the API documentation.">
+		<javadoc packagenames="*" destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="${project.name} API">
+			<sourcepath>
+				<pathelement path="${translator.src.dir}" />
+				<pathelement path="${processor.src.dir}" />
+				<pathelement path="${style.src.dir}"/>
+			</sourcepath>
+
+			<classpath>
+				<path refid="build.classpath" />
+			</classpath>
+
+			<tag name="todo" scope="all" description="To do:" />
+			<tag name="created" scope="all" description="Created On:" />
+		</javadoc>
+	</target>
+	
+	
+	<!-- ============================================================== -->
+	<!-- Builds from scratch                                            -->
+	<!-- ============================================================== -->
+	<target name="all" description="Builds the entire application" depends="jar" />
+</project>

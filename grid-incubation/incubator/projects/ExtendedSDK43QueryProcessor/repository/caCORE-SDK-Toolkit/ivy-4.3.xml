@@ -1,0 +1,16 @@
+<ivy-module version="1.0">
+	<info organisation="ncicb" module="sdk-modules" revision="4.3" />
+	<configurations>
+		<conf name="compile"  />
+		<conf name="runtime" extends="compile"/>	
+	</configurations>
+
+	<publications>
+		<artifact name="extended-sdk-system-client" type="jar" conf="compile" />
+		<artifact name="extended-sdk-system-core" type="jar" conf="compile" />
+	</publications>
+
+
+	<dependencies>
+	</dependencies>
+</ivy-module>

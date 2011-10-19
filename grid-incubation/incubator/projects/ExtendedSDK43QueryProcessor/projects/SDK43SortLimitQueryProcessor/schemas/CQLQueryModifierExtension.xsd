@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:cql2="http://CQL.caBIG/2/org.cagrid.cql2"
+	xmlns:tns="http://CQL.caBIG/2/org.cagrid.cql2.extras" 
+	targetNamespace="http://CQL.caBIG/2/org.cagrid.cql2.extras" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+	<xsd:import namespace="http://CQL.caBIG/2/org.cagrid.cql2" schemaLocation="CQLQueryModifier.xsd"/>
+	
+	<xsd:complexType name="SortLimitExtension">
+		<xsd:sequence>
+			<xsd:element name="Sort" type="tns:SortBy" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Limit" type="tns:LimitBy" minOccurs="0" maxOccurs="1"/>
+			<xsd:choice minOccurs="0" maxOccurs="1">
+				<xsd:element name="NamedAttribute" type="cql2:NamedAttribute" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="DistinctAttribute" type="cql2:DistinctAttribute" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+
+	<xsd:complexType name="SortBy">
+		<xsd:annotation>
+			<xsd:documentation>Query Modifiers to allow sorting of a query result set</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="attributeName" type="xsd:string" use="required"/>
+		<xsd:attribute name="order" type="xsd:string" use="required" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="LimitBy">
+		<xsd:annotation>
+			<xsd:documentation>Query Modifier to allow limiting a query result set</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="firstRow" type="xsd:nonNegativeInteger" use="required"/>
+		<xsd:attribute name="numberOfRows" type="xsd:nonNegativeInteger" use="optional"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="SortOrder">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ASC"/>
+			<xsd:enumeration value="DESC"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

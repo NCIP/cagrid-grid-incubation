@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+	<info organisation="caGrid" module="SDK43SortLimitQueryProcessor" revision="1.4">
+		<description>SDK 4.3 custom sortable and limitable query processor</description>
+	</info>
+	
+	<!-- A configuration in ivy is a like group of functionality.  Usually this
+		should correspond 1:1 with the source folders and jars your project delivers -->
+	<configurations>
+		<!-- Private Configurations-->
+	    <conf name="impl" visibility="private" extends="default" />
+	    <conf name="impl-test" visibility="private"/>
+	    
+	    <!-- Public Configurations -->
+		<conf name="default" visibility="public"/>
+	</configurations>
+	
+	<!-- Publications are the artifacts your project produces for public consumption.
+		Here, we're publishing the artifact to our default configuration. Any downstream
+		projects that depend on our default configuration will also recieve any of the
+		dependencies our default configuration needs -->
+	<publications>
+		<artifact name="caGrid-${ivy.module}" conf="default" type="jar" />
+	</publications>
+	
+	<!-- Dependencies are artifacts your code needs to either build or run.
+		In this case, we define that our "default" configuration needs the 
+		"processors" configuration from caGrid's "data" project. We'll get 
+		all the dependencies that the "processors" configuration needs as well -->
+	<dependencies>
+		<!-- caGrid dependencies -->
+    	<dependency rev="${cagrid.version}" org="caGrid" name="data" conf="default->processors" />
+      	<dependency rev="${cagrid.version}" org="caGrid" name="cql" conf="default->utils" />
+      	
+      	<!-- the extended package that we are extending -->
+      	<dependency rev="${cagrid.version}" org="caGrid" name="ExtendedSdkQuery43" conf="default->style" />
+
+      	
+      	<dependency rev="1.1" org="jdom" name="jdom" conf="default->default" />
+	</dependencies>
+</ivy-module>
