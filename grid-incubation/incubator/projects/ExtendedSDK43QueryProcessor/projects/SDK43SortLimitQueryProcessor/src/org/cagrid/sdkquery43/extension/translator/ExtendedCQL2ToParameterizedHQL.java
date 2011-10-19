@@ -104,6 +104,18 @@ public class ExtendedCQL2ToParameterizedHQL {
         this.caseInsensitive = caseInsensitive;
     }
     
+    // Limit Variables
+    private int firstRow = -1;
+    private int numberOfRows = 1000;
+    
+    // Limit Variable Accessors
+    public int getFirstRow(){
+    	return this.firstRow;
+    }
+    
+    public int getNumberOfRows(){
+    	return this.numberOfRows;
+    }
 	
 	/**
 	 * Converts CQL to parameterized HQL suitable for use with 
@@ -270,7 +282,7 @@ public class ExtendedCQL2ToParameterizedHQL {
 	        	prepend.append("Select distinct (" + TARGET_ALIAS + ") ");
 	        }
 	        hql.insert(0, prepend);
-	        // Get Elements
+	        // Get Sort Elements
 	        Element sortElement = root.getChild("Sort", namespace);
 	        
 	        // Set HQL for sort
@@ -279,7 +291,17 @@ public class ExtendedCQL2ToParameterizedHQL {
 	        	String attribute = sortElement.getAttributeValue("attributeName");
 	        	String order = sortElement.getAttributeValue("order");
 	        	hql.append(TARGET_ALIAS + '.' + attribute + " " + order.toLowerCase());
-	        }	        
+	        }
+	        
+	        // Handle Limit Query Modifier
+	        Element limitElement = root.getChild("Limit", namespace);
+	        if (limitElement != null){
+	        	this.firstRow = Integer.valueOf(limitElement.getAttributeValue("firstRow"));
+	        	String optionalNumOfRows = limitElement.getAttributeValue("numberOfRows");
+	        	if(optionalNumOfRows != null){
+	        		this.numberOfRows = Integer.valueOf(optionalNumOfRows);
+	        	}	        	
+	        }
 		} catch (org.xml.sax.SAXException ex) {
 			throw new QueryTranslationException(ex.getMessage(), ex);
 		}  catch (JDOMException ex) {
