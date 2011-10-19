@@ -187,7 +187,8 @@ public class CustomQueryProcessor extends CQL2QueryProcessor {
         LOG.debug("Converting CQL query to HQL");
         ParameterizedHqlQuery hql = null;
         try {
-            hql = getCqlTranslator().convertToHql(runQuery);
+        	this.cqlTranslator = getCqlTranslator();
+            hql = cqlTranslator.convertToHql(runQuery);
             LOG.debug("Created HQL: " + hql.toString());
         } catch (QueryProcessingException ex) {
             throw ex;
@@ -196,20 +197,19 @@ public class CustomQueryProcessor extends CQL2QueryProcessor {
         }
 
         // Process the Limit Extension if it exists
-        // if (hql.getFirstRow() != -1) {
-        // 		int firstRow = hql.getFirstRow();
-        //		if (hql.getNumberOfRow() != -1 ) {
-        //    		//get it
-        //   		HQLCriteria criteria = new HQLCriteria(hql.getHql(), hql.getParameters(), firstRow, hql.getNumberOfRow());
-        //		else {
-        //			HQLCriteria criteria = new HQLCriteria(hql.getHql(), hql.getParameters(), firstRow);
-        //		}
-        //	}
-        //	else {
-        // 		HQLCriteria criteria = new HQLCriteria(hql.getHql(), hql.getParameters());
-        //  }
-        
-        HQLCriteria criteria = new HQLCriteria(hql.getHql(), hql.getParameters());
+         HQLCriteria criteria = null;
+         if (cqlTranslator.getFirstRow() != -1) {
+         		int firstRow = cqlTranslator.getFirstRow();
+        		if (cqlTranslator.getNumberOfRows() != -1 ) {
+            		int numberOfRows = cqlTranslator.getNumberOfRows();
+            		criteria = new HQLCriteria(hql.getHql(), hql.getParameters(), firstRow, numberOfRows);
+        		} else {
+        			criteria = new HQLCriteria(hql.getHql(), hql.getParameters(), firstRow);
+        		}
+        	}
+        	else {
+         		criteria = new HQLCriteria(hql.getHql(), hql.getParameters());
+          }
 
         // query the SDK
         LOG.debug("Querying application service");
