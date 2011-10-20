@@ -192,7 +192,7 @@ public class CustomQueryProcessor extends CQL2QueryProcessor {
         	this.cqlTranslator = getCqlTranslator();
         	queryMap = cqlTranslator.convertToHql(runQuery);
             
-            hql  = (ParameterizedHqlQuery) queryMap.get("hql");
+            hql  = (ParameterizedHqlQuery) queryMap.get("ParameterizedHqlQuery");
             
             LOG.debug("Created HQL: " + hql.toString());
         } catch (QueryProcessingException ex) {
