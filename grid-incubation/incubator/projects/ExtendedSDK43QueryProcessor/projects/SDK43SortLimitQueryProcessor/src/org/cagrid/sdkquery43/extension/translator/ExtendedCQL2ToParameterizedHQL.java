@@ -103,19 +103,7 @@ public class ExtendedCQL2ToParameterizedHQL {
         this.constantValueResolver = constantValueResolver;
         this.caseInsensitive = caseInsensitive;
     }
-    
-    // Limit Variables
-    private int firstRow = -1;
-    private int numberOfRows = 1000;
-    
-    // Limit Variable Accessors
-    public int getFirstRow(){
-    	return this.firstRow;
-    }
-    
-    public int getNumberOfRows(){
-    	return this.numberOfRows;
-    }
+   
 	
 	/**
 	 * Converts CQL to parameterized HQL suitable for use with 
@@ -127,8 +115,11 @@ public class ExtendedCQL2ToParameterizedHQL {
 	 * 		A parameterized HQL Query representing the CQL query
 	 * @throws QueryTranslationException
 	 */
-	public ParameterizedHqlQuery convertToHql(CQLQuery query) throws QueryTranslationException {
+	public HashMap<String, Object> convertToHql(CQLQuery query) throws QueryTranslationException {
 	    LOG.debug("Converting caGrid Query Language to Hibernate Query Language");
+	    
+	    HashMap<String, Object> queryModifierMap = new HashMap<String, Object>();
+	    
 		// create a string builder to build up the HQL
 		StringBuilder rawHql = new StringBuilder();
         
@@ -151,7 +142,7 @@ public class ExtendedCQL2ToParameterizedHQL {
         
         // apply query modifiers
 		if (query.getCQLQueryModifier() != null) {
-			handleQueryModifier(query.getCQLQueryModifier(), rawHql);
+			queryModifierMap = handleQueryModifier(query.getCQLQueryModifier(), rawHql);
 		} else {
 		    // select only unique objects
             rawHql.insert(0, "Select distinct (" + TARGET_ALIAS + ") ");      
@@ -160,7 +151,9 @@ public class ExtendedCQL2ToParameterizedHQL {
         // build the final query object
         ParameterizedHqlQuery hqlQuery = new ParameterizedHqlQuery(rawHql.toString(), parameters);
         
-		return hqlQuery;
+        queryModifierMap.put("ParameterizedHqlQuery", hqlQuery);
+        
+		return queryModifierMap;
 	}
 	
 	
@@ -173,10 +166,13 @@ public class ExtendedCQL2ToParameterizedHQL {
 	 * 		The HQL to apply the modifications to
 	 * @throws QueryTranslationException 
 	 */
-	private void handleQueryModifier(CQLQueryModifier mods, StringBuilder hql) throws QueryTranslationException {
+	private HashMap<String, Object> handleQueryModifier(CQLQueryModifier mods, StringBuilder hql) throws QueryTranslationException {
 		StringBuilder prepend = new StringBuilder();
+		
+		HashMap<String, Object> queryModifierMap = new HashMap<String, Object>();
+		
 		if (mods.getModifierExtension() != null){
-			hql = handleQueryModifierExtension(mods, hql);
+			queryModifierMap = handleQueryModifierExtension(mods, hql);
 		} 
 		else if (mods.getCountOnly() != null && mods.getCountOnly().booleanValue()) {
 			prepend.append("select count(");
@@ -204,7 +200,9 @@ public class ExtendedCQL2ToParameterizedHQL {
 		} 
 		
 		hql.insert(0, prepend.toString());
+		queryModifierMap.put("hql", hql);
 		
+		return queryModifierMap;
 	}
 	
 	/**
@@ -216,8 +214,10 @@ public class ExtendedCQL2ToParameterizedHQL {
 	 * @throws QueryTranslationException 
 	 * @throws JDOMException 
 	 */
-	private StringBuilder handleQueryModifierExtension (CQLQueryModifier mods, StringBuilder hql) throws QueryTranslationException {
+	private HashMap<String, Object> handleQueryModifierExtension (CQLQueryModifier mods, StringBuilder hql) throws QueryTranslationException {
 
+		HashMap<String, Object> extendedQueryModifierMap = new HashMap<String, Object>();
+		
 		// Get extension AnyNode string representation
 		AnyNode qmExtensionAnyNode = (AnyNode) mods.getModifierExtension().get_any();
 		try {
@@ -296,10 +296,12 @@ public class ExtendedCQL2ToParameterizedHQL {
 	        // Handle Limit Query Modifier
 	        Element limitElement = root.getChild("Limit", namespace);
 	        if (limitElement != null){
-	        	this.firstRow = Integer.valueOf(limitElement.getAttributeValue("firstRow"));
+	        	int firstRow = Integer.valueOf(limitElement.getAttributeValue("firstRow"));
+	        	extendedQueryModifierMap.put("firstRow", firstRow);
 	        	String optionalNumOfRows = limitElement.getAttributeValue("numberOfRows");
 	        	if(optionalNumOfRows != null){
-	        		this.numberOfRows = Integer.valueOf(optionalNumOfRows);
+	        		int numberOfRows = Integer.valueOf(optionalNumOfRows);
+	        		extendedQueryModifierMap.put("numberOfRows", numberOfRows);
 	        	}	        	
 	        }
 		} catch (org.xml.sax.SAXException ex) {
@@ -310,7 +312,8 @@ public class ExtendedCQL2ToParameterizedHQL {
 			throw new QueryTranslationException(ioEx.getMessage(), ioEx);
 		}
 		
-		return hql;
+		extendedQueryModifierMap.put("hql", hql);
+		return extendedQueryModifierMap;
 	}
 	
 	

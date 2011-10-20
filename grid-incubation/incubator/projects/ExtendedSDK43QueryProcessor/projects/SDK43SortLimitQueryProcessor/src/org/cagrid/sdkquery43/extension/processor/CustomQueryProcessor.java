@@ -19,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -186,9 +187,13 @@ public class CustomQueryProcessor extends CQL2QueryProcessor {
         // convert the CQL to HQL
         LOG.debug("Converting CQL query to HQL");
         ParameterizedHqlQuery hql = null;
+        HashMap<String, Object> queryMap;
         try {
         	this.cqlTranslator = getCqlTranslator();
-            hql = cqlTranslator.convertToHql(runQuery);
+        	queryMap = cqlTranslator.convertToHql(runQuery);
+            
+            hql  = (ParameterizedHqlQuery) queryMap.get("hql");
+            
             LOG.debug("Created HQL: " + hql.toString());
         } catch (QueryProcessingException ex) {
             throw ex;
@@ -198,13 +203,14 @@ public class CustomQueryProcessor extends CQL2QueryProcessor {
 
         // Process the Limit Extension if it exists
          HQLCriteria criteria = null;
-         if (cqlTranslator.getFirstRow() != -1) {
-         		int firstRow = cqlTranslator.getFirstRow();
-        		if (cqlTranslator.getNumberOfRows() != -1 ) {
-            		int numberOfRows = cqlTranslator.getNumberOfRows();
-            		criteria = new HQLCriteria(hql.getHql(), hql.getParameters(), firstRow, numberOfRows);
+         if (queryMap.containsKey("firstRow")) {
+         		Integer firstRow = (Integer) queryMap.get("firstRow");
+         		
+        		if (queryMap.containsKey("numberOfRows")) {
+        			Integer numberOfRows = (Integer) queryMap.get("numberOfRows");
+            		criteria = new HQLCriteria(hql.getHql(), hql.getParameters(), firstRow.intValue(), numberOfRows.intValue());
         		} else {
-        			criteria = new HQLCriteria(hql.getHql(), hql.getParameters(), firstRow);
+        			criteria = new HQLCriteria(hql.getHql(), hql.getParameters(), firstRow.intValue());
         		}
         	}
         	else {
