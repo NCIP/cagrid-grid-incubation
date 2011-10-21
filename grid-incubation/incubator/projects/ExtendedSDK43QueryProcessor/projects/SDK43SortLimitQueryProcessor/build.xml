@@ -98,7 +98,7 @@
 		</jar>
 	</target>
 	
-	<!-- Package project jar, extend-sdk jars, and doc into distributed zip -->
+	<!-- Package project jar, extend-sdk jars, schema, and README into distributed zip -->
 	<target name="zip" depends="jar" description="Packages necessary jars and docs to upgrade service">
 		<zip destfile="SortLimitQueryProcessor.zip">
 		    <fileset dir="build/jars" includes="*.jar"/>
