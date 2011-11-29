@@ -1,0 +1,100 @@
+<!-- ======================================================================= -->
+<!-- caGrid Utilities build file                                             -->
+<!-- ======================================================================= -->
+<project name="caGrid-csm_tests_harness" basedir=".">
+	<property name="junit.results.dir" value="${test.log.dir}/junit" />
+	<property name="force.config.replace" value="false" />
+
+	<!-- call the test target to run the default set of test cases (i.e. either test-mysql or test-postresql). Change the depends value to choose the default test scenario. -->
+	<target name="test" depends="test-mysql"/>
+	
+	<!-- call the test target for each project and aggregates the log resutls  -->
+	<target name="test-mysql" depends="init, checkGlobus, create_config_files" description="Run integration tests against a MySQL database.">
+		<echo message="Test results dir: ${junit.results.dir}" />
+		<mkdir dir="${junit.results.dir}" />
+		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
+			<sysproperty key="basedir" value="${basedir}" />
+			<jvmarg value="-Xmx512M" />
+			<jvmarg value="-Dbuild.dir=${build.dir}" />
+			<jvmarg value="-Djava.endorsed.dirs=${ext.endorsed.dir}" />
+			<classpath>
+				<path refid="test.run.classpath" />
+				<pathelement location="${test.dir}/resources" />
+				<fileset dir="${lib.dir}">
+					<include name="*.jar" />
+					<!--
+						<exclude name="exclude"/>
+					-->
+				</fileset>
+
+			</classpath>
+			<formatter type="xml" />
+			<test if="testcase" name="${testcase}" fork="yes" todir="${junit.results.dir}" />
+			<batchtest unless="testcase" fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/Test*.java" />
+					<include name="**/*TestCase.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<fail message="Tests failed! Check test reports." if="test.failed" />
+	</target>
+
+
+	<!-- ============================================================== -->
+	<!-- Creates conf files from examples                               -->
+	<!-- ============================================================== -->
+	<target name="create_config_files" description="Creates conf files from examples.   Set property
+		force.config.replace to true to force replacement.">
+		<copy todir="${test.dir}/resources" overwrite="${force.config.replace}">
+			<fileset dir="${test.dir}/resources">
+				<include name="**/*.example" />
+			</fileset>
+			<mapper type="glob" from="*.example" to="*" />
+		</copy>
+	</target>
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: postgresql_config_files                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="postgresql_config_files" depends="create_config_files">
+		<fail message="Before you can run tests against PostgreSQL, you must first either run the ant target createCsmTables or createCsmTables.">
+			<condition>
+				<not>
+					<available file="${csm.properties.file}" />
+				</not>
+			</condition>
+		</fail>
+		<copy file="${csm.properties.file}" todir="${test.dir}/resources">
+		</copy>
+	</target>
+
+	<!-- call the test target for each project and aggregates the log resutls  -->
+	<target name="test-postgresql" depends="init, checkGlobus, postgresql_config_files" description="Run integration tests against a PostgreSQL database.">
+		<echo message="Test results dir: ${junit.results.dir}" />
+		<mkdir dir="${junit.results.dir}" />
+		<junit dir="${basedir}" printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" forkmode="once">
+			<sysproperty key="basedir" value="${basedir}" />
+			<jvmarg value="-Xmx512M" />
+			<jvmarg value="-Dbuild.dir=${build.dir}" />
+			<jvmarg value="-Djava.endorsed.dirs=${ext.endorsed.dir}" />
+			<classpath>
+				<fileset dir="${test.lib.dir}">
+				</fileset>
+				<path refid="test.run.classpath" />
+				<pathelement location="${test.dir}/resources" />
+				<fileset dir="${ant.library.dir}">
+				</fileset>
+			</classpath>
+			<formatter type="xml" />
+			<test if="testcase" name="${testcase}" fork="yes" todir="${junit.results.dir}" />
+			<batchtest unless="testcase" fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/Postgresql*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<fail message="Tests failed! Check test reports." if="test.failed" />
+	</target>
+</project>

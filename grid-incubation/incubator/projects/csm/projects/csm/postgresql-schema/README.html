@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=ISO-8859-1" />
+		<title>PostgreSQL-Schema README</title>
+	</head>
+	<body>
+		<h1>
+			PostgreSQL Schema README
+		</h1>
+		<p>
+			The contents of this directory are used to create a PostgreSQL CSM
+			database. It is also used to create a configuration file that
+			describes the database to applications that use the database.
+		</p>
+		<p>
+			Here are descriptions of the files in this directory:
+		</p>
+		<dl>
+			<dt>
+				<tt>AuthSchemaPostgres.sql</tt>
+			</dt>
+			<dd>
+				An SQL script for creating the CSM tables and their related
+				constraints and indexes.
+				<br />
+				<br />
+			</dd>
+			<dt>
+				<tt>createDatabase.sql</tt>
+			</dt>
+			<dd>
+				A script for creating the database.
+				<br />
+				<br />
+			</dd>
+			<dt>
+				<tt>DataPrimingPostgres.sql</tt>
+			</dt>
+			<dd>
+				A script to populate tables with initial reference data.
+				<br />
+				<br />
+			</dd>
+			<dt>
+				<tt>db_build.xml</tt>
+			</dt>
+			<dd>
+				An ant script to run the other scripts. This is intended to be
+				included by another ant script and not run stand-alone.
+				<br />
+				<br />
+			</dd>
+			<dt>
+				<tt>GrantPostgres.sql</tt>
+			</dt>
+			<dd>
+				A script to grant access to CSM tables.
+				<br />
+				<br />
+			</dd>
+			<dt>
+				<tt>README.html</tt>
+			</dt>
+			<dd>
+				This file
+				<br />
+				<br />
+			</dd>
+			<dt>
+				<tt>UserProtectionElements.sql</tt>
+			</dt>
+			<dd>
+				A script to create a view of the CSM tables that greatly simplifies
+				determining what a user is permitted to do.
+			</dd>
+		</dl>
+	</body>
+</html>

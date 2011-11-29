@@ -1,0 +1,194 @@
+<xs:schema targetNamespace="http://gaards.cagrid.org/csm"
+	attributeFormDefault="qualified" elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:csm="http://gaards.cagrid.org/csm">
+
+
+	<xs:element name="Application" type="csm:Application" />
+	<xs:complexType name="Application">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:long" use="optional" />
+		<xs:attribute name="Name" type="xs:string" use="required" />
+		<xs:attribute name="LastUpdated" type="xs:dateTime" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="ApplicationSearchCriteria" type="csm:ApplicationSearchCriteria" />
+	<xs:complexType name="ApplicationSearchCriteria">
+		<xs:attribute name="Name" type="xs:string" use="optional" />
+	</xs:complexType>
+	
+	<xs:element name="FilterClauseSearchCriteria" type="csm:FilterClauseSearchCriteria" />
+	<xs:complexType name="FilterClauseSearchCriteria">
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="ClassName" type="xs:string" use="optional" />
+	</xs:complexType>
+	
+	<xs:element name="FilterClause" type="csm:FilterClause" />
+	<xs:complexType name="FilterClause">
+		<xs:sequence>
+			<xs:element name="FilterChain" type="xs:string"/>
+			<xs:element name="GeneratedSQLForUser" type="xs:string"/>
+			<xs:element name="GeneratedSQLForGroup" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Id" type="xs:long" use="optional" />
+		<xs:attribute name="ClassName" type="xs:string" use="required" />
+		<xs:attribute name="TargetClassName" type="xs:string" use="required" />
+		<xs:attribute name="TargetClassAttributeName" type="xs:string" use="required" />
+		<xs:attribute name="TargetClassAttributeType" type="xs:string" use="required" />
+		<xs:attribute name="TargetClassAlias" type="xs:string" use="optional" />
+		<xs:attribute name="TargetClassAttributeAlias" type="xs:string" use="optional" />
+		<xs:attribute name="LastUpdated" type="xs:dateTime" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="ProtectionElement" type="csm:ProtectionElement" />
+	<xs:complexType name="ProtectionElement">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Id" type="xs:long" use="optional" />
+		<xs:attribute name="Name" type="xs:string" use="required" />
+		<xs:attribute name="ObjectId" type="xs:string" use="required" />
+		<xs:attribute name="Attribute" type="xs:string" use="optional" />
+		<xs:attribute name="AttributeValue" type="xs:string" use="optional" />
+		<xs:attribute name="Type" type="xs:string" use="optional" />
+		<xs:attribute name="LastUpdated" type="xs:dateTime" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="ProtectionElementSearchCriteria" type="csm:ProtectionElementSearchCriteria" />
+	<xs:complexType name="ProtectionElementSearchCriteria">
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Name" type="xs:string" use="optional" />
+		<xs:attribute name="ObjectId" type="xs:string" use="optional" />
+		<xs:attribute name="Attribute" type="xs:string" use="optional" />
+		<xs:attribute name="AttributeValue" type="xs:string" use="optional" />
+		<xs:attribute name="Type" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="ProtectionGroup" type="csm:ProtectionGroup" />
+	<xs:complexType name="ProtectionGroup">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Id" type="xs:long" use="optional" />
+		<xs:attribute name="Name" type="xs:string" use="required" />
+		<xs:attribute name="LargeElementCount" type="xs:boolean"
+			use="required" />
+		<xs:attribute name="LastUpdated" type="xs:dateTime" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="ProtectionGroupSearchCriteria" type="csm:ProtectionGroupSearchCriteria" />
+	<xs:complexType name="ProtectionGroupSearchCriteria">
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Name" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="LocalGroup" type="csm:LocalGroup" />
+	<xs:complexType name="LocalGroup">
+		<xs:complexContent>
+			<xs:extension base="csm:Group">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="RemoteGroup" type="csm:RemoteGroup" />
+	<xs:complexType name="RemoteGroup">
+		<xs:complexContent>
+			<xs:extension base="csm:Group">
+				<xs:attribute name="GridGrouperURL" type="xs:string"
+					use="required" />
+				<xs:attribute name="RemoteGroupName" type="xs:string"
+					use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="RemoteGroupSynchronizationRecord" type="csm:RemoteGroupSynchronizationRecord" />
+	<xs:complexType name="RemoteGroupSynchronizationRecord">
+		<xs:sequence>
+			<xs:element name="Message" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:long" use="required" />
+		<xs:attribute name="GroupId" type="xs:long" use="required" />
+		<xs:attribute name="Result" type="xs:string" use="required" />
+		<xs:attribute name="SyncDate" type="xs:dateTime" use="optional" />
+
+	</xs:complexType>
+
+
+	<xs:element name="LinkRemoteGroupRequest" type="csm:LinkRemoteGroupRequest" />
+	<xs:complexType name="LinkRemoteGroupRequest">
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="GridGrouperURL" type="xs:string" use="required" />
+		<xs:attribute name="RemoteGroupName" type="xs:string"
+			use="required" />
+		<xs:attribute name="LocalGroupName" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:element name="Group" type="csm:Group" />
+	<xs:complexType name="Group" abstract="true">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Id" type="xs:long" use="optional" />
+		<xs:attribute name="Name" type="xs:string" use="required" />
+		<xs:attribute name="LastUpdated" type="xs:dateTime" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="GroupSearchCriteria" type="csm:GroupSearchCriteria" />
+	<xs:complexType name="GroupSearchCriteria">
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Name" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="Privilege" type="csm:Privilege" />
+	<xs:complexType name="Privilege">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:long" use="optional" />
+		<xs:attribute name="Name" type="xs:string" use="required" />
+		<xs:attribute name="LastUpdated" type="xs:dateTime" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="PrivilegeSearchCriteria" type="csm:PrivilegeSearchCriteria" />
+	<xs:complexType name="PrivilegeSearchCriteria">
+		<xs:attribute name="Name" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="Role" type="csm:Role" />
+	<xs:complexType name="Role">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Id" type="xs:long" use="optional" />
+		<xs:attribute name="Name" type="xs:string" use="required" />
+		<xs:attribute name="LastUpdated" type="xs:dateTime" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="RoleSearchCriteria" type="csm:RoleSearchCriteria" />
+	<xs:complexType name="RoleSearchCriteria">
+		<xs:attribute name="ApplicationId" type="xs:long" use="required" />
+		<xs:attribute name="Name" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="Permission" type="csm:Permission" />
+	<xs:complexType name="Permission">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="User" type="xs:string" minOccurs="1"
+					maxOccurs="1" />
+				<xs:element ref="csm:Group" minOccurs="1" maxOccurs="1" />
+			</xs:choice>
+			<xs:element ref="csm:ProtectionGroup" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="Roles" type="csm:Role" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

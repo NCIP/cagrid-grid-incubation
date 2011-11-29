@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+	<info organisation="postgresql" module="postgresql" revision="8.4" status="release">
+		<description>Postgress JDBC3 Driver</description>
+	</info>
+</ivy-module>

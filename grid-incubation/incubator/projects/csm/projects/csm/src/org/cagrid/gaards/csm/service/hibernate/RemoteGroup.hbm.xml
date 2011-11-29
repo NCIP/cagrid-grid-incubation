@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false">
+
+	<class name="org.cagrid.gaards.csm.service.hibernate.RemoteGroupDescriptor"
+		table="CSM_REMOTE_GROUP">
+
+		<id name="groupId" type="java.lang.Long" column="GROUP_ID" />
+
+		<property name="applicationId" type="java.lang.Long" column="APPLICATION_ID"
+			not-null="true" />
+
+		<property name="gridGrouperURL" type="java.lang.String"
+			column="GRID_GROUPER_URL" length="255" not-null="true" />
+
+		<property name="gridGrouperGroupName" type="java.lang.String"
+			column="GRID_GROUPER_GROUP_NAME" length="255" not-null="true" />
+
+
+		<set name="synchronizationRecords" lazy="true"
+			table="CSM_REMOTE_GROUP_SYNC_RECORD" cascade="all">
+			<key column="GROUP_ID" />
+			<one-to-many class="org.cagrid.gaards.csm.bean.RemoteGroupSynchronizationRecord" />
+		</set>
+
+
+
+	</class>
+</hibernate-mapping>

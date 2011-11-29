@@ -1,0 +1,937 @@
+<ns1:ServiceDescription introduceVersion="1.3" xmlns:ns1="gme://gov.nih.nci.cagrid/1/Introduce">
+ <ns2:Namespaces xsi:type="ns2:NamespacesType" xmlns:ns2="gme://gov.nih.nci.cagrid.introduce/1/Namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns2:Namespace generateStubs="false" location="./xsd/cagrid/types/data/data.xsd" namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice" packageName="gov.nih.nci.cagrid.metadata.dataservice" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="DomainModel" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="UMLAssociation" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="UMLAssociationEdge" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="UMLClass" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="UMLClassReference" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="UMLGeneralization" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="./csm.xsd" namespace="http://gaards.cagrid.org/csm" packageName="org.cagrid.gaards.csm.bean" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="Application" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ApplicationSearchCriteria" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="FilterClause" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="FilterClauseSearchCriteria" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Group" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="GroupSearchCriteria" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="LinkRemoteGroupRequest" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="LocalGroup" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Permission" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Privilege" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="PrivilegeSearchCriteria" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ProtectionElement" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ProtectionElementSearchCriteria" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ProtectionGroup" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ProtectionGroupSearchCriteria" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="RemoteGroup" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="RemoteGroupSynchronizationRecord" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Role" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="RoleSearchCriteria" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace generateStubs="false" namespace="http://www.w3.org/2001/XMLSchema" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="anySimpleType" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="anyType" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="anyURI" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="base64Binary" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="boolean" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="byte" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="date" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="dateTime" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="decimal" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="double" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="duration" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ENTITIES" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ENTITY" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="float" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gDay" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gMonth" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gMonthDay" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gYear" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="gYearMonth" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="hexBinary" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ID" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="IDREF" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="IDREFS" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="int" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="integer" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="language" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="long" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Name" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="NCName" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="negativeInteger" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="NMTOKEN" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="NMTOKENS" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="nonNegativeInteger" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="nonPositiveInteger" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="normalizedString" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="NOTATION" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="positiveInteger" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="QName" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="short" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="string" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="time" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="token" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="unsignedByte" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="unsignedInt" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="unsignedLong" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="unsignedShort" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="./CSMTypes.xsd" namespace="http://csm.gaards.cagrid.org/CSM/types" packageName="org.cagrid.gaards.csm.stubs.types" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="AccessDeniedFault" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="CSMInternalFault" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="CSMReference" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="CSMTransactionFault" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="HibernateSessionCreationFault" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace generateStubs="false" location="./xsd/cagrid/types/security/security.xsd" namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" packageName="gov.nih.nci.cagrid.metadata.security" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="CommunicationMechanism" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="CommunicationStyle" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="GSISecureConversation" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="GSISecureMessage" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="GSITransport" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="None" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Operation" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ServiceSecurityMetadata" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace generateStubs="false" location="./xsd/cagrid/types/caGridMetadata.xsd" namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata" packageName="gov.nih.nci.cagrid.metadata" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="ServiceMetadata" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace generateStubs="false" location="./xsd/cagrid/types/service/servicemodel.xsd" namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.service" packageName="gov.nih.nci.cagrid.metadata.service" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="CaDSRRegistration" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ContextProperty" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Fault" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="InputParameter" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Operation" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Output" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Service" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ServiceContext" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace generateStubs="false" location="./xsd/cagrid/types/common/common.xsd" namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" packageName="gov.nih.nci.cagrid.metadata.common" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="Address" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="Enumeration" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="PointOfContact" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ResearchCenter" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ResearchCenterDescription" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="SemanticMetadata" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="UMLAttribute" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="UMLClass" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="ValueDomain" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="./FilterCreatorTypes.xsd" namespace="http://csm.gaards.cagrid.org/CSM/FilterCreator/types" packageName="org.cagrid.gaards.csm.filters.stubs.types" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="FilterCreatorReference" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+  <ns2:Namespace location="../wsrf/lifetime/WS-ResourceLifetime.xsd" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" packageName="org.oasis.wsrf.lifetime" xsi:type="ns2:NamespaceType">
+   <ns2:SchemaElement type="CurrentTime" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="TerminationNotification" xsi:type="ns2:SchemaElementType"/>
+   <ns2:SchemaElement type="TerminationTime" xsi:type="ns2:SchemaElementType"/>
+  </ns2:Namespace>
+ </ns2:Namespaces>
+ <ns3:Services xsi:type="ns3:ServicesType" xmlns:ns3="gme://gov.nih.nci.cagrid.introduce/1/Services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns3:Service name="CSM" namespace="http://csm.gaards.cagrid.org/CSM" packageName="org.cagrid.gaards.csm" xsi:type="ns3:ServiceType">
+   <ns4:Methods xsi:type="ns4:MethodsType" xmlns:ns4="gme://gov.nih.nci.cagrid.introduce/1/Methods">
+    <ns4:Method isImported="true" isProvided="true" name="GetMultipleResourceProperties" xsi:type="ns4:MethodType">
+     <ns4:Output qName="void" isArray="false"/>
+     <ns5:MethodSecurity xsi:type="ns5:MethodSecurity" xmlns:ns5="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns5:SecuritySetting xsi:type="ns5:SecuritySetting">None</ns5:SecuritySetting>
+     </ns5:MethodSecurity>
+     <ns4:ImportInformation fromIntroduce="false" inputMessage="ns6:GetMultipleResourcePropertiesRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" outputMessage="ns6:GetMultipleResourcePropertiesResponse" packageName="org.oasis.wsrf.properties" portTypeName="GetMultipleResourceProperties" wsdlFile="../wsrf/properties/WS-ResourceProperties.wsdl" xmlns:ns6="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl"/>
+     <ns4:ProviderInformation providerClass="GetMRPProvider"/>
+    </ns4:Method>
+    <ns4:Method isImported="true" isProvided="true" name="GetResourceProperty" xsi:type="ns4:MethodType">
+     <ns4:Output qName="void" isArray="false"/>
+     <ns7:MethodSecurity xsi:type="ns7:MethodSecurity" xmlns:ns7="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns7:SecuritySetting xsi:type="ns7:SecuritySetting">None</ns7:SecuritySetting>
+     </ns7:MethodSecurity>
+     <ns4:ImportInformation fromIntroduce="false" inputMessage="ns8:GetResourcePropertyRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" outputMessage="ns8:GetResourcePropertyResponse" packageName="org.oasis.wsrf.properties" portTypeName="GetResourceProperty" wsdlFile="../wsrf/properties/WS-ResourceProperties.wsdl" xmlns:ns8="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl"/>
+     <ns4:ProviderInformation providerClass="GetRPProvider"/>
+    </ns4:Method>
+    <ns4:Method isImported="true" isProvided="true" name="QueryResourceProperties" xsi:type="ns4:MethodType">
+     <ns4:Output qName="void" isArray="false"/>
+     <ns9:MethodSecurity xsi:type="ns9:MethodSecurity" xmlns:ns9="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns9:SecuritySetting xsi:type="ns9:SecuritySetting">None</ns9:SecuritySetting>
+     </ns9:MethodSecurity>
+     <ns4:ImportInformation fromIntroduce="false" inputMessage="ns10:QueryResourcePropertiesRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" outputMessage="ns10:QueryResourcePropertiesResponse" packageName="org.oasis.wsrf.properties" portTypeName="QueryResourceProperties" wsdlFile="../wsrf/properties/WS-ResourceProperties.wsdl" xmlns:ns10="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl"/>
+     <ns4:ProviderInformation providerClass="QueryRPProvider"/>
+    </ns4:Method>
+    <ns4:Method isImported="true" isProvided="true" name="getServiceSecurityMetadata" xsi:type="ns4:MethodType">
+     <ns4:Output qName="ns11:ServiceSecurityMetadata" isArray="false" isClientHandle="false" xmlns:ns11="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"/>
+     <ns12:MethodSecurity xsi:type="ns12:MethodSecurity" xmlns:ns12="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns12:SecuritySetting xsi:type="ns12:SecuritySetting">None</ns12:SecuritySetting>
+      <ns12:MethodAuthorization xsi:type="ns12:MethodAuthorization">
+       <ns12:NoAuthorization xsi:type="ns12:NoAuthorization"/>
+      </ns12:MethodAuthorization>
+     </ns12:MethodSecurity>
+     <ns4:ImportInformation namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" packageName="gov.nih.nci.cagrid.introduce.security.stubs" portTypeName="ServiceSecurityPortType" wsdlFile="ServiceSecurity.wsdl"/>
+     <ns4:ProviderInformation providerClass="gov.nih.nci.cagrid.introduce.security.service.globus.ServiceSecurityProviderImpl"/>
+    </ns4:Method>
+    <ns4:Method description="" isImported="false" isProvided="false" name="getApplications" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns13:ApplicationSearchCriteria" description="" isArray="false" name="applicationSearchCriteria" xmlns:ns13="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns14:Application" description="" isArray="true" xmlns:ns14="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns15:CSMInternalFault" xmlns:ns15="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns16:MethodSecurity xsi:type="ns16:MethodSecurity" xmlns:ns16="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns16:SecuritySetting xsi:type="ns16:SecuritySetting">Custom</ns16:SecuritySetting>
+      <ns16:TransportLevelSecurity xsi:type="ns16:TransportLevelSecurity">
+       <ns16:CommunicationMethod xsi:type="ns16:CommunicationMethod">Privacy</ns16:CommunicationMethod>
+      </ns16:TransportLevelSecurity>
+      <ns16:RunAsMode xsi:type="ns16:RunAsMode">System</ns16:RunAsMode>
+      <ns16:AnonymousClients xsi:type="ns16:AnonymousCommunication">Yes</ns16:AnonymousClients>
+      <ns16:MethodAuthorization xsi:type="ns16:MethodAuthorization">
+       <ns16:InheritServiceAuthorization xsi:type="ns16:InheritServiceAuthorization"/>
+      </ns16:MethodAuthorization>
+     </ns16:MethodSecurity>
+     <ns17:Extensions xsi:type="ns17:ExtensionsType" xmlns:ns17="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows a CSM Web Service administrator to create an application context for managing security policy." isImported="false" isProvided="false" name="createApplication" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns18:Application" description="" isArray="false" name="application" xmlns:ns18="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns19:Application" description="" isArray="false" xmlns:ns19="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns20:CSMInternalFault" xmlns:ns20="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns21:AccessDeniedFault" xmlns:ns21="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns22:CSMTransactionFault" xmlns:ns22="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+    </ns4:Method>
+    <ns4:Method description="This method allows a CSM Web Service administrator to remove an application context." isImported="false" isProvided="false" name="removeApplication" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns23:CSMInternalFault" xmlns:ns23="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns24:AccessDeniedFault" xmlns:ns24="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns25:CSMTransactionFault" xmlns:ns25="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns26:Extensions xsi:type="ns26:ExtensionsType" xmlns:ns26="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an administrator of an application to create a protection element in that application." isImported="false" isProvided="false" name="createProtectionElement" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns27:ProtectionElement" description="" isArray="false" name="pe" xmlns:ns27="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns28:ProtectionElement" description="" isArray="false" xmlns:ns28="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns29:CSMInternalFault" xmlns:ns29="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns30:AccessDeniedFault" xmlns:ns30="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns31:CSMTransactionFault" xmlns:ns31="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns32:Extensions xsi:type="ns32:ExtensionsType" xmlns:ns32="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="The method allows an administrators of an application to search for protection elements associated with that application." isImported="false" isProvided="false" name="getProtectionElements" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns33:ProtectionElementSearchCriteria" description="" isArray="false" name="criteria" xmlns:ns33="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns34:ProtectionElement" description="" isArray="true" xmlns:ns34="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns35:CSMInternalFault" xmlns:ns35="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns36:AccessDeniedFault" xmlns:ns36="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns37:CSMTransactionFault" xmlns:ns37="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns38:Extensions xsi:type="ns38:ExtensionsType" xmlns:ns38="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allow an application administrator to modify a protection element associated with the application." isImported="false" isProvided="false" name="modifyProtectionElement" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns39:ProtectionElement" description="" isArray="false" name="protectionElement" xmlns:ns39="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns40:ProtectionElement" description="" isArray="false" xmlns:ns40="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns41:CSMInternalFault" xmlns:ns41="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns42:AccessDeniedFault" xmlns:ns42="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns43:CSMTransactionFault" xmlns:ns43="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns44:Extensions xsi:type="ns44:ExtensionsType" xmlns:ns44="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application administrator to remove a protection element." isImported="false" isProvided="false" name="removeProtectionElement" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionElementId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns45:CSMInternalFault" xmlns:ns45="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns46:AccessDeniedFault" xmlns:ns46="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns47:CSMTransactionFault" xmlns:ns47="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns48:Extensions xsi:type="ns48:ExtensionsType" xmlns:ns48="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to create a protection group." isImported="false" isProvided="false" name="createProtectionGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns49:ProtectionGroup" description="" isArray="false" name="pg" xmlns:ns49="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns50:ProtectionGroup" description="" isArray="false" xmlns:ns50="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns51:CSMInternalFault" xmlns:ns51="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns52:AccessDeniedFault" xmlns:ns52="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns53:CSMTransactionFault" xmlns:ns53="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns54:Extensions xsi:type="ns54:ExtensionsType" xmlns:ns54="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to search for protection groups associated with the application." isImported="false" isProvided="false" name="getProtectionGroups" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns55:ProtectionGroupSearchCriteria" description="" isArray="false" name="criteria" xmlns:ns55="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns56:ProtectionGroup" description="" isArray="true" xmlns:ns56="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns57:CSMInternalFault" xmlns:ns57="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns58:AccessDeniedFault" xmlns:ns58="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns59:CSMTransactionFault" xmlns:ns59="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns60:Extensions xsi:type="ns60:ExtensionsType" xmlns:ns60="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to modify a protection group associated with the application" isImported="false" isProvided="false" name="modifyProtectionGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns61:ProtectionGroup" description="" isArray="false" name="pg" xmlns:ns61="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns62:ProtectionGroup" description="" isArray="false" xmlns:ns62="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns63:CSMInternalFault" xmlns:ns63="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns64:AccessDeniedFault" xmlns:ns64="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns65:CSMTransactionFault" xmlns:ns65="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns66:Extensions xsi:type="ns66:ExtensionsType" xmlns:ns66="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an admin to remove a protection group associated with the application." isImported="false" isProvided="false" name="removeProtectionGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns67:CSMInternalFault" xmlns:ns67="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns68:AccessDeniedFault" xmlns:ns68="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns69:CSMTransactionFault" xmlns:ns69="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns70:Extensions xsi:type="ns70:ExtensionsType" xmlns:ns70="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows a application admin to assign protection elements to a protection group." isImported="false" isProvided="false" name="assignProtectionElements" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="true" name="protectionElements" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns71:CSMInternalFault" xmlns:ns71="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns72:AccessDeniedFault" xmlns:ns72="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns73:CSMTransactionFault" xmlns:ns73="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns74:Extensions xsi:type="ns74:ExtensionsType" xmlns:ns74="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows a application admin to unassign protection elements from a protection group." isImported="false" isProvided="false" name="unassignProtectionElements" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="true" name="protectionElements" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns75:CSMInternalFault" xmlns:ns75="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns76:AccessDeniedFault" xmlns:ns76="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns77:CSMTransactionFault" xmlns:ns77="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns78:Extensions xsi:type="ns78:ExtensionsType" xmlns:ns78="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method gets a list of protection elements assigned to a protection group." isImported="false" isProvided="false" name="getProtectionElementsAssignedToProtectionGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns79:ProtectionElement" description="" isArray="true" xmlns:ns79="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns80:CSMInternalFault" xmlns:ns80="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns81:AccessDeniedFault" xmlns:ns81="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns82:CSMTransactionFault" xmlns:ns82="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns83:Extensions xsi:type="ns83:ExtensionsType" xmlns:ns83="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method alls an application admin to assign a protection group as a child or another protection group." isImported="false" isProvided="false" name="assignProtectionGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="parentProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="childProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns84:CSMInternalFault" xmlns:ns84="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns85:AccessDeniedFault" xmlns:ns85="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns86:CSMTransactionFault" xmlns:ns86="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns87:Extensions xsi:type="ns87:ExtensionsType" xmlns:ns87="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to unassign a protection group from being a child of a protection group." isImported="false" isProvided="false" name="unassignProtectionGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="parentProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="childProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns88:CSMInternalFault" xmlns:ns88="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns89:AccessDeniedFault" xmlns:ns89="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns90:CSMTransactionFault" xmlns:ns90="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns91:Extensions xsi:type="ns91:ExtensionsType" xmlns:ns91="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to get a list of child protection groups for a protection group" isImported="false" isProvided="false" name="getChildProtectionGroups" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns92:ProtectionGroup" description="" isArray="true" xmlns:ns92="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns93:CSMInternalFault" xmlns:ns93="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns94:AccessDeniedFault" xmlns:ns94="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns95:CSMTransactionFault" xmlns:ns95="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns96:Extensions xsi:type="ns96:ExtensionsType" xmlns:ns96="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allow an application admin to get a list of the groups associated with the application." isImported="false" isProvided="false" name="getGroups" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns97:GroupSearchCriteria" description="" isArray="false" name="criteria" xmlns:ns97="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns98:Group" description="" isArray="true" xmlns:ns98="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns99:CSMInternalFault" xmlns:ns99="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns100:AccessDeniedFault" xmlns:ns100="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns101:CSMTransactionFault" xmlns:ns101="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns102:Extensions xsi:type="ns102:ExtensionsType" xmlns:ns102="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application administrator to link a Grid Grouper group to CSM, such that access control policy may be provisioned based on membership to the Grid Grouper group." isImported="false" isProvided="false" name="linkRemoteGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns103:LinkRemoteGroupRequest" description="" isArray="false" name="req" xmlns:ns103="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns104:RemoteGroup" description="" isArray="false" xmlns:ns104="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns105:CSMInternalFault" xmlns:ns105="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns106:AccessDeniedFault" xmlns:ns106="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns107:CSMTransactionFault" xmlns:ns107="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns108:Extensions xsi:type="ns108:ExtensionsType" xmlns:ns108="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allow an application admin to unlink a remote Grid Grouper group from CSM." isImported="false" isProvided="false" name="unlinkRemoteGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns109:CSMInternalFault" xmlns:ns109="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns110:AccessDeniedFault" xmlns:ns110="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns111:CSMTransactionFault" xmlns:ns111="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns112:Extensions xsi:type="ns112:ExtensionsType" xmlns:ns112="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows a application admin to create a local group of users on the CSM Web Service" isImported="false" isProvided="false" name="createGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns113:LocalGroup" description="" isArray="false" name="grp" xmlns:ns113="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns114:LocalGroup" description="" isArray="false" xmlns:ns114="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions/>
+     <ns115:Extensions xsi:type="ns115:ExtensionsType" xmlns:ns115="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application administrator to remove a local group." isImported="false" isProvided="false" name="removeGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns116:CSMInternalFault" xmlns:ns116="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns117:AccessDeniedFault" xmlns:ns117="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns118:CSMTransactionFault" xmlns:ns118="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns119:Extensions xsi:type="ns119:ExtensionsType" xmlns:ns119="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application administrator to modify the metadata of a local group." isImported="false" isProvided="false" name="modifyGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns120:LocalGroup" description="" isArray="false" name="grp" xmlns:ns120="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns121:LocalGroup" description="" isArray="false" xmlns:ns121="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns122:CSMInternalFault" xmlns:ns122="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns123:AccessDeniedFault" xmlns:ns123="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns124:CSMTransactionFault" xmlns:ns124="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns125:Extensions xsi:type="ns125:ExtensionsType" xmlns:ns125="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to add users to a user group" isImported="false" isProvided="false" name="addUsersToGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="true" name="users" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns126:CSMInternalFault" xmlns:ns126="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns127:AccessDeniedFault" xmlns:ns127="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns128:CSMTransactionFault" xmlns:ns128="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns129:Extensions xsi:type="ns129:ExtensionsType" xmlns:ns129="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to remove users from a user group." isImported="false" isProvided="false" name="removeUsersFromGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="true" name="users" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns130:CSMInternalFault" xmlns:ns130="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns131:CSMTransactionFault" xmlns:ns131="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns132:AccessDeniedFault" xmlns:ns132="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns133:Extensions xsi:type="ns133:ExtensionsType" xmlns:ns133="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to get a list of the users in a user group." isImported="false" isProvided="false" name="getUsersInGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="xsd:string" description="" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns134:CSMInternalFault" xmlns:ns134="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns135:AccessDeniedFault" xmlns:ns135="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns136:CSMTransactionFault" xmlns:ns136="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns137:Extensions xsi:type="ns137:ExtensionsType" xmlns:ns137="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allow an admin to create privileges." isImported="false" isProvided="false" name="createPrivilege" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns138:Privilege" description="" isArray="false" name="privilege" xmlns:ns138="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns139:Privilege" description="" isArray="false" xmlns:ns139="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns140:CSMInternalFault" xmlns:ns140="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns141:AccessDeniedFault" xmlns:ns141="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns142:CSMTransactionFault" xmlns:ns142="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns143:Extensions xsi:type="ns143:ExtensionsType" xmlns:ns143="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows one to search for privileges" isImported="false" isProvided="false" name="getPrivileges" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns144:PrivilegeSearchCriteria" description="" isArray="false" name="criteria" xmlns:ns144="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns145:Privilege" description="" isArray="true" xmlns:ns145="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns146:CSMInternalFault" xmlns:ns146="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns147:CSMTransactionFault" xmlns:ns147="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns148:MethodSecurity xsi:type="ns148:MethodSecurity" xmlns:ns148="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns148:SecuritySetting xsi:type="ns148:SecuritySetting">Custom</ns148:SecuritySetting>
+      <ns148:TransportLevelSecurity xsi:type="ns148:TransportLevelSecurity">
+       <ns148:CommunicationMethod xsi:type="ns148:CommunicationMethod">Privacy</ns148:CommunicationMethod>
+      </ns148:TransportLevelSecurity>
+      <ns148:RunAsMode xsi:type="ns148:RunAsMode">System</ns148:RunAsMode>
+      <ns148:AnonymousClients xsi:type="ns148:AnonymousCommunication">Yes</ns148:AnonymousClients>
+      <ns148:MethodAuthorization xsi:type="ns148:MethodAuthorization">
+       <ns148:InheritServiceAuthorization xsi:type="ns148:InheritServiceAuthorization"/>
+      </ns148:MethodAuthorization>
+     </ns148:MethodSecurity>
+     <ns149:Extensions xsi:type="ns149:ExtensionsType" xmlns:ns149="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an admin to remove a privilege." isImported="false" isProvided="false" name="removePrivilege" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="privilegeId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns150:CSMInternalFault" xmlns:ns150="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns151:AccessDeniedFault" xmlns:ns151="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns152:CSMTransactionFault" xmlns:ns152="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns153:Extensions xsi:type="ns153:ExtensionsType" xmlns:ns153="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allo.ws an admin to modify a privilege" isImported="false" isProvided="false" name="modifyPrivilege" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns154:Privilege" description="" isArray="false" name="privilege" xmlns:ns154="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns155:Privilege" description="" isArray="false" xmlns:ns155="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns156:CSMInternalFault" xmlns:ns156="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns157:AccessDeniedFault" xmlns:ns157="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns158:CSMTransactionFault" xmlns:ns158="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns159:Extensions xsi:type="ns159:ExtensionsType" xmlns:ns159="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application administrator to create a role." isImported="false" isProvided="false" name="createRole" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns160:Role" description="" isArray="false" name="role" xmlns:ns160="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns161:Role" description="" isArray="false" xmlns:ns161="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns162:CSMInternalFault" xmlns:ns162="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns163:AccessDeniedFault" xmlns:ns163="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns164:CSMTransactionFault" xmlns:ns164="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns165:Extensions xsi:type="ns165:ExtensionsType" xmlns:ns165="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows and admin to get a list of roles based on a specified search criteria." isImported="false" isProvided="false" name="getRoles" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns166:RoleSearchCriteria" description="" isArray="false" name="criteria" xmlns:ns166="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns167:Role" description="" isArray="true" xmlns:ns167="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns168:CSMInternalFault" xmlns:ns168="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns169:AccessDeniedFault" xmlns:ns169="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns170:CSMTransactionFault" xmlns:ns170="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns171:Extensions xsi:type="ns171:ExtensionsType" xmlns:ns171="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to modify a role." isImported="false" isProvided="false" name="modifyRole" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns172:Role" description="" isArray="false" name="role" xmlns:ns172="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns173:Role" description="" isArray="false" xmlns:ns173="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns174:CSMInternalFault" xmlns:ns174="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns175:AccessDeniedFault" xmlns:ns175="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns176:CSMTransactionFault" xmlns:ns176="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns177:Extensions xsi:type="ns177:ExtensionsType" xmlns:ns177="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to remove a role." isImported="false" isProvided="false" name="removeRole" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns178:CSMInternalFault" xmlns:ns178="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns179:AccessDeniedFault" xmlns:ns179="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns180:CSMTransactionFault" xmlns:ns180="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns181:Extensions xsi:type="ns181:ExtensionsType" xmlns:ns181="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to set the privileges that make up a role." isImported="false" isProvided="false" name="setPrivilegesForRole" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="true" name="privs" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns182:CSMInternalFault" xmlns:ns182="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns183:AccessDeniedFault" xmlns:ns183="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns184:CSMTransactionFault" xmlns:ns184="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns185:Extensions xsi:type="ns185:ExtensionsType" xmlns:ns185="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to get the privileges associated with a role." isImported="false" isProvided="false" name="getPrivilegesForRole" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns186:Privilege" description="" isArray="true" xmlns:ns186="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns187:CSMInternalFault" xmlns:ns187="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns188:AccessDeniedFault" xmlns:ns188="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns189:CSMTransactionFault" xmlns:ns189="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns190:Extensions xsi:type="ns190:ExtensionsType" xmlns:ns190="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an admin to grant a permission to a user group." isImported="false" isProvided="false" name="grantGroupPermission" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns191:CSMInternalFault" xmlns:ns191="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns192:AccessDeniedFault" xmlns:ns192="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns193:CSMTransactionFault" xmlns:ns193="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns194:Extensions xsi:type="ns194:ExtensionsType" xmlns:ns194="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to revoke a permission from a user group." isImported="false" isProvided="false" name="revokeGroupPermission" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns195:CSMInternalFault" xmlns:ns195="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns196:AccessDeniedFault" xmlns:ns196="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns197:CSMTransactionFault" xmlns:ns197="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns198:Extensions xsi:type="ns198:ExtensionsType" xmlns:ns198="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to grant a user a permission." isImported="false" isProvided="false" name="grantUserPermission" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns199:CSMInternalFault" xmlns:ns199="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns200:AccessDeniedFault" xmlns:ns200="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns201:CSMTransactionFault" xmlns:ns201="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns202:Extensions xsi:type="ns202:ExtensionsType" xmlns:ns202="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to revoke a permission from a user." isImported="false" isProvided="false" name="revokeUserPermission" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns203:CSMInternalFault" xmlns:ns203="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns204:AccessDeniedFault" xmlns:ns204="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns205:CSMTransactionFault" xmlns:ns205="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns206:Extensions xsi:type="ns206:ExtensionsType" xmlns:ns206="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows application admins to get the permission granted to a user." isImported="false" isProvided="false" name="getPermissionsForUser" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns207:Permission" description="" isArray="true" xmlns:ns207="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns208:CSMInternalFault" xmlns:ns208="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns209:AccessDeniedFault" xmlns:ns209="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns210:CSMTransactionFault" xmlns:ns210="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns211:Extensions xsi:type="ns211:ExtensionsType" xmlns:ns211="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to get the permissions granted to a user group." isImported="false" isProvided="false" name="getPermissionForGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns212:Permission" description="" isArray="true" xmlns:ns212="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns213:CSMInternalFault" xmlns:ns213="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns214:AccessDeniedFault" xmlns:ns214="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns215:CSMTransactionFault" xmlns:ns215="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns216:Extensions xsi:type="ns216:ExtensionsType" xmlns:ns216="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to get the parent protection group of a protection group." isImported="false" isProvided="false" name="getParentProtectionGroup" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="childProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns217:ProtectionGroup" description="" isArray="false" xmlns:ns217="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns218:CSMInternalFault" xmlns:ns218="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns219:AccessDeniedFault" xmlns:ns219="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns220:CSMTransactionFault" xmlns:ns220="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns221:Extensions xsi:type="ns221:ExtensionsType" xmlns:ns221="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allow one to determine if a user has been granted a privilege on a resource." isImported="false" isProvided="false" name="checkPermission" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="objectId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="privilege" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="xsd:boolean" description="" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns222:CSMInternalFault" xmlns:ns222="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns223:CSMTransactionFault" xmlns:ns223="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns224:MethodSecurity xsi:type="ns224:MethodSecurity" xmlns:ns224="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns224:SecuritySetting xsi:type="ns224:SecuritySetting">Custom</ns224:SecuritySetting>
+      <ns224:TransportLevelSecurity xsi:type="ns224:TransportLevelSecurity">
+       <ns224:CommunicationMethod xsi:type="ns224:CommunicationMethod">Privacy</ns224:CommunicationMethod>
+      </ns224:TransportLevelSecurity>
+      <ns224:RunAsMode xsi:type="ns224:RunAsMode">System</ns224:RunAsMode>
+      <ns224:AnonymousClients xsi:type="ns224:AnonymousCommunication">Yes</ns224:AnonymousClients>
+      <ns224:MethodAuthorization xsi:type="ns224:MethodAuthorization">
+       <ns224:InheritServiceAuthorization xsi:type="ns224:InheritServiceAuthorization"/>
+      </ns224:MethodAuthorization>
+     </ns224:MethodSecurity>
+     <ns225:Extensions xsi:type="ns225:ExtensionsType" xmlns:ns225="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows one to determine whether or not a user has been granted a privilege on a resource." isImported="false" isProvided="false" name="checkAttributeBasedPermission" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="objectId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="attributeName" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="attributeValue" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="privilege" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="xsd:boolean" description="" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns226:CSMInternalFault" xmlns:ns226="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns227:CSMTransactionFault" xmlns:ns227="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns228:MethodSecurity xsi:type="ns228:MethodSecurity" xmlns:ns228="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns228:SecuritySetting xsi:type="ns228:SecuritySetting">Custom</ns228:SecuritySetting>
+      <ns228:TransportLevelSecurity xsi:type="ns228:TransportLevelSecurity">
+       <ns228:CommunicationMethod xsi:type="ns228:CommunicationMethod">Privacy</ns228:CommunicationMethod>
+      </ns228:TransportLevelSecurity>
+      <ns228:RunAsMode xsi:type="ns228:RunAsMode">System</ns228:RunAsMode>
+      <ns228:AnonymousClients xsi:type="ns228:AnonymousCommunication">Yes</ns228:AnonymousClients>
+      <ns228:MethodAuthorization xsi:type="ns228:MethodAuthorization">
+       <ns228:InheritServiceAuthorization xsi:type="ns228:InheritServiceAuthorization"/>
+      </ns228:MethodAuthorization>
+     </ns228:MethodSecurity>
+     <ns229:Extensions xsi:type="ns229:ExtensionsType" xmlns:ns229="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to create a filter clause." isImported="false" isProvided="false" name="createFilterClause" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns230:FilterClause" description="" isArray="false" name="filter" xmlns:ns230="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns231:FilterClause" description="" isArray="false" xmlns:ns231="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns232:CSMInternalFault" xmlns:ns232="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns233:AccessDeniedFault" xmlns:ns233="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns234:CSMTransactionFault" xmlns:ns234="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns235:Extensions xsi:type="ns235:ExtensionsType" xmlns:ns235="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to modify a filter clause." isImported="false" isProvided="false" name="modifyFilterClause" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="filterClauseId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="sqlForGroup" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="sqlForUser" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns236:FilterClause" description="" isArray="false" xmlns:ns236="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns237:CSMInternalFault" xmlns:ns237="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns238:AccessDeniedFault" xmlns:ns238="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns239:CSMTransactionFault" xmlns:ns239="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns240:Extensions xsi:type="ns240:ExtensionsType" xmlns:ns240="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to search for filter clauses for an application." isImported="false" isProvided="false" name="getFilterClauses" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns241:FilterClauseSearchCriteria" description="" isArray="false" name="criteria" xmlns:ns241="http://gaards.cagrid.org/csm"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns242:FilterClause" description="" isArray="true" xmlns:ns242="http://gaards.cagrid.org/csm"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns243:CSMInternalFault" xmlns:ns243="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns244:AccessDeniedFault" xmlns:ns244="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="CSMTransactionFault" qname="ns245:CSMTransactionFault" xmlns:ns245="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns246:Extensions xsi:type="ns246:ExtensionsType" xmlns:ns246="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="This method allows an application admin to remove a filter clause." isImported="false" isProvided="false" name="removeFilterClause" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="filterClauseId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="CSMInternalFault" qname="ns247:CSMInternalFault" xmlns:ns247="http://csm.gaards.cagrid.org/CSM/types"/>
+      <ns4:Exception description="" name="AccessDeniedFault" qname="ns248:AccessDeniedFault" xmlns:ns248="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns249:Extensions xsi:type="ns249:ExtensionsType" xmlns:ns249="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="creates a resource to be used to generate instance level security filters" isImported="false" isProvided="false" name="createFilterCreator" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="applicationID" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:base64Binary" description="" isArray="false" name="applicationBeansJar" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:base64Binary" description="" isArray="false" name="applicationORMJar" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="xsd:string" description="" isArray="false" name="hibernateConfig" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns250:FilterCreatorReference" clientHandleClass="org.cagrid.gaards.csm.filters.client.FilterCreatorClient" description="" isArray="false" isClientHandle="true" isCreatingResourceForClientHandle="true" resourceClientIntroduceServiceName="FilterCreator" xmlns:ns250="http://csm.gaards.cagrid.org/CSM/FilterCreator/types"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="HibernateSessionCreationFault" qname="ns251:HibernateSessionCreationFault" xmlns:ns251="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns4:Exceptions>
+     <ns252:Extensions xsi:type="ns252:ExtensionsType" xmlns:ns252="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+    <ns4:Method description="creates a FilterCreator reference by using a domain model to navigate the filter classes" isImported="false" isProvided="false" name="createFilterCreatorFromDomainModel" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="xsd:long" description="" isArray="false" name="applicationID" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns4:Input qName="ns253:DomainModel" description="" isArray="false" name="domainModel" xmlns:ns253="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice"/>
+     </ns4:Inputs>
+     <ns4:Output qName="ns254:FilterCreatorReference" clientHandleClass="org.cagrid.gaards.csm.filters.client.FilterCreatorClient" description="" isArray="false" isClientHandle="true" isCreatingResourceForClientHandle="true" resourceClientIntroduceServiceName="FilterCreator" xmlns:ns254="http://csm.gaards.cagrid.org/CSM/FilterCreator/types"/>
+     <ns4:Exceptions/>
+     <ns255:Extensions xsi:type="ns255:ExtensionsType" xmlns:ns255="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+    </ns4:Method>
+   </ns4:Methods>
+   <ns256:ResourcePropertiesList xsi:type="ns256:ResourcePropertiesListType" xmlns:ns256="gme://gov.nih.nci.cagrid.introduce/1/Resources">
+    <ns256:ResourceProperty qName="ns257:ServiceMetadata" fileLocation="serviceMetadata.xml" populateFromFile="true" register="true" xsi:type="ns256:ResourcePropertyType" xmlns:ns257="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata"/>
+   </ns256:ResourcePropertiesList>
+   <ns258:ServiceSecurity xsi:type="ns258:ServiceSecurity" xmlns:ns258="gme://gov.nih.nci.cagrid.introduce/1/Security">
+    <ns258:SecuritySetting xsi:type="ns258:SecuritySetting">Custom</ns258:SecuritySetting>
+    <ns258:TransportLevelSecurity xsi:type="ns258:TransportLevelSecurity">
+     <ns258:CommunicationMethod xsi:type="ns258:CommunicationMethod">Privacy</ns258:CommunicationMethod>
+    </ns258:TransportLevelSecurity>
+    <ns258:RunAsMode xsi:type="ns258:RunAsMode">System</ns258:RunAsMode>
+    <ns258:AnonymousClients xsi:type="ns258:AnonymousCommunication">No</ns258:AnonymousClients>
+    <ns258:ServiceAuthorization xsi:type="ns258:ServiceAuthorization">
+     <ns258:NoAuthorization xsi:type="ns258:NoAuthorization"/>
+    </ns258:ServiceAuthorization>
+   </ns258:ServiceSecurity>
+   <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
+   <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
+    <ns3:Main xsi:type="ns3:Main"/>
+    <ns3:Singleton xsi:type="ns3:Singleton"/>
+    <ns3:Identifiable xsi:type="ns3:Identifiable"/>
+    <ns3:ResourcePropertyManagement xsi:type="ns3:ResourcePropertyManagement"/>
+   </ns3:ResourceFrameworkOptions>
+   <ns259:Extensions xsi:type="ns259:ExtensionsType" xmlns:ns259="gme://gov.nih.nci.cagrid.introduce/1/Extension"/>
+  </ns3:Service>
+  <ns3:Service name="FilterCreator" namespace="http://csm.gaards.cagrid.org/CSM/FilterCreator" packageName="org.cagrid.gaards.csm.filters" xsi:type="ns3:ServiceType">
+   <ns260:Methods xsi:type="ns260:MethodsType" xmlns:ns260="gme://gov.nih.nci.cagrid.introduce/1/Methods">
+    <ns260:Method isImported="true" isProvided="true" name="getServiceSecurityMetadata" xsi:type="ns260:MethodType">
+     <ns260:Output qName="ns261:ServiceSecurityMetadata" isArray="false" isClientHandle="false" xmlns:ns261="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security"/>
+     <ns262:MethodSecurity xsi:type="ns262:MethodSecurity" xmlns:ns262="gme://gov.nih.nci.cagrid.introduce/1/Security">
+      <ns262:SecuritySetting xsi:type="ns262:SecuritySetting">None</ns262:SecuritySetting>
+      <ns262:MethodAuthorization xsi:type="ns262:MethodAuthorization">
+       <ns262:NoAuthorization xsi:type="ns262:NoAuthorization"/>
+      </ns262:MethodAuthorization>
+     </ns262:MethodSecurity>
+     <ns260:ImportInformation namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" packageName="gov.nih.nci.cagrid.introduce.security.stubs" portTypeName="ServiceSecurityPortType" wsdlFile="ServiceSecurity.wsdl"/>
+     <ns260:ProviderInformation providerClass="gov.nih.nci.cagrid.introduce.security.service.globus.ServiceSecurityProviderImpl"/>
+    </ns260:Method>
+    <ns260:Method isImported="true" isProvided="true" name="Destroy" xsi:type="ns260:MethodType">
+     <ns260:Output qName="void" isArray="false"/>
+     <ns260:ImportInformation fromIntroduce="false" inputMessage="ns263:DestroyRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" outputMessage="ns263:DestroyResponse" packageName="org.oasis.wsrf.lifetime" portTypeName="ImmediateResourceTermination" wsdlFile="../wsrf/lifetime/WS-ResourceLifetime.wsdl" xmlns:ns263="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl"/>
+     <ns260:ProviderInformation providerClass="DestroyProvider"/>
+    </ns260:Method>
+    <ns260:Method isImported="true" isProvided="true" name="SetTerminationTime" xsi:type="ns260:MethodType">
+     <ns260:Output qName="void" isArray="false"/>
+     <ns260:ImportInformation fromIntroduce="false" inputMessage="ns264:SetTerminationTimeRequest" namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" outputMessage="ns264:SetTerminationTimeResponse" packageName="org.oasis.wsrf.lifetime" portTypeName="ScheduledResourceTermination" wsdlFile="../wsrf/lifetime/WS-ResourceLifetime.wsdl" xmlns:ns264="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl"/>
+     <ns260:ProviderInformation providerClass="SetTerminationTimeProvider"/>
+    </ns260:Method>
+    <ns260:Method description="returns the available target classes in this application" isImported="false" isProvided="false" name="getClassNames" xsi:type="ns260:MethodType">
+     <ns260:Inputs/>
+     <ns260:Output qName="xsd:string" description="" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns260:Exceptions>
+      <ns260:Exception description="" name="CSMInternalFault" qname="ns265:CSMInternalFault" xmlns:ns265="http://csm.gaards.cagrid.org/CSM/types"/>
+     </ns260:Exceptions>
+    </ns260:Method>
+    <ns260:Method description="" isImported="false" isProvided="false" name="getAssociatedClassNames" xsi:type="ns260:MethodType">
+     <ns260:Inputs>
+      <ns260:Input qName="xsd:string" description="" isArray="false" name="className" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns260:Inputs>
+     <ns260:Output qName="xsd:string" description="" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns260:Exceptions/>
+    </ns260:Method>
+    <ns260:Method description="" isImported="false" isProvided="false" name="getAssociatedAttributes" xsi:type="ns260:MethodType">
+     <ns260:Inputs>
+      <ns260:Input qName="xsd:string" description="" isArray="false" name="className" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns260:Inputs>
+     <ns260:Output qName="xsd:string" description="" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     <ns260:Exceptions/>
+    </ns260:Method>
+    <ns260:Method description="" isImported="false" isProvided="false" name="getFilterClauseBean" xsi:type="ns260:MethodType">
+     <ns260:Inputs>
+      <ns260:Input qName="xsd:string" description="" isArray="false" name="startingClass" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns260:Input qName="xsd:string" description="" isArray="true" name="filters" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns260:Input qName="xsd:string" description="" isArray="false" name="targetClassAttribute" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns260:Input qName="xsd:string" description="" isArray="false" name="targetClassAlias" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+      <ns260:Input qName="xsd:string" description="" isArray="false" name="targetClassAttributeAlias" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+     </ns260:Inputs>
+     <ns260:Output qName="ns266:FilterClause" description="" isArray="false" xmlns:ns266="http://gaards.cagrid.org/csm"/>
+     <ns260:Exceptions/>
+    </ns260:Method>
+   </ns260:Methods>
+   <ns267:ResourcePropertiesList xsi:type="ns267:ResourcePropertiesListType" xmlns:ns267="gme://gov.nih.nci.cagrid.introduce/1/Resources">
+    <ns267:ResourceProperty qName="ns268:CurrentTime" description="" populateFromFile="false" register="false" xsi:type="ns267:ResourcePropertyType" xmlns:ns268="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+    <ns267:ResourceProperty qName="ns269:TerminationTime" description="" populateFromFile="false" register="false" xsi:type="ns267:ResourcePropertyType" xmlns:ns269="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd"/>
+   </ns267:ResourcePropertiesList>
+   <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
+   <ns3:ResourceFrameworkOptions xsi:type="ns3:ResourceFrameworkOptions">
+    <ns3:Lifetime xsi:type="ns3:Lifetime"/>
+    <ns3:Identifiable xsi:type="ns3:Identifiable"/>
+    <ns3:Secure xsi:type="ns3:Secure"/>
+   </ns3:ResourceFrameworkOptions>
+  </ns3:Service>
+ </ns3:Services>
+ <ns270:Extensions xsi:type="ns270:ExtensionsType" xmlns:ns270="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns270:Extension name="cagrid_metadata" version="1.3" xsi:type="ns270:ExtensionType"/>
+ </ns270:Extensions>
+ <ns271:ServiceProperties xmlns:ns271="gme://gov.nih.nci.cagrid.introduce/1/Property">
+  <ns271:Property description="The properties file containing configuration options for the CSM Web Service. " isFromETC="true" key="csmProperties" value="csm.properties"/>
+  <ns271:Property description="The spring configuration file for the CSM Web Service." isFromETC="true" key="csmConfiguration" value="csm-configuration.xml"/>
+ </ns271:ServiceProperties>
+</ns1:ServiceDescription>

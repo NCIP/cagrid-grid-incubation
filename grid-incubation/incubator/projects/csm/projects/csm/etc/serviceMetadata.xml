@@ -1,0 +1,706 @@
+<ns1:ServiceMetadata xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata">
+ <ns1:serviceDescription>
+  <ns2:Service description="" name="CSM" version="1.3.1" xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.service">
+   <ns2:pointOfContactCollection>
+    <ns3:PointOfContact affiliation="" email="" firstName="" lastName="" phoneNumber="" role="" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   </ns2:pointOfContactCollection>
+   <ns2:serviceContextCollection>
+    <ns2:ServiceContext description="" name="CSM">
+     <ns2:operationCollection>
+      <ns2:Operation description="" name="GetMultipleResourceProperties">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="GetResourceProperty">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="QueryResourceProperties">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="getServiceSecurityMetadata">
+       <ns2:inputParameterCollection/>
+       <ns2:Output qName="ns4:ServiceSecurityMetadata" dimensionality="1" isArray="false" xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security">
+        <ns5:UMLClass className="ServiceSecurityMetadata" description="An instance of the Security Service Metadata." id="83B67C6F-4E38-4EF7-E040-BB89AD4319AA" packageName="gov.nih.nci.cagrid.metadata.security" projectName="caGrid_Metadata_Models" projectVersion="1" xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+         <ns5:umlAttributeCollection/>
+         <ns5:SemanticMetadata conceptCode="C80736" conceptDefinition="A software system providing a public need." conceptName="Software Service" order="2"/>
+         <ns5:SemanticMetadata conceptCode="C25669" conceptDefinition="Security; freedom from anxiety or fear." conceptName="Security" order="1"/>
+         <ns5:SemanticMetadata conceptCode="C52095" conceptDefinition="Data about data; information that describes another set of data." conceptName="Metadata" order="0"/>
+        </ns5:UMLClass>
+       </ns2:Output>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="getApplications">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns6:ApplicationSearchCriteria" dimensionality="1" index="0" isArray="false" isRequired="false" name="applicationSearchCriteria" xmlns:ns6="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns7:Application" dimensionality="1" isArray="true" xmlns:ns7="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows a CSM Web Service administrator to create an application context for managing security policy." name="createApplication">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns8:Application" dimensionality="1" index="0" isArray="false" isRequired="false" name="application" xmlns:ns8="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns9:Application" dimensionality="1" isArray="false" xmlns:ns9="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows a CSM Web Service administrator to remove an application context." name="removeApplication">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an administrator of an application to create a protection element in that application." name="createProtectionElement">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns10:ProtectionElement" dimensionality="1" index="0" isArray="false" isRequired="false" name="pe" xmlns:ns10="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns11:ProtectionElement" dimensionality="1" isArray="false" xmlns:ns11="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="The method allows an administrators of an application to search for protection elements associated with that application." name="getProtectionElements">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns12:ProtectionElementSearchCriteria" dimensionality="1" index="0" isArray="false" isRequired="false" name="criteria" xmlns:ns12="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns13:ProtectionElement" dimensionality="1" isArray="true" xmlns:ns13="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allow an application administrator to modify a protection element associated with the application." name="modifyProtectionElement">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns14:ProtectionElement" dimensionality="1" index="0" isArray="false" isRequired="false" name="protectionElement" xmlns:ns14="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns15:ProtectionElement" dimensionality="1" isArray="false" xmlns:ns15="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application administrator to remove a protection element." name="removeProtectionElement">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="protectionElementId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to create a protection group." name="createProtectionGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns16:ProtectionGroup" dimensionality="1" index="0" isArray="false" isRequired="false" name="pg" xmlns:ns16="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns17:ProtectionGroup" dimensionality="1" isArray="false" xmlns:ns17="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to search for protection groups associated with the application." name="getProtectionGroups">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns18:ProtectionGroupSearchCriteria" dimensionality="1" index="0" isArray="false" isRequired="false" name="criteria" xmlns:ns18="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns19:ProtectionGroup" dimensionality="1" isArray="true" xmlns:ns19="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to modify a protection group associated with the application" name="modifyProtectionGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns20:ProtectionGroup" dimensionality="1" index="0" isArray="false" isRequired="false" name="pg" xmlns:ns20="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns21:ProtectionGroup" dimensionality="1" isArray="false" xmlns:ns21="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an admin to remove a protection group associated with the application." name="removeProtectionGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows a application admin to assign protection elements to a protection group." name="assignProtectionElements">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="true" isRequired="false" name="protectionElements" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows a application admin to unassign protection elements from a protection group." name="unassignProtectionElements">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="true" isRequired="false" name="protectionElements" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method gets a list of protection elements assigned to a protection group." name="getProtectionElementsAssignedToProtectionGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns22:ProtectionElement" dimensionality="1" isArray="true" xmlns:ns22="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method alls an application admin to assign a protection group as a child or another protection group." name="assignProtectionGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="parentProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="false" isRequired="false" name="childProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to unassign a protection group from being a child of a protection group." name="unassignProtectionGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="parentProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="false" isRequired="false" name="childProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to get a list of child protection groups for a protection group" name="getChildProtectionGroups">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns23:ProtectionGroup" dimensionality="1" isArray="true" xmlns:ns23="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allow an application admin to get a list of the groups associated with the application." name="getGroups">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns24:GroupSearchCriteria" dimensionality="1" index="0" isArray="false" isRequired="false" name="criteria" xmlns:ns24="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns25:Group" dimensionality="1" isArray="true" xmlns:ns25="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application administrator to link a Grid Grouper group to CSM, such that access control policy may be provisioned based on membership to the Grid Grouper group." name="linkRemoteGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns26:LinkRemoteGroupRequest" dimensionality="1" index="0" isArray="false" isRequired="false" name="req" xmlns:ns26="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns27:RemoteGroup" dimensionality="1" isArray="false" xmlns:ns27="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allow an application admin to unlink a remote Grid Grouper group from CSM." name="unlinkRemoteGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="false" isRequired="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows a application admin to create a local group of users on the CSM Web Service" name="createGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns28:LocalGroup" dimensionality="1" index="0" isArray="false" isRequired="false" name="grp" xmlns:ns28="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns29:LocalGroup" dimensionality="1" isArray="false" xmlns:ns29="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application administrator to remove a local group." name="removeGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application administrator to modify the metadata of a local group." name="modifyGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns30:LocalGroup" dimensionality="1" index="0" isArray="false" isRequired="false" name="grp" xmlns:ns30="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns31:LocalGroup" dimensionality="1" isArray="false" xmlns:ns31="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to add users to a user group" name="addUsersToGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="1" isArray="true" isRequired="false" name="users" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to remove users from a user group." name="removeUsersFromGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="1" isArray="true" isRequired="false" name="users" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to get a list of the users in a user group." name="getUsersInGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="xsd:string" dimensionality="1" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allow an admin to create privileges." name="createPrivilege">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns32:Privilege" dimensionality="1" index="0" isArray="false" isRequired="false" name="privilege" xmlns:ns32="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns33:Privilege" dimensionality="1" isArray="false" xmlns:ns33="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows one to search for privileges" name="getPrivileges">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns34:PrivilegeSearchCriteria" dimensionality="1" index="0" isArray="false" isRequired="false" name="criteria" xmlns:ns34="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns35:Privilege" dimensionality="1" isArray="true" xmlns:ns35="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an admin to remove a privilege." name="removePrivilege">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="privilegeId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allo.ws an admin to modify a privilege" name="modifyPrivilege">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns36:Privilege" dimensionality="1" index="0" isArray="false" isRequired="false" name="privilege" xmlns:ns36="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns37:Privilege" dimensionality="1" isArray="false" xmlns:ns37="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application administrator to create a role." name="createRole">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns38:Role" dimensionality="1" index="0" isArray="false" isRequired="false" name="role" xmlns:ns38="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns39:Role" dimensionality="1" isArray="false" xmlns:ns39="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows and admin to get a list of roles based on a specified search criteria." name="getRoles">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns40:RoleSearchCriteria" dimensionality="1" index="0" isArray="false" isRequired="false" name="criteria" xmlns:ns40="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns41:Role" dimensionality="1" isArray="true" xmlns:ns41="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to modify a role." name="modifyRole">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns42:Role" dimensionality="1" index="0" isArray="false" isRequired="false" name="role" xmlns:ns42="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns43:Role" dimensionality="1" isArray="false" xmlns:ns43="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to remove a role." name="removeRole">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to set the privileges that make up a role." name="setPrivilegesForRole">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="true" isRequired="false" name="privs" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to get the privileges associated with a role." name="getPrivilegesForRole">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns44:Privilege" dimensionality="1" isArray="true" xmlns:ns44="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an admin to grant a permission to a user group." name="grantGroupPermission">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="false" isRequired="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="2" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to revoke a permission from a user group." name="revokeGroupPermission">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="false" isRequired="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="2" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to grant a user a permission." name="grantUserPermission">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="0" isArray="false" isRequired="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="false" isRequired="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="2" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to revoke a permission from a user." name="revokeUserPermission">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="0" isArray="false" isRequired="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="1" isArray="false" isRequired="false" name="roleId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="2" isArray="false" isRequired="false" name="protectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows application admins to get the permission granted to a user." name="getPermissionsForUser">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="1" isArray="false" isRequired="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns45:Permission" dimensionality="1" isArray="true" xmlns:ns45="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to get the permissions granted to a user group." name="getPermissionForGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="groupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns46:Permission" dimensionality="1" isArray="true" xmlns:ns46="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to get the parent protection group of a protection group." name="getParentProtectionGroup">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="childProtectionGroupId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns47:ProtectionGroup" dimensionality="1" isArray="false" xmlns:ns47="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allow one to determine if a user has been granted a privilege on a resource." name="checkPermission">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="1" isArray="false" isRequired="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="2" isArray="false" isRequired="false" name="objectId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="3" isArray="false" isRequired="false" name="privilege" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="xsd:boolean" dimensionality="1" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows one to determine whether or not a user has been granted a privilege on a resource." name="checkAttributeBasedPermission">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="applicationId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="1" isArray="false" isRequired="false" name="userIdentity" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="2" isArray="false" isRequired="false" name="objectId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="3" isArray="false" isRequired="false" name="attributeName" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="4" isArray="false" isRequired="false" name="attributeValue" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="5" isArray="false" isRequired="false" name="privilege" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="xsd:boolean" dimensionality="1" isArray="false" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to create a filter clause." name="createFilterClause">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns48:FilterClause" dimensionality="1" index="0" isArray="false" isRequired="false" name="filter" xmlns:ns48="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns49:FilterClause" dimensionality="1" isArray="false" xmlns:ns49="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to modify a filter clause." name="modifyFilterClause">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="filterClauseId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="1" isArray="false" isRequired="false" name="sqlForGroup" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="2" isArray="false" isRequired="false" name="sqlForUser" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns50:FilterClause" dimensionality="1" isArray="false" xmlns:ns50="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to search for filter clauses for an application." name="getFilterClauses">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="ns51:FilterClauseSearchCriteria" dimensionality="1" index="0" isArray="false" isRequired="false" name="criteria" xmlns:ns51="http://gaards.cagrid.org/csm"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns52:FilterClause" dimensionality="1" isArray="true" xmlns:ns52="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+        <ns2:Fault description="" name="CSMTransactionFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="This method allows an application admin to remove a filter clause." name="removeFilterClause">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="filterClauseId" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+        <ns2:Fault description="" name="AccessDeniedFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="creates a resource to be used to generate instance level security filters" name="createFilterCreator">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="applicationID" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:base64Binary" dimensionality="1" index="1" isArray="false" isRequired="false" name="applicationBeansJar" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:base64Binary" dimensionality="1" index="2" isArray="false" isRequired="false" name="applicationORMJar" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="3" isArray="false" isRequired="false" name="hibernateConfig" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns53:FilterCreatorReference" dimensionality="1" isArray="false" xmlns:ns53="http://csm.gaards.cagrid.org/CSM/FilterCreator/types"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="HibernateSessionCreationFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="creates a FilterCreator reference by using a domain model to navigate the filter classes" name="createFilterCreatorFromDomainModel">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:long" dimensionality="1" index="0" isArray="false" isRequired="false" name="applicationID" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="ns54:DomainModel" dimensionality="1" index="1" isArray="false" isRequired="false" name="domainModel" xmlns:ns54="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice">
+         <ns55:UMLClass className="DomainModel" description="For a Data Service, this is the data model it is based on." id="83B67C6F-4E44-4EF7-E040-BB89AD4319AA" packageName="gov.nih.nci.cagrid.metadata.data" projectName="caGrid_Metadata_Models" projectVersion="1" xmlns:ns55="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+          <ns55:umlAttributeCollection>
+           <ns55:UMLAttribute dataTypeName="java.lang.String" description="The version of the Domain Model Project." name="projectVersion" publicID="2927755" version="1.0">
+            <ns55:SemanticMetadata conceptCode="C47885" conceptDefinition="Any piece of work that is undertaken or attempted." conceptName="Project" order="1"/>
+            <ns55:SemanticMetadata conceptCode="C25714" conceptDefinition="Version; something a little different from others of the same type; one of a sequence of copies of a program, each incorporating new modifications." conceptName="Version" order="0"/>
+            <ns55:ValueDomain longName="java.lang.String">
+             <ns55:enumerationCollection/>
+            </ns55:ValueDomain>
+           </ns55:UMLAttribute>
+           <ns55:UMLAttribute dataTypeName="java.lang.String" description="A description of the Domain Model Project." name="projectDescription" publicID="2927752" version="1.0">
+            <ns55:SemanticMetadata conceptCode="C25365" conceptDefinition="Description; a statement that represents something in words." conceptName="Description" order="0"/>
+            <ns55:SemanticMetadata conceptCode="C47885" conceptDefinition="Any piece of work that is undertaken or attempted." conceptName="Project" order="1"/>
+            <ns55:ValueDomain longName="java.lang.String">
+             <ns55:enumerationCollection/>
+            </ns55:ValueDomain>
+           </ns55:UMLAttribute>
+           <ns55:UMLAttribute dataTypeName="java.lang.String" description="The short name for a Domain Model." name="projectShortName" publicID="2927754" version="1.0">
+            <ns55:SemanticMetadata conceptCode="C25249" conceptDefinition="Having little (physical) length or seeming to be limited in (temporal) duration." conceptName="Short" order="1"/>
+            <ns55:SemanticMetadata conceptCode="C47885" conceptDefinition="Any piece of work that is undertaken or attempted." conceptName="Project" order="2"/>
+            <ns55:SemanticMetadata conceptCode="C42614" conceptDefinition="The words or language units by which a thing is known." conceptName="Name" order="0"/>
+            <ns55:ValueDomain longName="java.lang.String">
+             <ns55:enumerationCollection/>
+            </ns55:ValueDomain>
+           </ns55:UMLAttribute>
+           <ns55:UMLAttribute dataTypeName="java.lang.String" description="The long name for a Domain Model." name="projectLongName" publicID="2927753" version="1.0">
+            <ns55:SemanticMetadata conceptCode="C25248" conceptDefinition="Of relatively great or greater than average spatial extension or temporal duration." conceptName="Long" order="1"/>
+            <ns55:SemanticMetadata conceptCode="C47885" conceptDefinition="Any piece of work that is undertaken or attempted." conceptName="Project" order="2"/>
+            <ns55:SemanticMetadata conceptCode="C42614" conceptDefinition="The words or language units by which a thing is known." conceptName="Name" order="0"/>
+            <ns55:ValueDomain longName="java.lang.String">
+             <ns55:enumerationCollection/>
+            </ns55:ValueDomain>
+           </ns55:UMLAttribute>
+          </ns55:umlAttributeCollection>
+          <ns55:SemanticMetadata conceptCode="C62289" conceptDefinition="An area of knowledge considered as a discreet unit for some purpose." conceptName="Domain" order="1"/>
+          <ns55:SemanticMetadata conceptCode="C16866" conceptDefinition="1. A representation of something, often idealized or modified to make it conceptually easier to understand. 2. Something to be imitated. 3. In dentistry, a cast." conceptName="Model System" order="0"/>
+         </ns55:UMLClass>
+        </ns2:InputParameter>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns56:FilterCreatorReference" dimensionality="1" isArray="false" xmlns:ns56="http://csm.gaards.cagrid.org/CSM/FilterCreator/types"/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+     </ns2:operationCollection>
+     <ns2:contextPropertyCollection>
+      <ns2:ContextProperty description="" name="{gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata}ServiceMetadata"/>
+     </ns2:contextPropertyCollection>
+    </ns2:ServiceContext>
+    <ns2:ServiceContext description="" name="FilterCreator">
+     <ns2:operationCollection>
+      <ns2:Operation description="" name="getServiceSecurityMetadata">
+       <ns2:inputParameterCollection/>
+       <ns2:Output qName="ns57:ServiceSecurityMetadata" dimensionality="1" isArray="false" xmlns:ns57="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security">
+        <ns58:UMLClass className="ServiceSecurityMetadata" description="An instance of the Security Service Metadata." id="83B67C6F-4E38-4EF7-E040-BB89AD4319AA" packageName="gov.nih.nci.cagrid.metadata.security" projectName="caGrid_Metadata_Models" projectVersion="1" xmlns:ns58="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+         <ns58:umlAttributeCollection/>
+         <ns58:SemanticMetadata conceptCode="C80736" conceptDefinition="A software system providing a public need." conceptName="Software Service" order="2"/>
+         <ns58:SemanticMetadata conceptCode="C25669" conceptDefinition="Security; freedom from anxiety or fear." conceptName="Security" order="1"/>
+         <ns58:SemanticMetadata conceptCode="C52095" conceptDefinition="Data about data; information that describes another set of data." conceptName="Metadata" order="0"/>
+        </ns58:UMLClass>
+       </ns2:Output>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="Destroy">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="SetTerminationTime">
+       <ns2:inputParameterCollection/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="returns the available target classes in this application" name="getClassNames">
+       <ns2:inputParameterCollection/>
+       <ns2:Output qName="xsd:string" dimensionality="1" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection>
+        <ns2:Fault description="" name="CSMInternalFault"/>
+       </ns2:faultCollection>
+      </ns2:Operation>
+      <ns2:Operation description="" name="getAssociatedClassNames">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="0" isArray="false" isRequired="false" name="className" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="xsd:string" dimensionality="1" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="getAssociatedAttributes">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="0" isArray="false" isRequired="false" name="className" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="xsd:string" dimensionality="1" isArray="true" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+      <ns2:Operation description="" name="getFilterClauseBean">
+       <ns2:inputParameterCollection>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="0" isArray="false" isRequired="false" name="startingClass" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="1" isArray="true" isRequired="false" name="filters" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="2" isArray="false" isRequired="false" name="targetClassAttribute" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="3" isArray="false" isRequired="false" name="targetClassAlias" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+        <ns2:InputParameter qName="xsd:string" dimensionality="1" index="4" isArray="false" isRequired="false" name="targetClassAttributeAlias" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+       </ns2:inputParameterCollection>
+       <ns2:Output qName="ns59:FilterClause" dimensionality="1" isArray="false" xmlns:ns59="http://gaards.cagrid.org/csm"/>
+       <ns2:faultCollection/>
+      </ns2:Operation>
+     </ns2:operationCollection>
+     <ns2:contextPropertyCollection>
+      <ns2:ContextProperty description="" name="{http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd}CurrentTime"/>
+      <ns2:ContextProperty description="" name="{http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd}TerminationTime"/>
+     </ns2:contextPropertyCollection>
+    </ns2:ServiceContext>
+   </ns2:serviceContextCollection>
+   <ns60:SemanticMetadata conceptCode="C63541" conceptDefinition="A service available on a system that coordinates resources that are not subject to central control, using open, general purpose protocols and interfaces to deliver nontrivial qualities of services." conceptName="Grid Service" order="0" xmlns:ns60="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+   <ns61:SemanticMetadata conceptCode="C63543" conceptDefinition="A published API which receives data in the form of objects, performs computations based upon the input data, and returns information to a client via caGrid in the form of one or more objects." conceptName="Analytical Grid Service" order="1" xmlns:ns61="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common"/>
+  </ns2:Service>
+ </ns1:serviceDescription>
+ <ns1:hostingResearchCenter>
+  <ns62:ResearchCenter displayName="" shortName="" xmlns:ns62="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+   <ns62:Address country="" locality="" postalCode="" stateProvince="" street1="" street2=""/>
+   <ns62:pointOfContactCollection>
+    <ns62:PointOfContact affiliation="" email="" firstName="" lastName="" phoneNumber="" role=""/>
+   </ns62:pointOfContactCollection>
+  </ns62:ResearchCenter>
+ </ns1:hostingResearchCenter>
+</ns1:ServiceMetadata>

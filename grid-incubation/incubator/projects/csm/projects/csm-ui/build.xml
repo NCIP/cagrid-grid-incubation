@@ -1,0 +1,148 @@
+<?xml version="1.0" ?>
+<project name="csm-ui" default="all" basedir=".">
+	<description>common 2 master build file</description>
+
+	<property environment="env" />
+
+	<property file="${basedir}/project.properties" />
+
+	<property name="schema.dir" location="${basedir}/schema" />
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="src.java.dir" location="${src.dir}/java" />
+
+	<property name="ext.dir" location="${basedir}/ext" />
+	<property name="ext.jars.dir" location="${ext.dir}/dependencies/impl/jars" />
+	<property name="ext.bundles.dir" location="${ext.dir}/dependencies/impl/bundles" />
+	<property name="endorsed.lib.dir" location="${ext.dir}/dependencies/endorsed/jars" />
+	<property name="dist.dir" location="${basedir}/dist" />
+
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="build.jars.dir" location="${build.dir}/lib" />
+	<property name="build.classes.dir" location="${build.dir}/classes" />
+
+	<!-- specify properties used for InstallToGAARDS target -->
+	<property name="csm-ui.etc.dir" location="${basedir}/etc" />
+	<property name="csm-ui.ext.jar.dir" location="${basedir}/ext/dependencies/impl/jars" />
+	<property name="csm-ui.build.jar.dir" location="${basedir}/build/lib" />
+
+	<property name="ui.jar" value="caGrid-${ant.project.name}-${project.version}.jar" />
+
+
+	<!-- ============================================================== -->
+	<!-- Globus properties                                              -->
+	<!-- ============================================================== -->
+	<target name="checkGlobus" depends="setGlobus">
+		<condition property="globus.not.found">
+			<or>
+				<not>
+					<isset property="ext.globus.dir" />
+				</not>
+				<equals arg1="${ext.globus.dir}" arg2="" />
+			</or>
+		</condition>
+		<fail message="Globus installation is not set in either GLOBUS_LOCATION or ext.globus.dir" if="globus.not.found" />
+		<echo message="Globus: ${ext.globus.dir}" />
+	</target>
+	<target name="setGlobus" if="env.GLOBUS_LOCATION">
+		<!-- GT4 build files and directories-->
+		<property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
+	</target>
+
+
+
+	<target name="init" depends="checkGlobus">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${build.jars.dir}" />
+
+		<path id="build.classpath">
+			<fileset dir="${ext.jars.dir}">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${ext.globus.dir}/lib">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+
+	</target>
+
+	<target name="generateBeans">
+
+	</target>
+
+	<target name="configure">
+
+	</target>
+
+
+	<target name="compile">
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.java.dir}">
+				<include name="**/*.java" />
+				<include name="**/*.png" />
+			</fileset>
+		</copy>
+		<javac srcdir="${src.java.dir}" destdir="${build.classes.dir}" classpathref="build.classpath" debug="true" />
+	</target>
+
+	<target name="jar">
+		<jar destfile="${build.jars.dir}/${ui.jar}" basedir="${build.classes.dir}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="all" depends="init,generateBeans,compile,jar" />
+
+	<target name="ui" description="Run the Security UI" depends="init">
+		<java classname="org.cagrid.grape.GridApplication" fork="yes">
+			<jvmarg value="-Djava.endorsed.dirs=${endorsed.lib.dir}" />
+			<arg file="etc/security-ui.xml" />
+			<classpath>
+				<path refid="build.classpath" />
+				<fileset dir="${build.jars.dir}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="setCaGrid" if="env.CAGRID_HOME">
+		<property name="ext.cagrid.dir" value="${env.CAGRID_HOME}" />
+
+		<!-- specify properties used for InstallToGAARDS target -->
+		<property name="cagrid.gaards-ui.etc.dir" location="${ext.cagrid.dir}/projects/gaards-ui/etc" />
+		<property name="cagrid.gaards-ui.jar.dir" location="${ext.cagrid.dir}/projects/gaards-ui/ext/dependencies/impl/jars" />
+
+	</target>
+
+	<target name="checkCaGrid" depends="setCaGrid">
+		<condition property="cagrid.not.found">
+			<or>
+				<not>
+					<isset property="ext.cagrid.dir" />
+				</not>
+				<equals arg1="${ext.cagrid.dir}" arg2="" />
+			</or>
+		</condition>
+		<fail message="caGrid installation is not set in either CAGRID_HOME or ext.cagrid.dir. Create an environment variable named CAGRID_HOME pointed to the location where caGrid is installed and try again." if="cagrid.not.found" />
+		<echo message="caGrid: ${ext.cagrid.dir}" />
+	</target>
+
+	<target name="installToGAARDS" description="Installs the CSM ui project to the caGrid GAARDS tool" depends="init,checkCaGrid">
+		<echo>Installing csm-ui project to caGrid GAARDS tool located in $CAGRID_HOME: ${ext.cagrid.dir}</echo>
+
+		<copy verbose="true" overwrite="true" todir="${cagrid.gaards-ui.etc.dir}">
+			<fileset dir="${csm-ui.etc.dir}">
+				<include name="*.xml" />
+			</fileset>
+		</copy>
+
+		<copy overwrite="true" verbose="true" file="${csm-ui.build.jar.dir}/caGrid-csm-ui-1.3.1.jar" todir="${cagrid.gaards-ui.jar.dir}" />
+		<copy overwrite="true" verbose="true" file="${csm-ui.ext.jar.dir}/caGrid-csm-client-1.3.1.jar" todir="${cagrid.gaards-ui.jar.dir}" />
+		<copy overwrite="true" verbose="true" file="${csm-ui.ext.jar.dir}/caGrid-csm-common-1.3.1.jar" todir="${cagrid.gaards-ui.jar.dir}" />
+		<copy overwrite="true" verbose="true" file="${csm-ui.ext.jar.dir}/caGrid-csm-stubs-1.3.1.jar" todir="${cagrid.gaards-ui.jar.dir}" />
+	</target>
+
+</project>

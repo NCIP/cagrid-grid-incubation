@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<!-- ================================================================= -->
+<!-- The ant file contains tasks for creating a new CSM database or    -->
+<!-- creating new CSM tables in an existing database.  This is         -->
+<!-- intended to be imported into the top-level builld file.           -->
+<!-- ================================================================= -->
+<!DOCTYPE project>
+<project basedir=".">
+	<!-- =============================================================== -->
+	<!-- Properties for the CSM Database                                 -->
+	<!-- =============================================================== -->
+	<property name="csm.schema.dir" location="${basedir}/postgresql-schema" />
+    <property name="csm.database.driver" value="org.postgresql.Driver" />
+	<property name="csm.postgresql.hostname" value="localhost" />
+	<property name="csm.postgresql.port" value="5432" />
+	
+	<!-- The name of the database to log into prior to creating the CSM database -->
+	<property name="csm.postgresql.initial.dbname" value="postgres"/>
+	
+	<fail unless="csm.postgresql.csm.dbname" status="-1">Parent ant script did not set value of property csm.postgresql.csm.dbname.
+The property csm.postgresql.csm.dbname should be set to the name of the database that the CSM tables will be installed in.
+	</fail>
+
+	<!-- This must be a user that has the right to create databases. -->
+	<property name="csm.postgresql.user.owner" value="csm" />
+	
+	<!-- This is a user is to be used by CSM administration tools.  
+	   - It will be granted the rights to fetch and modify the contents of CSM tables.-->
+	<property name="csm.postgresql.user.admin" value="csm_adm" />
+	
+    <!-- This is a user is to be used by IVI services to query CSM tables. -->
+    <property name="csm.postgresql.user.app" value="csm_app" />
+
+	<property name="csm.postgresql.database.script" location="${schema.dir}/AuthSchemaPostgres.sql" />
+	<property name="csm.postgresql.initialValues.script" location="${schema.dir}/DataPrimingPostgres.sql" />
+	<property name="csm.postgresql.password.file" location="${csm.schema.dir}/.pgpass" />
+	<available file="${csm.postgresql.password.file}" property="csm.password.file.exists" />
+    <property name="csm.properties.file" location="${csm.schema.dir}/csm.properties"/>	
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: checkForPresenceOfExistingPropertiesFile                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="checkForPresenceOfExistingPropertiesFile">
+        <available property="csm.properties.exists" file="${csm.properties.file}" type="file" />
+    </target>
+
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: readDefaultPropertyValuesFromExistingPropertiesFile                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="readDefaultPropertyValuesFromExistingPropertiesFile" depends="checkForPresenceOfExistingPropertiesFile" if="csm.properties.exists">
+        <loadproperties srcfile="${csm.properties.file}" />            
+    </target>
+
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: createPostgresPswdFile                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="createPostgresPswdFile" depends="readDefaultPropertyValuesFromExistingPropertiesFile">
+    	<input addproperty="csm.database.host" defaultvalue="localhost">
+    		Enter name of host for CSM datbase [localhost]:</input>
+        
+    	<input addproperty="csm.dbowner.password">
+        	Password for user ${csm.postgresql.user.owner} (this user must already exist and have CREATEDB): </input>
+    	<condition property="csm.dbowner.password.unspecified">
+    		<equals arg1="${csm.dbowner.password}" arg2="" trim="true"/>
+    	</condition>
+    	<fail if="csm.dbowner.password.unspecified" message="No password specified for user ${csm.postgresql.user.owner}" />
+
+        <input addproperty="csm.dbadmin.password">Enter password for user ${csm.postgresql.user.admin} (must already exist): </input>
+        <condition property="csm.dbadmin.password.unspecified">
+            <equals arg1="${csm.dbadmin.password}" arg2="" trim="true"/>
+        </condition>
+        <fail if="csm.dbadmin.password.unspecified" message="No password specified for user ${csm.postgresql.user.admin}" />
+
+        <input addproperty="csm.database.password">Enter password for user ${csm.postgresql.user.app} (must already exist): </input>
+        <condition property="csm.database.password.unspecified">
+            <equals arg1="${csm.database.password}" arg2="" trim="true"/>
+        </condition>
+        <fail if="csm.database.password.unspecified" message="No password specified for user ${csm.postgresql.user.app}" />
+
+        <input addproperty="csm.appName">Enter application name that will be used to identify the service/application in the CSM database: </input>
+        <condition property="csm.appName.unspecified">
+            <equals arg1="${csm.appName}" arg2="" trim="true"/>
+        </condition>
+        <fail if="csm.appName.unspecified" message="No application name specified for application name" />
+
+    	<echo file="${csm.postgresql.password.file}" append="false">${csm.database.host}:${csm.postgresql.port}:${csm.postgresql.initial.dbname}:${csm.postgresql.user.owner}:${csm.dbowner.password}${line.separator}</echo>
+        <echo file="${csm.postgresql.password.file}" append="true">127.0.0.1:${csm.postgresql.port}:${csm.postgresql.initial.dbname}:${csm.postgresql.user.owner}:${csm.dbowner.password}${line.separator}</echo>
+        <echo file="${csm.postgresql.password.file}" append="true">${csm.database.host}:${csm.postgresql.port}:${csm.postgresql.csm.dbname}:${csm.postgresql.user.owner}:${csm.dbowner.password}${line.separator}</echo>
+        <echo file="${csm.postgresql.password.file}" append="true">127.0.0.1:${csm.postgresql.port}:${csm.postgresql.csm.dbname}:${csm.postgresql.user.owner}:${csm.dbowner.password}${line.separator}</echo>
+        <echo file="${csm.postgresql.password.file}" append="true">${csm.database.host}:${csm.postgresql.port}:${csm.postgresql.csm.dbname}:${csm.postgresql.user.admin}:${csm.dbadmin.password}${line.separator}</echo>
+        <echo file="${csm.postgresql.password.file}" append="true">127.0.0.1:${csm.postgresql.port}:${csm.postgresql.csm.dbname}:${csm.postgresql.user.admin}:${csm.dbadmin.password}${line.separator}</echo>
+        <echo file="${csm.postgresql.password.file}" append="true">${csm.database.host}:${csm.postgresql.port}:${csm.postgresql.csm.dbname}:${csm.postgresql.user.app}:${csm.database.password}${line.separator}</echo>
+        <echo file="${csm.postgresql.password.file}" append="true">127.0.0.1:${csm.postgresql.port}:${csm.postgresql.csm.dbname}:${csm.postgresql.user.app}:${csm.database.password}${line.separator}</echo>
+    	
+    	<chmod file="${csm.postgresql.password.file}" perm="0600" />
+    	
+    	<tstamp>
+    		<format property="NOW" pattern="dd-MMM-yyyy HH:mm:ss" locale="en,US" />
+    	</tstamp>
+    	<echo file="${csm.properties.file}" append="false"># Properties file to specify database containing CSM configuration.${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true"># Created ${NOW} by ${user.name}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.database.driver=${csm.database.driver}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.database.host=${csm.database.host}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.database.port=${csm.postgresql.port}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.database.dbname=${csm.postgresql.csm.dbname}${line.separator}</echo>
+    	<echo file="${csm.properties.file}" append="true">csm.database.url=jdbc:postgresql://${csm.database.host}:${csm.postgresql.port}/${csm.postgresql.csm.dbname}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.database.user=${csm.postgresql.user.app}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.database.password=${csm.database.password}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.dbadmin.user=${csm.postgresql.user.admin}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.dbadmin.password=${csm.dbadmin.password}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.dbowner.user=${csm.postgresql.user.owner}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">csm.dbowner.password=${csm.dbowner.password}${line.separator}</echo>
+    	<echo file="${csm.properties.file}" append="true">csm.appName=${csm.appName}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">gaards.csm.db.connection.url=jdbc:postgresql://${csm.database.host}:${csm.postgresql.port}/${csm.postgresql.csm.dbname}${line.separator}</echo>
+    	<echo file="${csm.properties.file}" append="true">gaards.csm.db.user.id=${csm.postgresql.user.admin}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">gaards.csm.db.password=${csm.dbadmin.password}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">gaards.csm.db.driver=${csm.database.driver}${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">gaards.csm.db.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">gaards.csm.remote.group.db.creation.policy=update${line.separator}</echo>
+        <echo file="${csm.properties.file}" append="true">gaards.csm.remote.group.sync.seconds=600${line.separator}</echo>
+    </target>
+
+	<target name="createPostgresqlDb" depends="createPostgresPswdFile">
+        <exec executable="psql" description="run plsql to create database" failonerror="true">
+            <arg value="-U" />
+            <arg value="${csm.postgresql.user.owner}" />
+            <arg value="-h" />
+            <arg value="${csm.postgresql.hostname}" />
+            <arg value="-p" />
+            <arg value="${csm.postgresql.port}" />
+            <arg value="-f" />
+            <arg value="${csm.schema.dir}${file.separator}createDatabase.sql" />
+        	<arg value="-v" />
+        	<arg value="DB_NAME=${csm.postgresql.csm.dbname}"/>
+            <arg value="${csm.postgresql.initial.dbname}" />
+            <env key="PGPASSFILE" file="${csm.postgresql.password.file}" />
+        </exec>
+    </target>
+    
+    <target name="deletePostgresqlTables" depends="createPostgresPswdFile">
+        <exec executable="psql" description="run plsql to create database" failonerror="true">
+            <arg value="-U" />
+            <arg value="${csm.postgresql.user.owner}" />
+            <arg value="-h" />
+            <arg value="${csm.postgresql.hostname}" />
+            <arg value="-p" />
+            <arg value="${csm.postgresql.port}" />
+            <arg value="-f" />
+            <arg value="${csm.schema.dir}${file.separator}dropTables.sql" />
+            <arg value="${csm.postgresql.csm.dbname}" />
+            <env key="PGPASSFILE" file="${csm.postgresql.password.file}" />
+        </exec>
+    </target>
+	
+    <target name="createPostgresqlTables" depends="createPostgresPswdFile">
+        <exec executable="psql" description="run plsql to install schema" failonerror="true">
+            <arg value="-U" />
+            <arg value="${csm.postgresql.user.owner}" />
+            <arg value="-h" />
+            <arg value="${csm.postgresql.hostname}" />
+            <arg value="-p" />
+            <arg value="${csm.postgresql.port}" />
+            <arg value="-f" />
+            <arg value="${csm.schema.dir}${file.separator}AuthSchemaPostgres.sql" />
+            <arg value="${csm.postgresql.csm.dbname}" />
+            <env key="PGPASSFILE" file="${csm.postgresql.password.file}" />
+        </exec>
+        <exec executable="psql" description="run plsql to grant pemissions on tables." failonerror="true">
+            <arg value="-U" />
+            <arg value="${csm.postgresql.user.owner}" />
+            <arg value="-h" />
+            <arg value="${csm.postgresql.hostname}" />
+            <arg value="-p" />
+            <arg value="${csm.postgresql.port}" />
+            <arg value="-f" />
+            <arg value="${csm.schema.dir}${file.separator}GrantPostgres.sql" />
+            <arg value="-v" />
+            <arg value="ADMIN_USER=${csm.postgresql.user.admin}" />
+            <arg value="-v" />
+            <arg value="APP_USER=${csm.postgresql.user.app}" />
+            <arg value="${csm.postgresql.csm.dbname}" />
+            <env key="PGPASSFILE" file="${csm.postgresql.password.file}" />
+        </exec>
+        <exec executable="psql" description="run plsql to populate schema" failonerror="true">
+            <arg value="-U" />
+            <arg value="${csm.postgresql.user.admin}" />
+            <arg value="-h" />
+            <arg value="${csm.postgresql.hostname}" />
+            <arg value="-p" />
+            <arg value="${csm.postgresql.port}" />
+            <arg value="-f" />
+            <arg value="${csm.schema.dir}${file.separator}DataPrimingPostgres.sql" />
+            <arg value="${csm.postgresql.csm.dbname}" />
+            <env key="PGPASSFILE" file="${csm.postgresql.password.file}" />
+        </exec>
+        <exec executable="psql" description="run plsql to create view and indexes for CQL preprocessor" failonerror="true">
+            <arg value="-U" />
+            <arg value="${csm.postgresql.user.owner}" />
+            <arg value="-h" />
+            <arg value="${csm.postgresql.hostname}" />
+            <arg value="-p" />
+            <arg value="${csm.postgresql.port}" />
+            <arg value="-f" />
+            <arg value="${csm.schema.dir}${file.separator}UserProtectionElements.sql" />
+            <arg value="-v" />
+            <arg value="APP_USER=${csm.postgresql.user.app}" />
+            <arg value="${csm.postgresql.csm.dbname}" />
+            <env key="PGPASSFILE" file="${csm.postgresql.password.file}" />
+        </exec>
+    </target>  
+
+    <!-- ================================= 
+          target: createPostgresqlCsmTables              
+         ================================= -->
+	<target name="createPostgresqlCsmTables" depends="deletePostgresqlTables,createPostgresqlTables" description="Create new CSM tables in an existing database. If the tables already exists, they are dropped.">
+    	<delete file="${csm.postgresql.password.file}" />
+	</target>
+
+    <!-- ================================= 
+          target: createCsmDatabase              
+         ================================= -->
+    <target name="createPostgresqlCsmDatabase" depends="createPostgresqlDb,createPostgresqlTables" description="Create a new PostgreSQL CSM authorization database. If one already exists, it is dropped.">
+        <delete file="${csm.postgresql.password.file}" />
+    </target>
+
+	<!-- ================================= 
+          target: createCsmDatabaseWithPoliciesForTesting              
+         ================================= -->
+<!--
+    <target name="createPostgresqlCsmDatabaseWithPoliciesForTesting" depends="deletePostgresqlTables,createPostgresqlTables" >
+        <echo>=====  Populating policies in database ${csm.postgresql.csm.dbname} ==========================</echo>
+        <exec executable="psql" description="run plsql to create view and indexes for CQL preprocessor" failonerror="true">
+            <arg value="-U" />
+            <arg value="${csm.postgresql.user.owner}" />
+            <arg value="-h" />
+            <arg value="${csm.postgresql.hostname}" />
+            <arg value="-p" />
+            <arg value="${csm.postgresql.port}" />
+            <arg value="-f" />
+            <arg value="${csm.schema.dir}${file.separator}PopulateTestDataForCqlCsmPreprocessor.sql" />
+            <arg value="-v" />
+            <arg value="APP_NAME=$$$$${csm.appName}$$$$" />
+            <arg value="${csm.postgresql.csm.dbname}" />
+            <env key="PGPASSFILE" file="${csm.postgresql.password.file}" />
+        </exec>
+        <delete file="${csm.postgresql.password.file}" />
+    </target>
+-->
+</project>

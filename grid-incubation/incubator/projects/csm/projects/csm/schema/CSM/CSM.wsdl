@@ -1,0 +1,1562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://csm.gaards.cagrid.org/CSM" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns1="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:wns0="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:ns5="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.service" xmlns:ns0="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice" xmlns:ns8="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns1="http://gaards.cagrid.org/csm" xmlns:ns7="http://csm.gaards.cagrid.org/CSM/FilterCreator/types" xmlns:ns2="http://csm.gaards.cagrid.org/CSM/types" xmlns:ns6="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" xmlns:ns4="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata" name="CSM" targetNamespace="http://csm.gaards.cagrid.org/CSM">
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
+  <import namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" location="./ServiceSecurity.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="./../wsrf/properties/WS-ResourceProperties.wsdl" />
+  <!--============================================================
+
+                      T Y P E S
+                      
+  ============================================================-->
+  <types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" targetNamespace="http://csm.gaards.cagrid.org/CSM" elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.service" schemaLocation="./xsd/cagrid/types/service/servicemodel.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice" schemaLocation="./xsd/cagrid/types/data/data.xsd" />
+      <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" schemaLocation="../wsrf/lifetime/WS-ResourceLifetime.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
+      <import namespace="http://gaards.cagrid.org/csm" schemaLocation="./csm.xsd" />
+      <import namespace="http://csm.gaards.cagrid.org/CSM/FilterCreator/types" schemaLocation="./FilterCreatorTypes.xsd" />
+      <import namespace="http://csm.gaards.cagrid.org/CSM/types" schemaLocation="./CSMTypes.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common" schemaLocation="./xsd/cagrid/types/common/common.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata" schemaLocation="./xsd/cagrid/types/caGridMetadata.xsd" />
+      <element name="GetApplicationsRequest">
+        <complexType>
+          <sequence>
+            <element name="applicationSearchCriteria">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:ApplicationSearchCriteria" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetApplicationsResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Application" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateApplicationRequest">
+        <complexType>
+          <sequence>
+            <element name="application">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:Application" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateApplicationResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Application" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveApplicationRequest">
+        <complexType>
+          <sequence>
+            <element name="applicationId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveApplicationResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="CreateProtectionElementRequest">
+        <complexType>
+          <sequence>
+            <element name="pe">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:ProtectionElement" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateProtectionElementResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionElement" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetProtectionElementsRequest">
+        <complexType>
+          <sequence>
+            <element name="criteria">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:ProtectionElementSearchCriteria" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetProtectionElementsResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionElement" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyProtectionElementRequest">
+        <complexType>
+          <sequence>
+            <element name="protectionElement">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:ProtectionElement" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyProtectionElementResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionElement" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveProtectionElementRequest">
+        <complexType>
+          <sequence>
+            <element name="protectionElementId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveProtectionElementResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="CreateProtectionGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="pg">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:ProtectionGroup" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateProtectionGroupResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionGroup" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetProtectionGroupsRequest">
+        <complexType>
+          <sequence>
+            <element name="criteria">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:ProtectionGroupSearchCriteria" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetProtectionGroupsResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionGroup" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyProtectionGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="pg">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:ProtectionGroup" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyProtectionGroupResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionGroup" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveProtectionGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveProtectionGroupResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="AssignProtectionElementsRequest">
+        <complexType>
+          <sequence>
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="protectionElements" type="xs:long" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AssignProtectionElementsResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="UnassignProtectionElementsRequest">
+        <complexType>
+          <sequence>
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="protectionElements" type="xs:long" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="UnassignProtectionElementsResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetProtectionElementsAssignedToProtectionGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetProtectionElementsAssignedToProtectionGroupResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionElement" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AssignProtectionGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="parentProtectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="childProtectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AssignProtectionGroupResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="UnassignProtectionGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="parentProtectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="childProtectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="UnassignProtectionGroupResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetChildProtectionGroupsRequest">
+        <complexType>
+          <sequence>
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetChildProtectionGroupsResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionGroup" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetGroupsRequest">
+        <complexType>
+          <sequence>
+            <element name="criteria">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:GroupSearchCriteria" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetGroupsResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Group" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="LinkRemoteGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="req">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:LinkRemoteGroupRequest" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="LinkRemoteGroupResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:RemoteGroup" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="UnlinkRemoteGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="applicationId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="groupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="UnlinkRemoteGroupResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="CreateGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="grp">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:LocalGroup" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateGroupResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:LocalGroup" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="groupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveGroupResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="ModifyGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="grp">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:LocalGroup" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyGroupResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:LocalGroup" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AddUsersToGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="groupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="users" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AddUsersToGroupResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="RemoveUsersFromGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="groupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="users" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveUsersFromGroupResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetUsersInGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="groupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetUsersInGroupResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreatePrivilegeRequest">
+        <complexType>
+          <sequence>
+            <element name="privilege">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:Privilege" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreatePrivilegeResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Privilege" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetPrivilegesRequest">
+        <complexType>
+          <sequence>
+            <element name="criteria">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:PrivilegeSearchCriteria" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetPrivilegesResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Privilege" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemovePrivilegeRequest">
+        <complexType>
+          <sequence>
+            <element name="privilegeId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemovePrivilegeResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="ModifyPrivilegeRequest">
+        <complexType>
+          <sequence>
+            <element name="privilege">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:Privilege" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyPrivilegeResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Privilege" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateRoleRequest">
+        <complexType>
+          <sequence>
+            <element name="role">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:Role" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateRoleResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Role" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetRolesRequest">
+        <complexType>
+          <sequence>
+            <element name="criteria">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:RoleSearchCriteria" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetRolesResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Role" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyRoleRequest">
+        <complexType>
+          <sequence>
+            <element name="role">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:Role" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyRoleResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Role" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveRoleRequest">
+        <complexType>
+          <sequence>
+            <element name="roleId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveRoleResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="SetPrivilegesForRoleRequest">
+        <complexType>
+          <sequence>
+            <element name="roleId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="privs" type="xs:long" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SetPrivilegesForRoleResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetPrivilegesForRoleRequest">
+        <complexType>
+          <sequence>
+            <element name="roleId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetPrivilegesForRoleResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Privilege" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GrantGroupPermissionRequest">
+        <complexType>
+          <sequence>
+            <element name="groupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="roleId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GrantGroupPermissionResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="RevokeGroupPermissionRequest">
+        <complexType>
+          <sequence>
+            <element name="groupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="roleId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RevokeGroupPermissionResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GrantUserPermissionRequest">
+        <complexType>
+          <sequence>
+            <element name="userIdentity" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="roleId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GrantUserPermissionResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="RevokeUserPermissionRequest">
+        <complexType>
+          <sequence>
+            <element name="userIdentity" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="roleId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="protectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RevokeUserPermissionResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetPermissionsForUserRequest">
+        <complexType>
+          <sequence>
+            <element name="applicationId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="userIdentity" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetPermissionsForUserResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Permission" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetPermissionForGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="groupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetPermissionForGroupResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:Permission" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetParentProtectionGroupRequest">
+        <complexType>
+          <sequence>
+            <element name="childProtectionGroupId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetParentProtectionGroupResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:ProtectionGroup" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CheckPermissionRequest">
+        <complexType>
+          <sequence>
+            <element name="applicationId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="userIdentity" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="objectId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="privilege" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CheckPermissionResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CheckAttributeBasedPermissionRequest">
+        <complexType>
+          <sequence>
+            <element name="applicationId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="userIdentity" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="objectId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="attributeName" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="attributeValue" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="privilege" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CheckAttributeBasedPermissionResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateFilterClauseRequest">
+        <complexType>
+          <sequence>
+            <element name="filter">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:FilterClause" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateFilterClauseResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:FilterClause" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyFilterClauseRequest">
+        <complexType>
+          <sequence>
+            <element name="filterClauseId" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="sqlForGroup" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <element name="sqlForUser" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ModifyFilterClauseResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:FilterClause" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetFilterClausesRequest">
+        <complexType>
+          <sequence>
+            <element name="criteria">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:FilterClauseSearchCriteria" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetFilterClausesResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns1:FilterClause" minOccurs="1" maxOccurs="unbounded" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveFilterClauseRequest">
+        <complexType>
+          <sequence>
+            <element name="filterClauseId" type="xs:long" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveFilterClauseResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="CreateFilterCreatorRequest">
+        <complexType>
+          <sequence>
+            <element name="applicationID" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="applicationBeansJar" type="xs:base64Binary" minOccurs="1" maxOccurs="1" />
+            <element name="applicationORMJar" type="xs:base64Binary" minOccurs="1" maxOccurs="1" />
+            <element name="hibernateConfig" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateFilterCreatorResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns7:FilterCreatorReference" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateFilterCreatorFromDomainModelRequest">
+        <complexType>
+          <sequence>
+            <element name="applicationID" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <element name="domainModel">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:DomainModel" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateFilterCreatorFromDomainModelResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns7:FilterCreatorReference" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CSMResourceProperties">
+        <complexType>
+          <sequence>
+            <element ref="ns4:ServiceMetadata" />
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <!--  place service messages here -->
+  <message name="GetApplicationsRequest">
+    <part name="parameters" element="tns:GetApplicationsRequest" />
+  </message>
+  <message name="GetApplicationsResponse">
+    <part name="parameters" element="tns:GetApplicationsResponse" />
+  </message>
+  <message name="CreateApplicationRequest">
+    <part name="parameters" element="tns:CreateApplicationRequest" />
+  </message>
+  <message name="CreateApplicationResponse">
+    <part name="parameters" element="tns:CreateApplicationResponse" />
+  </message>
+  <message name="RemoveApplicationRequest">
+    <part name="parameters" element="tns:RemoveApplicationRequest" />
+  </message>
+  <message name="RemoveApplicationResponse">
+    <part name="parameters" element="tns:RemoveApplicationResponse" />
+  </message>
+  <message name="CreateProtectionElementRequest">
+    <part name="parameters" element="tns:CreateProtectionElementRequest" />
+  </message>
+  <message name="CreateProtectionElementResponse">
+    <part name="parameters" element="tns:CreateProtectionElementResponse" />
+  </message>
+  <message name="GetProtectionElementsRequest">
+    <part name="parameters" element="tns:GetProtectionElementsRequest" />
+  </message>
+  <message name="GetProtectionElementsResponse">
+    <part name="parameters" element="tns:GetProtectionElementsResponse" />
+  </message>
+  <message name="ModifyProtectionElementRequest">
+    <part name="parameters" element="tns:ModifyProtectionElementRequest" />
+  </message>
+  <message name="ModifyProtectionElementResponse">
+    <part name="parameters" element="tns:ModifyProtectionElementResponse" />
+  </message>
+  <message name="RemoveProtectionElementRequest">
+    <part name="parameters" element="tns:RemoveProtectionElementRequest" />
+  </message>
+  <message name="RemoveProtectionElementResponse">
+    <part name="parameters" element="tns:RemoveProtectionElementResponse" />
+  </message>
+  <message name="CreateProtectionGroupRequest">
+    <part name="parameters" element="tns:CreateProtectionGroupRequest" />
+  </message>
+  <message name="CreateProtectionGroupResponse">
+    <part name="parameters" element="tns:CreateProtectionGroupResponse" />
+  </message>
+  <message name="GetProtectionGroupsRequest">
+    <part name="parameters" element="tns:GetProtectionGroupsRequest" />
+  </message>
+  <message name="GetProtectionGroupsResponse">
+    <part name="parameters" element="tns:GetProtectionGroupsResponse" />
+  </message>
+  <message name="ModifyProtectionGroupRequest">
+    <part name="parameters" element="tns:ModifyProtectionGroupRequest" />
+  </message>
+  <message name="ModifyProtectionGroupResponse">
+    <part name="parameters" element="tns:ModifyProtectionGroupResponse" />
+  </message>
+  <message name="RemoveProtectionGroupRequest">
+    <part name="parameters" element="tns:RemoveProtectionGroupRequest" />
+  </message>
+  <message name="RemoveProtectionGroupResponse">
+    <part name="parameters" element="tns:RemoveProtectionGroupResponse" />
+  </message>
+  <message name="AssignProtectionElementsRequest">
+    <part name="parameters" element="tns:AssignProtectionElementsRequest" />
+  </message>
+  <message name="AssignProtectionElementsResponse">
+    <part name="parameters" element="tns:AssignProtectionElementsResponse" />
+  </message>
+  <message name="UnassignProtectionElementsRequest">
+    <part name="parameters" element="tns:UnassignProtectionElementsRequest" />
+  </message>
+  <message name="UnassignProtectionElementsResponse">
+    <part name="parameters" element="tns:UnassignProtectionElementsResponse" />
+  </message>
+  <message name="GetProtectionElementsAssignedToProtectionGroupRequest">
+    <part name="parameters" element="tns:GetProtectionElementsAssignedToProtectionGroupRequest" />
+  </message>
+  <message name="GetProtectionElementsAssignedToProtectionGroupResponse">
+    <part name="parameters" element="tns:GetProtectionElementsAssignedToProtectionGroupResponse" />
+  </message>
+  <message name="AssignProtectionGroupRequest">
+    <part name="parameters" element="tns:AssignProtectionGroupRequest" />
+  </message>
+  <message name="AssignProtectionGroupResponse">
+    <part name="parameters" element="tns:AssignProtectionGroupResponse" />
+  </message>
+  <message name="UnassignProtectionGroupRequest">
+    <part name="parameters" element="tns:UnassignProtectionGroupRequest" />
+  </message>
+  <message name="UnassignProtectionGroupResponse">
+    <part name="parameters" element="tns:UnassignProtectionGroupResponse" />
+  </message>
+  <message name="GetChildProtectionGroupsRequest">
+    <part name="parameters" element="tns:GetChildProtectionGroupsRequest" />
+  </message>
+  <message name="GetChildProtectionGroupsResponse">
+    <part name="parameters" element="tns:GetChildProtectionGroupsResponse" />
+  </message>
+  <message name="GetGroupsRequest">
+    <part name="parameters" element="tns:GetGroupsRequest" />
+  </message>
+  <message name="GetGroupsResponse">
+    <part name="parameters" element="tns:GetGroupsResponse" />
+  </message>
+  <message name="LinkRemoteGroupRequest">
+    <part name="parameters" element="tns:LinkRemoteGroupRequest" />
+  </message>
+  <message name="LinkRemoteGroupResponse">
+    <part name="parameters" element="tns:LinkRemoteGroupResponse" />
+  </message>
+  <message name="UnlinkRemoteGroupRequest">
+    <part name="parameters" element="tns:UnlinkRemoteGroupRequest" />
+  </message>
+  <message name="UnlinkRemoteGroupResponse">
+    <part name="parameters" element="tns:UnlinkRemoteGroupResponse" />
+  </message>
+  <message name="CreateGroupRequest">
+    <part name="parameters" element="tns:CreateGroupRequest" />
+  </message>
+  <message name="CreateGroupResponse">
+    <part name="parameters" element="tns:CreateGroupResponse" />
+  </message>
+  <message name="RemoveGroupRequest">
+    <part name="parameters" element="tns:RemoveGroupRequest" />
+  </message>
+  <message name="RemoveGroupResponse">
+    <part name="parameters" element="tns:RemoveGroupResponse" />
+  </message>
+  <message name="ModifyGroupRequest">
+    <part name="parameters" element="tns:ModifyGroupRequest" />
+  </message>
+  <message name="ModifyGroupResponse">
+    <part name="parameters" element="tns:ModifyGroupResponse" />
+  </message>
+  <message name="AddUsersToGroupRequest">
+    <part name="parameters" element="tns:AddUsersToGroupRequest" />
+  </message>
+  <message name="AddUsersToGroupResponse">
+    <part name="parameters" element="tns:AddUsersToGroupResponse" />
+  </message>
+  <message name="RemoveUsersFromGroupRequest">
+    <part name="parameters" element="tns:RemoveUsersFromGroupRequest" />
+  </message>
+  <message name="RemoveUsersFromGroupResponse">
+    <part name="parameters" element="tns:RemoveUsersFromGroupResponse" />
+  </message>
+  <message name="GetUsersInGroupRequest">
+    <part name="parameters" element="tns:GetUsersInGroupRequest" />
+  </message>
+  <message name="GetUsersInGroupResponse">
+    <part name="parameters" element="tns:GetUsersInGroupResponse" />
+  </message>
+  <message name="CreatePrivilegeRequest">
+    <part name="parameters" element="tns:CreatePrivilegeRequest" />
+  </message>
+  <message name="CreatePrivilegeResponse">
+    <part name="parameters" element="tns:CreatePrivilegeResponse" />
+  </message>
+  <message name="GetPrivilegesRequest">
+    <part name="parameters" element="tns:GetPrivilegesRequest" />
+  </message>
+  <message name="GetPrivilegesResponse">
+    <part name="parameters" element="tns:GetPrivilegesResponse" />
+  </message>
+  <message name="RemovePrivilegeRequest">
+    <part name="parameters" element="tns:RemovePrivilegeRequest" />
+  </message>
+  <message name="RemovePrivilegeResponse">
+    <part name="parameters" element="tns:RemovePrivilegeResponse" />
+  </message>
+  <message name="ModifyPrivilegeRequest">
+    <part name="parameters" element="tns:ModifyPrivilegeRequest" />
+  </message>
+  <message name="ModifyPrivilegeResponse">
+    <part name="parameters" element="tns:ModifyPrivilegeResponse" />
+  </message>
+  <message name="CreateRoleRequest">
+    <part name="parameters" element="tns:CreateRoleRequest" />
+  </message>
+  <message name="CreateRoleResponse">
+    <part name="parameters" element="tns:CreateRoleResponse" />
+  </message>
+  <message name="GetRolesRequest">
+    <part name="parameters" element="tns:GetRolesRequest" />
+  </message>
+  <message name="GetRolesResponse">
+    <part name="parameters" element="tns:GetRolesResponse" />
+  </message>
+  <message name="ModifyRoleRequest">
+    <part name="parameters" element="tns:ModifyRoleRequest" />
+  </message>
+  <message name="ModifyRoleResponse">
+    <part name="parameters" element="tns:ModifyRoleResponse" />
+  </message>
+  <message name="RemoveRoleRequest">
+    <part name="parameters" element="tns:RemoveRoleRequest" />
+  </message>
+  <message name="RemoveRoleResponse">
+    <part name="parameters" element="tns:RemoveRoleResponse" />
+  </message>
+  <message name="SetPrivilegesForRoleRequest">
+    <part name="parameters" element="tns:SetPrivilegesForRoleRequest" />
+  </message>
+  <message name="SetPrivilegesForRoleResponse">
+    <part name="parameters" element="tns:SetPrivilegesForRoleResponse" />
+  </message>
+  <message name="GetPrivilegesForRoleRequest">
+    <part name="parameters" element="tns:GetPrivilegesForRoleRequest" />
+  </message>
+  <message name="GetPrivilegesForRoleResponse">
+    <part name="parameters" element="tns:GetPrivilegesForRoleResponse" />
+  </message>
+  <message name="GrantGroupPermissionRequest">
+    <part name="parameters" element="tns:GrantGroupPermissionRequest" />
+  </message>
+  <message name="GrantGroupPermissionResponse">
+    <part name="parameters" element="tns:GrantGroupPermissionResponse" />
+  </message>
+  <message name="RevokeGroupPermissionRequest">
+    <part name="parameters" element="tns:RevokeGroupPermissionRequest" />
+  </message>
+  <message name="RevokeGroupPermissionResponse">
+    <part name="parameters" element="tns:RevokeGroupPermissionResponse" />
+  </message>
+  <message name="GrantUserPermissionRequest">
+    <part name="parameters" element="tns:GrantUserPermissionRequest" />
+  </message>
+  <message name="GrantUserPermissionResponse">
+    <part name="parameters" element="tns:GrantUserPermissionResponse" />
+  </message>
+  <message name="RevokeUserPermissionRequest">
+    <part name="parameters" element="tns:RevokeUserPermissionRequest" />
+  </message>
+  <message name="RevokeUserPermissionResponse">
+    <part name="parameters" element="tns:RevokeUserPermissionResponse" />
+  </message>
+  <message name="GetPermissionsForUserRequest">
+    <part name="parameters" element="tns:GetPermissionsForUserRequest" />
+  </message>
+  <message name="GetPermissionsForUserResponse">
+    <part name="parameters" element="tns:GetPermissionsForUserResponse" />
+  </message>
+  <message name="GetPermissionForGroupRequest">
+    <part name="parameters" element="tns:GetPermissionForGroupRequest" />
+  </message>
+  <message name="GetPermissionForGroupResponse">
+    <part name="parameters" element="tns:GetPermissionForGroupResponse" />
+  </message>
+  <message name="GetParentProtectionGroupRequest">
+    <part name="parameters" element="tns:GetParentProtectionGroupRequest" />
+  </message>
+  <message name="GetParentProtectionGroupResponse">
+    <part name="parameters" element="tns:GetParentProtectionGroupResponse" />
+  </message>
+  <message name="CheckPermissionRequest">
+    <part name="parameters" element="tns:CheckPermissionRequest" />
+  </message>
+  <message name="CheckPermissionResponse">
+    <part name="parameters" element="tns:CheckPermissionResponse" />
+  </message>
+  <message name="CheckAttributeBasedPermissionRequest">
+    <part name="parameters" element="tns:CheckAttributeBasedPermissionRequest" />
+  </message>
+  <message name="CheckAttributeBasedPermissionResponse">
+    <part name="parameters" element="tns:CheckAttributeBasedPermissionResponse" />
+  </message>
+  <message name="CreateFilterClauseRequest">
+    <part name="parameters" element="tns:CreateFilterClauseRequest" />
+  </message>
+  <message name="CreateFilterClauseResponse">
+    <part name="parameters" element="tns:CreateFilterClauseResponse" />
+  </message>
+  <message name="ModifyFilterClauseRequest">
+    <part name="parameters" element="tns:ModifyFilterClauseRequest" />
+  </message>
+  <message name="ModifyFilterClauseResponse">
+    <part name="parameters" element="tns:ModifyFilterClauseResponse" />
+  </message>
+  <message name="GetFilterClausesRequest">
+    <part name="parameters" element="tns:GetFilterClausesRequest" />
+  </message>
+  <message name="GetFilterClausesResponse">
+    <part name="parameters" element="tns:GetFilterClausesResponse" />
+  </message>
+  <message name="RemoveFilterClauseRequest">
+    <part name="parameters" element="tns:RemoveFilterClauseRequest" />
+  </message>
+  <message name="RemoveFilterClauseResponse">
+    <part name="parameters" element="tns:RemoveFilterClauseResponse" />
+  </message>
+  <message name="CreateFilterCreatorRequest">
+    <part name="parameters" element="tns:CreateFilterCreatorRequest" />
+  </message>
+  <message name="CreateFilterCreatorResponse">
+    <part name="parameters" element="tns:CreateFilterCreatorResponse" />
+  </message>
+  <message name="CreateFilterCreatorFromDomainModelRequest">
+    <part name="parameters" element="tns:CreateFilterCreatorFromDomainModelRequest" />
+  </message>
+  <message name="CreateFilterCreatorFromDomainModelResponse">
+    <part name="parameters" element="tns:CreateFilterCreatorFromDomainModelResponse" />
+  </message>
+  <message name="CSMInternalFaultFaultMessage">
+    <part name="fault" element="ns2:CSMInternalFault" />
+  </message>
+  <message name="AccessDeniedFaultFaultMessage">
+    <part name="fault" element="ns2:AccessDeniedFault" />
+  </message>
+  <message name="CSMTransactionFaultFaultMessage">
+    <part name="fault" element="ns2:CSMTransactionFault" />
+  </message>
+  <message name="HibernateSessionCreationFaultFaultMessage">
+    <part name="fault" element="ns2:HibernateSessionCreationFault" />
+  </message>
+  <!--============================================================
+
+                       P O R T T Y P E
+                      
+  ============================================================-->
+  <portType name="CSMPortType" wsrp:ResourceProperties="tns:CSMResourceProperties">
+    <operation name="getApplications">
+      <input message="tns:GetApplicationsRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetApplicationsRequest" />
+      <output message="tns:GetApplicationsResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetApplicationsResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+    </operation>
+    <operation name="createApplication">
+      <input message="tns:CreateApplicationRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateApplicationRequest" />
+      <output message="tns:CreateApplicationResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateApplicationResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="removeApplication">
+      <input message="tns:RemoveApplicationRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveApplicationRequest" />
+      <output message="tns:RemoveApplicationResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveApplicationResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="createProtectionElement">
+      <input message="tns:CreateProtectionElementRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateProtectionElementRequest" />
+      <output message="tns:CreateProtectionElementResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateProtectionElementResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getProtectionElements">
+      <input message="tns:GetProtectionElementsRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetProtectionElementsRequest" />
+      <output message="tns:GetProtectionElementsResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetProtectionElementsResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="modifyProtectionElement">
+      <input message="tns:ModifyProtectionElementRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyProtectionElementRequest" />
+      <output message="tns:ModifyProtectionElementResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyProtectionElementResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="removeProtectionElement">
+      <input message="tns:RemoveProtectionElementRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveProtectionElementRequest" />
+      <output message="tns:RemoveProtectionElementResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveProtectionElementResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="createProtectionGroup">
+      <input message="tns:CreateProtectionGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateProtectionGroupRequest" />
+      <output message="tns:CreateProtectionGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateProtectionGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getProtectionGroups">
+      <input message="tns:GetProtectionGroupsRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetProtectionGroupsRequest" />
+      <output message="tns:GetProtectionGroupsResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetProtectionGroupsResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="modifyProtectionGroup">
+      <input message="tns:ModifyProtectionGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyProtectionGroupRequest" />
+      <output message="tns:ModifyProtectionGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyProtectionGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="removeProtectionGroup">
+      <input message="tns:RemoveProtectionGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveProtectionGroupRequest" />
+      <output message="tns:RemoveProtectionGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveProtectionGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="assignProtectionElements">
+      <input message="tns:AssignProtectionElementsRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/AssignProtectionElementsRequest" />
+      <output message="tns:AssignProtectionElementsResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/AssignProtectionElementsResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="unassignProtectionElements">
+      <input message="tns:UnassignProtectionElementsRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/UnassignProtectionElementsRequest" />
+      <output message="tns:UnassignProtectionElementsResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/UnassignProtectionElementsResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getProtectionElementsAssignedToProtectionGroup">
+      <input message="tns:GetProtectionElementsAssignedToProtectionGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetProtectionElementsAssignedToProtectionGroupRequest" />
+      <output message="tns:GetProtectionElementsAssignedToProtectionGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetProtectionElementsAssignedToProtectionGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="assignProtectionGroup">
+      <input message="tns:AssignProtectionGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/AssignProtectionGroupRequest" />
+      <output message="tns:AssignProtectionGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/AssignProtectionGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="unassignProtectionGroup">
+      <input message="tns:UnassignProtectionGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/UnassignProtectionGroupRequest" />
+      <output message="tns:UnassignProtectionGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/UnassignProtectionGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getChildProtectionGroups">
+      <input message="tns:GetChildProtectionGroupsRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetChildProtectionGroupsRequest" />
+      <output message="tns:GetChildProtectionGroupsResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetChildProtectionGroupsResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getGroups">
+      <input message="tns:GetGroupsRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetGroupsRequest" />
+      <output message="tns:GetGroupsResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetGroupsResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="linkRemoteGroup">
+      <input message="tns:LinkRemoteGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/LinkRemoteGroupRequest" />
+      <output message="tns:LinkRemoteGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/LinkRemoteGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="unlinkRemoteGroup">
+      <input message="tns:UnlinkRemoteGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/UnlinkRemoteGroupRequest" />
+      <output message="tns:UnlinkRemoteGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/UnlinkRemoteGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="createGroup">
+      <input message="tns:CreateGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateGroupRequest" />
+      <output message="tns:CreateGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateGroupResponse" />
+    </operation>
+    <operation name="removeGroup">
+      <input message="tns:RemoveGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveGroupRequest" />
+      <output message="tns:RemoveGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="modifyGroup">
+      <input message="tns:ModifyGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyGroupRequest" />
+      <output message="tns:ModifyGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="addUsersToGroup">
+      <input message="tns:AddUsersToGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/AddUsersToGroupRequest" />
+      <output message="tns:AddUsersToGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/AddUsersToGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="removeUsersFromGroup">
+      <input message="tns:RemoveUsersFromGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveUsersFromGroupRequest" />
+      <output message="tns:RemoveUsersFromGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveUsersFromGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+    </operation>
+    <operation name="getUsersInGroup">
+      <input message="tns:GetUsersInGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetUsersInGroupRequest" />
+      <output message="tns:GetUsersInGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetUsersInGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="createPrivilege">
+      <input message="tns:CreatePrivilegeRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreatePrivilegeRequest" />
+      <output message="tns:CreatePrivilegeResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreatePrivilegeResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getPrivileges">
+      <input message="tns:GetPrivilegesRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetPrivilegesRequest" />
+      <output message="tns:GetPrivilegesResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetPrivilegesResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="removePrivilege">
+      <input message="tns:RemovePrivilegeRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemovePrivilegeRequest" />
+      <output message="tns:RemovePrivilegeResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemovePrivilegeResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="modifyPrivilege">
+      <input message="tns:ModifyPrivilegeRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyPrivilegeRequest" />
+      <output message="tns:ModifyPrivilegeResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyPrivilegeResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="createRole">
+      <input message="tns:CreateRoleRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateRoleRequest" />
+      <output message="tns:CreateRoleResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateRoleResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getRoles">
+      <input message="tns:GetRolesRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetRolesRequest" />
+      <output message="tns:GetRolesResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetRolesResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="modifyRole">
+      <input message="tns:ModifyRoleRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyRoleRequest" />
+      <output message="tns:ModifyRoleResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyRoleResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="removeRole">
+      <input message="tns:RemoveRoleRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveRoleRequest" />
+      <output message="tns:RemoveRoleResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveRoleResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="setPrivilegesForRole">
+      <input message="tns:SetPrivilegesForRoleRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/SetPrivilegesForRoleRequest" />
+      <output message="tns:SetPrivilegesForRoleResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/SetPrivilegesForRoleResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getPrivilegesForRole">
+      <input message="tns:GetPrivilegesForRoleRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetPrivilegesForRoleRequest" />
+      <output message="tns:GetPrivilegesForRoleResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetPrivilegesForRoleResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="grantGroupPermission">
+      <input message="tns:GrantGroupPermissionRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GrantGroupPermissionRequest" />
+      <output message="tns:GrantGroupPermissionResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GrantGroupPermissionResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="revokeGroupPermission">
+      <input message="tns:RevokeGroupPermissionRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RevokeGroupPermissionRequest" />
+      <output message="tns:RevokeGroupPermissionResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RevokeGroupPermissionResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="grantUserPermission">
+      <input message="tns:GrantUserPermissionRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GrantUserPermissionRequest" />
+      <output message="tns:GrantUserPermissionResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GrantUserPermissionResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="revokeUserPermission">
+      <input message="tns:RevokeUserPermissionRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RevokeUserPermissionRequest" />
+      <output message="tns:RevokeUserPermissionResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RevokeUserPermissionResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getPermissionsForUser">
+      <input message="tns:GetPermissionsForUserRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetPermissionsForUserRequest" />
+      <output message="tns:GetPermissionsForUserResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetPermissionsForUserResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getPermissionForGroup">
+      <input message="tns:GetPermissionForGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetPermissionForGroupRequest" />
+      <output message="tns:GetPermissionForGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetPermissionForGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getParentProtectionGroup">
+      <input message="tns:GetParentProtectionGroupRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetParentProtectionGroupRequest" />
+      <output message="tns:GetParentProtectionGroupResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetParentProtectionGroupResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="checkPermission">
+      <input message="tns:CheckPermissionRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CheckPermissionRequest" />
+      <output message="tns:CheckPermissionResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CheckPermissionResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="checkAttributeBasedPermission">
+      <input message="tns:CheckAttributeBasedPermissionRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CheckAttributeBasedPermissionRequest" />
+      <output message="tns:CheckAttributeBasedPermissionResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CheckAttributeBasedPermissionResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="createFilterClause">
+      <input message="tns:CreateFilterClauseRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateFilterClauseRequest" />
+      <output message="tns:CreateFilterClauseResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateFilterClauseResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="modifyFilterClause">
+      <input message="tns:ModifyFilterClauseRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyFilterClauseRequest" />
+      <output message="tns:ModifyFilterClauseResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/ModifyFilterClauseResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="getFilterClauses">
+      <input message="tns:GetFilterClausesRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetFilterClausesRequest" />
+      <output message="tns:GetFilterClausesResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/GetFilterClausesResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+      <fault name="CSMTransactionFault" message="tns:CSMTransactionFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMTransactionFaultFaultMessage" />
+    </operation>
+    <operation name="removeFilterClause">
+      <input message="tns:RemoveFilterClauseRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveFilterClauseRequest" />
+      <output message="tns:RemoveFilterClauseResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/RemoveFilterClauseResponse" />
+      <fault name="CSMInternalFault" message="tns:CSMInternalFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/CSMInternalFaultFaultMessage" />
+      <fault name="AccessDeniedFault" message="tns:AccessDeniedFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/AccessDeniedFaultFaultMessage" />
+    </operation>
+    <operation name="createFilterCreator">
+      <input message="tns:CreateFilterCreatorRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateFilterCreatorRequest" />
+      <output message="tns:CreateFilterCreatorResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateFilterCreatorResponse" />
+      <fault name="HibernateSessionCreationFault" message="tns:HibernateSessionCreationFaultFaultMessage" wsa:Action="http://csm.gaards.cagrid.org/CSM/HibernateSessionCreationFaultFaultMessage" />
+    </operation>
+    <operation name="createFilterCreatorFromDomainModel">
+      <input message="tns:CreateFilterCreatorFromDomainModelRequest" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateFilterCreatorFromDomainModelRequest" />
+      <output message="tns:CreateFilterCreatorFromDomainModelResponse" wsa:Action="http://csm.gaards.cagrid.org/CSM/CreateFilterCreatorFromDomainModelResponse" />
+    </operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetMultipleResourceProperties">
+      <wsdl:input name="GetMultipleResourcePropertiesRequest" message="wsrpw:GetMultipleResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourceProperties" />
+      <wsdl:output name="GetMultipleResourcePropertiesResponse" message="wsrpw:GetMultipleResourcePropertiesResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetMultipleResourcePropertiesResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+    </wsdl:operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GetResourceProperty">
+      <wsdl:input name="GetResourcePropertyRequest" message="wsrpw:GetResourcePropertyRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourceProperty" />
+      <wsdl:output name="GetResourcePropertyResponse" message="wsrpw:GetResourcePropertyResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourcePropertyResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+    </wsdl:operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="QueryResourceProperties">
+      <wsdl:input name="QueryResourcePropertiesRequest" message="wsrpw:QueryResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourceProperties" />
+      <wsdl:output name="QueryResourcePropertiesResponse" message="wsrpw:QueryResourcePropertiesResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/QueryResourcePropertiesResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsrpw:ResourceUnknownFault" />
+      <wsdl:fault name="InvalidResourcePropertyQNameFault" message="wsrpw:InvalidResourcePropertyQNameFault" />
+      <wsdl:fault name="UnknownQueryExpressionDialectFault" message="wsrpw:UnknownQueryExpressionDialectFault" />
+      <wsdl:fault name="InvalidQueryExpressionFault" message="wsrpw:InvalidQueryExpressionFault" />
+      <wsdl:fault name="QueryEvaluationErrorFault" message="wsrpw:QueryEvaluationErrorFault" />
+    </wsdl:operation>
+    <operation name="getServiceSecurityMetadata">
+      <input message="wns1:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />
+      <output message="wns1:GetServiceSecurityMetadataResponse" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataResponse" />
+    </operation>
+  </portType>
+</definitions>
+
