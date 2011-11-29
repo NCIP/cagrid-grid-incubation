@@ -1,0 +1,981 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>README for cql_csm</title>
+	</head>
+	<body>
+		<h1 align='center'>
+			README for cql_csm
+		</h1>
+		<p>
+			This is version 1.3.1 of cql_csm. Cql_csm includes a replacement for
+			the CQL processor used by introduce-generated data services that are
+			configured to use CSM instance-level security to control which table
+			rows or objects are accessible to a user. The reason a replacement is
+			needed for the default CQL processor is that the way the default CQL
+			processor works is unsuitable for many security use cases.
+		</p>
+		<p>
+			This version of cql_csm also include a CQL pre-processor that can be
+			integrated with any caGrid data service to provide instance-level
+			security. It works by adding constraints to a query that are needed
+			to enforce CSM-based authorization policies. It is independent of the
+			type of data store that the data service queries. The current version
+			of xService includes integeration support for this pre-processor.
+		</p>
+		<p>
+			This document is organized into the following sections:
+		</p>
+		<ul>
+			<li>
+				A description of
+				<a href="#theProblem">the security problems that cql_csm solves.</a>
+			</li>
+			<li>
+				The
+				<a href="#testEnvironment">Environment in which the CQL_CSM
+					replacement CQL processor was tested.</a>.
+			</li>
+			<li>
+				How to
+				<a href="#install">install CQL_CSM replacement CQL processor.</a>
+			</li>
+			<li>
+				<a href="#preprocessTest">Environment in which the CQL
+					preprocessor was tested.</a>
+			</li>
+			<li>
+				<A href="#preprocessor">How to integrate with the pre-processor.</A>
+			</li>
+			<li>
+				<A href="history">Revision History</A>.
+				<br />
+			</li>
+		</ul>
+
+		<h2>
+			<a name="theProblem" />The Security Problems that CQL_CSM Solves
+		</h2>
+		<p />
+		The CQL_CSM library is mechanism for enforcing CSM-based authorization
+		policies that can be used instead of the CAM-API. It exists to solve
+		two problems with the CSM-API:
+		<ul>
+			<li>
+				When used in a cGrid data service, the design for the CSM-API leaves
+				a security hole open.
+			</li>
+			<li>
+				The CSM-API only provides instance-level security for data in
+				relational databases that is accessed through hibernate.
+			</li>
+		</ul>
+		<p>
+			These issues are discussed in under the following headings.
+		</p>
+		<h3>
+			Vulnerability through Probing of caCORE-Based Data Services
+		</h3>
+		<p>
+			There is a potential vulnerability in the security provided by the
+			CSM-caCORE integration that uses the CSM-API. Queries can probe for
+			the existence of records containing specific attribute values in
+			records that a user is not authorized to access. Consider this
+			scenario:
+		</p>
+		<p>
+			Suppose that the OpenClinica data service has two users named X and
+			Y. Among the things that OpenClinica tracks are studies and subjects,
+			which have a many-to-many relationship to each other.
+		</p>
+		<p>
+			User X is supposed to have access to study A and all subjects
+			associated with study A. User Y is supposed to have access to study B
+			and all subjects associated with study B. We do not want user X to be
+			able to tell which subjects in study A are also in study B.
+			Similarly, we do not want user Y to be able to tell which subjects in
+			study B are also in study A. However, CSM does not allow us to
+			prevent this.
+		</p>
+		<p>
+			Here is how it works. For the Study class we set up a filter that
+			will only match a specified set of study names. For the Subject
+			class, we set up a filter that will only match Subjects that are
+			associated with a Study that matches a specified set of study names.
+			For user X we specify that the study name to filter for is A. For
+			user Y we specify that the study name to filter for is B.
+		</p>
+		<p>
+			The problem is that when we issue a query, CSM does not use both
+			filters. It just uses the filter that matches the class that we want
+			to return an instance of. If user X issues a query asking for all of
+			the subjects that are associated with study B, CMS only uses the
+			filter for Subject. It ignored the filter for Study. For this query,
+			there will be no filtering on Study, so the Subject filter will
+			remove subjects that are not associated with study A and the query is
+			free to find subjects among those that are also associated with study
+			B.
+			<br />
+		</p>
+
+		<p>
+			This vulnerability, if exploited with enough time and ingenuity, will
+			allow people who are able to retrieve just one record in a database
+			to learn the contents of the rest of the database.
+		</p>
+		<p>
+			To solve this problem, the CQL_CSM library provides a replacement for
+			the standard CQL processor that is used by caCORE-based data
+			services.
+		</p>
+		<h3>
+			Support for Data Sources Other Than Relational Database
+		</h3>
+		<p>
+			The CSM-API support for instance-level security only works for
+			relational databases that are accessed through hibernate. To provide
+			instance-level security in other situations, the CQL-CSL library
+			provides a CQL pre-preprocessor. It takes a CQL query and modifies
+			the query to include constraints based on relevant CSM policies that
+			limit the results of the query to only those objects that the query
+			issuer is authorized to read.
+		</p>
+		<p>
+			Since the pre-processor deals only with CQL, it is independent of the
+			type of data source that a data service uses. It relies on the
+			existing CQL processor to translate CQL queries into something that
+			work with the underlying data source.
+		</p>
+		<h2>
+			<a name="testEnvironment" />The Environment that the CQL_CSM
+			Replacement CQL Processor was Tested in.
+		</h2>
+		<p>
+			CQL_CSM replacement CQL processor was tested in an environment that
+			consisted of the following components:
+		</p>
+		<ul>
+			<li>
+				The CENTOS 5.5 distribution of Linux.
+			</li>
+			<li>
+				Java 1.5
+			</li>
+			<li>
+				caGrid 1.3
+			</li>
+			<li>
+				caCORE 4.1.1 (later versions may work.&nbsp; Versions before 4.1.1
+				are
+				<strong>not</strong> supported.)
+			</li>
+			<li>
+				PostgreSQL 8.1 and MySql 5.0 (in alternate environments.&nbsp; Not
+				at the same time.)
+			</li>
+		</ul>
+		<h2>
+			<a name="install" />How to install CQL_CSM Replacement CQL Processor
+		</h2>
+		The following steps assume
+		<ul>
+			<li>
+				<p>
+					The data service does not use the caCORE SDK&apos;s writable API.
+				</p>
+			</li>
+			<li>
+				<p>
+					The data service uses a database that has case-insensitive table
+					names. The replacement CQL processor
+					<i>may</i> not work correctly if table names are case sensitive.
+					The CSM service that is used to administer CSM authorization
+					policies will
+					<i>definitely not</i> work correctly with case-sensistive table
+					names. MySql on Linux can be made to have case-insensitive table
+					names by setting the lower_case_table_names system variable to 1.
+				</p>
+			</li>
+			<li>
+				<p>
+					The root directory used to build and deploy the data service is
+					identified as
+					<tt>$APP_LOCATION</tt>.
+				</p>
+			</li>
+			<li>
+				<p>
+					The top-level directory of the CQL_CSM distribution is identified
+					as
+					<tt>$CQL_CSM_LOCATION</tt>.
+				</p>
+			</li>
+			<li>
+				<p>
+					The name of the database whose data the data service accesses is
+					represented in paths and file names as
+					<tt><i>dbName</i> </tt>.
+				</p>
+			</li>
+		</ul>
+		Some of the steps the follow assume the existence of a directory named
+		<tt>local-client</tt>.
+		<ol>
+			<li>
+				Create an introduce-generated caGrid data service that is configured
+				to access the data of a caCORE application through the
+				&ldquo;local&rdquo; interface.
+				<p>
+					It does not matter if it is configured to use CSM security.
+					However, if it is configured to use CSM security, be sure to note
+					the value of the
+					<tt>CSM_PROJECT_NAME</tt> property in the caCORE SDK's
+					<tt>conf/deploy.properties</tt> file. This will be the value that
+					you will want to use for the application name when administering
+					CSM security policies.
+				</p>
+				<p />
+				At the time of this writing, Introduce support for caCORE SDK 4.1.1
+				appears to have a bug that causes it to not copy all of the needed
+				<tt>.jar</tt> files from the generated
+				<tt>package/local-client/lib</tt> directory. If you find that your
+				data service is failing due to classes not being found, look for the
+				missing .jar files in the generated
+				<tt>package/local-client/lib</tt> directory and copy them to your
+				data service&apos;s
+				<tt>lib</tt> and
+				<tt>build/lib</tt> directories. Files known to not be copied because
+				of this bug include:
+				<ul>
+					<li>
+						<tt>ehcache-1.2.2.jar</tt>
+					</li>
+					<li>
+						<tt>c3p0-0.9.0.jar</tt>
+					</li>
+					<li>
+						<tt>mysql-connector-java-3.1.13-bin.jar</tt>
+					</li>
+					<li>
+						<tt>jta.jar</tt>
+					</li>
+					<li>
+						<tt>org.dom4j</tt>
+					</li>
+					<li>
+						<tt>csmapi-4.1.jar</tt>
+					</li>
+				</ul>
+				<p />
+				The data service should be running in a secure container.
+				<p>
+					Note that because the data service is configured to use the local
+					API, works directly with the relevant database. The caGRID data
+					service can run without the caCORE application running.
+				</p>
+				<p>
+					<b>Do not continue to the next step until this is working.</b>
+				</p>
+			</li>
+			<li>
+				<p>
+					Issue the commands
+					<br />
+					<tt>cd $CQL_CSM_LOCATION</tt>
+					<br />
+					<tt>ant clean all</tt>
+				</p>
+			</li>
+			<li>
+				Issue the commands
+				<br />
+				<tt>cd $APP_LOCATION</tt>
+				<br />
+				<tt>ant clean</tt>
+				<p>
+					It is important to do a clean operation at this time without
+					building anything.
+				</p>
+			</li>
+			<li>
+				Make a backup code of the
+				<tt>$APP_LOCATION</tt> directory.
+				<br />
+				<br />
+			</li>
+			<li>
+				Copy
+				<tt>$CQL_CSM_LOCATION/build/lib/cql_csm_cacore_1.3.1.jar</tt> to
+				<tt>$APP_LOCATION/lib</tt>.
+				<br />
+				<p>
+					This is the .jar file that contains the CQL processor replacement.
+				</p>
+			</li>
+			<!--
+			<li>
+				<p>Copy
+                <tt>$CQL_CSM_LOCATION/caGrid_lib/sdk-client-framework.jar</tt> and <nobr><tt>$CQL_CSM_LOCATION/caGrid_lib/sdk-core.jar</tt></nobr> to
+                <nobr><tt>$APP_LOCATION/lib</tt></nobr>.</p>
+			</li>
+-->
+			<li>
+				In this step, you will be modifying the contents of an
+				<tt>.jar</tt> file whose name follows the pattern
+				<nobr>
+					<tt>$APP_LOCATION/lib/<i>dbName</i>&#x2011;config.jar</tt>
+				</nobr>
+				. For example, if the name of the database is
+				<tt>jhusnpdb</tt>, then the actual file name will be
+				<nobr>
+					<tt><tt>$APP_LOCATION/lib</tt>/<i>jhusnpdb</i>&#x2011;config.jar</tt>
+				</nobr>
+				.
+				<p>
+					The recommended approach to editing
+					<tt>.jar</tt> files is to extract the contents of the
+					<tt>.jar</tt> file into a like-named subdirectory, edit the files
+					in the subdirectories and then rebuild the
+					<tt>.jar</tt> files. If you use an editor such as emacs that can
+					edit files inside of a .jar file, that will also work.
+				</p>
+				<p>
+					Edit the XML for a spring bean that determines the class that the
+					data service uses to process CQL queries. This is in a file named
+					<tt>application&#x2011;config.xml</tt> in the
+					<tt>.jar</tt> file
+					<tt><i>dbName</i>&#x2011;local&#x2011;config.jar</tt>. For example,
+					if the name of the database is
+					<tt>snpdb</tt> then the name of the .jar file will be
+					<tt>snpdb&#x2011;local&#x2011;config.jar</tt>.
+				</p>
+				<p>
+					The
+					<tt>application&#x2011;config.xml</tt> file contains a spring bean
+					that looks like this:
+				</p>
+				<pre>
+&lt;bean name="ApplicationServiceImpl" class="gov.nih.nci.system.applicationservice.impl.ApplicationServiceImpl" singleton="true"&gt;
+    &lt;constructor-arg ref="ClassCache" index="0"&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;</pre>
+				Change
+				<br />
+				<tt>&nbsp;&nbsp;&nbsp;gov.nih.nci.system.applicationservice.impl.ApplicationServiceImpl</tt>
+				<br />
+				to
+				<br />
+				<tt>&nbsp;&nbsp;&nbsp;edu.emory.cci.cqlCsm.cqlCsmHibernate.ApplicationServiceImpl</tt>
+				<br />
+				When you are done, the spring bean should look like this:
+				<pre>&lt;bean name="ApplicationServiceImpl" class="edu.emory.cci.cqlCsm.cqlCsmHibernate.ApplicationServiceImpl" singleton="true"&gt;
+    &lt;constructor-arg ref="ClassCache" index="0"&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;</pre>
+				<hr />
+				<p>
+					This file contains another spring bean that looks like this:
+				</p>
+				<pre>&lt;bean name="ClassCache" class="gov.nih.nci.system.util.ClassCache" singleton="true"&gt;
+  &lt;property name="daoList"&gt;
+    &lt;list&gt;
+      &lt;!--  Add any DAO's here --&gt;
+      &lt;ref bean="ORMDAOFactory"/&gt;
+    &lt;/list&gt;
+  &lt;/property&gt;
+&lt;/bean&gt;</pre>
+				<p>
+					Comment out the reference to the
+					<tt>ORMDAOFactory</tt> like this:
+				</p>
+				<pre>&lt;bean name="ClassCache" class="gov.nih.nci.system.util.ClassCache" singleton="true"&gt;
+  &lt;property name="daoList"&gt;
+    &lt;list&gt;
+      &lt;!--  Add any DAO's here --&gt;
+      &lt;!--  &lt;ref bean="ORMDAOFactory"/&gt; --&gt;
+    &lt;/list&gt;
+  &lt;/property&gt;
+&lt;/bean&gt;</pre>
+				<hr />
+				<p>
+					Further in this file are additional spring beans named
+					<tt>ORMDAO</tt>,
+					<tt>HibernateConfigHolder</tt>,
+					<tt>SessionFactory</tt>,
+					<tt>SecurityInitializationHelper</tt>,
+					<tt>HibernateTransactionManager</tt> and
+					<tt>TxInterceptor</tt>. Delete these spring beans from the file.
+				</p>
+				<hr />
+				<p>
+					Near the end of the file is a spring bean that looks like this:
+				</p>
+				<pre>&lt;bean id="ApplicationService" class="org.springframework.aop.framework.ProxyFactoryBean" singleton="true"&gt;
+    &lt;property name="target" ref="ApplicationServiceImpl" /&gt;
+    &lt;property name="interfaces" value="gov.nih.nci.system.applicationservice.ApplicationService" /&gt;
+    &lt;property name="interceptorNames"&gt;
+        &lt;list&gt;
+            &lt;idref local="TxInterceptor" /&gt;
+            &lt;!--&lt;idref local="CLMInterceptor" /&gt;--&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</pre>
+				<p>
+					Comment out the
+					<tt>idref</tt> element so that it looks like this:
+				</p>
+				<pre>&lt;bean id="ApplicationService" class="org.springframework.aop.framework.ProxyFactoryBean" singleton="true"&gt;
+    &lt;property name="target" ref="ApplicationServiceImpl" /&gt;
+    &lt;property name="interfaces" value="gov.nih.nci.system.applicationservice.ApplicationService" /&gt;
+    &lt;property name="interceptorNames"&gt;
+        &lt;list&gt;
+            &lt;!-- &lt;idref local="TxInterceptor" /&gt; --&gt;
+            &lt;!-- &lt;idref local="CLMInterceptor" /&gt; --&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</pre>
+			</li>
+			<li>
+				<p>
+					There is another XML file in
+					<nobr>
+						<tt>$APP_LOCATION/lib/<i>dbName</i>&#x2011;config.jar</tt>
+					</nobr>
+					that needs to be edited. The name of the file is
+					<tt>application-config-client.xml</tt>. The edit is similar to the
+					last edit you made.
+				</p>
+				<p>
+					Find a spring bean that looks like this
+				</p>
+				<pre>&lt;bean id="ApplicationService" class="org.springframework.aop.framework.ProxyFactoryBean" singleton="true"&gt;
+    &lt;property name="target" ref="ApplicationServiceImpl" /&gt;
+    &lt;property name="interfaces" value="gov.nih.nci.system.applicationservice.ApplicationService" /&gt;
+    &lt;property name="interceptorNames"&gt;
+        &lt;list&gt;
+             &lt;idref local="Interceptor" /&gt;
+             &lt;idref bean="TxInterceptor" /&gt;
+             &lt;!--&lt;idref bean="CLMInterceptor" /&gt;--&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</pre>
+				<p>
+					Comment out the second
+					<tt>idref</tt> element so that it looks like this:
+				</p>
+				<pre>&lt;bean id="ApplicationService" class="org.springframework.aop.framework.ProxyFactoryBean" singleton="true"&gt;
+    &lt;property name="target" ref="ApplicationServiceImpl" /&gt;
+    &lt;property name="interfaces" value="gov.nih.nci.system.applicationservice.ApplicationService" /&gt;
+    &lt;property name="interceptorNames"&gt;
+        &lt;list&gt;
+             &lt;idref local="Interceptor" /&gt;
+             &lt;!--&lt;idref bean="TxInterceptor" /&gt;--&gt;
+             &lt;!--&lt;idref bean="CLMInterceptor" /&gt;--&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</pre>
+			</li>
+			<li>
+				<p>
+					cd to
+					<tt>$APP_LOCATION and issue the appropriate command to deploy
+						the data service to its container.</tt>
+				</p>
+			</li>
+			<li>
+				<p>
+					Install the CSM service on the same host as your data service. You
+					will use this to administer instance level security and any other
+					sorts of CSM security policies that you may be using. You can
+					download the CSM service from
+					<a href="http://www.inventrio.com/solutions/downloads">the
+						Inventrio downloads page</a>.
+				</p>
+				<p>
+					<b>Read this installation step completely before installing the
+						CSM service.</b>
+				</p>
+				<p>
+					The installation instructions for the CSM service describe a step
+					titled, &ldquo;Step 6: Initialize CSM database or tables
+					(optional)&rdquo;. You will need to create CSM tables in the same
+					database that your data service uses if they do not already exist.
+				</p>
+				<p>
+					If you are using a MySql database, be sure to use the command
+					<br />
+					<tt>ant createMysqlCsmTables</tt>
+					<br />
+					as described in the installation instructions to create the CSM
+					tables in your existing database.
+					<font color="red">Do not use the command <br /> <tt>ant
+							createMysqlCsmDatabase</tt> <br /> which will <b>delete your
+							existing database</b>!! </font>
+				</p>
+				<p />
+				If you are configuring your data service to use a different user ID
+				to access the MySql database than the user ID that owns the CSM
+				tables (recommended), you will need to grant select permission on
+				the CSM tables to that user ID that the data service will be using.
+				The names of these tables are:
+				<ul>
+					<li>
+						<tt>CSM_APPLICATION</tt>
+					</li>
+					<li>
+						<tt>CSM_FILTER_CLAUSE</tt>
+					</li>
+					<li>
+						<tt>CSM_GROUP</tt>
+					</li>
+					<li>
+						<tt>CSM_PG_PE</tt>
+					</li>
+					<li>
+						<tt>CSM_PRIVILEGE</tt>
+					</li>
+					<li>
+						<tt>CSM_PROTECTION_ELEMENT</tt>
+					</li>
+					<li>
+						<tt>CSM_PROTECTION_GROUP</tt>
+					</li>
+					<li>
+						<tt>CSM_REMOTE_GROUP</tt>
+					</li>
+					<li>
+						<tt>CSM_REMOTE_GROUP_SYNC_RECORD</tt>
+					</li>
+					<li>
+						<tt>CSM_ROLE</tt>
+					</li>
+					<li>
+						<tt>CSM_ROLE_PRIVILEGE</tt>
+					</li>
+					<li>
+						<tt>CSM_USER</tt>
+					</li>
+					<li>
+						<tt>CSM_USER_GROUP</tt>
+					</li>
+					<li>
+						<tt>CSM_USER_GROUP_ROLE_PG</tt>
+					</li>
+					<li>
+						<tt>CSM_USER_PE</tt>
+					</li>
+				</ul>
+				You will also need to grant
+				<tt>INSERT</tt> on the table
+				<tt>CSM_APPLICATION</tt>.
+				<p>
+					If you are using a PosgreSQL database, the process for creating the
+					CSM database tables is not documented in the CSM service
+					installation. The rest of this step discusses how to create the CSM
+					tables for PostgreSQL.
+				</p>
+				<p />
+				Create three user IDs for the database.
+				<ul>
+					<li>
+						One user must be have the id
+						<tt>csm</tt>. This user must be created with
+						<tt>CREATEDB</tt>. This user will own the CSM tables but not be
+						used for any runtime or production purposes.
+					</li>
+					<li>
+						One user must have the id
+						<tt>csm_adm</tt>. This user ID will be granted permissions needed
+						to modify the contents of the CSM tables. The CSM service should
+						be configured to use the
+						<tt>csm_adm</tt> id for connecting to the database.
+					</li>
+					<li>
+						The other user must have the id
+						<tt>csm_app</tt>. This user will be granted read-only access to
+						the CSM tables. Your data service should use the
+						<tt>csm_app</tt> id for connecting to the database.
+					</li>
+				</ul>
+				<p>
+					Edit the file
+					<tt>$CQL_CSM_LOCATION.build.xml</tt>. Change the line that looks
+					like
+					<br />
+					<tt>&lt;property name="csm.postgresql.csm.dbname"
+						value="ivi_csm"/&gt;</tt>
+					<br />
+					so that the value of the property is the name of the database your
+					data service will be using. For example, if the name of the
+					database is
+					<tt>snpdb</tt>, then change the line to look like
+					<br />
+					<tt>&lt;property name="csm.postgresql.csm.dbname"
+						value="snpdb"/&gt;</tt>
+				</p>
+				<p>
+					cd to
+					<tt>$CQL_CSM_LOCATION</tt>. Issue the command
+					<br />
+					<tt>ant createPostgresqlCsmTables</tt>
+					<br />
+					This creates the CSM tables.
+				</p>
+				<p>
+					The first time that you issue this command, it will prompt you for
+					some information about your database. It collects this information
+					in the file
+					<tt>$CQL_CSM_LOCATION/CSM_pg/csm.properties</tt>. Subsequent times
+					that you issue this command it will not prompt you for this
+					information. Instead, it will read the stored information from the
+					file. If you want to enter different information, then edit or
+					delete the file.
+					<br />
+				</p>
+				<p>
+					When you have finished creating the CSM tables, you will also have
+					created the file
+					<tt>$CSM_CQL_LOCATION/CSM_pg/csm.properties</tt>. This file can be
+					used to configure the CSM service. When you get to the place in the
+					CSM service installation instructions where it tells you to edit a
+					file named
+					<tt>csm.properties</tt> you should first copy
+					<tt>$CSM_CQL_LOCATION/CSM_pg/csm.properties</tt> over that file.
+				</p>
+			</li>
+			<li>
+				<p>
+					You will need a
+					<tt>csm.properties</tt> file. If you are using a PostgreSQL
+					database, you created a suitable
+					<tt>csm.properties</tt> file in the previous installation step. If
+					you are using a MySql database, then you will need to manually
+					create a
+					<tt>csm.properties</tt> file by copying the following sample.
+				</p>
+				<pre>csm.database.driver=com.mysql.jdbc.Driver
+csm.database.url=jdbc:mysql://localhost:3306/snpdb
+csm.database.user=csm_app
+csm.database.password=xxx
+csm.appName=data_service</pre>
+				All of the properties in the sample must be present in the
+				<tt>csm.properties</tt> file:
+				<dl>
+					<dt>
+						<tt>csm.database.driver</tt>
+					</dt>
+					<dd>
+						The value of this should be the name of the class to use rfor the
+						JDBC database driver. The usual value of this for a MySql database
+						is
+						<tt>com.mysql.jdbc.Driver</tt>.
+					</dd>
+					<dt>
+						<tt>csm.database.url</tt>
+					</dt>
+					<dd>
+						The value of this should be the URL to use for creating a JDBC
+						connection to the database.
+					</dd>
+					<dt>
+						<tt>csm.database.user</tt>
+					</dt>
+					<dd>
+						The user name that the data service should use for logging into
+						the database.
+					</dd>
+					<dt>
+						<tt>csm.database.password</tt>
+					</dt>
+					<dd>
+						The password that the data service should use for logging into the
+						database.
+					</dd>
+					<dt>
+						<tt>csm.appName</tt>
+					</dt>
+					<dd>
+						The name you want to use to identify the data service in the CSM
+						tables.
+					</dd>
+				</dl>
+			</li>
+			<li>
+				<p>
+					At this point you should have a
+					<tt>csm.properties</tt> file, either from manually creating it in
+					the previous installation step if you are using a MySql database or
+					by automatically creating it in the step before that if you are
+					using a PostgreSQL database. You need to copy your
+					<tt>csm.properties</tt> file to the appropriate directory in the
+					container for your data service.
+				</p>
+				<p>
+					Depending on which type of container the data service is in, the
+					directory path will be different. There will be a directory under
+					which most files related to your data service live. Under that
+					directory will be a directory named
+					<tt>etc</tt>. Under that directory will be a directory with a name
+					like
+					<tt>cagrid_<i>dataServiceName</i> </tt>, where
+					<tt><i>dataServiceName</i> </tt> is the name of the data service.
+					For example, if the container being used is tomcat and the name of
+					the data service is SnpDataService then the directory to which you
+					should copy the
+					<tt>csm.properties</tt> file is
+					<tt>$CATALINA_HOME/webapps/wsrf/WEB-INF/etc/cagrid_SnpDataService</tt>
+				</p>
+			</li>
+			<li>
+				<p>
+					Deploy the data service and start its container. If everything is
+					working correctly, at this point all of your functional tests for
+					the data service should behave exactly as they did before you
+					configured the data service to use the CQL_CSM replacement CQL
+					processor. The way that CSM instance level security works is that
+					until you configure at least one CSM filter for a class,
+					unrestricted access to all of the class&apos;s instances is
+					assumed.
+				</p>
+				<p>
+					Performing this test step is
+					<b>not optional.</b> Until you exercise the newly configured data
+					service for the first time, it will not be registered in the CSM
+					tables and you will not be able to configure CSM authorization
+					policies for the data service.
+				</p>
+			</li>
+			<li>
+				<p>
+					You are now ready to configure CSM authorization policies. This is
+					described in the accompanying word document
+					<tt>Configuration.docx</tt>.
+					<br />
+				</p>
+			</li>
+		</ol>
+		<h2>
+			<a name="preprocessTest" />CQL Pre-Processor Test Environment
+		</h2>
+		<p>
+			The CQL pre-processor was tested in an environment that consisted of
+			the following components:
+		</p>
+		<ul>
+			<li>
+				The CENTOS 5.2 distribution of Linux.
+			</li>
+			<li>
+				Java 1.5
+			</li>
+			<li>
+				caGrid 1.2
+			</li>
+			<li>
+				xService 1.3.5
+			</li>
+			<li>
+				PostgreSQL 8.1.18
+			</li>
+		</ul>
+		<h2>
+			<a name="preprocessor" />How to integrate with the preprocessor
+		</h2>
+		<p>
+			If you are integrating the preprocessor with a data service that is
+			based on xService, then you are in luck. Current versions of xService
+			(1.3.5 or later) can be integrated with the CQL pre-processor without
+			writing any code. In other circumstances, there is a simple interface
+			to use for modifying a data service to use the pre-processor.
+		</p>
+		<p>
+			In all cases, the data service will need access to the
+			<tt>.jar</tt> that contains the pre-processor. The name of the
+			<tt>.jar</tt> file is
+			<tt>cql_csm-1.3.1.jar</tt>.
+		</p>
+		<p>
+			If you do not have the source to build the data service that you are
+			integrating with, you can add the
+			<tt>.jar</tt> to the appropriate
+			<tt>lib</tt> directory. However, if you are building the data service
+			from source using a project whose dependencies are managed with ivy,
+			then the recommended way to include the
+			<tt>.jar</tt> file in you build is to add an ivy dependency that will
+			copy it from CCI&apos;s repository.
+		</p>
+		<p>
+			Add this to the dependencies in the project&apos;s
+			<tt>ivy.xml</tt>.
+		</p>
+		<pre>&lt;dependency org="edu.emory.cci" name="cql_csm" rev="1.3.1-beta4" /&gt;</pre>
+		<p>
+			Under the top-level directory of your tree, in the
+			<tt>antfiles/ivy/ivysettings.xml</tt> file, as the last element in
+		</p>
+		<pre>
+&lt;ivysettings&gt;
+  ...
+  &lt;resolvers&gt;
+    &lt;chain&gt;
+      ...
+    &lt;/chain&gt;
+  &lt;/resolvers&gt;
+&lt;/ivysettings&gt;
+</pre>
+		<p>
+			add this
+		</p>
+		<pre>
+      &lt;url name="cci-resolver" m2compatible="true"&gt;
+        &lt;artifact pattern="http://repo.cci.emory.edu:8081/artifactory/libs-releases-local/[organization]/[module]/[revision]/[artifact]-[revision].[ext]" /&gt;
+        &lt;artifact pattern="http://repo.cci.emory.edu:8081/artifactory/libs-releases-local/[organization]/[module]/[revision]/[artifact].[ext]" /&gt;
+      &lt;/url&gt;
+</pre>
+		<p>
+			To integrate the CQL pre-processor with a data service based on
+			xService, you just need to have a service property named
+			<tt>CqlPreprocessor_ClassName</tt>. If this service property has a
+			non-blank value, xService assumes that the value of the property is
+			the name of a class that it should use as a CQL pre-processor.
+		</p>
+		<p>
+			There are two recommended values for for the
+			<tt>CqlPreprocessor_ClassName</tt> service property. The value
+			<tt>edu.emory.cci.cqlCsm.cqlCsmCql.CqlNullPreprocessor</tt> will
+			cause xService to call a pre-processor that just returns the query
+			without any modification. This is a good choice when no
+			instance-level security is needed.
+		</p>
+		<p>
+			The other recommended value for the
+			<tt>CqlPreprocessor_ClassName</tt> service property is
+			<tt>edu.emory.cci.cqlCsm.cqlCsmCql.CqlCsmPreprocessor</tt>. This
+			value will cause xService to call the pre-processor that adds
+			constraints based on CSM policies.
+		</p>
+		<p>
+			To integerate the CQL pre-precessor with a data service that does not
+			use xService, you will need to modify the its CQL processor to pass
+			each CQL query to the pre-processor and then use the possibly
+			modified CQL query that is returned by the pre=processor.
+		</p>
+		<p>
+			Both of the pre-processor classes mentioned in the preceding
+			paragraphs can be instantiated with a no-argument constructor. The
+			both implement the interface
+			<tt>edu.emory.cci.cqlCsm.cqlCsmCql.CqlPreprocessor</tt>. Here is the
+			definition of the interface:
+		</p>
+		<pre>
+public interface CqlPreprocessor {
+    /**
+     * Pre-process/re-write/transform the given CQL query and return the
+     * transformed CQL query.
+     * 
+     * @param query The query to be pre-processed/re-written/transformed.
+     * @param user The identity of the user this is for.
+     * @return The pre-processed/re-written/transformed CQL query.
+     */
+    public CQLQuery preprocess(CQLQuery query, String user);
+}</pre>
+		<p>
+			The CQL pre-processor uses a PostgreSQL database to store CSM
+			authorization policies. You will need to make sure that PosegreSQL is
+			installed. The pre-processor was tested with PostgreSQL 8.1, but more
+			recent versions should work.
+		</p>
+		<p />
+		Create three PostgreSQL user ID:
+		<ul>
+			<li>
+				One user must be have the id
+				<tt>csm</tt>. This user must be created with
+				<tt>CREATEDB</tt>. This user ID will own the CSM tables but not be
+				used for any runtime or production purposes.
+			</li>
+			<li>
+				One user must have the id
+				<tt>csm_adm</tt>. This user ID will be granted permissions needed to
+				read and modify the contents of the CSM tables. The CSM service,
+				which you will use to administer CSM authorization policies, should
+				be configured to use the
+				<tt>csm_adm</tt> id for connecting to the database.
+			</li>
+			<li>
+				The other user must have the id
+				<tt>csm_app</tt>. This user will be granted read-only access to the
+				CSM tables. Your data service will use the
+				<tt>csm_app</tt> id for connecting to the database.
+			</li>
+		</ul>
+		<p />
+		cd to the tope-level directory of the CQL_CSM distribution. Issue the
+		command
+		<br />
+		<tt>ant createPostgresqlCsmTables</tt>
+		<br />
+		This creates the CSM tables.
+		<p>
+			The first time that you issue this command, it will prompt you for
+			some information about your database. It collects this information in
+			the file
+			<tt>CSM_pg/csm.properties</tt>. Subsequent times that you issue this
+			command it will not prompt you for this information. Instead, it will
+			read the stored information from the file. If you want to enter
+			different information, then edit or delete the file.
+			<br />
+			<br/>
+			When you have finished creating the CSM tables, you will also have
+			created the file
+			<tt>CSM_pg/csm.properties</tt>. This file can be used to configure
+			the CSM service. When you get to the place in the CSM service
+			installation instructions where it tells you to edit a file named
+			<tt>csm.properties</tt> you should first copy
+			<tt>CSM_pg/csm.properties</tt> over that file.
+			<p />
+			You will also need to copy
+			<tt>CSM_pg/csm.properties</tt> into your deployed data service so
+			that the CQL pre-processor can find it.
+			<p />
+			Depending on which type of container the data service is in, the
+			directory path will be different. There will be a directory under
+			which most files related to your data service live. Under that
+			directory will be a directory named
+			<tt>etc</tt>. Under that directory will be a directory with a name
+			like
+			<tt>cagrid_<i>dataServiceName</i> </tt>, where
+			<tt><i>dataServiceName</i> </tt> is the name of the data service. For
+			example, if the container being used is tomcat and the name of the
+			data service is SnpDataService then the directory to which you should
+			copy the
+			<tt>csm.properties</tt> file is
+			<tt>$CATALINA_HOME/webapps/wsrf/WEB-INF/etc/cagrid_SnpDataService</tt>
+		<p>
+			The next step is to install the CSM service and its GAARDS client.
+			You can get the version of the CSM service that corresponds to the
+			beta release by checking it out of subversion from
+			<tt>https://svn.inventrio.com/csm/tags/caGrid-CSM_1_3_1_beta4</tt>.
+		</p>
+		<p>
+			This source tree includes two projects. The project named
+			<tt>csm</tt> is the CSM service. The project named
+			<tt>csm-ui</tt> is the GAARDS client for the service.
+		</p>
+		<p>
+			You can find documentation for the 1.3 version of the CSM service and
+			client at
+			<tt><a href="https://www.cagrid.org/display/csm13/Home">https://www.cagrid.org/display/csm13/Home</a>
+			</tt>. This documentation does not include information on how to configure
+			instance-level CSM authorization policies. Configuration of CSM
+			authorization policies is described in the accompanying word document
+			<tt>Configuration.docx</tt>.
+		</p>
+		<H2>
+			<A name="history" />Revision History
+		</H2>
+		<h4>
+			Version 1.1
+		</h4>
+		Group-based authorization is now tested and working.
+	</body>
+</html>

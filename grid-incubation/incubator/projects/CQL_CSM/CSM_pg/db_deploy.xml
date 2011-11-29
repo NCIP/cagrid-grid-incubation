@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== -->
+<!-- Tasks for deploying a CSM support for a caGrid-based project.          -->
+<!-- This file contains a non-public task named -deployDsmDatabaseProperties -->
+<!-- that copies the csm.properties file to the project's etc directory,    -->
+<!-- modifying the file to set the csm.appName.                             -->
+<!--                                                                        -->
+<!-- The project's dev-build-deploy.xml file imported this file.  The       -->
+<!-- dev-build-deploy.xml file should set the csm.init.appName property to  -->
+<!-- the name that CSM will use to identify the service.                    -->
+<!-- The preDeployTomcat, preDeployGlobus and preDeployJBoss targets in the -->
+<!-- dev-build-deploy.xml file should be modified to include                -->
+<!-- deployDsmDatabaseProperties task in their depends list like this:      -->
+<!-- <target name="preDeployTomcat" depends="deployCsmDatabaseProperties">  -->
+<!-- </target>                                                              -->
+<!--                                                                        -->
+<!-- This ant script needs a jdbc driver to do its work. If the RDBMS being -->
+<!-- used is PostgreSQL, then this script assumes that the driver in in a   -->
+<!-- jar file with the path lib/postgresql-8.3-605.jdbc3.jar.  If you want  -->
+<!-- to use a different jar file or you are using a different RDBMS than    -->
+<!-- PostgreSQL then the file that imports this file should set the         -->
+<!-- csm.jdbc.jar property to the path of the correct jdbc jar file.        -->
+<!-- ====================================================================== -->
+<!DOCTYPE project>
+<project basedir=".">
+    <property name="csm.lib.dir" value="${basedir}/lib"/>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: -setJarPathForPostgresql                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="-setJarPathForPostgresql" if="usingPosgreSQL">
+        <property name="csm.jdbc.jar" location="${csm.lib.dir}/postgresql-8.3-605.jdbc3.jar"/>
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: -setJarPathForMySql                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="-setJarPathForMySql" if="usingMySql" unless="csm.jdbc.jar">
+        <echo>WARNING: The value of the ant property csm.jdbc.jar has not specified and there is no MySql default for it.</echo>
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: -readCsmProperties                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="-readCsmProperties">
+        <property name="csm.properties.file" location="${basedir}/../../CSM/csm.properties" />
+
+        <available file="${csm.properties.file}" property="csm.properties.exists" />
+        <fail unless="csm.properties.exists">
+            CSM database has not been configured.  Please run the top level ant script for ivi with the target createCsmDatabase.
+        </fail>
+
+        <property file="${basedir}/etc/csm.properties" />
+    <echo>gaards.csm.db.hibernate.dialect=${gaards.csm.db.hibernate.dialect}${line.separator}</echo>
+        
+        <condition property="usingPosgreSQL">
+            <equals arg1="${gaards.csm.db.hibernate.dialect}" arg2="org.hibernate.dialect.PostgreSQLDialect" trim="true"/>
+        </condition>
+        
+        <condition property="usingMySql">
+            <equals arg1="${gaards.csm.db.hibernate.dialect}" arg2="org.hibernate.dialect.MySQLDialect" trim="true"/>
+        </condition>
+    </target>
+
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: deployCsmDatabaseProperties                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="-deployCsmDatabaseProperties" depends="-readCsmProperties,-setJarPathForPostgresql,-setJarPathForMySql">
+        <fail unless="csm.init.appName" status="-1">Parent ant script did not set value of property csm.init.appName.
+The property csm.init.appName should be set to the name of the application that CSM should use to identify the service being deployed.
+        </fail>
+
+        <property name="csm.appDescription" value="${csm.init.appName} caGrid Service."/>
+
+        <available file="${csm.properties.file}" property="csm.properties.exists" />
+        <fail unless="csm.properties.exists">
+            CSM database has not been configured.  Please run the top level ant script for ivi with the target createCsmDatabase.
+        </fail>
+        <filter token="appName" value="${csm.init.appName}" />
+        <copy file="${csm.properties.file}" todir="${basedir}/etc" filtering="true" />
+
+        <!-- Ensure that the application is in the CSM database. -->
+    <echo>Looking for JDBC driver in ${csm.jdbc.jar}${line.separator}</echo>
+        <sql driver="${gaards.csm.db.driver}" password="${csm.dbadmin.password}" 
+              url="${gaards.csm.db.connection.url}" userid="${csm.dbadmin.user}"
+             autocommit="true" onerror="continue" classpath="${csm.jdbc.jar}">
+            <![CDATA[
+            INSERT INTO csm_application (application_name, application_description) VALUES ('${csm.appName}', '${csm.appDescription}');
+            ]]>
+        </sql>
+    </target>
+</project>

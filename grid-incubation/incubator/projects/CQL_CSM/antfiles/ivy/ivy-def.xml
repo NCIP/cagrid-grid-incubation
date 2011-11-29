@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ivy-definitions" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property name="ivy.install.version" value="2.1.0" />
+    <dirname property="ivy-definitions.basedir" file="${ant.file.ivy-definitions}" />
+    <property name="project.root.dir" location="${ivy-definitions.basedir}/../.." />
+
+    <!-- re setting the env property - the properties are not inherited -->
+    <property environment="env" />
+    <property file="${project.root.dir}/build.properties" />
+    
+    <property name="ivy.jar.dir" location="${ivy-definitions.basedir}/lib" />
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+    <available file="${ivy.jar.file}" property="ivy.is.installed" />
+
+    <target name="_install_ivy_" unless="ivy.is.installed">
+        <!-- Download Ivy from web site automatically -->
+        <echo>Installing ivy.${line.separator}</echo>
+        <mkdir dir="${ivy.jar.dir}" />
+        <get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" 
+             dest="${ivy.jar.file}" usetimestamp="true"/>
+    </target>
+
+    <!--The first is the repository.dir property, which is where the external libraries caGrid needs are stored, and the second is the integration.repository.dir which is where caGrid projects publish themselves when built such that other caGrid projects can depend on them. -->
+    <!-- setup ivy default configuration with some custom info -->
+    <property name="repository.dir"  location="${project.root.dir}/repository"/>
+    <property name="integration.repository.dir"  location="${project.root.dir}/integration-repository" />
+        
+    <!-- set ivy repositories for caGrid -->
+    <target name="init-ivy" depends="_install_ivy_" unless="ivy.initialized">
+        <path id="ivy.lib.path">
+            <fileset dir="${ivy.jar.dir}" includes="*.jar" />
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" loaderRef="ivy.loader" />
+       <ivy:settings file="${project.root.dir}/antfiles/ivy/ivysettings.xml">
+           <credentials host="${repo.cci.host}" username="${repo.cci.username}" passwd="${repo.cci.passwd}" realm="Artifactory Realm"/>
+       </ivy:settings>
+       <property name="ivy.initialized" value="true" />
+    </target>
+</project>

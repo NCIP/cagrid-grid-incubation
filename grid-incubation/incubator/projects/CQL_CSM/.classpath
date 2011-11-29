@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test/src"/>
+	<classpathentry kind="lib" path="lib/hibernate-3.2.0.ga.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-sdkQuery4-beans-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/sdk-core.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-CQL-cql.1.0-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/sdk-client-framework.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="lib/spring-2.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-sdkQuery4-processor-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-data-common-1.2.jar"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/wsrf_core.jar"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/cog-jglobus.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-metadata-data-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-metadata-common-1.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/axis.jar"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/naming-common.jar"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/naming-factory.jar"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="lib/postgresql-8.3-603.jdbc3.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-core-1.2.jar"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/commons-discovery.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.5.0_17"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/saaj.jar"/>
+	<classpathentry kind="lib" path="lib/caGrid-Introduce-serviceTools-1.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

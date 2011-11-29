@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info organisation="edu.emory.cci" module="csm_cql" revision="${version}">
+        <license name="Modified MIT"
+            url="http://repo.cci.emory.edu:8081/artifactory/libs-releases-local/license/1/license.txt"/>
+        <ivyauthor name="Mark Grand" url="mailto:mgrand@emory.edu"/>
+        <repository name="repo.cci.emory.edu"
+            url="http://repo.cci.emory.edu:8081/artifactory/libs-releases-local" artifacts="true"
+            ivys="true"/>
+        <description homepage="https://www.cagrid.org/display/csm131/Home">Library for integrating
+            CSM-based instance-level security with CQL parsers.</description>
+    </info>
+    <configurations>
+        <conf name="postgresql"
+            description="Just files for creating CSM database tables and a csm.properties file."
+            visibility="public"/>
+        <conf name="cacore"
+            description="Replacement CQL processor for data services that query caCORE databases"
+            visibility="private" />
+        <conf name="pg_cacore"
+            description="Replacement CQL processor for data services that query caCORE postgresql databases"
+            visibility="public" extends="postgresql,cacore"/>
+        <conf name="preprocessor"
+            description="Preprocessor to add to queries CQL constraints based on CSM constraints."
+            visibility="private" />
+        <conf name="pg_preprocessor"
+            description="Preprocessor to add to queries CQL constraints based on CSM constraints in postgresql databases."
+            visibility="public" extends="preprocessor,postgresql"/>
+        <conf name="all" description="All artifacts." visibility="public" extends="pg_cacore,pg_preprocessor"/>
+    </configurations>
+    <publications>
+        <artifact name="cql_csm_config_pg" type="zip" conf="postgresql"/>
+        <artifact name="cql_csm" type="jar" conf="preprocessor" />
+        <artifact name="cql_csm_cacore" type="jar" conf="cacore"/>
+    </publications>
+    <dependencies defaultconf="all">
+        <dependency org="postgresql" name="postgresql" rev="8.3-603.jdbc3" conf="postgresql->*"/>
+        <dependency org="apache" name="log4j" rev="1.2.14" conf="cacore,preprocessor->*"/>
+        <dependency org="caGrid" name="cql" rev="1.2" conf="cacore,preprocessor->cql"/>
+        <dependency org="caGrid" name="sdkQuery4" rev="1.2" conf="cacore->processor" />
+        <dependency org="caGrid" name="data" rev="1.2" conf="cacore->common" />
+        <dependency org="org.springframework" name="spring" rev="2.5.5" conf="cacore->*"/>
+        <dependency org="org.hibernate" name="hibernate" rev="3.2.0.ga" conf="cacore->*"/>
+        <!-- <dependency org="org.acegisecurity" name="acegi-security" rev="1.0.7" conf="cacore->*"/> -->
+        <dependency org="caGrid" name="metadata" rev="1.2" conf="preprocessor->data.jars"/>
+        <dependency org="caGrid" name="core" rev="1.2" conf="preprocessor->default"/>
+        <dependency org="caGrid" name="introduce" rev="1.2" conf="cacore,preprocessor->serviceTools"/>
+    </dependencies>
+</ivy-module>
