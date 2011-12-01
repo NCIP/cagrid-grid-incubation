@@ -6,13 +6,27 @@
 
 <project name="mds-index" default="deployIndexTomcat" basedir=".">
 
+	<!-- Define the environment variable -->
+	<property environment="env" />
+
+	<!-- Important directories and files -->
+	<property name="src.dir" location="src" />
+	<property name="lib.dir" location="lib" />
+
+	<!-- Basic Build directories -->
+
+	<!-- Auxiliary directory where all the intermediate files will be placed -->
+	<property name="build.dir" location="build" />
+	<!-- Directory for compiled service classes -->
+	<property name="build.dest" location="${build.dir}/classes" />
+
 	<property name="gars.dir" value="${basedir}/ext/dependencies/default/gars" />
 
 
 	<!-- =============================================================== -->
 	<!-- Deploy the Index Service                                        -->
 	<!-- =============================================================== -->
-	<target name="deployIndexJBoss">
+	<target name="deployIndexJBoss" description="Deploy the index service to a JBoss container">
 		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
 			<property name="gar.name" value="globus_wsrf_aggregator_schema" />
 		</ant>
@@ -42,7 +56,7 @@
 	<!-- =============================================================== -->
 	<!-- Deploy the Index Service                                        -->
 	<!-- =============================================================== -->
-	<target name="deployIndexTomcat">
+	<target name="deployIndexTomcat" description="Deploy the index service to a tomcat container">
 		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
 			<property name="gar.name" value="globus_wsrf_aggregator_schema" />
 		</ant>
@@ -72,7 +86,7 @@
 	<!-- =============================================================== -->
 	<!-- Deploy the Index Service                                        -->
 	<!-- =============================================================== -->
-	<target name="deployIndexGlobus">
+	<target name="deployIndexGlobus" description="Deploy the index service to a Globus container">
 		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployGlobus">
 			<property name="gar.name" value="globus_wsrf_aggregator_schema.gar" />
 		</ant>
@@ -98,4 +112,62 @@
 			<property name="gar.name" value="globus_wsrf_servicegroup_schema.gar" />
 		</ant>
 	</target>
+	
+
+	<!-- ============================================================== -->
+	<!-- Globus properties                                              -->
+	<!-- ============================================================== -->
+	<target name="checkGlobus" depends="setGlobus">
+		<condition property="globus.not.found">
+			<or>
+				<not>
+					<isset property="ext.globus.dir" />
+				</not>
+				<equals arg1="${ext.globus.dir}" arg2="" />
+			</or>
+		</condition>
+		<fail message="Globus installation is not set in either GLOBUS_LOCATION or ext.globus.dir" if="globus.not.found" />
+		<echo message="Globus: ${ext.globus.dir}" />
+	</target>
+	<target name="setGlobus" if="env.GLOBUS_LOCATION">
+		<!-- GT4 build files and directories-->
+		<property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
+		<property name="build.stubs" location="build-stubs.xml" />
+		<property name="schema.src" location="${ext.globus.dir}/share/schema" />
+		<property name="build.packages" location="${ext.globus.dir}/share/globus_wsrf_common/build-packages.xml" />
+		<!-- Copied from build.stubs file, as there is no way to "append" to the value in the remote file -->
+		<property name="GT4.ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration" />
+	</target>
+
+	<target name="defineClasspaths" depends="checkGlobus">
+		<path id="base.classpath">
+			<fileset dir="${ext.globus.dir}/lib">
+				<include name="*.jar" />
+				<exclude name="${stubs.jar.name}" />
+				<exclude name="${common.jar.name}" />
+				<exclude name="${client.jar.name}" />
+				<exclude name="${service.jar.name}" />
+			</fileset>
+		</path>
+		<path id="redirector.build.classpath">
+			<fileset dir="${lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+			<path refid="base.classpath" />
+		</path>
+	</target>
+
+	<!-- Sets up the build directory structure -->
+	<target name="init" depends="checkGlobus, defineClasspaths">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dest}" />
+	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: compileRedirector                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="compileRedirector" depends="init" description="Compile the java code that redirects to the monitoring service.">
+		<javac srcdir="${src.dir}" classpathref="redirector.build.classpath" includes="**" destdir="${build.dest}" debug="${java.debug}" />         
+    </target>
+
 </project>
