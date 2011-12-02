@@ -27,6 +27,8 @@
 	<!-- Deploy the Index Service                                        -->
 	<!-- =============================================================== -->
 	<target name="deployIndexJBoss" description="Deploy the index service to a JBoss container">
+		<fail unless="env.JBOSS_HOME"
+			  message="Cannot deploy to JBOSS unless environment variable JBOSS_HOME is defined" />
 		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
 			<property name="gar.name" value="globus_wsrf_aggregator_schema" />
 		</ant>
@@ -57,6 +59,8 @@
 	<!-- Deploy the Index Service                                        -->
 	<!-- =============================================================== -->
 	<target name="deployIndexTomcat" description="Deploy the index service to a tomcat container">
+		<fail unless="env.CATALINA_HOME"
+			  message="Cannot deploy to JBOSS unless environment variable CATALINA_HOME is defined" />
 		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
 			<property name="gar.name" value="globus_wsrf_aggregator_schema" />
 		</ant>
@@ -112,7 +116,7 @@
 			<property name="gar.name" value="globus_wsrf_servicegroup_schema.gar" />
 		</ant>
 	</target>
-	
+
 
 	<!-- ============================================================== -->
 	<!-- Globus properties                                              -->
@@ -162,12 +166,12 @@
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.dest}" />
 	</target>
-	
+
 	<!-- - - - - - - - - - - - - - - - - - 
           target: compileRedirector                      
          - - - - - - - - - - - - - - - - - -->
-    <target name="compileRedirector" depends="init" description="Compile the java code that redirects to the monitoring service.">
-		<javac srcdir="${src.dir}" classpathref="redirector.build.classpath" includes="**" destdir="${build.dest}" debug="${java.debug}" />         
-    </target>
+	<target name="compileRedirector" depends="init" description="Compile the java code that redirects to the monitoring service.">
+		<javac srcdir="${src.dir}" classpathref="redirector.build.classpath" includes="**" destdir="${build.dest}" debug="${java.debug}" />
+	</target>
 
 </project>
