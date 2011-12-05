@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project name="deploy-utilities file" basedir="." default="deployRedirect">
+	<fail unless="deploy.dir" message="This ant script is supposed to be called from build.xml"/>
+	
+	<!-- ================================= 
+          target: deployRedirect              
+         ================================= -->
+    <target name="deployRedirect" 
+    	    description="Deploy redirect code for handling redirection to the monitoring service">
+    	<property name="class.dir" location="${deploy.dir}/class"/>
+        <copy file="${build.dest}/org/cagrid/indexService/IndexAxisServlet.class" todir="${class.dir}">
+        </copy>
+    </target>
+
+</project>

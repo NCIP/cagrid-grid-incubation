@@ -24,14 +24,14 @@ public class IndexAxisServlet extends AxisServlet {
 	@Override
 	protected void reportServiceInfo(HttpServletResponse response,
 			PrintWriter writer, SOAPService service, String serviceName) {
-        //writer.write("We can print stuff here, or redirect :");
+        writer.write("We can print stuff here, or redirect :");
         // The leading slash means we are redirecting using an absolute path
-        String redirectPage = response.encodeRedirectURL("/" + serviceName + ".jsp");
-        try {
-            response.sendRedirect(redirectPage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }           
+//        String redirectPage = response.encodeRedirectURL("/" + serviceName + ".jsp");
+//        try {
+//            response.sendRedirect(redirectPage);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }           
         //super.reportServiceInfo(response, writer, service, serviceName);
 	}
 

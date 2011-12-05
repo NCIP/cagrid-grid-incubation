@@ -24,7 +24,7 @@
 
 
 	<!-- =============================================================== -->
-	<!-- Deploy the Index Service                                        -->
+	<!-- Deploy the Index Service to a JBoss container                   -->
 	<!-- =============================================================== -->
 	<target name="deployIndexJBoss" description="Deploy the index service to a JBoss container">
 		<fail unless="env.JBOSS_HOME"
@@ -56,7 +56,7 @@
 	</target>
 
 	<!-- =============================================================== -->
-	<!-- Deploy the Index Service                                        -->
+	<!-- Deploy the Index Service to a tomcat container.                 -->
 	<!-- =============================================================== -->
 	<target name="deployIndexTomcat" description="Deploy the index service to a tomcat container">
 		<fail unless="env.CATALINA_HOME"
@@ -173,5 +173,23 @@
 	<target name="compileRedirector" depends="init" description="Compile the java code that redirects to the monitoring service.">
 		<javac srcdir="${src.dir}" classpathref="redirector.build.classpath" includes="**" destdir="${build.dest}" debug="${java.debug}" />
 	</target>
+
+	<!-- ================================= 
+          target: deployIndexMonitorTomcat              
+         ================================= -->
+    <target name="deployIndexMonitorTomcat" depends="deployIndexTomcat,compileRedirector" description="Deploy the index service and its monitoring service to a tomcat container.">
+        <ant antfile="${basedir}/deploy-redirect.xml" target="deployRedirect">
+        	<property name="deploy.dir" value="${env.CATALINA_HOME}/webapps/wsrf/WEB-INF"/>
+        </ant>
+    </target>
+
+	<!-- ================================= 
+          target: deployIndexMonitorJBoss              
+         ================================= -->
+    <target name="deployIndexMonitorJBoss" depends="deployIndexTomcat,compileRedirector" description="Deploy the index service and its monitoring service to a JBoss container.">
+        <ant antfile="${basedir}/deploy-redirect.xml" target="deployRedirect">
+        	<property name="deploy.dir" value="${env.JBOSS_HOME}/server/default/deploy/wsrf.war/WEB-INF"/>
+        </ant>
+    </target>
 
 </project>
