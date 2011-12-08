@@ -2,14 +2,49 @@
 <project name="deploy-utilities file" basedir="." default="deployRedirect">
 	<fail unless="deploy.dir" message="This ant script is supposed to be called from build.xml"/>
 	
+	<taskdef name="xmltask"
+		classname="com.oopsconsultancy.xmltask.ant.XmlTask"
+		classpath="${basedir}/ant/xmltask.jar" />
+	
 	<!-- ================================= 
           target: deployRedirect              
          ================================= -->
     <target name="deployRedirect" 
     	    description="Deploy redirect code for handling redirection to the monitoring service">
-    	<property name="class.dir" location="${deploy.dir}/class"/>
-        <copy file="${build.dest}/org/cagrid/indexService/IndexAxisServlet.class" todir="${class.dir}">
-        </copy>
+    	<property name="class.dir" location="${deploy.dir}/classes"/>
+    	<property name="indexService.dir" location="${class.dir}/org/cagrid/indexService"/>
+    	<property name="etc.dir" location="${deploy.dir}/etc"/>
+
+    	<property name="web.xml" location="${deploy.dir}/web.xml"/>
+    	<property name="web.xml.original" location="${web.xml}.original"/>
+
+    	<property name="redirection.properties.dest" location="${etc.dir}/redirection.properties"/>
+    	<property name="redirection.properties.src" location="${basedir}/redirection.properties/" />
+    	
+    	<!-- Verify that the redirection properties file exists and defined the required property -->
+    	<available property="redirection.properties.exists" file="${redirection.properties.src}" type="file" />
+    	<fail unless="redirection.properties.exists">
+    		Redirection properties file does not exist. Please create ${redirection.properties.src}
+    	</fail>
+    	<property file="${redirection.properties.src}" prefix="xxyyzz321"/>
+    	<fail unless="xxyyzz321.redirectionURL" >
+    		Property file ${redirection.properties.src} must 
+    		define a property named redirectionURL whose value 
+    		is the URL that GET request should be redirected to.
+    	</fail>
+    	
+    	<!-- copy the class file for redirection to the container -->
+    	<mkdir dir="${indexService.dir}" />
+        <copy file="${build.dest}/org/cagrid/indexService/IndexAxisServlet.class" todir="${indexService.dir}" />
+    	
+    	<!-- copy the redirection configuration file -->
+    	<copy file="${redirection.properties.src}" tofile="${redirection.properties.dest}"/>
+    	
+    	<!-- Edit the wsrf web.xml file to use the redirecting version of the servlet class -->
+    	<copy file="${web.xml}" tofile="${web.xml.original}" overwrite="no"/>
+    	<xmltask source="${web.xml.original}" dest="${web.xml}" failwithoutmatch="true" indent="yes">
+    		<replace path="/web-app/servlet/servlet-class/text()" withText="org.cagrid.indexService.IndexAxisServlet" />
+    	</xmltask>
     </target>
 
 </project>
