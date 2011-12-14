@@ -60,7 +60,7 @@
 	<!-- =============================================================== -->
 	<target name="deployIndexTomcat" description="Deploy the index service to a tomcat container">
 		<fail unless="env.CATALINA_HOME"
-			  message="Cannot deploy to JBOSS unless environment variable CATALINA_HOME is defined" />
+			  message="Cannot deploy to Tomcat unless environment variable CATALINA_HOME is defined" />
 		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
 			<property name="gar.name" value="globus_wsrf_aggregator_schema" />
 		</ant>
