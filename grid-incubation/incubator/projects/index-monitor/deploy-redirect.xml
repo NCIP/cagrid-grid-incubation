@@ -10,22 +10,51 @@
 
 	<taskdef name="hostname" classname="org.juliansimpson.HostName" classpath="${ant.dir}/hostname.jar"/>
 
-	<property name="startScript.unix.original" location="original_${startScript.unix}"/>
-	<property name="startScript.windows.original" location="original_${startScript.windows}" />
-	<property name="stopScript.unix.original" location="original_${stopScript.unix}" />
-	<property name="stopScript.windows.original" location="original_${stopScript.windows}" />
+	<property name="startScript.unix.original" location="${startScript.unix}_original"/>
+	<property name="startScript.windows.original" location="${startScript.windows}_original.bat" />
+	<property name="stopScript.unix.original" location="${stopScript.unix}_original" />
+	<property name="stopScript.windows.original" location="${stopScript.windows}_original.bat" />
 
 	<available file="${startScript.unix.original}" property="startScript.unix.original.available" />
 	<available file="${startScript.windows.original}" property="startScript.windows.original.available" />
 	<available file="${stopScript.unix.original}" property="stopScript.unix.original.available" />
 	<available file="${stopScript.windows.original}" property="stopScript.windows.original.available" />
 
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: saveOriginalUnixStartScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="saveOriginalUnixStartScript" unless="startScript.unix.original.available">
+		<move file="${startScript.unix}" tofile="${startScript.unix.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: saveOriginalWindowsStartScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="saveOriginalWindowsStartScript" unless="startScript.windows.original.available">
+		<move file="${startScript.windows}" tofile="${startScript.windows.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: saveOriginalUnixStopScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="saveOriginalUnixStopScript" unless="stopScript.unix.original.available">
+		<move file="${stopScript.unix}" tofile="${stopScript.unix.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: saveOriginalWindowsStopScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="saveOriginalWindowsStopScript" unless="stopScript.windows.original.available">
+		<move file="${stopScript.windows}" tofile="${stopScript.windows.original}"/>            
+    </target>
+
 
 	<!-- ================================= 
           target: deployRedirect              
          ================================= -->
 	<target name="deployRedirect" 
-    	    description="Deploy redirect code for handling redirection to the monitoring service">
+    	    description="Deploy redirect code for handling redirection to the monitoring service"
+		    depends="saveOriginalUnixStartScript,saveOriginalUnixStopScript,saveOriginalWindowsStartScript,saveOriginalWindowsStopScript">
 		<property name="class.dir" location="${deploy.dir}/classes"/>
 		<property name="indexService.dir" location="${class.dir}/org/cagrid/indexService"/>
 		<property name="etc.dir" location="${deploy.dir}/etc"/>
@@ -90,39 +119,33 @@
 			<entry key="indexMonitor.service1.recent_history.length" value="72"/>
 		</propertyfile>
 
-		<!-- Rename original start/stop scripts -->
-		<move file="${startScript.unix}" tofile="${startScript.unix.original}" overwrite="false"/>
-		<move file="${startScript.windows}" tofile="${startScript.windows.original}" overwrite="false"/>
-		<move file="${stopScript.unix}" tofile="${stopScript.unix.original}" overwrite="false"/>
-		<move file="${stopScript.windows}" tofile="${stopScript.windows.original}" overwrite="false"/>
-
 		<!-- Create combined start/stop scripts -->
 		<property name="play.dir" location="${deploy.dir}/play-1.2.2"/>
 		<property name="play.unix" location="${play.dir}/play"/>
 		<property name="play.windows" location="${play.dir}/play.bat"/>
 		<property name="indexMonitor.dir" location="${play.dir}/IndexMonitor"/>
 
-		<echo file="${startScript.unix}" append="false">${startScript.unix.original}${file.separator}</echo>
-		<echo file="${startScript.unix}" append="true">sleep 15</echo>
-		<echo file="${startScript.unix}" append="true">pushd ${indexMonitor.dir}${file.separator}</echo>
-		<echo file="${startScript.unix}" append="true">${play.unix} start</echo>
-		<echo file="${startScript.unix}" append="true">popd ${file.separator}</echo>
+		<echo file="${startScript.unix}" append="false">${startScript.unix.original}${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">sleep 15${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">${play.unix} start${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">popd ${line.separator}</echo>
 
-		<echo file="${stopScript.unix}" append="false">${stopScript.unix.original}${file.separator}</echo>
-		<echo file="${stopScript.unix}" append="true">pushd ${indexMonitor.dir}${file.separator}</echo>
-		<echo file="${stopScript.unix}" append="true">${play.unix} stop</echo>
-		<echo file="${stopScript.unix}" append="true">popd ${file.separator}</echo>
+		<echo file="${stopScript.unix}" append="false">${stopScript.unix.original}${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">${play.unix} stop${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">popd ${line.separator}${line.separator}</echo>
 
-		<echo file="${startScript.windows}" append="false">${startScript.windows.original}${file.separator}</echo>
-		<echo file="${startScript.windows}" append="true">sleep 15</echo>
-		<echo file="${startScript.windows}" append="true">pushd ${indexMonitor.dir}${file.separator}</echo>
-		<echo file="${startScript.windows}" append="true">${play.windows} start</echo>
-		<echo file="${startScript.windows}" append="true">popd ${file.separator}</echo>
+		<echo file="${startScript.windows}" append="false">call ${startScript.windows.original}${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">ping 1.1.1.1 -n 30${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">${play.windows} start${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">popd ${line.separator}</echo>
 
-		<echo file="${stopScript.windows}" append="false">${stopScript.windows.original}${file.separator}</echo>
-		<echo file="${stopScript.windows}" append="true">pushd ${indexMonitor.dir}${file.separator}</echo>
-		<echo file="${stopScript.windows}" append="true">${play.windows} stop</echo>
-		<echo file="${stopScript.windows}" append="true">popd ${file.separator}</echo>
+		<echo file="${stopScript.windows}" append="false">call ${stopScript.windows.original}${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">${play.windows} stop${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">popd${line.separator}</echo>
 	</target>
 
 </project>
