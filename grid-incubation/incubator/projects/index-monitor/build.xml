@@ -1,174 +1,168 @@
 <?xml version="1.0"?>
-
 <!-- ================================================================= -->
-<!-- Index Service Deploy build file                                   -->
+<!-- caGrid Master build file                                          -->
 <!-- ================================================================= -->
+<project name="caGrid-Incubation-Master" basedir="." default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<dirname property="caGrid-Incubation-Master.basedir" file="${ant.file.caGrid-Incubation-Master}" />
 
-<project name="mds-index" default="deployIndexTomcat" basedir=".">
-
-	<!-- Define the environment variable -->
+	<!-- Give user the chance to override properties -->
 	<property environment="env" />
+	<property file="build.properties" />
+	<!-- Load in project listings -->
+	<property file="${caGrid-Incubation-Master.basedir}/project.properties" />
 
-	<!-- Important directories and files -->
-	<property name="src.dir" location="src" />
-	<property name="lib.dir" location="lib" />
+	<import file="antfiles/ivy/ivy-def.xml" />
 
-	<!-- Basic Build directories -->
+	<!-- Layout info -->
+	<property name="projects.dir" location="${caGrid-Incubation-Master.basedir}/projects" />
+	<property name="test.dir" location="${caGrid-Incubation-Master.basedir}/test" />
+	<property name="build.dir" location="${caGrid-Incubation-Master.basedir}/build" />
+	<property name="antfiles.dir" location="${caGrid-Incubation-Master.basedir}/antfiles" />
 
-	<!-- Auxiliary directory where all the intermediate files will be placed -->
-	<property name="build.dir" location="build" />
-	<!-- Directory for compiled service classes -->
-	<property name="build.dest" location="${build.dir}/classes" />
+	<property name="antfiles.lib.dir" location="${antfiles.dir}/lib" />
+	<property name="test.lib.dir" location="${test.dir}/lib" />
 
-	<property name="gars.dir" value="${basedir}/ext/dependencies/default/gars" />
+	<condition property="isJDK1.5" value="true">
+		<or>
+			<equals arg1="${ant.java.version}" arg2="1.5" />
+			<equals arg1="${ant.java.version}" arg2="1.6" />
+		</or>
+	</condition>
+	<!-- Require Java 1.5 for now -->
+	<fail message="JDK 1.5 is currently required to build this project!" unless="isJDK1.5" />
 
+	<!-- IMPORT THE UTILITIES TARGETS -->
+	<!--<import file="${antfiles.dir}/target-grid.xml" />-->
 
-	<!-- =============================================================== -->
-	<!-- Deploy the Index Service to a JBoss container                   -->
-	<!-- =============================================================== -->
-	<target name="deployIndexJBoss" description="Deploy the index service to a JBoss container">
-		<fail unless="env.JBOSS_HOME"
-			  message="Cannot deploy to JBOSS unless environment variable JBOSS_HOME is defined" />
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
-			<property name="gar.name" value="globus_wsrf_aggregator_schema" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
-			<property name="gar.name" value="globus_wsrf_mds_aggregator" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
-			<property name="gar.name" value="globus_wsrf_mds_bigindex" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
-			<property name="gar.name" value="globus_wsrf_mds_bigindex_schema" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
-			<property name="gar.name" value="globus_wsrf_mds_usefulrp" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
-			<property name="gar.name" value="globus_wsrf_mds_usefulrp_schema" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
-			<property name="gar.name" value="globus_wsrf_servicegroup" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployJBoss">
-			<property name="gar.name" value="globus_wsrf_servicegroup_schema" />
-		</ant>
-	</target>
 
 	<!-- =============================================================== -->
-	<!-- Deploy the Index Service to a tomcat container.                 -->
+	<!-- Bootstrap the build by setting up the structure                 -->
 	<!-- =============================================================== -->
-	<target name="deployIndexTomcat" description="Deploy the index service to a tomcat container">
-		<fail unless="env.CATALINA_HOME"
-			  message="Cannot deploy to Tomcat unless environment variable CATALINA_HOME is defined" />
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
-			<property name="gar.name" value="globus_wsrf_aggregator_schema" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
-			<property name="gar.name" value="globus_wsrf_mds_aggregator" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
-			<property name="gar.name" value="globus_wsrf_mds_bigindex" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
-			<property name="gar.name" value="globus_wsrf_mds_bigindex_schema" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
-			<property name="gar.name" value="globus_wsrf_mds_usefulrp" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
-			<property name="gar.name" value="globus_wsrf_mds_usefulrp_schema" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
-			<property name="gar.name" value="globus_wsrf_servicegroup" />
-		</ant>
-		<ant dir="${gars.dir}" antfile="${basedir}/deploy-utilities.xml" target="deployTomcat">
-			<property name="gar.name" value="globus_wsrf_servicegroup_schema" />
-		</ant>
+	<target name="prepare" depends="define-ant-tasks,build-projects-list">
+		<tstamp />
 	</target>
 
 
+	<target name="define-ant-tasks" depends="init-ivy" unless="defined.anttasks">
+		<taskdef resource="net/sf/antcontrib/antlib.xml" loaderref="artifact">
+			<classpath>
+				<fileset dir="${ant.library.dir}">
+					<include name="ant.jar" />
+				</fileset>
+				<fileset dir="${antfiles.lib.dir}">
+					<include name="ant-contrib*.jar" />
+				</fileset>
+			</classpath>
+		</taskdef>
+		<property name="defined.anttasks" value="true" />
+	</target>
 
-	<!-- ============================================================== -->
-	<!-- Globus properties                                              -->
-	<!-- ============================================================== -->
-	<target name="checkGlobus" depends="setGlobus">
-		<condition property="globus.not.found">
-			<or>
-				<not>
-					<isset property="ext.globus.dir" />
-				</not>
-				<equals arg1="${ext.globus.dir}" arg2="" />
-			</or>
+	<target name="build-projects-list">
+		<ivy:buildlist reference="ivy.projects.list" ivyfilepath="ivy.xml" skipbuildwithoutivy="true">
+			<fileset dir="${projects.dir}">
+				<include name="*/dependencies-build.xml" />
+			</fileset>
+		</ivy:buildlist>
+	</target>
+
+	<target name="input-project-name">
+		<input addproperty="single.project.name" message="Please enter the project name:" />
+	</target>
+	<target name="check-project-name">
+		<fail unless="single.project.name" message="The expected property, 'single.project.name' was not defined!" />
+		<condition property="single.project.name.invalid">
+				<equals arg1="${single.project.name}" arg2="" trim="true" />
+					<not>
+						<available file="${projects.dir}/${single.project.name}" type="dir" />
+					</not>
 		</condition>
-		<fail message="Globus installation is not set in either GLOBUS_LOCATION or ext.globus.dir" if="globus.not.found" />
-		<echo message="Globus: ${ext.globus.dir}" />
-	</target>
-	<target name="setGlobus" if="env.GLOBUS_LOCATION">
-		<!-- GT4 build files and directories-->
-		<property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
-		<property name="build.stubs" location="build-stubs.xml" />
-		<property name="schema.src" location="${ext.globus.dir}/share/schema" />
-		<property name="build.packages" location="${ext.globus.dir}/share/globus_wsrf_common/build-packages.xml" />
-		<!-- Copied from build.stubs file, as there is no way to "append" to the value in the remote file -->
-		<property name="GT4.ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration" />
+		<fail if="single.project.name.invalid" message="The expected property, 'single.project.name' was not defined as a valid project name!  The value was: [${single.project.name}]" />
 	</target>
 
-	<target name="defineClasspaths" depends="checkGlobus">
-		<path id="base.classpath">
-			<fileset dir="${ext.globus.dir}/lib">
-				<include name="*.jar" />
-				<exclude name="${stubs.jar.name}" />
-				<exclude name="${common.jar.name}" />
-				<exclude name="${client.jar.name}" />
-				<exclude name="${service.jar.name}" />
+
+	<target name="build-project" depends="prepare,input-project-name,check-project-name">
+		<echo message="Building ${single.project.name}, and all its dependencies (as necessary)." />
+
+		<ivy:buildlist reference="single.ivy.project.list" root="${single.project.name}" skipbuildwithoutivy="true" ivyfilepath="ivy.xml">
+			<fileset dir="${projects.dir}">
+				<include name="*/dependencies-build.xml" />
 			</fileset>
-		</path>
-		<path id="redirector.build.classpath">
-			<fileset dir="${lib.dir}">
-				<include name="*.jar" />
+		</ivy:buildlist>
+
+		<echo message="Computed build order is: ${ivy.sorted.modules}" />
+
+
+		<subant target="publish" buildpathref="single.ivy.project.list">
+			<property name="target.grid" value="${target.grid}" />
+		</subant>
+
+	</target>
+
+	<target name="build-depending-on-project" depends="prepare,input-project-name,check-project-name">
+		<echo message="Building all projects depending on ${single.project.name}.  Note, the depending projects' dependencies are not built, this should just be used to propagate changes to the given project for integration." />
+
+		<ivy:buildlist reference="depending.on.single.ivy.project.list" leaf="${single.project.name}" skipbuildwithoutivy="true" ivyfilepath="ivy.xml">
+			<fileset dir="${projects.dir}">
+				<include name="*/dependencies-build.xml" />
 			</fileset>
-			<path refid="base.classpath" />
-		</path>
+		</ivy:buildlist>
+
+
+		<echo message="Computed build order is: ${ivy.sorted.modules}" />
+
+
+		<subant target="publish" buildpathref="depending.on.single.ivy.project.list">
+			<property name="target.grid" value="${target.grid}" />
+		</subant>
+
 	</target>
 
-	<!-- Sets up the build directory structure -->
-	<target name="init" depends="checkGlobus, defineClasspaths">
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${build.dest}" />
+	<target name="set-project-versions" depends="prepare">
+		<fail unless="project.version" message="You must provide a a value for the property [project.version]!" />
+		<echo message="Setting all project versions to version ${project.version}" />
+
+		<ivy:buildlist reference="ivy.project.properties.list" skipbuildwithoutivy="true" ivyfilepath="ivy.xml">
+			<fileset dir="${projects.dir}">
+				<include name="*/project.properties" />
+			</fileset>
+		</ivy:buildlist>
+
+		<for parallel="true" param="project.properties.file" trim="true">
+			<path refid="ivy.project.properties.list" />
+			<sequential>
+				<propertyfile file="@{project.properties.file}">
+					<entry key="project.version" value="${project.version}" />
+				</propertyfile>
+			</sequential>
+		</for>
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: compileRedirector                      
-         - - - - - - - - - - - - - - - - - -->
-	<target name="compileRedirector" depends="init" description="Compile the java code that redirects to the monitoring service.">
-		<javac srcdir="${src.dir}" classpathref="redirector.build.classpath" includes="**" destdir="${build.dest}" debug="${java.debug}" />
+
+	<target name="all" depends="prepare,clean" description="compile, jar and publish all projects in the right order">
+		<for parallel="false" param="project.buildfile" trim="true">
+			<path refid="ivy.projects.list" />
+			<sequential>
+				<dirname file="@{project.buildfile}" property="@{project.buildfile}.dir" />
+				<ant inheritAll="false" inheritrefs="false" dir="${@{project.buildfile}.dir}" antfile="@{project.buildfile}" target="publish">
+					<property name="target.grid" value="${target.grid}" />
+				</ant>
+			</sequential>
+		</for>
 	</target>
 
-	<!-- ================================= 
-          target: deployIndexMonitorTomcat              
-         ================================= -->
-    <target name="deployIndexMonitorTomcat" depends="deployIndexTomcat,compileRedirector" description="Deploy the index service and its monitoring service to a tomcat container.">
-        <ant antfile="${basedir}/deploy-redirect.xml" target="deployRedirect">
-        	<property name="deploy.dir" value="${env.CATALINA_HOME}/webapps/wsrf/WEB-INF"/>
-        	<property name="startScript.unix" location="${env.CATALINA_HOME}/bin/startup.sh"/>
-        	<property name="startScript.windows" location="${env.CATALINA_HOME}/bin/startup.bat"/>	
-        	<property name="stopScript.unix" location="${env.CATALINA_HOME}/bin/shutdown.sh"/>
-        	<property name="stopScript.windows" location="${env.CATALINA_HOME}/bin/shutdown.bat"/>	
-        </ant>
-    </target>
 
-	<!-- ================================= 
-          target: deployIndexMonitorJBoss              
-         ================================= -->
-    <target name="deployIndexMonitorJBoss" depends="deployIndexTomcat,compileRedirector" description="Deploy the index service and its monitoring service to a JBoss container.">
-        <ant antfile="${basedir}/deploy-redirect.xml" target="deployRedirect">
-        	<property name="deploy.dir" value="${env.JBOSS_HOME}/server/default/deploy/wsrf.war/WEB-INF"/>
-        	<property name="startScript.unix" location="${env.JBOSS_HOME}/bin/run.sh"/>
-        	<property name="startScript.windows" location="${env.JBOSS_HOME}/bin/run.bat"/>	
-        	<property name="stopScript.unix" location="${env.JBOSS_HOME}/bin/shutdown.sh"/>
-        	<property name="stopScript.windows" location="${env.JBOSS_HOME}/bin/shutdown.bat"/>	
-        </ant>
-    </target>
+	<target name="clean" depends="prepare" description="Delete repository, ivy cache, and clean all projects's generated and resolved artificats.">
+		<delete dir="${integration.repository.dir}" />
+		<ivy:cleancache />
+
+		<for parallel="true" param="project.buildfile" trim="true" threadcount="10">
+			<path refid="ivy.projects.list" />
+			<sequential>
+				<dirname file="@{project.buildfile}" property="@{project.buildfile}.dir" />
+				<ant inheritAll="false" dir="${@{project.buildfile}.dir}" antfile="@{project.buildfile}" target="clean-dependencies" />
+			</sequential>
+		</for>
+	</target>
+
 
 </project>

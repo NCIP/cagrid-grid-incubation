@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<project name="deploy-utilities file" basedir="." default="deployRedirect">
+	<fail unless="deploy.dir" message="This ant script is supposed to be called from build.xml"/>
+
+	<property name="ant.dir" location="${basedir}/ant"/>
+
+	<taskdef name="xmltask"
+		classname="com.oopsconsultancy.xmltask.ant.XmlTask"
+		classpath="${ant.dir}/xmltask.jar" />
+
+	<taskdef name="hostname" classname="org.juliansimpson.HostName" classpath="${ant.dir}/hostname.jar"/>
+
+	<property name="startScript.unix.original" location="${startScript.unix}_original"/>
+	<property name="startScript.windows.original" location="${startScript.windows}_original.bat" />
+	<property name="stopScript.unix.original" location="${stopScript.unix}_original" />
+	<property name="stopScript.windows.original" location="${stopScript.windows}_original.bat" />
+
+	<available file="${startScript.unix.original}" property="startScript.unix.original.available" />
+	<available file="${startScript.windows.original}" property="startScript.windows.original.available" />
+	<available file="${stopScript.unix.original}" property="stopScript.unix.original.available" />
+	<available file="${stopScript.windows.original}" property="stopScript.windows.original.available" />
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: saveOriginalUnixStartScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="saveOriginalUnixStartScript" unless="startScript.unix.original.available">
+		<move file="${startScript.unix}" tofile="${startScript.unix.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: saveOriginalWindowsStartScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="saveOriginalWindowsStartScript" unless="startScript.windows.original.available">
+		<move file="${startScript.windows}" tofile="${startScript.windows.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: saveOriginalUnixStopScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="saveOriginalUnixStopScript" unless="stopScript.unix.original.available">
+		<move file="${stopScript.unix}" tofile="${stopScript.unix.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: saveOriginalWindowsStopScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="saveOriginalWindowsStopScript" unless="stopScript.windows.original.available">
+		<move file="${stopScript.windows}" tofile="${stopScript.windows.original}"/>            
+    </target>
+
+
+	<!-- ================================= 
+          target: deployRedirect              
+         ================================= -->
+	<target name="deployRedirect" 
+    	    description="Deploy redirect code for handling redirection to the monitoring service"
+		    depends="saveOriginalUnixStartScript,saveOriginalUnixStopScript,saveOriginalWindowsStartScript,saveOriginalWindowsStopScript">
+		<property name="class.dir" location="${deploy.dir}/classes"/>
+		<property name="indexService.dir" location="${class.dir}/org/cagrid/indexService"/>
+		<property name="etc.dir" location="${deploy.dir}/etc"/>
+
+		<property name="web.xml" location="${deploy.dir}/web.xml"/>
+		<property name="web.xml.original" location="${web.xml}.original"/>
+
+		<property name="redirection.properties.dest" location="${etc.dir}/redirection.properties"/>
+		<property name="redirection.properties.src" location="${basedir}/redirection.properties/" />
+
+		<!-- Verify that the redirection properties file exists and defined the required property -->
+		<available property="redirection.properties.exists" file="${redirection.properties.src}" type="file" />
+		<fail unless="redirection.properties.exists">
+    		Redirection properties file does not exist. Please create ${redirection.properties.src}
+    	</fail>
+		<property file="${redirection.properties.src}" prefix="xxyyzz321"/>
+		<fail unless="xxyyzz321.redirectionURL" >
+    		Property file ${redirection.properties.src} must 
+    		define a property named redirectionURL whose value 
+    		is the URL that GET request should be redirected to.
+    	</fail>
+
+		<!-- copy the class file for redirection to the container -->
+		<mkdir dir="${indexService.dir}" />
+		<copy file="${build.dest}/org/cagrid/indexService/IndexAxisServlet.class" todir="${indexService.dir}" />
+
+		<hostname property="hostname" />
+		<property name="monitorService.port" value="9000"/>
+		<property name="indexService.port" value="8080"/>
+
+
+		<!-- Create and copy the redirection configuration file -->
+		<echo append="false" file="${redirection.properties.src}">redirectionURL=http\:${hostname}\:${monitorService.port}${line.separator}</echo>
+		<copy file="${redirection.properties.src}" tofile="${redirection.properties.dest}"/>
+
+		<!-- Edit the wsrf web.xml file to use the redirecting version of the servlet class -->
+		<copy file="${web.xml}" tofile="${web.xml.original}" overwrite="no"/>
+		<xmltask source="${web.xml.original}" dest="${web.xml}" failwithoutmatch="true" indent="yes">
+			<replace path="/web-app/servlet/servlet-class/text()" withText="org.cagrid.indexService.IndexAxisServlet" />
+		</xmltask>
+
+		<!-- unzip the index monitoring service -->
+		<unzip src="${basedir}/indexMonitor-0.2.zip" dest="${deploy.dir}">
+		</unzip>
+
+		<!-- Configure the Monitoring Service -->
+		<propertyfile file="${deploy.dir}/play-1.2.2/IndexMonitor/conf/application.conf" >
+			<entry key="application.name" value="IndexMonitor" />
+
+			<entry key="application.mode" value="prod"/>
+			<!-- <entry key="application.mode" value="dev"/> -->
+
+			<entry key="http.port" value="${monitorService.port}" />
+
+			<entry key="java.source" value="1.6" />
+			<!-- <entry key="java.source" value="1.7" /> -->
+
+			<entry key="application.log" value="INFO"/>
+
+			<entry key="indexMonitor.service1.url" value="http://${hostname}:${indexService.port}/wsrf/wervices/DefaultIndexService"/>
+			<entry key="indexMonitor.service1.display" value="${hostname}:${indexService.port}"/>
+			<entry key="indexMonitor.service1.recent_history.length" value="72"/>
+		</propertyfile>
+
+		<!-- Create combined start/stop scripts -->
+		<property name="play.dir" location="${deploy.dir}/play-1.2.2"/>
+		<property name="play.unix" location="${play.dir}/play"/>
+		<property name="play.windows" location="${play.dir}/play.bat"/>
+		<property name="indexMonitor.dir" location="${play.dir}/IndexMonitor"/>
+
+		<echo file="${startScript.unix}" append="false">${startScript.unix.original}${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">sleep 15${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">${play.unix} start${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">popd ${line.separator}</echo>
+
+		<echo file="${stopScript.unix}" append="false">${stopScript.unix.original}${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">${play.unix} stop${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">popd ${line.separator}${line.separator}</echo>
+
+		<echo file="${startScript.windows}" append="false">call ${startScript.windows.original}${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">ping 1.1.1.1 -n 30${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">${play.windows} start${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">popd ${line.separator}</echo>
+
+		<echo file="${stopScript.windows}" append="false">call ${stopScript.windows.original}${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">${play.windows} stop${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">popd${line.separator}</echo>
+	</target>
+
+</project>
