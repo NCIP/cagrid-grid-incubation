@@ -1,170 +1,168 @@
-<!-- ======================================================================= -->
-<!-- caGrid CQL2.0 tech preview project build file                           -->
-<!-- ======================================================================= -->
-<project name="caGrid-cql2preview" default="all" basedir=".">
-	<!-- Environment -->
+<?xml version="1.0"?>
+<!-- ================================================================= -->
+<!-- caGrid Master build file                                          -->
+<!-- ================================================================= -->
+<project name="caGrid-Incubation-Master" basedir="." default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<dirname property="caGrid-Incubation-Master.basedir" file="${ant.file.caGrid-Incubation-Master}" />
+
+	<!-- Give user the chance to override properties -->
 	<property environment="env" />
-	<property file="${basedir}/build.properties" />
-	<property file="${basedir}/project.properties" />
-	
-	<!-- version properties -->
-	<property name="project.version" value="1.2"/>
+	<property file="build.properties" />
+	<!-- Load in project listings -->
+	<property file="${caGrid-Incubation-Master.basedir}/project.properties" />
 
-	<property name="globus.dir" location="${env.GLOBUS_LOCATION}" />
+	<import file="antfiles/ivy/ivy-def.xml" />
 
-	<!-- build with debugging information -->
-	<property name="java.debug" value="on" />
-	<!-- enforce java 1.5 compliance at build time -->
-	<property name="java.source" value="1.5" />
+	<!-- Layout info -->
+	<property name="projects.dir" location="${caGrid-Incubation-Master.basedir}/projects" />
+	<property name="test.dir" location="${caGrid-Incubation-Master.basedir}/test" />
+	<property name="build.dir" location="${caGrid-Incubation-Master.basedir}/build" />
+	<property name="antfiles.dir" location="${caGrid-Incubation-Master.basedir}/antfiles" />
 
-	<!-- Information -->
-	<property name="project.name" value="${ant.project.name}" />
-	<property name="project.jar.prefix" value="${project.name}-" />
-	<property name="project.jar.suffix" value="-${project.version}.jar" />
+	<property name="antfiles.lib.dir" location="${antfiles.dir}/lib" />
+	<property name="test.lib.dir" location="${test.dir}/lib" />
 
-	<!-- directory locations -->
-	<property name="lib.dir" location="${basedir}/lib"/>
-	<property name="ext.lib.dir" location="${basedir}/ext/libs/jars"/>
-	<property name="dev.lib.dir" location="${basedir}/devlib"/>
-	<property name="sdk.lib.dir" location="${basedir}/sdk"/>
-	<property name="test.logs.dir" location="${basedir}/test/logs"/>
+	<condition property="isJDK1.5" value="true">
+		<or>
+			<equals arg1="${ant.java.version}" arg2="1.5" />
+			<equals arg1="${ant.java.version}" arg2="1.6" />
+		</or>
+	</condition>
+	<!-- Require Java 1.5 for now -->
+	<fail message="JDK 1.5 is currently required to build this project!" unless="isJDK1.5" />
 
-	<!-- source dirs -->
-	<property name="src.dir" location="${basedir}/src/java" />
-	<property name="test.src.dir" location="${basedir}/test/src/java"/>
+	<!-- IMPORT THE UTILITIES TARGETS -->
+	<!--<import file="${antfiles.dir}/target-grid.xml" />-->
 
-	<!-- build output dirs -->
-	<property name="build.dir" location="${basedir}/build"/>
-	<property name="build.src.dest" location="${build.dir}/core/classes"/>
-	<property name="build.test.dest" location="${build.dir}/test/classes"/>
-	<property name="build.jars.dir" location="${build.dir}/lib" />
-	<property name="remote-client.dir" location="${build.dir}/remote-client"/>
-	<property name="remote-client.lib.dir" location="${remote-client.dir}/lib"/>
 
-	<!-- jar names -->
-	<property name="preview.core.jar.name" value="${project.jar.prefix}core${project.jar.suffix}" />
-	<property name="preview.tests.jar.name" value="${project.jar.prefix}test${project.jar.suffix}" />
-
-	<!-- jar files -->
-	<property name="preview.core.jar.file" value="${build.jars.dir}/${preview.core.jar.name}" />
-	<property name="preview.tests.jar.file" value="${build.jars.dir}/${preview.tests.jar.name}" />
-
-	<!-- build file for stub generation -->
-	<property name="ant.build.stubs" location="${globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
-
-	<!-- import the test build file -->
-	<import file="test/test.xml" />
-	
-	<!-- main build / run classpath -->
-	<path id="project.classpath">
-		<fileset dir="${globus.dir}/lib">
-			<include name="**/*.jar" />
-		</fileset>
-		<fileset dir="${remote-client.lib.dir}">
-			<include name="**/*.jar"/>
-		</fileset>
-		<fileset dir="${lib.dir}">
-			<include name="**/*.jar" />
-		</fileset>
-		<fileset dir="${ext.lib.dir}">
-			<include name="**/*.jar"/>
-			<!-- exclude metadatautils jar, replace with devlib -->
-			<exclude name="**/*metadatautils*.jar"/>
-		</fileset>
-		<fileset dir="${dev.lib.dir}">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-	
-	
-	<!-- test classpath -->
-	<path id="test.classpath">
-		<path refid="project.classpath"/>
-		<pathelement location="${build.src.dest}"/>
-	</path>
-	
-	
-	<!-- creates output directories -->
-	<target name="init">
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${build.src.dest}" />
-		<mkdir dir="${build.test.dest}" />
-		<mkdir dir="${build.jars.dir}" />
-		<mkdir dir="${test.logs.dir}" />
-	</target>
-	
-	
-	<!-- unpacks the caCORE SDK client zip files -->
-	<target name="unpackSdkClients">
-		<unzip src="${sdk.lib.dir}/RemoteClient.zip" dest="${remote-client.dir}" />
-		<delete file="${remote-client.dir}/conf/application-config-client.xml"/>
-		<copy file="${basedir}/resources/application-config-client.xml" tofile="${remote-client.dir}/conf/application-config-client.xml"/>
-	</target>
-	
-
-	<!-- compiles the classes -->
-	<target name="compile" depends="init, unpackSdkClients">
-		<javac srcdir="${src.dir}" destdir="${build.src.dest}" debug="${java.debug}" source="${java.source}">
-			<include name="**/*.java" />
-			<classpath refid="project.classpath"/>
-		</javac>
-	</target>
-	
-	
-	<!-- compiles the tests -->
-	<target name="compileTests" depends="compile">
-		<javac srcdir="${test.src.dir}" destdir="${build.test.dest}" debug="${java.debug}" source="${java.source}">
-			<include name="**/*.java"/>
-			<classpath refid="test.classpath"/>
-		</javac>
+	<!-- =============================================================== -->
+	<!-- Bootstrap the build by setting up the structure                 -->
+	<!-- =============================================================== -->
+	<target name="prepare" depends="define-ant-tasks,build-projects-list">
+		<tstamp />
 	</target>
 
 
-	<!-- jars the common classes and source -->
-	<target name="jar" depends="compile" description="Builds and jars">
-		<jar destfile="${preview.core.jar.file}">
-			<fileset dir="${build.src.dest}">
-				<include name="**/*.class" />
-			</fileset>
-			<fileset dir="${src.dir}">
-				<include name="**/*.java" />
-			</fileset>
-		</jar>
-	</target>
-	
-	
-	<!-- jars the test classes and source -->
-	<target name="jarTests" depends="compileTests" description="Builds and jars tests">
-		<jar destfile="${preview.tests.jar.file}">
-			<fileset dir="${build.test.dest}">
-				<include name="**/*.class"/>
-			</fileset>
-			<fileset dir="${test.src.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-		</jar>
-	</target>
-	
-	
-	<!-- runs the query processor configuration and packaging tool -->
-	<target name="configurePackage" depends="jar" description="Builds a CQL 2 Preview package against a caCORE SDK 4.0 data source">
-		<java classname="org.cagrid.cql2.preview.config.QueryProcessorConfigurator" fork="true">
+	<target name="define-ant-tasks" depends="init-ivy" unless="defined.anttasks">
+		<taskdef resource="net/sf/antcontrib/antlib.xml" loaderref="artifact">
 			<classpath>
-				<fileset dir="${build.jars.dir}">
-					<include name="**/*.jar"/>
+				<fileset dir="${ant.library.dir}">
+					<include name="ant.jar" />
+				</fileset>
+				<fileset dir="${antfiles.lib.dir}">
+					<include name="ant-contrib*.jar" />
 				</fileset>
 			</classpath>
-			<classpath refid="project.classpath"/>
-		</java>
-	</target>
-	
-
-	<!-- removes all build output -->
-	<target name="clean" description="Cleans up build artifacts">
-		<delete dir="${build.dir}" />
+		</taskdef>
+		<property name="defined.anttasks" value="true" />
 	</target>
 
+	<target name="build-projects-list">
+		<ivy:buildlist reference="ivy.projects.list" ivyfilepath="ivy.xml" skipbuildwithoutivy="true">
+			<fileset dir="${projects.dir}">
+				<include name="*/dependencies-build.xml" />
+			</fileset>
+		</ivy:buildlist>
+	</target>
 
-	<!-- build and jar everything -->
-	<target name="all" depends="jar, jarTests" description="Builds and jars all the classes in the project" />
+	<target name="input-project-name">
+		<input addproperty="single.project.name" message="Please enter the project name:" />
+	</target>
+	<target name="check-project-name">
+		<fail unless="single.project.name" message="The expected property, 'single.project.name' was not defined!" />
+		<condition property="single.project.name.invalid">
+				<equals arg1="${single.project.name}" arg2="" trim="true" />
+					<not>
+						<available file="${projects.dir}/${single.project.name}" type="dir" />
+					</not>
+		</condition>
+		<fail if="single.project.name.invalid" message="The expected property, 'single.project.name' was not defined as a valid project name!  The value was: [${single.project.name}]" />
+	</target>
+
+
+	<target name="build-project" depends="prepare,input-project-name,check-project-name">
+		<echo message="Building ${single.project.name}, and all its dependencies (as necessary)." />
+
+		<ivy:buildlist reference="single.ivy.project.list" root="${single.project.name}" skipbuildwithoutivy="true" ivyfilepath="ivy.xml">
+			<fileset dir="${projects.dir}">
+				<include name="*/dependencies-build.xml" />
+			</fileset>
+		</ivy:buildlist>
+
+		<echo message="Computed build order is: ${ivy.sorted.modules}" />
+
+
+		<subant target="publish" buildpathref="single.ivy.project.list">
+			<property name="target.grid" value="${target.grid}" />
+		</subant>
+
+	</target>
+
+	<target name="build-depending-on-project" depends="prepare,input-project-name,check-project-name">
+		<echo message="Building all projects depending on ${single.project.name}.  Note, the depending projects' dependencies are not built, this should just be used to propagate changes to the given project for integration." />
+
+		<ivy:buildlist reference="depending.on.single.ivy.project.list" leaf="${single.project.name}" skipbuildwithoutivy="true" ivyfilepath="ivy.xml">
+			<fileset dir="${projects.dir}">
+				<include name="*/dependencies-build.xml" />
+			</fileset>
+		</ivy:buildlist>
+
+
+		<echo message="Computed build order is: ${ivy.sorted.modules}" />
+
+
+		<subant target="publish" buildpathref="depending.on.single.ivy.project.list">
+			<property name="target.grid" value="${target.grid}" />
+		</subant>
+
+	</target>
+
+	<target name="set-project-versions" depends="prepare">
+		<fail unless="project.version" message="You must provide a a value for the property [project.version]!" />
+		<echo message="Setting all project versions to version ${project.version}" />
+
+		<ivy:buildlist reference="ivy.project.properties.list" skipbuildwithoutivy="true" ivyfilepath="ivy.xml">
+			<fileset dir="${projects.dir}">
+				<include name="*/project.properties" />
+			</fileset>
+		</ivy:buildlist>
+
+		<for parallel="true" param="project.properties.file" trim="true">
+			<path refid="ivy.project.properties.list" />
+			<sequential>
+				<propertyfile file="@{project.properties.file}">
+					<entry key="project.version" value="${project.version}" />
+				</propertyfile>
+			</sequential>
+		</for>
+	</target>
+
+
+	<target name="all" depends="prepare,clean" description="compile, jar and publish all projects in the right order">
+		<for parallel="false" param="project.buildfile" trim="true">
+			<path refid="ivy.projects.list" />
+			<sequential>
+				<dirname file="@{project.buildfile}" property="@{project.buildfile}.dir" />
+				<ant inheritAll="false" inheritrefs="false" dir="${@{project.buildfile}.dir}" antfile="@{project.buildfile}" target="publish">
+					<property name="target.grid" value="${target.grid}" />
+				</ant>
+			</sequential>
+		</for>
+	</target>
+
+
+	<target name="clean" depends="prepare" description="Delete repository, ivy cache, and clean all projects's generated and resolved artificats.">
+		<delete dir="${integration.repository.dir}" />
+		<ivy:cleancache />
+
+		<for parallel="true" param="project.buildfile" trim="true" threadcount="10">
+			<path refid="ivy.projects.list" />
+			<sequential>
+				<dirname file="@{project.buildfile}" property="@{project.buildfile}.dir" />
+				<ant inheritAll="false" dir="${@{project.buildfile}.dir}" antfile="@{project.buildfile}" target="clean-dependencies" />
+			</sequential>
+		</for>
+	</target>
+
+
 </project>
