@@ -84,6 +84,7 @@
 	<target name="input-project-name">
 		<input addproperty="single.project.name" message="Please enter the project name:" />
 	</target>
+	
 	<target name="check-project-name">
 		<fail unless="single.project.name" message="The expected property, 'single.project.name' was not defined!" />
 		<condition property="single.project.name.invalid">
@@ -179,19 +180,35 @@
       	</for>
 		
 		<!-- mdr is a special case due to the eXist install -->
-		<for list="${mdr.project}" parallel="false" param="project.name" trim="true">
+		<!--<for list="${mdr.project}" parallel="false" param="project.name" trim="true">
 	    	<sequential>
 	            <echo message="Testing project @{project.name}." />
 	    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
 	    		<ant inheritAll="false" dir="${basedir}/projects/@{project.name}" antfile="build.xml" target="testBuild" />
 	    	</sequential>
-      	</for>
+      	</for>-->
 	</target>
 	
-	<target name="all:cagrid12" depends="checkJDK15,all" description="compile, jar and publish all caGrid 1.2 dependent projects in the right order">		
+	<target name="all:cagrid12" depends="checkJDK15,prepare,clean" description="compile, jar and publish all caGrid 1.2 dependent projects in the right order">		
+		<!-- build projects that have their own set of projects and ant/ivy configurations -->
+		<for list="${cagrid12.projects}" parallel="false" param="project.name" trim="true">
+	    	<sequential>
+	            <echo message="Build project: @{project.name}." />
+	    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
+	    		<ant inheritAll="false" dir="${basedir}/projects/@{project.name}" antfile="build.xml" target="all" />
+	    	</sequential>
+      	</for>
 	</target>	
 	
-	<target name="all:cagrid13" depends="checkJDK15,all" description="compile, jar and publish all caGrid 1.3 dependent projects in the right order">
+	<target name="all:cagrid13" depends="checkJDK15,prepare,clean" description="compile, jar and publish all caGrid 1.3 dependent projects in the right order">
+		<!-- build projects that have their own set of projects and ant/ivy configurations -->
+		<for list="${cagrid13.projects}" parallel="false" param="project.name" trim="true">
+	    	<sequential>
+	            <echo message="Build project: @{project.name}." />
+	    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
+	    		<ant inheritAll="false" dir="${basedir}/projects/@{project.name}" antfile="build.xml" target="all" />
+	    	</sequential>
+      	</for>
 	</target>	
 	
 	<target name="all:cagrid14" depends="checkJDK16,prepare,clean" description="compile, jar and publish all caGrid 1.4 dependent projects in the right order">
