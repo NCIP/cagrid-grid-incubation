@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://helper.workflow.cagrid.org/WorkflowHelper/Instance" xmlns:wsrp="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd" xmlns:wsrlw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wsdlpp="http://www.globus.org/namespaces/2004/10/WSDLPreprocessor" xmlns:gtwsdl1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wsntw="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wsrbfw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" xmlns:wsrpw="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" xmlns:wns2="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" xmlns:wns1="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" xmlns:wns0="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" xmlns:ns4="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types" xmlns:ns2="http://helper.workflow.cagrid.org/WorkflowHelper/types" xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:ns5="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" xmlns:ns3="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" xmlns:ns6="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" xmlns:ns1="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" name="WorkflowInstanceHelper" targetNamespace="http://helper.workflow.cagrid.org/WorkflowHelper/Instance">
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl" location="../wsrf/properties/WS-ResourceProperties.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl" location="../wsrf/faults/WS-BaseFaults.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="../wsrf/notification/WS-BaseN.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl" location="./../wsrf/notification/WS-BaseN.wsdl" />
+  <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl" location="./../wsrf/lifetime/WS-ResourceLifetime.wsdl" />
+  <import namespace="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity" location="./ServiceSecurity.wsdl" />
+  <!--============================================================
+
+                      T Y P E S
+                      
+  ============================================================-->
+  <types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsrbf="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" targetNamespace="http://helper.workflow.cagrid.org/WorkflowHelper/Instance" elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd" schemaLocation="../wsrf/faults/WS-BaseFaults.xsd" />
+      <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/types" schemaLocation="./WorkflowInstanceHelperTypes.xsd" />
+      <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/types" schemaLocation="./WorkflowHelperTypes.xsd" />
+      <import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="./WS-Addressing.xsd" />
+      <import namespace="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd" schemaLocation="../wsrf/lifetime/WS-ResourceLifetime.xsd" />
+      <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/cagrid/types/security/security.xsd" />
+      <import namespace="http://helper.workflow.cagrid.org/WorkflowHelper/Invocation/types" schemaLocation="./WorkflowInvocationHelperTypes.xsd" />
+      <import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="./WorkflowHelper.xsd" />
+      <element name="CreateWorkflowInvocationHelperRequest">
+        <complexType>
+          <sequence>
+            <element name="workflowInvocationHelperDescriptor">
+              <complexType>
+                <sequence>
+                  <element ref="ns1:WorkflowInvocationHelperDescriptor" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CreateWorkflowInvocationHelperResponse">
+        <complexType>
+          <sequence>
+            <element ref="ns6:WorkflowInvocationHelperReference" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AddCredentialRequest">
+        <complexType>
+          <sequence>
+            <element name="serviceOperationEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="proxyEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AddCredentialResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="RemoveCredentialRequest">
+        <complexType>
+          <sequence>
+            <element name="proxyEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveCredentialResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="ReplaceCredentialRequest">
+        <complexType>
+          <sequence>
+            <element name="serviceOperationEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="proxyEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ReplaceCredentialResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="SetIsInvocationHelperSecureRequest">
+        <complexType>
+          <sequence>
+            <element name="serviceOperationEPR">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:EndpointReference" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+            <element name="isSecure" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SetIsInvocationHelperSecureResponse">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetEPRStringRequest">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="GetEPRStringResponse">
+        <complexType>
+          <sequence>
+            <element name="response" type="xs:string" minOccurs="1" maxOccurs="1" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="WorkflowInstanceHelperResourceProperties">
+        <complexType>
+          <sequence>
+            <element ref="ns5:CurrentTime" />
+            <element ref="ns5:TerminationTime" />
+            <element ref="ns1:WorkflowInstanceHelperDescriptor" />
+            <element ref="ns1:TimestampedStatus" />
+            <element ref="ns1:LocalWorkflowInstrumentationRecord" />
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <!--  place service messages here -->
+  <message name="CreateWorkflowInvocationHelperRequest">
+    <part name="parameters" element="tns:CreateWorkflowInvocationHelperRequest" />
+  </message>
+  <message name="CreateWorkflowInvocationHelperResponse">
+    <part name="parameters" element="tns:CreateWorkflowInvocationHelperResponse" />
+  </message>
+  <message name="AddCredentialRequest">
+    <part name="parameters" element="tns:AddCredentialRequest" />
+  </message>
+  <message name="AddCredentialResponse">
+    <part name="parameters" element="tns:AddCredentialResponse" />
+  </message>
+  <message name="RemoveCredentialRequest">
+    <part name="parameters" element="tns:RemoveCredentialRequest" />
+  </message>
+  <message name="RemoveCredentialResponse">
+    <part name="parameters" element="tns:RemoveCredentialResponse" />
+  </message>
+  <message name="ReplaceCredentialRequest">
+    <part name="parameters" element="tns:ReplaceCredentialRequest" />
+  </message>
+  <message name="ReplaceCredentialResponse">
+    <part name="parameters" element="tns:ReplaceCredentialResponse" />
+  </message>
+  <message name="SetIsInvocationHelperSecureRequest">
+    <part name="parameters" element="tns:SetIsInvocationHelperSecureRequest" />
+  </message>
+  <message name="SetIsInvocationHelperSecureResponse">
+    <part name="parameters" element="tns:SetIsInvocationHelperSecureResponse" />
+  </message>
+  <message name="GetEPRStringRequest">
+    <part name="parameters" element="tns:GetEPRStringRequest" />
+  </message>
+  <message name="GetEPRStringResponse">
+    <part name="parameters" element="tns:GetEPRStringResponse" />
+  </message>
+  <!--============================================================
+
+                       P O R T T Y P E
+                      
+  ============================================================-->
+  <portType name="WorkflowInstanceHelperPortType" wsrp:ResourceProperties="tns:WorkflowInstanceHelperResourceProperties">
+    <operation name="createWorkflowInvocationHelper">
+      <input message="tns:CreateWorkflowInvocationHelperRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/CreateWorkflowInvocationHelperRequest" />
+      <output message="tns:CreateWorkflowInvocationHelperResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/CreateWorkflowInvocationHelperResponse" />
+    </operation>
+    <operation name="addCredential">
+      <input message="tns:AddCredentialRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/AddCredentialRequest" />
+      <output message="tns:AddCredentialResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/AddCredentialResponse" />
+    </operation>
+    <operation name="removeCredential">
+      <input message="tns:RemoveCredentialRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/RemoveCredentialRequest" />
+      <output message="tns:RemoveCredentialResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/RemoveCredentialResponse" />
+    </operation>
+    <operation name="replaceCredential">
+      <input message="tns:ReplaceCredentialRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/ReplaceCredentialRequest" />
+      <output message="tns:ReplaceCredentialResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/ReplaceCredentialResponse" />
+    </operation>
+    <operation name="setIsInvocationHelperSecure">
+      <input message="tns:SetIsInvocationHelperSecureRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/SetIsInvocationHelperSecureRequest" />
+      <output message="tns:SetIsInvocationHelperSecureResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/SetIsInvocationHelperSecureResponse" />
+    </operation>
+    <operation name="getEPRString">
+      <input message="tns:GetEPRStringRequest" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/GetEPRStringRequest" />
+      <output message="tns:GetEPRStringResponse" wsa:Action="http://helper.workflow.cagrid.org/WorkflowHelper/Instance/GetEPRStringResponse" />
+    </operation>
+    <operation name="getServiceSecurityMetadata">
+      <input message="wns0:GetServiceSecurityMetadataRequest" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataRequest" />
+      <output message="wns0:GetServiceSecurityMetadataResponse" wsa:Action="http://security.introduce.cagrid.nci.nih.gov/ServiceSecurity/GetServiceSecurityMetadataResponse" />
+    </operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="Destroy">
+      <wsdl:input message="wsrlw:DestroyRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime/Destroy" />
+      <wsdl:output message="wsrlw:DestroyResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime/DestroyResponse" />
+      <wsdl:fault message="wsrlw:ResourceNotDestroyedFault" name="ResourceNotDestroyedFault" />
+      <wsdl:fault message="wsrlw:ResourceUnknownFault" name="ResourceUnknownFault" />
+    </wsdl:operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="SetTerminationTime">
+      <wsdl:input message="wsrlw:SetTerminationTimeRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime/SetTerminationTime" />
+      <wsdl:output message="wsrlw:SetTerminationTimeResponse" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime/SetTerminationTimeResponse" />
+      <wsdl:fault message="wsrlw:UnableToSetTerminationTimeFault" name="UnableToSetTerminationTimeFault" />
+      <wsdl:fault message="wsrlw:ResourceUnknownFault" name="ResourceUnknownFault" />
+      <wsdl:fault message="wsrlw:TerminationTimeChangeRejectedFault" name="TerminationTimeChangeRejectedFault" />
+    </wsdl:operation>
+    <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="Subscribe">
+      <wsdl:input message="wsntw:SubscribeRequest" wsa:Action="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification/Subscribe" />
+      <wsdl:output message="wsntw:SubscribeResponse" wsa:Action="http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification/SubscribeResponse" />
+      <wsdl:fault name="ResourceUnknownFault" message="wsntw:ResourceUnknownFault" />
+      <wsdl:fault name="SubscribeCreationFailedFault" message="wsntw:SubscribeCreationFailedFault" />
+      <wsdl:fault name="TopicPathDialectUnknownFault" message="wsntw:TopicPathDialectUnknownFault" />
+      <wsdl:fault name="InvalidTopicExpressionFault" message="wsntw:InvalidTopicExpressionFault" />
+      <wsdl:fault name="TopicNotSupportedFault" message="wsntw:TopicNotSupportedFault" />
+    </wsdl:operation>
+  </portType>
+</definitions>
+

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jndiConfig xmlns="http://wsrf.globus.org/jndi/config">
+  <service name="SERVICE-INSTANCE-PREFIX/WorkflowInvocationHelper">
+    <resource name="configuration" type="org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResourceConfiguration">
+      <resourceParams>
+        <parameter>
+          <name>factory</name>
+          <value>org.globus.wsrf.jndi.BeanFactory</value>
+        </parameter>
+        <parameter>
+          <name>performRegistration</name>
+          <!-- Set this to false to skip ServiceGroup registration -->
+          <value>PERFORM_REGISTRATION</value>
+        </parameter>
+        <parameter>
+          <name>registrationTemplateFile</name>
+          <!-- Set this to the relative path (from the container root, e.g GLOBUS_LOCATION for globus container) of the registration parameters template file (ignored if performRegistration is false) -->
+          <value>ETC-PATH/WorkflowInvocationHelper_registration.xml</value>
+        </parameter>
+      </resourceParams>
+    </resource>
+    <resource name="home" type="org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResourceHome">
+      <resourceParams>
+        <parameter>
+          <name>factory</name>
+          <value>org.globus.wsrf.jndi.BeanFactory</value>
+        </parameter>
+        <parameter>
+          <name>resourceClass</name>
+          <value>org.cagrid.workflow.helper.invocation.service.globus.resource.WorkflowInvocationHelperResource</value>
+        </parameter>
+        <parameter>
+          <name>resourceKeyName</name>
+          <value>{http://helper.workflow.cagrid.org/WorkflowHelper/Invocation}WorkflowInvocationHelperResultsKey</value>
+        </parameter>
+        <parameter>
+          <name>resourceKeyType</name>
+          <value>java.lang.String</value>
+        </parameter>
+      </resourceParams>
+    </resource>
+    <resourceLink name="serviceconfiguration" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowHelper/serviceconfiguration" />
+    <resourceLink name="workflowHelperHome" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowHelper/home" />
+    <resourceLink name="workflowInstanceHelperHome" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowInstanceHelper/home" />
+  </service>
+  <service name="SERVICE-INSTANCE-PREFIX/WorkflowInstanceHelper">
+    <resource name="configuration" type="org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResourceConfiguration">
+      <resourceParams>
+        <parameter>
+          <name>factory</name>
+          <value>org.globus.wsrf.jndi.BeanFactory</value>
+        </parameter>
+        <parameter>
+          <name>performRegistration</name>
+          <!-- Set this to false to skip ServiceGroup registration -->
+          <value>PERFORM_REGISTRATION</value>
+        </parameter>
+        <parameter>
+          <name>registrationTemplateFile</name>
+          <!-- Set this to the relative path (from the container root, e.g GLOBUS_LOCATION for globus container) of the registration parameters template file (ignored if performRegistration is false) -->
+          <value>ETC-PATH/WorkflowInstanceHelper_registration.xml</value>
+        </parameter>
+      </resourceParams>
+    </resource>
+    <resource name="home" type="org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResourceHome">
+      <resourceParams>
+        <parameter>
+          <name>factory</name>
+          <value>org.globus.wsrf.jndi.BeanFactory</value>
+        </parameter>
+        <parameter>
+          <name>resourceClass</name>
+          <value>org.cagrid.workflow.helper.instance.service.globus.resource.WorkflowInstanceHelperResource</value>
+        </parameter>
+        <parameter>
+          <name>resourceKeyName</name>
+          <value>{http://helper.workflow.cagrid.org/WorkflowHelper/Instance}WorkflowInstanceHelperResultsKey</value>
+        </parameter>
+        <parameter>
+          <name>resourceKeyType</name>
+          <value>java.lang.String</value>
+        </parameter>
+      </resourceParams>
+    </resource>
+    <resourceLink name="serviceconfiguration" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowHelper/serviceconfiguration" />
+    <resourceLink name="workflowHelperHome" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowHelper/home" />
+    <resourceLink name="workflowInvocationHelperHome" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowInvocationHelper/home" />
+    <resourceLink name="workflowInvocationHelperHome" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowInvocationHelper/home" />
+  </service>
+  <service name="SERVICE-INSTANCE-PREFIX/WorkflowHelper">
+    <resource name="configuration" type="org.cagrid.workflow.helper.service.globus.resource.WorkflowHelperResourceConfiguration">
+      <resourceParams>
+        <parameter>
+          <name>factory</name>
+          <value>org.globus.wsrf.jndi.BeanFactory</value>
+        </parameter>
+        <parameter>
+          <name>performRegistration</name>
+          <!-- Set this to false to skip ServiceGroup registration -->
+          <value>PERFORM_REGISTRATION</value>
+        </parameter>
+        <parameter>
+          <name>registrationTemplateFile</name>
+          <!-- Set this to the relative path (from the container root, e.g GLOBUS_LOCATION for globus container) of the registration parameters template file (ignored if performRegistration is false) -->
+          <value>ETC-PATH/WorkflowHelper_registration.xml</value>
+        </parameter>
+      </resourceParams>
+    </resource>
+    <resource name="serviceconfiguration" type="org.cagrid.workflow.helper.service.WorkflowHelperConfiguration">
+      <resourceParams>
+        <parameter>
+          <name>factory</name>
+          <value>org.globus.wsrf.jndi.BeanFactory</value>
+        </parameter>
+        <parameter>
+          <name>etcDirectoryPath</name>
+          <value>ETC-PATH</value>
+        </parameter>
+        <parameter>
+          <name>helperIdentity</name>
+          <value>@helperIdentity@</value>
+        </parameter>
+        <parameter>
+          <name>helperCredential</name>
+          <value>ETC-PATH/@helperCredential@</value>
+        </parameter>
+        <parameter>
+          <name>globusLocation</name>
+          <value>@globusLocation@</value>
+        </parameter>
+      </resourceParams>
+    </resource>
+    <resource name="home" type="org.cagrid.workflow.helper.service.globus.resource.WorkflowHelperResourceHome">
+      <resourceParams>
+        <parameter>
+          <name>factory</name>
+          <value>org.globus.wsrf.jndi.BeanFactory</value>
+        </parameter>
+      </resourceParams>
+    </resource>
+    <resourceLink name="workflowInstanceHelperHome" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowInstanceHelper/home" />
+    <resourceLink name="workflowInvocationHelperHome" target="java:comp/env/services/SERVICE-INSTANCE-PREFIX/WorkflowInvocationHelper/home" />
+  </service>
+</jndiConfig>
+
