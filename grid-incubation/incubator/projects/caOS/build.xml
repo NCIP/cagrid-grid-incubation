@@ -9,15 +9,15 @@
 	<property environment="env" />
 	<property file="build.properties" />
 	<!-- Load in project listings -->
-	<property file="${caGrid-Incubation-Master.basedir}/project.properties" />
+	<property file="${basedir}/project.properties" />
 
 	<import file="antfiles/ivy/ivy-def.xml" />
 
 	<!-- Layout info -->
-	<property name="projects.dir" location="${caGrid-Incubation-Master.basedir}/projects" />
-	<property name="test.dir" location="${caGrid-Incubation-Master.basedir}/test" />
-	<property name="build.dir" location="${caGrid-Incubation-Master.basedir}/build" />
-	<property name="antfiles.dir" location="${caGrid-Incubation-Master.basedir}/antfiles" />
+	<property name="projects.dir" location="${basedir}/projects" />
+	<property name="test.dir" location="${basedir}/test" />
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="antfiles.dir" location="${basedir}/antfiles" />
 
 	<property name="antfiles.lib.dir" location="${antfiles.dir}/lib" />
 	<property name="test.lib.dir" location="${test.dir}/lib" />
@@ -25,7 +25,6 @@
 	<condition property="isJDK1.5" value="true">
 		<or>
 			<equals arg1="${ant.java.version}" arg2="1.5" />
-			<equals arg1="${ant.java.version}" arg2="1.6" />
 		</or>
 	</condition>
 	<!-- Require Java 1.5 for now -->
