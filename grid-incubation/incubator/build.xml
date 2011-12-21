@@ -189,9 +189,9 @@
       	</for>-->
 	</target>
 	
-	<target name="all:cagrid12" depends="checkJDK15,prepare,clean" description="compile, jar and publish all caGrid 1.2 dependent projects in the right order">		
+	<target name="all:java5" depends="checkJDK15,prepare,clean" description="compile, jar and publish all caGrid 1.2 dependent projects in the right order">		
 		<!-- build projects that have their own set of projects and ant/ivy configurations -->
-		<for list="${cagrid12.projects}" parallel="false" param="project.name" trim="true">
+		<for list="${java5.projects}" parallel="false" param="project.name" trim="true">
 	    	<sequential>
 	            <echo message="Build project: @{project.name}." />
 	    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
@@ -200,21 +200,10 @@
       	</for>
 	</target>	
 	
-	<target name="all:cagrid13" depends="checkJDK15,prepare,clean" description="compile, jar and publish all caGrid 1.3 dependent projects in the right order">
-		<!-- build projects that have their own set of projects and ant/ivy configurations -->
-		<for list="${cagrid13.projects}" parallel="false" param="project.name" trim="true">
-	    	<sequential>
-	            <echo message="Build project: @{project.name}." />
-	    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
-	    		<ant inheritAll="false" dir="${basedir}/projects/@{project.name}" antfile="build.xml" target="all" />
-	    	</sequential>
-      	</for>
-	</target>	
-	
-	<target name="all:cagrid14" depends="checkJDK16,prepare,clean" description="compile, jar and publish all caGrid 1.4 dependent projects in the right order">
+	<target name="all:java6" depends="checkJDK16,prepare,clean" description="compile, jar and publish all caGrid 1.4 dependent projects in the right order">
 		
 		<!-- build projects that have their own set of projects and ant/ivy configurations -->
-		<for list="${cagrid14.projects}" parallel="false" param="project.name" trim="true">
+		<for list="${java6.projects}" parallel="false" param="project.name" trim="true">
 	    	<sequential>
 	            <echo message="Build project: @{project.name}." />
 	    		<dirname file="@{project.buildfile}" property="@{project.name}.dir" />
