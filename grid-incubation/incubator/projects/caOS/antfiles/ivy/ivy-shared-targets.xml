@@ -5,6 +5,7 @@
 
 	<!-- Load in the Ivy Ant definitions, so we can use them-->
 	<import file="${ivy-shared-targets.basedir}/ivy-def.xml" />
+	<property file="${ivy-shared-targets.basedir}/../../project.properties" />
 
 	<property name="ivy.xml.file" location="ivy.xml" />
 	<ivy:info file="${ivy.xml.file}" />
