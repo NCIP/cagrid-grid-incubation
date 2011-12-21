@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"
+	xmlns:helper="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" xmlns:tns="http://workflowmanagerservice.workflow.cagrid.org/WorkflowManagerService"
+	xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	<xs:import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" schemaLocation="./WS-Addressing.xsd"></xs:import>
+	<xs:import namespace="http://workflowhelperservice.workflow.cagrid.org/WorkflowHelperService" schemaLocation="./WorkflowHelper.xsd"></xs:import>
+	
+	
+	
+	<xs:element name="RootElement" type="tns:RootElement"></xs:element>
+	<xs:complexType name="RootElement">
+		<xs:sequence>
+			<xs:element name="workflowManagerInstanceDescriptor" type="tns:WorkflowManagerInstanceDescriptor"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- Workflow metadata -->
+	<xs:element name="WorkflowManagerInstanceDescriptor" type="tns:WorkflowManagerInstanceDescriptor" />
+	<xs:complexType name="WorkflowManagerInstanceDescriptor">
+		<xs:sequence>
+			<xs:element name="localWorkflows" type="tns:WorkflowPortionsDescriptor"></xs:element>
+			<xs:element name="inputs" type="tns:WorkflowInputParameters" />
+			<xs:element name="outputDesc" type="tns:WorkflowOutputTransportDescriptor" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:element name="WorkflowStageDescriptor" type="tns:WorkflowStageDescriptor"/>
+	<xs:complexType name="WorkflowStageDescriptor">
+		<xs:sequence>
+			<xs:element name="basicDescription" type="helper:WorkflowInvocationHelperDescriptor"/>
+			<xs:element name="inputsDescription" type="helper:OperationInputMessageDescriptor"/>
+			<xs:element name="outputTransportDescriptor" type="helper:OperationOutputTransportDescriptor"/>
+			<xs:element name="GlobalUniqueIdentifier" type="int" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="WorkflowPortionsDescriptor" type="tns:WorkflowPortionsDescriptor" />
+	<xs:complexType name="WorkflowPortionsDescriptor">
+		<xs:sequence>
+			<xs:element name="localWorkflowDesc" type="tns:WorkflowPortionDescriptor" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="WorkflowPortionDescriptor" type="tns:WorkflowPortionDescriptor" />
+	<xs:complexType name="WorkflowPortionDescriptor">
+		<xs:sequence>
+			<xs:element name="WorkflowHelperServiceLocation" type="string" />
+			<xs:element name="instanceHelperDesc" type="helper:WorkflowInstanceHelperDescriptor"></xs:element>
+			<xs:element name="invocationHelperDescs" type="tns:WorkflowStageDescriptor" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- Inputs of a workflow -->
+	<xs:element name="WorkflowInputParameters" type="tns:WorkflowInputParameters"></xs:element>
+	<xs:complexType name="WorkflowInputParameters">
+		<xs:sequence>
+			<xs:element name="parameter" type="tns:WorkflowInputParameter" minOccurs="0" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	
+	<xs:element name="WorkflowInputParameter" type="tns:WorkflowInputParameter"></xs:element>
+	<xs:complexType name="WorkflowInputParameter">
+		<xs:sequence>
+			<xs:element name="paramDescription" type="helper:InputParameter"></xs:element>
+			<xs:element name="paramDestinationGUID" type="int"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- Transportation of the outputs of a workflow -->
+	<xs:element name="WorkflowOutputTransportDescriptor" type="tns:WorkflowOutputTransportDescriptor" />
+	<xs:complexType name="WorkflowOutputTransportDescriptor">
+		<xs:sequence>
+			<xs:element name="paramDescriptor" type="tns:WorkflowOutputParameterTransportDescriptor" minOccurs="0"
+				maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="WorkflowOutputParameterTransportDescriptor" type="tns:WorkflowOutputParameterTransportDescriptor" />
+	<xs:complexType name="WorkflowOutputParameterTransportDescriptor">
+		<xs:sequence>
+			<xs:element name="paramDescription" type="helper:OperationOutputParameterTransportDescriptor"></xs:element>
+			<xs:element name="sourceGUID" type="int"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+</xs:schema>
