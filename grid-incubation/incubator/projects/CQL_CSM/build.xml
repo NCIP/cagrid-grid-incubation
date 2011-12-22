@@ -52,6 +52,7 @@
 
     <property name="src.dir" value="${basedir}/src" />
     <property name="lib.dir" value="${basedir}/lib"/>
+	<property name="sdk.lib.dir" value="${basedir}/caGrid_lib"/>
     <property name="build.dir" value="${basedir}/build" />
     <property name="jar.dir" value="${build.dir}/lib"/>
     <property name="resource.dir" value="${basedir}/resource" />
@@ -81,6 +82,9 @@
     <!-- =============================================================== -->
     <path id="build.classpath">
         <fileset dir="${lib.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    	<fileset dir="${sdk.lib.dir}">
             <include name="**/*.jar" />
         </fileset>
         <!-- 
