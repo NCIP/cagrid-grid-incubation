@@ -1,0 +1,59 @@
+-- SQL Queries --
+
+Get concept paths that map to something from the osuDSR.osu.edu caDSR Service:
+  
+select cd.concept_path from i2b2demodata.concept_dimension cd, i2b2demodata.ENCODING_DIMENSION ed, i2b2demodata.ENCODING_PROJECT ep, i2b2demodata.ENCODING_PROJECT_LINK epl, i2b2demodata.ENCODING_SERVICE es
+  where cd.encoding_cd = ed.encoding_cd 
+  and ed.encoding_cd = epl.encoding_cd
+  and epl.encoding_project_id = ep.encoding_project_id
+  and ep.encoding_service_id = es.encoding_service_id
+  and ed.cde_public_id = 3432351 and es.service_url = 'osuDSR.osu.edu' and ep.project_name = 'i2b2' and ep.project_version = '4.0';
+  
+Attributes found in miniOCRe21:
+	NCT_number - integer - 2649415
+	public_title - string - 2422269
+	Type - string - 64182
+	has_terminology - string (?)
+	has_vesion - string (???)
+	has_concept_id - string
+	has_name - boolean
+	FirstName - string - 2179589
+	LastName - string - 2179591
+	has_name - string (?)
+	
+	
+	
+Concept Dimension to Map Fact Tables
+
+Concept Path, Concept Dimension
+
+Observation fact - has concept_path.  That links to concept dimension.
+Also in MAP_DATA_FACT -- can search for it in there - also MAP_AGGR_FACT (all aggregated fact data)
+What's a numeric, varchar, or boolean, and which field is the data in.
+TValChar = text, NValNum = numeric
+Valtype_CD tells you which column the real data lives in
+	Correlating like rows in fact tables by ENCOUNTER_NUM (Unofficially)
+		Encounter table is not used, but that's how we tie related things in fact tables together
+		"400 measurments of a person are taken, they all get the same encounter id"
+		Lab data based on accession num
+		"Virtual Row"
+Everything else in there is "metadata"
+
+Maps getting re-run - not putting anything in ValType_Cd.  Awsome.  Also, nothing in TVal_Char, or NVal_Num.  For trial bank stuff, there's no data in there, so the ValType_Cd doesn't get populated
+
+			  CQLQuery query = new CQLQuery();
+			  Object target = new Object();
+			  target.setName("i2b2.miniocre.Study");
+			  QueryModifier mods = new QueryModifier();
+			  mods.setDistinctAttribute("NCT_number");
+			  query.setTarget(target);
+			  query.setQueryModifier(mods);
+			  
+			  System.out.println("Querying");
+			  CQLQueryResults results = client.query(query);
+			  Iterator iter = new CQLQueryResultsIterator(results, true);
+			  System.out.println("Iterating");
+			  while (iter.hasNext()) {
+			      System.out.println(iter.next());
+			  }
+			  System.out.println("Done");

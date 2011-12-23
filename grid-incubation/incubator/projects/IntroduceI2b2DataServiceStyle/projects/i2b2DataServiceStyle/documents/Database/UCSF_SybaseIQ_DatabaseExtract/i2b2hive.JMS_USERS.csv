@@ -1,0 +1,6 @@
+USERID	PASSWD	CLIENTID
+dynsub	dynsub	null
+nobody	nobody	null
+john	needle	DurableSubscriberExample
+j2ee	j2ee	null
+guest	guest	null

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by David W. Ervin (The Ohio State University / Department of Biomedical Informatics) -->
+<xsd:schema xmlns:i2b2="http://i2b2.citih.osu.edu/i2b2-test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://i2b2.citih.osu.edu/i2b2-test" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:element name="Observation" type="i2b2:Observation"/>
+	<xsd:complexType name="Observation">
+		<xsd:annotation>
+			<xsd:documentation>Derived from OBSERVATION_FACT table</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="Encounter_Num" type="xsd:int" use="required"/>
+		<xsd:attribute name="Patient_Num" type="xsd:int" use="required"/>
+		<xsd:attribute name="Concept_Cd" type="xsd:string" use="required"/>
+		<xsd:attribute name="Provider_Id" type="xsd:string" use="required"/>
+		<xsd:attribute name="Start_Date" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="Modifier_Cd" type="xsd:string" use="required"/>
+		<xsd:attribute name="ValType_Cd" type="xsd:string"/>
+		<xsd:attribute name="TVal_Char" type="xsd:string"/>
+		<xsd:attribute name="NVal_Num" type="xsd:decimal"/>
+		<xsd:attribute name="ValueFlag_Cd" type="xsd:string"/>
+		<xsd:attribute name="Quantity_Num" type="xsd:decimal"/>
+		<xsd:attribute name="Units_Cd" type="xsd:string"/>
+		<xsd:attribute name="End_Date" type="xsd:dateTime"/>
+		<xsd:attribute name="Location_Cd" type="xsd:string"/>
+		<xsd:attribute name="Observatio_Blob" type="xsd:string"/>
+		<xsd:attribute name="Confidence_Num" type="xsd:decimal"/>
+		<xsd:attribute name="Update_Date" type="xsd:dateTime"/>
+		<xsd:attribute name="Download_Date" type="xsd:dateTime"/>
+		<xsd:attribute name="Import_Date" type="xsd:dateTime"/>
+		<xsd:attribute name="Sourcesystem_Cd" type="xsd:string"/>
+	</xsd:complexType>
+</xsd:schema>

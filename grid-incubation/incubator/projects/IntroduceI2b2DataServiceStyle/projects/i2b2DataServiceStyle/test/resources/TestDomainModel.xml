@@ -1,0 +1,30 @@
+<ns1:DomainModel projectShortName="i2b2 test" projectVersion="alpha" xmlns:ns1="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.dataservice">
+ <ns1:exposedUMLAssociationCollection xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+ <ns1:exposedUMLClassCollection>
+  <ns1:UMLClass allowableAsTarget="false" className="Observation" packageName="org.cagrid.i2b2.beans.test">
+   <ns2:umlAttributeCollection xmlns:ns2="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.common">
+    <ns2:UMLAttribute dataTypeName="java.lang.Integer" name="encounter_Num" publicID="1" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.Integer" name="patient_Num" publicID="2" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="concept_Cd" publicID="3" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="provider_Id" publicID="4" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.util.Calendar" name="start_Date" publicID="5" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="modifier_Cd" publicID="6" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="valType_Cd" publicID="7" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="TVal_Char" publicID="8" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.math.BigDecimal" name="NVal_Num" publicID="9" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="valueFlag_Cd" publicID="10" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.math.BigDecimal" name="quantity_Num" publicID="11" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="units_Cd" publicID="12" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.util.Calendar" name="end_Date" publicID="13" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="location_Cd" publicID="14" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="observatio_Blob" publicID="15" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.math.BigDecimal" name="confidence_Num" publicID="16" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.util.Calendar" name="update_Date" publicID="17" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.util.Calendar" name="download_Date" publicID="18" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.util.Calendar" name="import_Date" publicID="19" version="1.0"/>
+    <ns2:UMLAttribute dataTypeName="java.lang.String" name="sourcesystem_Cd" publicID="20" version="1.0"/>
+   </ns2:umlAttributeCollection>
+  </ns1:UMLClass>
+ </ns1:exposedUMLClassCollection>
+ <ns1:umlGeneralizationCollection xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+</ns1:DomainModel>

@@ -1,0 +1,18 @@
+* CDE mapping in EA... what tagged value name do we need to put in there?  -- send to ROB
+
+Ida's data is in sybase
+Concept paths are populated
+
+Rob is going to write 14 instance map scripts... to prakash.
+	Those transform data into the miniOCRe format (wut?)
+		An encoding format for the data in the DB
+	Marks up encoding table with the CDEs
+		Transforms what's in i2b2 into something usable (wut?)
+		Concept dim paths will have associated records in the encoding table -- that's what we'll publish to the grid for this trial.
+	Map scripts will "transform the data" and put it in map_fact or aggregate_fact table FROM observation_fact
+	Concept paths point to which fact table the data lives in (I think?)
+	
+If I have a path, how do I get data from fact table
+	Search all three, or do I know which table? -- no, search each table
+
+Ontomapper puts the stuff in the encoding table which maps CDEs to instance data
