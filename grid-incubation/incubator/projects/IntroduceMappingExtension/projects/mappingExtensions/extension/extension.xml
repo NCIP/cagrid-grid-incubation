@@ -1,0 +1,9 @@
+<ns1:ExtensionDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2"
+ xmlns:ns1="gme://gov.nih.nci.cagrid.introduce/1/Extension" extensionType="DISCOVERY">
+ <ns1:DiscoveryExtensionDescription displayName="caCORE SDK" name="mapping">
+  <ns1:DiscoveryPanelExtension>org.cagrid.mapping.portal.discovery.CaCoreSDKDataTypeSelectionComponent</ns1:DiscoveryPanelExtension>
+  <ns1:Properties>
+   <ns1:Property makeGlobal="true" key="CA_CORE_SDK_MAPPING" displayName="caCORE SDK Mapping" description="caCORE SDK Mapping" value="true"/>
+  </ns1:Properties>
+ </ns1:DiscoveryExtensionDescription>
+</ns1:ExtensionDescription>
