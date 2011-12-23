@@ -1,6 +1,0 @@
-Testsuite: edu.umn.msi.cagrid.introduce.interfaces.SpringConfigurationTestCase
-Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.032 sec
-
-Testcase: testParseAndGoodValidation took 0.026 sec
-Testcase: testGetServiceByName took 0.001 sec
-Testcase: testBadValidation took 0 sec

@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" name="Types" targetNamespace="http://helloworld.cagrid.nci.nih.gov/Types">
-<types><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://helloworld.cagrid.nci.nih.gov/Types" elementFormDefault="qualified" attributeFormDefault="unqualified"><import namespace="http://msi.umn.edu/calc/LastOp" schemaLocation="/home/john/workspace/interfaces/test/calc/verRP/LastOp.xsd" /></schema></types></definitions>

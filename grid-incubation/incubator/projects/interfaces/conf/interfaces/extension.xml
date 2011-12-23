@@ -1,9 +1,0 @@
-<ns1:ExtensionDescription extensionType="SERVICE" xmlns:ns1="gme://gov.nih.nci.cagrid.introduce/1/Extension">
-  <ns1:ServiceExtensionDescription displayName="Interfaces Extension" name="interfaces">
-    <ns1:CodegenPreProcessor>edu.umn.msi.cagrid.introduce.interfaces.CodegenProcessor</ns1:CodegenPreProcessor>
-    <ns1:CodegenPostProcessor>edu.umn.msi.cagrid.introduce.interfaces.CodegenProcessor</ns1:CodegenPostProcessor>
-    <ns1:Properties/>
-  </ns1:ServiceExtensionDescription>
-</ns1:ExtensionDescription>
-
-

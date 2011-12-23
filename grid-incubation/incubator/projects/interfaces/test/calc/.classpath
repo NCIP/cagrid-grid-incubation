@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src/ver1"/>
-	<classpathentry kind="src" path="src/ver2"/>
-	<classpathentry kind="lib" path="build/ver1/calc.jar"/>
-	<classpathentry kind="lib" path="build/ver2/calc.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
