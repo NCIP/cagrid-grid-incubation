@@ -1,0 +1,29 @@
+<%@ jet package="edu.umn.msi.cagrid.introduce.interfaces.spring"
+  class="SpringFieldGenerator"
+  skeleton="SpringGenerator.skeleton.java" %>
+<% 
+Iterator<SpringBeanConfiguration> beans = getBeans();
+while(beans.hasNext()) 
+{
+  SpringBeanConfiguration bean = beans.next();
+%>
+
+  /**
+   * DO NOT REMOVE THIS COMMENT!
+   * @<%= Constants.SPRING_EXTENSION_ANNOTATION %>
+   */
+  <%= bean.getFieldClass() %> <%= bean.getFieldName() %>;
+
+  /**
+   * DO NOT REMOVE THIS COMMENT!
+   * @<%= Constants.SPRING_EXTENSION_ANNOTATION %>
+   */
+  @ImplementsForService(interfaces = {<%= getInterfacesString(bean.getInterfaces()) %>})
+  private <%= bean.getFieldClass() %> get<%= bean.getFieldName() %>() {
+    if(<%= bean.getFieldName() %> == null) 
+      <%= bean.getFieldName() %> =  (<%= bean.getFieldClass() %>) <%= serviceName %>ApplicationContext.get().getBean("<%= bean.getBeanId() %>");
+    return <%= bean.getFieldName() %>; 
+  }
+<%
+}
+%>

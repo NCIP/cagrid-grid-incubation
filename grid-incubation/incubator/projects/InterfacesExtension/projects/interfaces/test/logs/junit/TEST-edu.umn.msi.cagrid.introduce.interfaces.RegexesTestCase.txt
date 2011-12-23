@@ -1,0 +1,8 @@
+Testsuite: edu.umn.msi.cagrid.introduce.interfaces.RegexesTestCase
+Tests run: 5, Failures: 0, Errors: 0, Time elapsed: 0.018 sec
+
+Testcase: testIdentifier took 0.001 sec
+Testcase: testFieldModifiers took 0.001 sec
+Testcase: testFieldDeclaration took 0.002 sec
+Testcase: testMethodDeclaration took 0.008 sec
+Testcase: testNewline took 0.001 sec

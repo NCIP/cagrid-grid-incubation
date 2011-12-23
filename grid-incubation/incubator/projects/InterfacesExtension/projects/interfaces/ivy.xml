@@ -1,0 +1,39 @@
+<?xml version="1.0"?> 
+
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd">
+
+  <info organisation="msi.umn.edu" module="interfaces" revision="${project.version}">
+    <description>Interface and Spring Extensions</description>
+  </info>
+
+  <configurations>
+     
+    <!-- Public configurations. -->    
+    <conf name="interfaces-client" visibility="public" />
+    <conf name="interfaces-extension" visibility="public" extends="interfaces-client" />
+    
+    <conf name="spring-client" visibility="public" extends="interfaces-client" />
+    <conf name="spring-extension" visibility="public" extends="interfaces-extension,spring-client" />
+    
+    <conf name="test" visibility="public" extends="spring-extension" />
+  </configurations>
+  
+  <publications>
+    <artifact name="interfacesExtension-client" conf="spring-client" type="jar"/>
+    <artifact name="interfacesExtension" conf="spring-extension" type="jar"/>
+  
+    <artifact name="springExtension-client" conf="spring-client" type="jar"/>
+    <artifact name="springExtension" conf="spring-extension" type="jar"/>
+  </publications>
+  
+  <dependencies>
+     <!-- No need to test to depend on junit, it is in GLOBUS_LOCATION/lib -->
+     <dependency rev="latest.integration" org="caGrid" name="core" conf="interfaces-extension->default;test->test"/>
+     <dependency rev="latest.integration" org="caGrid" name="testing" conf="test->system"/>
+     <dependency rev="latest.integration" org="caGrid" name="advertisement" conf="spring-client->default"/> 
+     <dependency rev="latest.integration" org="caGrid" name="introduce" conf="interfaces-extension->extension;spring-extension->extension" /> 
+     
+     <dependency rev="1.3.2" org="apache" name="commons-io" conf="interfaces-extension->default" />
+  </dependencies>
+</ivy-module>

@@ -1,0 +1,45 @@
+<%@ jet package="edu.umn.msi.cagrid.introduce.interfaces.spring"
+  class="ServiceApplicationContextGenerator"
+  skeleton="ServiceApplicationContextGenerator.skeleton.java" %>
+package <%= getPackage() %>;
+
+import java.rmi.RemoteException;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import edu.umn.msi.cagrid.introduce.interfaces.spring.client.Services;
+import <%= getCaGridService().getMainService().getServicePackageName() %>.<%= getCaGridService().getMainService().getName() %>Configuration;
+
+public class <%= getCaGridService().getMainService().getName() %>ApplicationContext {
+  static {
+    Services.registerService("<%= getCaGridService().getMainService().getPackageName() %>.<%= getCaGridService().getMainService().getName() %>Impl");
+  }
+
+  private static FileSystemXmlApplicationContext applicationContext;
+
+  public static void init(<%= getCaGridService().getMainService().getName() %>Configuration serviceConfiguration) throws RemoteException
+  {
+    if(applicationContext == null)
+    {
+      try 
+      {
+        String applicationContextPath = "file:" + serviceConfiguration.getApplicationContext();
+        applicationContext = new FileSystemXmlApplicationContext(applicationContextPath);
+        applicationContext.registerShutdownHook();
+        Services.setApplicationContext(applicationContext);
+      }
+      catch(Exception e) 
+      {
+        e.printStackTrace();
+        throw new RemoteException("Failed to initialize spring.",e);
+      }
+    }
+  }
+
+  public static ApplicationContext get() 
+  {
+    return applicationContext;
+  }
+}
+
+

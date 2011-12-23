@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" name="edu.umn.msi.cagrid.introduce.interfaces.StringBufferUtilsTestCase" tests="1" time="0.0060">
+  <properties>
+    <property name="env.DESKTOP_SESSION" value="default"></property>
+    <property name="env.OLDPWD" value="/home/john/workspace/grid-incubation/incubator"></property>
+    <property name="file.encoding.pkg" value="sun.io"></property>
+    <property name="java.home" value="/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre"></property>
+    <property name="test.src.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/test/src"></property>
+    <property name="env.GDM_LANG" value="en_US.UTF-8"></property>
+    <property name="env.DISPLAY" value=":0.0"></property>
+    <property name="collections.jar" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib/google-collect-snapshot-20071022.jar"></property>
+    <property name="jet.interfaces.build.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/jet/interfaces"></property>
+    <property name="cglib.jar" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib/cglib-nodep-2.1_3.jar"></property>
+    <property name="env.XDG_SESSION_COOKIE" value="4b8f43510b09304e7ff9fd00473ded00-1222289803.643987-1967561620"></property>
+    <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/endorsed"></property>
+    <property name="env.LOGNAME" value="john"></property>
+    <property name="src.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/src/interfaces/extension"></property>
+    <property name="ext.globus.dir" value="/home/john/software/ws-core-for-1-1"></property>
+    <property name="env.SESSION_MANAGER" value="local/chilton.msi.umn.edu:/tmp/.ICE-unix/5960"></property>
+    <property name="sun.os.patch.level" value="unknown"></property>
+    <property name="env.GDM_XSERVER_LOCATION" value="local"></property>
+    <property name="java.vendor.url" value="http://java.sun.com/"></property>
+    <property name="java.version" value="1.5.0_13"></property>
+    <property name="jet.lib.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/templates/lib"></property>
+    <property name="spring.build.client.jar" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/jars/springExtension-client-1.1.jar"></property>
+    <property name="test.logs.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/test/logs"></property>
+    <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi"></property>
+    <property name="ant.file.Interfaces Extension for Introduce" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build.xml"></property>
+    <property name="javadoc.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/javadoc"></property>
+    <property name="env.CAGRID_LOCATION" value="/home/john/software/cagrid1.2-july"></property>
+    <property name="env.XDG_DATA_DIRS" value="/usr/local/share/:/usr/share/:/usr/share/gdm/"></property>
+    <property name="test.lib.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/test/lib"></property>
+    <property name="user.name" value="john"></property>
+    <property name="env.LANG" value="en_US.UTF-8"></property>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"></property>
+    <property name="sun.jnu.encoding" value="UTF-8"></property>
+    <property name="env.DBUS_SESSION_BUS_ADDRESS" value="unix:abstract=/tmp/dbus-YmssZfXevw,guid=cc1a2553858cf4bde3fd280048daa98d"></property>
+    <property name="env.SCALA_HOME" value="/home/john/software/scala-2.7.0-RC1/"></property>
+    <property name="java.runtime.name" value="Java(TM) 2 Runtime Environment, Standard Edition"></property>
+    <property name="env.JDEPEND_HOME" value="/home/john/software/java/jdepend-2.9"></property>
+    <property name="lib.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib"></property>
+    <property name="project.version" value="1.1"></property>
+    <property name="java.specification.name" value="Java Platform API Specification"></property>
+    <property name="env.JWSDP_HOME" value="/home/john/software/java/jwsdp-2.0"></property>
+    <property name="user.timezone" value=""></property>
+    <property name="build.jar" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/jars/interfacesExtension-1.1.jar"></property>
+    <property name="path.separator" value=":"></property>
+    <property name="file.encoding" value="UTF-8"></property>
+    <property name="junit.results.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/test/logs/junit"></property>
+    <property name="env.HOME" value="/home/john"></property>
+    <property name="ant.file" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build.xml"></property>
+    <property name="env.GTK_RC_FILES" value="/etc/gtk/gtkrc:/home/john/.gtkrc-1.2-gnome2"></property>
+    <property name="spring.build.jar" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/jars/springExtension-1.1.jar"></property>
+    <property name="env._" value="/home/john/software/java/apache-ant-1.6.5//bin/ant"></property>
+    <property name="java.io.tmpdir" value="/tmp"></property>
+    <property name="env.GNOME_KEYRING_PID" value="5957"></property>
+    <property name="user.language" value="en"></property>
+    <property name="jet.interfaces.src.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/templates/src/interfaces"></property>
+    <property name="spring.src.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/src/spring/extension"></property>
+    <property name="line.separator" value="
+"></property>
+    <property name="env.SSH_AGENT_PID" value="5997"></property>
+    <property name="spring.extension.name.short" value="springExtension"></property>
+    <property name="build.client.jar" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/jars/interfacesExtension-client-1.1.jar"></property>
+    <property name="jet.template.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/templates"></property>
+    <property name="qdox.jar" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib/qdox-1.7-20070527.154641-2.jar"></property>
+    <property name="schema.src" value="/home/john/software/ws-core-for-1-1/share/schema"></property>
+    <property name="java.vm.info" value="mixed mode"></property>
+    <property name="sun.desktop" value="gnome"></property>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"></property>
+    <property name="env.COLORTERM" value=""></property>
+    <property name="env.CATALINA_OPTS" value="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8890  -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"></property>
+    <property name="spring.resource.client.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/resources/spring/client"></property>
+    <property name="test.classes.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/test_classes"></property>
+    <property name="build.stubs" value="/home/john/software/ws-core-for-1-1/share/globus_wsrf_tools/build-stubs.xml"></property>
+    <property name="ant.file.Interface Extension Tests" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/test/test.xml"></property>
+    <property name="env.GDMSESSION" value="default"></property>
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"></property>
+    <property name="ant.version" value="Apache Ant version 1.6.5 compiled on June 2 2005"></property>
+    <property name="env.WINDOWID" value="35651591"></property>
+    <property name="extension.name.short" value="interfacesExtension"></property>
+    <property name="env.GWT_HOME" value="/home/john/software/gwt-linux-1.5.2/"></property>
+    <property name="env.H2_HOME" value="/home/john/software/h2"></property>
+    <property name="env.CLASSPATH" value=":/home/john/software/java/jdepend-2.9/lib/jdepend-2.9.jar:/home/john/software/db-derby-10.4.2.0-bin/lib/derby.jar:/home/john/software/db-derby-10.4.2.0-bin/lib/derbytools.jar"></property>
+    <property name="os.name" value="Linux"></property>
+    <property name="java.specification.vendor" value="Sun Microsystems Inc."></property>
+    <property name="env.TERM" value="xterm"></property>
+    <property name="java.vm.name" value="Java HotSpot(TM) Server VM"></property>
+    <property name="java.library.path" value="/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/i386/server:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/i386:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/../lib/i386:/home/john/software/javaagent/lib"></property>
+    <property name="env.PATH" value="/home/john/software/tpp/bin:/home/john/proteomics/bin:/home/john/software/h2/bin:/home/john/software/db-derby-10.4.2.0-bin/bin:/home/john/software/java/apache-maven-2.0.9//bin:/home/john/software/javaagent/bin:/home/john/card/software/jwsdp-2.0/jaxb/bin:/home/john/software/java/apache-ant-1.6.5//bin:.:/usr/lib/jvm/java-1.5.0-sun/bin:/home/john/software/mysql/bin:/home/john/software/ws-core-for-1-1/bin:/home/john/software/ws-core-for-1-1/sbin:/home/john/scripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"></property>
+    <property name="ant.java.version" value="1.5"></property>
+    <property name="basedir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces"></property>
+    <property name="introduce.skeleton.lib.dir" value="/home/john/software/cagrid1.2-july/projects/introduce/ext/skeleton/interfaces/lib"></property>
+    <property name="java.class.version" value="49.0"></property>
+    <property name="env.SHLVL" value="1"></property>
+    <property name="env.LD_LIBRARY_PATH" value="/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/i386/server:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/i386:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/../lib/i386:/home/john/software/javaagent/lib"></property>
+    <property name="jet.spring.src.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/templates/src/spring"></property>
+    <property name="ant.home" value="/home/john/software/java/apache-ant-1.6.5/"></property>
+    <property name="env.GNOME_KEYRING_SOCKET" value="/tmp/keyring-8gDEmB/socket"></property>
+    <property name="resource.client.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/resources/interfaces/client"></property>
+    <property name="client.src.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/src/interfaces/client"></property>
+    <property name="spring.client.src.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/src/spring/client"></property>
+    <property name="build.packages" value="/home/john/software/ws-core-for-1-1/share/globus_wsrf_common/build-packages.xml"></property>
+    <property name="env.KONSOLE_DCOP_SESSION" value="DCOPRef(konsole-6155,session-63)"></property>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/i386"></property>
+    <property name="build.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/classes/interfaces"></property>
+    <property name="sun.management.compiler" value="HotSpot Server Compiler"></property>
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"></property>
+    <property name="env.USER" value="john"></property>
+    <property name="env.KONSOLE_DCOP" value="DCOPRef(konsole-6155,konsole)"></property>
+    <property name="spring.introduce.skeleton.lib.dir" value="/home/john/software/cagrid1.2-july/projects/introduce/ext/skeleton/spring/lib"></property>
+    <property name="ant.project.name" value="Interfaces Extension for Introduce"></property>
+    <property name="GT4.ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration"></property>
+    <property name="java.vm.specification.version" value="1.0"></property>
+    <property name="env.GLOBUS_LOCATION" value="/home/john/software/ws-core-for-1-1"></property>
+    <property name="env.NLSPATH" value="/usr/dt/lib/nls/msg/%L/%N.cat"></property>
+    <property name="env.AGENT_HOME" value="/home/john/software/javaagent"></property>
+    <property name="env.MAVEN_HOME" value="/home/john/software/java/apache-maven-2.0.9/"></property>
+    <property name="sun.cpu.isalist" value=""></property>
+    <property name="java.ext.dirs" value="/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/ext"></property>
+    <property name="os.version" value="2.6.22-14-generic"></property>
+    <property name="user.home" value="/home/john"></property>
+    <property name="java.vm.vendor" value="Sun Microsystems Inc."></property>
+    <property name="introduce.dir" value="/home/john/software/cagrid1.2-july/projects/introduce"></property>
+    <property name="env.JAVA_HOME" value="/usr/lib/jvm/java-1.5.0-sun"></property>
+    <property name="env.XAUTHORITY" value="/home/john/.Xauthority"></property>
+    <property name="user.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces"></property>
+    <property name="env.XFILESEARCHPATH" value="/usr/dt/app-defaults/%L/Dt"></property>
+    <property name="env.WINDOWPATH" value="7"></property>
+    <property name="extension.xml" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/conf/interfaces/extension.xml"></property>
+    <property name="env.PWD" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces"></property>
+    <property name="test.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/test"></property>
+    <property name="sun.cpu.endian" value="little"></property>
+    <property name="introduce.extensions.dir" value="/home/john/software/cagrid1.2-july/projects/introduce/extensions"></property>
+    <property name="java.vm.version" value="1.5.0_13-b05"></property>
+    <property name="java.class.path" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/classes/interfaces:/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/classes/spring:/home/john/workspace/grid-incubation/incubator/projects/interfaces/test/resources:/home/john/workspace/grid-incubation/incubator/projects/interfaces/test/lib/junit-addons-1.4.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/test/lib/junit.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/antlr-2.7.6rc1.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/caGrid-Introduce-core-1.2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/caGrid-Introduce-portal-1.2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/caGrid-core-1.2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/caGrid-core-tests-1.2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/caGrid-testing-core-1.2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/caGrid-testing-system-1.2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/castor-0.9.9.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/commons-io-1.3.2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/jaxen-1.1.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/jaxmejs-0.5.2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/jdepend-2.7.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/jdom-1.0.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/relaxngDatatype.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/ext/dependencies/test/jars/xsom14.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib/cglib-nodep-2.1_3.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib/google-collect-snapshot-20071022.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib/qdox-1.7-20070527.154641-2.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib/spring.jar:/home/john/software/ws-core-for-1-1/lib/TropixCatalogService-client.jar:/home/john/software/ws-core-for-1-1/lib/TropixCatalogService-common.jar:/home/john/software/ws-core-for-1-1/lib/TropixCatalogService-service.jar:/home/john/software/ws-core-for-1-1/lib/TropixCatalogService-stubs.jar:/home/john/software/ws-core-for-1-1/lib/TropixCatalogService-tests.jar:/home/john/software/ws-core-for-1-1/lib/addressing-1.0.jar:/home/john/software/ws-core-for-1-1/lib/asm-util.jar:/home/john/software/ws-core-for-1-1/lib/asm.jar:/home/john/software/ws-core-for-1-1/lib/aspectjrt.jar:/home/john/software/ws-core-for-1-1/lib/aspectjweaver.jar:/home/john/software/ws-core-for-1-1/lib/axis-url.jar:/home/john/software/ws-core-for-1-1/lib/axis.jar:/home/john/software/ws-core-for-1-1/lib/bobcat-legacy-api.jar:/home/john/software/ws-core-for-1-1/lib/bootstrap.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-Introduce-serviceTools-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-ServiceSecurityProvider-client-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-ServiceSecurityProvider-common-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-ServiceSecurityProvider-service-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-ServiceSecurityProvider-stubs-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-advertisement-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-core-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-metadata-common-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-metadata-data-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-metadata-security-1.2.jar:/home/john/software/ws-core-for-1-1/lib/caGrid-metadatautils-1.2.jar:/home/john/software/ws-core-for-1-1/lib/castor-0.9.9.jar:/home/john/software/ws-core-for-1-1/lib/cglib-nodep.jar:/home/john/software/ws-core-for-1-1/lib/cog-axis.jar:/home/john/software/ws-core-for-1-1/lib/cog-jglobus.jar:/home/john/software/ws-core-for-1-1/lib/cog-tomcat.jar:/home/john/software/ws-core-for-1-1/lib/cog-url.jar:/home/john/software/ws-core-for-1-1/lib/commonj.jar:/home/john/software/ws-core-for-1-1/lib/commons-beanutils.jar:/home/john/software/ws-core-for-1-1/lib/commons-cli-2.0.jar:/home/john/software/ws-core-for-1-1/lib/commons-collections-3.0.jar:/home/john/software/ws-core-for-1-1/lib/commons-collections.jar:/home/john/software/ws-core-for-1-1/lib/commons-digester.jar:/home/john/software/ws-core-for-1-1/lib/commons-discovery.jar:/home/john/software/ws-core-for-1-1/lib/commons-logging.jar:/home/john/software/ws-core-for-1-1/lib/concurrent.jar:/home/john/software/ws-core-for-1-1/lib/cryptix-asn1.jar:/home/john/software/ws-core-for-1-1/lib/cryptix.jar:/home/john/software/ws-core-for-1-1/lib/cryptix32.jar:/home/john/software/ws-core-for-1-1/lib/globus_resolution_service.jar:/home/john/software/ws-core-for-1-1/lib/globus_resolution_stubs_java.jar:/home/john/software/ws-core-for-1-1/lib/globus_resolution_test.jar:/home/john/software/ws-core-for-1-1/lib/globus_transfer_service.jar:/home/john/software/ws-core-for-1-1/lib/globus_transfer_stubs_java.jar:/home/john/software/ws-core-for-1-1/lib/globus_transfer_test.jar:/home/john/software/ws-core-for-1-1/lib/globus_usage_core.jar:/home/john/software/ws-core-for-1-1/lib/globus_usage_packets_common.jar:/home/john/software/ws-core-for-1-1/lib/globus_wsrf_mds_aggregator.jar:/home/john/software/ws-core-for-1-1/lib/globus_wsrf_mds_aggregator_stubs.jar:/home/john/software/ws-core-for-1-1/lib/globus_wsrf_servicegroup.jar:/home/john/software/ws-core-for-1-1/lib/globus_wsrf_servicegroup_stubs.jar:/home/john/software/ws-core-for-1-1/lib/globus_wsrf_tools_test.jar:/home/john/software/ws-core-for-1-1/lib/interfacesExtension-client-1.1.jar:/home/john/software/ws-core-for-1-1/lib/jasciidammit-1.1.jar:/home/john/software/ws-core-for-1-1/lib/jaxrpc.jar:/home/john/software/ws-core-for-1-1/lib/jce-jdk13-125.jar:/home/john/software/ws-core-for-1-1/lib/jdom-1.0.jar:/home/john/software/ws-core-for-1-1/lib/jgss.jar:/home/john/software/ws-core-for-1-1/lib/junit.jar:/home/john/software/ws-core-for-1-1/lib/log4j-1.2.8.jar:/home/john/software/ws-core-for-1-1/lib/log4j.jar:/home/john/software/ws-core-for-1-1/lib/naming-common.jar:/home/john/software/ws-core-for-1-1/lib/naming-factory.jar:/home/john/software/ws-core-for-1-1/lib/naming-java.jar:/home/john/software/ws-core-for-1-1/lib/naming-resources.jar:/home/john/software/ws-core-for-1-1/lib/opensaml.jar:/home/john/software/ws-core-for-1-1/lib/puretls.jar:/home/john/software/ws-core-for-1-1/lib/resolver.jar:/home/john/software/ws-core-for-1-1/lib/saaj.jar:/home/john/software/ws-core-for-1-1/lib/servlet.jar:/home/john/software/ws-core-for-1-1/lib/spring-aop.jar:/home/john/software/ws-core-for-1-1/lib/spring-beans.jar:/home/john/software/ws-core-for-1-1/lib/spring-context.jar:/home/john/software/ws-core-for-1-1/lib/spring-core.jar:/home/john/software/ws-core-for-1-1/lib/springExtension-client-1.1.jar:/home/john/software/ws-core-for-1-1/lib/tropix-catalog-api-1.0.jar:/home/john/software/ws-core-for-1-1/lib/tropix-catalog-impl-1.0.jar:/home/john/software/ws-core-for-1-1/lib/wsdl4j.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_common.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_registry.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_registry_stubs.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_samples_authzService.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_samples_authzService_stubs.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_samples_counter.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_samples_counter_stubs.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_samples_mgmt.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_samples_mgmt_stubs.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_core_stubs.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_provider_jce.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_test.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_test_interop.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_test_interop_stubs.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_test_unit.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_test_unit_stubs.jar:/home/john/software/ws-core-for-1-1/lib/wsrf_tools.jar:/home/john/software/ws-core-for-1-1/lib/wss4j.jar:/home/john/software/ws-core-for-1-1/lib/xalan.jar:/home/john/software/ws-core-for-1-1/lib/xercesImpl.jar:/home/john/software/ws-core-for-1-1/lib/xml-apis.jar:/home/john/software/ws-core-for-1-1/lib/xmlsec.jar:/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/test_classes:/home/john/software/java/jdepend-2.9/lib/jdepend-2.9.jar:/home/john/software/db-derby-10.4.2.0-bin/lib/derby.jar:/home/john/software/db-derby-10.4.2.0-bin/lib/derbytools.jar:/home/john/software/java/apache-ant-1.6.5/lib/junit-4.4.jar:/home/john/software/java/apache-ant-1.6.5/lib/ant-launcher.jar:/home/john/software/java/apache-ant-1.6.5/lib/ant.jar:/home/john/software/java/apache-ant-1.6.5/lib/ant-junit.jar"></property>
+    <property name="jet.spring.build.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/jet/spring"></property>
+    <property name="env.DERBY_HOME" value="/home/john/software/db-derby-10.4.2.0-bin"></property>
+    <property name="ant.library.dir" value="/home/john/software/java/apache-ant-1.6.5//lib"></property>
+    <property name="os.arch" value="i386"></property>
+    <property name="spring.classes.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/classes/spring"></property>
+    <property name="dist.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/dist"></property>
+    <property name="sun.java.launcher" value="SUN_STANDARD"></property>
+    <property name="classes.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/classes/interfaces"></property>
+    <property name="env.MYSQL_HOME" value="/home/john/software/mysql"></property>
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc."></property>
+    <property name="file.separator" value="/"></property>
+    <property name="java.runtime.version" value="1.5.0_13-b05"></property>
+    <property name="sun.boot.class.path" value="/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/rt.jar:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/i18n.jar:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/jsse.jar:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/jce.jar:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/lib/charsets.jar:/usr/lib/jvm/java-1.5.0-sun-1.5.0.13/jre/classes"></property>
+    <property name="env.SSH_AUTH_SOCK" value="/tmp/ssh-inWMjU5960/agent.5960"></property>
+    <property name="jars.dir" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/build/jars"></property>
+    <property name="env.TEMP" value="/tmp"></property>
+    <property name="user.country" value="US"></property>
+    <property name="env.ANT_HOME" value="/home/john/software/java/apache-ant-1.6.5/"></property>
+    <property name="env.SHELL" value="/usr/bin/zsh"></property>
+    <property name="java.vendor" value="Sun Microsystems Inc."></property>
+    <property name="spring.extension.xml" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/conf/spring/extension.xml"></property>
+    <property name="spring.jar" value="/home/john/workspace/grid-incubation/incubator/projects/interfaces/lib/spring.jar"></property>
+    <property name="env.CATALINA_HOME" value="/home/john/software/apache-tomcat-6.0.16"></property>
+    <property name="java.specification.version" value="1.5"></property>
+    <property name="sun.arch.data.model" value="32"></property>
+    <property name="env.GNOME_DESKTOP_SESSION_ID" value="Default"></property>
+  </properties>
+  <testcase classname="edu.umn.msi.cagrid.introduce.interfaces.StringBufferUtilsTestCase" name="testReplace" time="0.0"></testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
