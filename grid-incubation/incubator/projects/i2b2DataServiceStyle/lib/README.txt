@@ -1,1 +1,0 @@
-jconn3.jar			Sybase IQ JDBC Driver

@@ -1,5 +1,0 @@
-C_TABLE_CD	C_TABLE_NAME	C_PROTECTED_ACCESS	C_HLEVEL	C_NAME	C_USER_ID	C_GROUP_ID	C_SHARE_ID	C_INDEX	C_PARENT_INDEX	C_VISUALATTRIBUTES	C_TOOLTIP	C_ENTRY_DATE	C_CHANGE_DATE	C_STATUS_CD
-demo	WORKPLACE	N	0	SHARED	shared	demo	Y	100	null	CA 	SHARED	null	null	null
-demo	WORKPLACE	N	0	@	@	demo	N	0	null	CA 	@	null	null	null
-demo	WORKPLACE	N	0	Demouser	Demouser	demo	N	fCyBgYKhZxdxeMn6p9sj	null	CA 	null	Oct 7, 2008	null	null
-demo	WORKPLACE	N	0	Demo	Demo	demo	N	xa6hD4ZE2kmuvGMsFXLo	null	CA 	null	Oct 9, 2008	null	null

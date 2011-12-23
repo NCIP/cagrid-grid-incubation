@@ -1,5 +1,0 @@
-IRB_APPROVAL_TYPE_CD	IRB_APPROVAL_TYPE_DESC	CREATE_USER	UPDATE_USER	CREATE_DATE	UPDATE_DATE
-F	Full review	null	null	null	null
-E	Expedited review	null	null	null	null
-X	Exempt	null	null	null	null
-N	Not Applicable	null	null	null	null

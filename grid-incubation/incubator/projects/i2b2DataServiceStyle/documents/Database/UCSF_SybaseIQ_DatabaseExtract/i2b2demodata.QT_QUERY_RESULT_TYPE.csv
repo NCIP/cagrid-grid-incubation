@@ -1,7 +1,0 @@
-RESULT_TYPE_ID	NAME	DESCRIPTION
-1	PATIENTSET	Patient list
-2	PATIENT_ENCOUNTER_SET	Event list
-3	XML	Generic query result
-4	PATIENT_COUNT_XML	Number of patients
-5	PATIENT_GENDER_COUNT_XML	Number of male vs female patients
-6	PATIENT_MORTALITY_COUNT_XML	Number of deceased vs living patients

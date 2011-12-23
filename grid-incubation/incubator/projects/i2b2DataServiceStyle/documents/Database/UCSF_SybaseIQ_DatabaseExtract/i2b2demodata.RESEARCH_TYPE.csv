@@ -1,5 +1,0 @@
-RESEARCH_TYPE_CD	RESEARCH_TYPE_DESC	CREATE_USER	UPDATE_USER	CREATE_DATE	UPDATE_DATE
-C	Clinical	null	null	null	null
-O	Observational	null	null	null	null
-A	Animal	null	null	null	null
-I	In vitro	null	null	null	null
