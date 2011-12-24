@@ -8,8 +8,8 @@
     that.
   -->
 
-  <caches checkUpToDate="false" default="cache1.3" useOrigin="true">
-  	<cache name="cache1.3" basedir="${user.dir}/.cache1.3"/>
+  <caches checkUpToDate="false" defaultCacheDir="${user.dir}/.cache-local" useOrigin="true">
+    <cache name="remote" basedir="${user.dir}/.cache-remote" useOrigin="false" />
   </caches>
 
   <macrodef name="cagrid-incubator-fs-resolver">
