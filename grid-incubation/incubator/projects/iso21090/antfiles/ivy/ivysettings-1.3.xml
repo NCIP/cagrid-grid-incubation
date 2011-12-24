@@ -33,7 +33,7 @@
         name="caGrid-incubator-local-fs" />
 
       <!-- Then use the caGrid 1.3 repository -->
-      <url name="remote-caGrid-ivy-resolver-1.3" cache="cache1.3">
+      <url name="remote-caGrid-ivy-resolver-1.3" cache="remote">
         <ivy pattern="http://software.cagrid.org/repository-1.3/[organisation]/[module]/ivy-[revision].xml" />
         <artifact
           pattern="http://software.cagrid.org/repository-1.3/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
@@ -42,7 +42,7 @@
       </url>
 
       <!-- Then the caGrid 1.3 system tests integration repository -->
-      <url name="remote-caGrid-system-tests-ivy-resolver-1.3" cache="cache1.3">
+      <url name="remote-caGrid-system-tests-ivy-resolver-1.3" cache="remote">
 	<ivy pattern="http://quality.cagrid.org/job/caGrid-1.3-System-Tests/lastSuccessfulBuild/artifact/cagrid-1-0/caGrid/integration-repository/[organisation]/[module]/ivy-[revision].xml"/>
 	<artifact
 	   pattern="http://quality.cagrid.org/job/caGrid-1.3-System-Tests/lastSuccessfulBuild/artifact/cagrid-1-0/caGrid/integration-repository/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
@@ -51,7 +51,7 @@
       </url>
 
       <!-- Then the NCI BDA repository -->
-      <url name="remote-nci-commonlibrary-resolver" cache="cache1.3">
+      <url name="remote-nci-commonlibrary-resolver" cache="remote">
 	<ivy pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/ivy.xml"/>
 	<artifact
 	   pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
