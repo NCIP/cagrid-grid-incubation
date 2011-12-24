@@ -7,9 +7,9 @@
     new date It should retrieve the necessary version regardless of the date... not sure why it does
     that.
   -->
-  
-  <caches checkUpToDate="false" default="cache1.3" useOrigin="true">
-  	<cache name="cache1.3" basedir="${user.dir}/.cache1.3"/>
+
+  <caches checkUpToDate="false" defaultCacheDir="${user.dir}/.cache-local" useOrigin="true">
+    <cache name="remote" basedir="${user.dir}/.cache-remote" useOrigin="false" />
   </caches>
 
 
@@ -34,7 +34,7 @@
         name="caGrid-incubator-local-fs" />
 
       <!-- Last, use the caGrid 1.3 repository -->
-      <url name="remote-caGrid-ivy-resolver-1.3" cache="cache1.3">
+      <url name="remote-caGrid-ivy-resolver-1.3" cache="remote">
         <ivy
           pattern="http://software.cagrid.org/repository-1.3.0.2/[organisation]/[module]/ivy-[revision].xml" />
         <artifact
