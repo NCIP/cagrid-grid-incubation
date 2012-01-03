@@ -20,23 +20,14 @@
 	<!-- Directory for compiled service classes -->
 	<property name="build.dest" location="${build.dir}/classes" />
 
-
-	<!-- =============================================================== -->
-	<!-- Deploy the Index Service to a JBoss container                   -->
-	<!-- =============================================================== -->
-	<target name="deployJBoss" description="Deploy the index service to a JBoss container">
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: setJBossProperty                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="setJBossProperty">
 		<fail unless="env.JBOSS_HOME"
 			  message="Cannot deploy to JBOSS unless environment variable JBOSS_HOME is defined" />
-	</target>
-
-	<!-- ================================================================================= -->
-	<!-- Deploy the index service availability checker application to a tomcat container.  -->
-	<!-- ================================================================================= -->
-	<target name="deployTomcat" description="Deploy the index service to a tomcat container">
-		<fail unless="env.CATALINA_HOME"
-			  message="Cannot deploy to tomcat unless environment variable CATALINA_HOME is defined" />
-	</target>
-
+    	<property name="deploy.dir" location="env.JBOSS_HOME"/>
+    </target>
 
 
 	<!-- ============================================================== -->
@@ -74,6 +65,11 @@
           target: compile                      
          - - - - - - - - - - - - - - - - - -->
 	<target name="compile" depends="init" description="Compile the java code.">
-		<javac srcdir="${src.dir}" classpathref="${lib.dir}" includes="**" destdir="${build.dest}" debug="${java.debug}" />
+		<javac srcdir="${src.dir}" includes="**" destdir="${build.dest}" debug="${java.debug}">
+			<classpath>
+				<fileset dir="${lib.dir}">
+					<include name="*.jar"/>
+				</fileset>			</classpath>
+		</javac>
 	</target>
 </project>

@@ -22,7 +22,7 @@ public class IndexServiceAvailabilityChecker {
 	 * 
 	 * @param args
 	 *            One command line argument is expected, which is the URL of the
-	 *            index service to be checkec.
+	 *            index service to be checked.
 	 */
 	public static void main(String[] args) {
 		if (args.length != 1) {
@@ -40,6 +40,7 @@ public class IndexServiceAvailabilityChecker {
 				} catch (Exception e) {
 					System.out.println("Attempt to contact index service failed.");
 				}
+				Thread.sleep(2000);
 			}
 		} catch (Throwable e) {
 			System.err.println("Exiting because an unexpected exception was thrown");
@@ -59,7 +60,7 @@ public class IndexServiceAvailabilityChecker {
 	 * Output usage message to standard error output and abnormally exit.
 	 */
 	private static void usage() {
-		System.err.println("This application expects to have exactly one command line argument which is the URL of the INdex Service to be checked.");
+		System.err.println("This application expects to have exactly one command line argument which is the URL of the Index Service to be checked.");
 		abend();
 	}
 
