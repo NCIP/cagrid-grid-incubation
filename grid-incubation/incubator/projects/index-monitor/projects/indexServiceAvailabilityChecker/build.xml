@@ -54,6 +54,22 @@
 		<!-- Copied from build.stubs file, as there is no way to "append" to the value in the remote file -->
 		<property name="GT4.ns.excludes" value="-x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-BaseFaults-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceLifetime-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ServiceGroup-1.2-draft-01.wsdl -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.xsd -x http://docs.oasis-open.org/wsn/2004/06/wsn-WS-BaseNotification-1.2-draft-01.wsdl -x http://schemas.xmlsoap.org/ws/2004/04/trust -x http://schemas.xmlsoap.org/ws/2002/12/policy -x http://schemas.xmlsoap.org/ws/2002/07/utility -x http://schemas.xmlsoap.org/ws/2004/04/sc -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd -x http://www.w3.org/2000/09/xmldsig# -x http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd -x http://schemas.xmlsoap.org/ws/2004/09/enumeration" />
 	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: _cleanDeploy                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_cleanDeploy" if="availabilityChecker.deploy.dir">
+        <delete dir="${availabilityChecker.deploy.dir}"/>
+    </target>
+
+	
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+    <target name="clean" description="Remove artifacts created by previous builds.">
+        <delete dir="${build.dir}" />
+    </target>
+
 
 	<!-- Sets up the build directory structure -->
 	<target name="init" depends="checkGlobus">
@@ -72,4 +88,14 @@
 				</fileset>			</classpath>
 		</javac>
 	</target>
+	
+	<!-- ================================= 
+          target: deploy              
+         ================================= -->
+    <target name="deploy" depends="clean,compile" description="Copy this directory to the destination directory">
+        <fail unless="availabilityChecker.deploy.dir" message="Deployment of the IndexServiceAvailabilityChecker must be done as part of the index-monitor deployment."/>
+    	<copy todir="${availabilityChecker.deploy.dir}" overwrite="true">
+    		<fileset dir="${basedir}"/>
+    	</copy>
+    </target>
 </project>
