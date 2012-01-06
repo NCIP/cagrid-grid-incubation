@@ -22,14 +22,13 @@
 	<property name="antfiles.lib.dir" location="${antfiles.dir}/lib" />
 	<property name="test.lib.dir" location="${test.dir}/lib" />
 
-	<condition property="isJDK1.5" value="true">
+	<condition property="isJDK1.6" value="true">
 		<or>
-			<equals arg1="${ant.java.version}" arg2="1.5" />
 			<equals arg1="${ant.java.version}" arg2="1.6" />
 		</or>
 	</condition>
-	<!-- Require Java 1.5 for now -->
-	<fail message="JDK 1.5 is currently required to build this project!" unless="isJDK1.5" />
+	<!-- Require Java 1.6 for now -->
+	<fail message="JDK 1.6 is currently required to build this project!" unless="isJDK1.6" />
 
 	<!-- IMPORT THE UTILITIES TARGETS -->
 	<!--<import file="${antfiles.dir}/target-grid.xml" />-->
