@@ -23,6 +23,7 @@
 		<dependency org="caGrid" name="authentication-service" rev="1.4" conf="default->stubs" />
 		<dependency org="caGrid" name="core" rev="1.4" conf="default->default" />
 		<dependency org="caGrid" name="data" rev="1.4" conf="default->stubs" />
+		<dependency org="caGrid" name="discovery" rev="1.4" conf="default->default" />
 		
 		<dependency org="apache" name="commons-logging" rev="1.1" conf="default->*" />
 	</dependencies>
