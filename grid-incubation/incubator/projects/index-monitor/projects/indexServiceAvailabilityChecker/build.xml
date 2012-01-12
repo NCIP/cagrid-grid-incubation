@@ -7,9 +7,17 @@
 <project name="IndexServiceAvailabilityChecker" default="compile" basedir=".">
 	<property name="project.version" value="1.0"/>
 
-
 	<!-- Define the environment variable -->
 	<property environment="env" />
+
+	<property name="ant.dir" location="${basedir}/../../antfiles"/>
+	<property name="ant.lib" location="${ant.dir}/lib"/>
+
+	<taskdef name="xmltask"
+		classname="com.oopsconsultancy.xmltask.ant.XmlTask"
+		classpath="${ant.lib}/xmltask.jar" />
+
+	<taskdef name="hostname" classname="org.juliansimpson.HostName" classpath="${ant.lib}/hostname.jar"/>
 
 	<!-- Important directories and files -->
 	<property name="src.dir" location="src" />
@@ -100,13 +108,102 @@
 		</javac>
 	</target>
 	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: publish                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="publish" depends="compile">
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: _setStartStopScriptProperties                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_setStartStopScriptProperties">
+    	<property name="startScript.unix.original" location="${startScript.unix}_original"/>
+    	<property name="startScript.windows.original" location="${startScript.windows}_original.bat" />
+    	<property name="stopScript.unix.original" location="${stopScript.unix}_original" />
+    	<property name="stopScript.windows.original" location="${stopScript.windows}_original.bat" />
+
+    	<available file="${startScript.unix.original}" property="startScript.unix.original.available" />
+    	<available file="${startScript.windows.original}" property="startScript.windows.original.available" />
+    	<available file="${stopScript.unix.original}" property="stopScript.unix.original.available" />
+    	<available file="${stopScript.windows.original}" property="stopScript.windows.original.available" />
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: _saveOriginalUnixStartScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_saveOriginalUnixStartScript" unless="startScript.unix.original.available">
+		<move file="${startScript.unix}" tofile="${startScript.unix.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: _saveOriginalWindowsStartScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_saveOriginalWindowsStartScript" unless="startScript.windows.original.available">
+		<move file="${startScript.windows}" tofile="${startScript.windows.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: _saveOriginalUnixStopScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_saveOriginalUnixStopScript" unless="stopScript.unix.original.available">
+		<move file="${stopScript.unix}" tofile="${stopScript.unix.original}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: _saveOriginalWindowsStopScript                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_saveOriginalWindowsStopScript" unless="stopScript.windows.original.available">
+		<move file="${stopScript.windows}" tofile="${stopScript.windows.original}"/>            
+    </target>
+
+	
 	<!-- ================================= 
-          target: deploy              
+          target: _deploy              
          ================================= -->
-    <target name="deploy" depends="clean,compile" description="Copy this directory to the destination directory">
-        <fail unless="availabilityChecker.deploy.dir" message="Deployment of the IndexServiceAvailabilityChecker must be done as part of the index-monitor deployment."/>
+    <target name="_deploy" 
+    	depends="clean,compile,_setStartStopScriptProperties,_saveOriginalUnixStartScript,_saveOriginalUnixStopScript,_saveOriginalWindowsStartScript,_saveOriginalWindowsStopScript">
     	<copy todir="${availabilityChecker.deploy.dir}" overwrite="true">
     		<fileset dir="${basedir}"/>
     	</copy>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: setTomcatProperties                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_setTomcatProperties">
+    	<fail unless="env.CATALINA_HOME" message="Unable to deploy to tomcat because CATALINA_HOME is not defined."/>
+    	<property name="deploy.dir" value="${env.CATALINA_HOME}/webapps/wsrf/WEB-INF"/>
+    	<property name="startScript.unix" location="${env.CATALINA_HOME}/bin/startup.sh"/>
+    	<property name="startScript.windows" location="${env.CATALINA_HOME}/bin/startup.bat"/>	
+    	<property name="stopScript.unix" location="${env.CATALINA_HOME}/bin/shutdown.sh"/>
+    	<property name="stopScript.windows" location="${env.CATALINA_HOME}/bin/shutdown.bat"/>	
+    </target>
+
+	
+	<!-- ================================= 
+          target: deployTomcat              
+         ================================= -->
+    <target name="deployTomcat" depends="_setTomcatProperties,_deploy" description="Deploy the index service monitoring web app for an index service in a tomcat container.">
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: _setJBossProperties                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_setJBossProperties">
+    	<fail unless="env.JBOSS_HOME" message="Unable to deploy to JBoss because JBOSS_HOME is not defined."/>
+   		<property name="deploy.dir" value="${env.JBOSS_HOME}/server/default/deploy/wsrf.war/WEB-INF"/>
+       	<property name="startScript.unix" location="${env.JBOSS_HOME}/bin/run.sh"/>
+       	<property name="startScript.windows" location="${env.JBOSS_HOME}/bin/run.bat"/>	
+       	<property name="stopScript.unix" location="${env.JBOSS_HOME}/bin/shutdown.sh"/>
+       	<property name="stopScript.windows" location="${env.JBOSS_HOME}/bin/shutdown.bat"/>	
+    </target>
+
+
+	<!-- ================================= 
+          target: deployJBoss              
+         ================================= -->
+    <target name="deployJBoss" depends="_setJBossProperties,_deploy" description="Deploy the index service monitoring web app for an index service in a JBoss container.">
+        
     </target>
 </project>

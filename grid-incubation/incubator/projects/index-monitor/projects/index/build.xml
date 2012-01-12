@@ -144,33 +144,25 @@
 	<target name="compileRedirector" depends="init" description="Compile the java code that redirects to the monitoring service.">
 		<javac srcdir="${src.dir}" classpathref="redirector.build.classpath" includes="**" destdir="${build.dest}" debug="${java.debug}" />
 	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: publish                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="publish" depends="compileRedirector">
+            
+    </target>
+
 
 	<!-- ================================= 
           target: deployIndexMonitorTomcat              
          ================================= -->
-    <target name="deployIndexMonitorTomcat" depends="deployIndexTomcat,compileRedirector" description="Deploy the index service and its monitoring service to a tomcat container.">
-        <ant antfile="${basedir}/deploy-redirect.xml" target="deployRedirect">
-        	<property name="deploy.dir" value="${env.CATALINA_HOME}/webapps/wsrf/WEB-INF"/>
-        	<property name="startScript.unix" location="${env.CATALINA_HOME}/bin/startup.sh"/>
-        	<property name="startScript.windows" location="${env.CATALINA_HOME}/bin/startup.bat"/>	
-        	<property name="stopScript.unix" location="${env.CATALINA_HOME}/bin/shutdown.sh"/>
-        	<property name="stopScript.windows" location="${env.CATALINA_HOME}/bin/shutdown.bat"/>	
-        </ant>
+    <target name="deployIndexMonitorTomcat" depends="deployIndexTomcat,compileRedirector" description="Deploy the index service and its monitoring web app to a tomcat container.">
     </target>
 
 	<!-- ================================= 
           target: deployIndexMonitorJBoss              
          ================================= -->
-    <target name="deployIndexMonitorJBoss" depends="deployIndexTomcat,compileRedirector" description="Deploy the index service and its monitoring service to a JBoss container.">
-    	<ant antfile="${basedir}/indexServiceAvailabilityChecker/build.xml" target="deployJBoss">
-    	</ant>
-        <ant antfile="${basedir}/deploy-redirect.xml" target="deployRedirect">
-        	<property name="deploy.dir" value="${env.JBOSS_HOME}/server/default/deploy/wsrf.war/WEB-INF"/>
-        	<property name="startScript.unix" location="${env.JBOSS_HOME}/bin/run.sh"/>
-        	<property name="startScript.windows" location="${env.JBOSS_HOME}/bin/run.bat"/>	
-        	<property name="stopScript.unix" location="${env.JBOSS_HOME}/bin/shutdown.sh"/>
-        	<property name="stopScript.windows" location="${env.JBOSS_HOME}/bin/shutdown.bat"/>	
-        </ant>
+    <target name="deployIndexMonitorJBoss" depends="deployIndexTomcat,compileRedirector" description="Deploy the index service and its monitoring web app to a JBoss container.">
     </target>
 
 </project>

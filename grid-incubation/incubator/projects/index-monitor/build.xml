@@ -137,7 +137,7 @@
 	</target>
 
 
-	<target name="all" depends="prepare,clean" description="compile, jar and publish all projects in the right order">
+	<target name="all" depends="prepare,clean" description="compile and jar the index service suport code and the index service monitoring web app">
 		<for parallel="false" param="project.buildfile" trim="true">
 			<path refid="ivy.projects.list" />
 			<sequential>
@@ -145,6 +145,8 @@
 				<ant inheritAll="false" inheritrefs="false" dir="${@{project.buildfile}.dir}" antfile="@{project.buildfile}" target="publish">
 					<property name="target.grid" value="${target.grid}" />
 				</ant>
+				<ant inheritall="false" inheritrefs="false" 
+					dir="projects/indexServiceAvailabilityChecker" target="compile"/>
 			</sequential>
 		</for>
 	</target>
@@ -163,5 +165,21 @@
 		</for>
 	</target>
 
-
+	<!-- ================================= 
+          target: deployTomcat              
+         ================================= -->
+    <target name="deployTomcat" depends="prepare,clean" description="Deploy the index service and monitoring web app to the tomcat container identified by CATALINA_HOME.">
+		<ant inheritAll="false" inheritrefs="false" dir="projects/index" target="deployIndexMonitorTomcat" />
+		<ant inheritall="false" inheritrefs="false" 
+			dir="projects/indexServiceAvailabilityChecker" target="deployTomcat"/>
+    </target>
+	
+	<!-- ================================= 
+          target: deployJBoss              
+         ================================= -->
+    <target name="deployJBoss" depends="prepare,clean" description="Deploy the index service and monitoring web app to the JBoss container identified by JBOSS_HOME.">
+		<ant inheritAll="false" inheritrefs="false" dir="projects/index" target="deployIndexMonitorJBoss" />
+		<ant inheritall="false" inheritrefs="false" 
+			dir="projects/indexServiceAvailabilityChecker" target="deployJBoss"/>
+    </target>
 </project>
