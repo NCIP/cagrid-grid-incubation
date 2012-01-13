@@ -32,16 +32,6 @@
 	<!-- Directory for compiled service classes -->
 	<property name="build.dest" location="${build.dir}/classes" />
 
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: setJBossProperty                      
-         - - - - - - - - - - - - - - - - - -->
-    <target name="setJBossProperty">
-		<fail unless="env.JBOSS_HOME"
-			  message="Cannot deploy to JBOSS unless environment variable JBOSS_HOME is defined" />
-    	<property name="deploy.dir" location="env.JBOSS_HOME"/>
-    </target>
-
-
 	<!-- ============================================================== -->
 	<!-- Globus properties                                              -->
 	<!-- ============================================================== -->
@@ -162,7 +152,100 @@
           target: _deploy              
          ================================= -->
     <target name="_deploy" 
-    	depends="clean,compile,_setStartStopScriptProperties,_saveOriginalUnixStartScript,_saveOriginalUnixStopScript,_saveOriginalWindowsStartScript,_saveOriginalWindowsStopScript">
+            depends="clean,compile,_setStartStopScriptProperties,_saveOriginalUnixStartScript,_saveOriginalUnixStopScript,_saveOriginalWindowsStartScript,_saveOriginalWindowsStopScript">
+		<property name="class.dir" location="${deploy.dir}/classes"/>
+		<property name="indexService.dir" location="${class.dir}/org/cagrid/indexService"/>
+		<property name="etc.dir" location="${deploy.dir}/etc"/>
+
+		<property name="web.xml" location="${deploy.dir}/web.xml"/>
+		<property name="web.xml.original" location="${web.xml}.original"/>
+
+		<property name="redirection.properties.dest" location="${etc.dir}/redirection.properties"/>
+		<property name="redirection.properties.src" location="${basedir}/redirection.properties/" />
+
+		<!-- Verify that the redirection properties file exists and defines the required property -->
+		<available property="redirection.properties.exists" file="${redirection.properties.src}" type="file" />
+		<fail unless="redirection.properties.exists">
+    		Redirection properties file does not exist. Please create ${redirection.properties.src}
+    	</fail>
+		<property file="${redirection.properties.src}" prefix="xxyyzz321"/>
+		<fail unless="xxyyzz321.redirectionURL" >
+    		Property file ${redirection.properties.src} must 
+    		define a property named redirectionURL whose value 
+    		is the URL that GET request should be redirected to.
+    	</fail>
+
+
+		<!-- copy the class file for redirection to the container -->
+		<mkdir dir="${indexService.dir}" />
+		<copy file="${build.dest}/org/cagrid/indexService/IndexAxisServlet.class" todir="${indexService.dir}" />
+
+		<hostname property="hostname" />
+		<property name="monitorService.port" value="9000"/>
+		<property name="indexService.port" value="8080"/>
+
+
+		<!-- Create and copy the redirection configuration file -->
+		<echo append="false" file="${redirection.properties.src}">redirectionURL=http\:${hostname}\:${monitorService.port}${line.separator}</echo>
+		<copy file="${redirection.properties.src}" tofile="${redirection.properties.dest}"/>
+
+		<!-- Edit the wsrf web.xml file to use the redirecting version of the servlet class -->
+		<copy file="${web.xml}" tofile="${web.xml.original}" overwrite="no"/>
+		<xmltask source="${web.xml.original}" dest="${web.xml}" failwithoutmatch="true" indent="yes">
+			<replace path="/web-app/servlet/servlet-class/text()" withText="org.cagrid.indexService.IndexAxisServlet" />
+		</xmltask>
+
+		<!-- unzip the index monitoring service -->
+		<unzip src="${basedir}/indexMonitor-0.2.zip" dest="${deploy.dir}">
+		</unzip>
+
+		<!-- Configure the Monitoring Service -->
+		<propertyfile file="${deploy.dir}/play-1.2.2/IndexMonitor/conf/application.conf" >
+			<entry key="application.name" value="IndexMonitor" />
+
+			<entry key="application.mode" value="prod"/>
+			<!-- <entry key="application.mode" value="dev"/> -->
+
+			<entry key="http.port" value="${monitorService.port}" />
+
+			<entry key="java.source" value="1.6" />
+			<!-- <entry key="java.source" value="1.7" /> -->
+
+			<entry key="application.log" value="INFO"/>
+
+			<entry key="indexMonitor.service1.url" value="http://${hostname}:${indexService.port}/wsrf/wervices/DefaultIndexService"/>
+			<entry key="indexMonitor.service1.display" value="${hostname}:${indexService.port}"/>
+			<entry key="indexMonitor.service1.recent_history.length" value="72"/>
+		</propertyfile>
+
+		<!-- Create combined start/stop scripts -->
+		<property name="play.dir" location="${deploy.dir}/play-1.2.2"/>
+		<property name="play.unix" location="${play.dir}/play"/>
+		<property name="play.windows" location="${play.dir}/play.bat"/>
+		<property name="indexMonitor.dir" location="${play.dir}/IndexMonitor"/>
+
+		<echo file="${startScript.unix}" append="false">${startScript.unix.original}${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">sleep 15${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">${play.unix} start${line.separator}</echo>
+		<echo file="${startScript.unix}" append="true">popd ${line.separator}</echo>
+
+		<echo file="${stopScript.unix}" append="false">${stopScript.unix.original}${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">${play.unix} stop${line.separator}</echo>
+		<echo file="${stopScript.unix}" append="true">popd ${line.separator}${line.separator}</echo>
+
+		<echo file="${startScript.windows}" append="false">call ${startScript.windows.original}${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">ping 1.1.1.1 -n 30${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">${play.windows} start${line.separator}</echo>
+		<echo file="${startScript.windows}" append="true">popd ${line.separator}</echo>
+
+		<echo file="${stopScript.windows}" append="false">call ${stopScript.windows.original}${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">pushd ${indexMonitor.dir}${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">${play.windows} stop${line.separator}</echo>
+		<echo file="${stopScript.windows}" append="true">popd${line.separator}</echo>
+
     	<copy todir="${availabilityChecker.deploy.dir}" overwrite="true">
     		<fileset dir="${basedir}"/>
     	</copy>

@@ -168,7 +168,7 @@
 	<!-- ================================= 
           target: deployTomcat              
          ================================= -->
-    <target name="deployTomcat" depends="prepare,clean" description="Deploy the index service and monitoring web app to the tomcat container identified by CATALINA_HOME.">
+    <target name="deployTomcat" depends="all" description="Deploy the index service and monitoring web app to the tomcat container identified by CATALINA_HOME.">
 		<ant inheritAll="false" inheritrefs="false" dir="projects/index" target="deployIndexMonitorTomcat" />
 		<ant inheritall="false" inheritrefs="false" 
 			dir="projects/indexServiceAvailabilityChecker" target="deployTomcat"/>
@@ -177,7 +177,7 @@
 	<!-- ================================= 
           target: deployJBoss              
          ================================= -->
-    <target name="deployJBoss" depends="prepare,clean" description="Deploy the index service and monitoring web app to the JBoss container identified by JBOSS_HOME.">
+    <target name="deployJBoss" depends="all" description="Deploy the index service and monitoring web app to the JBoss container identified by JBOSS_HOME.">
 		<ant inheritAll="false" inheritrefs="false" dir="projects/index" target="deployIndexMonitorJBoss" />
 		<ant inheritall="false" inheritrefs="false" 
 			dir="projects/indexServiceAvailabilityChecker" target="deployJBoss"/>
