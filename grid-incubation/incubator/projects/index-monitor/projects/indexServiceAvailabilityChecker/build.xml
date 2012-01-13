@@ -175,11 +175,6 @@
     		is the URL that GET request should be redirected to.
     	</fail>
 
-
-		<!-- copy the class file for redirection to the container -->
-		<mkdir dir="${indexService.dir}" />
-		<copy file="${build.dest}/org/cagrid/indexService/IndexAxisServlet.class" todir="${indexService.dir}" />
-
 		<hostname property="hostname" />
 		<property name="monitorService.port" value="9000"/>
 		<property name="indexService.port" value="8080"/>

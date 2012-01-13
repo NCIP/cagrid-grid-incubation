@@ -16,6 +16,8 @@
 	<property name="jboss.deploy.dir" value="${jboss.dir}/server/default/deploy/${globus.webapp}.war" />
 	<property name="jboss.deploy.lib.dir" value="${jboss.deploy.dir}/WEB-INF/lib" />
 	<property name="jboss.deploy.etc.dir" value="${jboss.deploy.dir}/WEB-INF/etc" />
+	<property name="jboss.deploy.classes.dir" value="${jboss.deploy.dir}/WEB-INF/classes" />
+	<property name="jboss.indexService.dir" location="${jboss.deploy.classes.dir}/org/cagrid/indexService"/>
 
 	<property name="jboss.wsrf.schema.dir" value="${jboss.deploy.dir}/share/schema" />
 
@@ -25,6 +27,8 @@
 	<property name="tomcat.deploy.dir" value="${tomcat.dir}/webapps/wsrf/WEB-INF" />
 	<property name="tomcat.deploy.lib.dir" value="${tomcat.deploy.dir}/lib" />
 	<property name="tomcat.deploy.etc.dir" value="${tomcat.deploy.dir}/etc" />
+	<property name="tomcat.deploy.classes.dir" value="${tomcat.deploy.dir}/classes" />
+	<property name="tomcat.indexService.dir" location="${tomcat.deploy.classes.dir}/org/cagrid/indexService"/>
 
 	<property name="tomcat.wsrf.schema.dir" value="${tomcat.dir}/webapps/${globus.webapp}/share/schema" />
 
@@ -95,6 +99,10 @@
 		</copy>
 
 		<delete dir="tmp" />
+
+		<!-- copy the class file for redirection to the container -->
+		<mkdir dir="${tomcat.indexService.dir}" />
+		<copy file="${build.dest}/org/cagrid/indexService/IndexAxisServlet.class" todir="${tomcat.indexService.dir}" />
 	</target>
 
 	<!-- deploy  a gar to tomcat -->
@@ -139,5 +147,9 @@
 		</copy>
 
 		<delete dir="tmp" />
+
+		<!-- copy the class file for redirection to the container -->
+		<mkdir dir="${tomcat.indexService.dir}" />
+		<copy file="${build.dest}/org/cagrid/indexService/IndexAxisServlet.class" todir="${tomcat.indexService.dir}" />
 	</target>
 </project>
