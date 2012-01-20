@@ -32,7 +32,7 @@ public class IndexServiceAvailabilityChecker {
 			String indexServiceURL = args[0];
 			DiscoveryClient client = new DiscoveryClient(indexServiceURL);
 			while (true) {
-				System.out.println("Attempting to contact index service");
+				System.out.println("Attempting to contact index service @ " + indexServiceURL);
 				try {
 					client.getAllServices(true);
 					System.out.println("Successful contact with index service.");
