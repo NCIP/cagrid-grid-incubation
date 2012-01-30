@@ -190,11 +190,14 @@
 		</xmltask>
 
 		<!-- unzip the index monitoring service -->
-		<unzip src="${basedir}/indexMonitor-0.2.zip" dest="${deploy.dir}">
+		<unzip dest="${deploy.dir}">
+			<fileset dir="${basedir}">
+				<include name="indexMonitor-*.zip"/>
+			</fileset>
 		</unzip>
 
 		<!-- Configure the Monitoring Service -->
-		<property name="service1.url" value="http://${hostname}:${indexService.port}/wsrf/wervices/DefaultIndexService"/>
+		<property name="service1.url" value="http://${hostname}:${indexService.port}/wsrf/services/DefaultIndexService"/>
 
 		<propertyfile file="${deploy.dir}/play-1.2.2/IndexMonitor/conf/application.conf" >
 			<entry key="application.name" value="IndexMonitor" />
@@ -223,6 +226,7 @@
 			<fileset dir="${ext.globus.dir}/lib">
 				<include name="*.jar"/>
 			</fileset>
+			<pathelement location="${env.GLOBUS_LOCATION}"/>
 		</path>
 
 		<!-- Create combined start/stop scripts -->

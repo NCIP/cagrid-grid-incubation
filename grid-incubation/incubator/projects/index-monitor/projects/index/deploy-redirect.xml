@@ -114,7 +114,7 @@
 
 			<entry key="application.log" value="INFO"/>
 
-			<entry key="indexMonitor.service1.url" value="http://${hostname}:${indexService.port}/wsrf/wervices/DefaultIndexService"/>
+			<entry key="indexMonitor.service1.url" value="http://${hostname}:${indexService.port}/wsrf/services/DefaultIndexService"/>
 			<entry key="indexMonitor.service1.display" value="${hostname}:${indexService.port}"/>
 			<entry key="indexMonitor.service1.recent_history.length" value="72"/>
 		</propertyfile>
