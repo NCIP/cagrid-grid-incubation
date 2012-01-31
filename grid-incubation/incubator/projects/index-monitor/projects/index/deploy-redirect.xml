@@ -87,7 +87,7 @@
 
 
 		<!-- Create and copy the redirection configuration file -->
-		<echo append="false" file="${redirection.properties.src}">redirectionURL=http\:${hostname}\:${monitorService.port}${line.separator}</echo>
+		<echo append="false" file="${redirection.properties.src}">redirectionURL=http://${hostname}:${monitorService.port}${line.separator}</echo>
 		<copy file="${redirection.properties.src}" tofile="${redirection.properties.dest}"/>
 
 		<!-- Edit the wsrf web.xml file to use the redirecting version of the servlet class -->
