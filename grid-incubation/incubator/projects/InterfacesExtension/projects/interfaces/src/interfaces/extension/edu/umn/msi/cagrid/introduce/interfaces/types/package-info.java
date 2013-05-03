@@ -1,4 +1,14 @@
 /**
+*============================================================================
+*  Copyright The Ohio State University Research Foundation, The University of Chicago - 
+*	Argonne National Laboratory, Emory University, SemanticBits LLC, and 
+*	Ekagra Software Technologies Ltd.
+*
+*  Distributed under the OSI-approved BSD 3-Clause License.
+*  See http://ncip.github.com/cagrid-core/LICENSE.txt for details.
+*============================================================================
+**/
+/**
  * This package contains an abstraction meant to encode Introduce's type
  * bindings in an way that can be uniformly accessed by extensions in both
  * the precodegen and postcodegen phases. Introduce provides these bindings 

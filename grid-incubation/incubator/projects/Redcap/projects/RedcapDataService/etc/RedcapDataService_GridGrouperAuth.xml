@@ -1,3 +1,10 @@
+<!--
+  Copyright The Ohio State University Research Foundation, The University of Chicago - 
+Argonne National Laboratory, Emory University, SemanticBits LLC, and Ekagra Software Technologies Ltd.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cagrid-core/LICENSE.txt for details.
+-->
 <ns1:GridGrouperServiceAuthorization xmlns:ns1="gme://org.cagrid.gridgrouper/1/GridGrouperAuthorization">
  <ns2:ServiceName xmlns:ns2="http://org.cagrid.gridgrouper/1/GridGrouperAuthorization">RedcapDataService</ns2:ServiceName>
  <ns3:MembershipExpression ns3:logicRelation="AND" xmlns:ns3="http://cagrid.nci.nih.gov/1/GridGrouper">
