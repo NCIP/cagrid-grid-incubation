@@ -1,21 +1,14 @@
-Welcome to the <PROJECTNAME> Project!
-=====================================
+Welcome to the cagrid-grid-incubation Project!
+==============================================
 
-<PROJECTNAME> is an Open Source project the provides the functionalities of <...>
-It is written in <PROGRAMMING LANGUAGE> using <BASED_TECHNOLOGIES>.
-The goal of <PROJECTNAME> is to <...>.
+cagrid-grid-incubation is an collection of Open Source projects that leverage and excercise the caGrid platform. 
 
-<PROJECTNAME> is distributed under the BSD 3-Clause License.
 Please see the NOTICE and LICENSE files for details.
 
-You will find more details about <PROJECTNAME> in the following links:
+You will find more details about cagrid-grid-incubation in the following links:
 
-    *  <PROJECTNAME_HOME_URL>
-    *  <NCI_OSDI_HOME_URL]>
-    *  <MAILING_LIST_SUBSCRIPTION_PAGE_URL>
-    *  <ISSUE_TRACKER_URL>
-    *  <DOCUMENTATION_PAGES_URL>
-    *  https://github.com/NCIP/<PROJECTNAME>
+    *  Mailing List: https://list.nih.gov/cgi-bin/wa.exe?A0=cagrid_users-l
+    *  JIRA: https://tracker.nci.nih.gov/browse/CAGRID
+    *  Wiki: https://wiki.cagrid.org
 
-
-Please join us in further developing and improving <PROJECTNAME>.
+Please join us in further developing and improving cagrid-grid-incubation.
