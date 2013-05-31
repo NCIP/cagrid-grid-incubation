@@ -1,3 +1,12 @@
+/*
+============================================================================
+  The Ohio State University Research Foundation, Emory University,
+  the University of Minnesota Supercomputing Institute
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cagrid-grid-incubation/LICENSE.txt for details.
+============================================================================
+*/
 ALTER TABLE concept_dimension ADD CONSTRAINT FK_CONCEPT_DIMEN_ENCODING_DIME FOREIGN KEY (ENCODING_CD) REFERENCES encoding_dimension (ENCODING_CD);
 ALTER TABLE data_request ADD CONSTRAINT FK_DATA_REQUEST_USER_INFO FOREIGN KEY (USER_ID) REFERENCES user_info (USER_ID) ;
 ALTER TABLE data_request ADD CONSTRAINT FK_DATA_REQUEST_IRB_APPROVAL_ FOREIGN KEY (IRB_APPROVAL_TYPE_CD) REFERENCES irb_approval_type (IRB_APPROVAL_TYPE_CD) ;

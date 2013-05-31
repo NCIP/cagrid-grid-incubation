@@ -1,3 +1,12 @@
+/*
+============================================================================
+  The Ohio State University Research Foundation, Emory University,
+  the University of Minnesota Supercomputing Institute
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cagrid-grid-incubation/LICENSE.txt for details.
+============================================================================
+*/
 INSERT INTO I2B2DEMODATA.RESEARCH_TYPE (RESEARCH_TYPE_CD, RESEARCH_TYPE_DESC, CREATE_USER, CREATE_DATE) 
 VALUES ('C','Clinical','DEFAULT','2010-01-01');
 

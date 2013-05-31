@@ -1,11 +1,14 @@
 /**
 *============================================================================
-*  Copyright The Ohio State University Research Foundation, The University of Chicago - 
-*	Argonne National Laboratory, Emory University, SemanticBits LLC, and 
-*	Ekagra Software Technologies Ltd.
+*  The Ohio State University Research Foundation, Emory University,
+*  the University of Minnesota Supercomputing Institute
 *
 *  Distributed under the OSI-approved BSD 3-Clause License.
-*  See http://ncip.github.com/cagrid-core/LICENSE.txt for details.
+*  See http://ncip.github.com/cagrid-grid-incubation/LICENSE.txt for details.
+*============================================================================
+**/
+/**
+*============================================================================
 *============================================================================
 **/
 package org.cagrid.introduce.service4.service.globus;

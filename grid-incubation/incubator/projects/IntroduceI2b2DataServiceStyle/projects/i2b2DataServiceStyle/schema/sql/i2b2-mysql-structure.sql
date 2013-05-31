@@ -1,4 +1,13 @@
 /*
+============================================================================
+  The Ohio State University Research Foundation, Emory University,
+  the University of Minnesota Supercomputing Institute
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cagrid-grid-incubation/LICENSE.txt for details.
+============================================================================
+*/
+/*
 * NOTES:
 * 1) Many of the tables in the UCSF i2b2 database don't have any primary keys defined at all.  Therfore, this schema has been edited to reflect this change, and allow data to be imported.
 * 2) I've added 'COLLATE latin1_general_cs' to every table.  I found a case where the UCSF i2b2 Database has 'test' and 'Test' USER_ID (the primary key) values, which causes problems if your DB isn't case sensitive, which it ISN'T by default under Windows.

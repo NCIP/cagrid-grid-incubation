@@ -1,9 +1,11 @@
 <!--
-  Copyright The Ohio State University Research Foundation, The University of Chicago - 
-Argonne National Laboratory, Emory University, SemanticBits LLC, and Ekagra Software Technologies Ltd.
+  The Ohio State University Research Foundation, Emory University,
+  the University of Minnesota Supercomputing Institute
 
   Distributed under the OSI-approved BSD 3-Clause License.
-  See http://ncip.github.com/cagrid-core/LICENSE.txt for details.
+  See http://ncip.github.com/cagrid-grid-incubation/LICENSE.txt for details.
+-->
+<!--
 -->
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Central user configuration. Editing this document will cause the security to reload and update its internal database. Please handle with care! --><auth version="1.0"><!-- Please do not remove the guest and admin groups --><groups last-id="2"><group name="dba" id="1"/><group name="guest" id="2"/></groups><!-- Please do not remove the admin user. --><users last-id="2"><user name="admin" uid="1" password="{MD5}wMxQU803ZYJtVIUuMbbr7Q==" digest-password="94b0b6176e2c5d61d1285eeeaac66fe1"><group>dba</group></user><user name="guest" uid="2" password="{MD5}CE4DQ6BIb/BVMN9scFyLtA==" digest-password="e55d929cdbc8d5a7ce3bda044bc69f59"><group>guest</group></user></users></auth>

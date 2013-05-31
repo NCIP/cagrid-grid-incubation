@@ -1,3 +1,12 @@
+/*
+============================================================================
+  The Ohio State University Research Foundation, Emory University,
+  the University of Minnesota Supercomputing Institute
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cagrid-grid-incubation/LICENSE.txt for details.
+============================================================================
+*/
 -- MySQL dump 10.13  Distrib 5.1.37, for unknown-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: redcap

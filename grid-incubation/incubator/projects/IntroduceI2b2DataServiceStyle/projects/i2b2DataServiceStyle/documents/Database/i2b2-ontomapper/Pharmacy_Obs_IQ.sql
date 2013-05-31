@@ -1,3 +1,12 @@
+/*
+============================================================================
+  The Ohio State University Research Foundation, Emory University,
+  the University of Minnesota Supercomputing Institute
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/cagrid-grid-incubation/LICENSE.txt for details.
+============================================================================
+*/
 update i2b2demodata.concept_dimension
 set concept_path = '\00Pharmacy\' || '000000000' || upper(substring(name_char,1,1)) || '\' 
 || insertstr(0,substring(concept_cd,10), substring('0000000000',length(substring(concept_cd,10))+1)) || '\' 
