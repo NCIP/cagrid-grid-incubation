@@ -4,7 +4,7 @@
 *  University, the University of Minnesota Supercomputing Institute
 *
 *  Distributed under the OSI-approved BSD 3-Clause License.
-*  See http://ncip.github.com/cagrid-core/LICENSE.txt for details.
+*  See http://ncip.github.com/cagrid-grid-incubation/LICENSE.txt for details.
 *============================================================================
 **/
 package org.cagrid.workflow.helper.tests.system;
