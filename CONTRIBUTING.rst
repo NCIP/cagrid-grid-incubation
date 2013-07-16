@@ -13,11 +13,13 @@ chance of keeping on top of things.
 Getting Started
 ---------------
 
+* Contributing to the caGrid Incubator is subject to `Community Project Governance`_.
+.. _`Community Project Governance`: http://cagrid.org/download/attachments/8290317/Community_Project_Governance.pdf
+
 * Make sure you have a `GitHub Account`_.
+.. _`GitHub Account`: https://github.com/signup/free
 
 * Fork the repository on GitHub to publish any proposed changes
-
-.. _`GitHub Account`: https://github.com/signup/free
 
 --------------
 Making Changes
