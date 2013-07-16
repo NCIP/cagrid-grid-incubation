@@ -13,10 +13,11 @@ chance of keeping on top of things.
 Getting Started
 ---------------
 
-* Make sure you have a GitHub Account. If you don't, visit this URL
-  to obtain one: https://github.com/signup/free
+* Make sure you have a `GitHub Account`_.
 
 * Fork the repository on GitHub to publish any proposed changes
+
+.. _`GitHub Account`: https://github.com/signup/free
 
 --------------
 Making Changes
